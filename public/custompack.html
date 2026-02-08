@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Pack</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Dancing+Script&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100vw;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffffff;
+      background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image4.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      scroll-behavior: smooth;
+      background-color: #0d0d0d;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media screen and (max-width: 768px) {
+      body {
+        background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image6.png');
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-attachment: fixed;
+        background-size: cover;
+        background-color: #0d0d0d;
+        min-height: 100vh;
+        width: 100vw;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      html {
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+    }
+
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      flex: 1;
+    }
+
+    .back-link {
+      display: block;
+      color: #ffffff;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: #f9f3f6;
+      transform: scale(1.05);
+    }
+
+    .title-section {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .title-section h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .title-section .cursive {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      color: #ffffff;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center; /* vertically center frames */
+      gap: clamp(12px, 2vw, 28px);
+      padding: 1rem 0;
+    }
+
+    .gallery[data-count="25"] {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      justify-items: center;
+    }
+
+    .gallery[data-count="5"] {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: auto;
+      gap: 1rem;
+      justify-items: center;
+    }
+
+    .frame {
+      position: relative;
+      padding: 0; /* no extra padding around art */
+      text-align: center;
+      transition: transform 0.2s ease;
+      cursor: default;
+      width: auto; /* width set per artwork */
+      flex: 0 0 auto;
+    }
+
+    .frame:hover {
+      transform: scale(1.02);
+    }
+
+    .frame .preview-container {
+      position: relative;
+      height: var(--artH, 520px); /* unified artwork height */
+      width: auto;                /* width computed per ratio in JS */
+      border-radius: 6px;
+    }
+
+    .frame img {
+      position: relative;
+      display: block;
+      height: 100%;
+      width: auto;         /* keep natural width based on height */
+      object-fit: contain;
+      border: none;
+      pointer-events: none;
+      image-rendering: auto;
+      filter: drop-shadow(0 4px 18px rgba(0,0,0,0.45)); /* subtle showroom shadow */
+      transition: transform 0.2s ease, filter 0.2s ease;
+      animation: none;
+    }
+
+    .frame .loading-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+      font-size: 0.65rem;
+      text-align: center;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+
+    .frame p {
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      color: #ffffff;
+    }
+
+    .gallery p {
+      color: #ffffff;
+      text-align: center;
+    }
+
+    #bgSelector {
+      position: fixed;
+      bottom: 1rem;
+      left: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+
+    #bgSelector div, #bgSelector button {
+      width: 18px;
+      height: 18px;
+      border: 1px solid #333;
+      cursor: pointer;
+      background-size: cover;
+    }
+
+    #bgSelector .bg-button {
+      background: #0d0d0d;
+      padding: 0;
+      margin: 0;
+    }
+
+    #bgSelector .bg-active {
+      border-color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem 1rem;
+        flex: 1;
+      }
+
+      .title-section h1 {
+        font-size: 1.5rem;
+      }
+
+      #bgSelector {
+        display: none;
+      }
+      :root {
+        --artH: 48vh;
+      }
+      .frame {
+        width: auto;
+      }
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+      z-index: 5;
+      white-space: nowrap;
+    }
+
+    .signature {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+      z-index: 5;
+      position: fixed;
+      bottom: 8px;
+      right: 12px;
+    }
+    /* Responsive gallery grid for mobile screens */
+    @media (max-width: 768px) {
+      .gallery[data-count="5"],
+      .gallery[data-count="25"] {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        justify-content: center;
+      }
+
+      .frame p {
+        font-size: 0.7rem;
+      }
+    }
+
+    .gallery[data-count="9"] {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      justify-items: center;
+    }
+
+    .gallery[data-count="6"] {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      justify-items: center;
+    }
+    .gallery[data-count="3"] {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      justify-items: center;
+    }
+
+  </style>
+</head>
+<body>
+  <span class="signature">LH</span>
+  <div class="container">
+    <a href="/index.html" title="Go Home" class="back-link">← Home</a>
+    <a href="/timeline.html" title="Go to Timeline" class="back-link">← Timeline</a>
+    <div class="title-section">
+      <h1></h1>
+      <p class="cursive">by Lemonhaze</p>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </div>
+
+  <!-- Background Selector -->
+  <div id="bgSelector">
+    <div onclick="setBg(1)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image5.png');"></div>
+    <div onclick="setBg(2)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image2.png');"></div>
+    <div onclick="setBg(3)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image3.png');"></div>
+    <div onclick="setBg(4)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image.png');"></div>
+    <div onclick="setBg(5)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image6.png');"></div>
+    <div onclick="setBg(6)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image4.png');"></div>
+  </div>
+
+  <div class="footer">
+    © Lemonhaze 2025 — All works inscribed on Bitcoin
+  </div>
+
+  <script>
+    function computeArtHeights() {
+      const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      // Clamp common height between 360px and 820px, target ~62vh
+      const target = Math.max(360, Math.min(Math.round(vh * 0.62), 820));
+      document.documentElement.style.setProperty('--artH', target + 'px');
+      return target;
+    }
+
+    // --- Simple Custom Pack Gallery ---
+    // Custom inscription IDs
+    const INSCRIPTIONS = [
+      '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0',
+      'fd188a970767ef5ef2f4bbae2c641b8b314bcf3eb1305fff9f3ebc5ebecfd448i0',
+      'e8333e96e84d038b2400a2d46853f676660a18adbbf22e8d9c15ca9894235e3bi0'
+    ];
+
+    // Helper: set background from the selector (kept from original page)
+    function setBg(index) {
+      const body = document.body;
+      const docEl = document.documentElement;
+      body.classList.remove('plain-black-bg');
+      docEl.classList.remove('plain-black-bg');
+
+      const bgDivs = document.querySelectorAll('#bgSelector div');
+      const bgBtns = document.querySelectorAll('#bgSelector .bg-button');
+      bgDivs.forEach(btn => btn.classList.remove('bg-active'));
+      bgBtns.forEach(btn => btn.classList.remove('bg-active'));
+
+      const backgrounds = {
+        1: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image5.png")',
+        2: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image2.png")',
+        3: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image3.png")',
+        4: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image.png")',
+        5: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image6.png")',
+        6: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image4.png")'
+      };
+      const selectedBg = backgrounds[index] || backgrounds[6];
+      if (!selectedBg) return;
+
+      const img = new Image();
+      img.src = selectedBg.replace(/^url\("(.+)"\)$/, '$1');
+      img.onload = () => {
+        body.style.backgroundImage = selectedBg;
+        docEl.style.backgroundImage = selectedBg;
+        localStorage.setItem('lemonhazeBg', selectedBg);
+        const selectedButton = bgDivs[index - 1];
+        if (selectedButton) selectedButton.classList.add('bg-active');
+      };
+      img.onerror = () => {
+        body.classList.add('plain-black-bg');
+        docEl.classList.add('plain-black-bg');
+        localStorage.setItem('lemonhazeBg', 'black');
+      };
+    }
+
+    // Helper: load asset with extension fallbacks, then final fallback to ordinals.com
+    const exts = ['png', 'webp', 'jpg'];
+    function loadWithFallback(img, inscriptionId) {
+      let i = 0;
+      function tryNext() {
+        if (i < exts.length) {
+          const ext = exts[i++];
+          img.src = `https://cdn.lemonhaze.com/assets/assets/${inscriptionId}.${ext}`;
+        } else {
+          img.src = `https://ordinals.com/content/${inscriptionId}`;
+        }
+      }
+      img.addEventListener('error', tryNext, { once: false });
+      tryNext();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const commonH = computeArtHeights();
+
+      const gallery = document.getElementById('gallery');
+      const title = document.querySelector('title');
+      const h1 = document.querySelector('h1');
+
+      // Static title for this custom pack
+      title.textContent = 'Custom Pack';
+      h1.textContent = 'Custom Pack';
+
+      // Render the 3-item gallery
+      gallery.setAttribute('data-count', INSCRIPTIONS.length);
+      const frag = document.createDocumentFragment();
+
+      INSCRIPTIONS.forEach((id) => {
+        const div = document.createElement('div');
+        div.className = 'frame';
+
+        const container = document.createElement('div');
+        container.className = 'preview-container';
+
+        const loadingOverlay = document.createElement('div');
+        loadingOverlay.className = 'loading-overlay';
+        loadingOverlay.innerHTML = `<div><div class="font-bold">LOADING...</div><div class="opacity-80 text-[0.5rem]">Please wait</div></div>`;
+        container.appendChild(loadingOverlay);
+
+        const img = document.createElement('img');
+        img.alt = id;
+        img.loading = 'lazy';
+        img.setAttribute('aria-hidden', 'true');
+        container.appendChild(img);
+
+        // Kick off loading with fallbacks
+        loadWithFallback(img, id);
+
+        img.addEventListener('load', () => {
+          // Set proportional size based on a unified gallery height
+          const w = img.naturalWidth || 1;
+          const h = img.naturalHeight || 1;
+          const baseH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--artH')) || commonH || 520;
+
+          // Ratio-based height tweak: keep portrait tallest, make square a bit shorter
+          const ratio = w / h; // <1 = portrait, ~1 = square, >1 = landscape
+          let heightPx = baseH;
+          if (ratio > 0.95 && ratio < 1.05) {
+            // square ≈ 1:1 — slightly shorter than portrait
+            heightPx = Math.round(baseH * 0.85); // reduced from 0.875 to 0.85 for more spacing
+          } else if (ratio >= 1.05) {
+            // landscape — a touch shorter for balance
+            heightPx = Math.round(baseH * 0.86);
+          }
+
+          container.style.height = heightPx + 'px';
+          container.style.width = Math.round(ratio * heightPx) + 'px';
+
+          if (w <= 100 || h <= 100) {
+            img.style.imageRendering = 'pixelated';
+          }
+          loadingOverlay.remove();
+        });
+
+        div.appendChild(container);
+
+        // No label with ID below each frame
+
+        frag.appendChild(div);
+      });
+
+      gallery.appendChild(frag);
+
+      window.addEventListener('resize', () => {
+        const newH = computeArtHeights();
+        document.querySelectorAll('.preview-container img').forEach(img => {
+          if (img.naturalWidth && img.naturalHeight) {
+            const w = img.naturalWidth, h = img.naturalHeight;
+            const cont = img.parentElement;
+            let heightPx = newH;
+            const ratio = w / h;
+            if (ratio > 0.95 && ratio < 1.05) {
+              heightPx = Math.round(newH * 0.85); // reduced from 0.875 to 0.85 for more spacing
+            } else if (ratio >= 1.05) {
+              heightPx = Math.round(newH * 0.86);
+            }
+            cont.style.height = heightPx + 'px';
+            cont.style.width = Math.round((w / h) * heightPx) + 'px';
+          }
+        });
+      });
+
+      // Background selector setup (kept from original)
+      const bgDivs = document.querySelectorAll('#bgSelector div');
+      bgDivs.forEach((div, index) => {
+        div.addEventListener('click', () => setBg(index + 1));
+      });
+
+      // Load saved/default background
+      let savedBg = localStorage.getItem('lemonhazeBg');
+      if (!savedBg || !savedBg.includes('bio-image')) {
+        savedBg = 'url("https://cdn.lemonhaze.com/assets/assets/bio-image6.png")';
+        localStorage.setItem('lemonhazeBg', savedBg);
+      }
+      const img = new Image();
+      img.src = savedBg.replace(/^url\("(.+)"\)$/, '$1');
+      img.onload = () => {
+        document.body.style.backgroundImage = savedBg;
+        document.documentElement.style.backgroundImage = savedBg;
+      };
+    });
+  </script>
+</body>
+</html>

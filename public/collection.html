@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Dancing+Script&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100vw;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffffff;
+      scroll-behavior: smooth;
+      background-color: #222;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media screen and (max-width: 768px) {
+      body {
+        min-height: 100vh;
+        width: 100vw;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      html {
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+    }
+
+
+    .container {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 2rem 2.5rem;
+      flex: 1;
+    }
+
+    .back-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 13px;
+      display: inline-block;
+      margin-bottom: 0;
+      position: relative;
+      transition: color 0.25s ease;
+    }
+
+    .back-link::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: rgba(255,255,255,0.6);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.18s ease;
+    }
+
+    .back-link:hover { color: #f9f3f6; }
+    .back-link:hover::after { transform: scaleX(1); }
+
+    .top-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin: 1.5rem 0 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .top-links { gap: 12px; margin: 6px 0 8px; }
+      .back-link { font-size: 12px; }
+    }
+
+    .title-section {
+      text-align: center;
+      margin-bottom: 2.8rem;
+    }
+
+    .title-section h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .title-section .cursive {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      color: #ffffff;
+    }
+
+    .collection-description {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      opacity: 0.95;
+      color: #ffffff;
+      max-width: 42rem;
+      margin-left: auto;
+      margin-right: auto;
+      white-space: normal;
+    }
+
+    .collection-meta {
+      margin-top: 0.25rem;
+      font-size: 0.8rem;
+      opacity: 0.8;
+      color: #ffffff;
+    }
+
+    .gallery {
+      display: grid;
+      gap: 1.25rem;
+      justify-items: center;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+
+    .frame {
+      position: relative;
+      padding: 0.75rem;
+      text-align: center;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+      width: 100%;
+      max-width: none;
+    }
+    /* Larger cards for tiny collections (1–4 works) */
+    .gallery[data-count="1"] .frame,
+    .gallery[data-count="2"] .frame,
+    .gallery[data-count="3"] .frame {
+      max-width: 360px;
+    }
+
+    .gallery[data-count="4"] .frame {
+      max-width: 320px;
+    }
+
+    .gallery.dense-grid {
+      gap: 0.9rem;
+    }
+
+    .frame:hover {
+      transform: scale(1.005); /* much less movement */
+    }
+
+    .frame .preview-container {
+      position: relative;
+      width: 100%;
+      padding-top: 100%; /* Force square aspect ratio */
+      border-radius: 4px;
+    }
+
+    .frame img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border: none;
+      pointer-events: none;
+      image-rendering: auto;
+      filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 3px rgba(232, 220, 180, 0.7)) drop-shadow(0 0 6px rgba(249, 243, 246, 0.3));
+      transition: filter 0.3s ease, transform 0.2s ease;
+    }
+
+    .frame:hover img {
+      filter: drop-shadow(0 0 2px rgba(255, 255, 255, 1)) drop-shadow(0 0 5px rgba(232, 220, 180, 0.8)) drop-shadow(0 0 8px rgba(249, 243, 246, 0.5));
+    }
+
+    @keyframes pulse-glow {
+      0% { filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 3px rgba(232, 220, 180, 0.7)) drop-shadow(0 0 6px rgba(249, 243, 246, 0.3)); }
+      50% { filter: drop-shadow(0 0 1.3px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 3.5px rgba(232, 220, 180, 0.75)) drop-shadow(0 0 7px rgba(249, 243, 246, 0.35)); }
+      100% { filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 3px rgba(232, 220, 180, 0.7)) drop-shadow(0 0 6px rgba(249, 243, 246, 0.3)); }
+    }
+
+    .frame .loading-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+      font-size: 0.65rem;
+      text-align: center;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+
+    .frame p {
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      color: #ffffff;
+    }
+
+    .gallery p {
+      color: #ffffff;
+      text-align: center;
+    }
+
+    /* Coded backgrounds only */
+    body.bg-black {
+      background-color: #0d0d0d !important;
+      background-image: none !important;
+    }
+
+    body.bg-grid {
+      background-color: #222 !important;
+      background-image: none !important;
+    }
+
+ #bgSelector {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 1000;
+  display: flex;
+  gap: 6px;
+}
+#homeBtn {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+  text-decoration: none;
+  color: #ffffff;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem 1rem;
+        flex: 1;
+      }
+
+      .title-section h1 {
+        font-size: 1.5rem;
+      }
+
+      /* Mobile-only vertical slideshow for collection page */
+      #gallery.mobile-slideshow {
+        display: block;
+        height: 100vh;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0; /* override grid padding */
+      }
+
+      #gallery.mobile-slideshow .slide {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        scroll-snap-align: center;
+        padding: 0.5rem 0 1rem 0;
+      }
+
+      #gallery.mobile-slideshow .slide .slideshow-image {
+        height: auto;
+        width: auto;
+        max-width: 90vw;           /* allow a bit wider for tall images */
+        object-fit: contain;
+        display: block;
+      }
+
+      #gallery.mobile-slideshow .slide .caption {
+        margin-top: 0.6rem;
+        font-size: 0.9rem;
+        text-align: center;
+        opacity: 0.9;
+      }
+
+      /* spacer to allow last slide to center fully */
+      #gallery.mobile-slideshow::after {
+        content: "";
+        display: block;
+        height: 18vh; /* breathing room for the final slide */
+      }
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+      z-index: 5;
+      white-space: nowrap;
+    }
+
+    .signature {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+      z-index: 5;
+      position: fixed;
+      bottom: 8px;
+      right: 12px;
+    }
+    /* Responsive gallery grid for mobile screens */
+
+
+  </style>
+</head>
+<body>
+  <span class="signature">LH</span>
+  <div class="container">
+    <nav class="top-links">
+      <a href="/supply.html" class="back-link">Marketplace</a>
+      <a
+        href="https://bestbefore.space"
+        class="back-link"
+        id="analytics-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="display:none;"
+      >
+        Analytics
+      </a>
+    </nav>
+    <div class="title-section">
+      <h1></h1>
+      <p class="cursive" id="author-line">by Lemonhaze</p>
+      <p class="collection-description" id="collection-description"></p>
+      <p class="collection-meta" id="collection-meta"></p>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </div>
+
+  <!-- Top-left controls -->
+<div id="bgSelector">
+  <a href="/index.html" id="homeBtn">⌂</a>
+</div>
+
+  <div class="footer">
+    © Lemonhaze 2025 — All works inscribed on Bitcoin
+  </div>
+
+  <script>
+    // Hard redirect: Timeline is deprecated
+    if (window.location.pathname.includes('timeline.html')) {
+      window.location.replace('/index.html');
+    }
+    // Collection configuration
+    const provenanceUrl = "https://cdn.lemonhaze.com/assets/assets/provenance.json";
+
+    // Year mapping for session storage
+    const yearMap = {
+      "Manufactured": "2024",
+      "Satoshi CC Edition": "2023",
+      "Portrait 2490": "2023",
+      "1/1s": "2024",
+      "Deprivation prints": "2023",
+      "Mirage prints": "2024",
+      "Trilogy prints": "2025",
+      "Gentlemen": "2023",
+      "Miscellaneous": "2023",
+      "Games": "2024",
+      "1/1s (2025)": "2025",
+      "The Artifacts": "2023",
+      "Cypherville": "2023",
+      "Old Fashioned": "2023",
+      "Volatility": "2023",
+      "La Tentation": "2024",
+      "Deville": "2024",
+      "Generative Composition": "2023",
+      "Lotus": "2023",
+      "Split collectible": "2023",
+      "Untitled": "2023",
+      "Mending Fragments": "2023",
+      "Berlin": "2023",
+      "Oaxaca": "2023",
+      "Polaroid": "2023",
+      "Montreal": "2024",
+      "Candidly Yours": "2023",
+      "Discography": "2023",
+      "L’Orphelinat": "2023",
+      "L'Orphelinat": "2023",
+      "Orphelinat": "2023",
+      "Unregulated Minds": "2024",
+      "Framed": "2023",
+      "Le Bar a Tapas": "2023",
+      "World Tour": "2023",
+      "Ma ville en quatre temps": "2025",
+      "Tori no Roji": "2025",
+      "Little Get Away": "2024",
+      "Ordinals Summer": "2023",
+      "Colors": "2023",
+      "Fading": "2023",
+      "Dark days": "2023",
+      "Tad small": "2023",
+      "Jardin Secret": "2023",
+      "Cypher comics": "2023",
+      "Downtown": "2023",
+      "Bento Box": "2023"
+    };
+
+    const collectionDescriptions = {
+          "1/1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+                "1 of 1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+      "BEST BEFORE": `Art with a best-before date: born sealed at inscription, unsealed by its collector, and aging on block time. Many live short lives, some endure, and the rare outlier may never expire.`,
+      "Manufactured": `"When gravity becomes manufactured, you remember the scent of a lemon."`,
+      "Satoshi CC Edition": "Counterfeit Cards Series 00 - Card 08",
+      "Portrait 2490": `Portrait2490 is a collection of 90 futuristic portrait of robots and/or human living in the year 2490.
+
+Asking one not so simple question:
+
+What are we gonna look like down the road?
+
+Released in March 2023 - all pieces were minted/inscribed sub-300k - these works were precursor to Gentlemen by Lemonhaze and part of my earliest AI exploration at the time. Exploring. Evolving. Learning.`,
+
+      // 1/1s (2024) aliases
+      "1/1s (2024)": `1/1s of 2024 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+      "1 of 1s (2024)": `1/1s of 2024 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+      "1/1s 2024": `1/1s of 2024 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+      "1 of 1s 2024": `1/1s of 2024 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+
+      // 1/1s (2025) aliases
+      "1/1s (2025)": `1/1s of 2025 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+      "1 of 1s (2025)": `1/1s of 2025 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+      "1/1s 2025": `1/1s of 2025 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+      "1 of 1s 2025": `1/1s of 2025 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+
+      "Deprivation prints": "Between passion and obsession lies deprivation, the duality of a soul longing for light amidst the enveloping darkness of sleepless nights.",
+      "Mirage prints": "A vivid interplay between true happiness and misleading hope, where real fulfillment is found in harmonizing dreams with reality.",
+      "Trilogy prints": `Trilogy of Gamma prints (2025).
+
+Off-Kilter: Away from the usual - tilted by instinct, curiosity, and dissonance. But even in imbalance, there's movement. Lean into the tilt until motion finds you where logic won't.
+
+Glass Breaker: The pulse scatters, the mind fractures and for a moment, everything feels like truth. But it's taking over, turning rhythm into hollow.
+
+Mending Out: When denial dissolves and clarity takes form, what remains is not hope but choice - the will to exist despite the shivers, mending out the fracture.`,
+      "Gentlemen": `Gentlemen is a work in progress.The Gentlemen represent the person I want to become for the love of my life.
+
+Becoming a gentleman is a lifelong process, a journey that only ends with my death.
+
+The Gentlemen are meant to inspire loyalty, integrity, love, and chivalrous behavior.
+
+I inscribe them as I see fit, as my soul asks for it. Money alone can't buy it.`,
+      "Miscellaneous": `An amalgam of 1/1 portraits`,
+      "Games": `"Qui ne risque rien, n'a rien" - This is where I dare to explore the relationship between scarcity, collector experience and artistic integrity. And there's only one way to play: you must burn 3 'Manufactured' to get 1 'Game'. Games are custom 1/1s (personally signed and dedicated to your name and more) that use extended 'Manufactured' features with a heavier set of brushes & textures. Max supply: up to 101. On-Demand Only.`,
+      "Minute, papillon! Edition": "ART BY LEMONHAZE",
+      "The Artifacts": `1 of 1s Digital Artifacts`,
+      "Cypherville": `Welcome to the mysterious world of Cypherville Ordinals. Visit https://cypherville.xyz for more info.`,
+      "Old Fashioned": `"Old-Fashioned" is a blend of tradition and a grand vision. Inscribed on vintage sats from block 78, this collection pushes the boundaries of on-chain art by presenting ultra-high resolution (20K) artworks on Bitcoin. Each pieces use a combination of randomness in layout and texture design, coupled with a probability-based color selection that adds a layer of intrigue into the creation process. Additionally, viewers can find intriguing notes embedded within the HTML header of each artwork, offering a deeper glimpse into the narrative behind the tradition.`,
+      "Volatility": `A generative reflection of life's inherent ups and downs, of the oscillations in mood and spirit that we all endure. Just as markets surge and plummet, so do our emotions, hopes, and dreams. Volatility is a representation of the peaks of euphoria and the troughs of despair. It's personal, yet universal - a testimony to the wild ride that is life and the quest for balance in the midst of chaos. Note: Go to the official ordinals content link and press 'S' to download the high resolution PNG.`,
+      "Provenance": "ART BY LEMONHAZE",
+      "La Tentation": `A seductive paradox, where the allure of temptation meets the purity of restraint. In this curated generative series, I work with a simple extended grid composition and a set of vivid color palettes, exploring the fine line between indulgence and control. This is a continuation of my work with code, where I put a lot of emphasis on textures and mixing colors.`,
+      "Deville": `Descendants of Cypherville.`,
+      "Generative Composition": `An amalgam of mini-series and 1/1s where I'm learning to make art with code. Each of the works presented in this heterogeneous series was personally curated from my early days of experimentation with generative art where I explored various themes, textures, and compositions. Additional note: Visit the official ordinals content link of the inscription and press 'S' on your keyboard to download the high resolution PNG. - Some of the artwork in this series might not render or display properly across all marketplace therefore it's good to keep in mind that the original artwork is always the high resolution PNG located in the HTML file of the inscription.`,
+      "Lotus": `Emerging from the depths of murky waters with pristine petals, Lotus is inspired by my other half, who remains pure in spite of it all.
+The Lotus embodies beauty, strength, and resilience—a symbol of the women's experience.
+My reason to become a gentleman.`,
+      "Split collectible": "ART BY LEMONHAZE",
+      "Untitled": `My first collection with grand-parent-child provenance.`,
+      "Mending Fragments": `A visual journey where fragmented pieces unite, portraying the profound process of healing, resilience, and discovering beauty within imperfection.`,
+      "Berlin": `Capturing a tumultuous journey through Berlin's grayish days and pulsating nights. This series is a tribute to rain-soaked revelries, intoxicating encounters, and the liberation found in this—a raw, unfiltered snapshot of life and self-discovery amidst Berlin's nightlife.`,
+      "Oaxaca": `In this generative series, I aim to depict a simple life of surf and sun, capturing the essence of Puerto Escondido, Oaxaca. Through geometric micro-textures, I pay homage to a place where nature, culture, and simplicity coexist, representing my home of the past few years.`,
+      "Polaroid": `Capturing the moment in its simplest form.`,
+      "Montreal": `A generative abstraction of the past. In this series I'm blending physical and digital textures while playing with color palettes that reminds me of my younger days in Montreal. Each pieces contains a personal anecdote that can be found in the HTML header of each inscriptions.`,
+      "Candidly Yours": `Digitally hand drawn and processed with p5js texture filters, this series invites you to take a candid glimpse into the artist's inner thoughts. Each piece serves as a unique snapshot, capturing moments of introspection, inspiration, and personal reflection.`,
+      "Discography": `The soundtrack of my life (unfinished).`,
+      "L’Orphelinat": `Born without parents, these unique and distinct misfits, each a one-on-one piece, were fortunate to find friendship with each other at the orphanage.`,
+      "L'Orphelinat": `Born without parents, these unique and distinct misfits, each a one-on-one piece, were fortunate to find friendship with each other at the orphanage.`,
+      "Orphelinat": `Born without parents, these unique and distinct misfits, each a one-on-one piece, were fortunate to find friendship with each other at the orphanage.`,
+      "Unregulated Minds": `A Collection of thoughts and outputs for sovereign individuals, free thinkers, and world builders.`,
+      "Framed": `Being at the wrong place at the wrong time.`,
+      "Le Bar a Tapas": `From minimalist to ordinalist: A glimpse into my days in Tenerife. This series was born during a time of high fees, which led me to explore new ways of creating and adapting to my new canvas, namely Bitcoin. These handcrafted pieces are meant to capture simple moments of my time in Spain and serve as immutable mementos of my life.`,
+      "World Tour": `An homage to the countries I've traveled (unfinished).`,
+      "Ma ville en quatre temps": `This series is part of 'Continuum, The Forever Calendar' presented by Gamma at Inscribing Vegas 2025 - more details about these works can be found in the HTML header of each inscriptions`,
+      "Tori no Roji": `Tōri no Roji - 通りの路地 - “The Alleys of the Streets”:
+This is where I'm trying to capture the contrast and transition
+between Osaka’s bustling streets and its quiet, hidden, and charming alleys.`,
+      "Little Get Away": `Sometimes I need to take a step back and get away from the things that obsess me. And this time, I'm planning a little get away with my love.`,
+      "Ordinals Summer": `It's all about having fun.`,
+      "Colors": "ART BY LEMONHAZE",
+      "Cypherville Comics": "ART BY LEMONHAZE",
+      "Jardin Secret": `Things I can't talk about right now.`,
+      "Tad Small": `Tad Small is a micro-series of 3 pixel artwork to satisfy my urge to inscribe.`,
+      "Fading": `Delicate threads of decay intertwine, revealing faded echoes of a distant past.`,
+      "Dark Days": `Is it losing control?`,
+      "Bento Box": `Digital delicacies crafted with code. Each 'Bento Box' is meticulously curated to capture simplicity and artful elegance. Pure aesthetic love, no words.`,
+      "Downtown": `Downtown is a pair of generative artworks, melding retro-wave nostalgia with the chaos of urban life on a large 16:9 digital canvas. Crafted with p5js, these two pieces mark a continuation of Lemonhaze's journey in creating art with code. The artworks presented here were crafted with an emphasis on exploring minimalistic textures, coupled with the goal of recreating glimpses of the artist's past metropolitan life. Additional note: Visit the official ordinals content link of the inscription and press 'S' on your keyboard to download the 6400x3600 high resolution PNG.`
+    };
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const gallery = document.getElementById('gallery');
+      const title = document.querySelector('title');
+      const h1 = document.querySelector('h1');
+
+      // Get collection name from URL parameter
+      const params = new URLSearchParams(window.location.search);
+      const collectionName = decodeURIComponent(params.get('name') || '');
+      // Author line exception for BEST BEFORE
+      const authorLine = document.getElementById('author-line');
+      if (authorLine && collectionName === 'BEST BEFORE') {
+        authorLine.innerHTML = `
+          <div>by Lemonhaze</div>
+          <div>x</div>
+          <div>ORDINALLY</div>
+        `;
+      }
+      // Show Analytics button only for BEST BEFORE
+      const analyticsLink = document.getElementById('analytics-link');
+      if (analyticsLink && collectionName === 'BEST BEFORE') {
+        analyticsLink.style.display = 'inline-block';
+      }
+      if (!collectionName) {
+        gallery.innerHTML = '<p>No collection specified.</p>';
+        title.textContent = 'Collection Not Found';
+        h1.textContent = 'Collection Not Found';
+        return;
+      }
+
+      // Set dynamic title and header
+      title.textContent = collectionName;
+      h1.textContent = collectionName;
+      // Set collection description under the title
+      const descEl = document.getElementById('collection-description');
+      if (descEl) {
+        descEl.textContent = collectionDescriptions[collectionName] || 'ART BY LEMONHAZE';
+      }
+
+      // Fetch and filter provenance data
+      fetch(provenanceUrl)
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to fetch provenance.json');
+          return response.json();
+        })
+        .then(data => {
+          let collectionItems = data.filter(item => item.collection === collectionName);
+
+          // Manufactured: show ALL items visually (422), but count remains 420
+          if (collectionName === 'Manufactured') {
+            const parents = collectionItems.filter(item =>
+              (item.name || '').toLowerCase().includes('parent')
+            );
+
+            const works = collectionItems.filter(item =>
+              !(item.name || '').toLowerCase().includes('parent')
+            );
+
+            // Do NOT slice — show everything
+            collectionItems = [...parents, ...works];
+          }
+
+          // Smart grid column logic
+          function computeColumns(count) {
+            const w = window.innerWidth;
+
+            if (w >= 1800) {
+              if (count <= 4) return count;
+              if (count <= 16) return 6;
+              if (count <= 36) return 8;
+              return 10;
+            }
+
+            if (w >= 1400) {
+              if (count <= 4) return count;
+              if (count <= 16) return 5;
+              if (count <= 36) return 7;
+              return 9;
+            }
+
+            if (w >= 1024) {
+              if (count <= 4) return count;
+              if (count <= 16) return 4;
+              if (count <= 36) return 6;
+              return 8;
+            }
+
+            if (w >= 768) {
+              return Math.min(3, count);
+            }
+
+            return 1; // mobile handled elsewhere
+          }
+
+          const cols = computeColumns(collectionItems.length);
+          gallery.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+          window.addEventListener('resize', () => {
+            const newCols = computeColumns(collectionItems.length);
+            gallery.style.gridTemplateColumns = `repeat(${newCols}, 1fr)`;
+          });
+          // For very large collections, use a denser grid
+          if (collectionItems.length >= 40) {
+            gallery.classList.add('dense-grid');
+          }
+          // Update the meta line: "X works • Inscribed YEAR"
+          const metaEl = document.getElementById('collection-meta');
+          if (metaEl) {
+            const year = yearMap[collectionName] || '';
+            const displayCount =
+              collectionName === 'Manufactured' ? 420 : collectionItems.length;
+
+            const parts = [];
+            if (displayCount) parts.push(`${displayCount} work${displayCount !== 1 ? 's' : ''}`);
+            if (year) parts.push(`Inscribed ${year}`);
+            metaEl.textContent = parts.join(' • ');
+          }
+          if (collectionItems.length === 0) {
+            gallery.innerHTML = '<p>No artworks found for this collection.</p>';
+            return;
+          }
+
+          // Mobile-only: show vertical slideshow instead of grid
+          const isMobile = window.innerWidth <= 768;
+          if (isMobile) {
+            gallery.classList.add('mobile-slideshow');
+            gallery.innerHTML = '';
+
+            const fragment = document.createDocumentFragment();
+            collectionItems.forEach(({ id, name, artwork_type }) => {
+              // Determine extension
+              let finalId = id;
+              let finalExt = artwork_type === 'JPEG' ? 'jpg' : artwork_type === 'WEBP' ? 'webp' : 'png';
+              let modalId = id;
+
+              // Special overrides (preserve your existing exceptions)
+              if (
+                collectionName === 'Cypherville' &&
+                id === '0c57ce6325d8da6242488d453c13bac0e1e1eaca6a5b3bf4078a6bdd6768d49di0'
+              ) {
+                finalId = 'luckyseven';
+                finalExt = 'png';
+              }
+              if (
+                collectionName === 'Portrait 2490' &&
+                id === '87a923ac2114f0331cf75c65a5085baeda31993413d7d1b61a3f4ce7f73345cci0'
+              ) {
+                finalId = 'Fax';
+                finalExt = 'png';
+              }
+
+              const slide = document.createElement('div');
+              slide.className = 'slide';
+
+              const img = document.createElement('img');
+              img.className = 'slideshow-image';
+              img.src = `https://cdn.lemonhaze.com/assets/assets/${finalId}.${finalExt}`;
+              img.alt = name;
+              img.loading = 'lazy';
+              img.addEventListener('click', () => {
+                try {
+                  sessionStorage.setItem('lastYear', yearMap[collectionName] || '2023');
+                  sessionStorage.setItem('lastCollection', collectionName);
+                  sessionStorage.setItem('lastScroll', window.scrollY);
+                  const bgStyle = getComputedStyle(document.body).backgroundImage;
+                  if (bgStyle) sessionStorage.setItem('bgImage', bgStyle);
+                  const isBlack = document.body.classList.contains('plain-black-bg');
+                  localStorage.setItem('lemonhazeBg', isBlack ? 'black' : document.body.style.backgroundImage);
+                } catch (e) {}
+                window.location.href = `/modal.html?id=${modalId}`;
+              });
+
+              const cap = document.createElement('div');
+              cap.className = 'caption';
+              cap.textContent = name;
+
+              slide.appendChild(img);
+              slide.appendChild(cap);
+              fragment.appendChild(slide);
+            });
+
+            gallery.appendChild(fragment);
+            // Precisely size each slide's image to avoid cropping for any aspect ratio
+            const sizeSlides = () => {
+              const rect = gallery.getBoundingClientRect();
+              const avail = Math.max(320, window.innerHeight - rect.top); // available height for the scroller
+
+              // Make the gallery the scroller and each slide fill its viewport
+              gallery.style.height = avail + 'px';
+              gallery.style.overflowY = 'auto';
+              gallery.style.webkitOverflowScrolling = 'touch';
+
+              const slidesEls = gallery.querySelectorAll('.slide');
+              slidesEls.forEach(slide => {
+                slide.style.minHeight = avail + 'px';
+                const img = slide.querySelector('.slideshow-image');
+                const cap = slide.querySelector('.caption');
+                const capH = cap ? cap.offsetHeight : 0;
+                const slideStyle = getComputedStyle(slide);
+                const padTop = parseFloat(slideStyle.paddingTop) || 0;
+                const padBottom = parseFloat(slideStyle.paddingBottom) || 0;
+                // Leave a small safety margin (12px)
+                const maxH = Math.max(120, avail - capH - padTop - padBottom - 12);
+                img.style.maxHeight = maxH + 'px';
+              });
+            };
+
+            // Run once images have at least started loading, then on resize/orientation
+            requestAnimationFrame(sizeSlides);
+            window.addEventListener('resize', sizeSlides);
+            window.addEventListener('orientationchange', sizeSlides);
+            // Dynamically size gallery to fill the remaining viewport below the header
+            const adjustHeights = () => {
+              // Distance from top of viewport to top of gallery
+              const rect = gallery.getBoundingClientRect();
+              const top = rect.top; // px relative to viewport
+              const avail = Math.max(320, window.innerHeight - top); // clamp to avoid zero
+              // Set the gallery height so it becomes its own scroll container
+              gallery.style.height = avail + 'px';
+              gallery.style.overflowY = 'auto';
+              gallery.style.webkitOverflowScrolling = 'touch';
+              // Make each slide fill this internal viewport so images center and never crop
+              const slidesEls = gallery.querySelectorAll('.slide');
+              slidesEls.forEach(s => { s.style.minHeight = avail + 'px'; });
+            };
+            // Do an initial pass after layout, and on resize/orientation changes
+            requestAnimationFrame(adjustHeights);
+            window.addEventListener('resize', adjustHeights);
+            window.addEventListener('orientationchange', adjustHeights);
+            // bail out so the desktop-grid logic below does not run on mobile
+            return;
+          }
+
+          // Special logic for 422 items (insert first/last as a top row)
+          if (collectionItems.length === 422) {
+            // Remove first and last items
+            const specialLast = collectionItems.pop();
+            const specialFirst = collectionItems.shift();
+
+            // Create the pair row
+            const topRow = document.createElement("div");
+            topRow.className = "pair-row";
+
+            [specialFirst, specialLast].forEach(({ id, name, artwork_type }) => {
+              const div = document.createElement('div');
+              div.className = 'frame pair';
+              const container = document.createElement('div');
+              container.className = 'preview-container';
+              const preview = document.createElement('img');
+              let finalExt = artwork_type === "JPEG" ? "jpg" : artwork_type === "WEBP" ? "webp" : "png";
+              preview.src = `https://cdn.lemonhaze.com/assets/assets/${id}.${finalExt}`;
+              preview.alt = name;
+              container.appendChild(preview);
+              div.appendChild(container);
+              const label = document.createElement('p');
+              label.textContent = name;
+              div.appendChild(label);
+              topRow.appendChild(div);
+            });
+            gallery.appendChild(topRow);
+          }
+
+          // Render the remaining artworks
+          const rowDiv = document.createDocumentFragment();
+          collectionItems.forEach(({ id, name, artwork_type }) => {
+            // Determine extension
+            let finalId = id;
+            let finalExt = artwork_type === "JPEG" ? "jpg" : artwork_type === "WEBP" ? "webp" : "png";
+            let modalId = id;
+            // Special override for Cypherville luckyseven by id
+            if (
+              collectionName === "Cypherville" &&
+              id === "0c57ce6325d8da6242488d453c13bac0e1e1eaca6a5b3bf4078a6bdd6768d49di0"
+            ) {
+              finalId = "luckyseven";
+              finalExt = "png";
+            }
+            // Special override for Portrait 2490 Fax
+            if (
+              collectionName === "Portrait 2490" &&
+              id === "87a923ac2114f0331cf75c65a5085baeda31993413d7d1b61a3f4ce7f73345cci0"
+            ) {
+              finalId = "Fax";
+              finalExt = "png";
+            }
+
+            const div = document.createElement('div');
+            div.className = 'frame';
+
+            const container = document.createElement('div');
+            container.className = 'preview-container';
+
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.className = 'loading-overlay';
+            loadingOverlay.innerHTML = `
+              <div>
+                <div class="font-bold">LOADING...</div>
+                <div class="opacity-80 text-[0.5rem]">Please wait while the artwork renders</div>
+              </div>
+            `;
+            container.appendChild(loadingOverlay);
+
+            const preview = document.createElement('img');
+            preview.src = `https://cdn.lemonhaze.com/assets/assets/${finalId}.${finalExt}`;
+            preview.alt = name;
+            preview.title = name;
+            preview.loading = 'lazy';
+            preview.setAttribute('aria-hidden', 'true');
+            container.appendChild(preview);
+
+            div.appendChild(container);
+
+            const label = document.createElement('p');
+            label.textContent = name;
+            div.appendChild(label);
+
+            preview.addEventListener('load', () => {
+              if (preview.naturalWidth <= 100 || preview.naturalHeight <= 100) {
+                preview.style.imageRendering = 'pixelated';
+              }
+              loadingOverlay.remove();
+            });
+            preview.addEventListener('error', () => {
+              console.error(`Failed to load image: ${finalId}.${finalExt}`);
+              preview.src = 'https://cdn.lemonhaze.com/assets/assets/placeholder.png';
+            });
+
+            container.onclick = () => {
+              try {
+                sessionStorage.setItem('lastYear', yearMap[collectionName] || '2023');
+                sessionStorage.setItem('lastCollection', collectionName);
+                sessionStorage.setItem('lastScroll', window.scrollY);
+                const bgStyle = getComputedStyle(document.body).backgroundImage;
+                if (bgStyle) sessionStorage.setItem('bgImage', bgStyle);
+                const isBlack = document.body.classList.contains('plain-black-bg');
+                localStorage.setItem('lemonhazeBg', isBlack ? 'black' : document.body.style.backgroundImage);
+              } catch (e) {}
+              window.location.href = `/modal.html?id=${modalId}`;
+            };
+
+            rowDiv.appendChild(div);
+          });
+          gallery.appendChild(rowDiv);
+        })
+        .catch(error => {
+          console.error('Error loading provenance:', error);
+          gallery.innerHTML = '<p>Failed to load collection data.</p>';
+        });
+
+      // Always use grey background, no toggle.
+      document.body.classList.remove('bg-black');
+      document.body.classList.add('bg-grid');
+    });
+  </script>
+</body>
+</html>

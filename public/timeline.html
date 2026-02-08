@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timeline</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Dancing+Script&display=swap" rel="stylesheet">
+  <style>
+    /* Fullscreen zoom overlay for provenance tree */
+    #zoomOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    #zoomOverlay img {
+      max-width: 95%;
+      max-height: 95%;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    .back-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1;
+      display: inline-block;
+      margin-bottom: 0;
+      position: relative;
+      transition: color 0.25s ease;
+    }
+
+    .back-link::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: rgba(255,255,255,0.6);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.2s ease;
+    }
+    .back-link:hover::after {
+      transform: scaleX(1);
+    }
+    .back-link:hover {
+      color: #f9f3f6;
+    }
+
+    .top-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin: 1.25rem 0 2rem; /* match Supply page vertical alignment */
+    }
+
+    @media (max-width: 768px) {
+      .top-links { gap: 12px; margin: 6px 0 8px; }
+      .back-link { font-size: 12px; }
+    }
+    html, body {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: #0d0d0d;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    body::-webkit-scrollbar {
+      display: none;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    .title-block {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .title-block h1 {
+      font-size: 2.2rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.25rem;
+    }
+
+    .title-block .subtitle {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.3px;
+    }
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .collection {
+      text-align: center;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+    .collection:hover {
+      transform: scale(1.02);
+    }
+    .collection img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      border: none;
+      border-radius: 6px;
+      filter: drop-shadow(0 0 1px rgba(255,255,255,0.8)) drop-shadow(0 0 3px rgba(200,200,200,0.4));
+      animation: pulse-glow 1.8s ease-in-out infinite;
+    }
+    .collection p {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    /* Desktop: stack layout, simple text under image */
+    @media (min-width: 769px) {
+      .collection { text-align: center; }
+      .collection .meta {
+        display: block;
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.5);
+        margin-top: 0.2rem;
+      }
+    }
+    /* Mobile: show meta as inline-block with margin */
+    @media (max-width: 768px) {
+      .collection .meta {
+        display: inline-block;
+        margin-top: 0.15rem;
+        color: rgba(255,255,255,0.5);
+      }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { filter: drop-shadow(0 0 1px rgba(255,255,255,0.8)) drop-shadow(0 0 3px rgba(200,200,200,0.4)); }
+      50% { filter: drop-shadow(0 0 2px rgba(255,255,255,1)) drop-shadow(0 0 4px rgba(230,230,230,0.5)); }
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      margin-top: 3rem;
+    }
+    .signature {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1rem;
+      position: fixed;
+      bottom: 8px;
+      right: 12px;
+      color: rgba(255,255,255,0.3);
+    }
+    #bgSelector {
+      position: fixed;
+      bottom: 1rem;
+      left: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+    #bgSelector div, #bgSelector button {
+      width: 18px;
+      height: 18px;
+      border: 1px solid #333;
+      cursor: pointer;
+      background-size: cover;
+    }
+    #bgSelector .bg-button {
+      background: #0d0d0d;
+      padding: 0;
+      margin: 0;
+    }
+    #bgSelector .bg-active {
+      border-color: #ffffff;
+    }
+    @media (max-width: 768px) { #bgSelector { display: none; } }
+  </style>
+</head>
+<body>
+  <span class="signature">LH</span>
+  <!-- Background Selector (same as site) -->
+  <div id="bgSelector">
+    <div onclick="setBg(1)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image5.png');"></div>
+    <div onclick="setBg(2)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image2.png');"></div>
+    <div onclick="setBg(3)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image3.png');"></div>
+    <div onclick="setBg(4)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image.png');"></div>
+    <div onclick="setBg(5)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image6.png');"></div>
+    <div onclick="setBg(6)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image4.png');"></div>
+  </div>
+  <div class="container">
+    <nav class="top-links">
+      <a href="/index.html" class="back-link">Home</a>
+      <a href="/supply.html" class="back-link">Marketplace</a>
+    </nav>
+    <div class="title-block">
+      <h1>Lemonhaze</h1>
+      <p class="subtitle">The Timeline</p>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+  <div class="footer">© Lemonhaze 2025 — All works inscribed on Bitcoin</div>
+  <script>
+    // Map each collection to its date/classification from the provenance tree
+    const metaMap = {
+      'Cypherville': 'Feb 2023',
+      'Miscellaneous': 'Feb 2023',
+      'Portrait 2490': 'Mar 2023',
+      'Gentlemen': 'Mar 2023',
+      'Tad Small': 'May 2023',
+      'Le Bar a Tapas': 'May 2023',
+      'The Artifacts': 'Jun 2023',
+      'Ordinals Summer': 'Jun 2023',
+      'Polaroid': 'Jun 2023',
+      'Framed': 'Jun 2023',
+      'Lotus': 'Jun 2023',
+      'Jardin Secret': 'Jul 2023',
+      'World Tour': 'Jul 2023',
+      'Discography': 'Jul 2023',
+      'Volatility': 'Aug 2023',
+      'Old-Fashioned': 'Aug 2023',
+      'Orphelinat': 'Aug 2023',
+      'Oaxaca': 'Sep 2023',
+      'Downtown': 'Sep 2023',
+      'Dark Days': 'Jun 2023',
+      'Mending Fragments': 'Jun 2023',
+      'Berlin': 'Jun 2023',
+      'Untitled': 'Oct 2023',
+      'Candidly Yours': 'Nov 2023',
+      'Bento Box': 'Dec 2023',
+      '1 of 1s (2024)': 'From Jan to Dec 2024',
+      'Unregulated Minds': 'Jan 2024',
+      'DeVille': 'Jan 2024',
+      'La Tentation': 'Jan 2024',
+      'Montreal': 'Feb 2024',
+      'Little Get Away': 'Mar 2024',
+      'Manufactured': 'Apr 2024',
+      'Games': 'Since May 2024',
+      '1 of 1s (2025)': 'From Jan to Dec 2025',
+      'Tori no Roji': 'Feb 2025',
+      'Ma ville en quatre temps': 'Mar 2025',
+      'Stuntman': 'Aug 2025',
+      'Generative Composition': 'Jul 2023',
+      'Fading': 'Jun 2023'
+    };
+
+    const collections = [
+      "Cypherville","Portrait 2490","Miscellaneous","Gentlemen","Tad Small","Le Bar a Tapas","The Artifacts","Framed","Ordinals Summer","Polaroid","Dark Days","Mending Fragments","Fading","Berlin","Lotus","Jardin Secret","World Tour","Discography","Generative Composition","Volatility","Orphelinat","Old-Fashioned","Oaxaca","Downtown","Untitled","Candidly Yours","Bento Box","1 of 1s (2024)","Unregulated Minds","DeVille","La Tentation","Montreal","Little Get Away","Manufactured","Games","1 of 1s (2025)","Tori no Roji","Ma ville en quatre temps","BEST BEFORE"
+    ];
+
+    const timeline = document.getElementById('timeline');
+
+    // Exact background selector logic (same as site)
+    function setBg(index) {
+      const body = document.body;
+      const docEl = document.documentElement;
+      body.classList.remove('plain-black-bg');
+      docEl.classList.remove('plain-black-bg');
+
+      const bgDivs = document.querySelectorAll('#bgSelector div');
+      const bgBtns = document.querySelectorAll('#bgSelector .bg-button');
+      bgDivs.forEach(btn => btn.classList.remove('bg-active'));
+      bgBtns.forEach(btn => btn.classList.remove('bg-active'));
+
+      const backgrounds = {
+        1: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image5.png")',
+        2: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image2.png")',
+        3: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image3.png")',
+        4: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image.png")',
+        5: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image6.png")',
+        6: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image4.png")'
+      };
+      const selectedBg = backgrounds[index] || backgrounds[6];
+      if (!selectedBg) return;
+
+      const img = new Image();
+      img.src = selectedBg.replace(/^url\("(.+)"\)$/, '$1');
+      img.onload = () => {
+        body.style.backgroundImage = selectedBg;
+        docEl.style.backgroundImage = selectedBg;
+        body.style.backgroundSize = 'cover';
+        docEl.style.backgroundSize = 'cover';
+        body.style.backgroundPosition = 'center center';
+        docEl.style.backgroundPosition = 'center center';
+        body.style.backgroundRepeat = 'no-repeat';
+        docEl.style.backgroundRepeat = 'no-repeat';
+        body.style.backgroundAttachment = 'fixed';
+        docEl.style.backgroundAttachment = 'fixed';
+        localStorage.setItem('lemonhazeBg', selectedBg);
+        const selectedButton = bgDivs[index - 1];
+        if (selectedButton) selectedButton.classList.add('bg-active');
+      };
+      img.onerror = () => {
+        console.error(`Failed to load background: ${img.src}`);
+        body.classList.add('plain-black-bg');
+        docEl.classList.add('plain-black-bg');
+        localStorage.setItem('lemonhazeBg', 'black');
+      };
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set background from sessionStorage if available (carry over between pages)
+      const sessionBg = sessionStorage.getItem('bgImage');
+      if (sessionBg && sessionBg.includes('bio-image')) {
+        document.body.style.backgroundImage = sessionBg;
+        document.documentElement.style.backgroundImage = sessionBg;
+        document.body.style.backgroundSize = 'cover';
+        document.documentElement.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center center';
+        document.documentElement.style.backgroundPosition = 'center center';
+        document.body.style.backgroundRepeat = 'no-repeat';
+        document.documentElement.style.backgroundRepeat = 'no-repeat';
+        document.body.style.backgroundAttachment = 'fixed';
+        document.documentElement.style.backgroundAttachment = 'fixed';
+        localStorage.setItem('lemonhazeBg', sessionBg);
+      }
+
+      // Wire swatches
+      const bgDivs = document.querySelectorAll('#bgSelector div');
+      bgDivs.forEach((div, index) => {
+        div.addEventListener('click', () => setBg(index + 1));
+      });
+
+      // Load saved or default background (unless sessionBg was just used)
+      let savedBg = localStorage.getItem('lemonhazeBg');
+      if (!savedBg || !savedBg.includes('bio-image')) {
+        savedBg = 'url("https://cdn.lemonhaze.com/assets/assets/bio-image6.png")';
+        localStorage.setItem('lemonhazeBg', savedBg);
+      }
+      if (!(sessionBg && sessionBg.includes('bio-image'))) {
+        const img = new Image();
+        img.src = savedBg.replace(/^url\("(.+)"\)$/, '$1');
+        img.onload = () => {
+          document.body.style.backgroundImage = savedBg;
+          document.documentElement.style.backgroundImage = savedBg;
+          document.body.style.backgroundSize = 'cover';
+          document.documentElement.style.backgroundSize = 'cover';
+          document.body.style.backgroundPosition = 'center center';
+          document.documentElement.style.backgroundPosition = 'center center';
+          document.body.style.backgroundRepeat = 'no-repeat';
+          document.documentElement.style.backgroundRepeat = 'no-repeat';
+          document.body.style.backgroundAttachment = 'fixed';
+          document.documentElement.style.backgroundAttachment = 'fixed';
+          const mapping = { 1: 'bio-image5.png', 2: 'bio-image2.png', 3: 'bio-image3.png', 4: 'bio-image.png', 5: 'bio-image6.png', 6: 'bio-image4.png' };
+          const savedName = savedBg.replace(/^url\("https:\/\/cdn\.lemonhaze\.com\/assets\/assets\//, '').replace('\")', '');
+          const idx = Object.values(mapping).indexOf(savedName) + 1;
+          if (idx > 0 && bgDivs[idx - 1]) bgDivs[idx - 1].classList.add('bg-active');
+        };
+        img.onerror = () => console.error('Failed to load saved background:', savedBg);
+      }
+    });
+
+    // Add provenance tree as the first scroll image
+    const treeDiv = document.createElement('div');
+    treeDiv.className = 'collection';
+    treeDiv.innerHTML = `
+      <div class="thumb">
+        <img src="https://cdn.lemonhaze.com/assets/assets/tree.png" alt="Provenance Tree" title="L'Arbre du Fruit Sacré [Provenance tree]" id="treeImage" style="cursor: zoom-in;">
+        <p>L'Arbre du Fruit Sacré [Provenance Tree]</p>
+      </div>
+    `;
+    timeline.appendChild(treeDiv);
+    // Add BEST BEFORE as second static block (same structure as Provenance Tree)
+    const bbDiv = document.createElement('div');
+    bbDiv.className = 'collection';
+    bbDiv.innerHTML = `
+      <div class="thumb">
+        <img src="https://cdn.lemonhaze.com/assets/assets/bestbefore2.png" alt="BEST BEFORE" title="BEST BEFORE" id="bbImage" style="cursor: pointer;">
+        <p>BEST BEFORE<br><span class='meta'>Aug 2025</span></p>
+      </div>
+    `;
+    timeline.appendChild(bbDiv);
+    // Make BB image clickable to open BESTBEFORE.SPACE
+    const bbImg = document.getElementById('bbImage');
+    bbImg.addEventListener('click', () => {
+      window.open('https://bestbefore.space', '_blank', 'noopener,noreferrer');
+    });
+    const treeImg = document.getElementById('treeImage');
+    treeImg.addEventListener('click', () => {
+      const overlay = document.getElementById('zoomOverlay');
+      const zoomed = document.getElementById('zoomedImage');
+      zoomed.src = treeImg.src;
+      overlay.style.display = 'flex';
+    });
+    [...collections].reverse().forEach(name => {
+      // Prevent duplicate entries
+      const existing = document.querySelector(`.collection img[alt="${name}"]`);
+      if (existing) return;
+
+      const div = document.createElement('div');
+      div.className = 'collection';
+      const meta = metaMap[name] || '';
+      div.innerHTML = `
+        <div class="thumb">
+          <img src="https://cdn.lemonhaze.com/assets/assets/${encodeURIComponent(name)}.png" alt="${name}" title="${name}" onclick="location.href='/collection.html?name=${encodeURIComponent(name)}'">
+          <p>${name}<br><span class='meta'>${meta}</span></p>
+        </div>
+      `;
+      timeline.appendChild(div);
+    });
+  </script>
+  <div id="zoomOverlay" onclick="this.style.display='none'">
+    <img src="" alt="Zoomed image" id="zoomedImage">
+  </div>
+</body>
+</html>

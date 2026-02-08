@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Dancing+Script&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100vw;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffffff;
+      background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image4.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      scroll-behavior: smooth;
+      background-color: #0d0d0d;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media screen and (max-width: 768px) {
+      body {
+        background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image4.png');
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-attachment: fixed;
+        background-size: cover;
+        background-color: #0d0d0d;
+        min-height: 100vh;
+        width: 100vw;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      html {
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+    }
+
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      flex: 1;
+    }
+
+    .back-link {
+      display: block;
+      color: #ffffff;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: #f9f3f6;
+      transform: scale(1.05);
+    }
+
+    .title-section {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .title-section h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .title-section .cursive {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      color: #ffffff;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .gallery[data-count="25"] {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      justify-items: center;
+    }
+
+    .gallery[data-count="5"] {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: auto;
+      gap: 1rem;
+      justify-items: center;
+    }
+
+    .frame {
+      position: relative;
+      padding: 0.75rem;
+      text-align: center;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+      width: 240px;
+      flex: 0 0 auto;
+    }
+
+    .frame:hover {
+      transform: scale(1.02);
+    }
+
+    .frame .preview-container {
+      position: relative;
+      width: 100%;
+      padding-top: 100%; /* Force square aspect ratio */
+      border-radius: 4px;
+    }
+
+    .frame img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border: none;
+      pointer-events: none;
+      image-rendering: auto;
+      filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 3px rgba(232, 220, 180, 0.7)) drop-shadow(0 0 6px rgba(249, 243, 246, 0.3));
+      transition: filter 0.3s ease, transform 0.2s ease;
+      animation: pulse-glow 1.8s ease-in-out infinite;
+    }
+
+    .frame:hover img {
+      filter: drop-shadow(0 0 2px rgba(255, 255, 255, 1)) drop-shadow(0 0 5px rgba(232, 220, 180, 0.8)) drop-shadow(0 0 8px rgba(249, 243, 246, 0.5));
+    }
+
+    @keyframes pulse-glow {
+      0% { filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 3px rgba(232, 220, 180, 0.7)) drop-shadow(0 0 6px rgba(249, 243, 246, 0.3)); }
+      50% { filter: drop-shadow(0 0 1.3px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 3.5px rgba(232, 220, 180, 0.75)) drop-shadow(0 0 7px rgba(249, 243, 246, 0.35)); }
+      100% { filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 3px rgba(232, 220, 180, 0.7)) drop-shadow(0 0 6px rgba(249, 243, 246, 0.3)); }
+    }
+
+    .frame .loading-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+      font-size: 0.65rem;
+      text-align: center;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+
+    .frame p {
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      color: #ffffff;
+    }
+
+    .gallery p {
+      color: #ffffff;
+      text-align: center;
+    }
+
+    #bgSelector {
+      position: fixed;
+      bottom: 1rem;
+      left: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+
+    #bgSelector div, #bgSelector button {
+      width: 18px;
+      height: 18px;
+      border: 1px solid #333;
+      cursor: pointer;
+      background-size: cover;
+    }
+
+    #bgSelector .bg-button {
+      background: #0d0d0d;
+      padding: 0;
+      margin: 0;
+    }
+
+    #bgSelector .bg-active {
+      border-color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem 1rem;
+        flex: 1;
+      }
+
+      .title-section h1 {
+        font-size: 1.5rem;
+      }
+
+      #bgSelector {
+        display: none;
+      }
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+      z-index: 5;
+      white-space: nowrap;
+    }
+
+    .signature {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+      z-index: 5;
+      position: fixed;
+      bottom: 8px;
+      right: 12px;
+    }
+    /* Responsive gallery grid for mobile screens */
+    @media (max-width: 768px) {
+      .gallery[data-count="5"],
+      .gallery[data-count="25"] {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        justify-content: center;
+      }
+
+      .frame {
+        width: 140px;
+      }
+
+      .frame p {
+        font-size: 0.7rem;
+      }
+    }
+
+    .gallery[data-count="9"] {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      justify-items: center;
+    }
+
+    .gallery[data-count="6"] {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      justify-items: center;
+    }
+
+  </style>
+</head>
+<body>
+  <span class="signature">LH</span>
+  <div class="container">
+    <a href="/index.html" title="Go Home" class="back-link">← Home</a>
+    <a href="/timeline.html" title="Go to Timeline" class="back-link">← Timeline</a>
+    <div class="title-section">
+      <h1></h1>
+      <p class="cursive">by Lemonhaze</p>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </div>
+
+  <!-- Background Selector -->
+  <div id="bgSelector">
+    <div onclick="setBg(1)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image5.png');"></div>
+    <div onclick="setBg(2)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image2.png');"></div>
+    <div onclick="setBg(3)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image3.png');"></div>
+    <div onclick="setBg(4)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image.png');"></div>
+    <div onclick="setBg(5)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image6.png');"></div>
+    <div onclick="setBg(6)" style="background-image: url('https://cdn.lemonhaze.com/assets/assets/bio-image4.png');"></div>
+  </div>
+
+  <div class="footer">
+    © Lemonhaze 2025 — All works inscribed on Bitcoin
+  </div>
+
+  <script>
+    // Collection configuration
+    const provenanceUrl = "https://cdn.lemonhaze.com/assets/assets/provenance.json";
+
+    // Year mapping for session storage
+    const yearMap = {
+      "Manufactured": "2024",
+      "Satoshi CC Edition": "2023",
+      "Portrait 2490": "2023",
+      "1/1s": "2024",
+      "Deprivation prints": "2023",
+      "Mirage prints": "2024",
+      "Trilogy prints": "2025",
+      "Gentlemen": "2023",
+      "Miscellaneous": "2023",
+      "Games": "2024",
+      "1/1s (2025)": "2025",
+      "The Artifacts": "2023",
+      "Cypherville": "2023",
+      "Old Fashioned": "2023",
+      "Volatility": "2023",
+      "La Tentation": "2024",
+      "Deville": "2024",
+      "Unclassified": "2023",
+      "Generative Composition": "2023",
+      "Lotus": "2023",
+      "Split collectible": "2023",
+      "Untitled": "2023",
+      "Mending Fragments": "2023",
+      "Berlin": "2023",
+      "Oaxaca": "2023",
+      "Polaroid": "2023",
+      "Montreal": "2024",
+      "Candidly Yours": "2023",
+      "Discography": "2023",
+      "L’Orphelinat": "2023",
+      "Unregulated Minds": "2024",
+      "Framed": "2023",
+      "Le Bar a Tapas": "2023",
+      "World Tour": "2023",
+      "Ma ville en quatre temps": "2025",
+      "Tori no Roji": "2025",
+      "Little Get Away": "2024",
+      "Ordinals Summer": "2023",
+      "Colors": "2023",
+      "Fading": "2023",
+      "Dark days": "2023",
+      "Tad small": "2023",
+      "Jardin Secret": "2023",
+      "Cypher comics": "2023",
+      "Downtown": "2023",
+      "Bento Box": "2023"
+    };
+
+
+    function setBg(index) {
+      const body = document.body;
+      const docEl = document.documentElement;
+      body.classList.remove('plain-black-bg');
+      docEl.classList.remove('plain-black-bg');
+
+      const bgDivs = document.querySelectorAll('#bgSelector div');
+      const bgBtns = document.querySelectorAll('#bgSelector .bg-button');
+      bgDivs.forEach(btn => btn.classList.remove('bg-active'));
+      bgBtns.forEach(btn => btn.classList.remove('bg-active'));
+
+      const backgrounds = {
+        1: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image5.png")',
+        2: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image2.png")',
+        3: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image3.png")',
+        4: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image.png")',
+        5: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image6.png")',
+        6: 'url("https://cdn.lemonhaze.com/assets/assets/bio-image4.png")'
+      };
+      const selectedBg = backgrounds[index] || backgrounds[6];
+      if (!selectedBg) return;
+
+      const img = new Image();
+      img.src = selectedBg.replace(/^url\("(.+)"\)$/, '$1');
+      img.onload = () => {
+        body.style.backgroundImage = selectedBg;
+        docEl.style.backgroundImage = selectedBg;
+        localStorage.setItem('lemonhazeBg', selectedBg);
+        const selectedButton = bgDivs[index - 1];
+        if (selectedButton) selectedButton.classList.add('bg-active');
+      };
+      img.onerror = () => {
+        console.error(`Failed to load background: ${img.src}`);
+        body.classList.add('plain-black-bg');
+        docEl.classList.add('plain-black-bg');
+        localStorage.setItem('lemonhazeBg', 'black');
+      };
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set background from sessionStorage if available (index.html or modal.html transition)
+      const sessionBg = sessionStorage.getItem('bgImage');
+      if (sessionBg && sessionBg.includes('bio-image')) {
+        document.body.style.backgroundImage = sessionBg;
+        document.documentElement.style.backgroundImage = sessionBg;
+        localStorage.setItem('lemonhazeBg', sessionBg);
+      }
+      const gallery = document.getElementById('gallery');
+      const title = document.querySelector('title');
+      const h1 = document.querySelector('h1');
+
+      // Get owner address from URL parameter
+      const params = new URLSearchParams(window.location.search);
+      const ownerAddress = decodeURIComponent(params.get('address') || '');
+      if (!ownerAddress) {
+        gallery.innerHTML = '<p>No collector address specified.</p>';
+        title.textContent = 'Collector Not Found';
+        h1.textContent = 'Collector Not Found';
+        return;
+      }
+
+      // Set dynamic title and header
+      title.textContent = `Collector: ${ownerAddress}`;
+      h1.textContent = `Collector: ${ownerAddress}`;
+
+      // Fetch provenance data and filter by live ownership from ordapi.xyz (optimized batching)
+      fetch(provenanceUrl)
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to fetch provenance.json');
+          return response.json();
+        })
+        .then(async data => {
+          const normalizedOwner = ownerAddress.trim().toLowerCase();
+          console.log("Looking for artworks owned by:", normalizedOwner);
+          const ownedItems = [];
+
+          const chunkSize = 20;
+          for (let i = 0; i < data.length; i += chunkSize) {
+            const chunk = data.slice(i, i + chunkSize);
+
+            const results = await Promise.all(chunk.map(async item => {
+              try {
+                const response = await fetch(`https://ordapi.xyz/output/${item.id}`);
+                if (!response.ok) throw new Error(`Bad response for ${item.id}`);
+                const json = await response.json();
+
+                if (json && json.owner) {
+                  const fetchedOwner = json.owner.trim().toLowerCase();
+                  console.log("Fetched owner:", fetchedOwner, "| Match:", fetchedOwner === normalizedOwner);
+                  if (fetchedOwner === normalizedOwner) {
+                    return item;
+                  }
+                }
+                else {
+                  console.warn("No valid owner found for", item.id);
+                }
+              } catch (err) {
+                console.warn("Failed fetch or no owner for", item.id, err);
+                return null;
+              }
+            }));
+
+            for (const result of results) {
+              if (result) ownedItems.push(result);
+            }
+          }
+
+          console.log("Total owned items found:", ownedItems.length);
+          gallery.setAttribute("data-count", ownedItems.length);
+          if (ownedItems.length === 0) {
+            gallery.innerHTML = '<p>No artworks found for this collector.</p>';
+            return;
+          }
+
+          const rowDiv = document.createDocumentFragment();
+          ownedItems.forEach(({ id, name, artwork_type, owner, collection }) => {
+            let finalId = id;
+            let finalExt = artwork_type === "JPEG" ? "jpg" : artwork_type === "WEBP" ? "webp" : "png";
+            let modalId = id;
+
+            if (
+              collection === "Cypherville" &&
+              id === "0c57ce6325d8da6242488d453c13bac0e1e1eaca6a5b3bf4078a6bdd6768d49di0"
+            ) {
+              finalId = "luckyseven";
+              finalExt = "png";
+            }
+            if (
+              collection === "Portrait 2490" &&
+              id === "87a923ac2114f0331cf75c65a5085baeda31993413d7d1b61a3f4ce7f73345cci0"
+            ) {
+              finalId = "Fax";
+              finalExt = "png";
+            }
+
+            const div = document.createElement('div');
+            div.className = 'frame';
+
+            const container = document.createElement('div');
+            container.className = 'preview-container';
+
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.className = 'loading-overlay';
+            loadingOverlay.innerHTML = `
+              <div>
+                <div class="font-bold">LOADING...</div>
+                <div class="opacity-80 text-[0.5rem]">Please wait while the artwork renders</div>
+              </div>
+            `;
+            container.appendChild(loadingOverlay);
+
+            const preview = document.createElement('img');
+            preview.src = `https://cdn.lemonhaze.com/assets/assets/${finalId}.${finalExt}`;
+            preview.alt = name;
+            preview.title = name;
+            preview.loading = 'lazy';
+            preview.setAttribute('aria-hidden', 'true');
+            container.appendChild(preview);
+
+            div.appendChild(container);
+
+            const label = document.createElement('p');
+            label.textContent = name;
+            div.appendChild(label);
+
+            preview.addEventListener('load', () => {
+              if (preview.naturalWidth <= 100 || preview.naturalHeight <= 100) {
+                preview.style.imageRendering = 'pixelated';
+              }
+              loadingOverlay.remove();
+            });
+
+            preview.addEventListener('error', () => {
+              console.error(`Failed to load image: ${finalId}.${finalExt}`);
+              preview.src = 'https://cdn.lemonhaze.com/assets/assets/placeholder.png';
+            });
+
+            container.onclick = () => {
+              try {
+                sessionStorage.setItem('lastYear', yearMap[collection] || '2023');
+                sessionStorage.setItem('lastCollection', collection || '');
+                sessionStorage.setItem('lastScroll', window.scrollY);
+                const bgStyle = getComputedStyle(document.body).backgroundImage;
+                if (bgStyle) sessionStorage.setItem('bgImage', bgStyle);
+                const isBlack = document.body.classList.contains('plain-black-bg');
+                localStorage.setItem('lemonhazeBg', isBlack ? 'black' : document.body.style.backgroundImage);
+              } catch (e) {}
+              window.location.href = `/modal.html?id=${modalId}`;
+            };
+
+            rowDiv.appendChild(div);
+          });
+
+          gallery.appendChild(rowDiv);
+        })
+        .catch(error => {
+          console.error('Error loading provenance:', error);
+          gallery.innerHTML = '<p>Failed to load collection data.</p>';
+        });
+
+      // Background selector setup
+      const bgDivs = document.querySelectorAll('#bgSelector div');
+      bgDivs.forEach((div, index) => {
+        div.addEventListener('click', () => setBg(index + 1));
+      });
+
+
+      // Load saved or default background (unless sessionBg was just used above)
+      let savedBg = localStorage.getItem('lemonhazeBg');
+      if (!savedBg || !savedBg.includes('bio-image')) {
+        savedBg = 'url("https://cdn.lemonhaze.com/assets/assets/bio-image4.png")';
+        localStorage.setItem('lemonhazeBg', savedBg);
+      }
+      // Only set background if it hasn't been set above from sessionStorage
+      if (!(sessionBg && sessionBg.includes('bio-image'))) {
+        const img = new Image();
+        img.src = savedBg.replace(/^url\("(.+)"\)$/, '$1');
+        img.onload = () => {
+          document.body.style.backgroundImage = savedBg;
+          document.documentElement.style.backgroundImage = savedBg;
+          const bgIndex = Object.values({ 1: 'bio-image5.png', 2: 'bio-image2.png', 3: 'bio-image3.png', 4: 'bio-image.png', 5: 'bio-image6.png', 6: 'bio-image4.png' }).indexOf(savedBg.replace(/^url\("https:\/\/cdn.lemonhaze.com\/assets\/assets\//, '').replace('.png")', '')) + 1;
+          if (bgIndex > 0) {
+            const selectedDiv = bgDivs[bgIndex - 1];
+            if (selectedDiv) selectedDiv.classList.add('bg-active');
+          }
+        };
+        img.onerror = () => {
+          console.error('Failed to load saved background:', savedBg);
+        };
+      }
+    });
+  </script>
+</body>
+</html>

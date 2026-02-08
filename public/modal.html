@@ -1,0 +1,2264 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Showroom</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    /* Glass popup for Raw HTML */
+    #rawHtmlOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5000;
+      cursor: pointer;
+    }
+
+    #rawHtmlPopup {
+      width: min(900px, 92vw);
+      max-height: 85vh;
+      background: rgba(20, 20, 20, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      padding: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: default;
+    }
+
+    /* Gentleman Special Edition 2026: Raw HTML popup front layer */
+    #rawHtmlPopup .layer-front {
+      position: relative;
+      background: rgba(18,18,18,0.94);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.05),
+        0 12px 28px rgba(0,0,0,0.6);
+      padding: 28px 30px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    #rawHtmlPopupHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    #rawHtmlPopupHeader span {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+    }
+
+    #rawHtmlPopupHeader button {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.85);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 6px;
+      margin: -6px;
+      transition: opacity 0.15s ease;
+      z-index: 2;
+    }
+
+    @media (max-width: 768px) {
+      #rawHtmlPopupHeader button {
+        font-size: 20px;
+      }
+    }
+
+    #rawHtmlPopupHeader button:hover {
+      opacity: 0.6;
+    }
+
+    #rawHtmlViewer {
+      flex: 1;
+      overflow: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.92);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+ 
+    body {
+      margin: 0;
+      font-family: 'JetBrains Mono', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #e8dcb4;
+    }
+
+
+    /* Grey coded grid background */
+    .bg-grid {
+      background-color: #222 !important;
+      background-image:
+        radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 0),
+        radial-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 0) !important;
+      background-size: 2px 2px, 3px 3px !important;
+      background-position: 0 0, 1px 1px !important;
+      background-repeat: repeat !important;
+    }
+   
+    #modalWrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      max-width: 100%;
+      width: 90vw;
+      padding: 20px;
+    }
+
+    .left-panel {
+      flex: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      overflow: visible;
+    }
+
+    .left-panel.pad-top {
+      padding-top: clamp(20px, 5vh, 60px);
+    }
+
+    #artwork {
+      width: 100%;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      overflow: visible;
+      box-sizing: border-box;
+    }
+
+    #artwork > * {
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    #artwork iframe {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      border: 0;
+    }
+
+    .right-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      height: 100%;
+      position: relative;
+    }
+    img, video, iframe {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 85vh;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+      margin: auto;
+      image-rendering: auto;
+    }
+    img.pixelated {
+      image-rendering: pixelated;
+    }
+
+    /* Tactile contour for AI FRAME scenes — background aware */
+    .frame-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      background: rgba(0,0,0,0.85);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.55);
+    }
+
+    /* Basel-style static frontal frame (heavier, realistic) */
+    .static-frame-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: linear-gradient(180deg, #111 0%, #0c0c0c 100%);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.04),
+        0 10px 30px rgba(0,0,0,0.55),
+        0 0 0 1px rgba(0,0,0,0.9);
+    }
+
+    .static-frame-wrapper::after {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      pointer-events: none;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+
+    /* GRID / GREY BG → BLACK CONTOUR */
+    body.bg-grid .frame-wrapper {
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.65),
+        inset 0 0 0 1px rgba(0,0,0,0.5),
+        0 8px 22px rgba(0,0,0,0.7);
+    }
+
+    body.bg-grid .frame-wrapper::after {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      pointer-events: none;
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,0.45),
+        inset 0 0 16px rgba(0,0,0,0.35);
+    }
+
+    #artwork .interactive-3d {
+      position: relative;
+      width: 100%;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      overflow: visible;
+      background: transparent;
+      cursor: url('https://cdn.jsdelivr.net/gh/hung1001/custom-icon-cdn/cur/grab-white.cur'), grab;
+    }
+    #artwork .interactive-3d.grabbing {
+      cursor: url('https://cdn.jsdelivr.net/gh/hung1001/custom-icon-cdn/cur/grabbing-white.cur'), grabbing;
+    }
+    #artwork .rotate-container {
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
+      will-change: transform;
+      transform-origin: center center;
+      position: relative;
+      perspective-origin: center;
+      background-image: var(--artwork-url);
+      background-color: transparent;
+      overflow: visible;
+      max-width: none;
+      max-height: none;
+    }
+
+
+    .rotate-container video {
+      position: relative;
+      z-index: 1;
+    }
+
+  
+    #artwork .rotate-container::back,
+    #artwork .rotate-container::after-back {
+    }
+    #artwork .rotate-container::before,
+    #artwork .rotate-container::after,
+    #artwork .rotate-container .canvas-side-top,
+    #artwork .rotate-container .canvas-side-bottom,
+    #artwork .rotate-container::back {
+    }
+
+    #artwork .rotate-container::back,
+    #artwork .rotate-container::after-back {
+    }
+
+   
+    #artwork .rotate-container .canvas-back-face {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--backface-bg, url('/parchment-texture.png') center center / cover no-repeat, #e8dcb4);
+      opacity: 0.85;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+   
+ 
+    #artwork img {
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+  
+    #closeBtn {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      font-size: 26px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 3000;
+      padding: 0;
+      line-height: 1;
+    }
+    /* Hide close button on desktop, keep on mobile */
+    @media (min-width: 769px) {
+      #closeBtn {
+        display: none !important;
+      }
+    }
+    #metadata {
+      position: relative;
+      padding: 12px;
+      font-size: 0.85rem;
+      color: #cccccc;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      width: 320px;
+      z-index: 2;
+      text-align: left;
+    }
+
+    #title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+      width: 100%;
+    }
+
+    .artwork-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+    #metadata > div {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      padding-bottom: 2px;
+      margin-bottom: 2px;
+      color: #cccccc;
+    }
+ 
+    #metadata #buttonRow {
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      justify-content: flex-end !important;
+      align-items: center !important;
+    }
+    #metadata .meta-label {
+      color: #ffffff;
+    }
+
+    #metadata .meta-value {
+      color: #cccccc;
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      /* On mobile, place action buttons directly under the title */
+      #metadata {
+        position: relative;
+      }
+
+      #metadata #buttonRow {
+        margin-top: 6px;
+        margin-bottom: 10px;
+      }
+      .mobile-footer-inline {
+        margin-top: 24px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.3);
+        text-align: center;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+    }
+    #buttonRow {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    #buttonRow button,
+    .meta-action-button {
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      font-size: 12px;
+      line-height: 20px;
+      text-align: center;
+      background: transparent;
+      border: 1px solid #ffffff;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      border-radius: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+    }
+    #buttonRow button:hover,
+    .meta-action-button:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    #buttonRow button:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    /* Under-button hover labels (minimal, fast) */
+    #buttonRow {
+      position: relative;
+    }
+
+    #buttonRow button {
+      position: relative;
+    }
+
+    #buttonRow button::after {
+      content: attr(data-hint);
+      position: absolute;
+      top: 110%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.65);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.06s ease-out;
+    }
+
+    #buttonRow button:hover::after {
+      opacity: 1;
+    }
+ 
+    #artwork .rotate-container::before,
+    #artwork .rotate-container::after,
+    #artwork .rotate-container .canvas-side-top,
+    #artwork .rotate-container .canvas-side-bottom {
+      content: '';
+      position: absolute;
+      background-image: var(--artwork-url);
+      z-index: 0;
+    }
+
+    #artwork .rotate-container::before {
+      width: 20px;
+      height: 100%;
+      left: 0;
+      top: 0;
+      transform: rotateY(90deg);
+      transform-origin: left;
+   
+      background-size: calc(100% * (var(--canvas-width, 7650) / 10)) 100%;
+      background-position: left center;
+      background-repeat: no-repeat;
+   
+      clip-path: inset(0 0 0 0);
+    }
+
+    #artwork .rotate-container::after {
+      width: 20px;
+      height: 100%;
+      right: 0;
+      top: 0;
+      transform: rotateY(-90deg);
+      transform-origin: right;
+  
+      background-size: calc(100% * (var(--canvas-width, 7650) / 10)) 100%;
+      background-position: right center;
+      background-repeat: no-repeat;
+   
+      clip-path: inset(0 0 0 0);
+    }
+
+    #artwork .rotate-container .canvas-side-top {
+      width: 100%;
+      height: 20px;
+      left: 0;
+      top: 0;
+      transform: rotateX(-90deg);
+      transform-origin: top;
+    
+      background-size: 100% calc(100% * (var(--canvas-height, 7650) / 10));
+      background-position: center top;
+      background-repeat: no-repeat;
+
+      clip-path: inset(0 0 0 0);
+    }
+
+    #artwork .rotate-container .canvas-side-bottom {
+      width: 100%;
+      height: 20px;
+      left: 0;
+      bottom: 0;
+      transform: rotateX(90deg);
+      transform-origin: bottom;
+    
+      background-size: 100% calc(100% * (var(--canvas-height, 7650) / 10));
+      background-position: center bottom;
+      background-repeat: no-repeat;
+
+      clip-path: inset(0 0 0 0);
+    }
+
+   
+    .rotate-container .canvas-side-top {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 16px;
+      transform: rotateX(90deg);
+      transform-origin: top center;
+      background-color: rgba(255, 0, 0, 0.2);
+      background-image: var(--artwork-url);
+     
+      background-position: top center;
+      background-size: 100% 200%;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .rotate-container .canvas-side-bottom {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 16px;
+      transform: rotateX(-90deg);
+      transform-origin: bottom center;
+      background-color: rgba(255, 0, 0, 0.2);
+      background-image: var(--artwork-url);
+ 
+      background-position: bottom center;
+      background-size: 100% 200%;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .rotate-container .canvas-side-left {
+      top: 0;
+      left: 0;
+      width: 16px;
+      height: 100%;
+      transform: rotateY(90deg);
+      transform-origin: left center;
+      background-color: rgba(255, 0, 0, 0.2);
+      background-image: var(--artwork-url);
+      background-position: center left;
+      background-size: 200% 100%;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .rotate-container .canvas-side-right {
+      top: 0;
+      right: 0;
+      width: 16px;
+      height: 100%;
+      transform: rotateY(-90deg);
+      transform-origin: right center;
+      background-color: rgba(255, 0, 0, 0.2);
+      background-image: var(--artwork-url);
+      background-position: center right;
+      background-size: 200% 100%;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      position: absolute;
+      z-index: 2;
+    }
+  
+    @media screen and (orientation: landscape) and (max-width: 1024px) {
+      #artwork .rotate-container img,
+      #artwork .rotate-container video {
+        max-height: 70vw !important;
+        max-width: 90vw;
+      }
+
+      #artwork .rotate-container {
+        max-height: 70vw !important;
+        max-width: 90vw;
+      }
+    }
+   
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+      .rotate-container {
+        max-height: 85vh;
+        max-width: 95vw;
+        transform: scale(0.85);
+      }
+
+      .artwork-wrapper {
+        max-width: 100%;
+        max-height: 100%;
+        margin: 0 auto;
+      }
+
+      canvas {
+        height: auto !important;
+        width: 100% !important;
+      }
+    }
+  </style>
+  <style>
+    @media screen and (max-width: 400px) {
+      #artwork .rotate-container video {
+        max-height: none !important;
+        height: auto !important;
+        width: 100% !important;
+      }
+
+      #artwork .rotate-container {
+        max-height: none !important;
+        height: auto !important;
+      }
+    }
+  </style>
+  <style>
+    @media (max-width: 768px) {
+      #modalWrapper {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .left-panel, .right-panel {
+        width: 90vw;
+        max-width: 100%;
+      }
+
+     
+      .left-panel {
+        align-items: stretch !important;
+      }
+
+      #artwork {
+        align-items: flex-start !important;
+        justify-content: center !important;
+      }
+
+      #artContainer {
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+      }
+
+     
+      .artwork-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 12px;
+        width: 100%;
+      }
+
+
+      img, video, iframe {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+        object-position: top center;
+        display: block;
+        margin: 0 auto;
+        max-height: none;
+      }
+
+      #artContainer {
+        overflow-y: auto;
+        max-height: 100vh;
+      }
+
+      #metadata {
+        max-width: 90%;
+        font-size: 0.8rem;
+      }
+
+      #buttonRow {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+      }
+
+
+      #buttonRow button,
+      .meta-action-button {
+        width: 20px !important;
+        height: 20px !important;
+        min-width: 20px !important;
+        min-height: 20px !important;
+        padding: 0 !important;
+        flex: 0 0 auto !important;
+        line-height: 20px !important;
+      }
+
+   
+      #fullscreen-btn {
+        display: none !important;
+      }
+
+      div[style*="bottom: 4px; left: 50%"] {
+        margin-bottom: 0.01rem;
+      }
+
+     
+      #artwork .rotate-container {
+        display: inline-flex;
+        max-width: 100vw;
+        max-height: 85vh;
+        width: auto !important;
+        height: auto !important;
+        margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .rotate-container .canvas-side-top,
+      .rotate-container .canvas-side-bottom {
+        height: 20px !important;
+      }
+
+      .rotate-container .canvas-side-left,
+      .rotate-container .canvas-side-right {
+        width: 10px !important;
+      }
+
+      #artwork .rotate-container img,
+      #artwork .rotate-container video {
+        width: auto !important;
+        max-width: 100%;
+        height: auto;
+        max-height: 85vh;
+      }
+    
+    }
+
+    body {
+      overflow-y: auto;
+    }
+    @media (pointer: coarse) {
+      .bg-toggle-button,
+      #footerButtons {
+        display: none !important;
+      }
+    }
+    html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+</style>
+<style>
+html, body {
+  overflow-x: hidden;
+}
+
+@media only screen and (orientation: landscape) and (max-width: 820px) {
+  .background-button {
+    display: none !important;
+  }
+
+  #modal-container {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  #modal-container canvas,
+  #modal-container video,
+  #modal-container img {
+    max-width: 100vw;
+    height: auto;
+  }
+}
+
+@media only screen and (max-width: 820px), (pointer: coarse) {
+  .background-button {
+    display: none !important;
+  }
+}
+  </style>
+  <style>
+    .metadata-line {
+      margin-top: 0;
+      margin-bottom: 0.2rem;
+      font-size: 0.9rem;
+      color: #aaa !important;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body class="bg-grid">
+  <div id="bgSelector">
+    <a href="/index.html" id="homeBtn">⌂</a>
+  </div>
+  <style>
+    #bgSelector {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 3000;
+      display: flex;
+      gap: 6px;
+    }
+    #homeBtn {
+      width: 18px;
+      height: 18px;
+      border: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      line-height: 1;
+      text-decoration: none;
+      color: #ffffff;
+      cursor: pointer;
+      user-select: none;
+    }
+    @media (max-width: 768px) {
+      #bgSelector {
+        display: none !important;
+      }
+    }
+  </style>
+  <div id="artContainer" style="position:relative;">
+    <div id="loading-message" style="
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      z-index: 2000;
+      pointer-events: none;
+    ">
+      Loading...<br>Please wait a moment
+    </div>
+    <div id="modalWrapper">
+      <div class="right-panel">
+        <div class="artwork-header">
+          <div id="title"></div>
+          <button id="closeBtn">×</button>
+        </div>
+        <div id="metadata"></div>
+      </div>
+      <div class="left-panel">
+        <div id="artwork"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+ 
+    let zoomLevel = 1;
+
+    let pinchZoomLevel = 1;
+    let initialPinchDistance = null;
+
+    // Chain-view toggle state for ⛓ button
+    let isChainView = false;
+    // Raw HTML view state for ⌸ button
+    let isRawHtmlView = false;
+    // Frame preview view state (AI framed scenes)
+    let isFrameView = false;
+    // Unified view stack (seamless transitions)
+    const viewStack = [];
+
+    // Stack helpers for seamless transitions
+    function pushView() {
+      const artworkEl = document.getElementById('artwork');
+      if (!artworkEl) return;
+      viewStack.push(artworkEl.innerHTML);
+    }
+
+    function popView() {
+      const artworkEl = document.getElementById('artwork');
+      if (!artworkEl) return;
+      if (viewStack.length === 0) return;
+      artworkEl.innerHTML = viewStack.pop();
+      setTimeout(rebind3DInteraction, 0);
+    }
+    // Reference to the active chain iframe (for zoom handling)
+    let chainIframe = null;
+    let chainZoomLevel = 1;
+    // --- UI state normalization helper ---
+    function normalizeUIStateOnLoad() {
+      // Remove any stale overlays (e.g., after bfcache restore)
+      document.getElementById('rawHtmlOverlay')?.remove();
+
+      // Ensure body interaction is not poisoned
+      document.body.style.pointerEvents = '';
+      document.body.style.overflow = '';
+
+      // Reset view flags to a known good state
+      isChainView = false;
+      isFrameView = false;
+      isRawHtmlView = false;
+
+      chainIframe = null;
+      chainZoomLevel = 1;
+
+      // Ensure artwork container uses default centering
+      const artworkEl = document.getElementById('artwork');
+      if (artworkEl) artworkEl.style.alignItems = 'center';
+
+      // Create/ensure a focus anchor so the first click is treated as a clean user gesture
+      let anchor = document.getElementById('uiFocusAnchor');
+      if (!anchor) {
+        anchor = document.createElement('button');
+        anchor.id = 'uiFocusAnchor';
+        anchor.type = 'button';
+        anchor.tabIndex = -1;
+        anchor.setAttribute('aria-hidden', 'true');
+        anchor.style.position = 'fixed';
+        anchor.style.left = '-9999px';
+        anchor.style.top = '0';
+        anchor.style.width = '1px';
+        anchor.style.height = '1px';
+        anchor.style.opacity = '0';
+        document.body.appendChild(anchor);
+      }
+
+      // Focus after paint
+      requestAnimationFrame(() => {
+        try { anchor.focus(); } catch {}
+      });
+    }
+
+    // Restore 3D interaction after replacing innerHTML
+    function rebind3DInteraction() {
+      const container = document.querySelector('#artwork .interactive-3d');
+      const rotator = container?.querySelector('.rotate-container');
+      if (!container || !rotator) return;
+
+      let isDragging = false;
+      let startX, startY;
+      let currentX = 0, currentY = 0;
+      let animationFrameId = null;
+
+      rotator.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        container.classList.add('grabbing');
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        currentX += dx * 0.3;
+        currentY -= dy * 0.3;
+        startX = e.clientX;
+        startY = e.clientY;
+
+        if (!animationFrameId) {
+          animationFrameId = requestAnimationFrame(() => {
+            rotator.style.transform =
+              `scale(0.9) rotateY(${currentX}deg) rotateX(${currentY}deg)`;
+            animationFrameId = null;
+          });
+        }
+      });
+
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+        container.classList.remove('grabbing');
+      });
+    }
+ function getInscriptionId() {
+  const urlParams = new URLSearchParams(window.location.search);
+  let id = urlParams.get('id');
+  if (!id) {
+    const parts = window.location.pathname.split('/');
+    if (parts.length > 1 && parts[1].length > 10) {
+      id = parts[1];
+    }
+  }
+  return id;
+}
+
+  
+    function createMetaRow(label, value) {
+      const div = document.createElement('div');
+      div.style.display = 'flex';
+      div.style.flexDirection = 'column';
+      div.style.marginBottom = '4px';
+
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = label + ':';
+      labelSpan.style.fontWeight = 'bold';
+      labelSpan.classList.add('meta-label');
+
+      const valueSpan = document.createElement('span');
+      valueSpan.textContent = value || '-';
+      valueSpan.style.wordBreak = 'break-all';
+      valueSpan.style.fontSize = '0.9rem';
+      valueSpan.style.lineHeight = '1.2';
+      valueSpan.classList.add('meta-value');
+
+      div.appendChild(labelSpan);
+      div.appendChild(valueSpan);
+      return div;
+    }
+
+   
+    document.getElementById('closeBtn').onclick = () => {
+   
+      window.location.href = 'index.html';
+    };
+
+     
+      let currentDownloadURL = null;
+     
+      let currentAssetDownloadURL = null;
+
+    async function findCollectionAndRender(id) {
+  
+      console.log("Fetching provenance...");
+      console.log("Resolved ID from URL:", id);
+      const artworkEl = document.getElementById('artwork');
+      const metadataEl = document.getElementById('metadata');
+      artworkEl.innerHTML = '';
+      metadataEl.innerHTML = '';
+
+      if (!id) {
+        artworkEl.innerHTML = `<p style="color:#e8dcb4;text-align:center;">No inscription ID provided.</p>`;
+        // Normalize UI state even if no ID
+        normalizeUIStateOnLoad();
+        return;
+      }
+
+    
+      let foundMatch = null;
+      let foundPath = null;
+      try {
+        const res = await fetch('https://cdn.lemonhaze.com/assets/assets/provenance.json');
+        const allArtworks = await res.json();
+        console.log("Loaded provenance entries:", allArtworks.length);
+        console.log("Sample IDs:", allArtworks.slice(0, 3).map(a => a.id));
+        console.log("Looking for ID match...");
+        const match = allArtworks.find(entry => entry.id === id);
+        if (match) {
+          foundMatch = match;
+          foundPath = 'GUMBU/assets';
+        }
+      } catch (e) {
+   
+      }
+
+      if (!foundMatch) {
+        console.error("❌ Artwork not found:", id);
+        artworkEl.innerHTML = `
+          <div style="padding: 2em; color: red;">
+            ❌ Artwork not found in provenance.json<br>ID: <code>${id}</code>
+          </div>`;
+        document.getElementById('loading-message')?.remove();
+        normalizeUIStateOnLoad();
+        return;
+      }
+
+ 
+      const basePath = `/GUMBU/assets/${id}`;
+      const pngPath = `${basePath}.png`;
+      const mp4Path = `${basePath}.mp4`;
+
+
+      const baseR2 = "https://cdn.lemonhaze.com/assets/assets";
+      function probeImage(inscriptionId, inscriptionData) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => {
+            resolve({width: img.naturalWidth, height: img.naturalHeight, type: 'image/png', element: img});
+          };
+          img.onerror = () => reject();
+          const ext = inscriptionData.ext || "png";
+          img.src = `${baseR2}/${inscriptionId}.${ext}`;
+        });
+      }
+
+
+      function probeVideo(inscriptionId, inscriptionData) {
+        return new Promise((resolve, reject) => {
+          const video = document.createElement("video");
+          video.preload = "metadata";
+          video.onloadedmetadata = () => {
+            resolve({width: video.videoWidth, height: video.videoHeight, type: 'video/mp4', element: video});
+          };
+          video.onerror = () => reject();
+          const ext = inscriptionData.ext || "mp4";
+          video.src = `${baseR2}/${inscriptionId}.${ext}`;
+        });
+      }
+
+
+      let mediaInfo = null;
+      try {
+        mediaInfo = await probeImage(id, foundMatch);
+      } catch {
+        try {
+          mediaInfo = await probeVideo(id, foundMatch);
+        } catch {
+          const iframe = document.createElement('iframe');
+          iframe.src = `https://ordinals.com/content/${id}`;
+          iframe.allowFullscreen = true;
+          iframe.frameBorder = 0;
+          iframe.style.width = '100%';
+          iframe.style.height = '90vh';
+          artworkEl.appendChild(iframe);
+          currentDownloadURL = null;
+          document.getElementById('loading-message')?.remove();
+          renderMetadataAndButtons(null, foundMatch, id, foundPath);
+          // Normalize UI state after fallback iframe render
+          normalizeUIStateOnLoad();
+          return;
+        }
+      }
+
+
+      if (mediaInfo && mediaInfo.width && mediaInfo.height) {
+        const ratio = mediaInfo.width / mediaInfo.height;
+        const leftPanel = document.querySelector('.left-panel');
+        if (ratio > 1.4) {
+          leftPanel.classList.add('pad-top');
+        } else {
+          leftPanel.classList.remove('pad-top');
+        }
+      }
+
+
+      if (mediaInfo.type === 'image/png' || mediaInfo.type === 'text/html') {
+ 
+        const container = document.createElement('div');
+        container.className = 'interactive-3d';
+
+        const rotator = document.createElement('div');
+        rotator.className = 'rotate-container';
+
+        let img;
+        if (mediaInfo.type === 'image/png') {
+          img = mediaInfo.element;
+          img.alt = id;
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = '85vh';
+          img.style.objectFit = 'contain';
+          img.style.width = '100%';
+          img.style.height = 'auto';
+        
+          if (foundMatch.pixel === true && img.tagName === 'IMG') {
+            img.classList.add('pixelated');
+            img.style.imageRendering = 'pixelated';
+          } else {
+            img.classList.remove('pixelated');
+            img.style.imageRendering = 'auto';
+          }
+       
+          if (mediaInfo.width <= 100 || mediaInfo.height <= 100) {
+            img.style.width = "min(90vw, 400px)";
+            img.style.height = "auto";
+            img.style.imageRendering = 'pixelated';
+          }
+        
+          const ext = foundMatch.ext || "png";
+          img.src = `${baseR2}/${id}.${ext}`;
+          rotator.appendChild(img);
+ 
+          rotator.style.setProperty('--artwork-url', `url(${img.src})`);
+         
+          currentDownloadURL = img.src;
+          currentAssetDownloadURL = img.src;
+        }
+      
+        rotator.style.transform = 'scale(0.99)';
+
+        const topEdge = document.createElement('div');
+        topEdge.className = 'canvas-side-top';
+        const bottomEdge = document.createElement('div');
+        bottomEdge.className = 'canvas-side-bottom';
+        rotator.appendChild(topEdge);
+        rotator.appendChild(bottomEdge);
+
+        const backFace = document.createElement('div');
+        backFace.className = 'canvas-back-face';
+        backFace.style.display = 'flex';
+        backFace.style.alignItems = 'center';
+        backFace.style.justifyContent = 'center';
+        backFace.style.flexDirection = 'column';
+        backFace.style.padding = '0';
+        backFace.style.overflow = 'auto';
+
+        const artworkBack = document.createElement('div');
+        artworkBack.id = 'artwork-back';
+        artworkBack.className = 'artwork-face back';
+        artworkBack.style.position = 'absolute';
+        artworkBack.style.top = '0';
+        artworkBack.style.left = '0';
+        artworkBack.style.width = '100%';
+        artworkBack.style.height = '100%';
+        artworkBack.style.display = 'flex';
+        artworkBack.style.alignItems = 'center';
+        artworkBack.style.justifyContent = 'center';
+        artworkBack.style.transform = 'rotateY(180deg)';
+        artworkBack.style.backfaceVisibility = 'hidden';
+        artworkBack.style.zIndex = '2';
+        artworkBack.style.pointerEvents = 'none';
+
+        const htmlContentDiv = document.createElement('div');
+        htmlContentDiv.id = 'htmlContent';
+        htmlContentDiv.style.padding = '40px';
+        htmlContentDiv.style.fontFamily = "'JetBrains Mono', monospace";
+        htmlContentDiv.style.fontSize = '0.75rem';
+        htmlContentDiv.style.whiteSpace = 'pre-wrap';
+        htmlContentDiv.style.lineHeight = '1.4';
+        htmlContentDiv.style.color = '#e8dcb4';
+        htmlContentDiv.textContent = 'Loading…';
+        artworkBack.appendChild(htmlContentDiv);
+       
+        backFace.appendChild(artworkBack);
+        rotator.appendChild(backFace);
+   
+        const customBackface = foundMatch.bg || null;
+        if (customBackface) {
+          rotator.style.setProperty('--backface-bg', `url('${customBackface}') center center / cover no-repeat, #e8dcb4`);
+        }
+        container.appendChild(rotator);
+        artworkEl.appendChild(container);
+
+        let isDragging = false;
+        let startX, startY;
+        let currentX = 0, currentY = 0;
+
+        rotator.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          isDragging = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          container.classList.add('grabbing');
+        });
+
+
+        let animationFrameId = null;
+
+        document.addEventListener('mousemove', (e) => {
+          if (!isDragging) return;
+          const dx = e.clientX - startX;
+          const dy = e.clientY - startY;
+          currentX += dx * 0.3;
+          currentY -= dy * 0.3;
+          startX = e.clientX;
+          startY = e.clientY;
+
+          if (!animationFrameId) {
+            animationFrameId = requestAnimationFrame(() => {
+        
+              rotator.style.transform = `scale(0.9) rotateY(${currentX}deg) rotateX(${currentY}deg)`;
+              animationFrameId = null;
+            });
+          }
+        });
+
+        document.addEventListener('mouseup', () => {
+          isDragging = false;
+          container.classList.remove('grabbing');
+        });
+
+        let fileType = '';
+        let collection = '';
+        if (foundPath && foundPath.includes('2025/Generative')) {
+          fileType = 'html';
+       
+          const matchCol = foundPath.match(/2025\/Generative\/([^/]+)/);
+          if (matchCol) collection = matchCol[1];
+        }
+        if (fileType === 'html' && collection) {
+
+          const htmlPath = `/2025/Generative/${collection}/${id}.html`;
+          fetch(htmlPath)
+            .then(res => res.text())
+            .then(text => {
+              console.log("Fetched HTML:", text.substring(0, 500));
+
+              const beforeHtml = text.split(/<html/i)[0];
+              const comments = [...beforeHtml.matchAll(/<!--([\s\S]*?)-->/g)];
+
+              const result = comments.length
+                ? comments.map(c => c[1].trim()).join('\n\n')
+                : text; 
+
+              document.getElementById('htmlContent').textContent = result;
+            })
+            .catch((err) => {
+              console.error("Error fetching HTML:", err);
+              document.getElementById('htmlContent').textContent = 'Error loading muted header.';
+            });
+        }
+      } else if (mediaInfo.type === 'video/mp4') {
+
+        if (typeof window.createCanvas === 'function' && typeof window.createVideo === 'function') {
+  
+          const container = document.createElement('div');
+          container.className = 'interactive-3d';
+
+    
+          const sketch = (p) => {
+            let vid;
+            let canvasWidth = Math.min(mediaInfo.width, 900);
+            let canvasHeight = Math.min(mediaInfo.height, 720);
+            p.setup = function() {
+              p.createCanvas(canvasWidth, canvasHeight, p.WEBGL).parent(container);
+              const baseR2 = "https://cdn.lemonhaze.com/assets/assets";
+              const ext = foundMatch.ext || "mp4";
+              vid = p.createVideo(`${baseR2}/${id}.${ext}`);
+              vid.hide();
+              vid.loop();
+              vid.volume(0);
+            };
+            p.draw = function() {
+              p.background(0);
+              p.noStroke();
+              p.textureMode(p.NORMAL);
+              p.push();
+       
+              let rotY = p.map(p.mouseX, 0, p.width, -Math.PI/8, Math.PI/8);
+              let rotX = p.map(p.mouseY, 0, p.height, -Math.PI/10, Math.PI/10);
+              p.rotateY(rotY);
+              p.rotateX(rotX);
+              p.beginShape();
+              p.texture(vid);
+              p.vertex(-canvasWidth/2, -canvasHeight/2, 0, 0, 0);
+              p.vertex( canvasWidth/2, -canvasHeight/2, 0, 1, 0);
+              p.vertex( canvasWidth/2,  canvasHeight/2, 0, 1, 1);
+              p.vertex(-canvasWidth/2,  canvasHeight/2, 0, 0, 1);
+              p.endShape(p.CLOSE);
+              p.pop();
+            
+            };
+          };
+     
+          new p5(sketch);
+          artworkEl.appendChild(container);
+        } else {
+
+          const container = document.createElement('div');
+          container.className = 'interactive-3d';
+
+          const rotator = document.createElement('div');
+          rotator.className = 'rotate-container';
+
+      
+          const ext = foundMatch.ext || "mp4";
+          const video = document.createElement("video");
+          video.src = `${baseR2}/${id}.${ext}`;
+          video.preload = "metadata";
+
+          video.controls = false;
+          video.setAttribute("controls", "false");
+          video.setAttribute("autoplay", "");
+          video.setAttribute("muted", "");
+          video.setAttribute("loop", "");
+          video.setAttribute("playsinline", "");
+          video.removeAttribute("controls");
+          video.muted = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.autoplay = true;
+          video.style.width = '100%';
+          video.style.height = 'auto';
+          video.style.objectFit = 'contain';
+          video.style.maxHeight = '85vh';
+          video.style.background = 'black';
+          video.style.pointerEvents = 'none';
+          video.style.userSelect = 'none';
+          video.setAttribute("tabindex", "-1");
+          video.setAttribute("disablePictureInPicture", "");
+          video.setAttribute("controlsList", "nodownload nofullscreen noremoteplayback");
+          rotator.appendChild(video);
+
+          rotator.style.setProperty('--artwork-url', `url('${video.src}')`);
+    
+          currentDownloadURL = video.src;
+          currentAssetDownloadURL = video.src;
+          rotator.style.transform = 'scale(0.99)';
+         
+          ['top', 'bottom', 'left', 'right'].forEach(side => {
+            const div = document.createElement('div');
+            div.className = `canvas-side-${side}`;
+            rotator.appendChild(div);
+          });
+
+        
+          const backFace = document.createElement('div');
+          backFace.className = 'canvas-back-face';
+          backFace.style.display = 'flex';
+          backFace.style.alignItems = 'center';
+          backFace.style.justifyContent = 'center';
+          backFace.style.flexDirection = 'column';
+          backFace.style.padding = '0';
+          backFace.style.overflow = 'auto';
+
+       
+          const artworkBack = document.createElement('div');
+          artworkBack.id = 'artwork-back';
+          artworkBack.className = 'artwork-face back';
+          artworkBack.style.position = 'absolute';
+          artworkBack.style.top = '0';
+          artworkBack.style.left = '0';
+          artworkBack.style.width = '100%';
+          artworkBack.style.height = '100%';
+          artworkBack.style.display = 'flex';
+          artworkBack.style.alignItems = 'center';
+          artworkBack.style.justifyContent = 'center';
+          artworkBack.style.transform = 'rotateY(180deg)';
+          artworkBack.style.backfaceVisibility = 'hidden';
+          artworkBack.style.zIndex = '2';
+          artworkBack.style.pointerEvents = 'none';
+
+        
+          const htmlContentDiv = document.createElement('div');
+          htmlContentDiv.id = 'htmlContent';
+          htmlContentDiv.style.padding = '40px';
+          htmlContentDiv.style.fontFamily = "'JetBrains Mono', monospace";
+          htmlContentDiv.style.fontSize = '0.75rem';
+          htmlContentDiv.style.whiteSpace = 'pre-wrap';
+          htmlContentDiv.style.lineHeight = '1.4';
+          htmlContentDiv.style.color = '#e8dcb4';
+          htmlContentDiv.textContent = 'Back of the video piece';
+
+          artworkBack.appendChild(htmlContentDiv);
+          backFace.appendChild(artworkBack);
+          rotator.appendChild(backFace);
+
+      
+          rotator.style.setProperty('--backface-bg', `url('/parchment-texture.png') center center / cover no-repeat, #e8dcb4`);
+
+          container.appendChild(rotator);
+          artworkEl.appendChild(container);
+
+        
+          let isDragging = false;
+          let startX, startY;
+          let currentX = 0, currentY = 0;
+          let animationFrameId = null;
+
+          rotator.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            container.classList.add('grabbing');
+          });
+
+          document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            currentX += dx * 0.3;
+            currentY -= dy * 0.3;
+            startX = e.clientX;
+            startY = e.clientY;
+
+            if (!animationFrameId) {
+              animationFrameId = requestAnimationFrame(() => {
+                rotator.style.transform = `scale(0.9) rotateY(${currentX}deg) rotateX(${currentY}deg)`;
+                animationFrameId = null;
+              });
+            }
+          });
+
+          document.addEventListener('mouseup', () => {
+            isDragging = false;
+            container.classList.remove('grabbing');
+          });
+        }
+    
+      }
+
+
+      document.getElementById('loading-message')?.remove();
+      renderMetadataAndButtons(mediaInfo, foundMatch, id, foundPath);
+      // Normalize UI state after main render
+      normalizeUIStateOnLoad();
+    }
+
+    function renderMetadataAndButtons(mediaInfo, match, id, path) {
+
+      const metadataEl = document.getElementById('metadata');
+      metadataEl.innerHTML = '';
+
+      // Detect "Best Before" collection OR specific inscription IDs
+      const GRID_ONCHAIN_IDS = new Set([
+        "27d6da8779b0cbc1ca5fb565ec57a4168c137a99fde572f1f22cf6673f6fc524i0",
+        "c850f4853a469ed0758309006b861e3f6bac830126d25695b744d019fcb903b6i0",
+        "054eb44d57f5bd34a9153c5a605e32710fbc36912945db0fc91693526e7c9201i0",
+        "f93a9e3655a0d9531871248b9a3e6b78c1aaee24c76265247a3172b16bdbc15di0",
+        "0c0ba94df1720c8ed40afbc38f97f806e758de9234f99cbaa060bafd22231efbi0",
+        "0fc76657166d0dfab82ff8d5f97a3c785d817055c3a989b8b8b4fcdb0effbee7i0",
+        "5ae16faba93684887efc960f26d865265b2669e389fd6552e3399f74fa61042bi0",
+        "3ab2302560a09b30e35b9311bff5554e4d0f055a2ca3eb7dd969f868281b29f9i0",
+        "05c2bd3924695dde46d417cdbe30aad5980cefdbf587e2d7a1f93b017a9284abi0",
+        "0b1c283e4fe2637a881639a2a715348c56759840f06f7e1142652da60a4a2d4ei0",
+      ]);
+
+      const isBestBefore =
+        (typeof match?.collection === 'string' &&
+          match.collection.toLowerCase().includes('best before')) ||
+        GRID_ONCHAIN_IDS.has(id);
+
+    
+      const titleHeader = document.getElementById('title');
+      if (titleHeader) {
+        titleHeader.innerHTML = '';
+    
+        const link = document.createElement('a');
+        link.href = `https://ordinals.com/${id}`;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = match.name || 'Untitled';
+        link.style.textDecoration = 'none';
+        link.style.color = 'inherit';
+        titleHeader.appendChild(link);
+        titleHeader.style.fontSize = '1.2rem';
+        titleHeader.style.fontWeight = 'bold';
+        titleHeader.style.marginBottom = '0';
+        titleHeader.style.color = '#ffffff';
+      }
+
+  const orderedKeys = [
+    ['Collection', 'collection'],
+    ['Provenance', 'provenance'],
+    ['Timestamp', 'timestamp'],
+    ['Artwork Type', 'artwork_type'],
+    ['Artwork Dimensions', 'dimensions'],
+    ['Artwork Size', 'size'],
+    ['Content Type', 'content_type'],
+    ['Content Size', 'content_size'],
+    ['Sat inscribed', 'sat'],
+    ['Block Height', 'height']
+  ];
+
+      const rendered = new Set();
+
+      orderedKeys.forEach(([label, key]) => {
+        const value = match[key];
+        if (key === 'sat') {
+          let satValue = match[key];
+          if (match.charms && typeof match.charms === 'string' && match.charms.trim() !== '') {
+            satValue += ` - ${match.charms}`;
+          }
+          metadataEl.appendChild(createMetaRow(label, satValue));
+          rendered.add(key);
+        } else if (key === 'content_size' && typeof value === 'string' && value.match(/^\d+/)) {
+          const bytes = parseInt(value.match(/^\d+/)[0], 10);
+          const kb = (bytes / 1024).toFixed(1) + ' KB';
+          metadataEl.appendChild(createMetaRow(label, kb));
+          rendered.add(key);
+        } else if (key === 'content_type' && typeof value === 'string' && value.startsWith('text/html')) {
+          metadataEl.appendChild(createMetaRow(label, 'HTML'));
+          rendered.add(key);
+        } else if (value !== undefined && value !== null && value !== '') {
+          if (key === 'collection') {
+            // Render collection as a link to its collection page, but use JS navigation and avoid new tab/modal-over-modal
+            const div = document.createElement('div');
+            div.style.display = 'flex';
+            div.style.flexDirection = 'column';
+            div.style.marginBottom = '4px';
+            const labelSpan = document.createElement('span');
+            labelSpan.textContent = label + ':';
+            labelSpan.style.fontWeight = 'bold';
+            labelSpan.classList.add('meta-label');
+            div.appendChild(labelSpan);
+            // Link for collection name
+            const link = document.createElement('a');
+            link.id = 'collectionName';
+            // Remove target="_blank" and direct href navigation
+            link.style.textDecoration = 'none';
+            link.style.color = 'inherit';
+            link.textContent = value;
+            link.href = "#"; // prevent default navigation
+            link.classList.add('meta-value');
+            link.addEventListener('click', function(e) {
+              e.preventDefault();
+              // If we are inside a modal-like container, just navigate in the same window
+              // (This page is modal.html, so always navigate in same window)
+              window.location.href = `collection.html?name=${encodeURIComponent(value)}`;
+            });
+            div.appendChild(link);
+            metadataEl.appendChild(div);
+            rendered.add(key);
+          } else if (key === 'provenance') {
+            const div = document.createElement('div');
+            div.className = 'meta-row';
+            div.style.display = 'flex';
+            div.style.flexDirection = 'column';
+            div.style.marginBottom = '4px';
+
+            // Provenance label
+            const labelDiv = document.createElement('div');
+            labelDiv.className = 'meta-label';
+            labelDiv.textContent = label + ':';
+            labelDiv.style.fontWeight = 'bold';
+            div.appendChild(labelDiv);
+
+            // Provenance display logic
+            if (value === "Pre-Parent-Child Era") {
+              // Insert the note directly after the Provenance label, as a metadata-line paragraph
+              const para = document.createElement('p');
+              para.textContent = "Pre-Parent-Child Era";
+              para.className = 'metadata-line';
+              div.appendChild(para);
+            } else {
+              const valueDiv = document.createElement('div');
+              valueDiv.className = 'meta-value';
+              const provenanceContainer = document.createElement('div');
+              provenanceContainer.className = 'provenance-visuals';
+              provenanceContainer.style = "display: flex; flex-direction: row; gap: 6px; margin-top: 0.5rem;";
+              provenanceContainer.innerHTML = '';
+              if (value && value !== "LATER") {
+                const ids = value.split(",").map(p => p.trim());
+                ids.forEach(id => {
+                  const link = document.createElement("a");
+                  link.href = `?id=${id}`;
+                  link.style.display = "inline-block";
+                  link.target = "_self";
+
+                  const img = document.createElement("img");
+                  img.src = `https://cdn.lemonhaze.com/assets/assets/${id}.png`;
+                  img.alt = "provenance";
+                  img.style.width = "24px";
+                  img.style.height = "24px";
+                  img.style.objectFit = "cover";
+                  img.style.borderRadius = "4px";
+                  img.style.boxShadow = "0 0 4px rgba(0, 0, 0, 0.7)";
+                  img.style.transition = "transform 0.2s ease, box-shadow 0.2s ease";
+                  img.style.cursor = "pointer";
+                  img.onmouseenter = () => {
+                    img.style.transform = "scale(1.1)";
+                    img.style.boxShadow = "0 0 8px rgba(0, 0, 0, 0.9)";
+                  };
+                  img.onmouseleave = () => {
+                    img.style.transform = "scale(1)";
+                    img.style.boxShadow = "0 0 4px rgba(0, 0, 0, 0.7)";
+                  };
+                  img.onerror = () => link.remove();
+                  link.appendChild(img);
+                  provenanceContainer.appendChild(link);
+                });
+              }
+              valueDiv.appendChild(provenanceContainer);
+              div.appendChild(valueDiv);
+            }
+            metadataEl.appendChild(div);
+            rendered.add(key);
+          } else {
+            metadataEl.appendChild(createMetaRow(label, value));
+            rendered.add(key);
+          }
+        }
+      });
+
+
+
+      const ownerRow = createMetaRow('Owner', 'Fetching...');
+      metadataEl.appendChild(ownerRow);
+      fetch(`https://api.allorigins.win/raw?url=https://ordinals.com/inscription/${id}`)
+        .then(res => res.text())
+        .then(html => {
+          const match = html.match(/<dt[^>]*>\s*address\s*<\/dt>\s*<dd[^>]*>\s*<a[^>]*>(.*?)<\/a>/i);
+          const owner = match ? match[1].trim() : '-';
+          ownerRow.querySelector('.meta-value').textContent = owner;
+        })
+        .catch(() => {
+          ownerRow.querySelector('.meta-value').textContent = 'Unavailable';
+        });
+
+
+      const buttonRow = document.createElement('div');
+      buttonRow.id = 'buttonRow';
+
+
+      const provBtn = document.createElement('button');
+      provBtn.textContent = '◉';
+      provBtn.dataset.hint = 'View on ordinals.com';
+      provBtn.onclick = () => window.open(`https://ordinals.com/inscription/${id}`, '_blank');
+
+      // --- Raw HTML Button (⌸, like chain, toggles raw source in artwork area) ---
+      const notesBtn = document.createElement('button');
+      notesBtn.textContent = '⌸';
+      notesBtn.dataset.hint = 'HTML source (Writings)';
+
+      notesBtn.onclick = async () => {
+        // Prevent double popup
+        if (document.getElementById('rawHtmlOverlay')) return;
+
+        const overlay = document.createElement('div');
+        overlay.id = 'rawHtmlOverlay';
+        overlay.style.pointerEvents = 'auto';
+
+        const popup = document.createElement('div');
+        popup.id = 'rawHtmlPopup';
+
+        popup.innerHTML = `
+          <div id="rawHtmlPopupHeader">
+            <span>ON-CHAIN HTML — RAW CONTENT SOURCE</span>
+            <button id="rawHtmlCloseBtn" aria-label="Close">×</button>
+          </div>
+          <pre id="rawHtmlViewer">Loading…</pre>
+        `;
+
+        overlay.appendChild(popup);
+        // Only disable body overflow, NOT pointerEvents
+        document.body.style.overflow = 'hidden';
+        overlay.style.pointerEvents = 'auto';
+        document.body.appendChild(overlay);
+
+        const closeBtn = popup.querySelector('#rawHtmlCloseBtn');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closePopup();
+          });
+        }
+
+        const closePopup = () => {
+          // Remove overlay
+          overlay.remove();
+
+          // Restore body interaction
+          document.body.style.overflow = '';
+
+          // HARD reset view states
+          isRawHtmlView = false;
+
+          // Remove ESC listener
+          document.removeEventListener('keydown', escHandler);
+        };
+
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) closePopup();
+        });
+
+        const escHandler = (e) => {
+          if (e.key === 'Escape') closePopup();
+        };
+        document.addEventListener('keydown', escHandler);
+
+        try {
+          const res = await fetch(`https://ordinals.com/content/${id}`);
+          const text = await res.text();
+          document.getElementById('rawHtmlViewer').textContent = text;
+        } catch {
+          document.getElementById('rawHtmlViewer').textContent =
+            'Failed to load raw HTML from ordinals.com';
+        }
+      };
+
+      const downloadBtn = document.createElement('button');
+      downloadBtn.textContent = '↓';
+      downloadBtn.id = 'download-btn';
+      downloadBtn.dataset.hint = 'Save PNG';
+
+      downloadBtn.onclick = () => {
+     
+        if (currentAssetDownloadURL) {
+          const link = document.createElement('a');
+          link.href = currentAssetDownloadURL;
+          link.download = currentAssetDownloadURL.split('/').pop();
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else if (currentDownloadURL) {
+    
+          const link = document.createElement('a');
+          link.href = currentDownloadURL;
+          link.download = currentDownloadURL.split('/').pop();
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+ 
+          let fallbackExt = 'png';
+          if (typeof match === 'object' && match.ext) fallbackExt = match.ext;
+          const fallbackUrl = `https://cdn.lemonhaze.com/assets/assets/${id}.${fallbackExt}`;
+          const link = document.createElement('a');
+          link.href = fallbackUrl;
+          link.download = `${id}.${fallbackExt}`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      };
+
+
+      const autoRotateBtn = document.createElement('button');
+      autoRotateBtn.textContent = '⟲';
+      autoRotateBtn.id = 'rotate-btn';
+      autoRotateBtn.dataset.hint = 'Auto-Rotate';
+      autoRotateBtn.onclick = () => {
+        const rotator = document.querySelector('.rotate-container');
+        if (!rotator) return;
+
+        let angleY = 0;
+        let angleX = 5;
+        let cancelRotation = false;
+        rotator.style.transition = 'none';
+        rotator.style.transform = `scale(0.9) rotateY(${angleY}deg) rotateX(${angleX}deg)`;
+
+        let startTime = null;
+        const duration = 15 * 1000;
+
+  
+        const step = (timestamp) => {
+          if (cancelRotation) return;
+          if (!startTime) startTime = timestamp;
+          const progress = timestamp - startTime;
+          angleY = progress * 0.03;
+          rotator.style.transform = `scale(0.9) rotateY(${angleY}deg) rotateX(${angleX}deg)`;
+          if (progress < duration) {
+            requestAnimationFrame(step);
+          } else {
+         
+            rotator.style.transition = 'transform 0.5s ease';
+            rotator.style.transform = `scale(0.9) rotateY(-20deg) rotateX(5deg)`;
+          }
+        };
+
+        const stopRotation = () => { cancelRotation = true; };
+
+        rotator.addEventListener('mousedown', stopRotation, { once: true });
+
+        requestAnimationFrame(step);
+      };
+
+ 
+      const fullBtn = document.createElement('button');
+      fullBtn.innerHTML = '⛶';
+      fullBtn.id = 'fullscreen-btn';
+      fullBtn.dataset.hint = 'Fullscreen';
+      fullBtn.onclick = () => {
+        const container = document.querySelector('#artwork .interactive-3d');
+        if (!container) return;
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          const bg = getComputedStyle(document.body).backgroundImage;
+          container.style.backgroundImage = bg;
+          container.style.backgroundSize = 'cover';
+          container.style.backgroundPosition = 'center';
+          container.requestFullscreen();
+        }
+      };
+      // --- Chain Button (with toggle logic) ---
+      const chainBtn = document.createElement('button');
+      chainBtn.textContent = '⛓';
+      chainBtn.dataset.hint = 'Original On-Chain Artwork';
+
+      // --- Authoritative view switching helpers ---
+      // Add setArtworkView near helpers (once)
+      if (typeof window.setArtworkView !== 'function') {
+        window.setArtworkView = function setArtworkView(htmlBuilder) {
+          const artworkEl = document.getElementById('artwork');
+          if (!artworkEl) return;
+          // Clear stack — buttons are authoritative
+          viewStack.length = 0;
+          artworkEl.innerHTML = '';
+          htmlBuilder(artworkEl);
+          setTimeout(rebind3DInteraction, 0);
+        };
+      }
+      // Store original 3D HTML for baseline restoration
+      let original3DHTML = null;
+      // Save after 3D render
+      if (!original3DHTML) {
+        const artworkEl = document.getElementById('artwork');
+        if (artworkEl) original3DHTML = artworkEl.innerHTML;
+      }
+      // Chain button — chain-only (no toggling, no label swap)
+      chainBtn.onclick = () => {
+        setArtworkView((artworkEl) => {
+          const iframe = document.createElement('iframe');
+          iframe.src = `https://ordinals.com/content/${id}`;
+          iframe.style.width = '100%';
+          iframe.style.maxWidth = '100%';
+          iframe.style.height = '90vh';
+          iframe.style.border = 'none';
+          iframe.style.display = 'block';
+          iframe.allowFullscreen = true;
+          artworkEl.appendChild(iframe);
+        });
+        isChainView = true;
+      };
+
+      buttonRow.appendChild(provBtn);
+      buttonRow.appendChild(downloadBtn);
+      buttonRow.appendChild(notesBtn);
+      buttonRow.appendChild(autoRotateBtn);
+      buttonRow.appendChild(fullBtn);
+
+      // --- 3D Button (explicit restore of showroom) ---
+      const threeDBtn = document.createElement('button');
+      threeDBtn.textContent = '3D';
+      threeDBtn.dataset.hint = '3D View';
+
+      threeDBtn.onclick = () => {
+        setArtworkView((artworkEl) => {
+          artworkEl.innerHTML = original3DHTML;
+        });
+        isChainView = false;
+      };
+
+      buttonRow.appendChild(threeDBtn);
+
+      // keep existing buttons untouched
+      buttonRow.appendChild(chainBtn);
+
+      // --- Frame preview button (AI framed scenes) ---
+      const frameBtn = document.createElement('button');
+      frameBtn.dataset.hint = 'Framed Scene';
+
+      // Icon: double nested squares (frame within frame)
+      frameBtn.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+          <rect x="2" y="2" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1"/>
+          <rect x="4" y="4" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1"/>
+        </svg>
+      `;
+
+      // Frame (AI) button — authoritative view switching
+      frameBtn.onclick = async () => {
+        // Find the first valid frame image
+        const basePath = `https://cdn.lemonhaze.com/assets/assets/FRAME${id}`;
+        const candidates = [`${basePath}.png`, `${basePath}.jpg`];
+        let aiFrameSrc = null;
+        for (const src of candidates) {
+          try {
+            await new Promise((res, rej) => {
+              const testImg = new window.Image();
+              testImg.onload = res;
+              testImg.onerror = rej;
+              testImg.src = src;
+            });
+            aiFrameSrc = src;
+            break;
+          } catch {}
+        }
+        if (!aiFrameSrc) {
+          const artworkEl = document.getElementById('artwork');
+          if (!artworkEl) return;
+
+          const msg = document.createElement('div');
+          msg.textContent = 'Coming soon';
+          msg.style.position = 'absolute';
+          msg.style.top = '50%';
+          msg.style.left = '50%';
+          msg.style.transform = 'translate(-50%, -50%)';
+          msg.style.fontSize = '0.75rem';
+          msg.style.letterSpacing = '0.15em';
+          msg.style.textTransform = 'uppercase';
+          msg.style.color = 'rgba(255,255,255,0.85)';
+          msg.style.pointerEvents = 'none';
+          msg.style.opacity = '0';
+          msg.style.transition = 'opacity 120ms ease-in-out';
+
+          artworkEl.style.position = 'relative';
+          artworkEl.appendChild(msg);
+
+          requestAnimationFrame(() => {
+            msg.style.opacity = '1';
+            setTimeout(() => {
+              msg.style.opacity = '0';
+              setTimeout(() => msg.remove(), 150);
+            }, 420);
+          });
+
+          return;
+        }
+        setArtworkView((artworkEl) => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'frame-wrapper';
+
+          const img = document.createElement('img');
+          img.src = aiFrameSrc;
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = '85vh';
+          img.style.objectFit = 'contain';
+
+          wrapper.appendChild(img);
+          artworkEl.appendChild(wrapper);
+        });
+        isFrameView = true;
+      };
+
+      buttonRow.appendChild(frameBtn);
+
+
+      const isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
+
+      if (isMobileLayout) {
+        // Insert buttons right after the title, before metadata fields
+        const firstMeta = metadataEl.querySelector('.meta-label')?.parentElement;
+        if (firstMeta) {
+          metadataEl.insertBefore(buttonRow, firstMeta);
+        } else {
+          metadataEl.appendChild(buttonRow);
+        }
+      } else {
+        // Desktop keeps original layout
+        metadataEl.appendChild(buttonRow);
+      }
+     
+      const mobileFooterDiv = document.createElement('div');
+      mobileFooterDiv.className = 'mobile-footer mobile-only-footer';
+      mobileFooterDiv.textContent = 'by Lemonhaze - All works inscribed on Bitcoin';
+      metadataEl.appendChild(mobileFooterDiv);
+
+  
+      function isMobile() {
+        return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      }
+      if (isMobile()) {
+      
+        setTimeout(() => {
+          const rotator = document.querySelector(".rotate-container");
+          if (rotator) {
+            rotator.addEventListener("click", () => {
+              const rotateBtn = document.getElementById("rotate-btn");
+              if (rotateBtn) rotateBtn.click();
+            });
+          }
+        }, 100);
+      }
+    }
+
+
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+
+        const immersiveContainer = document.querySelector('#artwork .interactive-3d');
+        if (immersiveContainer) {
+          immersiveContainer.style.backgroundImage = '';
+          immersiveContainer.style.backgroundSize = '';
+          immersiveContainer.style.backgroundPosition = '';
+        }
+      }
+    });
+
+    document.getElementById('artwork-wrapper')?.addEventListener('wheel', (e) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        zoomLevel += e.deltaY * -0.001;
+        zoomLevel = Math.min(Math.max(zoomLevel, 0.5), 4);
+        const rotator = document.querySelector('.rotate-container');
+        if (rotator) {
+          const match = rotator.style.transform.match(/rotateY\([^)]+\)|rotateX\([^)]+\)/g);
+          const extra = match ? ' ' + match.join(' ') : '';
+          rotator.style.transform = `scale(${zoomLevel})${extra}`;
+        }
+      }
+    }, { passive: false });
+
+    // --- Global wheel handler for chain view zoom ---
+    function applyChainZoom(iframe) {
+      if (!iframe) return;
+      iframe.style.transform = `scale(${chainZoomLevel})`;
+      iframe.style.transformOrigin = 'center center';
+    }
+
+    document.addEventListener('wheel', (e) => {
+      // Chain view zoom
+      if (isChainView && chainIframe && e.ctrlKey) {
+        e.preventDefault();
+        chainZoomLevel += e.deltaY * -0.001;
+        chainZoomLevel = Math.min(Math.max(chainZoomLevel, 0.5), 4);
+        applyChainZoom(chainIframe);
+        return;
+      }
+    }, { passive: false });
+
+
+    const wrapper = document.getElementById('artwork-wrapper');
+    if (wrapper) {
+      wrapper.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+          const dx = e.touches[0].clientX - e.touches[1].clientX;
+          const dy = e.touches[0].clientY - e.touches[1].clientY;
+          initialPinchDistance = Math.hypot(dx, dy);
+        }
+      }, { passive: false });
+
+      wrapper.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2 && initialPinchDistance) {
+          e.preventDefault();
+          const dx = e.touches[0].clientX - e.touches[1].clientX;
+          const dy = e.touches[0].clientY - e.touches[1].clientY;
+          const currentDistance = Math.hypot(dx, dy);
+          const scaleChange = currentDistance / initialPinchDistance;
+          pinchZoomLevel = Math.min(Math.max(pinchZoomLevel * scaleChange, 0.5), 4);
+          initialPinchDistance = currentDistance;
+          const rotator = document.querySelector('.rotate-container');
+          if (rotator) {
+        
+            const match = rotator.style.transform.match(/rotateY\([^)]+\)|rotateX\([^)]+\)/g);
+            const extra = match ? ' ' + match.join(' ') : '';
+            rotator.style.transform = `scale(${pinchZoomLevel})${extra}`;
+          }
+        }
+      }, { passive: false });
+
+      wrapper.addEventListener('touchend', () => {
+        initialPinchDistance = null;
+      });
+    }
+
+
+    (function init() {
+      // No background logic here; handled above
+      sessionStorage.setItem('originHash', window.location.hash);
+      sessionStorage.setItem('originSearch', window.location.search);
+      const inscriptionId = getInscriptionId();
+      findCollectionAndRender(inscriptionId);
+      sessionStorage.setItem('fromCollection', 'slideshow');
+      // Normalize UI state after landing
+      normalizeUIStateOnLoad();
+    })();
+  </script>
+
+  </div>
+<style>
+  .signature {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    z-index: 5;
+    position: fixed;
+    bottom: 8px;
+    right: 12px;
+  }
+</style>
+<span class="signature">LH</span>
+<div class="desktop-footer-fixed">
+  by Lemonhaze - All works inscribed on Bitcoin
+</div>
+<div class="footer-sentinel"></div>
+</body>
+<style>
+@media (max-width: 768px) {
+  .footer-sentinel {
+    width: 100%;
+    height: 1px;
+  }
+  #bgSelector {
+    display: none !important;
+  }
+}
+
+
+.mobile-footer {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  margin-top: 1.5rem;
+}
+@media (min-width: 768px) {
+  .mobile-footer {
+    display: none !important;
+  }
+}
+
+.desktop-footer-fixed {
+  position: fixed;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  z-index: 5;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .desktop-footer-fixed {
+    display: none;
+  }
+}
+</style>
+</body>
+
+</html>
+
+
+
+<style>
+@media (max-width: 768px) {
+  #closeBtn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 3000;
+  }
+
+  .left-panel {
+    position: relative;
+  }
+}
+</style>
