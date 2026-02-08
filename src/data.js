@@ -244,7 +244,7 @@ export const ORDINALS_SUPPLY_DATA = [
   { name: 'Eclosion 1/1 - Amsterdam Blooms', year: 2023, inscribed: 1, circulating: 1 },
   { name: 'Satoshi 1/1 - Counterfeit Cards S00 - C08', year: 2023, inscribed: 1, circulating: 1 },
   { name: 'Skull 506 [Remix] 1/1 - Skullx', year: 2025, inscribed: 1, circulating: 1 },
-  { name: '1 of 1s (2026)', year: 2026, inscribed: 3, circulating: 3 },
+  { name: '1 of 1s (2026)', year: 2026, inscribed: 7, circulating: 7 },
 ];
 
 export const ETH_SUPPLY_DATA = [
