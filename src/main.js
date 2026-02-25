@@ -1,16 +1,6 @@
 // --- Provenance modal navigation helper ---
-window.__openProvenance = function (pid) {
-    const target = allArtworks.find(a => a.id === pid);
-    if (!target) return;
-
-    let ext = 'png';
-    if (target.artwork_type === 'JPEG') ext = 'jpg';
-    else if (target.artwork_type === 'WEBP') ext = 'webp';
-
-    const imgSrc = `https://cdn.lemonhaze.com/assets/assets/${target.id}.${ext}`;
-    const isHtml = target.content_type?.includes('html');
-
-    openMetacard(target, imgSrc, isHtml);
+window.__openProvenance = function (pid, options = {}) {
+    openArtworkById(pid, options);
 };
 
 import './style.css';
@@ -21,6 +11,55 @@ let allArtworks = [];
 let currentFilter = 'Home'; // Landing on Home
 let isMobileMenuOpen = false;
 let homeInterval = null;
+let activeSectionKey = null;
+let activeArtworkId = null;
+let activeCollectorAddress = null;
+let isApplyingUrlState = false;
+
+const INTERNAL_SECTIONS = {
+    about: {
+        label: 'About',
+        title: 'About Lemonhaze',
+        content: () => ABOUT_LEMONHAZE_TEXT
+    },
+    highlights: {
+        label: 'Career Highlights',
+        title: 'Career Highlights',
+        content: () => renderCareerList()
+    },
+    supply: {
+        label: 'Supply & Marketplace',
+        title: 'Supply & Marketplace',
+        content: () => renderSupplyModalContent()
+    },
+    media: {
+        label: 'Media & Press',
+        title: 'Media & Press',
+        content: () => renderMediaModalContent()
+    },
+    collectors: {
+        label: 'Collectors',
+        title: 'Collector Lookup',
+        content: () => renderCollectorModalContent()
+    }
+};
+
+const ROUTE_KEYS = {
+    collection: 'c',
+    section: 's',
+    artwork: 'a',
+    collector: 'u'
+};
+
+const LEGACY_ROUTE_KEYS = {
+    collection: 'collection',
+    section: 'section',
+    artwork: 'id',
+    collector: 'collector'
+};
+
+let collectionNameToSlug = new Map();
+let collectionSlugToName = new Map();
 
 // DOM Elements (fetched on demand or in init)
 let sidebar, collectionsNav, contentArea, galleryGrid, currentViewTitle, currentViewMeta, loadingIndicator, menuToggle;
@@ -69,6 +108,329 @@ function refreshElements() {
     testerStatusText = document.getElementById('tester-status-text');
 }
 
+function normalizeSectionKey(value) {
+    if (!value) return null;
+    const key = String(value).trim().toLowerCase();
+    return INTERNAL_SECTIONS[key] ? key : null;
+}
+
+function slugifyCollectionName(name) {
+    return String(name)
+        .toLowerCase()
+        .trim()
+        .replace(/&/g, ' and ')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+}
+
+function rebuildCollectionSlugs() {
+    collectionNameToSlug = new Map();
+    collectionSlugToName = new Map();
+
+    const orderedNames = [];
+    const seenNames = new Set();
+    const addName = (name) => {
+        if (!name) return;
+        const normalized = String(name).trim();
+        if (!normalized || normalized.toLowerCase() === 'home' || seenNames.has(normalized)) return;
+        seenNames.add(normalized);
+        orderedNames.push(normalized);
+    };
+
+    Object.values(CHRONOLOGY_BY_YEAR).flat().forEach(addName);
+    allArtworks.forEach(item => addName(item.collection));
+
+    orderedNames.forEach((name) => {
+        const baseSlug = slugifyCollectionName(name);
+        if (!baseSlug) return;
+
+        let slug = baseSlug;
+        let suffix = 2;
+        while (collectionSlugToName.has(slug) && collectionSlugToName.get(slug) !== name) {
+            slug = `${baseSlug}-${suffix}`;
+            suffix += 1;
+        }
+
+        collectionNameToSlug.set(name, slug);
+        collectionSlugToName.set(slug, name);
+    });
+}
+
+function getArtworkImageSrc(item) {
+    let ext = 'png';
+    if (item.artwork_type === 'JPEG') ext = 'jpg';
+    else if (item.artwork_type === 'WEBP') ext = 'webp';
+    return `https://cdn.lemonhaze.com/assets/assets/${item.id}.${ext}`;
+}
+
+function resolveCollectionName(name) {
+    if (!name) return null;
+
+    const rawName = String(name).trim();
+    if (!rawName) return null;
+    if (rawName.toLowerCase() === 'home') return 'Home';
+
+    const chronologyCollections = Object.values(CHRONOLOGY_BY_YEAR).flat();
+    const chronologyMatch = chronologyCollections.find(col => col.toLowerCase() === rawName.toLowerCase());
+    if (chronologyMatch) return chronologyMatch;
+
+    const artworkMatch = allArtworks.find(item => (item.collection || '').toLowerCase() === rawName.toLowerCase());
+    if (artworkMatch?.collection) return artworkMatch.collection;
+
+    return rawName;
+}
+
+function resolveCollectionParam(value) {
+    if (!value) return null;
+
+    const rawValue = String(value).trim();
+    if (!rawValue) return null;
+
+    const slugMatch = collectionSlugToName.get(rawValue.toLowerCase());
+    if (slugMatch) return slugMatch;
+
+    return resolveCollectionName(rawValue);
+}
+
+function toCollectionSlug(collectionName) {
+    const resolved = resolveCollectionName(collectionName);
+    if (!resolved || resolved === 'Home') return null;
+    return collectionNameToSlug.get(resolved) || slugifyCollectionName(resolved);
+}
+
+function getRouteStateFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+
+    const rawCollection = params.get(ROUTE_KEYS.collection) ?? params.get(LEGACY_ROUTE_KEYS.collection);
+    const rawSection = params.get(ROUTE_KEYS.section) ?? params.get(LEGACY_ROUTE_KEYS.section);
+    const rawArtwork = params.get(ROUTE_KEYS.artwork) ?? params.get(LEGACY_ROUTE_KEYS.artwork);
+    const rawCollector = params.get(ROUTE_KEYS.collector) ?? params.get(LEGACY_ROUTE_KEYS.collector);
+
+    return {
+        collection: resolveCollectionParam(rawCollection),
+        section: normalizeSectionKey(rawSection),
+        artwork: rawArtwork?.trim() || null,
+        collector: rawCollector?.trim() || null,
+        rawCollection,
+        rawSection,
+        rawArtwork,
+        rawCollector,
+        hasLegacyParams: (
+            params.has(LEGACY_ROUTE_KEYS.collection) ||
+            params.has(LEGACY_ROUTE_KEYS.section) ||
+            params.has(LEGACY_ROUTE_KEYS.artwork) ||
+            params.has(LEGACY_ROUTE_KEYS.collector)
+        )
+    };
+}
+
+function buildUrlWithState(overrides = {}) {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    const currentRouteState = getRouteStateFromUrl();
+    const nextRouteState = { ...currentRouteState, ...overrides };
+
+    const allRouteKeys = [
+        ROUTE_KEYS.collection,
+        ROUTE_KEYS.section,
+        ROUTE_KEYS.artwork,
+        ROUTE_KEYS.collector,
+        LEGACY_ROUTE_KEYS.collection,
+        LEGACY_ROUTE_KEYS.section,
+        LEGACY_ROUTE_KEYS.artwork,
+        LEGACY_ROUTE_KEYS.collector
+    ];
+    allRouteKeys.forEach(key => params.delete(key));
+
+    const collectionSlug = toCollectionSlug(nextRouteState.collection);
+    if (collectionSlug) {
+        params.set(ROUTE_KEYS.collection, collectionSlug);
+    }
+
+    if (nextRouteState.section) {
+        params.set(ROUTE_KEYS.section, nextRouteState.section);
+    }
+
+    if (nextRouteState.artwork) {
+        params.set(ROUTE_KEYS.artwork, nextRouteState.artwork);
+    }
+
+    if (nextRouteState.collector) {
+        params.set(ROUTE_KEYS.collector, nextRouteState.collector);
+    }
+
+    url.search = params.toString();
+    return url;
+}
+
+function syncUrlState(overrides = {}, options = {}) {
+    if (isApplyingUrlState) return;
+
+    const { replaceHistory = false } = options;
+    const nextUrl = buildUrlWithState(overrides);
+    const next = `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`;
+    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+
+    if (next === current) return;
+
+    const historyMethod = replaceHistory ? 'replaceState' : 'pushState';
+    window.history[historyMethod]({}, '', next);
+}
+
+function syncSidebarActiveCollection(collectionName) {
+    if (!collectionsNav) return;
+    const allBtns = Array.from(collectionsNav.querySelectorAll('button[data-collection]'));
+    const activeBtn = allBtns.find(btn => btn.dataset.collection === collectionName) || null;
+    updateSidebarActiveState(activeBtn);
+}
+
+function openArtworkById(id, options = {}) {
+    const { updateUrl = true, ensureCollection = true, replaceHistory = false } = options;
+    if (!id) return false;
+
+    const target = allArtworks.find(item => item.id === id);
+    if (!target) return false;
+
+    const targetCollection = resolveCollectionName(target.collection);
+    if (ensureCollection && targetCollection && currentFilter !== targetCollection) {
+        loadCollection(targetCollection, { updateUrl: false });
+    }
+
+    const imgSrc = getArtworkImageSrc(target);
+    const isHtml = target.id.includes('.html') || target.content_type?.includes('html');
+    openMetacard(target, imgSrc, isHtml, { updateUrl, replaceHistory });
+    return true;
+}
+
+function openSection(sectionKey, options = {}) {
+    const { updateUrl = true, replaceHistory = false } = options;
+    const normalizedKey = normalizeSectionKey(sectionKey);
+    if (!normalizedKey) return false;
+
+    const section = INTERNAL_SECTIONS[normalizedKey];
+
+    closeModal({ updateUrl: false });
+    openAboutModal(section.title, section.content(), { updateUrl: false });
+    activeSectionKey = normalizedKey;
+
+    if (updateUrl) {
+        syncUrlState({
+            section: normalizedKey,
+            artwork: null,
+            collector: activeCollectorAddress || null,
+            collection: activeCollectorAddress ? null : (currentFilter === 'Home' ? null : currentFilter)
+        }, { replaceHistory });
+    }
+
+    return true;
+}
+
+async function applyUrlStateFromLocation(options = {}) {
+    const { replaceHistory = true } = options;
+    const routeState = getRouteStateFromUrl();
+
+    const collector = routeState.collector;
+    const section = routeState.section;
+    const id = routeState.artwork;
+    let collection = routeState.collection;
+
+    let shouldNormalizeUrl = routeState.hasLegacyParams;
+    const normalizedOverrides = {};
+
+    if (routeState.rawCollection && collection) {
+        const canonicalCollectionSlug = toCollectionSlug(collection);
+        if (canonicalCollectionSlug && routeState.rawCollection.toLowerCase() !== canonicalCollectionSlug) {
+            normalizedOverrides.collection = collection;
+            shouldNormalizeUrl = true;
+        }
+    }
+
+    if (routeState.rawSection && !section) {
+        normalizedOverrides.section = null;
+        shouldNormalizeUrl = true;
+    } else if (routeState.rawSection && section && routeState.rawSection !== section) {
+        normalizedOverrides.section = section;
+        shouldNormalizeUrl = true;
+    }
+
+    if (routeState.rawArtwork && routeState.rawArtwork !== id) {
+        normalizedOverrides.artwork = id;
+        shouldNormalizeUrl = true;
+    }
+
+    if (routeState.rawCollector && routeState.rawCollector !== collector) {
+        normalizedOverrides.collector = collector;
+        shouldNormalizeUrl = true;
+    }
+
+    if (collector && (collection || id || section)) {
+        normalizedOverrides.collection = null;
+        normalizedOverrides.artwork = null;
+        normalizedOverrides.section = null;
+        shouldNormalizeUrl = true;
+    }
+
+    if (!collector && id && section) {
+        normalizedOverrides.section = null;
+        shouldNormalizeUrl = true;
+    }
+
+    if (id && !collection) {
+        const linkedArtwork = allArtworks.find(item => item.id === id);
+        if (linkedArtwork?.collection) {
+            collection = resolveCollectionName(linkedArtwork.collection);
+            normalizedOverrides.collection = collection;
+            shouldNormalizeUrl = true;
+        }
+    } else if (id && collection) {
+        const linkedArtwork = allArtworks.find(item => item.id === id);
+        const artworkCollection = resolveCollectionName(linkedArtwork?.collection);
+        if (artworkCollection && collection !== artworkCollection) {
+            collection = artworkCollection;
+            normalizedOverrides.collection = artworkCollection;
+            shouldNormalizeUrl = true;
+        }
+    }
+
+    const hasDeepLink = Boolean(collector || collection || section || id);
+
+    isApplyingUrlState = true;
+    try {
+        if (collector) {
+            closeAboutModal({ updateUrl: false });
+            closeModal({ updateUrl: false });
+            await loadCollectorGallery(collector, { updateUrl: false });
+        } else {
+            loadCollection(collection || 'Home', { updateUrl: false });
+
+            if (id) {
+                const opened = openArtworkById(id, { updateUrl: false, ensureCollection: true });
+                if (!opened) {
+                    normalizedOverrides.artwork = null;
+                    shouldNormalizeUrl = true;
+                    closeModal({ updateUrl: false });
+                }
+                closeAboutModal({ updateUrl: false });
+            } else {
+                closeModal({ updateUrl: false });
+                if (section) {
+                    openSection(section, { updateUrl: false });
+                } else {
+                    closeAboutModal({ updateUrl: false });
+                }
+            }
+        }
+    } finally {
+        isApplyingUrlState = false;
+    }
+
+    if (shouldNormalizeUrl) {
+        syncUrlState(normalizedOverrides, { replaceHistory });
+    }
+
+    return hasDeepLink;
+}
+
 // Initialization
 async function init() {
     refreshElements();
@@ -76,40 +438,16 @@ async function init() {
     renderSidebar();
 
     allArtworks = await fetchProvenance();
-    handleQueryParams();
+    rebuildCollectionSlugs();
 
-    // Initial Render
-    if (!handleQueryParams()) {
-        loadCollection('Home');
+    const hasDeepLink = await applyUrlStateFromLocation({ replaceHistory: true });
+    if (!hasDeepLink) {
+        loadCollection('Home', { updateUrl: false });
     }
+
     setLoading(false);
 
     setupEventListeners();
-}
-
-function handleQueryParams() {
-    const params = new URLSearchParams(window.location.search);
-    const col = params.get('collection');
-    const id = params.get('id');
-    const collector = params.get('collector');
-
-    if (collector) {
-        loadCollectorGallery(collector);
-        return true;
-    }
-
-    if (col) {
-        currentFilter = col;
-        if (id) {
-            setTimeout(() => {
-                const item = allArtworks.find(a => a.id === id);
-                if (item) window.__openProvenance(id);
-            }, 500);
-        }
-        loadCollection(col);
-        return true;
-    }
-    return false;
 }
 
 function renderCollectorModalContent() {
@@ -135,14 +473,22 @@ window.__startCollectorSearch = () => {
     const input = document.getElementById('collector-search-input');
     if (!input || !input.value.trim()) return;
     const addr = input.value.trim();
-    closeAboutModal();
+    closeAboutModal({ updateUrl: false });
     loadCollectorGallery(addr);
 };
 
-async function loadCollectorGallery(address) {
+async function loadCollectorGallery(address, options = {}) {
+    const { updateUrl = true, replaceHistory = false } = options;
+
     if (homeInterval) clearInterval(homeInterval);
     setLoading(true);
+    activeCollectorAddress = address;
+    activeArtworkId = null;
+    activeSectionKey = null;
     currentFilter = `Collector: ${address.slice(0, 6)}...${address.slice(-4)}`;
+    syncSidebarActiveCollection(null);
+
+    if (contentArea) contentArea.style.overflowY = 'auto';
     updateHeader('Collector View');
     if (currentViewMeta) {
         currentViewMeta.innerHTML = `<p class="text-[10px] text-white/40 font-mono break-all mt-2">${address}</p>`;
@@ -170,10 +516,14 @@ async function loadCollectorGallery(address) {
       `;
         }
 
-        // Update URL
-        const url = new URL(window.location.href);
-        url.searchParams.set('collector', address);
-        window.history.pushState({}, '', url);
+        if (updateUrl) {
+            syncUrlState({
+                collector: address,
+                collection: null,
+                artwork: null,
+                section: null
+            }, { replaceHistory });
+        }
     } catch (e) {
         console.error(e);
         galleryGrid.innerHTML = `
@@ -204,15 +554,15 @@ function renderSidebar() {
 }
 
 function renderTopNav(container) {
-    // About / Highlights / Socials / Supply
+    // Internal sections + socials
     const extras = [
-        ["About", () => openAboutModal("About Lemonhaze", ABOUT_LEMONHAZE_TEXT)],
-        ["Career Highlights", () => openAboutModal("Career Highlights", renderCareerList())],
-        ["Supply & Marketplace", () => openAboutModal("Supply & Marketplace", renderSupplyModalContent())],
-        ["Media & Press", () => openAboutModal("Media & Press", renderMediaModalContent())],
-        ["Collectors", () => openAboutModal("Collector Lookup", renderCollectorModalContent())],
-        ["Twitter", () => window.open('https://x.com/Ordinals10K', '_blank')],
-        ["Discord", () => window.open('https://discord.com/invite/4A8jaMqdxs', '_blank')]
+        [INTERNAL_SECTIONS.about.label, () => openSection('about')],
+        [INTERNAL_SECTIONS.highlights.label, () => openSection('highlights')],
+        [INTERNAL_SECTIONS.supply.label, () => openSection('supply')],
+        [INTERNAL_SECTIONS.media.label, () => openSection('media')],
+        [INTERNAL_SECTIONS.collectors.label, () => openSection('collectors')],
+        ['Twitter', () => window.open('https://x.com/Ordinals10K', '_blank')],
+        ['Discord', () => window.open('https://discord.com/invite/4A8jaMqdxs', '_blank')]
     ];
 
     extras.forEach(([label, action]) => {
@@ -243,10 +593,10 @@ function renderYearGroups() {
             const btn = document.createElement('button');
             btn.className = `w-full text-left px-3 py-1.5 rounded-lg text-xs uppercase tracking-wider transition-all duration-200 hover:bg-white/5 
                        ${currentFilter === collectionName ? 'bg-white/10 text-white font-bold' : 'text-white/40 hover:text-white'}`;
+            btn.dataset.collection = collectionName;
             btn.textContent = collectionName;
             btn.onclick = () => {
                 loadCollection(collectionName);
-                updateSidebarActiveState(btn);
                 if (window.innerWidth < 768) toggleMobileMenu();
             };
             li.appendChild(btn);
@@ -267,7 +617,8 @@ function renderSupplyModalContent() {
 
     const ordRows = ORDINALS_SUPPLY_DATA.map(row => {
         const burned = row.inscribed - row.circulating;
-        const link = LINK_OVERRIDES[row.name] || `index.html?collection=${encodeURIComponent(row.name)}`;
+        const collectionSlug = toCollectionSlug(row.name) || slugifyCollectionName(row.name);
+        const link = LINK_OVERRIDES[row.name] || `/?${ROUTE_KEYS.collection}=${encodeURIComponent(collectionSlug)}`;
         const links = MARKET_LINKS[row.name] || {};
         const btns = [
             links.me ? `<a href="${links.me}" target="_blank" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 transition text-[10px]">ME</a>` : '',
@@ -384,6 +735,7 @@ function renderMediaModalContent() {
 }
 
 function updateSidebarActiveState(activeBtn) {
+    if (!collectionsNav) return;
     const allBtns = collectionsNav.querySelectorAll('button');
     allBtns.forEach(btn => {
         btn.className = `w-full text-left px-3 py-1.5 rounded-lg text-xs uppercase tracking-wider transition-all duration-200 hover:bg-white/5 text-white/40 hover:text-white`;
@@ -394,12 +746,30 @@ function updateSidebarActiveState(activeBtn) {
     }
 }
 
-function loadCollection(name) {
-    if (homeInterval) clearInterval(homeInterval);
-    currentFilter = name;
-    updateHeader(name);
+function loadCollection(name, options = {}) {
+    const { updateUrl = true, replaceHistory = false } = options;
 
-    if (name === 'Home') {
+    if (homeInterval) clearInterval(homeInterval);
+    const resolvedName = resolveCollectionName(name) || 'Home';
+
+    activeCollectorAddress = null;
+    activeArtworkId = null;
+    activeSectionKey = null;
+    currentFilter = resolvedName;
+
+    syncSidebarActiveCollection(resolvedName === 'Home' ? null : resolvedName);
+    updateHeader(resolvedName);
+
+    if (updateUrl) {
+        syncUrlState({
+            collection: resolvedName === 'Home' ? null : resolvedName,
+            collector: null,
+            artwork: null,
+            section: null
+        }, { replaceHistory });
+    }
+
+    if (resolvedName === 'Home') {
         if (contentArea) contentArea.style.overflowY = 'hidden'; // Lock scroll on Home
         renderHome();
         return;
@@ -407,9 +777,9 @@ function loadCollection(name) {
 
     if (contentArea) contentArea.style.overflowY = 'auto'; // Enable scroll for collections
 
-    let filtered = allArtworks.filter(item => item.collection === name);
+    let filtered = allArtworks.filter(item => item.collection === resolvedName);
     if (filtered.length === 0) {
-        filtered = allArtworks.filter(item => (item.collection || "").toLowerCase() === name.toLowerCase());
+        filtered = allArtworks.filter(item => (item.collection || "").toLowerCase() === resolvedName.toLowerCase());
     }
 
     renderGallery(filtered);
@@ -1027,8 +1397,7 @@ function renderGallery(items) {
       </div>
     `;
 
-        const isHtml = item.id.includes('.html') || item.content_type?.includes('html');
-        card.onclick = () => openMetacard(item, imgSrc, isHtml);
+        card.onclick = () => openArtworkById(item.id);
         fragment.appendChild(card);
     });
 
@@ -1039,8 +1408,15 @@ function renderGallery(items) {
 // Metacard Logic (New Modal)
 // ---------------------------------------------------------
 
-async function openMetacard(item, imgSrc, isHtml) {
+async function openMetacard(item, imgSrc, isHtml, options = {}) {
+    const { updateUrl = true, replaceHistory = false } = options;
     if (!modalTitle) return;
+
+    closeAboutModal({ updateUrl: false });
+    activeSectionKey = null;
+    activeCollectorAddress = null;
+    activeArtworkId = item.id;
+
     modalTitle.textContent = item.name;
 
     modalImage.classList.add('hidden');
@@ -1060,6 +1436,15 @@ async function openMetacard(item, imgSrc, isHtml) {
     requestAnimationFrame(() => {
         modalOverlay.classList.remove('opacity-0');
     });
+
+    if (updateUrl) {
+        syncUrlState({
+            collection: resolveCollectionName(item.collection) || (currentFilter === 'Home' ? null : currentFilter),
+            collector: null,
+            section: null,
+            artwork: item.id
+        }, { replaceHistory });
+    }
 }
 
 function renderMetadataList(item) {
@@ -1166,7 +1551,8 @@ async function fetchOwner(id) {
 }
 
 window.__gotoCollector = (addr) => {
-    closeModal();
+    closeAboutModal({ updateUrl: false });
+    closeModal({ updateUrl: false });
     loadCollectorGallery(addr);
 };
 
@@ -1233,9 +1619,12 @@ function renderActionButtons(item, imgSrc) {
 
     // 5. Share
     modalActions.appendChild(createBtn('⎋', 'Share Link', () => {
-        const url = new URL(window.location.href);
-        url.searchParams.set('collection', item.collection);
-        url.searchParams.set('id', item.id);
+        const url = buildUrlWithState({
+            collection: resolveCollectionName(item.collection) || currentFilter,
+            collector: null,
+            section: null,
+            artwork: item.id
+        });
         navigator.clipboard.writeText(url.toString()).then(() => {
             const btn = modalActions.querySelector('button[title="Share Link"]');
             const oldText = btn.textContent;
@@ -1285,7 +1674,17 @@ function renderActionButtons(item, imgSrc) {
     modalActions.appendChild(frameThumb);
 }
 
-function closeModal() {
+function closeModal(options = {}) {
+    const { updateUrl = true, replaceHistory = false } = options;
+    const hadArtwork = Boolean(activeArtworkId);
+    activeArtworkId = null;
+
+    if (updateUrl && hadArtwork) {
+        syncUrlState({ artwork: null }, { replaceHistory });
+    }
+
+    if (!modalOverlay || modalOverlay.classList.contains('hidden')) return;
+
     modalOverlay.classList.add('opacity-0');
     setTimeout(() => {
         modalOverlay.classList.add('hidden');
@@ -1299,7 +1698,8 @@ function closeModal() {
 // UI Helpers
 // ---------------------------------------------------------
 
-function openAboutModal(title, content) {
+function openAboutModal(title, content, options = {}) {
+    const { updateUrl = true, replaceHistory = false, sectionKey = null } = options;
     refreshElements();
     if (!aboutTitle || !aboutContent || !aboutOverlay) {
         console.error("About modal elements missing");
@@ -1321,12 +1721,35 @@ function openAboutModal(title, content) {
     aboutContent.innerHTML = finalContent;
     aboutOverlay.classList.remove('hidden');
 
+    if (sectionKey !== null) {
+        activeSectionKey = normalizeSectionKey(sectionKey);
+    }
+
     // Force a reflow before removing opacity-0
     void aboutOverlay.offsetWidth;
     aboutOverlay.classList.remove('opacity-0');
+
+    if (updateUrl && activeSectionKey) {
+        syncUrlState({
+            section: activeSectionKey,
+            artwork: null,
+            collector: activeCollectorAddress || null,
+            collection: activeCollectorAddress ? null : (currentFilter === 'Home' ? null : currentFilter)
+        }, { replaceHistory });
+    }
 }
 
-function closeAboutModal() {
+function closeAboutModal(options = {}) {
+    const { updateUrl = true, replaceHistory = false } = options;
+    const hadSection = Boolean(activeSectionKey);
+    activeSectionKey = null;
+
+    if (updateUrl && hadSection) {
+        syncUrlState({ section: null }, { replaceHistory });
+    }
+
+    if (!aboutOverlay || aboutOverlay.classList.contains('hidden')) return;
+
     aboutOverlay.classList.add('opacity-0');
     setTimeout(() => {
         aboutOverlay.classList.add('hidden');
@@ -1418,9 +1841,26 @@ function runTester() {
 function setupEventListeners() {
     if (menuToggle) menuToggle.addEventListener('click', toggleMobileMenu);
 
+    window.addEventListener('popstate', () => {
+        applyUrlStateFromLocation({ replaceHistory: true });
+    });
+
     // Close mobile menu when backdrop is clicked
     const backdrop = document.getElementById('mobile-backdrop');
     if (backdrop) backdrop.addEventListener('click', toggleMobileMenu);
+
+    const logoLink = document.querySelector('aside > a');
+    if (logoLink) {
+        logoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal({ updateUrl: false });
+            closeAboutModal({ updateUrl: false });
+            loadCollection('Home');
+            if (window.innerWidth < 768 && isMobileMenuOpen) {
+                toggleMobileMenu();
+            }
+        });
+    }
 
     if (modalClose) modalClose.addEventListener('click', closeModal);
     if (modalOverlay) modalOverlay.addEventListener('click', (e) => {
