@@ -285,7 +285,7 @@ function syncSidebarActiveCollection(collectionName) {
 }
 
 function openArtworkById(id, options = {}) {
-    const { updateUrl = true, ensureCollection = true, replaceHistory = false } = options;
+    const { updateUrl = true, ensureCollection = false, replaceHistory = false } = options;
     if (!id) return false;
 
     const target = allArtworks.find(item => item.id === id);
