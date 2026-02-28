@@ -1,3 +1,7 @@
+function isAboutSectionTitle(title) {
+    return title === 'About' || title === 'About Lemonhaze';
+}
+
 function updateHeaderForSection({
     title,
     headerElement,
@@ -26,7 +30,7 @@ function updateHeaderForSection({
 
 function appendSectionContent({ title, content, sectionBody }) {
     if (content instanceof Node) {
-        if (title === 'About Lemonhaze') {
+        if (isAboutSectionTitle(title)) {
             const wrap = document.createElement('div');
             wrap.className = 'max-w-2xl';
             wrap.appendChild(content);
@@ -38,7 +42,7 @@ function appendSectionContent({ title, content, sectionBody }) {
         return;
     }
 
-    if (title === 'About Lemonhaze') {
+    if (isAboutSectionTitle(title)) {
         sectionBody.innerHTML = `<div class="max-w-2xl">${content}</div>`;
         return;
     }

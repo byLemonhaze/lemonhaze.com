@@ -90,6 +90,7 @@ export async function loadCollectorGallerySection({
     currentViewMeta,
     setLoading,
     syncSidebarActiveCollection,
+    syncSidebarActiveSection,
     updateHeader,
     renderGallery,
     syncUrlState,
@@ -105,6 +106,7 @@ export async function loadCollectorGallerySection({
     appState.activeSectionKey = null;
     appState.currentFilter = `Collector: ${address.slice(0, 6)}...${address.slice(-4)}`;
     syncSidebarActiveCollection(null);
+    syncSidebarActiveSection(null);
 
     if (contentArea) contentArea.style.overflowY = 'auto';
     updateHeader('Collector View');

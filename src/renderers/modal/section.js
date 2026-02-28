@@ -1,3 +1,7 @@
+function isAboutSectionTitle(title) {
+    return title === 'About' || title === 'About Lemonhaze';
+}
+
 export function openSectionModal({
     title,
     content,
@@ -21,7 +25,7 @@ export function openSectionModal({
     aboutTitle.textContent = title;
 
     if (content instanceof Node) {
-        if (title === 'About Lemonhaze') {
+        if (isAboutSectionTitle(title)) {
             const wrap = document.createElement('div');
             wrap.className = 'max-w-2xl mx-auto';
             wrap.appendChild(content);
@@ -31,7 +35,7 @@ export function openSectionModal({
         }
     } else {
         let finalContent = content;
-        if (title === 'About Lemonhaze') {
+        if (isAboutSectionTitle(title)) {
             finalContent = `
                 <div class="max-w-2xl mx-auto">
                     ${content}

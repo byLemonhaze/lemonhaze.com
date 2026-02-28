@@ -1,21 +1,53 @@
+const BASE_TOP_NAV_BUTTON_CLASS =
+    'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-transparent hover:border-white/70 hover:text-white text-white/45';
+const ACTIVE_TOP_NAV_BUTTON_CLASS =
+    'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-white text-white';
+
+export function syncSidebarActiveSection({ topNav, sectionKey }) {
+    if (!topNav) return;
+
+    const allSectionButtons = Array.from(topNav.querySelectorAll('button[data-section]'));
+    allSectionButtons.forEach((button) => {
+        button.className = BASE_TOP_NAV_BUTTON_CLASS;
+    });
+
+    if (!sectionKey) return;
+    const activeBtn = allSectionButtons.find((btn) => btn.dataset.section === sectionKey) || null;
+    if (activeBtn) {
+        activeBtn.className = ACTIVE_TOP_NAV_BUTTON_CLASS;
+    }
+}
+
 export function renderTopNav(container, {
     internalSections,
+    activeSectionKey,
     onOpenSection,
     onOpenExternal,
 }) {
-    const extras = [
-        [internalSections.about.label, () => onOpenSection('about')],
-        [internalSections.highlights.label, () => onOpenSection('highlights')],
-        [internalSections.supply.label, () => onOpenSection('supply')],
-        [internalSections.media.label, () => onOpenSection('media')],
-        [internalSections.collectors.label, () => onOpenSection('collectors')],
+    const sectionLinks = [
+        [internalSections.about.label, 'about'],
+        [internalSections.highlights.label, 'highlights'],
+        [internalSections.supply.label, 'supply'],
+        [internalSections.media.label, 'media'],
+        [internalSections.collectors.label, 'collectors'],
+    ];
+    const externalLinks = [
         ['Twitter', () => onOpenExternal('https://x.com/Ordinals10K')],
         ['Discord', () => onOpenExternal('https://discord.com/invite/4A8jaMqdxs')],
     ];
 
-    extras.forEach(([label, action]) => {
+    sectionLinks.forEach(([label, sectionKey]) => {
         const btn = document.createElement('button');
-        btn.className = 'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-transparent hover:border-white/70 hover:text-white text-white/45';
+        btn.className = sectionKey === activeSectionKey ? ACTIVE_TOP_NAV_BUTTON_CLASS : BASE_TOP_NAV_BUTTON_CLASS;
+        btn.dataset.section = sectionKey;
+        btn.textContent = label;
+        btn.onclick = () => onOpenSection(sectionKey);
+        container.appendChild(btn);
+    });
+
+    externalLinks.forEach(([label, action]) => {
+        const btn = document.createElement('button');
+        btn.className = BASE_TOP_NAV_BUTTON_CLASS;
         btn.textContent = label;
         btn.onclick = action;
         container.appendChild(btn);
@@ -72,6 +104,7 @@ export function renderSidebarSections({
     internalSections,
     chronologyByYear,
     currentFilter,
+    activeSectionKey,
     onOpenSection,
     onOpenExternal,
     onLoadCollection,
@@ -81,6 +114,7 @@ export function renderSidebarSections({
         topNav.innerHTML = '';
         renderTopNav(topNav, {
             internalSections,
+            activeSectionKey,
             onOpenSection,
             onOpenExternal,
         });

@@ -17,7 +17,7 @@ export function createInternalSections({
     return {
         about: {
             label: 'About',
-            title: 'About Lemonhaze',
+            title: 'About',
             content: () => aboutText,
         },
         highlights: {

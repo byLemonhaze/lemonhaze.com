@@ -25,7 +25,7 @@ import { updateHeaderView } from '../ui/header.js';
 import { toggleMobileSidebar } from '../ui/menu.js';
 import { createTesterController } from '../ui/tester.js';
 import { getArtworkImageSrc, renderGalleryGrid } from '../renderers/gallery.js';
-import { renderSidebarSections } from '../renderers/sidebar.js';
+import { renderSidebarSections, syncSidebarActiveSection as syncSidebarActiveSectionFromNav } from '../renderers/sidebar.js';
 import { createArtworkModalController } from '../renderers/modal/artwork.js';
 import { setupAppEventListeners } from '../events/index.js';
 import { loadCollectorGallerySection } from '../renderers/sections/collectors.js';
@@ -140,6 +140,13 @@ function syncSidebarActiveCollection(collectionName) {
     });
 }
 
+function syncSidebarActiveSection(sectionKey) {
+    syncSidebarActiveSectionFromNav({
+        topNav: el.topNavSection(),
+        sectionKey: sectionKey || null,
+    });
+}
+
 function openArtworkById(id, options = {}) {
     return sectionFlow.openArtworkById(id, options);
 }
@@ -188,6 +195,7 @@ async function loadCollectorGallery(address, options = {}) {
         currentViewMeta,
         setLoading,
         syncSidebarActiveCollection,
+        syncSidebarActiveSection,
         updateHeader,
         renderGallery,
         syncUrlState: router.syncUrlState,
@@ -207,6 +215,7 @@ function renderSidebar() {
         internalSections: INTERNAL_SECTIONS,
         chronologyByYear: CHRONOLOGY_BY_YEAR,
         currentFilter: appState.currentFilter,
+        activeSectionKey: appState.activeSectionKey,
         onOpenSection: (sectionKey) => openSection(sectionKey),
         onOpenExternal: (url) => window.open(url, '_blank'),
         onLoadCollection: (collectionName) => loadCollection(collectionName),
@@ -232,6 +241,8 @@ function loadCollection(name, options = {}) {
         renderHome,
         renderGallery,
     });
+
+    syncSidebarActiveSection(null);
 }
 
 function updateHeader(title) {
@@ -335,6 +346,10 @@ function openAboutModal(title, content, options = {}) {
         appState.activeSectionKey = normalizeSectionKey(sectionKey);
     }
 
+    // Section views are global; keep collection rail unselected while one is open.
+    syncSidebarActiveCollection(null);
+    syncSidebarActiveSection(appState.activeSectionKey);
+
     const { aboutOverlay } = getSectionModalRefs();
     if (aboutOverlay && !aboutOverlay.classList.contains('hidden')) {
         aboutOverlay.classList.add('opacity-0');
@@ -368,6 +383,7 @@ function closeAboutModal(options = {}) {
 
     const hadSection = Boolean(appState.activeSectionKey);
     appState.activeSectionKey = null;
+    syncSidebarActiveSection(null);
 
     if (updateUrl && hadSection) {
         router.syncUrlState({ section: null }, { replaceHistory });

@@ -119,27 +119,56 @@ export function createArtworkModalController({
         let isFrameView = false;
         const baseImgSrc = imgSrc;
 
-        const createBtn = (icon, hint, onClick) => {
+        const defaultHint = 'Hover an action icon to preview what it does.';
+        const actionHint = document.createElement('p');
+        actionHint.className = 'basis-full text-[10px] font-mono uppercase tracking-[0.2em] text-white/40';
+        actionHint.textContent = defaultHint;
+        modalActions.appendChild(actionHint);
+
+        const setActionHint = (text) => {
+            actionHint.textContent = text || defaultHint;
+        };
+
+        const createBtn = (icon, hint, hoverText, onClick) => {
             const btn = document.createElement('button');
             btn.innerHTML = icon;
             btn.title = hint;
+            btn.setAttribute('aria-label', hint);
             btn.className = 'w-10 h-10 flex items-center justify-center border border-white/10 bg-[#121212] text-white hover:border-white/40 transition-colors duration-200 text-lg';
             btn.onclick = onClick;
+            btn.addEventListener('mouseenter', () => setActionHint(hoverText));
+            btn.addEventListener('focus', () => setActionHint(hoverText));
+            btn.addEventListener('mouseleave', () => setActionHint(defaultHint));
+            btn.addEventListener('blur', () => setActionHint(defaultHint));
             return btn;
         };
 
-        modalActions.appendChild(createBtn('◉', 'View on Ordinals', () => window.open(`https://ordinals.com/inscription/${item.id}`, '_blank')));
+        modalActions.appendChild(createBtn(
+            '◉',
+            'View on Ordinals',
+            'Open this inscription on ordinals.com in a new tab.',
+            () => window.open(`https://ordinals.com/inscription/${item.id}`, '_blank')
+        ));
 
-        modalActions.appendChild(createBtn('↓', 'Download', () => {
+        modalActions.appendChild(createBtn(
+            '↓',
+            'Download',
+            'Download the currently displayed artwork file.',
+            () => {
             const link = document.createElement('a');
             link.href = imgSrc;
             link.download = `${item.name}.png`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        }));
+            }
+        ));
 
-        modalActions.appendChild(createBtn('⌸', 'Raw Source', async () => {
+        modalActions.appendChild(createBtn(
+            '⌸',
+            'Raw Source',
+            'Inspect the raw inscription source/content payload.',
+            async () => {
             rawHtmlContainer.classList.remove('hidden');
             rawHtmlContent.textContent = 'Loading source...';
             try {
@@ -149,9 +178,14 @@ export function createArtworkModalController({
             } catch (e) {
                 rawHtmlContent.textContent = 'Failed to load source.';
             }
-        }));
+            }
+        ));
 
-        const chainBtn = createBtn('⛓', 'Toggle On-Chain / Off-Chain', () => {
+        const chainBtn = createBtn(
+            '⛓',
+            'Toggle On-Chain / Off-Chain',
+            'Switch between CDN image and live on-chain content.',
+            () => {
             isOnChain = !isOnChain;
             isFrameView = false;
 
@@ -160,16 +194,23 @@ export function createArtworkModalController({
                 modalIframe.classList.remove('hidden');
                 modalIframe.src = `https://ordinals.com/content/${item.id}`;
                 chainBtn.classList.add('ring-2', 'ring-white');
+                setActionHint('On-chain mode enabled. Click again to return to CDN view.');
             } else {
                 modalIframe.classList.add('hidden');
                 modalImage.src = baseImgSrc;
                 modalImage.classList.remove('hidden');
                 chainBtn.classList.remove('ring-2', 'ring-white');
+                setActionHint('Off-chain CDN mode enabled.');
             }
-        });
+            }
+        );
         modalActions.appendChild(chainBtn);
 
-        modalActions.appendChild(createBtn('⎋', 'Share Link', () => {
+        modalActions.appendChild(createBtn(
+            '⎋',
+            'Share Link',
+            'Copy a direct link to this artwork modal.',
+            () => {
             const url = router.buildUrlWithState({
                 collection: resolveCollectionName(item.collection) || appState.currentFilter,
                 collector: null,
@@ -180,13 +221,19 @@ export function createArtworkModalController({
                 const btn = modalActions.querySelector('button[title="Share Link"]');
                 const oldText = btn.textContent;
                 btn.textContent = '✓ Copied';
+                setActionHint('Share link copied to clipboard.');
                 setTimeout(() => {
                     btn.textContent = oldText;
                 }, 2000);
             });
-        }));
+            }
+        ));
 
-        modalActions.appendChild(createBtn('↻', 'Refresh Content', () => {
+        modalActions.appendChild(createBtn(
+            '↻',
+            'Refresh Content',
+            'Force reload to bypass cache for the current media.',
+            () => {
             const btn = modalActions.querySelector('button[title="Refresh Content"]');
             btn.classList.add('animate-spin');
 
@@ -200,13 +247,17 @@ export function createArtworkModalController({
             }
 
             setTimeout(() => btn.classList.remove('animate-spin'), 1000);
-        }));
+            }
+        ));
 
         const frameThumb = document.createElement('img');
         frameThumb.src = `https://cdn.lemonhaze.com/assets/assets/FRAME${item.id}.png`;
         frameThumb.alt = 'Framed Scene Preview';
+        frameThumb.title = 'Toggle framed scene preview';
         frameThumb.className = 'w-20 border border-white/10 shadow-sm cursor-pointer opacity-80 hover:opacity-100 transition-opacity ml-2';
         frameThumb.loading = 'lazy';
+        frameThumb.addEventListener('mouseenter', () => setActionHint('Preview this artwork in frame-scene mode.'));
+        frameThumb.addEventListener('mouseleave', () => setActionHint(defaultHint));
 
         frameThumb.onerror = () => frameThumb.remove();
 
@@ -217,6 +268,7 @@ export function createArtworkModalController({
             modalImage.src = isFrameView ? frameThumb.src : baseImgSrc;
             modalImage.classList.remove('hidden');
             chainBtn.classList.remove('ring-2', 'ring-white');
+            setActionHint(isFrameView ? 'Frame preview enabled.' : 'Frame preview disabled.');
         };
 
         modalActions.appendChild(frameThumb);
