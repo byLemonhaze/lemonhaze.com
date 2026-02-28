@@ -1,5 +1,5 @@
 const BASE_TOP_NAV_BUTTON_CLASS =
-    'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-transparent hover:border-white/70 hover:text-white text-white/45';
+    'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-transparent hover:text-white text-white/45';
 const ACTIVE_TOP_NAV_BUTTON_CLASS =
     'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-white text-white';
 
