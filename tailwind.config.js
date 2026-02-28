@@ -7,16 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: [
-          "SF Pro Display",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "Roboto",
-          "sans-serif"
-        ],
-        mono: ["JetBrains Mono", "monospace"],
-        serif: ["Dancing Script", "cursive"],
+        sans: ["Syne", "sans-serif"],
+        mono: ["Fragment Mono", "monospace"],
+        serif: ["Syne", "sans-serif"],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out forwards',
