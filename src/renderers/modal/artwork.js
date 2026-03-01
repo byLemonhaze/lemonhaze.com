@@ -50,6 +50,10 @@ const SAT_RARITY_LABELS = {
     mythic: 'Mythic',
 };
 
+const DIRECT_HTML_RENDER_COLLECTIONS = new Set([
+    'BEST BEFORE',
+]);
+
 function simplifyContentType(ct) {
     if (!ct) return null;
     if (ct.startsWith('text/html')) return 'HTML';
@@ -465,6 +469,16 @@ export function createArtworkModalController({
 
         modalActions.appendChild(pill('↓ Save', 'Save artwork', () => {
             if (isHtml) {
+                if (item.collection === 'BEST BEFORE') {
+                    window.alert(
+                        'BEST BEFORE quick guide:\n\n' +
+                        '1. Click the artwork to view lifespan/status details.\n' +
+                        '2. Press S while the artwork is focused to save the static PNG.\n' +
+                        '3. Close the modal to return to the gallery.'
+                    );
+                    return;
+                }
+
                 // HTML artworks: emulate exactly one "S" key press in the loaded artwork iframe.
                 if (htmlSaveClickLocked) return;
                 htmlSaveClickLocked = true;
@@ -598,6 +612,24 @@ export function createArtworkModalController({
         if (isHtml) {
             const currentToken = htmlBlobLoadToken;
             modalIframe.classList.remove('hidden');
+            if (DIRECT_HTML_RENDER_COLLECTIONS.has(item.collection)) {
+                modalIframe.src = `https://ordinals.com/content/${item.id}`;
+                renderMetadataList(item);
+                renderActionButtons(item, cdnSrc, isHtml);
+
+                modalOverlay.classList.remove('hidden');
+                requestAnimationFrame(() => modalOverlay.classList.remove('opacity-0'));
+
+                if (updateUrl) {
+                    router.syncUrlState({
+                        collection: resolveCollectionName(item.collection) || (appState.currentFilter === 'Home' ? null : appState.currentFilter),
+                        collector: null,
+                        section: null,
+                        artwork: item.id,
+                    }, { replaceHistory });
+                }
+                return;
+            }
             // Render HTML via same-origin blob so Save can dispatch one S key reliably.
             void buildSaveEnabledHtmlBlobUrl(item.id).then((blobUrl) => {
                 if (!blobUrl) {
