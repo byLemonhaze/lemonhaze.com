@@ -7,7 +7,31 @@ export function createArtworkModalController({
     getAllArtworks,
     getMetaOwner,
     closeAboutModal,
+    onOpenArtworkById,
+    onGoToCollector,
 }) {
+    let metadataListenersBound = false;
+
+    function bindMetadataInteractions() {
+        const { modalMetadata } = refs();
+        if (!modalMetadata || metadataListenersBound) return;
+
+        modalMetadata.addEventListener('click', (event) => {
+            const artworkBtn = event.target.closest('[data-open-artwork]');
+            if (artworkBtn && artworkBtn.dataset.openArtwork) {
+                onOpenArtworkById(artworkBtn.dataset.openArtwork);
+                return;
+            }
+
+            const collectorBtn = event.target.closest('[data-goto-collector]');
+            if (collectorBtn && collectorBtn.dataset.gotoCollector) {
+                onGoToCollector(collectorBtn.dataset.gotoCollector);
+            }
+        });
+
+        metadataListenersBound = true;
+    }
+
     function renderMetadataList(item) {
         const { modalMetadata } = refs();
         if (!modalMetadata) return;
@@ -43,26 +67,29 @@ export function createArtworkModalController({
             row.className = 'flex flex-col border-b border-white/5 pb-2 mb-2 last:border-0';
 
             if (key === 'provenance' && Array.isArray(value)) {
-                const thumbs = value.map((pid) => {
+                const labelNode = document.createElement('span');
+                labelNode.className = 'text-white/45 uppercase tracking-[0.2em] text-[10px] mb-1 font-mono';
+                labelNode.textContent = label;
+
+                const thumbsWrap = document.createElement('div');
+                thumbsWrap.className = 'flex gap-2 flex-wrap';
+
+                value.forEach((pid) => {
                     const extItem = getAllArtworks().find((a) => a.id === pid);
-                    if (!extItem) return '';
+                    if (!extItem) return;
 
                     const src = getArtworkImageSrc(extItem);
-                    return `
-          <img
-            src="${src}"
-            alt="${pid}"
-            class="w-10 h-10 object-cover border border-white/10 cursor-pointer hover:opacity-80 transition"
-            loading="lazy"
-            onclick="window.__openProvenance('${pid}')"
-          />
-        `;
-                }).join('');
+                    const thumb = document.createElement('img');
+                    thumb.src = src;
+                    thumb.alt = pid;
+                    thumb.className = 'w-10 h-10 object-cover border border-white/10 cursor-pointer hover:opacity-80 transition';
+                    thumb.loading = 'lazy';
+                    thumb.dataset.openArtwork = pid;
+                    thumbsWrap.appendChild(thumb);
+                });
 
-                row.innerHTML = `
-        <span class="text-white/45 uppercase tracking-[0.2em] text-[10px] mb-1 font-mono">${label}</span>
-        <div class="flex gap-2 flex-wrap">${thumbs}</div>
-      `;
+                row.appendChild(labelNode);
+                row.appendChild(thumbsWrap);
             } else {
                 row.innerHTML = `
         <span class="text-white/45 uppercase tracking-[0.2em] text-[10px] mb-1 font-mono">${label}</span>
@@ -94,7 +121,7 @@ export function createArtworkModalController({
             const ownerEl = getMetaOwner();
             if (ownerEl) {
                 if (owner !== 'Unknown') {
-                    ownerEl.innerHTML = `<button onclick="window.__gotoCollector('${owner}')" class="text-white hover:underline decoration-white/30 text-left transition-all">${owner}</button>`;
+                    ownerEl.innerHTML = `<button data-goto-collector="${owner}" class="text-white hover:underline decoration-white/30 text-left transition-all">${owner}</button>`;
                 } else {
                     ownerEl.textContent = owner;
                 }
@@ -285,6 +312,7 @@ export function createArtworkModalController({
         } = refs();
 
         if (!modalTitle || !modalImage || !modalIframe || !rawHtmlContainer || !modalOverlay) return;
+        bindMetadataInteractions();
 
         closeAboutModal({ updateUrl: false });
         appState.activeSectionKey = null;

@@ -46,7 +46,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
       <div class="aspect-square bg-[#0a0a0a] border border-white/10 relative group overflow-hidden flex items-center justify-center">
         <img src="${imgSrc}" class="w-[85%] h-[85%] object-contain drop-shadow-2xl ${imgClass}" loading="lazy" />
         <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-          <p class="text-[11px] font-bold text-white tracking-widest italic">${item.name || 'Untitled'}</p>
+          <p class="text-[11px] font-bold text-white tracking-widest">${item.name || 'Untitled'}</p>
         </div>
       </div>
     `;

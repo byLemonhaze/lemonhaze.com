@@ -132,6 +132,14 @@ const sectionFlow = createSectionFlow({
 });
 let hasStarted = false;
 let sectionReturnState = null;
+let cleanupHomeView = null;
+
+function destroyHomeView() {
+    if (typeof cleanupHomeView === 'function') {
+        cleanupHomeView();
+    }
+    cleanupHomeView = null;
+}
 
 function syncSidebarActiveCollection(collectionName) {
     syncSidebarActiveCollectionFromNav({
@@ -178,15 +186,8 @@ async function init() {
     setupEventListeners();
 }
 
-function startCollectorSearch() {
-    const input = el.collectorSearchInput();
-    if (!input || !input.value.trim()) return;
-    const addr = input.value.trim();
-    closeAboutModal({ updateUrl: false });
-    loadCollectorGallery(addr);
-}
-
 async function loadCollectorGallery(address, options = {}) {
+    destroyHomeView();
     await loadCollectorGallerySection({
         address,
         options,
@@ -228,8 +229,13 @@ function renderSidebar() {
 }
 
 function loadCollection(name, options = {}) {
+    const resolvedName = resolveCollectionName(name) || 'Home';
+    if (resolvedName !== 'Home') {
+        destroyHomeView();
+    }
+
     loadCollectionFlow({
-        name,
+        name: resolvedName,
         options,
         appState,
         resolveCollectionName,
@@ -261,10 +267,10 @@ function updateHeader(title) {
 }
 
 function renderHome() {
-    renderHomeView({
+    destroyHomeView();
+    cleanupHomeView = renderHomeView({
         galleryGrid,
         appState,
-        hasCarouselStyles: () => Boolean(el.carouselStyles()),
         artworks: appState.artworks,
         chronologyByYear: CHRONOLOGY_BY_YEAR,
         onOpenArtworkById: openArtworkById,
@@ -305,6 +311,8 @@ const artworkModalController = createArtworkModalController({
     getAllArtworks: () => appState.artworks,
     getMetaOwner: el.metaOwner,
     closeAboutModal: (options) => closeAboutModal(options),
+    onOpenArtworkById: (id) => openArtworkById(id),
+    onGoToCollector: (addr) => goToCollector(addr),
 });
 
 function openMetacard(item, imgSrc, isHtml, options = {}) {
@@ -355,6 +363,8 @@ function openAboutModal(title, content, options = {}) {
         aboutOverlay.classList.add('opacity-0');
         aboutOverlay.classList.add('hidden');
     }
+
+    destroyHomeView();
 
     renderSectionView({
         title,
@@ -451,24 +461,9 @@ function setupEventListeners() {
     });
 }
 
-function bindGlobalHelpers() {
-    window.__openProvenance = (pid, options = {}) => {
-        openArtworkById(pid, options);
-    };
-
-    window.__startCollectorSearch = () => {
-        startCollectorSearch();
-    };
-
-    window.__gotoCollector = (addr) => {
-        goToCollector(addr);
-    };
-}
-
 export async function startApp() {
     if (hasStarted) return;
     hasStarted = true;
 
-    bindGlobalHelpers();
     await init();
 }
