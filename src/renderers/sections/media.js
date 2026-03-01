@@ -19,7 +19,7 @@ export function createMediaSectionNode(items) {
     items.forEach((item, idx) => {
         const card = document.createElement('button');
         card.type = 'button';
-        card.className = 'glass p-4 border border-white/10 hover:border-white/30 transition-colors cursor-pointer group text-left';
+        card.className = 'surface p-4 hover:border-white/30 transition-colors cursor-pointer group text-left';
         card.style.animation = `fade-in 0.5s ease-out ${idx * 0.1}s both`;
         card.addEventListener('click', () => window.open(item.link, '_blank'));
 

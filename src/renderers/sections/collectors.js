@@ -3,7 +3,7 @@ export function createCollectorSectionNode() {
     root.className = 'space-y-6 py-4 animate-fade-in text-center';
 
     const card = document.createElement('div');
-    card.className = 'glass p-8 border border-white/10 space-y-4 max-w-md mx-auto';
+    card.className = 'surface p-8 space-y-4 max-w-md mx-auto';
 
     const iconWrap = document.createElement('div');
     iconWrap.className = 'w-16 h-16 border border-white/10 flex items-center justify-center mx-auto mb-4';

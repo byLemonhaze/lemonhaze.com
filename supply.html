@@ -11,12 +11,12 @@
 <body class="bg-black text-white antialiased font-sans selection:bg-white/20">
 
     <!-- Mobile Header -->
-    <header class="md:hidden flex items-center justify-between p-4 glass sticky top-0 z-50">
+    <header class="md:hidden flex items-center justify-between p-4 surface sticky top-0 z-50">
         <div class="flex items-center gap-2">
             <span class="font-serif text-xl tracking-tighter">LH</span>
             <span class="text-xs font-mono text-white/40">Marketplace</span>
         </div>
-        <button id="menu-toggle" class="p-2 glass rounded-lg">
+        <button id="menu-toggle" class="p-2 surface rounded-[4px]">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m4 6h16"></path>
             </svg>
@@ -26,7 +26,7 @@
     <div class="flex min-h-screen relative overflow-hidden">
         <!-- Sidebar -->
         <aside id="sidebar"
-            class="fixed inset-y-0 left-0 w-72 glass border-r border-white/5 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col">
+            class="fixed inset-y-0 left-0 w-72 surface border-r border-white/5 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col">
             <!-- Header -->
             <a href="/" class="p-6 border-b border-white/5 block hover:bg-white/5 transition-colors group">
                 <h1 class="text-2xl font-bold tracking-tighter group-hover:scale-105 transition-transform origin-left">
@@ -80,15 +80,15 @@
 
                 <!-- Stats Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in" style="animation-delay: 100ms">
-                    <div class="glass p-6 rounded-2xl border border-white/5">
+                    <div class="surface p-6 rounded-2xl border border-white/5">
                         <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Total Inscribed</h3>
                         <div class="text-3xl font-bold font-mono" data-bind="ord.inscribed">0</div>
                     </div>
-                    <div class="glass p-6 rounded-2xl border border-white/5">
+                    <div class="surface p-6 rounded-2xl border border-white/5">
                         <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Total Circulating</h3>
                         <div class="text-3xl font-bold font-mono text-white/90" data-bind="ord.circulating">0</div>
                     </div>
-                    <div class="glass p-6 rounded-2xl border border-white/5">
+                    <div class="surface p-6 rounded-2xl border border-white/5">
                         <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Total Burned</h3>
                         <div class="text-3xl font-bold font-mono text-white/40" data-bind="ord.burned">0</div>
                     </div>
@@ -100,7 +100,7 @@
                         <span class="w-8 h-[1px] bg-white/20"></span>
                         Digital Ordinals [Bitcoin]
                     </h2>
-                    <div class="glass rounded-2xl border border-white/5 overflow-x-auto shadow-2xl">
+                    <div class="surface rounded-2xl border border-white/5 overflow-x-auto shadow-2xl">
                         <table class="w-full text-left" id="ordTable text-sm">
                             <thead>
                                 <tr class="text-[10px] uppercase tracking-widest text-white/20 border-b border-white/5">
@@ -125,7 +125,7 @@
                         <span class="w-8 h-[1px] bg-white/20"></span>
                         Digital Pre-Ordinals [Ethereum]
                     </h2>
-                    <div class="glass rounded-2xl border border-white/5 overflow-x-auto">
+                    <div class="surface rounded-2xl border border-white/5 overflow-x-auto">
                         <table class="w-full text-left" id="ethTable">
                             <thead>
                                 <tr class="text-[10px] uppercase tracking-widest text-white/20 border-b border-white/5">
@@ -150,7 +150,7 @@
                         <span class="w-8 h-[1px] bg-white/20"></span>
                         Physical Works
                     </h2>
-                    <div class="glass p-8 rounded-2xl border border-white/5">
+                    <div class="surface p-8 rounded-2xl border border-white/5">
                         <ul class="space-y-3 text-sm text-white/60">
                             <li class="flex items-center gap-3"><span
                                     class="w-1.5 h-1.5 rounded-full bg-white/20"></span> 16 Signed Prints on SCR 310 gsm
@@ -185,7 +185,7 @@
         class="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 opacity-0 hidden transition-opacity duration-300">
         <div id="about-wrapper" class="absolute inset-0 bg-black/80 backdrop-blur-xl"></div>
         <div
-            class="relative w-full max-w-2xl glass rounded-3xl border border-white/10 shadow-2xl overflow-hidden flex flex-col max-h-full">
+            class="relative w-full max-w-2xl surface rounded-3xl border border-white/10 shadow-2xl overflow-hidden flex flex-col max-h-full">
             <div class="p-6 md:p-10 border-b border-white/5 flex items-center justify-between bg-white/5">
                 <h2 id="about-title" class="text-2xl md:text-3xl font-bold tracking-tighter uppercase">About</h2>
                 <button id="about-close"

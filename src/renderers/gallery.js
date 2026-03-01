@@ -36,7 +36,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
 
     items.forEach((item, idx) => {
         const card = document.createElement('div');
-        card.className = 'glass overflow-hidden group transition-colors duration-300 animate-fade-in cursor-pointer border border-white/10 hover:border-white/30';
+        card.className = 'surface overflow-hidden group transition-colors duration-300 animate-fade-in cursor-pointer hover:border-white/30';
         card.style.animationDelay = `${idx * 20}ms`;
 
         const imgSrc = getArtworkImageSrc(item);

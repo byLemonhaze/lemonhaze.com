@@ -30,13 +30,13 @@
 }
 
 @layer utilities {
-  .glass {
+  .surface {
     background-color: var(--lh-surface);
     border: 1px solid var(--lh-line);
     box-shadow: none;
   }
 
-  .glass-hover {
+  .surface-hover {
     transition: border-color 200ms ease, background-color 200ms ease, color 200ms ease;
   }
 

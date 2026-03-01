@@ -6,7 +6,7 @@ function createNode(tag, className, text) {
 }
 
 function createStatCard(label, value, valueClassName = '') {
-    const card = createNode('div', 'glass p-4 border border-white/10');
+    const card = createNode('div', 'surface p-4');
     const labelNode = createNode('div', 'text-[10px] uppercase tracking-widest text-white/30 mb-1', label);
     const valueNode = createNode('div', `text-xl font-bold font-mono ${valueClassName}`.trim(), value.toLocaleString());
     card.appendChild(labelNode);

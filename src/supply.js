@@ -314,7 +314,7 @@ function renderSidebar() {
     ];
     extras.forEach(([label, action]) => {
         const btn = document.createElement('button');
-        btn.className = 'w-full text-left px-4 py-2 rounded-lg text-sm transition-all duration-200 hover:bg-white/5 hover:text-white text-white/50';
+        btn.className = 'w-full text-left px-4 py-2 rounded-[4px] text-sm transition-colors duration-200 hover:bg-white/5 hover:text-white text-white/50';
         btn.textContent = label;
         btn.onclick = action;
         topNav.appendChild(btn);
@@ -349,8 +349,8 @@ function renderTables() {
 
         const links = marketLinks[row.name] || {};
         const btns = [
-            links.me ? `<a href="${links.me}" target="_blank" class="px-2 py-1 rounded-md glass text-[10px] hover:bg-white hover:text-black transition-all">ME</a>` : '',
-            links.gamma ? `<a href="${links.gamma}" target="_blank" class="px-2 py-1 rounded-md glass text-[10px] hover:bg-white hover:text-black transition-all">Gamma</a>` : ''
+            links.me ? `<a href="${links.me}" target="_blank" class="px-2 py-1 rounded-[4px] surface text-[10px] text-white/70 hover:text-white hover:border-white/30 transition-colors">ME</a>` : '',
+            links.gamma ? `<a href="${links.gamma}" target="_blank" class="px-2 py-1 rounded-[4px] surface text-[10px] text-white/70 hover:text-white hover:border-white/30 transition-colors">Gamma</a>` : ''
         ].join(' ');
 
         const link = linkOverrides[row.name] || `/index.html?collection=${encodeURIComponent(row.name)}`;
