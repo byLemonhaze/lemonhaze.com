@@ -112,6 +112,45 @@ export function createArtworkModalController({
     let htmlBlobLoadToken = 0;
     let activeHtmlBlobUrl = null;
 
+    function showBestBeforeSaveGuide() {
+        const overlay = document.createElement('div');
+        overlay.className = 'fixed inset-0 z-[85] bg-black/80 flex items-center justify-center p-4';
+
+        const panel = document.createElement('div');
+        panel.className = 'w-full max-w-md border border-white/15 bg-[#050505] p-6 md:p-7';
+        panel.innerHTML = `
+            <p class="text-[9px] font-mono uppercase tracking-[0.28em] text-white/35 mb-3">Best Before</p>
+            <h3 class="text-sm md:text-base font-mono uppercase tracking-[0.14em] text-white mb-4">Save Guide</h3>
+            <div class="text-[11px] leading-relaxed text-white/75 space-y-2">
+                <p>1. Click the artwork to view lifespan and status.</p>
+                <p>2. Press <span class="text-white font-mono">S</span> while the artwork is focused to save the static PNG.</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-white/10 flex justify-end">
+                <button id="bb-save-guide-close" class="px-3 py-1.5 border border-white/20 text-[10px] font-mono uppercase tracking-[0.14em] text-white/75 hover:text-white hover:border-white/45 transition-colors duration-200">Close</button>
+            </div>
+        `;
+
+        const closeGuide = () => {
+            try { document.removeEventListener('keydown', onKeydown); } catch {}
+            overlay.remove();
+        };
+
+        const onKeydown = (event) => {
+            if (event.key === 'Escape') closeGuide();
+        };
+
+        overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) closeGuide();
+        });
+
+        const closeBtn = panel.querySelector('#bb-save-guide-close');
+        if (closeBtn) closeBtn.addEventListener('click', closeGuide);
+
+        document.addEventListener('keydown', onKeydown);
+        overlay.appendChild(panel);
+        document.body.appendChild(overlay);
+    }
+
     function clearActiveHtmlBlobUrl() {
         htmlSaveClickLocked = false;
         if (!activeHtmlBlobUrl) return;
@@ -470,12 +509,7 @@ export function createArtworkModalController({
         modalActions.appendChild(pill('↓ Save', 'Save artwork', () => {
             if (isHtml) {
                 if (item.collection === 'BEST BEFORE') {
-                    window.alert(
-                        'BEST BEFORE quick guide:\n\n' +
-                        '1. Click the artwork to view lifespan/status details.\n' +
-                        '2. Press S while the artwork is focused to save the static PNG.\n' +
-                        '3. Close the modal to return to the gallery.'
-                    );
+                    showBestBeforeSaveGuide();
                     return;
                 }
 
