@@ -96,11 +96,10 @@ export function renderYearGroups({
         collections.forEach((collectionName) => {
             const li = document.createElement('li');
             const btn = document.createElement('button');
-            btn.className = `w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 ${
-                currentFilter === collectionName
-                    ? 'border-white text-white font-bold'
-                    : 'border-transparent text-white/45 hover:border-white/70 hover:text-white'
-            }`;
+            const isActive = currentFilter === collectionName;
+            btn.className = isActive
+                ? 'w-full text-left pl-3 pr-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-white text-white font-bold'
+                : 'w-full text-left pl-[14px] pr-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white/45 hover:text-white';
             btn.dataset.collection = collectionName;
             btn.textContent = collectionName;
             btn.onclick = () => {

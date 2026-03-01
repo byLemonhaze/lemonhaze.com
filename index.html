@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fragment+Mono&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fragment+Mono&display=block"
     rel="stylesheet" />
   <style>
     body {
@@ -38,7 +38,7 @@
     <!-- Header -->
     <a href="/" class="sidebar-expand-content p-6 border-b border-white/10 block hover:bg-white/[0.02] group"
       style="color: white; text-decoration: none;">
-      <h1 class="text-2xl font-extrabold uppercase tracking-[0.05em] transition-colors duration-200 origin-left">
+      <h1 class="text-lg font-bold uppercase tracking-[0.22em] transition-colors duration-200 origin-left">
         Lemonhaze</h1>
       <p class="text-[10px] text-white/40 mt-1 font-mono tracking-[0.2em] uppercase"
         style="color: rgba(255, 255, 255, 0.4);">
@@ -80,7 +80,7 @@
 
       <div class="flex flex-col flex-1 mx-4">
         <div class="flex items-center gap-2">
-          <h2 id="current-view-title" class="text-xl md:text-2xl font-extrabold tracking-[0.04em] uppercase"></h2>
+          <h2 id="current-view-title" class="text-base md:text-lg font-bold tracking-[0.18em] uppercase"></h2>
           <button id="refresh-btn"
             class="p-1.5 text-white/40 hover:text-white hover:rotate-180 transition-all duration-300 hidden"
             title="Refresh collection">
@@ -115,56 +115,53 @@
 
   <!-- Modal / Showroom Overlay -->
   <div id="modal-overlay"
-    class="fixed inset-0 z-50 bg-black/95 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4 md:p-8 overflow-y-auto">
+    class="fixed inset-0 z-50 bg-black hidden opacity-0 transition-opacity duration-300 flex flex-col md:flex-row overflow-hidden">
 
-    <div class="w-full h-auto max-w-[1920px] mx-auto flex flex-col md:flex-row gap-6 md:gap-12 my-auto">
+    <!-- Left Panel: Artwork (with breathing room) -->
+    <div class="flex-1 flex items-center justify-center relative bg-[#050505] min-h-[50vw] md:min-h-0">
+      <iframe id="modal-iframe"
+        class="absolute inset-[5%] w-[90%] h-[90%] hidden"
+        frameborder="0"></iframe>
+      <img id="modal-image"
+        class="w-auto h-auto max-w-[88%] max-h-[50vh] md:max-h-[82vh] object-contain hidden" />
 
-      <!-- Left Panel: Artwork -->
-      <div class="flex-1 flex items-center justify-center relative min-h-[40vh] md:min-h-[50vh]">
-        <div class="relative w-full h-full flex items-center justify-center">
-          <iframe id="modal-iframe"
-            class="w-full aspect-square md:aspect-auto md:h-full md:max-h-[85vh] shadow-2xl border border-white/10 hidden"
-            frameborder="0"></iframe>
-          <img id="modal-image"
-            class="w-auto h-auto max-w-full max-h-[60vh] md:max-h-[85vh] object-contain shadow-2xl drop-shadow-[0_0_50px_rgba(255,255,255,0.05)] hidden" />
-
-          <!-- Raw HTML Overlay (Injected dynamically) -->
-          <div id="raw-html-container"
-            class="hidden absolute inset-0 bg-[#0d0d0d] z-50 p-6 overflow-hidden flex flex-col border border-white/10">
-            <div class="flex justify-between items-center mb-4 pb-2 border-b border-white/10">
-              <span class="text-xs font-mono uppercase text-white/50 tracking-widest">Raw Source</span>
-              <button id="close-raw-html" class="text-white hover:text-red-400 font-mono">CLOSE</button>
-            </div>
-            <pre id="raw-html-content" class="flex-1 overflow-auto text-xs font-mono text-green-400 select-all"></pre>
-          </div>
+      <!-- Raw Source Overlay -->
+      <div id="raw-html-container"
+        class="hidden absolute inset-0 bg-[#050505] z-50 p-6 overflow-hidden flex flex-col">
+        <div class="flex justify-between items-center mb-4 pb-2 border-b border-white/8">
+          <span class="text-[9px] font-mono uppercase tracking-[0.25em] text-white/30">Raw Source</span>
+          <button id="close-raw-html" class="text-[9px] font-mono uppercase tracking-[0.2em] text-white/30 hover:text-white transition-colors">Close</button>
         </div>
+        <pre id="raw-html-content" class="flex-1 overflow-auto text-[10px] font-mono text-white/50 select-all leading-relaxed"></pre>
       </div>
-
-      <div class="w-full md:w-[400px] flex flex-col justify-start h-auto md:h-full md:max-h-[85vh] relative">
-        <div class="surface p-6 md:p-8 overflow-y-auto max-h-[50vh] md:max-h-full scrollbar-hide relative">
-          <button id="modal-close"
-            class="absolute top-4 right-4 p-1 text-white/40 hover:text-white transition-colors z-[60]">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-              <line x1="2" y1="2" x2="14" y2="14"/><line x1="14" y1="2" x2="2" y2="14"/>
-            </svg>
-          </button>
-
-          <h3 id="modal-title" class="text-2xl md:text-3xl font-extrabold tracking-[0.05em] uppercase mb-2 text-white/90"></h3>
-
-          <!-- Action Buttons Row -->
-          <div id="modal-actions" class="flex flex-wrap gap-2 my-6">
-            <!-- Injected by JS -->
-          </div>
-
-          <!-- Metadata List -->
-          <div id="modal-metadata" class="space-y-4 font-mono text-xs md:text-sm text-white/60">
-            <!-- Injected by JS -->
-          </div>
-
-        </div>
-      </div>
-
     </div>
+
+    <!-- Right Panel: Info -->
+    <div class="w-full md:w-[340px] shrink-0 flex flex-col bg-black border-t md:border-t-0 md:border-l border-white/8 relative overflow-y-auto">
+      <button id="modal-close"
+        class="absolute top-4 right-4 p-1 text-white/25 hover:text-white transition-colors z-[60]">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <line x1="2" y1="2" x2="14" y2="14"/><line x1="14" y1="2" x2="2" y2="14"/>
+        </svg>
+      </button>
+
+      <div class="p-6 md:p-8 pt-10 md:pt-10 flex flex-col gap-0 min-h-full">
+
+        <h3 id="modal-title" class="text-lg md:text-xl font-mono uppercase tracking-[0.12em] text-white mb-4 pr-6 leading-tight"></h3>
+
+        <!-- Action row -->
+        <div id="modal-actions" class="flex flex-wrap items-center gap-x-2 gap-y-1.5 pb-5 border-b border-white/8 mb-5">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Metadata -->
+        <div id="modal-metadata" class="flex-1">
+          <!-- Injected by JS -->
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
   <!-- About / Text Overlay -->
@@ -178,7 +175,7 @@
           <line x1="2" y1="2" x2="14" y2="14"/><line x1="14" y1="2" x2="2" y2="14"/>
         </svg>
       </button>
-      <h2 id="about-title" class="text-2xl font-extrabold tracking-[0.05em] uppercase mb-6 text-white/90"></h2>
+      <h2 id="about-title" class="text-base font-bold tracking-[0.18em] uppercase mb-6 text-white/90"></h2>
       <div id="about-content" class="text-sm md:text-base selection:bg-white/20">
         <!-- Injected Text -->
       </div>
