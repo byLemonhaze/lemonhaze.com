@@ -72,13 +72,19 @@ Legacy params (`collection`, `section`, `id`, `collector`) are still accepted an
 
 ## Data Sources
 
-- Provenance JSON: `https://cdn.lemonhaze.com/assets/assets/provenance.json`
-- On-chain content: `https://ordinals.com/content/<inscription_id>`
-- Collector lookup: Hiro API (proxied through `allorigins`)
+| Source | URL | Used For |
+|--------|-----|----------|
+| Provenance JSON | `https://cdn.lemonhaze.com/assets/assets/provenance.json` | All collection/artwork metadata |
+| On-chain content | `https://ordinals.com/content/<id>` | Artwork rendering in modal (image + HTML) |
+| Hiro API | `https://api.hiro.so/ordinals/v1/inscriptions/<id>` | Live inscription data: number, owner, sat rarity, genesis timestamp |
+| BB Collection | `https://bestbefore.space/magic_eden_collection.json` | Replaces provenance.json entries for BEST BEFORE — provides live roster + high-res images |
+| BB Live | `https://bestbefore.space/best-before.json` | BEST BEFORE phase, palette, block countdown, lifespan per inscription |
 
 One inscription is intentionally forced to on-chain content instead of CDN:
 
 - `0c57ce6325d8da6242488d453c13bac0e1e1eaca6a5b3bf4078a6bdd6768d49di0`
+
+The BEST BEFORE collection is treated as a special case throughout: its entries in `provenance.json` are replaced at runtime by `magic_eden_collection.json` data (which carries live high-res images), and the artwork modal fetches `best-before.json` to display phase status, palette swatches, and block-time lifespan for each piece.
 
 ## Local Development
 
