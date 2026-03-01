@@ -1,4 +1,5 @@
 import { applyRouteFromLocation } from '../router/index.js';
+import { isHtmlArtwork } from '../modules/artwork-media.js';
 
 export function createSectionFlow({
     appState,
@@ -28,7 +29,7 @@ export function createSectionFlow({
         }
 
         const imgSrc = getArtworkImageSrc(target);
-        const isHtml = target.id.includes('.html') || target.content_type?.includes('html');
+        const isHtml = isHtmlArtwork(target);
         openMetacard(target, imgSrc, isHtml, { updateUrl, replaceHistory });
         return true;
     };

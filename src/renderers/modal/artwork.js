@@ -1,3 +1,8 @@
+import {
+    getPreferredFileExtension,
+    isVideoArtwork,
+} from '../../modules/artwork-media.js';
+
 const HIRO_API = 'https://api.hiro.so/ordinals/v1/inscriptions';
 const BB_LIVE_URL = 'https://bestbefore.space/best-before.json';
 
@@ -67,15 +72,19 @@ async function fetchHiroData(id) {
     }
 }
 
-// Fetch HTML artwork and return a same-origin blob URL with a postMessage save listener injected.
-// This allows the Save button to trigger the artwork's built-in S-key save via postMessage.
-async function loadHtmlArtwork(id) {
+async function buildSaveEnabledHtmlBlobUrl(id) {
     try {
         const res = await fetch(`https://ordinals.com/content/${id}`);
         if (!res.ok) return null;
         let html = await res.text();
-        const handler = `<script>window.addEventListener('message',function(e){if(e.data==='__save_s')document.dispatchEvent(new KeyboardEvent('keydown',{key:'s',code:'KeyS',keyCode:83,which:83,bubbles:true,cancelable:true}))})<\/script>`;
-        html = html.includes('</body>') ? html.replace('</body>', handler + '</body>') : html + handler;
+        if (!/\<base\s/i.test(html)) {
+            const baseTag = '<base href="https://ordinals.com/">';
+            if (/\<head[\s>]/i.test(html)) {
+                html = html.replace(/\<head([^>]*)\>/i, `<head$1>${baseTag}`);
+            } else {
+                html = `${baseTag}${html}`;
+            }
+        }
         return URL.createObjectURL(new Blob([html], { type: 'text/html' }));
     } catch {
         return null;
@@ -95,6 +104,16 @@ export function createArtworkModalController({
     onGoToCollector,
 }) {
     let metadataListenersBound = false;
+    let htmlSaveClickLocked = false;
+    let htmlBlobLoadToken = 0;
+    let activeHtmlBlobUrl = null;
+
+    function clearActiveHtmlBlobUrl() {
+        htmlSaveClickLocked = false;
+        if (!activeHtmlBlobUrl) return;
+        try { URL.revokeObjectURL(activeHtmlBlobUrl); } catch {}
+        activeHtmlBlobUrl = null;
+    }
 
     function bindMetadataInteractions() {
         const { modalMetadata } = refs();
@@ -170,7 +189,7 @@ export function createArtworkModalController({
                         if (!extItem) return;
                         const thumb = document.createElement('img');
                         thumb.src = getArtworkImageSrc(extItem);
-                        thumb.className = 'w-8 h-8 object-cover border border-white/10 cursor-pointer hover:opacity-80 transition';
+                        thumb.className = 'max-w-[32px] max-h-[32px] w-auto h-auto object-contain cursor-pointer hover:opacity-80 transition';
                         thumb.loading = 'lazy';
                         thumb.dataset.openArtwork = pid;
                         thumbsWrap.appendChild(thumb);
@@ -280,7 +299,7 @@ export function createArtworkModalController({
                     if (!extItem) return;
                     const thumb = document.createElement('img');
                     thumb.src = getArtworkImageSrc(extItem);
-                    thumb.className = 'w-8 h-8 object-cover border border-white/10 cursor-pointer hover:opacity-80 transition';
+                    thumb.className = 'max-w-[32px] max-h-[32px] w-auto h-auto object-contain cursor-pointer hover:opacity-80 transition';
                     thumb.loading = 'lazy';
                     thumb.dataset.openArtwork = pid;
                     thumbsWrap.appendChild(thumb);
@@ -414,7 +433,7 @@ export function createArtworkModalController({
     }
 
     function renderActionButtons(item, cdnSrc, isHtml) {
-        const { modalActions, rawHtmlContainer, rawHtmlContent, modalImage, modalIframe } = refs();
+        const { modalActions, rawHtmlContainer, rawHtmlContent, modalImage, modalIframe, modalVideo } = refs();
         if (!modalActions) return;
 
         modalActions.innerHTML = '';
@@ -446,37 +465,61 @@ export function createArtworkModalController({
 
         modalActions.appendChild(pill('↓ Save', 'Save artwork', () => {
             if (isHtml) {
-                // HTML artworks: focus the iframe and attempt to trigger the built-in S key save
-                const iframeEl = modalIframe;
-                try { iframeEl.contentWindow.focus(); } catch {}
-                try { iframeEl.contentWindow.postMessage({ type: 'keydown', key: 's', code: 'KeyS' }, '*'); } catch {}
+                // HTML artworks: emulate exactly one "S" key press in the loaded artwork iframe.
+                if (htmlSaveClickLocked) return;
+                htmlSaveClickLocked = true;
+                setTimeout(() => { htmlSaveClickLocked = false; }, 1000);
+
+                let frameWindow = null;
                 try {
-                    iframeEl.contentWindow.document.dispatchEvent(
-                        new KeyboardEvent('keydown', { key: 's', code: 'KeyS', keyCode: 83, which: 83, bubbles: true, cancelable: true })
-                    );
-                } catch {}
+                    frameWindow = modalIframe?.contentWindow || null;
+                    // Ensure same-origin access exists (blob mode).
+                    void frameWindow?.document;
+                } catch {
+                    frameWindow = null;
+                }
+                if (!frameWindow) {
+                    window.open(`https://ordinals.com/content/${item.id}`, '_blank');
+                    return;
+                }
+
+                try { frameWindow.focus(); } catch {}
+                const target =
+                    frameWindow.document?.activeElement ||
+                    frameWindow.document?.body ||
+                    frameWindow.document;
+                if (!target?.dispatchEvent) return;
+                target.dispatchEvent(new KeyboardEvent('keydown', {
+                    key: 's',
+                    code: 'KeyS',
+                    keyCode: 83,
+                    which: 83,
+                    bubbles: true,
+                    cancelable: true,
+                }));
             } else {
-                // Image artworks: download the on-chain file from ordinals.com
-                let ext = 'png';
-                if (item.artwork_type === 'JPEG' || item.content_type?.includes('jpeg')) ext = 'jpg';
-                else if (item.artwork_type === 'WEBP' || item.content_type?.includes('webp')) ext = 'webp';
-                else if (item.artwork_type === 'GIF' || item.content_type?.includes('gif')) ext = 'gif';
+                // Non-HTML artworks: download the on-chain file from ordinals.com
+                const ext = getPreferredFileExtension(item);
                 const filename = `${item.name || item.id}.${ext}`;
-                fetch(`https://ordinals.com/content/${item.id}`)
+                fetch(onChainSrc)
                     .then((r) => r.blob())
                     .then((blob) => {
                         const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = filename;
-                        a.click();
+                        const anchor = document.createElement('a');
+                        anchor.href = url;
+                        anchor.download = filename;
+                        document.body.appendChild(anchor);
+                        anchor.click();
+                        document.body.removeChild(anchor);
                         URL.revokeObjectURL(url);
                     })
                     .catch(() => {
-                        const a = document.createElement('a');
-                        a.href = cdnSrc;
-                        a.download = filename;
-                        a.click();
+                        const anchor = document.createElement('a');
+                        anchor.href = onChainSrc;
+                        anchor.download = filename;
+                        document.body.appendChild(anchor);
+                        anchor.click();
+                        document.body.removeChild(anchor);
                     });
             }
         }));
@@ -518,14 +561,21 @@ export function createArtworkModalController({
                 modalIframe.src = '';
                 modalIframe.src = s;
             }
+            if (modalVideo && !modalVideo.classList.contains('hidden') && modalVideo.src) {
+                const s = modalVideo.src;
+                modalVideo.src = '';
+                modalVideo.src = s;
+                modalVideo.play().catch(() => {});
+            }
         }));
 
     }
 
     function openMetacard(item, cdnSrc, isHtml, options = {}) {
         const { updateUrl = true, replaceHistory = false } = options;
-        const { modalTitle, modalImage, modalIframe, rawHtmlContainer, modalOverlay } = refs();
-        if (!modalTitle || !modalImage || !modalIframe || !rawHtmlContainer || !modalOverlay) return;
+        const { modalTitle, modalImage, modalIframe, modalVideo, rawHtmlContainer, modalOverlay } = refs();
+        if (!modalTitle || !modalImage || !modalIframe || !modalVideo || !rawHtmlContainer || !modalOverlay) return;
+        const isVideo = isVideoArtwork(item);
 
         bindMetadataInteractions();
         closeAboutModal({ updateUrl: false });
@@ -537,16 +587,38 @@ export function createArtworkModalController({
 
         modalImage.classList.add('hidden');
         modalIframe.classList.add('hidden');
+        modalVideo.classList.add('hidden');
         rawHtmlContainer.classList.add('hidden');
         modalImage.src = '';
         modalIframe.src = '';
+        modalVideo.src = '';
+        clearActiveHtmlBlobUrl();
+        htmlBlobLoadToken += 1;
 
         if (isHtml) {
+            const currentToken = htmlBlobLoadToken;
             modalIframe.classList.remove('hidden');
-            // Load via same-origin blob URL so Save button can postMessage the S key into the artwork
-            loadHtmlArtwork(item.id).then((blobUrl) => {
-                modalIframe.src = blobUrl || `https://ordinals.com/content/${item.id}`;
+            // Render HTML via same-origin blob so Save can dispatch one S key reliably.
+            void buildSaveEnabledHtmlBlobUrl(item.id).then((blobUrl) => {
+                if (!blobUrl) {
+                    if (appState.activeArtworkId === item.id && currentToken === htmlBlobLoadToken) {
+                        modalIframe.src = `https://ordinals.com/content/${item.id}`;
+                    }
+                    return;
+                }
+
+                if (appState.activeArtworkId !== item.id || currentToken !== htmlBlobLoadToken) {
+                    try { URL.revokeObjectURL(blobUrl); } catch {}
+                    return;
+                }
+
+                activeHtmlBlobUrl = blobUrl;
+                modalIframe.src = blobUrl;
             });
+        } else if (isVideo) {
+            modalVideo.src = `https://ordinals.com/content/${item.id}`;
+            modalVideo.classList.remove('hidden');
+            modalVideo.play().catch(() => {});
         } else {
             modalImage.src = `https://ordinals.com/content/${item.id}`;
             modalImage.classList.remove('hidden');
@@ -570,7 +642,7 @@ export function createArtworkModalController({
 
     function closeModal(options = {}) {
         const { updateUrl = true, replaceHistory = false } = options;
-        const { modalOverlay, modalImage, modalIframe, rawHtmlContainer } = refs();
+        const { modalOverlay, modalImage, modalIframe, modalVideo, rawHtmlContainer } = refs();
 
         const hadArtwork = Boolean(appState.activeArtworkId);
         appState.activeArtworkId = null;
@@ -586,7 +658,10 @@ export function createArtworkModalController({
             modalOverlay.classList.add('hidden');
             if (modalImage) { modalImage.src = ''; modalImage.classList.add('hidden'); }
             if (modalIframe) { modalIframe.src = ''; modalIframe.classList.add('hidden'); }
+            if (modalVideo) { modalVideo.pause(); modalVideo.src = ''; modalVideo.classList.add('hidden'); }
             if (rawHtmlContainer) rawHtmlContainer.classList.add('hidden');
+            htmlBlobLoadToken += 1;
+            clearActiveHtmlBlobUrl();
         }, 300);
     }
 

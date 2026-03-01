@@ -40,7 +40,7 @@ import { setupSiteOverlay } from '../ui/site-overlay.js';
 
 // DOM Elements (fetched on demand or in init)
 let sidebar, collectionsNav, contentArea, galleryGrid, currentViewTitle, currentViewMeta, loadingIndicator, menuToggle;
-let modalOverlay, modalClose, modalImage, modalIframe, modalTitle, modalMetadata, modalActions;
+let modalOverlay, modalClose, modalImage, modalIframe, modalVideo, modalTitle, modalMetadata, modalActions;
 let rawHtmlContainer, rawHtmlContent, closeRawHtml;
 let aboutOverlay, aboutTitle, aboutContent, aboutClose;
 let refreshBtn;
@@ -65,6 +65,7 @@ function refreshElements() {
     modalClose = refs.modalClose;
     modalImage = refs.modalImage;
     modalIframe = refs.modalIframe;
+    modalVideo = refs.modalVideo;
     modalTitle = refs.modalTitle;
     modalMetadata = refs.modalMetadata;
     modalActions = refs.modalActions;
@@ -288,6 +289,7 @@ function getArtworkModalRefs() {
         modalOverlay,
         modalImage,
         modalIframe,
+        modalVideo,
         modalTitle,
         modalMetadata,
         modalActions,

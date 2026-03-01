@@ -14,6 +14,7 @@ const ELEMENT_IDS = {
     modalClose: 'modal-close',
     modalImage: 'modal-image',
     modalIframe: 'modal-iframe',
+    modalVideo: 'modal-video',
     modalTitle: 'modal-title',
     modalMetadata: 'modal-metadata',
     modalActions: 'modal-actions',
