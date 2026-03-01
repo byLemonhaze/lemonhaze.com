@@ -11,6 +11,7 @@ import {
     LINK_OVERRIDES,
     MEDIA_ITEMS,
 } from '../data.js';
+import { BLOG_POSTS } from '../data/blog-posts.js';
 import { appState } from '../state/store.js';
 import { createRouter } from '../router/index.js';
 import { ROUTE_KEYS } from '../router/constants.js';
@@ -107,6 +108,7 @@ const INTERNAL_SECTIONS = createInternalSections({
     marketLinks: MARKET_LINKS,
     linkOverrides: LINK_OVERRIDES,
     mediaItems: MEDIA_ITEMS,
+    blogPosts: BLOG_POSTS,
     routeKeys: ROUTE_KEYS,
     toCollectionSlug,
     slugifyCollectionName,

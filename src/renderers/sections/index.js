@@ -1,6 +1,7 @@
 import { createCareerHighlightsNode } from './highlights.js';
 import { createSupplySectionNode } from './supply.js';
 import { createMediaSectionNode } from './media.js';
+import { createBlogSectionNode } from './blog.js';
 
 export function createInternalSections({
     aboutText,
@@ -9,6 +10,7 @@ export function createInternalSections({
     marketLinks,
     linkOverrides,
     mediaItems,
+    blogPosts,
     routeKeys,
     toCollectionSlug,
     slugifyCollectionName,
@@ -40,6 +42,11 @@ export function createInternalSections({
             label: 'Media & Press',
             title: 'Media & Press',
             content: () => createMediaSectionNode(mediaItems),
+        },
+        blog: {
+            label: 'Blog',
+            title: 'Blog',
+            content: () => createBlogSectionNode(blogPosts),
         },
     };
 }

@@ -31,6 +31,7 @@ export function renderTopNav(container, {
         [internalSections.highlights.label, 'highlights'],
         [internalSections.supply.label, 'supply'],
         [internalSections.media.label, 'media'],
+        [internalSections.blog.label, 'blog'],
     ];
     const externalLinks = [
         ['Twitter', () => onOpenExternal('https://x.com/Ordinals10K')],
