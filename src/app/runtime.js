@@ -36,6 +36,7 @@ import {
     normalizeSectionKey as normalizeSection,
 } from '../renderers/sections/index.js';
 import { renderHomeView } from '../renderers/home.js';
+import { setupSiteOverlay } from '../ui/site-overlay.js';
 
 // DOM Elements (fetched on demand or in init)
 let sidebar, collectionsNav, contentArea, galleryGrid, currentViewTitle, currentViewMeta, loadingIndicator, menuToggle;
@@ -177,6 +178,7 @@ async function applyUrlStateFromLocation(options = {}) {
 async function init() {
     refreshElements();
     homeLayoutController.setup();
+    setupSiteOverlay();
     setLoading(true);
     renderSidebar();
 

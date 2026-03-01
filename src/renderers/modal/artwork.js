@@ -67,6 +67,21 @@ async function fetchHiroData(id) {
     }
 }
 
+// Fetch HTML artwork and return a same-origin blob URL with a postMessage save listener injected.
+// This allows the Save button to trigger the artwork's built-in S-key save via postMessage.
+async function loadHtmlArtwork(id) {
+    try {
+        const res = await fetch(`https://ordinals.com/content/${id}`);
+        if (!res.ok) return null;
+        let html = await res.text();
+        const handler = `<script>window.addEventListener('message',function(e){if(e.data==='__save_s')document.dispatchEvent(new KeyboardEvent('keydown',{key:'s',code:'KeyS',keyCode:83,which:83,bubbles:true,cancelable:true}))})<\/script>`;
+        html = html.includes('</body>') ? html.replace('</body>', handler + '</body>') : html + handler;
+        return URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+    } catch {
+        return null;
+    }
+}
+
 export function createArtworkModalController({
     refs,
     appState,
@@ -422,18 +437,48 @@ export function createArtworkModalController({
         if (item.collection === 'BEST BEFORE') {
             const bbNum = getBBNumber(item.id);
             const bbUrl = bbNum ? `https://bestbefore.gallery/${bbNum}` : 'https://bestbefore.gallery';
-            modalActions.appendChild(pill('↗ BB Gallery', 'Open on bestbefore.gallery', () =>
-                window.open(bbUrl, '_blank')
-            ));
+            modalActions.appendChild(pill('↗ BB Gallery', 'View on bestbefore.gallery', () => {
+                window.dispatchEvent(new CustomEvent('open-site-overlay', {
+                    detail: { url: bbUrl, label: 'Best Before' },
+                }));
+            }));
         }
 
-        modalActions.appendChild(pill('↓ Save', 'Download from CDN', () => {
-            const link = document.createElement('a');
-            link.href = cdnSrc;
-            link.download = `${item.name || item.id}`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        modalActions.appendChild(pill('↓ Save', 'Save artwork', () => {
+            if (isHtml) {
+                // HTML artworks: focus the iframe and attempt to trigger the built-in S key save
+                const iframeEl = modalIframe;
+                try { iframeEl.contentWindow.focus(); } catch {}
+                try { iframeEl.contentWindow.postMessage({ type: 'keydown', key: 's', code: 'KeyS' }, '*'); } catch {}
+                try {
+                    iframeEl.contentWindow.document.dispatchEvent(
+                        new KeyboardEvent('keydown', { key: 's', code: 'KeyS', keyCode: 83, which: 83, bubbles: true, cancelable: true })
+                    );
+                } catch {}
+            } else {
+                // Image artworks: download the on-chain file from ordinals.com
+                let ext = 'png';
+                if (item.artwork_type === 'JPEG' || item.content_type?.includes('jpeg')) ext = 'jpg';
+                else if (item.artwork_type === 'WEBP' || item.content_type?.includes('webp')) ext = 'webp';
+                else if (item.artwork_type === 'GIF' || item.content_type?.includes('gif')) ext = 'gif';
+                const filename = `${item.name || item.id}.${ext}`;
+                fetch(`https://ordinals.com/content/${item.id}`)
+                    .then((r) => r.blob())
+                    .then((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = filename;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                    })
+                    .catch(() => {
+                        const a = document.createElement('a');
+                        a.href = cdnSrc;
+                        a.download = filename;
+                        a.click();
+                    });
+            }
         }));
 
         if (isHtml && rawHtmlContainer && rawHtmlContent) {
@@ -497,8 +542,11 @@ export function createArtworkModalController({
         modalIframe.src = '';
 
         if (isHtml) {
-            modalIframe.src = `https://ordinals.com/content/${item.id}`;
             modalIframe.classList.remove('hidden');
+            // Load via same-origin blob URL so Save button can postMessage the S key into the artwork
+            loadHtmlArtwork(item.id).then((blobUrl) => {
+                modalIframe.src = blobUrl || `https://ordinals.com/content/${item.id}`;
+            });
         } else {
             modalImage.src = `https://ordinals.com/content/${item.id}`;
             modalImage.classList.remove('hidden');

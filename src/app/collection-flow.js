@@ -1,12 +1,12 @@
 const BASE_COLLECTION_BUTTON_CLASS =
-    'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-transparent text-white/45 hover:text-white';
+    'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white/45 hover:text-white';
 const ACTIVE_COLLECTION_BUTTON_CLASS =
-    'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-white text-white font-bold';
+    'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white font-bold';
 
 export function updateSidebarActiveState({ collectionsNav, activeBtn }) {
     if (!collectionsNav) return;
 
-    const allButtons = collectionsNav.querySelectorAll('button');
+    const allButtons = collectionsNav.querySelectorAll('button[data-collection]');
     allButtons.forEach((button) => {
         button.className = BASE_COLLECTION_BUTTON_CLASS;
     });

@@ -1,9 +1,9 @@
 import { initCollapsedYears, toggleYearCollapse, getCollapsedYears } from '../state/store.js';
 
 const BASE_TOP_NAV_BUTTON_CLASS =
-    'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-transparent hover:text-white text-white/45';
+    'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 hover:text-white text-white/45';
 const ACTIVE_TOP_NAV_BUTTON_CLASS =
-    'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-white text-white';
+    'w-full text-left px-3 py-2 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 text-white';
 
 export function syncSidebarActiveSection({ topNav, sectionKey }) {
     if (!topNav) return;
@@ -98,8 +98,8 @@ export function renderYearGroups({
             const btn = document.createElement('button');
             const isActive = currentFilter === collectionName;
             btn.className = isActive
-                ? 'w-full text-left pl-3 pr-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-white text-white font-bold'
-                : 'w-full text-left pl-[14px] pr-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white/45 hover:text-white';
+                ? 'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white font-bold'
+                : 'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white/45 hover:text-white';
             btn.dataset.collection = collectionName;
             btn.textContent = collectionName;
             btn.onclick = () => {

@@ -1,6 +1,6 @@
 const COLLECTION_EXTERNAL_SITES = {
     'BEST BEFORE': 'https://bestbefore.gallery',
-    Deville: 'https://cypherville.xyz',
+    DeVille: 'https://cypherville.xyz',
     Cypherville: 'https://cypherville.xyz',
     'Portrait 2490': 'https://2490.studio',
 };
@@ -49,8 +49,8 @@ export function updateHeaderView({
     const externalSite = COLLECTION_EXTERNAL_SITES[title] || null;
 
     if (currentViewMeta) {
-        const externalLink = externalSite
-            ? `<a href="${externalSite}" target="_blank" rel="noopener noreferrer" class="text-white/40 hover:text-white transition-colors">↗ Site</a>`
+        const externalBtn = externalSite
+            ? `<button class="site-overlay-trigger text-white/40 hover:text-white transition-colors" data-site-url="${externalSite}" data-site-label="${title}">↗ Site</button>`
             : '';
         currentViewMeta.innerHTML = `
       <div class="mt-1">
@@ -58,7 +58,7 @@ export function updateHeaderView({
           <span>${worksCount} artworks</span>
           <span class="text-white/15">·</span>
           <span>${attribution}</span>
-          ${externalSite ? `<span class="text-white/15">·</span>${externalLink}` : ''}
+          ${externalSite ? `<span class="text-white/15">·</span>${externalBtn}` : ''}
           <span id="desc-chevron" class="text-white/35 group-hover:text-white/70 transition-colors text-[11px] font-mono ml-1 select-none">+</span>
         </button>
         <div id="desc-body" class="hidden mt-2 border-l border-white/15 pl-3 py-1">
@@ -69,6 +69,17 @@ export function updateHeaderView({
         const toggle = currentViewMeta.querySelector('#desc-toggle');
         const body = currentViewMeta.querySelector('#desc-body');
         const chevron = currentViewMeta.querySelector('#desc-chevron');
+        const siteTrigger = currentViewMeta.querySelector('.site-overlay-trigger');
+
+        if (siteTrigger) {
+            siteTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                window.dispatchEvent(new CustomEvent('open-site-overlay', {
+                    detail: { url: siteTrigger.dataset.siteUrl, label: siteTrigger.dataset.siteLabel },
+                }));
+            });
+        }
+
         if (toggle && body && chevron) {
             toggle.addEventListener('click', (e) => {
                 e.stopPropagation();
