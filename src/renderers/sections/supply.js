@@ -6,9 +6,9 @@ function createNode(tag, className, text) {
 }
 
 function createStatCard(label, value, valueClassName = '') {
-    const card = createNode('div', 'surface p-4');
-    const labelNode = createNode('div', 'text-[10px] uppercase tracking-widest text-white/30 mb-1', label);
-    const valueNode = createNode('div', `text-xl font-bold font-mono ${valueClassName}`.trim(), value.toLocaleString());
+    const card = createNode('div', 'flex flex-col');
+    const labelNode = createNode('div', 'text-[9px] uppercase tracking-[0.3em] text-white/25 mb-1', label);
+    const valueNode = createNode('div', `text-2xl md:text-3xl font-bold font-mono ${valueClassName}`.trim(), value.toLocaleString());
     card.appendChild(labelNode);
     card.appendChild(valueNode);
     return card;
@@ -110,7 +110,7 @@ export function createSupplySectionNode({
 
     const root = createNode('div', 'space-y-8 animate-fade-in');
 
-    const statsGrid = createNode('div', 'grid grid-cols-3 gap-4');
+    const statsGrid = createNode('div', 'flex gap-8 md:gap-12 mb-8 border-b border-white/8 pb-6');
     statsGrid.appendChild(createStatCard('Inscribed', ordInscribed));
     statsGrid.appendChild(createStatCard('Circulating', ordCirc, 'text-white/90'));
     statsGrid.appendChild(createStatCard('Burned', ordBurned, 'text-white/30'));

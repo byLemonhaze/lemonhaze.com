@@ -1,3 +1,5 @@
+import { initCollapsedYears, toggleYearCollapse, getCollapsedYears } from '../state/store.js';
+
 const BASE_TOP_NAV_BUTTON_CLASS =
     'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 border-transparent hover:text-white text-white/45';
 const ACTIVE_TOP_NAV_BUTTON_CLASS =
@@ -29,7 +31,6 @@ export function renderTopNav(container, {
         [internalSections.highlights.label, 'highlights'],
         [internalSections.supply.label, 'supply'],
         [internalSections.media.label, 'media'],
-        [internalSections.collectors.label, 'collectors'],
     ];
     const externalLinks = [
         ['Twitter', () => onOpenExternal('https://x.com/Ordinals10K')],
@@ -62,20 +63,37 @@ export function renderYearGroups({
     onAfterSelect,
 }) {
     const years = Object.keys(chronologyByYear).sort((a, b) => b - a);
+    initCollapsedYears(years);
 
     years.forEach((year) => {
+        const collections = chronologyByYear[year];
+        const count = collections.length;
+        const isCollapsed = getCollapsedYears().has(String(year));
+
         const yearGroup = document.createElement('div');
         yearGroup.className = 'animate-fade-in';
 
-        const yearHeader = document.createElement('h3');
-        yearHeader.className = 'text-[10px] font-semibold text-white/30 uppercase tracking-[0.28em] px-3 mb-2 mt-8';
-        yearHeader.textContent = year;
-        yearGroup.appendChild(yearHeader);
+        const yearBtn = document.createElement('button');
+        yearBtn.className = 'w-full flex items-center justify-between px-3 mt-8 mb-2 group';
+
+        const yearLabel = document.createElement('span');
+        yearLabel.className = 'text-[10px] font-semibold text-white/30 uppercase tracking-[0.28em]';
+        yearLabel.textContent = year;
+
+        const indicator = document.createElement('span');
+        indicator.className = 'text-[9px] font-mono text-white/20 group-hover:text-white/40 transition-colors';
+        indicator.textContent = isCollapsed ? '+' : '−';
+
+        yearBtn.appendChild(yearLabel);
+        yearBtn.appendChild(indicator);
+        yearGroup.appendChild(yearBtn);
 
         const list = document.createElement('ul');
         list.className = 'space-y-0.5';
+        list.dataset.yearList = year;
+        list.style.display = isCollapsed ? 'none' : '';
 
-        chronologyByYear[year].forEach((collectionName) => {
+        collections.forEach((collectionName) => {
             const li = document.createElement('li');
             const btn = document.createElement('button');
             btn.className = `w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 border-l-2 ${
@@ -92,6 +110,13 @@ export function renderYearGroups({
             li.appendChild(btn);
             list.appendChild(li);
         });
+
+        yearBtn.onclick = () => {
+            toggleYearCollapse(year);
+            const collapsed = getCollapsedYears().has(String(year));
+            list.style.display = collapsed ? 'none' : '';
+            indicator.textContent = collapsed ? '+' : '−';
+        };
 
         yearGroup.appendChild(list);
         collectionsNav.appendChild(yearGroup);

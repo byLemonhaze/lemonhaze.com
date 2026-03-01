@@ -7,6 +7,8 @@ const ELEMENT_IDS = {
     currentViewMeta: 'current-view-meta',
     loadingIndicator: 'loading-indicator',
     menuToggle: 'menu-toggle',
+    sidebarRailToggle: 'sidebar-rail-toggle',
+    sidebarRailMark: 'sidebar-rail-mark',
     refreshBtn: 'refresh-btn',
     modalOverlay: 'modal-overlay',
     modalClose: 'modal-close',

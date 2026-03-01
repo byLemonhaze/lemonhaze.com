@@ -23,12 +23,12 @@ import { el, refreshElements as refreshDomElements } from '../ui/elements.js';
 import { setLoadingIndicator } from '../ui/loading.js';
 import { updateHeaderView } from '../ui/header.js';
 import { toggleMobileSidebar } from '../ui/menu.js';
+import { createHomeLayoutController } from '../ui/home-layout.js';
 import { createTesterController } from '../ui/tester.js';
 import { getArtworkImageSrc, renderGalleryGrid } from '../renderers/gallery.js';
 import { renderSidebarSections, syncSidebarActiveSection as syncSidebarActiveSectionFromNav } from '../renderers/sidebar.js';
 import { createArtworkModalController } from '../renderers/modal/artwork.js';
 import { setupAppEventListeners } from '../events/index.js';
-import { loadCollectorGallerySection } from '../renderers/sections/collectors.js';
 import { renderSectionView } from '../renderers/sections/view.js';
 import {
     createInternalSections,
@@ -128,11 +128,16 @@ const sectionFlow = createSectionFlow({
     router,
     toCollectionSlug,
     closeAboutModal,
-    loadCollectorGallery,
+    loadCollectorGallery: () => loadCollection('Home'),
 });
 let hasStarted = false;
 let sectionReturnState = null;
 let cleanupHomeView = null;
+const homeLayoutController = createHomeLayoutController({
+    getSidebar: () => sidebar,
+    getToggleButton: el.sidebarRailToggle,
+    getRailMark: el.sidebarRailMark,
+});
 
 function destroyHomeView() {
     if (typeof cleanupHomeView === 'function') {
@@ -170,6 +175,7 @@ async function applyUrlStateFromLocation(options = {}) {
 // Initialization
 async function init() {
     refreshElements();
+    homeLayoutController.setup();
     setLoading(true);
     renderSidebar();
 
@@ -186,24 +192,6 @@ async function init() {
     setupEventListeners();
 }
 
-async function loadCollectorGallery(address, options = {}) {
-    destroyHomeView();
-    await loadCollectorGallerySection({
-        address,
-        options,
-        appState,
-        contentArea,
-        currentViewMeta,
-        setLoading,
-        syncSidebarActiveCollection,
-        syncSidebarActiveSection,
-        updateHeader,
-        renderGallery,
-        syncUrlState: router.syncUrlState,
-        allArtworks: appState.artworks,
-        galleryGrid,
-    });
-}
 
 // ---------------------------------------------------------
 // Rendering Side
@@ -230,6 +218,7 @@ function renderSidebar() {
 
 function loadCollection(name, options = {}) {
     const resolvedName = resolveCollectionName(name) || 'Home';
+    homeLayoutController.setHomeMode(resolvedName === 'Home');
     if (resolvedName !== 'Home') {
         destroyHomeView();
     }
@@ -312,7 +301,7 @@ const artworkModalController = createArtworkModalController({
     getMetaOwner: el.metaOwner,
     closeAboutModal: (options) => closeAboutModal(options),
     onOpenArtworkById: (id) => openArtworkById(id),
-    onGoToCollector: (addr) => goToCollector(addr),
+    onGoToCollector: () => {},
 });
 
 function openMetacard(item, imgSrc, isHtml, options = {}) {
@@ -321,12 +310,6 @@ function openMetacard(item, imgSrc, isHtml, options = {}) {
 
 function closeModal(options = {}) {
     artworkModalController.closeModal(options);
-}
-
-function goToCollector(addr) {
-    closeAboutModal({ updateUrl: false });
-    closeModal({ updateUrl: false });
-    loadCollectorGallery(addr);
 }
 
 // ---------------------------------------------------------
@@ -342,7 +325,6 @@ function openAboutModal(title, content, options = {}) {
 
     if (!appState.activeSectionKey) {
         sectionReturnState = {
-            collector: appState.activeCollectorAddress || null,
             collection: appState.currentFilter || 'Home',
         };
     }
@@ -353,6 +335,7 @@ function openAboutModal(title, content, options = {}) {
     if (sectionKey !== null) {
         appState.activeSectionKey = normalizeSectionKey(sectionKey);
     }
+    homeLayoutController.setHomeMode(false);
 
     // Section views are global; keep collection rail unselected while one is open.
     syncSidebarActiveCollection(null);
@@ -410,13 +393,6 @@ function closeAboutModal(options = {}) {
 
     const returnState = sectionReturnState;
     sectionReturnState = null;
-
-    if (returnState?.collector) {
-        loadCollectorGallery(returnState.collector, { updateUrl: false }).catch(() => {
-            loadCollection('Home', { updateUrl: false });
-        });
-        return;
-    }
 
     const fallbackCollection = returnState?.collection || 'Home';
     const targetCollection = fallbackCollection.startsWith('Collector:') ? 'Home' : fallbackCollection;

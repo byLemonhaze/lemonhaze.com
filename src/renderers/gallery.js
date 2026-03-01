@@ -17,7 +17,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
     if (!galleryGrid) return;
 
     galleryGrid.innerHTML = '';
-    galleryGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-20';
+    galleryGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mb-20';
 
     if (contentArea) {
         contentArea.scrollTop = 0;
@@ -36,18 +36,18 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
 
     items.forEach((item, idx) => {
         const card = document.createElement('div');
-        card.className = 'surface overflow-hidden group transition-colors duration-300 animate-fade-in cursor-pointer hover:border-white/30';
+        card.className = 'group animate-fade-in cursor-pointer';
         card.style.animationDelay = `${idx * 20}ms`;
 
         const imgSrc = getArtworkImageSrc(item);
         const imgClass = item.artwork_type === 'PNG' ? 'pixelated' : '';
 
         card.innerHTML = `
-      <div class="aspect-square bg-[#0a0a0a] border border-white/10 relative group overflow-hidden flex items-center justify-center">
-        <img src="${imgSrc}" class="w-[85%] h-[85%] object-contain drop-shadow-2xl ${imgClass}" loading="lazy" />
-        <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-          <p class="text-[11px] font-bold text-white tracking-widest">${item.name || 'Untitled'}</p>
-        </div>
+      <div class="aspect-square bg-[#0a0a0a] overflow-hidden flex items-center justify-center">
+        <img src="${imgSrc}" class="w-[85%] h-[85%] object-contain drop-shadow-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-300 ${imgClass}" loading="lazy" />
+      </div>
+      <div class="pt-2 pb-1">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-white text-center truncate">${item.name || 'Untitled'}</p>
       </div>
     `;
 

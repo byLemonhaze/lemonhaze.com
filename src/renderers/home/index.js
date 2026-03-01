@@ -13,7 +13,7 @@ export function renderHomeView({
     if (!galleryGrid) return () => {};
 
     galleryGrid.innerHTML = '';
-    galleryGrid.className = 'w-full flex flex-col items-center justify-center min-h-[85vh] relative overflow-hidden md:py-12';
+    galleryGrid.className = 'w-full flex flex-col items-center justify-center min-h-[88vh] md:min-h-[calc(100vh-3rem)] relative overflow-hidden md:py-4';
 
     const selection = buildHomeSelection({
         artworks,

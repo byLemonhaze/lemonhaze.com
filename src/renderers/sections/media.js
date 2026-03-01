@@ -6,46 +6,43 @@ function createTextNode(tag, className, text) {
 }
 
 export function createMediaSectionNode(items) {
-    const root = createTextNode('div', 'space-y-6 animate-fade-in');
-    const intro = createTextNode(
-        'p',
-        'text-white/40 text-xs font-mono uppercase tracking-widest mb-4',
-        'Interviews & Podcasts'
-    );
-    root.appendChild(intro);
-
-    const grid = createTextNode('div', 'grid grid-cols-1 md:grid-cols-2 gap-4');
+    const root = createTextNode('div', 'space-y-0 animate-fade-in');
 
     items.forEach((item, idx) => {
-        const card = document.createElement('button');
-        card.type = 'button';
-        card.className = 'surface p-4 hover:border-white/30 transition-colors cursor-pointer group text-left';
-        card.style.animation = `fade-in 0.5s ease-out ${idx * 0.1}s both`;
-        card.addEventListener('click', () => window.open(item.link, '_blank'));
+        const num = String(idx + 1).padStart(2, '0');
+        const row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'w-full flex items-start gap-4 py-4 border-b border-white/5 hover:border-white/15 transition-colors cursor-pointer group text-left';
+        row.addEventListener('click', () => window.open(item.link, '_blank'));
 
-        const heading = createTextNode('div', 'flex items-center justify-between mb-2');
-        const platform = createTextNode(
-            'span',
-            'text-[10px] font-mono text-white/50 uppercase tracking-tighter',
+        const index = createTextNode('span', 'text-[9px] font-mono text-white/15 shrink-0 mt-0.5', num);
+
+        const body = document.createElement('div');
+        body.className = 'flex-1 min-w-0';
+
+        const meta = createTextNode(
+            'p',
+            'text-[9px] font-mono text-white/25 uppercase tracking-[0.25em] mb-1',
             item.platform
         );
-        const arrow = createTextNode('span', 'text-white/20 group-hover:text-white/60 transition-colors', '→');
-        heading.appendChild(platform);
-        heading.appendChild(arrow);
-
         const title = createTextNode(
             'h4',
-            'text-[13px] font-bold text-white/90 leading-tight mb-2 group-hover:text-white transition-colors',
+            'text-[13px] font-bold text-white/80 leading-tight group-hover:text-white transition-colors mb-1',
             item.title
         );
-        const caption = createTextNode('p', 'text-[11px] text-white/40 leading-relaxed font-light', item.caption);
+        const caption = createTextNode('p', 'text-[11px] text-white/35 leading-relaxed', item.caption);
 
-        card.appendChild(heading);
-        card.appendChild(title);
-        card.appendChild(caption);
-        grid.appendChild(card);
+        body.appendChild(meta);
+        body.appendChild(title);
+        body.appendChild(caption);
+
+        const arrow = createTextNode('span', 'text-white/15 group-hover:text-white/50 transition-colors shrink-0 font-mono mt-1', '→');
+
+        row.appendChild(index);
+        row.appendChild(body);
+        row.appendChild(arrow);
+        root.appendChild(row);
     });
 
-    root.appendChild(grid);
     return root;
 }

@@ -13,8 +13,8 @@ function buildCollectionYearMap(chronologyByYear) {
 function createArrowButton(direction, onClick) {
     const isRight = direction === 'right';
     const button = document.createElement('button');
-    button.className = `absolute ${isRight ? 'right-4 md:right-12' : 'left-4 md:left-12'} top-1/2 -translate-y-1/2 z-30 text-white/30 hover:text-white transition-colors duration-300`;
-    button.innerHTML = `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="${isRight ? '9 18 15 12 9 6' : '15 18 9 12 15 6'}"></polyline></svg>`;
+    button.className = `absolute ${isRight ? 'right-4 md:right-12' : 'left-4 md:left-12'} top-1/2 -translate-y-1/2 z-30 text-white/25 hover:text-white transition-colors duration-300 font-mono text-xl md:text-2xl select-none`;
+    button.textContent = isRight ? '→' : '←';
     button.addEventListener('click', onClick);
     return button;
 }
@@ -38,18 +38,18 @@ export function createHomeCarousel({
     let currentX = 0;
 
     const carouselWrapper = document.createElement('div');
-    carouselWrapper.className = 'relative w-full h-[450px] md:h-[560px] flex items-center justify-center overflow-hidden -mt-4 md:mt-0';
+    carouselWrapper.className = 'relative w-full h-[60vh] md:h-[72vh] flex items-center justify-center overflow-hidden';
 
     const tracksContainer = document.createElement('div');
-    tracksContainer.className = 'relative w-full max-w-7xl h-[380px] md:h-[500px]';
+    tracksContainer.className = 'relative w-full max-w-[1160px] h-[52vh] md:h-[64vh]';
     carouselWrapper.appendChild(tracksContainer);
 
     const labelContainer = document.createElement('div');
-    labelContainer.className = 'mt-2 md:mt-6 text-center animate-fade-in delay-500 min-h-[4rem] relative z-40';
+    labelContainer.className = 'mt-3 md:mt-6 animate-fade-in delay-500 min-h-[3.5rem] relative z-40 px-4 md:px-12';
 
     const itemEls = selection.map((artwork, index) => {
         const itemDiv = document.createElement('div');
-        itemDiv.className = 'absolute top-0 w-[85vw] md:w-[600px] h-full cursor-pointer transition-all duration-500 ease-out';
+        itemDiv.className = 'absolute top-0 w-[88vw] md:w-[760px] h-full cursor-pointer transition-all duration-500 ease-out';
         itemDiv.style.left = '50%';
         itemDiv.style.transform = 'translateX(-50%)';
 
@@ -96,11 +96,11 @@ export function createHomeCarousel({
             labelContainer.innerHTML = '';
             return;
         }
-        const year = colToYear[item.collection] || (item.collection === 'BEST BEFORE' ? '2025' : '');
         labelContainer.innerHTML = `
-            <h4 class="text-sm md:text-base font-bold text-white tracking-widest mb-1 opacity-90 text-shadow-sm shadow-black">${item.name || 'Untitled'}</h4>
-            <p class="text-[10px] text-white/30 font-mono uppercase tracking-[0.3em] font-light text-shadow-sm shadow-black">${item.collection}</p>
-            ${year ? `<p class="text-[9px] text-white/10 font-mono mt-1 tracking-widest font-light text-shadow-sm shadow-black">${year}</p>` : ''}
+            <div>
+                <p class="text-[9px] font-mono uppercase tracking-[0.3em] text-white/25 mb-1">${item.collection}</p>
+                <h4 class="text-sm md:text-base font-bold text-white tracking-widest opacity-90">${item.name || 'Untitled'}</h4>
+            </div>
         `;
     }
 

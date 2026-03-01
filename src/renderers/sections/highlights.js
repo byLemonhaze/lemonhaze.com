@@ -1,37 +1,39 @@
 export function createCareerHighlightsNode(items) {
     const root = document.createElement('div');
-    root.className = 'space-y-3 text-xs md:text-sm text-white/80';
+    root.className = 'space-y-0 text-xs md:text-sm text-white/80';
 
-    items.forEach((item) => {
+    items.forEach((item, idx) => {
+        const num = String(idx + 1).padStart(2, '0');
+
         if (typeof item === 'string') {
             const row = document.createElement('div');
-            row.className = 'flex items-start gap-2';
+            row.className = 'flex items-start gap-4 py-3 border-b border-white/5';
 
-            const arrow = document.createElement('span');
-            arrow.className = 'opacity-40';
-            arrow.textContent = '→';
+            const index = document.createElement('span');
+            index.className = 'text-[9px] font-mono text-white/15 shrink-0 mt-0.5';
+            index.textContent = num;
 
             const text = document.createElement('span');
             text.textContent = item;
 
-            row.appendChild(arrow);
+            row.appendChild(index);
             row.appendChild(text);
             root.appendChild(row);
             return;
         }
 
         const row = document.createElement('div');
-        row.className = 'hover:text-white transition-colors cursor-pointer group flex items-start gap-2';
+        row.className = 'flex items-start gap-4 py-3 border-b border-white/5 hover:border-white/15 transition-colors cursor-pointer';
         row.onclick = () => window.open(item.link, '_blank');
 
-        const arrow = document.createElement('span');
-        arrow.className = 'opacity-40 group-hover:opacity-100 transition-opacity';
-        arrow.textContent = '→';
+        const index = document.createElement('span');
+        index.className = 'text-[9px] font-mono text-white/15 shrink-0 mt-0.5';
+        index.textContent = num;
 
         const text = document.createElement('span');
         text.textContent = item.text;
 
-        row.appendChild(arrow);
+        row.appendChild(index);
         row.appendChild(text);
         root.appendChild(row);
     });

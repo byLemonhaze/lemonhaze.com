@@ -76,13 +76,13 @@ export function renderSectionView({
     }
 
     galleryGrid.innerHTML = '';
-    galleryGrid.className = 'grid grid-cols-1 gap-6 mb-20';
+    galleryGrid.className = 'grid grid-cols-1 mb-20';
 
     const sectionShell = document.createElement('section');
-    sectionShell.className = 'w-full max-w-5xl border border-white/10 bg-[#0c0c0c] p-6 md:p-10 animate-fade-in';
+    sectionShell.className = 'w-full max-w-3xl animate-fade-in';
 
     const sectionBody = document.createElement('div');
-    sectionBody.className = 'text-sm md:text-base text-white/80 leading-relaxed space-y-4';
+    sectionBody.className = 'text-sm md:text-base text-white/80 leading-relaxed';
     appendSectionContent({ title, content, sectionBody });
 
     sectionShell.appendChild(sectionBody);

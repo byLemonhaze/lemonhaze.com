@@ -1,4 +1,3 @@
-import { createCollectorSectionNode } from './collectors.js';
 import { createCareerHighlightsNode } from './highlights.js';
 import { createSupplySectionNode } from './supply.js';
 import { createMediaSectionNode } from './media.js';
@@ -41,11 +40,6 @@ export function createInternalSections({
             label: 'Media & Press',
             title: 'Media & Press',
             content: () => createMediaSectionNode(mediaItems),
-        },
-        collectors: {
-            label: 'Collectors',
-            title: 'Collector Lookup',
-            content: () => createCollectorSectionNode(),
         },
     };
 }
