@@ -1,5 +1,6 @@
 import {
     fetchProvenance,
+    fetchBBCollection,
     CHRONOLOGY_BY_YEAR,
     ABOUT_LEMONHAZE_TEXT,
     CAREER_HIGHLIGHTS_ITEMS,
@@ -179,7 +180,9 @@ async function init() {
     setLoading(true);
     renderSidebar();
 
-    appState.artworks = await fetchProvenance();
+    const [provenanceData, bbLive] = await Promise.all([fetchProvenance(), fetchBBCollection()]);
+    const nonBB = provenanceData.filter(item => item.collection !== 'BEST BEFORE');
+    appState.artworks = bbLive.length > 0 ? [...bbLive, ...nonBB] : provenanceData;
     rebuildCollectionSlugs();
 
     const hasDeepLink = await applyUrlStateFromLocation({ replaceHistory: true });

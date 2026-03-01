@@ -1,5 +1,6 @@
 
 const PROVENANCE_URL = "https://cdn.lemonhaze.com/assets/assets/provenance.json";
+const BB_COLLECTION_URL = "https://bestbefore.space/magic_eden_collection.json";
 
 export async function fetchProvenance() {
   try {
@@ -9,6 +10,24 @@ export async function fetchProvenance() {
     return data;
   } catch (error) {
     console.error("Error fetching provenance:", error);
+    return [];
+  }
+}
+
+export async function fetchBBCollection() {
+  try {
+    const res = await fetch(BB_COLLECTION_URL);
+    if (!res.ok) throw new Error("Failed to fetch BB collection");
+    const data = await res.json();
+    return data.map(item => ({
+      id: item.id,
+      name: item.meta?.name || 'BEST BEFORE',
+      collection: 'BEST BEFORE',
+      content_type: 'text/html',
+      _imgSrc: item.meta?.high_res_img_url || null,
+    }));
+  } catch (error) {
+    console.error("Error fetching BB collection:", error);
     return [];
   }
 }

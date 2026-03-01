@@ -21,7 +21,7 @@ export function updateHeaderView({
 
     if (title === 'Home') {
         headerElement.classList.add('md:hidden');
-        currentViewTitle.innerHTML = '<span class="text-lg font-extrabold uppercase tracking-[0.05em]">Lemonhaze</span>';
+        currentViewTitle.innerHTML = '<span class="text-lg font-bold uppercase tracking-[0.22em]">Lemonhaze</span>';
         if (currentViewMeta) {
             currentViewMeta.innerHTML = '<p class="text-[9px] text-white/40 font-mono tracking-[0.2em] uppercase">&lt;!-- Artist & Coureur de Bois --&gt;</p>';
         }
@@ -45,9 +45,7 @@ export function updateHeaderView({
         }
     }
 
-    const attribution = title === 'BEST BEFORE'
-        ? 'BY LEMONHAZE X ORDINALLY'
-        : (title === 'Manufactured' ? 'X KIZ' : year);
+    const attribution = title === 'BEST BEFORE' ? 'BY LEMONHAZE X ORDINALLY' : year;
     const externalSite = COLLECTION_EXTERNAL_SITES[title] || null;
 
     if (currentViewMeta) {
@@ -56,15 +54,15 @@ export function updateHeaderView({
             : '';
         currentViewMeta.innerHTML = `
       <div class="mt-1">
-        <button class="flex items-center gap-2 text-[9px] text-white/20 font-mono uppercase tracking-[0.24em] hover:text-white/40 transition-colors group" id="desc-toggle">
+        <button class="outline-none focus:outline-none flex items-center gap-3 text-[10px] text-white/35 font-mono uppercase tracking-[0.22em] hover:text-white/70 transition-colors group" id="desc-toggle">
           <span>${worksCount} artworks</span>
-          <span class="w-1 h-[1px] bg-white/10"></span>
+          <span class="text-white/15">·</span>
           <span>${attribution}</span>
-          ${externalSite ? `<span class="w-1 h-[1px] bg-white/10"></span>${externalLink}` : ''}
-          <span id="desc-chevron" class="text-white/20 group-hover:text-white/40 transition-colors ml-1">+</span>
+          ${externalSite ? `<span class="text-white/15">·</span>${externalLink}` : ''}
+          <span id="desc-chevron" class="text-white/35 group-hover:text-white/70 transition-colors text-[11px] font-mono ml-1 select-none">+</span>
         </button>
-        <div id="desc-body" class="hidden mt-2 border-l-2 border-white/10 pl-3 py-0.5">
-          <p class="text-[11px] md:text-xs text-white/50 max-w-2xl leading-relaxed">${desc}</p>
+        <div id="desc-body" class="hidden mt-2 border-l border-white/15 pl-3 py-1">
+          <p class="text-[11px] text-white/50 max-w-2xl leading-relaxed">${desc}</p>
         </div>
       </div>
     `;

@@ -3,6 +3,7 @@ const ONCHAIN_IMAGE_OVERRIDES = new Set([
 ]);
 
 export function getArtworkImageSrc(item) {
+    if (item?._imgSrc) return item._imgSrc;
     if (item?.id && ONCHAIN_IMAGE_OVERRIDES.has(item.id)) {
         return `https://ordinals.com/content/${item.id}`;
     }
