@@ -24,7 +24,7 @@ const BUILT = [
     },
     {
         name: 'PALETTE ENGINE',
-        stack: 'Vanilla JS · Built-in',
+        stack: 'Vanilla JS',
         desc: 'Generative color palette engine with seeded PRNG, a lock/pin system, and canvas sketch previews. 27 curated themes. Runs entirely in-browser.',
         live: null,
         github: null,
@@ -32,7 +32,7 @@ const BUILT = [
     },
     {
         name: 'PRESS ENGINE',
-        stack: 'Claude · Built-in',
+        stack: 'Claude · Haiku',
         desc: 'Personal content lab. Generates artist statements, press releases, collection notes, blog drafts, captions, interview answers, and bio variants — with deep Lemonhaze context baked in.',
         live: null,
         github: null,
@@ -88,13 +88,6 @@ export function createProjectsSectionNode() {
 
         const stackWrap = document.createElement('div');
         stackWrap.className = 'flex items-center gap-2 shrink-0';
-
-        if (hasAction) {
-            const badge = document.createElement('span');
-            badge.className = 'font-mono text-[8px] uppercase tracking-[0.15em] text-white/30 border border-white/15 px-1.5 py-0.5';
-            badge.textContent = 'built-in';
-            stackWrap.appendChild(badge);
-        }
 
         const stack = document.createElement('span');
         stack.className = 'text-[9px] font-mono uppercase tracking-[0.12em] text-white/25';
