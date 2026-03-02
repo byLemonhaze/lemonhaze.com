@@ -13,8 +13,11 @@ function buildCollectionYearMap(chronologyByYear) {
 function createArrowButton(direction, onClick) {
     const isRight = direction === 'right';
     const button = document.createElement('button');
-    button.className = `absolute ${isRight ? 'right-4 md:right-12' : 'left-4 md:left-12'} top-1/2 -translate-y-1/2 z-30 text-white/25 hover:text-white transition-colors duration-300 font-mono text-xl md:text-2xl select-none`;
-    button.textContent = isRight ? '→' : '←';
+    button.className = `absolute ${isRight ? 'right-4 md:right-8' : 'left-4 md:left-8'} top-1/2 -translate-y-1/2 z-30 text-white/20 hover:text-white/70 transition-colors duration-300 font-mono select-none`;
+    button.style.fontFamily = '"Fragment Mono", monospace';
+    button.style.fontSize = '10px';
+    button.style.letterSpacing = '0.1em';
+    button.textContent = isRight ? '[ → ]' : '[ ← ]';
     button.addEventListener('click', onClick);
     return button;
 }

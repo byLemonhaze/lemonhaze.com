@@ -2,6 +2,7 @@ import { createCareerHighlightsNode } from './highlights.js';
 import { createSupplySectionNode } from './supply.js';
 import { createMediaSectionNode } from './media.js';
 import { createBlogSectionNode } from './blog.js';
+import { createProjectsSectionNode } from './projects.js';
 
 export function createInternalSections({
     aboutText,
@@ -47,6 +48,11 @@ export function createInternalSections({
             label: 'Blog',
             title: 'Blog',
             content: () => createBlogSectionNode(blogPosts),
+        },
+        lab: {
+            label: 'Lab',
+            title: 'Lab',
+            content: () => createProjectsSectionNode(),
         },
     };
 }

@@ -28,8 +28,8 @@ export const subscribe = (fn) => {
 
 export const initCollapsedYears = (years) => {
     _state.collapsedYears = new Set();
-    // Mark all years except the two most recent as collapsed
-    years.slice(2).forEach((year) => _state.collapsedYears.add(String(year)));
+    // Mark all years except the most recent as collapsed
+    years.slice(1).forEach((year) => _state.collapsedYears.add(String(year)));
 };
 
 export const toggleYearCollapse = (year) => {

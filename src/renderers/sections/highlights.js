@@ -4,34 +4,30 @@ export function createCareerHighlightsNode(items) {
 
     items.forEach((item, idx) => {
         const num = String(idx + 1).padStart(2, '0');
-
-        if (typeof item === 'string') {
-            const row = document.createElement('div');
-            row.className = 'flex items-start gap-4 py-3 border-b border-white/5';
-
-            const index = document.createElement('span');
-            index.className = 'text-[9px] font-mono text-white/15 shrink-0 mt-0.5';
-            index.textContent = num;
-
-            const text = document.createElement('span');
-            text.textContent = item;
-
-            row.appendChild(index);
-            row.appendChild(text);
-            root.appendChild(row);
-            return;
-        }
+        const isTier1 = typeof item === 'object' && item.tier === 1;
+        const hasLink = typeof item === 'object' && item.link;
+        const textContent = typeof item === 'string' ? item : item.text;
 
         const row = document.createElement('div');
-        row.className = 'flex items-start gap-4 py-3 border-b border-white/5 hover:border-white/15 transition-colors cursor-pointer';
-        row.onclick = () => window.open(item.link, '_blank');
+        row.className = [
+            'flex items-start gap-4 py-3 border-b',
+            isTier1 ? 'border-white/10' : 'border-white/5',
+            hasLink ? 'hover:border-white/20 transition-colors cursor-pointer' : '',
+        ].filter(Boolean).join(' ');
+
+        if (hasLink) {
+            row.onclick = () => window.open(item.link, '_blank');
+        }
 
         const index = document.createElement('span');
-        index.className = 'text-[9px] font-mono text-white/15 shrink-0 mt-0.5';
+        index.className = isTier1
+            ? 'text-[9px] font-mono text-white/30 shrink-0 mt-0.5'
+            : 'text-[9px] font-mono text-white/15 shrink-0 mt-0.5';
         index.textContent = num;
 
         const text = document.createElement('span');
-        text.textContent = item.text;
+        text.className = isTier1 ? 'text-white font-bold' : '';
+        text.textContent = textContent;
 
         row.appendChild(index);
         row.appendChild(text);

@@ -27,6 +27,18 @@
     font-family: "Syne", sans-serif;
     letter-spacing: 0.01em;
   }
+
+  button,
+  a {
+    outline: none;
+  }
+
+  button:focus,
+  button:focus-visible,
+  a:focus,
+  a:focus-visible {
+    outline: none;
+  }
 }
 
 @layer utilities {

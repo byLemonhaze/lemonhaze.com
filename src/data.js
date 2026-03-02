@@ -104,16 +104,16 @@ export const ABOUT_LEMONHAZE_TEXT = `
 `;
 
 export const CAREER_HIGHLIGHTS_ITEMS = [
-  { text: "·Solo highlight 'Montreal by Lemonhaze' curated by Gamma at Suburbs Gallery in Montreal (August 2025)", link: "https://blog.gamma.io/ordinals-spotlight-montreal-by-lemonhaze/" },
-  { text: "·Sotheby's Contemporary Discoveries Auction in New York - Curated by Gamma (February 2025)", link: "https://www.sothebys.com/en/buy/auction/2025/contemporary-discoveries-2/chamber-of-reflection-sin-city" },
-  "·Bitcoin Village at NFT Paris in Paris (February 2025)",
+  { text: "·Solo highlight 'Montreal by Lemonhaze' curated by Gamma at Suburbs Gallery in Montreal (August 2025)", link: "https://blog.gamma.io/ordinals-spotlight-montreal-by-lemonhaze/", tier: 1 },
+  { text: "·Sotheby's Contemporary Discoveries Auction in New York - Curated by Gamma (February 2025)", link: "https://www.sothebys.com/en/buy/auction/2025/contemporary-discoveries-2/chamber-of-reflection-sin-city", tier: 1 },
+  { text: "·Bitcoin Village at NFT Paris in Paris (February 2025)", tier: 1 },
   "·The Parthenon in Nashville (July 2024)",
   "·Ordinals LATAM in Mexico City/Monterrey/San Cristobal (June 2024)",
   "·Cinco de Monero in San Francisco (May 2024)",
   "·Ordinals Asia in Hong Kong (May 2024)",
   "·Cypherpunk Lab in San Francisco (February 2024)",
-  "·Art Basel in Miami (December 2023)",
-  "·Inscribing Atlantis in Amsterdam (October 2023)",
+  { text: "·Art Basel in Miami (December 2023)", tier: 1 },
+  { text: "·Inscribing Atlantis in Amsterdam (October 2023)", tier: 1 },
   "·Ordinal Summit in Singapore (September 2023)",
   "·Gamma Partner Artist on Bitcoin (September 2023)"
 ];
