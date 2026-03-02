@@ -24,15 +24,6 @@ const COLLECTIONS = [
     'Untitled','Polaroid','Tad Small','1 of 1s (2026)',
 ];
 
-const PASS_KEY = 'lh-press-pass-v1';
-
-function getStoredPass() {
-    try { return sessionStorage.getItem(PASS_KEY) || ''; } catch { return ''; }
-}
-function storePass(p) {
-    try { sessionStorage.setItem(PASS_KEY, p); } catch { /* */ }
-}
-
 // ── Main entry ─────────────────────────────────────────────────────────────
 export function openPressEngine() {
     const overlay = document.createElement('div');
@@ -43,12 +34,7 @@ export function openPressEngine() {
     panel.className = 'relative w-full max-w-2xl mx-4 my-12 bg-[#080808] border border-white/10';
     panel.onclick = e => e.stopPropagation();
 
-    const stored = getStoredPass();
-    if (stored) {
-        renderEngine(panel, stored);
-    } else {
-        renderAuth(panel, overlay);
-    }
+    renderAuth(panel, overlay);
 
     overlay.appendChild(panel);
     document.body.appendChild(overlay);
@@ -94,7 +80,6 @@ function renderAuth(panel, overlay) {
                 body: JSON.stringify({ action: 'auth' }),
             });
             if (res.ok) {
-                storePass(pass);
                 renderEngine(panel, pass);
             } else {
                 err.classList.remove('hidden');
