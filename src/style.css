@@ -29,14 +29,23 @@
   }
 
   button,
-  a {
+  a,
+  input,
+  select,
+  textarea {
     outline: none;
   }
 
   button:focus,
   button:focus-visible,
   a:focus,
-  a:focus-visible {
+  a:focus-visible,
+  input:focus,
+  input:focus-visible,
+  select:focus,
+  select:focus-visible,
+  textarea:focus,
+  textarea:focus-visible {
     outline: none;
   }
 }
