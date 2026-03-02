@@ -32,7 +32,7 @@ const BUILT = [
     },
     {
         name: 'PRESS ENGINE',
-        stack: 'Claude · Haiku',
+        stack: 'Claude · Sonnet',
         desc: 'Personal content lab. Generates artist statements, press releases, collection notes, blog drafts, captions, interview answers, and bio variants — with deep Lemonhaze context baked in.',
         live: null,
         github: null,
