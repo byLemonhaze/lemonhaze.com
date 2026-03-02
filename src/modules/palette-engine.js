@@ -5,7 +5,7 @@
 
 // ── Curated themes ─────────────────────────────────────────────────────────
 const CURATED_PALETTES = [
-    { id: 'my-love',         name: 'My Love',         colors: ['#E8DCB4','#FFFFFF','#C4006B','#038A86','#012057'] },
+    { id: 'my-love',         name: 'My Love',         colors: ['#E8DCB4','#E91E63','#660303','#038A86','#012057'] },
     { id: 'punch',           name: 'Punch',            colors: ['#E8DCB4','#006064','#FFC400','#D50000','#2962FF'] },
     { id: 'hypernova',       name: 'HyperNova',        colors: ['#FF004D','#FFB800','#00F5D4','#7209B7','#3A0CA3','#06D6A0','#FF6F61'] },
     { id: 'j',               name: 'J',                colors: ['#FFBE0B','#FB5607','#FF006E','#8338EC','#3A86FF'] },
