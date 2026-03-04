@@ -118,7 +118,7 @@
     class="fixed inset-0 z-50 bg-black hidden opacity-0 transition-opacity duration-300 flex flex-col md:flex-row overflow-hidden">
 
     <!-- Left Panel: Artwork (with breathing room) -->
-    <div class="flex-1 flex items-center justify-center relative bg-[#050505] min-h-[50vw] md:min-h-0">
+    <div class="modal-media-panel flex-1 flex items-center justify-center relative bg-[#050505] min-h-[50vw] md:min-h-0">
       <iframe id="modal-iframe"
         class="absolute inset-[5%] w-[90%] h-[90%] hidden"
         frameborder="0"></iframe>
@@ -139,10 +139,15 @@
         </div>
         <pre id="raw-html-content" class="flex-1 overflow-auto text-[10px] font-mono text-white/50 select-all leading-relaxed"></pre>
       </div>
+
+      <div id="modal-mobile-scroll-hint"
+        class="pointer-events-none md:hidden absolute left-1/2 -translate-x-1/2 bottom-2 px-2 py-1 border border-white/15 bg-black/45 text-[8px] font-mono uppercase tracking-[0.18em] text-white/55">
+        Scroll for Info ↓
+      </div>
     </div>
 
     <!-- Right Panel: Info -->
-    <div class="w-full md:w-[340px] shrink-0 flex flex-col bg-black border-t md:border-t-0 md:border-l border-white/8 relative overflow-y-auto">
+    <div class="modal-meta-panel w-full md:w-[340px] shrink-0 flex flex-col bg-black border-t md:border-t-0 md:border-l border-white/8 relative overflow-y-auto">
       <button id="modal-close"
         class="absolute top-4 right-4 p-1 text-white/25 hover:text-white transition-colors z-[60]">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
@@ -150,7 +155,7 @@
         </svg>
       </button>
 
-      <div class="p-6 md:p-8 pt-10 md:pt-10 flex flex-col gap-0 min-h-full">
+      <div class="modal-meta-scroll p-6 md:p-8 pt-10 md:pt-10 flex flex-col gap-0 min-h-full">
 
         <h3 id="modal-title" class="text-lg md:text-xl font-mono uppercase tracking-[0.12em] text-white mb-4 pr-6 leading-tight"></h3>
 
