@@ -2,8 +2,8 @@
   "collectionSlug": "old-fashioned-by-lemonhaze",
   "collectionUrl": "https://bestinslot.xyz/ordinals/collections/old-fashioned-by-lemonhaze",
   "scrapedAt": "2026-03-03T23:04:11.533Z",
-  "totalSales": 14,
-  "totalVolumeBTC": 0.16424538,
+  "totalSales": 15,
+  "totalVolumeBTC": 0.20424538,
   "sales": [
     {
       "timestamp": "2025-09-25T16:47:20.000Z",
@@ -48,6 +48,15 @@
         "https://mempool.space/tx/105edf9e9cd2f376b7c0f6f438ffe7fd540ed4f54051e8a535fcd1b8e34028ab"
       ],
       "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-04-27 00:00:00 UTC",
+      "inscriptionId": "d4026851cec49e11eadd3015c398600da2be9d26dfaa2cab0729219749dffd6ci0",
+      "priceBTC": 0.04,
+      "raw": "1961 | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
     },
     {
       "timestamp": "2024-01-08T10:53:48.000Z",

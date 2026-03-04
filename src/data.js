@@ -113,8 +113,8 @@ export const ABOUT_LEMONHAZE_TEXT = `
 `;
 
 export const CAREER_HIGHLIGHTS_ITEMS = [
-  { text: "·Solo highlight 'Montreal by Lemonhaze' curated by Gamma at Suburbs Gallery in Montreal (August 2025)", link: "https://blog.gamma.io/ordinals-spotlight-montreal-by-lemonhaze/", tier: 1 },
-  { text: "·Sotheby's Contemporary Discoveries Auction in New York - Curated by Gamma (February 2025)", link: "https://www.sothebys.com/en/buy/auction/2025/contemporary-discoveries-2/chamber-of-reflection-sin-city", tier: 1 },
+  { text: "·Solo exhibition 'Montreal by Lemonhaze' curated by Gamma at Suburbs Gallery in Montreal (August 2025)", link: "https://blog.gamma.io/ordinals-spotlight-montreal-by-lemonhaze/", tier: 1 },
+  { text: "·Sotheby's Contemporary Discoveries Auction in New York - (February 2025)", link: "https://www.sothebys.com/en/buy/auction/2025/contemporary-discoveries-2/chamber-of-reflection-sin-city", tier: 1 },
   { text: "·Bitcoin Village at NFT Paris in Paris (February 2025)", tier: 1 },
   "·The Parthenon in Nashville (July 2024)",
   "·Ordinals LATAM in Mexico City/Monterrey/San Cristobal (June 2024)",

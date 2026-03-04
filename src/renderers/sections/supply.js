@@ -183,15 +183,34 @@ function computeSalesSummary(indexPayload) {
     };
 }
 
-function createStatCard(label, value, valueClassName = '', secondaryText = null, valueSizeClass = 'text-2xl md:text-3xl') {
-    const card = createNode('div', 'flex flex-col');
-    const labelNode = createNode('div', 'text-[9px] uppercase tracking-[0.3em] text-white/25 mb-1', label);
+function createStatCard(
+    label,
+    value,
+    valueClassName = '',
+    secondaryText = null,
+    valueSizeClass = 'text-2xl md:text-3xl',
+    wrapperClassName = ''
+) {
+    const card = createNode('div', `min-w-0 flex flex-col ${wrapperClassName}`.trim());
+    const labelNode = createNode(
+        'div',
+        'text-[7px] md:text-[9px] uppercase tracking-[0.18em] md:tracking-[0.3em] text-white/25 mb-0.5 leading-none',
+        label
+    );
     const rendered = typeof value === 'number' ? value.toLocaleString() : String(value);
-    const valueNode = createNode('div', `${valueSizeClass} font-bold font-mono ${valueClassName}`.trim(), rendered);
+    const valueNode = createNode(
+        'div',
+        `${valueSizeClass} leading-[0.92] font-bold font-mono ${valueClassName}`.trim(),
+        rendered
+    );
     card.appendChild(labelNode);
     card.appendChild(valueNode);
     if (secondaryText != null) {
-        const tiny = createNode('div', 'mt-1 text-[10px] md:text-[11px] text-white/45 font-mono', String(secondaryText));
+        const tiny = createNode(
+            'div',
+            'mt-0.5 text-[9px] md:text-[11px] text-white/45 font-mono leading-none',
+            String(secondaryText)
+        );
         card.appendChild(tiny);
     }
     return card;
@@ -291,22 +310,67 @@ export function createSupplySectionNode({
         ordBurned += row.inscribed - row.circulating;
     });
 
-    const root = createNode('div', 'space-y-8 animate-fade-in');
+    const root = createNode('div', 'space-y-4 md:space-y-8 animate-fade-in');
 
-    const statsGrid = createNode('div', 'grid grid-cols-2 lg:grid-cols-5 gap-6 mb-8 border-b border-white/8 pb-6');
-    statsGrid.appendChild(createStatCard('Inscribed', ordInscribed));
-    statsGrid.appendChild(createStatCard('Circulating', ordCirc, 'text-white/90'));
-    statsGrid.appendChild(createStatCard('Burned', ordBurned, 'text-white/30'));
-    const primaryCard = createStatCard('Primary Sales', '— BTC', 'text-white/90', '—', 'text-lg md:text-xl');
-    const secondaryCard = createStatCard('Secondary Volume', '— BTC', 'text-white/90', '—', 'text-lg md:text-xl');
-    statsGrid.appendChild(primaryCard);
-    statsGrid.appendChild(secondaryCard);
-    root.appendChild(statsGrid);
+    const statsStrip = createNode('div', 'mb-3 md:mb-8 md:border-b md:border-white/8 pb-2 md:pb-6');
+
+    const mobileWrap = createNode('div', 'md:hidden');
+    const mobileTopRow = createNode(
+        'div',
+        'grid grid-cols-3 border border-white/10 divide-x divide-white/10 bg-white/[0.01]'
+    );
+    mobileTopRow.appendChild(
+        createStatCard('Inscribed', ordInscribed, '', null, 'text-[1.28rem]', 'px-1.5 py-1.5 text-center')
+    );
+    mobileTopRow.appendChild(
+        createStatCard('Circulating', ordCirc, 'text-white/90', null, 'text-[1.28rem]', 'px-1.5 py-1.5 text-center')
+    );
+    mobileTopRow.appendChild(
+        createStatCard('Burned', ordBurned, 'text-white/30', null, 'text-[1.28rem]', 'px-1.5 py-1.5 text-center')
+    );
+
+    const mobileBottomRow = createNode(
+        'div',
+        'grid grid-cols-2 border-x border-b border-white/10 divide-x divide-white/10 bg-white/[0.01]'
+    );
+    const mobilePrimaryCard = createStatCard(
+        'Primary Sales',
+        '— BTC',
+        'text-white/90',
+        '—',
+        'text-[0.98rem]',
+        'px-1.5 py-1.5 text-center'
+    );
+    const mobileSecondaryCard = createStatCard(
+        'Secondary Volume',
+        '— BTC',
+        'text-white/90',
+        '—',
+        'text-[0.98rem]',
+        'px-1.5 py-1.5 text-center'
+    );
+    mobileBottomRow.appendChild(mobilePrimaryCard);
+    mobileBottomRow.appendChild(mobileSecondaryCard);
+    mobileWrap.appendChild(mobileTopRow);
+    mobileWrap.appendChild(mobileBottomRow);
+
+    const desktopGrid = createNode('div', 'hidden md:grid md:grid-cols-5 md:gap-6');
+    desktopGrid.appendChild(createStatCard('Inscribed', ordInscribed, '', null, 'text-3xl'));
+    desktopGrid.appendChild(createStatCard('Circulating', ordCirc, 'text-white/90', null, 'text-3xl'));
+    desktopGrid.appendChild(createStatCard('Burned', ordBurned, 'text-white/30', null, 'text-3xl'));
+    const desktopPrimaryCard = createStatCard('Primary Sales', '— BTC', 'text-white/90', '—', 'text-xl');
+    const desktopSecondaryCard = createStatCard('Secondary Volume', '— BTC', 'text-white/90', '—', 'text-xl');
+    desktopGrid.appendChild(desktopPrimaryCard);
+    desktopGrid.appendChild(desktopSecondaryCard);
+
+    statsStrip.appendChild(mobileWrap);
+    statsStrip.appendChild(desktopGrid);
+    root.appendChild(statsStrip);
 
     const ordinalsSection = createNode('section');
     const ordinalsTitle = createNode(
         'h3',
-        'text-xs font-bold uppercase tracking-widest text-white/30 mb-4 flex items-center gap-2'
+        'text-xs font-bold uppercase tracking-widest text-white/30 mb-3 md:mb-4 flex items-center gap-2'
     );
     ordinalsTitle.appendChild(createNode('span', 'w-4 h-[1px] bg-white/10'));
     ordinalsTitle.appendChild(document.createTextNode('Digital Ordinals'));
@@ -354,10 +418,22 @@ export function createSupplySectionNode({
     physicalSection.appendChild(list);
     root.appendChild(physicalSection);
 
-    const primaryValueNode = primaryCard.querySelector('div:nth-child(2)');
-    const primaryUsdNode = primaryCard.querySelector('div:nth-child(3)');
-    const secondaryValueNode = secondaryCard.querySelector('div:nth-child(2)');
-    const secondaryUsdNode = secondaryCard.querySelector('div:nth-child(3)');
+    const primaryValueNodes = [
+        mobilePrimaryCard.querySelector('div:nth-child(2)'),
+        desktopPrimaryCard.querySelector('div:nth-child(2)'),
+    ].filter(Boolean);
+    const primaryUsdNodes = [
+        mobilePrimaryCard.querySelector('div:nth-child(3)'),
+        desktopPrimaryCard.querySelector('div:nth-child(3)'),
+    ].filter(Boolean);
+    const secondaryValueNodes = [
+        mobileSecondaryCard.querySelector('div:nth-child(2)'),
+        desktopSecondaryCard.querySelector('div:nth-child(2)'),
+    ].filter(Boolean);
+    const secondaryUsdNodes = [
+        mobileSecondaryCard.querySelector('div:nth-child(3)'),
+        desktopSecondaryCard.querySelector('div:nth-child(3)'),
+    ].filter(Boolean);
 
     void (async () => {
         const [salesIndex, btcUsdSpot] = await Promise.all([
@@ -366,10 +442,18 @@ export function createSupplySectionNode({
         ]);
         const summary = computeSalesSummary(salesIndex);
 
-        if (primaryValueNode) primaryValueNode.textContent = `${fmtBtcCompact(summary.primaryBtc)} BTC`;
-        if (primaryUsdNode) primaryUsdNode.textContent = fmtUsdToday(summary.primaryBtc, btcUsdSpot);
-        if (secondaryValueNode) secondaryValueNode.textContent = `${fmtBtcCompact(summary.secondaryBtc)} BTC`;
-        if (secondaryUsdNode) secondaryUsdNode.textContent = fmtUsdToday(summary.secondaryBtc, btcUsdSpot);
+        primaryValueNodes.forEach((node) => {
+            node.textContent = `${fmtBtcCompact(summary.primaryBtc)} BTC`;
+        });
+        primaryUsdNodes.forEach((node) => {
+            node.textContent = fmtUsdToday(summary.primaryBtc, btcUsdSpot);
+        });
+        secondaryValueNodes.forEach((node) => {
+            node.textContent = `${fmtBtcCompact(summary.secondaryBtc)} BTC`;
+        });
+        secondaryUsdNodes.forEach((node) => {
+            node.textContent = fmtUsdToday(summary.secondaryBtc, btcUsdSpot);
+        });
     })();
 
     return root;

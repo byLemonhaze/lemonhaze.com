@@ -14,7 +14,8 @@
         "/ordinals/inscription/d573dcd9b704a0fa1792e11e931a1ba135cc5d0d12e4f1b3cd99e475b4ee9104i0",
         "https://mempool.space/tx/2113e78caa000f159659c5c01185670111c97d7736ed00715a8c5cb5446f7aa3"
       ],
-      "source": "bestinslot-v2api"
+      "source": "bestinslot-v2api",
+      "saleType": "secondary"
     },
     {
       "timestamp": "2024-10-21T17:43:24.000Z",
@@ -36,7 +37,8 @@
         "/ordinals/inscription/d573dcd9b704a0fa1792e11e931a1ba135cc5d0d12e4f1b3cd99e475b4ee9104i0",
         "https://mempool.space/tx/f1105e4914a9c9a0854a86bbc15eb1894f0ee3fc893c76418d5bae2119ec203e"
       ],
-      "source": "bestinslot-v2api"
+      "source": "bestinslot-v2api",
+      "saleType": "secondary"
     },
     {
       "timestamp": "2024-08-28T23:57:04.000Z",
@@ -69,7 +71,8 @@
         "/ordinals/inscription/496c6a2527d78b8babac12dd508e0acdf7a189d6925bd1f21042f9c7b57ed051i0",
         "https://mempool.space/tx/c505e73bce083ef7542fece66d6b7710db924f8e4322692d3197a5401c900850"
       ],
-      "source": "bestinslot-v2api"
+      "source": "bestinslot-v2api",
+      "saleType": "secondary"
     },
     {
       "timestamp": "2024-05-10T13:11:01.000Z",
@@ -80,7 +83,8 @@
         "/ordinals/inscription/adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0",
         "https://mempool.space/tx/f65ca43b26e10f4f31fd1bad211a2e51c09baee1f65c89de11e0f5b22198ccd0"
       ],
-      "source": "bestinslot-v2api"
+      "source": "bestinslot-v2api",
+      "saleType": "secondary"
     },
     {
       "timestamp": "2024-04-26T12:49:28.000Z",

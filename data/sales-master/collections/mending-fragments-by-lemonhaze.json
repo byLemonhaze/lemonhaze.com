@@ -2,8 +2,8 @@
   "collectionSlug": "mending-fragments-by-lemonhaze",
   "collectionUrl": "https://bestinslot.xyz/ordinals/collections/mending-fragments-by-lemonhaze",
   "scrapedAt": "2026-03-03T23:05:45.130Z",
-  "totalSales": 5,
-  "totalVolumeBTC": 0.12721768,
+  "totalSales": 7,
+  "totalVolumeBTC": 0.17121768,
   "sales": [
     {
       "timestamp": "2024-04-01T18:47:25.000Z",
@@ -15,6 +15,20 @@
         "https://mempool.space/tx/3d1d0647b4d7a0130238658c3a61fb7604aca5306c36a113cb778857865febd4"
       ],
       "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-11-01 00:00:00 UTC",
+      "inscriptionId": "8d09e73e7e20efe1bba70800671b6709a393d33a700134ab8507985f692d9795i0",
+      "priceBTC": 0.022,
+      "source": "manual-private-sale",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-11-01 00:00:00 UTC",
+      "inscriptionId": "ab0756643fb07fed88109886c9cc76220b6438efc6abd6beaff4961329ece8d3i0",
+      "priceBTC": 0.022,
+      "source": "manual-private-sale",
+      "saleType": "primary"
     },
     {
       "timestamp": "2023-08-27T18:11:55.000Z",

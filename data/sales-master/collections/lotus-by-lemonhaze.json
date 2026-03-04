@@ -69,10 +69,10 @@
       "saleType": "primary"
     },
     {
-      "timestamp": null,
+      "timestamp": "2023-11-01 00:00:00 UTC",
       "inscriptionId": "50aec341f039def4077a8c91847d991de408606a77ddc342d1288e352059bba1i0",
       "priceBTC": 0.0169,
-      "raw": "Lotus #9 | Manual primary sale (date not provided)",
+      "raw": "Lotus #9 | Manual primary sale",
       "hrefs": [],
       "source": "manual-private",
       "saleType": "primary"

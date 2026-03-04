@@ -26,7 +26,7 @@ export function createCareerHighlightsNode(items) {
         index.textContent = num;
 
         const text = document.createElement('span');
-        text.className = isTier1 ? 'text-white font-bold' : '';
+        text.className = 'text-white';
         text.textContent = textContent;
 
         row.appendChild(index);

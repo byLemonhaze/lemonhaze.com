@@ -180,13 +180,6 @@
     height: 90% !important;
   }
 
-  #modal-overlay #modal-mobile-scroll-hint {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    animation: modalScrollHintPulse 1.9s ease-in-out infinite;
-  }
-
   #modal-overlay .modal-meta-panel {
     overflow: visible;
     border-left: 0;
@@ -251,17 +244,5 @@
     max-width: 100%;
     overflow-wrap: anywhere;
     word-break: break-word;
-  }
-}
-
-@keyframes modalScrollHintPulse {
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0);
-    opacity: 0.45;
-  }
-  50% {
-    transform: translateX(-50%) translateY(-4px);
-    opacity: 0.9;
   }
 }

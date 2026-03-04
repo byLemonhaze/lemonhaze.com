@@ -2,9 +2,18 @@
   "collectionSlug": "berlin-by-lemonhaze",
   "collectionUrl": "https://bestinslot.xyz/ordinals/collections/berlin-by-lemonhaze",
   "scrapedAt": "2026-03-03T23:07:04.197Z",
-  "totalSales": 9,
-  "totalVolumeBTC": 0.12917878,
+  "totalSales": 10,
+  "totalVolumeBTC": 0.17417878,
   "sales": [
+    {
+      "timestamp": "2024-04-27 00:00:00 UTC",
+      "inscriptionId": "afa00c11b063aaf34cefd197bc896a2e11d772d944f7c710040e9bcbd79b9bf7i0",
+      "priceBTC": 0.045,
+      "raw": "Le Clochard | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
     {
       "timestamp": "2023-11-02T03:04:46.000Z",
       "inscriptionId": "fd188a970767ef5ef2f4bbae2c641b8b314bcf3eb1305fff9f3ebc5ebecfd448i0",

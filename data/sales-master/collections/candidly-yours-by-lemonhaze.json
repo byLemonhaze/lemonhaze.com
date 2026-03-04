@@ -2,9 +2,18 @@
   "collectionSlug": "candidly-yours-by-lemonhaze",
   "collectionUrl": "https://bestinslot.xyz/ordinals/collections/candidly-yours-by-lemonhaze",
   "scrapedAt": "2026-03-03T23:05:37.508Z",
-  "totalSales": 5,
-  "totalVolumeBTC": 0.0602419,
+  "totalSales": 8,
+  "totalVolumeBTC": 0.10433866,
   "sales": [
+    {
+      "timestamp": "2024-04-27 00:00:00 UTC",
+      "inscriptionId": "0603cd911128fdd1789109840a35bac3501ad4fbe33f5e72e2ed751fc44b1b8bi0",
+      "priceBTC": 0.02,
+      "raw": "Printemps | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
     {
       "timestamp": "2023-12-09T17:14:41.000Z",
       "inscriptionId": "3329d8c0c921850fe20751dc2376a17f9c99e76f67f63ffabb43fa759e28dafdi0",
@@ -59,6 +68,24 @@
         "https://mempool.space/tx/ee820ca0567affb17543ade1cd0ba7db9c0ed7cfdfdfc719d12ba88d2be9fbaf"
       ],
       "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-12-07 00:00:00 UTC",
+      "inscriptionId": "5e91b3f333da2d17fcd1b2e22be9df0f7f17708f5238d353bb2e35cd81e1a310i0",
+      "priceBTC": 0.01204838,
+      "raw": "Coral | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-12-07 00:00:00 UTC",
+      "inscriptionId": "0603cd911128fdd1789109840a35bac3501ad4fbe33f5e72e2ed751fc44b1b8bi0",
+      "priceBTC": 0.01204838,
+      "raw": "Printemps | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
     }
   ],
   "apiMeta": {
