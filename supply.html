@@ -79,7 +79,7 @@
                 </header>
 
                 <!-- Stats Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in" style="animation-delay: 100ms">
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4 animate-fade-in" style="animation-delay: 100ms">
                     <div class="surface p-6 rounded-2xl border border-white/5">
                         <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Total Inscribed</h3>
                         <div class="text-3xl font-bold font-mono" data-bind="ord.inscribed">0</div>
@@ -92,10 +92,20 @@
                         <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Total Burned</h3>
                         <div class="text-3xl font-bold font-mono text-white/40" data-bind="ord.burned">0</div>
                     </div>
+                    <div class="surface p-6 rounded-2xl border border-white/5">
+                        <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Primary Volume</h3>
+                        <div class="text-2xl font-bold font-mono text-white/90" data-bind="sales.primary.btc">—</div>
+                        <div class="mt-1 text-[11px] text-white/45 font-mono" data-bind="sales.primary.usd">—</div>
+                    </div>
+                    <div class="surface p-6 rounded-2xl border border-white/5">
+                        <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Secondary Volume</h3>
+                        <div class="text-2xl font-bold font-mono text-white/90" data-bind="sales.secondary.btc">—</div>
+                        <div class="mt-1 text-[11px] text-white/45 font-mono" data-bind="sales.secondary.usd">—</div>
+                    </div>
                 </div>
 
                 <!-- Ordinals Table -->
-                <section class="animate-fade-in" style="animation-delay: 200ms">
+                <section class="animate-fade-in" style="animation-delay: 160ms">
                     <h2 class="text-xl font-bold mb-6 flex items-center gap-3">
                         <span class="w-8 h-[1px] bg-white/20"></span>
                         Digital Ordinals [Bitcoin]

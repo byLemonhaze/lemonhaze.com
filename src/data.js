@@ -1,17 +1,26 @@
 
-const PROVENANCE_URL = "https://cdn.lemonhaze.com/assets/assets/provenance.json";
+const PROVENANCE_URLS = [
+  "https://cdn.lemonhaze.com/assets/assets/provenance.json",
+  "https://cdn.lemonhaze.com/assets/provenance.json",
+  "/data/provenance.json",
+];
 const BB_COLLECTION_URL = "https://bestbefore.space/magic_eden_collection.json";
 
 export async function fetchProvenance() {
-  try {
-    const response = await fetch(PROVENANCE_URL);
-    if (!response.ok) throw new Error("Failed to fetch provenance");
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching provenance:", error);
-    return [];
+  for (const url of PROVENANCE_URLS) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) continue;
+      const data = await response.json();
+      if (Array.isArray(data)) return data;
+      if (Array.isArray(data?.items)) return data.items;
+      if (Array.isArray(data?.data)) return data.data;
+    } catch {
+      // Try next source.
+    }
   }
+  console.error("Error fetching provenance: all sources failed");
+  return [];
 }
 
 export async function fetchBBCollection() {
@@ -263,7 +272,7 @@ export const ORDINALS_SUPPLY_DATA = [
   { name: 'Eclosion 1/1 - Amsterdam Blooms', year: 2023, inscribed: 1, circulating: 1 },
   { name: 'Satoshi 1/1 - Counterfeit Cards S00 - C08', year: 2023, inscribed: 1, circulating: 1 },
   { name: 'Skull 506 [Remix] 1/1 - Skullx', year: 2025, inscribed: 1, circulating: 1 },
-  { name: '1 of 1s (2026)', year: 2026, inscribed: 7, circulating: 7 },
+  { name: '1 of 1s (2026)', year: 2026, inscribed: 8, circulating: 8 },
 ];
 
 export const ETH_SUPPLY_DATA = [
@@ -284,7 +293,7 @@ export const MARKET_LINKS = {
     gamma: 'https://gamma.io/ordinals/collections/manufactured/items'
   },
   'Satoshi CC Edition': {
-    me: 'https://magiceden.io/ordinals/marketplace/counterfeit-cards?selectedAttributes=%7B%22Artist%22%3A%5B%7B%22traitType%22%3A%22Artist%22%2C%22value%22%3A%22Lemonhaze%22%2C%22label%22%3A%22Lemonhaze%22%2C%22count%22%3A111%2C%22floor%22%3A%220.0069%22%2C%22image%22%3A%22https%3A%2F%2Fimg-cdn.magiceden.dev%2Frs%3Afill%3A400%3A0%3A0%2Fplain%2Fhttps%253A%252F%252Ford-mirror.magiceden.dev%252Fcontent%252Fff15d59bd8080f441b44833cddb63178514e203a1b6470e9403ef2ccc24042c8i0%22%2C%22total%22%3A111%2C%22listedPercentage%22%3A%22%22%7D%5D%7D',
+    me: 'https://magiceden.io/ordinals/marketplace/counterfeit-cards?selectedAttributes=%7B%22Artist%22%3A%5B%7B%22traitType%22%3A%22Artist%22%2C%22value%22%3A%22Lemonhaze%22%2C%22label%22%3A%22Lemonhaze%22%2C%22count%22%3A111%2C%22floor%22%3A%220.00400%22%2C%22image%22%3A%22https%3A%2F%2Fimg-cdn.magiceden.dev%2Frs%3Afill%3A400%3A0%3A0%2Fplain%2Fhttps%253A%252F%252Ford-mirror.magiceden.dev%252Fcontent%252Fff15d59bd8080f441b44833cddb63178514e203a1b6470e9403ef2ccc24042c8i0%22%2C%22total%22%3A111%2C%22listedPercentage%22%3A%22%22%7D%5D%7D',
     gamma: 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze'
   },
   'Portrait 2490': {
@@ -471,7 +480,15 @@ export const MARKET_LINKS = {
   },
   'Eclosion 1/1 - Amsterdam Blooms': {
     me: 'https://magiceden.io/ordinals/item-details/aaf0e314aab67783d7e92b0987b0c34ae610b41f64aa1ff7cae8c4fbeebf9029i0',
-    gamma: 'https://gamma.io/ordinals/inscriptions/aaf0e314aab67783d7e92b0987b0c34ae610b41f64aa1ff7cae8c4fbeebf9029i0'
+    gamma: 'https://gamma.io/ordinals/collections/amsterdam-blooms/items'
+  },
+  'Satoshi 1/1 - Counterfeit Cards S00 - C08': {
+    me: 'https://magiceden.io/ordinals/marketplace/counterfeit-cards?selectedAttributes=%7B%22Artist%22%3A%5B%7B%22traitType%22%3A%22Artist%22%2C%22value%22%3A%22Lemonhaze%22%2C%22label%22%3A%22Lemonhaze%22%2C%22count%22%3A111%2C%22floor%22%3A%220.00400%22%2C%22image%22%3A%22https%3A%2F%2Fimg-cdn.magiceden.dev%2Frs%3Afill%3A400%3A0%3A0%2Fplain%2Fhttps%253A%252F%252Ford-mirror.magiceden.dev%252Fcontent%252Fff15d59bd8080f441b44833cddb63178514e203a1b6470e9403ef2ccc24042c8i0%22%2C%22total%22%3A111%2C%22listedPercentage%22%3A%22%22%7D%5D%7D',
+    gamma: 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze'
+  },
+  'Skull 506 [Remix] 1/1 - Skullx': {
+    me: 'https://magiceden.io/ordinals/marketplace/skullx_collabs',
+    gamma: 'https://gamma.io/ordinals/collections/skullx-the-artist-series/items'
   }
 };
 

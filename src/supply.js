@@ -11,6 +11,231 @@ const aboutOverlay = document.getElementById('about-overlay');
 const aboutContent = document.getElementById('about-content');
 const aboutClose = document.getElementById('about-close');
 
+const SALES_INDEX_URL = '/data/sales-master/by-inscription.json';
+const BTC_SPOT_URL = 'https://api.coinbase.com/v2/prices/BTC-USD/spot';
+
+const usdFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+});
+
+function clean(value) {
+    return String(value || '')
+        .replace(/[\u200e\u200f\u202a-\u202e]/g, '')
+        .trim();
+}
+
+function parseRelativeTimestampMs(raw) {
+    const m = raw
+        .toLowerCase()
+        .match(/^(\d+)\s*(s|sec|secs|second|seconds|m|min|mins|minute|minutes|h|hr|hrs|hour|hours|d|day|days|w|week|weeks|mo|month|months|y|yr|yrs|year|years)\s*(ago)?$/);
+    if (!m) return Number.NaN;
+
+    const amount = Number(m[1]);
+    const unit = m[2];
+    if (!Number.isFinite(amount) || amount < 0) return Number.NaN;
+
+    let factorMs = Number.NaN;
+    if (unit === 's' || unit.startsWith('sec')) factorMs = 1000;
+    else if (unit === 'm' || unit.startsWith('min')) factorMs = 60 * 1000;
+    else if (unit === 'h' || unit.startsWith('hr') || unit.startsWith('hour')) factorMs = 60 * 60 * 1000;
+    else if (unit === 'd' || unit.startsWith('day')) factorMs = 24 * 60 * 60 * 1000;
+    else if (unit === 'w' || unit.startsWith('week')) factorMs = 7 * 24 * 60 * 60 * 1000;
+    else if (unit === 'mo' || unit.startsWith('month')) factorMs = 30.4375 * 24 * 60 * 60 * 1000;
+    else if (unit === 'y' || unit.startsWith('yr') || unit.startsWith('year')) factorMs = 365.25 * 24 * 60 * 60 * 1000;
+    if (!Number.isFinite(factorMs)) return Number.NaN;
+
+    return Date.now() - Math.round(amount * factorMs);
+}
+
+function parseSalesTimestampMs(value) {
+    const raw = clean(value);
+    if (!raw) return Number.NaN;
+
+    if (/^\d+$/.test(raw)) {
+        const n = Number(raw);
+        if (Number.isFinite(n)) return n > 1e12 ? n : n * 1000;
+    }
+
+    const relative = parseRelativeTimestampMs(raw);
+    if (Number.isFinite(relative)) return relative;
+
+    let parsed = Date.parse(raw);
+    if (Number.isFinite(parsed)) return parsed;
+
+    parsed = Date.parse(raw.replace(' UTC', 'Z').replace(' ', 'T'));
+    return Number.isFinite(parsed) ? parsed : Number.NaN;
+}
+
+function fmtBtc(value) {
+    const n = Number(value);
+    if (!Number.isFinite(n)) return '—';
+    return n.toFixed(8).replace(/\.?0+$/, '');
+}
+
+function fmtUsdToday(value, btcUsdSpot) {
+    if (!Number.isFinite(Number(value)) || !Number.isFinite(Number(btcUsdSpot))) return '—';
+    return `${usdFormatter.format(Number(value) * Number(btcUsdSpot))} today`;
+}
+
+function prettyCollectionLabel(slug) {
+    const raw = clean(slug).toLowerCase();
+    if (!raw) return 'Unknown';
+    return raw
+        .replace(/-by-lemonhaze$/, '')
+        .replace(/-x-ordinally$/, '')
+        .replace(/_/g, ' ')
+        .replace(/-/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .replace(/\b\w/g, (m) => m.toUpperCase());
+}
+
+async function fetchSalesIndex() {
+    try {
+        const res = await fetch(SALES_INDEX_URL, { cache: 'no-store' });
+        if (!res.ok) return { inscriptions: {} };
+        const payload = await res.json();
+        return payload && typeof payload === 'object' ? payload : { inscriptions: {} };
+    } catch {
+        return { inscriptions: {} };
+    }
+}
+
+async function fetchBtcUsdSpot() {
+    try {
+        const res = await fetch(BTC_SPOT_URL, { cache: 'no-store' });
+        if (!res.ok) return Number.NaN;
+        const payload = await res.json();
+        const amount = Number(payload?.data?.amount);
+        return Number.isFinite(amount) && amount > 0 ? amount : Number.NaN;
+    } catch {
+        return Number.NaN;
+    }
+}
+
+function computeSalesBreakdown(indexPayload) {
+    const inscriptions = indexPayload?.inscriptions && typeof indexPayload.inscriptions === 'object'
+        ? indexPayload.inscriptions
+        : {};
+
+    let primaryBtc = 0;
+    let secondaryBtc = 0;
+    const byCollection = new Map();
+
+    for (const eventsRaw of Object.values(inscriptions)) {
+        const events = Array.isArray(eventsRaw)
+            ? eventsRaw.filter((event) => Number.isFinite(Number(event?.priceBTC)))
+            : [];
+        if (!events.length) continue;
+
+        const explicitPrimaryIndices = new Set(
+            events
+                .map((event, index) => ({ event, index }))
+                .filter(({ event }) => clean(event?.saleType).toLowerCase() === 'primary')
+                .map(({ index }) => index),
+        );
+        const explicitClassifiedCount = events.filter((event) => {
+            const kind = clean(event?.saleType).toLowerCase();
+            return kind === 'primary' || kind === 'secondary';
+        }).length;
+
+        let oldestIdx = -1;
+        if (!explicitPrimaryIndices.size && !explicitClassifiedCount) {
+            let oldestTs = Number.POSITIVE_INFINITY;
+            for (let i = 0; i < events.length; i += 1) {
+                const ts = parseSalesTimestampMs(events[i]?.timestamp);
+                const rank = Number.isFinite(ts) ? ts : Number.POSITIVE_INFINITY;
+                if (rank < oldestTs) {
+                    oldestTs = rank;
+                    oldestIdx = i;
+                }
+            }
+            if (oldestIdx < 0) oldestIdx = events.length - 1;
+        }
+
+        for (let i = 0; i < events.length; i += 1) {
+            const event = events[i];
+            const price = Number(event.priceBTC);
+            const isPrimary = explicitPrimaryIndices.size
+                ? explicitPrimaryIndices.has(i)
+                : (!explicitClassifiedCount && i === oldestIdx);
+
+            if (isPrimary) primaryBtc += price;
+            else secondaryBtc += price;
+
+            const slug = clean(event.collectionSlug) || 'unknown';
+            const current = byCollection.get(slug) || { slug, sales: 0, volumeBtc: 0 };
+            current.sales += 1;
+            current.volumeBtc += price;
+            byCollection.set(slug, current);
+        }
+    }
+
+    const collections = [...byCollection.values()]
+        .map((entry) => ({ ...entry, volumeBtc: Number(entry.volumeBtc.toFixed(8)) }))
+        .sort((a, b) => b.volumeBtc - a.volumeBtc);
+
+    return {
+        primaryBtc: Number(primaryBtc.toFixed(8)),
+        secondaryBtc: Number(secondaryBtc.toFixed(8)),
+        totalBtc: Number((primaryBtc + secondaryBtc).toFixed(8)),
+        collections,
+    };
+}
+
+function bindSalesSummary(summary, btcUsdSpot) {
+    const bind = (key, value) => {
+        const node = document.querySelector(`[data-bind=\"${key}\"]`);
+        if (node) node.textContent = value;
+    };
+
+    bind('sales.primary.btc', `${fmtBtc(summary.primaryBtc)} BTC`);
+    bind('sales.primary.usd', fmtUsdToday(summary.primaryBtc, btcUsdSpot));
+    bind('sales.secondary.btc', `${fmtBtc(summary.secondaryBtc)} BTC`);
+    bind('sales.secondary.usd', fmtUsdToday(summary.secondaryBtc, btcUsdSpot));
+}
+
+function renderCollectionSalesTable(summary, btcUsdSpot) {
+    const tbody = document.getElementById('sales-collection-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    if (!summary.collections.length) {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-white/5';
+        tr.innerHTML = `
+            <td class="p-5 text-xs text-white/40" colspan="4">No sales volume data available.</td>
+        `;
+        tbody.appendChild(tr);
+        return;
+    }
+
+    summary.collections.forEach((row, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-white/5 hover:bg-white/5 transition-colors animate-fade-in';
+        tr.style.animationDelay = `${idx * 15}ms`;
+        tr.innerHTML = `
+            <td class="p-5 text-xs font-mono text-white/90">${prettyCollectionLabel(row.slug)}</td>
+            <td class="p-5 text-right text-xs font-mono text-white/60">${row.sales.toLocaleString()}</td>
+            <td class="p-5 text-right text-xs font-mono text-white/90">${fmtBtc(row.volumeBtc)}</td>
+            <td class="p-5 text-right text-xs font-mono text-white/45 hidden md:table-cell">${fmtUsdToday(row.volumeBtc, btcUsdSpot)}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+async function renderSalesAnalytics() {
+    const [indexPayload, btcUsdSpot] = await Promise.all([
+        fetchSalesIndex(),
+        fetchBtcUsdSpot(),
+    ]);
+    const summary = computeSalesBreakdown(indexPayload);
+    bindSalesSummary(summary, btcUsdSpot);
+    renderCollectionSalesTable(summary, btcUsdSpot);
+}
+
 // --- Data ---
 const ordinals = [
     { name: 'BEST BEFORE', year: 2025, inscribed: 420, circulating: 420 },
@@ -65,7 +290,7 @@ const ordinals = [
     { name: 'Eclosion 1/1 - Amsterdam Blooms', year: 2023, inscribed: 1, circulating: 1 },
     { name: 'Satoshi 1/1 - Counterfeit Cards S00 - C08', year: 2023, inscribed: 1, circulating: 1 },
     { name: 'Skull 506 [Remix] 1/1 - Skullx', year: 2025, inscribed: 1, circulating: 1 },
-    { name: '1/1s (2026)', year: 2026, inscribed: 7, circulating: 7 },
+    { name: '1/1s (2026)', year: 2026, inscribed: 8, circulating: 8 },
 ];
 
 const eth = [
@@ -86,7 +311,7 @@ const marketLinks = {
         gamma: 'https://gamma.io/ordinals/collections/manufactured/items'
     },
     'Satoshi CC Edition': {
-        me: 'https://magiceden.io/ordinals/marketplace/counterfeit-cards?selectedAttributes=%7B%22Artist%22%3A%5B%7B%22traitType%22%3A%22Artist%22%2C%22value%22%3A%22Lemonhaze%22%2C%22label%22%3A%22Lemonhaze%22%2C%22count%22%3A111%2C%22floor%22%3A%220.0069%22%2C%22image%22%3A%22https%3A%2F%2Fimg-cdn.magiceden.dev%2Frs%3Afill%3A400%3A0%3A0%2Fplain%2Fhttps%253A%252F%252Ford-mirror.magiceden.dev%252Fcontent%252Fff15d59bd8080f441b44833cddb63178514e203a1b6470e9403ef2ccc24042c8i0%22%2C%22total%22%3A111%2C%22listedPercentage%22%3A%22%22%7D%5D%7D',
+        me: 'https://magiceden.io/ordinals/marketplace/counterfeit-cards?selectedAttributes=%7B%22Artist%22%3A%5B%7B%22traitType%22%3A%22Artist%22%2C%22value%22%3A%22Lemonhaze%22%2C%22label%22%3A%22Lemonhaze%22%2C%22count%22%3A111%2C%22floor%22%3A%220.00400%22%2C%22image%22%3A%22https%3A%2F%2Fimg-cdn.magiceden.dev%2Frs%3Afill%3A400%3A0%3A0%2Fplain%2Fhttps%253A%252F%252Ford-mirror.magiceden.dev%252Fcontent%252Fff15d59bd8080f441b44833cddb63178514e203a1b6470e9403ef2ccc24042c8i0%22%2C%22total%22%3A111%2C%22listedPercentage%22%3A%22%22%7D%5D%7D',
         gamma: 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze'
     },
     'Portrait 2490': {
@@ -273,7 +498,15 @@ const marketLinks = {
     },
     'Eclosion 1/1 - Amsterdam Blooms': {
         me: 'https://magiceden.io/ordinals/item-details/aaf0e314aab67783d7e92b0987b0c34ae610b41f64aa1ff7cae8c4fbeebf9029i0',
-        gamma: 'https://gamma.io/ordinals/inscriptions/aaf0e314aab67783d7e92b0987b0c34ae610b41f64aa1ff7cae8c4fbeebf9029i0'
+        gamma: 'https://gamma.io/ordinals/collections/amsterdam-blooms/items'
+    },
+    'Satoshi 1/1 - Counterfeit Cards S00 - C08': {
+        me: 'https://magiceden.io/ordinals/marketplace/counterfeit-cards?selectedAttributes=%7B%22Artist%22%3A%5B%7B%22traitType%22%3A%22Artist%22%2C%22value%22%3A%22Lemonhaze%22%2C%22label%22%3A%22Lemonhaze%22%2C%22count%22%3A111%2C%22floor%22%3A%220.00400%22%2C%22image%22%3A%22https%3A%2F%2Fimg-cdn.magiceden.dev%2Frs%3Afill%3A400%3A0%3A0%2Fplain%2Fhttps%253A%252F%252Ford-mirror.magiceden.dev%252Fcontent%252Fff15d59bd8080f441b44833cddb63178514e203a1b6470e9403ef2ccc24042c8i0%22%2C%22total%22%3A111%2C%22listedPercentage%22%3A%22%22%7D%5D%7D',
+        gamma: 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze'
+    },
+    'Skull 506 [Remix] 1/1 - Skullx': {
+        me: 'https://magiceden.io/ordinals/marketplace/skullx_collabs',
+        gamma: 'https://gamma.io/ordinals/collections/skullx-the-artist-series/items'
     }
 };
 
@@ -295,13 +528,6 @@ const linkOverrides = {
     'Tad Small': '/index.html?collection=Tad Small',
     'Dark Days': '/index.html?collection=Dark Days',
 };
-
-// --- Execution ---
-function init() {
-    renderSidebar();
-    renderTables();
-    setupEventListeners();
-}
 
 function renderSidebar() {
     // Top Nav
@@ -411,4 +637,11 @@ function setupEventListeners() {
     aboutOverlay.addEventListener('click', (e) => { if (e.target === aboutOverlay || e.target.id === 'about-wrapper') closeAboutModal(); });
 }
 
-init();
+async function init() {
+    renderSidebar();
+    renderTables();
+    setupEventListeners();
+    await renderSalesAnalytics();
+}
+
+void init();

@@ -2,8 +2,8 @@
   "collectionSlug": "bar-tapas-by-lemonhaze",
   "collectionUrl": "https://bestinslot.xyz/ordinals/collections/bar-tapas-by-lemonhaze",
   "scrapedAt": "2026-03-03T23:07:55.813Z",
-  "totalSales": 10,
-  "totalVolumeBTC": 0.07345,
+  "totalSales": 13,
+  "totalVolumeBTC": 0.14085,
   "sales": [
     {
       "timestamp": "2025-03-13 00:00:00 UTC",
@@ -12,6 +12,15 @@
       "raw": "Sushi | Manual secondary sale",
       "hrefs": [],
       "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2024-02-13 07:10:35 UTC",
+      "inscriptionId": "a461f726b8931e9c8f00850cde8fc1c8ef8087b9e77d2eb5e8f636dc9ade8873i0",
+      "priceBTC": 0.0499,
+      "raw": "Sex, Scotch and Soda | Satflow activity sale",
+      "hrefs": [],
+      "source": "manual-satflow",
       "saleType": "secondary"
     },
     {
@@ -33,6 +42,15 @@
       "saleType": "secondary"
     },
     {
+      "timestamp": "2023-11-19 20:16:56 UTC",
+      "inscriptionId": "a461f726b8931e9c8f00850cde8fc1c8ef8087b9e77d2eb5e8f636dc9ade8873i0",
+      "priceBTC": 0.015,
+      "raw": "Sex, Scotch and Soda | Satflow activity sale",
+      "hrefs": [],
+      "source": "manual-satflow",
+      "saleType": "secondary"
+    },
+    {
       "timestamp": "2023-06-11 00:00:00 UTC",
       "inscriptionId": "57191d656b06cf1d588c1ba018c877409cf322e138c577daa17313fecd09b7e2i0",
       "priceBTC": 0.01,
@@ -49,6 +67,15 @@
       "hrefs": [],
       "source": "manual-private",
       "saleType": "secondary"
+    },
+    {
+      "timestamp": "2023-06-03 15:34:15 UTC",
+      "inscriptionId": "a461f726b8931e9c8f00850cde8fc1c8ef8087b9e77d2eb5e8f636dc9ade8873i0",
+      "priceBTC": 0.0025,
+      "raw": "Sex, Scotch and Soda | Satflow activity sale",
+      "hrefs": [],
+      "source": "manual-satflow",
+      "saleType": "primary"
     },
     {
       "timestamp": "2023-05-31 00:00:00 UTC",
@@ -96,5 +123,5 @@
       "saleType": "primary"
     }
   ],
-  "manualSalesAdded": 10
+  "manualSalesAdded": 13
 }

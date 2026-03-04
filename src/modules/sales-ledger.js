@@ -1,9 +1,12 @@
 const SALES_INDEX_URL = '/data/sales-master/by-inscription.json';
+const BUNDLE_SALES_INDEX_URL = '/data/sales-master/original-bundle-sales.json';
 const BTC_SPOT_URL = 'https://api.coinbase.com/v2/prices/BTC-USD/spot';
 const BTC_SPOT_TTL_MS = 2 * 60 * 1000;
 
 let salesIndexPromise = null;
 let salesIndexCache = null;
+let bundleSalesIndexPromise = null;
+let bundleSalesIndexCache = null;
 
 let btcSpotPromise = null;
 let btcSpotValue = null;
@@ -88,11 +91,56 @@ async function loadSalesIndex() {
   return salesIndexPromise;
 }
 
+async function loadBundleSalesIndex() {
+  if (bundleSalesIndexCache) return bundleSalesIndexCache;
+  if (bundleSalesIndexPromise) return bundleSalesIndexPromise;
+
+  bundleSalesIndexPromise = (async () => {
+    try {
+      const res = await fetch(BUNDLE_SALES_INDEX_URL, { cache: 'no-store' });
+      if (!res.ok) return { inscriptions: {} };
+      const payload = await res.json();
+      bundleSalesIndexCache = payload && typeof payload === 'object'
+        ? payload
+        : { inscriptions: {} };
+      return bundleSalesIndexCache;
+    } catch {
+      bundleSalesIndexCache = { inscriptions: {} };
+      return bundleSalesIndexCache;
+    } finally {
+      bundleSalesIndexPromise = null;
+    }
+  })();
+
+  return bundleSalesIndexPromise;
+}
+
 export async function getSalesForInscription(inscriptionId) {
   const key = normalizeInscriptionId(inscriptionId);
   if (!key) return [];
 
   const payload = await loadSalesIndex();
+  const events = Array.isArray(payload?.inscriptions?.[key])
+    ? payload.inscriptions[key]
+    : [];
+
+  return [...events].sort((a, b) => {
+    const ta = parseSalesTimestampMs(a?.timestamp);
+    const tb = parseSalesTimestampMs(b?.timestamp);
+    const aValid = Number.isFinite(ta);
+    const bValid = Number.isFinite(tb);
+    if (aValid && bValid) return tb - ta;
+    if (aValid) return -1;
+    if (bValid) return 1;
+    return (Number(b?.priceBTC) || 0) - (Number(a?.priceBTC) || 0);
+  });
+}
+
+export async function getBundleSalesForInscription(inscriptionId) {
+  const key = normalizeInscriptionId(inscriptionId);
+  if (!key) return [];
+
+  const payload = await loadBundleSalesIndex();
   const events = Array.isArray(payload?.inscriptions?.[key])
     ? payload.inscriptions[key]
     : [];

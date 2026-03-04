@@ -2,8 +2,8 @@
   "collectionSlug": "miscelleneous-by-lemonhaze",
   "collectionUrl": "https://bestinslot.xyz/ordinals/collections/miscelleneous-by-lemonhaze",
   "scrapedAt": "2026-03-03T23:07:01.287Z",
-  "totalSales": 3,
-  "totalVolumeBTC": 0.03492635,
+  "totalSales": 2,
+  "totalVolumeBTC": 0.01843835,
   "sales": [
     {
       "timestamp": "2023-11-01T18:31:37.000Z",
@@ -13,17 +13,6 @@
       "hrefs": [
         "/ordinals/inscription/0638326aacbe6dbd0dc67357d8246ab35bbdefce239c2c6ac9750458ca143165i0",
         "https://mempool.space/tx/f40c324c786a201553e4dfeafba9d0d5e56e174b76ffa0db2f4a955e159121ab"
-      ],
-      "source": "bestinslot-v2api"
-    },
-    {
-      "timestamp": "2023-06-10T06:43:23.000Z",
-      "inscriptionId": "36a7e633e38899e72dc684f6a228c59552fada10221d4e47f276ba8dcc678cf9i0",
-      "priceBTC": 0.016488,
-      "raw": "API sale 6560aa4e600a1de3a4ebb619f26241fd58ccd6813d8ab1df9387ede7da251528 bc1pc2p27f367jun2csgkue7xch8dhk5hft04vjcws5ajp9n5x37803qgrnw5e -> bc1pvq56smdhqy78qtgcdrww3kr7k9wntt7y947afz85avnwc8g29ndqmpg0gz",
-      "hrefs": [
-        "/ordinals/inscription/36a7e633e38899e72dc684f6a228c59552fada10221d4e47f276ba8dcc678cf9i0",
-        "https://mempool.space/tx/6560aa4e600a1de3a4ebb619f26241fd58ccd6813d8ab1df9387ede7da251528"
       ],
       "source": "bestinslot-v2api"
     },

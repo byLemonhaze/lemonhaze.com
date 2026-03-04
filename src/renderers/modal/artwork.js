@@ -6,6 +6,7 @@ import {
     getBtcUsdSpot,
     parseSalesTimestampMs,
     getSalesForInscription,
+    getBundleSalesForInscription,
 } from '../../modules/sales-ledger.js';
 
 const HIRO_API = 'https://api.hiro.so/ordinals/v1/inscriptions';
@@ -433,25 +434,51 @@ export function createArtworkModalController({
                 return;
             }
 
-            const indexed = events.map((event, index) => ({
+            const orderedEvents = [...events].sort((a, b) => {
+                const ta = parseSalesTimestampMs(a?.timestamp);
+                const tb = parseSalesTimestampMs(b?.timestamp);
+                const aValid = Number.isFinite(ta);
+                const bValid = Number.isFinite(tb);
+                if (aValid && bValid) return tb - ta;
+                if (aValid) return -1;
+                if (bValid) return 1;
+                return (Number(b?.priceBTC) || 0) - (Number(a?.priceBTC) || 0);
+            });
+
+            const indexed = orderedEvents.map((event, index) => ({
                 event,
                 index,
                 timestampMs: parseSalesTimestampMs(event?.timestamp),
             }));
 
+            const explicitClassifiedCount = indexed.filter(({ event }) => {
+                const kind = String(event?.saleType || '').trim().toLowerCase();
+                return kind === 'primary' || kind === 'secondary';
+            }).length;
+
+            const explicitPrimary = new Set(
+                indexed
+                    .filter(({ event }) => String(event?.saleType || '').trim().toLowerCase() === 'primary')
+                    .map(({ index }) => index),
+            );
+
             let oldestIndex = -1;
-            let oldestTimestamp = Number.POSITIVE_INFINITY;
-            for (const entry of indexed) {
-                if (Number.isFinite(entry.timestampMs) && entry.timestampMs < oldestTimestamp) {
-                    oldestTimestamp = entry.timestampMs;
-                    oldestIndex = entry.index;
+            if (!explicitPrimary.size && !explicitClassifiedCount) {
+                let oldestTimestamp = Number.POSITIVE_INFINITY;
+                for (const entry of indexed) {
+                    if (Number.isFinite(entry.timestampMs) && entry.timestampMs < oldestTimestamp) {
+                        oldestTimestamp = entry.timestampMs;
+                        oldestIndex = entry.index;
+                    }
                 }
+                if (oldestIndex < 0) oldestIndex = indexed.length - 1;
             }
-            if (oldestIndex < 0) oldestIndex = indexed.length - 1;
 
             for (const entry of indexed) {
                 const { event, index } = entry;
-                const isPrimary = index === oldestIndex;
+                const isPrimary = explicitPrimary.size
+                    ? explicitPrimary.has(index)
+                    : (!explicitClassifiedCount && index === oldestIndex);
                 const row = document.createElement('div');
                 row.className = 'py-1.5 border-b border-white/5 last:border-0';
 
@@ -459,13 +486,59 @@ export function createArtworkModalController({
                 dateLine.className = 'flex items-center gap-1.5 text-[10px] font-mono text-white/60 leading-snug';
                 const dateText = document.createElement('span');
                 dateText.className = 'break-words';
+                const explicitDateLabel = String(event?.dateLabel || '').trim();
                 dateText.textContent = isPrimary
-                    ? `${fmtSaleDate(event?.timestamp)} - Primary`
-                    : fmtSaleDate(event?.timestamp);
+                    ? `${explicitDateLabel || fmtSaleDate(event?.timestamp)} - Primary`
+                    : (explicitDateLabel || fmtSaleDate(event?.timestamp));
                 dateLine.appendChild(dateText);
 
                 const priceLine = document.createElement('div');
                 priceLine.className = 'text-[11px] font-mono text-white/75 leading-snug break-words';
+
+                const bundleCount = Number(event?.bundleCount);
+                const unitPriceBTC = Number(event?.unitPriceBTC);
+                const bundleTypeRaw = String(event?.bundleType || '').trim().toLowerCase();
+                const hasBundleInfo = Number.isFinite(bundleCount) && bundleCount > 0
+                    && Number.isFinite(unitPriceBTC) && unitPriceBTC > 0;
+                const bundleLabelOverride = String(event?.bundleLabel || '').trim();
+
+                if (hasBundleInfo) {
+                    const bundleLabel = bundleLabelOverride || (bundleTypeRaw === 'edition' || bundleTypeRaw === 'editions'
+                        ? 'Edition bundle'
+                        : 'Prints bundle');
+                    const totalBtc = Number.isFinite(Number(event?.priceBTC))
+                        ? Number(event.priceBTC)
+                        : bundleCount * unitPriceBTC;
+                    const bundleText = `${bundleLabel}: ${bundleCount} × ${fmtBtcValue(unitPriceBTC)} BTC = ${fmtBtcValue(totalBtc)} BTC`;
+                    if (Number.isFinite(Number(btcUsdSpot)) && Number(btcUsdSpot) > 0 && Number.isFinite(totalBtc)) {
+                        const usdNow = totalBtc * Number(btcUsdSpot);
+                        priceLine.textContent = `${bundleText} · ${usdNowFormatter.format(usdNow)}`;
+                    } else {
+                        priceLine.textContent = `${bundleText} · $—`;
+                    }
+                    row.appendChild(dateLine);
+                    row.appendChild(priceLine);
+                    salesEl.appendChild(row);
+                    continue;
+                }
+
+                if (bundleLabelOverride) {
+                    const totalBtc = Number(event?.priceBTC);
+                    const count = Number(event?.aggregateSalesCount);
+                    const countText = Number.isFinite(count) && count > 0 ? ` (${count} sales)` : '';
+                    if (Number.isFinite(totalBtc) && Number.isFinite(Number(btcUsdSpot)) && Number(btcUsdSpot) > 0) {
+                        const usdNow = totalBtc * Number(btcUsdSpot);
+                        priceLine.textContent = `${bundleLabelOverride}${countText}: ${fmtBtcValue(totalBtc)} BTC · ${usdNowFormatter.format(usdNow)}`;
+                    } else if (Number.isFinite(totalBtc)) {
+                        priceLine.textContent = `${bundleLabelOverride}${countText}: ${fmtBtcValue(totalBtc)} BTC · $—`;
+                    } else {
+                        priceLine.textContent = `${bundleLabelOverride}${countText}: —`;
+                    }
+                    row.appendChild(dateLine);
+                    row.appendChild(priceLine);
+                    salesEl.appendChild(row);
+                    continue;
+                }
 
                 const usdOriginal = Number(event?.priceUSDOriginal);
                 if (Number.isFinite(usdOriginal) && usdOriginal > 0) {
@@ -494,9 +567,16 @@ export function createArtworkModalController({
 
         Promise.all([
             getSalesForInscription(item.id),
+            getBundleSalesForInscription(item.id),
             getBtcUsdSpot(),
         ])
-            .then(([events, btcUsdSpot]) => applySalesData(events, btcUsdSpot))
+            .then(([events, bundleEvents, btcUsdSpot]) => {
+                const mergedEvents = [
+                    ...(Array.isArray(events) ? events : []),
+                    ...(Array.isArray(bundleEvents) ? bundleEvents : []),
+                ];
+                applySalesData(mergedEvents, btcUsdSpot);
+            })
             .catch(() => applySalesData([], null));
 
         if (!isBB) {

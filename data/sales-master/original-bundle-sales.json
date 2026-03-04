@@ -1,0 +1,133 @@
+{
+  "generatedAt": "2026-03-03T23:59:00.000Z",
+  "source": "manual-lemonhaze",
+  "inscriptionCount": 6,
+  "saleCount": 11,
+  "inscriptions": {
+    "9a4f72cb41ca2c4d5c591224bf02fe1fc3b977e4231042ccb45b9026c814b475i0": [
+      {
+        "timestamp": "2025-09-25T19:18:06.000Z",
+        "dateLabel": "Multiple dates (latest 25 Sep 2025)",
+        "priceBTC": 0.16478355,
+        "collectionSlug": "deprivation-by-lemonhaze",
+        "source": "manual-bundle-aggregate",
+        "saleType": "secondary",
+        "bundleType": "prints",
+        "bundleLabel": "Prints secondary volume",
+        "aggregateSalesCount": 22
+      },
+      {
+        "timestamp": "2023-08-25 00:00:00 UTC",
+        "priceBTC": 0.02277,
+        "collectionSlug": "deprivation-by-lemonhaze",
+        "source": "manual-bundle",
+        "saleType": "primary",
+        "bundleType": "prints",
+        "bundleCount": 33,
+        "unitPriceBTC": 0.00069
+      }
+    ],
+    "18328c7aeb829846f0c20d5786a2a383b1b546c985681382cd5f073cfa4e3e15i0": [
+      {
+        "timestamp": "2025-01-24T15:28:50.000Z",
+        "dateLabel": "Multiple dates (latest 24 Jan 2025)",
+        "priceBTC": 0.14644561,
+        "collectionSlug": "mirage-by-lemonhaze",
+        "source": "manual-bundle-aggregate",
+        "saleType": "secondary",
+        "bundleType": "prints",
+        "bundleLabel": "Prints secondary volume",
+        "aggregateSalesCount": 19
+      },
+      {
+        "timestamp": "2024-01-06 00:00:00 UTC",
+        "priceBTC": 0.05577,
+        "collectionSlug": "mirage-by-lemonhaze",
+        "source": "manual-bundle",
+        "saleType": "primary",
+        "bundleType": "prints",
+        "bundleCount": 33,
+        "unitPriceBTC": 0.00169
+      }
+    ],
+    "58d21c5f1bbc25932fe1cc784ac47baf8b0ed9241ea989ad2a47b41839d132e7i0": [
+      {
+        "timestamp": "2025-05-01 00:00:00 UTC",
+        "priceBTC": 0.01859,
+        "collectionSlug": "prints-trilogy-by-lemonhaze",
+        "source": "manual-bundle",
+        "saleType": "primary",
+        "bundleType": "prints",
+        "bundleCount": 11,
+        "unitPriceBTC": 0.00169
+      },
+      {
+        "timestamp": "2025-11-03 00:00:00 UTC",
+        "priceBTC": 0.0114,
+        "collectionSlug": "prints-trilogy-by-lemonhaze",
+        "source": "manual-aggregate",
+        "saleType": "secondary",
+        "bundleType": "prints",
+        "bundleLabel": "Prints secondary volume",
+        "aggregateSalesCount": 2
+      }
+    ],
+    "a75945e142877ade9392a0855ef0fdab215af10a7f3e4381d31697c706836228i0": [
+      {
+        "timestamp": "2025-05-01 00:00:00 UTC",
+        "priceBTC": 0.01859,
+        "collectionSlug": "prints-trilogy-by-lemonhaze",
+        "source": "manual-bundle",
+        "saleType": "primary",
+        "bundleType": "prints",
+        "bundleCount": 11,
+        "unitPriceBTC": 0.00169
+      }
+    ],
+    "15ed0a345c10cb0b26fad820f364898f355924dbf0ce5527dd5d7237e0a25964i0": [
+      {
+        "timestamp": "2025-05-01 00:00:00 UTC",
+        "priceBTC": 0.01859,
+        "collectionSlug": "prints-trilogy-by-lemonhaze",
+        "source": "manual-bundle",
+        "saleType": "primary",
+        "bundleType": "prints",
+        "bundleCount": 11,
+        "unitPriceBTC": 0.00169
+      },
+      {
+        "timestamp": "2025-06-10 00:00:00 UTC",
+        "priceBTC": 0.0075,
+        "collectionSlug": "prints-trilogy-by-lemonhaze",
+        "source": "manual-aggregate",
+        "saleType": "secondary",
+        "bundleType": "prints",
+        "bundleLabel": "Prints secondary volume",
+        "aggregateSalesCount": 2
+      }
+    ],
+    "611fad09e407fe63e70c54ee853e755f92cb4d69049eff21f31d3d414a2db74di0": [
+      {
+        "timestamp": "2026-02-23T23:42:58.000Z",
+        "dateLabel": "Multiple dates (latest 23 Feb 2026)",
+        "priceBTC": 0.0300009,
+        "collectionSlug": "minute-papillon-editions-by-lemonhaze",
+        "source": "manual-bundle-aggregate",
+        "saleType": "secondary",
+        "bundleType": "editions",
+        "bundleLabel": "Edition secondary volume",
+        "aggregateSalesCount": 6
+      },
+      {
+        "timestamp": "2025-08-29 00:00:00 UTC",
+        "priceBTC": 0.04662,
+        "collectionSlug": "minute-papillon-editions-by-lemonhaze",
+        "source": "manual-bundle",
+        "saleType": "primary",
+        "bundleType": "editions",
+        "bundleCount": 21,
+        "unitPriceBTC": 0.00222
+      }
+    ]
+  }
+}
