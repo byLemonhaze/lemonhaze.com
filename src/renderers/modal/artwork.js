@@ -459,14 +459,10 @@ export function createArtworkModalController({
                 dateLine.className = 'flex items-center gap-1.5 text-[10px] font-mono text-white/60 leading-snug';
                 const dateText = document.createElement('span');
                 dateText.className = 'break-words';
-                dateText.textContent = fmtSaleDate(event?.timestamp);
+                dateText.textContent = isPrimary
+                    ? `${fmtSaleDate(event?.timestamp)} - Primary`
+                    : fmtSaleDate(event?.timestamp);
                 dateLine.appendChild(dateText);
-                if (isPrimary) {
-                    const primaryTag = document.createElement('span');
-                    primaryTag.className = 'inline-flex items-center px-1.5 py-0.5 border border-white/12 text-[8px] uppercase tracking-[0.14em] text-white/50';
-                    primaryTag.textContent = 'Primary';
-                    dateLine.appendChild(primaryTag);
-                }
 
                 const priceLine = document.createElement('div');
                 priceLine.className = 'text-[11px] font-mono text-white/75 leading-snug break-words';
