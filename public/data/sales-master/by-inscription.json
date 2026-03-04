@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-03-03T23:57:49.246Z",
+  "generatedAt": "2026-03-04T00:12:56.092Z",
   "source": "sales-master-collections",
   "collectionCount": 38,
-  "saleCount": 1405,
-  "inscriptionCount": 724,
+  "saleCount": 1406,
+  "inscriptionCount": 725,
   "inscriptions": {
     "28cc6c152b736d59551de08f0d6bd7984a49a0a1f9eca80df62938eaa96ac7e6i0": [
       {
@@ -55,6 +55,15 @@
         "collectionSlug": "1on1-by-lemonhaze",
         "source": "bestinslot-v2api",
         "saleType": null
+      }
+    ],
+    "8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0": [
+      {
+        "timestamp": "2025-02-28 00:00:00 UTC",
+        "priceBTC": 0.026,
+        "collectionSlug": "1on1-by-lemonhaze",
+        "source": "manual-private",
+        "saleType": "auction"
       }
     ],
     "1400f31ed1b8864e5ad21fd3d953ed87e65198652ad4cbec818f056a9d3cab61i0": [

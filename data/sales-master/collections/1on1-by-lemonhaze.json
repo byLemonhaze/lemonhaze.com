@@ -2,8 +2,8 @@
   "collectionSlug": "1on1-by-lemonhaze",
   "collectionUrl": "https://bestinslot.xyz/ordinals/collections/1on1-by-lemonhaze",
   "scrapedAt": "2026-03-03T23:08:32.821Z",
-  "totalSales": 5,
-  "totalVolumeBTC": 0.18918513,
+  "totalSales": 6,
+  "totalVolumeBTC": 0.21518513,
   "sales": [
     {
       "timestamp": "2025-07-22T16:44:39.000Z",
@@ -26,6 +26,15 @@
         "https://mempool.space/tx/fee4e8b189cc980e1526ffe99e0b4bda4c3997606be03c37713e74f3662722b1"
       ],
       "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-02-28 00:00:00 UTC",
+      "inscriptionId": "8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0",
+      "priceBTC": 0.026,
+      "raw": "Chamber of Reflection (Sin City) | Sotheby's sale $2,159 (~0.026 BTC at the time)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "auction"
     },
     {
       "timestamp": "2024-12-06T15:33:05.000Z",
@@ -64,5 +73,6 @@
   "apiMeta": {
     "pagesFetched": 2,
     "error": null
-  }
+  },
+  "manualSalesAdded": 1
 }
