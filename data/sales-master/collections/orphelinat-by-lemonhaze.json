@@ -9,10 +9,10 @@
       "timestamp": "2024-03-05 00:00:00 UTC",
       "inscriptionId": "3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0",
       "priceBTC": 0.5,
-      "raw": "Hosoi | Manual sale",
+      "raw": "Hosoi | Manual primary sale",
       "hrefs": [],
       "source": "manual-private",
-      "saleType": "secondary"
+      "saleType": "primary"
     }
   ],
   "manualSalesAdded": 1

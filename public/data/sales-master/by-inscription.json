@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T06:35:23.982Z",
+  "generatedAt": "2026-03-04T18:47:03.762Z",
   "source": "sales-master-collections",
   "collectionCount": 38,
   "saleCount": 1835,
@@ -13252,7 +13252,7 @@
         "priceBTC": 0.5,
         "collectionSlug": "orphelinat-by-lemonhaze",
         "source": "manual-private",
-        "saleType": "secondary"
+        "saleType": "primary"
       }
     ],
     "d5cc4616357c442c8ce1b3a8651d56c176de2d651efd9a37ded0047f6b8400b7i0": [
