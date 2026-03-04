@@ -246,3 +246,16 @@
     word-break: break-word;
   }
 }
+
+#raw-html-container {
+  overflow: hidden;
+}
+
+#raw-html-content {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
