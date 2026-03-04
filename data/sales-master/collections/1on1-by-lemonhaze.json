@@ -31,6 +31,7 @@
       "timestamp": "2025-02-28 00:00:00 UTC",
       "inscriptionId": "8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0",
       "priceBTC": 0.026,
+      "priceUSDOriginal": 2159,
       "raw": "Chamber of Reflection (Sin City) | Sotheby's sale $2,159 (~0.026 BTC at the time)",
       "hrefs": [],
       "source": "manual-private",

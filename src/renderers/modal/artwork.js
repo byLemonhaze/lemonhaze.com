@@ -434,12 +434,23 @@ export function createArtworkModalController({
                 const priceLine = document.createElement('div');
                 priceLine.className = 'text-[11px] font-mono text-white/75 leading-snug break-words';
 
-                const btcText = `${fmtBtcValue(event?.priceBTC)} BTC`;
-                if (Number.isFinite(Number(btcUsdSpot)) && Number.isFinite(Number(event?.priceBTC))) {
-                    const usdNow = Number(event.priceBTC) * Number(btcUsdSpot);
-                    priceLine.textContent = `${btcText} · ${usdNowFormatter.format(usdNow)} now`;
+                const usdOriginal = Number(event?.priceUSDOriginal);
+                if (Number.isFinite(usdOriginal) && usdOriginal > 0) {
+                    const usdText = usdNowFormatter.format(usdOriginal);
+                    if (Number.isFinite(Number(btcUsdSpot)) && Number(btcUsdSpot) > 0) {
+                        const btcNow = usdOriginal / Number(btcUsdSpot);
+                        priceLine.textContent = `${usdText} · ${fmtBtcValue(btcNow)} BTC now`;
+                    } else {
+                        priceLine.textContent = `${usdText} · BTC now unavailable`;
+                    }
                 } else {
-                    priceLine.textContent = `${btcText} · $— now`;
+                    const btcText = `${fmtBtcValue(event?.priceBTC)} BTC`;
+                    if (Number.isFinite(Number(btcUsdSpot)) && Number.isFinite(Number(event?.priceBTC))) {
+                        const usdNow = Number(event.priceBTC) * Number(btcUsdSpot);
+                        priceLine.textContent = `${btcText} · ${usdNowFormatter.format(usdNow)} now`;
+                    } else {
+                        priceLine.textContent = `${btcText} · $— now`;
+                    }
                 }
 
                 row.appendChild(dateLine);

@@ -53,6 +53,10 @@ function buildIndexFromCollections() {
         source: clean(sale?.source) || null,
         saleType: clean(sale?.saleType) || null,
       };
+      const usdOriginal = Number(sale?.priceUSDOriginal);
+      if (Number.isFinite(usdOriginal) && usdOriginal > 0) {
+        event.priceUSDOriginal = usdOriginal;
+      }
 
       if (!inscriptions[inscriptionId]) inscriptions[inscriptionId] = [];
       inscriptions[inscriptionId].push(event);

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T00:12:56.092Z",
+  "generatedAt": "2026-03-04T00:15:08.453Z",
   "source": "sales-master-collections",
   "collectionCount": 38,
   "saleCount": 1406,
@@ -63,7 +63,8 @@
         "priceBTC": 0.026,
         "collectionSlug": "1on1-by-lemonhaze",
         "source": "manual-private",
-        "saleType": "auction"
+        "saleType": "auction",
+        "priceUSDOriginal": 2159
       }
     ],
     "1400f31ed1b8864e5ad21fd3d953ed87e65198652ad4cbec818f056a9d3cab61i0": [
