@@ -1,0 +1,46 @@
+{
+  "collectionSlug": "dark-days-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/dark-days-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:03:37.600Z",
+  "totalSales": 4,
+  "totalVolumeBTC": 0.0339,
+  "sales": [
+    {
+      "timestamp": "2024-05-04 00:00:00 UTC",
+      "inscriptionId": "0ef33d289da7d63e3cb9f1f5d3a6fbd3cbe402449feb76b126e786348824951ci0",
+      "priceBTC": 0.024,
+      "raw": "Mad man | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2023-06-29 00:00:00 UTC",
+      "inscriptionId": "048958f5f68d3f27b2ece603cbf4e3aa67d62a7dd303ce327f097bb689fe2aa4i0",
+      "priceBTC": 0.0033,
+      "raw": "Fading | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-06-29 00:00:00 UTC",
+      "inscriptionId": "5c2883fecf4ac2bc9e263c3977297d48f318b6bdcd072c1816567b2f14bd45a7i0",
+      "priceBTC": 0.0033,
+      "raw": "Façade | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-06-29 00:00:00 UTC",
+      "inscriptionId": "0ef33d289da7d63e3cb9f1f5d3a6fbd3cbe402449feb76b126e786348824951ci0",
+      "priceBTC": 0.0033,
+      "raw": "Mad man | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    }
+  ],
+  "manualSalesAdded": 4
+}

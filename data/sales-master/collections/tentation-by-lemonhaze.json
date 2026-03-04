@@ -1,0 +1,144 @@
+{
+  "collectionSlug": "tentation-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/tentation-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:06:58.346Z",
+  "totalSales": 14,
+  "totalVolumeBTC": 0.26481776,
+  "sales": [
+    {
+      "timestamp": "2024-05-02T22:55:15.000Z",
+      "inscriptionId": "27f657e68ed6a5ed36a8b6faf394873eeed34fcc64d28da8d707a440803c55efi0",
+      "priceBTC": 0.04975888,
+      "raw": "API sale f04c6d45015560decddd35ff101aaa1757c348a3a2090835bc4dcb17b3cf47bf bc1p4qchj03507n0y0tjfk43dt2rkdmhsjh69e8mm0svfdpk59gxcp9qcre4qr -> bc1pkcdw2040a6zgv354en3wfqkpuhx2wuasnfqfxfmmh6459eues6yqtqjjea",
+      "hrefs": [
+        "/ordinals/inscription/27f657e68ed6a5ed36a8b6faf394873eeed34fcc64d28da8d707a440803c55efi0",
+        "https://mempool.space/tx/f04c6d45015560decddd35ff101aaa1757c348a3a2090835bc4dcb17b3cf47bf"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-04-24T18:40:14.000Z",
+      "inscriptionId": "27f657e68ed6a5ed36a8b6faf394873eeed34fcc64d28da8d707a440803c55efi0",
+      "priceBTC": 0.01225888,
+      "raw": "API sale 475e70d656b670c272e22493d1dfcfa8da282a7e9461c0ab9311d73eb04240a1 bc1pmw7zj6y2r4dk5n2qav5len77v4dgk66sd3v8vhz37f23sa3pkshqnshzss -> bc1ppvjrx53cutq5phgvn2etl6dlnzee9e2vepk24t79yv5d53gm97aslzajkc",
+      "hrefs": [
+        "/ordinals/inscription/27f657e68ed6a5ed36a8b6faf394873eeed34fcc64d28da8d707a440803c55efi0",
+        "https://mempool.space/tx/475e70d656b670c272e22493d1dfcfa8da282a7e9461c0ab9311d73eb04240a1"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-01-15 19:39:48 UTC",
+      "inscriptionId": "dc5abecc1b176682e15921bdb1992e8246e5f33b5649fb4ac0e923d19c4cf77bi0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 2 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-15 19:54:07 UTC",
+      "inscriptionId": "e8cd69949c0fcaa352a66ca98945d1552d1f883b0b7d0466370450a55e12a012i0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 3 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-15 21:27:43 UTC",
+      "inscriptionId": "e096d4ba11f1429355fb1211b1d3a2c5dd5036813e10ebe9e9002d28af97ee0bi0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 4 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-15 21:51:03 UTC",
+      "inscriptionId": "6587bd55845e3675d1706648810e6dadc4c3ca9cf4031a8ed46b773fb82b8e3bi0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 5 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-15 23:19:13 UTC",
+      "inscriptionId": "cacdd54e5d88290912fcfec6ec7d319db30ec48451972d7cc6675981d972fd2ci0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 6 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-15 23:39:40 UTC",
+      "inscriptionId": "27f657e68ed6a5ed36a8b6faf394873eeed34fcc64d28da8d707a440803c55efi0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 7 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-17 04:04:24 UTC",
+      "inscriptionId": "e5a73c7a5aedea5ba7ac4f749cdb9754b33fd48c305304ab9546175edfcb4970i0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 9 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-17 18:25:34 UTC",
+      "inscriptionId": "6815130ce85b7cc9ef86131ff50368745ce55ddc13a93ee481e0b06f6afe867ci0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 10 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-17 18:44:10 UTC",
+      "inscriptionId": "b0490dfc5bead06a8d641586c53e53df6b8556f0ebdc462848977b35114579abi0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 11 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-18 21:35:52 UTC",
+      "inscriptionId": "f32cd74042c860cb4b9bb2c8c1c256b03b103ecfbe37ed5a853651ee35cfc820i0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 12 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-18 21:56:54 UTC",
+      "inscriptionId": "7529cdf68a81530b5e10e55ad99363b64500a82d334c55a0f1bbc0cf0d60f25ci0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 14 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-01-18 22:11:30 UTC",
+      "inscriptionId": "9c3515ae45f31f4c8da1a05f8e65677037d22ba8da2b16689e30219cb52280dbi0",
+      "priceBTC": 0.0169,
+      "raw": "La Tentation Nº 15 | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    }
+  ],
+  "apiMeta": {
+    "pagesFetched": 2,
+    "error": null
+  },
+  "manualSalesAdded": 12
+}

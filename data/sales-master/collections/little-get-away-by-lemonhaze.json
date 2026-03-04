@@ -1,0 +1,52 @@
+{
+  "collectionSlug": "little-get-away-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/little-get-away-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:07:17.518Z",
+  "totalSales": 4,
+  "totalVolumeBTC": 0.11094888,
+  "sales": [
+    {
+      "timestamp": "2025-07-22T22:35:42.000Z",
+      "inscriptionId": "19ec1b063faeb777d7d40ca5bfd359e6d5007022fe5fd2e53ec1e2f3a4857110i0",
+      "priceBTC": 0.01194888,
+      "raw": "API sale f2bda5a44c18a30eacfffe8010f4c450879d235b3a7c954f80ef3d41d7434806 bc1p2jwkeurkazuadl8n80kzx620lh60wtpzav00lxl2hllgnrjauskqvcghax -> bc1pmeqakaaynumr6c4lltkhrx20paqd2ug42fmzfg3pqdxlwt87q8dq7g3svt",
+      "hrefs": [
+        "/ordinals/inscription/19ec1b063faeb777d7d40ca5bfd359e6d5007022fe5fd2e53ec1e2f3a4857110i0",
+        "https://mempool.space/tx/f2bda5a44c18a30eacfffe8010f4c450879d235b3a7c954f80ef3d41d7434806"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-02-29 05:38:23 UTC",
+      "inscriptionId": "1aacbe3d8f47b2824069973318d35c7272a774efbd5baf4adeb21d73de868e39i0",
+      "priceBTC": 0.033,
+      "raw": "0808 | Manual OTC/private sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-03-01 01:23:26 UTC",
+      "inscriptionId": "19ec1b063faeb777d7d40ca5bfd359e6d5007022fe5fd2e53ec1e2f3a4857110i0",
+      "priceBTC": 0.033,
+      "raw": "0632 | Manual OTC/private sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-03-01 02:55:08 UTC",
+      "inscriptionId": "4264de3be389a93230f979a1c7c0fefbeee03dc62554d083f59868788d03661ai0",
+      "priceBTC": 0.033,
+      "raw": "1916 | Manual OTC/private sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    }
+  ],
+  "apiMeta": {
+    "pagesFetched": 2,
+    "error": null
+  },
+  "manualSalesAdded": 3
+}

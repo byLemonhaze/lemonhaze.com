@@ -1,0 +1,46 @@
+{
+  "collectionSlug": "fading-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/fading-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:06:28.417Z",
+  "totalSales": 4,
+  "totalVolumeBTC": 0.0409,
+  "sales": [
+    {
+      "timestamp": null,
+      "inscriptionId": "801807ab690ac5ba4b6bed4de6d6724794d90ce56c494ccf209dfbd4aaf505d4i0",
+      "priceBTC": 0.031,
+      "raw": "Beverly Hills | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2023-06-19 14:30:59 UTC",
+      "inscriptionId": "9ec7b1a38408e340f382744025c7dacecf44fbb139ce00e1051bdd849d49ba5ai0",
+      "priceBTC": 0.0033,
+      "raw": "Hollywood Boulevard | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-06-19 14:36:18 UTC",
+      "inscriptionId": "801807ab690ac5ba4b6bed4de6d6724794d90ce56c494ccf209dfbd4aaf505d4i0",
+      "priceBTC": 0.0033,
+      "raw": "Beverly Hills | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-06-19 14:36:18 UTC",
+      "inscriptionId": "d7936632ba6a6c90cb8054834e7b59b5a431ecf94939f741210c6713d0921211i0",
+      "priceBTC": 0.0033,
+      "raw": "Late Night Romance | Manual OTC primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    }
+  ],
+  "manualSalesAdded": 4
+}

@@ -2,8 +2,13 @@ import {
     getPreferredFileExtension,
     isVideoArtwork,
 } from '../../modules/artwork-media.js';
+import {
+    getBtcUsdSpot,
+    getSalesForInscription,
+} from '../../modules/sales-ledger.js';
 
 const HIRO_API = 'https://api.hiro.so/ordinals/v1/inscriptions';
+const ORDINALS_INSCRIPTION_API = 'https://ordinals.com/r/inscription';
 const BB_LIVE_URL = 'https://bestbefore.space/best-before.json';
 
 let _bbLiveCache = null;
@@ -54,6 +59,19 @@ const DIRECT_HTML_RENDER_COLLECTIONS = new Set([
     'BEST BEFORE',
 ]);
 
+const satsFormatter = new Intl.NumberFormat('en-US');
+const usdNowFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+});
+
+function fmtBtcValue(value) {
+    const n = Number(value);
+    if (!Number.isFinite(n)) return '—';
+    return n.toFixed(8).replace(/\.?0+$/, '');
+}
+
 function simplifyContentType(ct) {
     if (!ct) return null;
     if (ct.startsWith('text/html')) return 'HTML';
@@ -74,6 +92,41 @@ async function fetchHiroData(id) {
     } catch {
         return null;
     }
+}
+
+async function fetchOrdinalsData(id) {
+    try {
+        const res = await fetch(`${ORDINALS_INSCRIPTION_API}/${id}`);
+        if (!res.ok) return null;
+        return await res.json();
+    } catch {
+        return null;
+    }
+}
+
+async function fetchInscriptionMetadata(id) {
+    const [hiroData, ordinalsData] = await Promise.all([
+        fetchHiroData(id),
+        fetchOrdinalsData(id),
+    ]);
+
+    const owner = String(ordinalsData?.address || '').trim() || null;
+    const number =
+        Number.isFinite(Number(hiroData?.number)) ? Number(hiroData.number)
+        : (Number.isFinite(Number(ordinalsData?.number)) ? Number(ordinalsData.number) : null);
+
+    const hiroTs = hiroData?.genesis_timestamp ?? hiroData?.timestamp ?? hiroData?.created_at;
+    let genesisTimestamp = hiroTs || null;
+    if (!genesisTimestamp && Number.isFinite(Number(ordinalsData?.timestamp))) {
+        genesisTimestamp = Number(ordinalsData.timestamp) * 1000;
+    }
+
+    return {
+        address: owner,
+        number,
+        genesis_timestamp: genesisTimestamp,
+        sat_rarity: hiroData?.sat_rarity || null,
+    };
 }
 
 async function buildSaveEnabledHtmlBlobUrl(id) {
@@ -111,6 +164,7 @@ export function createArtworkModalController({
     let htmlSaveClickLocked = false;
     let htmlBlobLoadToken = 0;
     let activeHtmlBlobUrl = null;
+    let metadataRenderToken = 0;
 
     function showBestBeforeSaveGuide() {
         const overlay = document.createElement('div');
@@ -212,6 +266,8 @@ export function createArtworkModalController({
         return `${pad(d.getUTCDate())} ${months[d.getUTCMonth()]} ${d.getUTCFullYear()}, ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())} UTC`;
     }
 
+    // ── Shared helper: renders provenance thumbnails, static facts, and live-data
+    //    placeholders. Works for both standard inscriptions and BEST BEFORE.
     function renderMetadataList(item) {
         const { modalMetadata } = refs();
         if (!modalMetadata) return;
@@ -219,119 +275,7 @@ export function createArtworkModalController({
 
         const isBB = item.collection === 'BEST BEFORE';
 
-        // ── Standard inscriptions ──
-        if (!isBB) {
-            // Provenance thumbnails first
-            if (item.provenance && typeof item.provenance === 'string') {
-                const ids = item.provenance.split(/[\s,]+/).map(v => v.trim()).filter(v => v.length > 10);
-                if (ids.length) {
-                    const thumbsWrap = document.createElement('div');
-                    thumbsWrap.className = 'flex gap-2 flex-wrap';
-                    ids.forEach((pid) => {
-                        const extItem = getAllArtworks().find((a) => a.id === pid);
-                        if (!extItem) return;
-                        const thumb = document.createElement('img');
-                        thumb.src = getArtworkImageSrc(extItem);
-                        thumb.className = 'max-w-[32px] max-h-[32px] w-auto h-auto object-contain cursor-pointer hover:opacity-80 transition';
-                        thumb.loading = 'lazy';
-                        thumb.dataset.openArtwork = pid;
-                        thumbsWrap.appendChild(thumb);
-                    });
-                    if (thumbsWrap.children.length) {
-                        modalMetadata.appendChild(makeMetaRow('Provenance', thumbsWrap));
-                    }
-                }
-            }
-
-            // Timestamp — shows provenance value, updated to full datetime by Hiro
-            const fmtProvTs = fmtFullTimestamp(item.timestamp);
-            const tsSpan = makeMetaText(fmtProvTs || item.timestamp || '—', 'text-[11px] font-mono text-white/70 leading-snug');
-            tsSpan.id = 'meta-timestamp';
-            modalMetadata.appendChild(makeMetaRow('Timestamp', tsSpan));
-
-            // Artwork content facts from provenance
-            const artType = item.artwork_type?.toUpperCase();
-            if (artType && artType !== 'HTML') {
-                modalMetadata.appendChild(makeMetaRow('Type', makeMetaText(item.artwork_type)));
-            }
-            if (item.dimensions) {
-                modalMetadata.appendChild(makeMetaRow('Dimensions', makeMetaText(item.dimensions)));
-            }
-            if (item.size) {
-                modalMetadata.appendChild(makeMetaRow('Art. Size', makeMetaText(item.size)));
-            }
-
-            // Inscription facts from provenance (immediately visible, no API wait)
-            if (item.height) {
-                modalMetadata.appendChild(makeMetaRow('Block', makeMetaText(
-                    Number(item.height).toLocaleString(),
-                    'text-[11px] font-mono text-white/60 leading-snug'
-                )));
-            }
-            if (item.sat) {
-                modalMetadata.appendChild(makeMetaRow('Sat', makeMetaText(
-                    String(item.sat),
-                    'text-[11px] font-mono text-white/55 break-all leading-snug'
-                )));
-            }
-            const contentLabel = simplifyContentType(item.content_type);
-            if (contentLabel) {
-                modalMetadata.appendChild(makeMetaRow('Content', makeMetaText(
-                    contentLabel,
-                    'text-[11px] font-mono text-white/45 leading-snug'
-                )));
-            }
-
-            // Hiro live section — inscription number, owner, sat type
-            const liveSection = document.createElement('div');
-            liveSection.id = 'meta-live-section';
-            const loadingEl = document.createElement('div');
-            loadingEl.className = 'py-2 text-[10px] font-mono text-white/15 animate-pulse';
-            loadingEl.textContent = 'Loading live data…';
-            liveSection.appendChild(loadingEl);
-            modalMetadata.appendChild(liveSection);
-
-            fetchHiroData(item.id).then((data) => {
-                // Update timestamp to Hiro full datetime if available
-                const tsEl = document.getElementById('meta-timestamp');
-                if (tsEl && data?.genesis_timestamp) {
-                    const full = fmtFullTimestamp(data.genesis_timestamp);
-                    if (full) tsEl.textContent = full;
-                }
-
-                const liveEl = document.getElementById('meta-live-section');
-                if (!liveEl) return;
-                liveEl.innerHTML = '';
-                if (!data) return;
-
-                const append = (row) => liveEl.appendChild(row);
-
-                if (data.number != null) {
-                    append(makeMetaRow('Ins. No.', makeMetaText(
-                        `#${Number(data.number).toLocaleString()}`,
-                        'text-[11px] font-mono text-white/60 leading-snug'
-                    )));
-                }
-
-                if (data.address) {
-                    append(makeMetaRow('Owner', makeMetaText(
-                        data.address,
-                        'text-[11px] font-mono text-white/55 break-all leading-snug'
-                    )));
-                }
-
-                const rarityLabel = data.sat_rarity ? SAT_RARITY_LABELS[data.sat_rarity] : null;
-                if (rarityLabel) {
-                    append(makeMetaRow('Sat Type', makeMetaText(rarityLabel, 'text-[11px] font-mono text-white/55 leading-snug')));
-                }
-            });
-
-            return;
-        }
-
-        // ── BEST BEFORE: same top-of-panel order as standard artworks ──
-
-        // Provenance thumbnails first
+        // 1. Provenance thumbnails
         if (item.provenance && typeof item.provenance === 'string') {
             const ids = item.provenance.split(/[\s,]+/).map(v => v.trim()).filter(v => v.length > 10);
             if (ids.length) {
@@ -353,55 +297,174 @@ export function createArtworkModalController({
             }
         }
 
-        // Timestamp
-        const fmtProvTsBB = fmtFullTimestamp(item.timestamp);
-        const tsBBSpan = makeMetaText(fmtProvTsBB || item.timestamp || '—', 'text-[11px] font-mono text-white/70 leading-snug');
-        tsBBSpan.id = 'meta-bb-timestamp';
-        modalMetadata.appendChild(makeMetaRow('Timestamp', tsBBSpan));
+        // 2. Timestamp — initial value from provenance, updated async by Hiro
+        const tsSpan = makeMetaText(
+            fmtFullTimestamp(item.timestamp) || item.timestamp || '—',
+            'text-[11px] font-mono text-white/70 leading-snug',
+        );
+        tsSpan.id = 'meta-timestamp';
+        modalMetadata.appendChild(makeMetaRow('Timestamp', tsSpan));
 
-        // BB live section (Status, Palette, Lifespan, blocks, Ins. No.)
-        const bbLiveSection = document.createElement('div');
-        bbLiveSection.id = 'meta-bb-live';
-        const bbLoadingEl = document.createElement('div');
-        bbLoadingEl.className = 'py-2 text-[10px] font-mono text-white/15 animate-pulse';
-        bbLoadingEl.textContent = 'Loading live data…';
-        bbLiveSection.appendChild(bbLoadingEl);
-        modalMetadata.appendChild(bbLiveSection);
+        // 3. Static artwork facts (from provenance.json — only for non-BB)
+        if (!isBB) {
+            const artType = item.artwork_type?.toUpperCase();
+            if (artType && artType !== 'HTML') {
+                modalMetadata.appendChild(makeMetaRow('Type', makeMetaText(item.artwork_type)));
+            }
+            if (item.dimensions) {
+                modalMetadata.appendChild(makeMetaRow('Dimensions', makeMetaText(item.dimensions)));
+            }
+            if (item.size) {
+                modalMetadata.appendChild(makeMetaRow('Art. Size', makeMetaText(item.size)));
+            }
+            if (item.height) {
+                modalMetadata.appendChild(makeMetaRow('Block', makeMetaText(
+                    Number(item.height).toLocaleString(),
+                    'text-[11px] font-mono text-white/60 leading-snug',
+                )));
+            }
+            if (item.sat) {
+                modalMetadata.appendChild(makeMetaRow('Sat', makeMetaText(
+                    String(item.sat),
+                    'text-[11px] font-mono text-white/55 break-all leading-snug',
+                )));
+            }
+            const contentLabel = simplifyContentType(item.content_type);
+            if (contentLabel) {
+                modalMetadata.appendChild(makeMetaRow('Content', makeMetaText(
+                    contentLabel,
+                    'text-[11px] font-mono text-white/45 leading-snug',
+                )));
+            }
+        }
 
-        // Owner + Sat Type
+        // 4. BB live section placeholder (only for BEST BEFORE)
+        if (isBB) {
+            const bbLiveSection = document.createElement('div');
+            bbLiveSection.id = 'meta-bb-live';
+            const bbLoading = document.createElement('div');
+            bbLoading.className = 'py-2 text-[10px] font-mono text-white/15 animate-pulse';
+            bbLoading.textContent = 'Loading live data…';
+            bbLiveSection.appendChild(bbLoading);
+            modalMetadata.appendChild(bbLiveSection);
+        }
+
+        // 5. Inscription number (animated, filled by Hiro)
+        if (!isBB) {
+            const insNoSpan = makeMetaText('—', 'text-[11px] font-mono text-white/60 leading-snug animate-pulse');
+            insNoSpan.id = 'meta-inscription-number';
+            modalMetadata.appendChild(makeMetaRow('Ins. No.', insNoSpan));
+        }
+
+        // 6. Current owner (animated, filled by Hiro)
         const ownerSpan = makeMetaText('—', 'text-[11px] font-mono text-white/55 break-all leading-snug animate-pulse');
         ownerSpan.id = 'meta-owner';
-        modalMetadata.appendChild(makeMetaRow('Owner', ownerSpan));
+        modalMetadata.appendChild(makeMetaRow('Current Owner', ownerSpan));
 
+        // 7. Sat rarity placeholder (filled by Hiro)
         const satTypeRow = document.createElement('div');
         satTypeRow.id = 'meta-rarity-row';
         modalMetadata.appendChild(satTypeRow);
 
-        Promise.all([fetchBBLive(), fetchHiroData(item.id)]).then(([inscriptions, hiroData]) => {
-            // Update timestamp
-            const tsBBEl = document.getElementById('meta-bb-timestamp');
-            if (tsBBEl && hiroData?.genesis_timestamp) {
-                const full = fmtFullTimestamp(hiroData.genesis_timestamp);
-                if (full) tsBBEl.textContent = full;
+        // 8. Sales history placeholder (filled from local in-house sales index)
+        const salesWrap = document.createElement('div');
+        salesWrap.id = 'meta-sales';
+        const salesLoading = document.createElement('div');
+        salesLoading.className = 'text-[11px] font-mono text-white/25 leading-snug animate-pulse';
+        salesLoading.textContent = 'Loading sales…';
+        salesWrap.appendChild(salesLoading);
+        modalMetadata.appendChild(makeMetaRow('Sales', salesWrap));
+
+        // ── Async: fill live data from Hiro (+ BB live for BB items) ──
+        const requestToken = ++metadataRenderToken;
+
+        const applyMetadataData = (metadata) => {
+            if (requestToken !== metadataRenderToken || appState.activeArtworkId !== item.id) return;
+
+            const tsEl = document.getElementById('meta-timestamp');
+            if (tsEl && metadata?.genesis_timestamp) {
+                const full = fmtFullTimestamp(metadata.genesis_timestamp);
+                if (full) tsEl.textContent = full;
             }
 
-            // Update owner
+            const insNoEl = document.getElementById('meta-inscription-number');
+            if (insNoEl) {
+                insNoEl.textContent = metadata?.number != null ? `#${Number(metadata.number).toLocaleString()}` : '—';
+                insNoEl.classList.remove('animate-pulse');
+            }
+
             const ownerEl = document.getElementById('meta-owner');
             if (ownerEl) {
-                ownerEl.textContent = hiroData?.address || '—';
+                ownerEl.textContent = metadata?.address || '—';
                 ownerEl.classList.remove('animate-pulse');
             }
 
-            // Sat Type
-            const rarityLabel = hiroData?.sat_rarity ? SAT_RARITY_LABELS[hiroData.sat_rarity] : null;
+            const rarityLabel = metadata?.sat_rarity ? SAT_RARITY_LABELS[metadata.sat_rarity] : null;
             const rarityEl = document.getElementById('meta-rarity-row');
             if (rarityEl && rarityLabel) {
                 rarityEl.replaceWith(makeMetaRow('Sat Type', makeMetaText(rarityLabel, 'text-[11px] font-mono text-white/55 leading-snug')));
             } else if (rarityEl) {
                 rarityEl.remove();
             }
+        };
 
-            // BB live section
+        const applySalesData = (events, btcUsdSpot) => {
+            if (requestToken !== metadataRenderToken || appState.activeArtworkId !== item.id) return;
+
+            const salesEl = document.getElementById('meta-sales');
+            if (!salesEl) return;
+            salesEl.innerHTML = '';
+
+            if (!Array.isArray(events) || !events.length) {
+                salesEl.appendChild(makeMetaText(
+                    'No sales recorded.',
+                    'text-[11px] font-mono text-white/35 leading-snug',
+                ));
+                return;
+            }
+
+            for (const event of events) {
+                const row = document.createElement('div');
+                row.className = 'py-1.5 border-b border-white/5 last:border-0';
+
+                const dateLine = document.createElement('div');
+                dateLine.className = 'text-[10px] font-mono text-white/60 leading-snug break-words';
+                dateLine.textContent = fmtFullTimestamp(event?.timestamp) || event?.timestamp || 'Unknown time';
+
+                const priceLine = document.createElement('div');
+                priceLine.className = 'text-[11px] font-mono text-white/75 leading-snug break-words';
+
+                const btcText = `${fmtBtcValue(event?.priceBTC)} BTC`;
+                if (Number.isFinite(Number(btcUsdSpot)) && Number.isFinite(Number(event?.priceBTC))) {
+                    const usdNow = Number(event.priceBTC) * Number(btcUsdSpot);
+                    priceLine.textContent = `${btcText} · ${usdNowFormatter.format(usdNow)} now`;
+                } else {
+                    priceLine.textContent = `${btcText} · $— now`;
+                }
+
+                row.appendChild(dateLine);
+                row.appendChild(priceLine);
+                salesEl.appendChild(row);
+            }
+        };
+
+        Promise.all([
+            getSalesForInscription(item.id),
+            getBtcUsdSpot(),
+        ])
+            .then(([events, btcUsdSpot]) => applySalesData(events, btcUsdSpot))
+            .catch(() => applySalesData([], null));
+
+        if (!isBB) {
+            fetchInscriptionMetadata(item.id).then(applyMetadataData);
+            return;
+        }
+
+        // BB: fetch live data + Hiro in parallel
+        Promise.all([fetchBBLive(), fetchInscriptionMetadata(item.id)]).then(([inscriptions, metadata]) => {
+            applyMetadataData(metadata);
+            if (requestToken !== metadataRenderToken || appState.activeArtworkId !== item.id) return;
+
             const liveEl = document.getElementById('meta-bb-live');
             if (!liveEl) return;
             liveEl.innerHTML = '';
@@ -442,11 +505,11 @@ export function createArtworkModalController({
                     } else if (block.remaining != null && block.lifespan) {
                         append(makeMetaRow('Remaining', makeMetaText(
                             `${fmtNum(block.remaining)} blocks · ${fmtBlockTime(block.remaining)}`,
-                            'text-[11px] font-mono text-white/70 leading-snug'
+                            'text-[11px] font-mono text-white/70 leading-snug',
                         )));
                         append(makeMetaRow('Lifespan', makeMetaText(
                             `${fmtNum(block.lifespan)} blocks total`,
-                            'text-[11px] font-mono text-white/40 leading-snug'
+                            'text-[11px] font-mono text-white/40 leading-snug',
                         )));
                     }
                 } else if (phase === 'sealed') {
@@ -456,7 +519,7 @@ export function createArtworkModalController({
                     if (block.lifespan) {
                         append(makeMetaRow('Lived', makeMetaText(
                             `${fmtNum(block.lifespan)} blocks · ${fmtBlockTime(block.lifespan)}`,
-                            'text-[11px] font-mono text-white/30 leading-snug'
+                            'text-[11px] font-mono text-white/30 leading-snug',
                         )));
                     }
                 }
@@ -466,10 +529,10 @@ export function createArtworkModalController({
                 if (block.expiry)     append(makeMetaRow('Exp. Block', makeMetaText(fmtNum(block.expiry),     'text-[11px] font-mono text-white/45 leading-snug')));
             }
 
-            if (hiroData?.number != null) {
+            if (metadata?.number != null) {
                 append(makeMetaRow('Ins. No.', makeMetaText(
-                    `#${Number(hiroData.number).toLocaleString()}`,
-                    'text-[11px] font-mono text-white/40 leading-snug'
+                    `#${Number(metadata.number).toLocaleString()}`,
+                    'text-[11px] font-mono text-white/40 leading-snug',
                 )));
             }
         });
@@ -727,6 +790,7 @@ export function createArtworkModalController({
             if (modalVideo) { modalVideo.pause(); modalVideo.src = ''; modalVideo.classList.add('hidden'); }
             if (rawHtmlContainer) rawHtmlContainer.classList.add('hidden');
             htmlBlobLoadToken += 1;
+            metadataRenderToken += 1;
             clearActiveHtmlBlobUrl();
         }, 300);
     }

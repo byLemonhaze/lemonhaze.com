@@ -1,0 +1,37 @@
+{
+  "collectionSlug": "downtown-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/downtown-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:04:08.517Z",
+  "totalSales": 3,
+  "totalVolumeBTC": 0.06,
+  "sales": [
+    {
+      "timestamp": "2024-03-05 00:00:00 UTC",
+      "inscriptionId": "3b77f0775b669431f2a4a9ee09f1f729462b77dda6125ca98007266b2fb851aci0",
+      "priceBTC": 0.04,
+      "raw": "Downtown (Zero) | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2023-09-27 00:00:00 UTC",
+      "inscriptionId": "3b77f0775b669431f2a4a9ee09f1f729462b77dda6125ca98007266b2fb851aci0",
+      "priceBTC": 0.01,
+      "raw": "Downtown (Zero) | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-09-27 00:00:00 UTC",
+      "inscriptionId": "c84e8d79be8fead1e1a3384a59f34da663363adc67beb46696f3996fd57e78b1i0",
+      "priceBTC": 0.01,
+      "raw": "Good Night | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    }
+  ],
+  "manualSalesAdded": 3
+}

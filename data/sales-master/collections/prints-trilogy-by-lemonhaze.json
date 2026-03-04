@@ -1,0 +1,101 @@
+{
+  "collectionSlug": "prints-trilogy-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/prints-trilogy-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:04:14.395Z",
+  "totalSales": 8,
+  "totalVolumeBTC": 0.03142095,
+  "sales": [
+    {
+      "timestamp": "2025-10-29T02:28:18.000Z",
+      "inscriptionId": "cb98ede68ed81550216e07d6cbbe85cd47e511999bc3a6edcbc0a304bb92e76bi0",
+      "priceBTC": 0.00441546,
+      "raw": "API sale 6b5434858f1dcdf99cc06a9f8a326f41c816c98f1fdfee945bffe3e1d3c26847 bc1p5fzcqr62h2y5q2gsvwsd3xlsq2dw9vugykq0ja8uzydet4r6ux0q3fl9e4 -> bc1ptyn3rt5s6e9akazzsy3vsyls24rqedat543dx9hzq7m9lq7z3lgqut6gln",
+      "hrefs": [
+        "/ordinals/inscription/cb98ede68ed81550216e07d6cbbe85cd47e511999bc3a6edcbc0a304bb92e76bi0",
+        "https://mempool.space/tx/6b5434858f1dcdf99cc06a9f8a326f41c816c98f1fdfee945bffe3e1d3c26847"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-08-13T09:15:09.000Z",
+      "inscriptionId": "acc05786eb4845d97f855dca8d52153c765ddf313237167f6d008ed45a2f400di0",
+      "priceBTC": 0.00693962,
+      "raw": "API sale 1cec599d587fb1c14a45f1fa4fcb4bef4b068a583ea79791e28c5a06bbdb4509 bc1p49mgtzuq30840y4e405mc7fdhkyr90phdtqdppv0726003jj4wsqugrklh -> bc1p5plh7t02ywefx8cpkhsrxlyxs00k7vt906749fuahgxwhxlhw7rs7n0dee",
+      "hrefs": [
+        "/ordinals/inscription/acc05786eb4845d97f855dca8d52153c765ddf313237167f6d008ed45a2f400di0",
+        "https://mempool.space/tx/1cec599d587fb1c14a45f1fa4fcb4bef4b068a583ea79791e28c5a06bbdb4509"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-06-07T02:33:07.000Z",
+      "inscriptionId": "bba2c3ac8aff029bb2d17a16893a2e500968b8786395003fdfd0c8dd604e8b93i0",
+      "priceBTC": 0.00418446,
+      "raw": "API sale 471272308b52a69656f1f46da91246140f18323178dae0a9d9f9ff1723cf49c8 bc1p6w2rqdyqwcgj28ap3kksz9p4xr6fcq5cj4qzkqjkrnym9wfjy0aqnn97sf -> bc1p469ax584pdzl5l9py9qxtcmy0970fvven8wax32g0qmfzu66p2dqls5tnw",
+      "hrefs": [
+        "/ordinals/inscription/bba2c3ac8aff029bb2d17a16893a2e500968b8786395003fdfd0c8dd604e8b93i0",
+        "https://mempool.space/tx/471272308b52a69656f1f46da91246140f18323178dae0a9d9f9ff1723cf49c8"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-06-07T02:08:38.000Z",
+      "inscriptionId": "edaae9d170ef851e49eb932f07fb88712870f26816a2d4a522e0c25688617868i0",
+      "priceBTC": 0.00331881,
+      "raw": "API sale d0e38a0cca0351d3531153d0350ab124992675b86284bcf74d52cdfb32961b83 bc1pajmtp6wnf5rafe3xfkfrg4e4cwugsuz5ppt9mhhl5lspk2cpw5gsj3ugfc -> bc1p3zahq9cm5fxlzr845ewu6gznjmls82vw0cz8f98q790qp24ajgtqm7mps6",
+      "hrefs": [
+        "/ordinals/inscription/edaae9d170ef851e49eb932f07fb88712870f26816a2d4a522e0c25688617868i0",
+        "https://mempool.space/tx/d0e38a0cca0351d3531153d0350ab124992675b86284bcf74d52cdfb32961b83"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-05-07T02:00:48.000Z",
+      "inscriptionId": "70009cc8e7bae9b7276342b2db6bd4aacf96cfe60989ec63a81e4aa42e14d81ci0",
+      "priceBTC": 0.00425312,
+      "raw": "API sale 6f72b52153134014659b9c90853d96f1ffe292457dfa75a8aca8ce6b2cf42b02 bc1pt6uw3rwcjjrq8xefqdjdr646ylv8xh455095jfuyec82j992qr2qs8e55s -> bc1pr64ufp7wjgquj5cphrkuh0gcxdmj96mc0fpzv5f2ge2md0h6zsps90v4sj",
+      "hrefs": [
+        "/ordinals/inscription/70009cc8e7bae9b7276342b2db6bd4aacf96cfe60989ec63a81e4aa42e14d81ci0",
+        "https://mempool.space/tx/6f72b52153134014659b9c90853d96f1ffe292457dfa75a8aca8ce6b2cf42b02"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-05-05T11:41:36.000Z",
+      "inscriptionId": "bb8b7e1ac6dc327f54c7b8e59ff94d401ad5e37bd25ef7db41aa1613740d6d87i0",
+      "priceBTC": 0.00268201,
+      "raw": "API sale 3d4a65873d82b6c8470c4b68ec75b3a9748fef9a64f74c490f8297bf2cd28f2b bc1p5fzcqr62h2y5q2gsvwsd3xlsq2dw9vugykq0ja8uzydet4r6ux0q3fl9e4 -> bc1pscevvgm36gxmkclm36jjf40yg3ucya3dtz9mdzxmjquhw9wl0mcs2p0wha",
+      "hrefs": [
+        "/ordinals/inscription/bb8b7e1ac6dc327f54c7b8e59ff94d401ad5e37bd25ef7db41aa1613740d6d87i0",
+        "https://mempool.space/tx/3d4a65873d82b6c8470c4b68ec75b3a9748fef9a64f74c490f8297bf2cd28f2b"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-05-04T04:18:26.000Z",
+      "inscriptionId": "366aac097bec29368b7ac259be37817b67ba90b0c59c70edf475e45a8c1e7966i0",
+      "priceBTC": 0.00268201,
+      "raw": "API sale 07b271c6750e4811a26896243369eee5b62600a4dbb8f937de312fce054f21f6 bc1p5y8gyle727qqy5fqws8sc2q4y255efumx45sq88gtw7muj0gfgkssdh7r2 -> bc1p2upnf3m06d0sh9fahrkdcj3ah57langmxnwfrljlqesslju55lgsxgpyfu",
+      "hrefs": [
+        "/ordinals/inscription/366aac097bec29368b7ac259be37817b67ba90b0c59c70edf475e45a8c1e7966i0",
+        "https://mempool.space/tx/07b271c6750e4811a26896243369eee5b62600a4dbb8f937de312fce054f21f6"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-05-04T03:35:00.000Z",
+      "inscriptionId": "a8f190762b28c3093dfe99411cb04f05f8b8f42cf9ab9e774e60a23a08568858i0",
+      "priceBTC": 0.00294546,
+      "raw": "API sale 579d6c1e99e9d4e807805ed7e269d2511cd7784268c55f4b51a0f14c7a33bea7 bc1p0l4ptcay2nua56yla4lhhamjme708jqnclsvd6z96y6zvylekm3qk7h4rj -> bc1p2upnf3m06d0sh9fahrkdcj3ah57langmxnwfrljlqesslju55lgsxgpyfu",
+      "hrefs": [
+        "/ordinals/inscription/a8f190762b28c3093dfe99411cb04f05f8b8f42cf9ab9e774e60a23a08568858i0",
+        "https://mempool.space/tx/579d6c1e99e9d4e807805ed7e269d2511cd7784268c55f4b51a0f14c7a33bea7"
+      ],
+      "source": "bestinslot-v2api"
+    }
+  ],
+  "apiMeta": {
+    "pagesFetched": 2,
+    "error": null
+  }
+}

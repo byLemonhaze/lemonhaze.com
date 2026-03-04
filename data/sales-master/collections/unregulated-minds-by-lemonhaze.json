@@ -1,0 +1,55 @@
+{
+  "collectionSlug": "unregulated-minds-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/unregulated-minds-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:06:01.470Z",
+  "totalSales": 5,
+  "totalVolumeBTC": 0.165,
+  "sales": [
+    {
+      "timestamp": "2024-10-31 00:00:00 UTC",
+      "inscriptionId": "b98b4b560e0c9fc6a2136d7ea0d1cfec1b1a16529a7f6f3c4aacf89ad6599022i0",
+      "priceBTC": 0.033,
+      "raw": "Unregulated Minds Nº2 | Manual OTC primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-10-31 00:00:00 UTC",
+      "inscriptionId": "8fee94362770c40a92f1030a5249138a7be87f548c7581bc74f9235da535c692i0",
+      "priceBTC": 0.033,
+      "raw": "Unregulated Minds Nº3 | Manual OTC primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-10-31 00:00:00 UTC",
+      "inscriptionId": "7f5d726b946959f55b14c0719739d7099b0edbfa002e2384c998388b41693d3ai0",
+      "priceBTC": 0.033,
+      "raw": "Unregulated Minds Nº4 | Manual OTC primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-10-31 00:00:00 UTC",
+      "inscriptionId": "da38e878fce6a022dc51523e0f00f8f16195cd459d086cfbfe10a1027258d127i0",
+      "priceBTC": 0.033,
+      "raw": "Unregulated Minds Nº5 | Manual OTC primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2024-10-31 00:00:00 UTC",
+      "inscriptionId": "32d8d2cb6c8a670cfb6595f14b1c4fec107907641c8dddf87e4fcb3b253740edi0",
+      "priceBTC": 0.033,
+      "raw": "Unregulated Minds Nº6 | Manual OTC primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    }
+  ],
+  "manualSalesAdded": 5
+}

@@ -1,0 +1,46 @@
+{
+  "collectionSlug": "miscelleneous-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/miscelleneous-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:07:01.287Z",
+  "totalSales": 3,
+  "totalVolumeBTC": 0.03492635,
+  "sales": [
+    {
+      "timestamp": "2023-11-01T18:31:37.000Z",
+      "inscriptionId": "0638326aacbe6dbd0dc67357d8246ab35bbdefce239c2c6ac9750458ca143165i0",
+      "priceBTC": 0.015025,
+      "raw": "API sale f40c324c786a201553e4dfeafba9d0d5e56e174b76ffa0db2f4a955e159121ab bc1pkul929fylrx6m3uape6l7nknzq6e6wetgc58789p0f2cqnjr6pesdv09rx -> bc1pyha3h3dxcvm5e3a6jx3zxtvzq6eyn5lxn9r8ak9lqnecmaz7cyhq0ud82u",
+      "hrefs": [
+        "/ordinals/inscription/0638326aacbe6dbd0dc67357d8246ab35bbdefce239c2c6ac9750458ca143165i0",
+        "https://mempool.space/tx/f40c324c786a201553e4dfeafba9d0d5e56e174b76ffa0db2f4a955e159121ab"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-06-10T06:43:23.000Z",
+      "inscriptionId": "36a7e633e38899e72dc684f6a228c59552fada10221d4e47f276ba8dcc678cf9i0",
+      "priceBTC": 0.016488,
+      "raw": "API sale 6560aa4e600a1de3a4ebb619f26241fd58ccd6813d8ab1df9387ede7da251528 bc1pc2p27f367jun2csgkue7xch8dhk5hft04vjcws5ajp9n5x37803qgrnw5e -> bc1pvq56smdhqy78qtgcdrww3kr7k9wntt7y947afz85avnwc8g29ndqmpg0gz",
+      "hrefs": [
+        "/ordinals/inscription/36a7e633e38899e72dc684f6a228c59552fada10221d4e47f276ba8dcc678cf9i0",
+        "https://mempool.space/tx/6560aa4e600a1de3a4ebb619f26241fd58ccd6813d8ab1df9387ede7da251528"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-06-01T09:33:30.000Z",
+      "inscriptionId": "0638326aacbe6dbd0dc67357d8246ab35bbdefce239c2c6ac9750458ca143165i0",
+      "priceBTC": 0.00341335,
+      "raw": "API sale 7c4f5435a6d2dd71739e0dafeaee4de4c78dbf2b3075072a3733897a39c9b919 bc1pc2p27f367jun2csgkue7xch8dhk5hft04vjcws5ajp9n5x37803qgrnw5e -> bc1pkul929fylrx6m3uape6l7nknzq6e6wetgc58789p0f2cqnjr6pesdv09rx",
+      "hrefs": [
+        "/ordinals/inscription/0638326aacbe6dbd0dc67357d8246ab35bbdefce239c2c6ac9750458ca143165i0",
+        "https://mempool.space/tx/7c4f5435a6d2dd71739e0dafeaee4de4c78dbf2b3075072a3733897a39c9b919"
+      ],
+      "source": "bestinslot-v2api"
+    }
+  ],
+  "apiMeta": {
+    "pagesFetched": 2,
+    "error": null
+  }
+}

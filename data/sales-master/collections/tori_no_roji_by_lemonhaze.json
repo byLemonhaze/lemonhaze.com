@@ -1,0 +1,46 @@
+{
+  "collectionSlug": "tori_no_roji_by_lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/tori_no_roji_by_lemonhaze",
+  "scrapedAt": "2026-03-03T23:08:59.599Z",
+  "totalSales": 4,
+  "totalVolumeBTC": 0.03459528,
+  "sales": [
+    {
+      "timestamp": "2025-09-15 00:00:00 UTC",
+      "inscriptionId": "6fe1c4caf234e35c08378f996971675e4e63851284866c1d768d7f4a599c02e9i0",
+      "priceBTC": 0.0075,
+      "raw": "Dai-Ichi | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2025-04-03 00:00:00 UTC",
+      "inscriptionId": "f8ed200bd6637485cf6c571398b739bc369e5f5bf8bab5cc19069888024a391ai0",
+      "priceBTC": 0.00871278,
+      "raw": "Dai-Yon | Manual sale from screenshot",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2025-04-03 00:00:00 UTC",
+      "inscriptionId": "6fe1c4caf234e35c08378f996971675e4e63851284866c1d768d7f4a599c02e9i0",
+      "priceBTC": 0.00871278,
+      "raw": "Dai-Ichi | Manual sale from screenshot",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2025-04-03 00:00:00 UTC",
+      "inscriptionId": "efb9eabc140f4d4a9a65e50329b16a0344eb21ca9f6d0c4e8a5a9203406dcc50i0",
+      "priceBTC": 0.00966972,
+      "raw": "Dai-San | Manual sale from screenshot",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    }
+  ],
+  "manualSalesAdded": 4
+}

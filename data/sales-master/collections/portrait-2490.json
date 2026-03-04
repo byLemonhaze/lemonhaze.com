@@ -1,0 +1,1176 @@
+{
+  "collectionSlug": "portrait-2490",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/portrait-2490",
+  "scrapedAt": "2026-03-03T23:05:29.258Z",
+  "totalSales": 122,
+  "totalVolumeBTC": 0.38375415,
+  "sales": [
+    {
+      "timestamp": "2025-08-22T02:35:07.000Z",
+      "inscriptionId": "447bdf1930863a8e4a60edf7bf500a849c496022285770663ef8451fee25dd67i0",
+      "priceBTC": 0.00319919,
+      "raw": "API sale e28c681abb30f873f4ccbced70ce2ff0e2d170d57720de61b0ced1c941e2155c bc1qyne58scrtujh5l5vj88vj8zs3fl0daps6dc7s4evvn3r6yg8ujqs0m6dy8 -> bc1pzf59qs8ej8qchgj6zv3796qjdz5ce32suvmqupuw2s4qlk55ajwqp80hw3",
+      "hrefs": [
+        "/ordinals/inscription/447bdf1930863a8e4a60edf7bf500a849c496022285770663ef8451fee25dd67i0",
+        "https://mempool.space/tx/e28c681abb30f873f4ccbced70ce2ff0e2d170d57720de61b0ced1c941e2155c"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-07-16T15:28:00.000Z",
+      "inscriptionId": "2a1e7e43a77c650684cf238577ae1f2951fafbbf157588be93b87883d735a9dci0",
+      "priceBTC": 0.0029145,
+      "raw": "API sale a311c7a4cdae701a28447d5191f60237e173386d35c1344deae68184fabe044f bc1pdy09xm23cqq4s2htr9h878ne08wu3flq45j29eq29yqnt5vf4rrqfqa2hs -> bc1ps5ddgefskzt7dv4lrftuwy2jnwyr74pyzexy39uzuvzytt7c463qwscuk7",
+      "hrefs": [
+        "/ordinals/inscription/2a1e7e43a77c650684cf238577ae1f2951fafbbf157588be93b87883d735a9dci0",
+        "https://mempool.space/tx/a311c7a4cdae701a28447d5191f60237e173386d35c1344deae68184fabe044f"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-07-16T04:00:14.000Z",
+      "inscriptionId": "209b029aeba0cc736e1ee0f83ba69821c3a463e748c1a90d31337d6419ec7195i0",
+      "priceBTC": 0.00353,
+      "raw": "API sale 99b1f3c986b91d20509b2c275f3e2f04f554ea9fa39e30a315e0f2c4391541f5 bc1pdy09xm23cqq4s2htr9h878ne08wu3flq45j29eq29yqnt5vf4rrqfqa2hs -> bc1ps5ddgefskzt7dv4lrftuwy2jnwyr74pyzexy39uzuvzytt7c463qwscuk7",
+      "hrefs": [
+        "/ordinals/inscription/209b029aeba0cc736e1ee0f83ba69821c3a463e748c1a90d31337d6419ec7195i0",
+        "https://mempool.space/tx/99b1f3c986b91d20509b2c275f3e2f04f554ea9fa39e30a315e0f2c4391541f5"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-05-23T21:37:55.000Z",
+      "inscriptionId": "2033ba46baffeed341c595024adc179c0cad9cece6d1cc3e391719344407045ci0",
+      "priceBTC": 0.00402,
+      "raw": "API sale 7c50e9f40b40bd445c00f46d36d4510259d6bcfcf783953d64b007e04dda6c7b bc1pqjp8xr04ktrkaqcc6anlkkll46leq3lkyqx4g2sgwuzvdj0dpsrqjgax64 -> bc1ptf43w09vqye6wmm5jsq0r5yemlv53wmt7jnxyt2052wrghdmqakqu37wft",
+      "hrefs": [
+        "/ordinals/inscription/2033ba46baffeed341c595024adc179c0cad9cece6d1cc3e391719344407045ci0",
+        "https://mempool.space/tx/7c50e9f40b40bd445c00f46d36d4510259d6bcfcf783953d64b007e04dda6c7b"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-05-23T00:49:59.000Z",
+      "inscriptionId": "619bdc09f9615327b06ef3792c65b117f6276c4b5e9392755304cc0732002a19i0",
+      "priceBTC": 0.00402,
+      "raw": "API sale 11b556cc8a5f3bf31565612b42c73e54cebdfe466912713e68902adc7b64e9cb bc1pqjp8xr04ktrkaqcc6anlkkll46leq3lkyqx4g2sgwuzvdj0dpsrqjgax64 -> bc1ptf43w09vqye6wmm5jsq0r5yemlv53wmt7jnxyt2052wrghdmqakqu37wft",
+      "hrefs": [
+        "/ordinals/inscription/619bdc09f9615327b06ef3792c65b117f6276c4b5e9392755304cc0732002a19i0",
+        "https://mempool.space/tx/11b556cc8a5f3bf31565612b42c73e54cebdfe466912713e68902adc7b64e9cb"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-04-18T23:35:14.000Z",
+      "inscriptionId": "e76ccef63bec0937bef12d75dee607dba464479ec30730ed07802fc471f97749i0",
+      "priceBTC": 0.005025,
+      "raw": "API sale 1a06f10acdec98bba99d288d2ae6cbdcd21e172b93c32e51d982bf7512368fda bc1pthgae2lmrr2pnls03k2lw8wselhtgdqdq0yc4lts835mml5s07aqp02mfx -> bc1ptf43w09vqye6wmm5jsq0r5yemlv53wmt7jnxyt2052wrghdmqakqu37wft",
+      "hrefs": [
+        "/ordinals/inscription/e76ccef63bec0937bef12d75dee607dba464479ec30730ed07802fc471f97749i0",
+        "https://mempool.space/tx/1a06f10acdec98bba99d288d2ae6cbdcd21e172b93c32e51d982bf7512368fda"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-08-22T16:05:31.000Z",
+      "inscriptionId": "ae23151c69cfcd1755d7d388f6a09e32cfaef343f643af824ad3477e31bc7debi0",
+      "priceBTC": 0.00832027,
+      "raw": "API sale 31dc03bf03ed4b73956a2f7e3a5a3f5a9a9134e10e005b4eea971d9d276d38d9 bc1p9w3srcuq528f6pygq0ngwhlnynt653jkndu346neqpmgd27zsrwsjh464v -> bc1ps5ddgefskzt7dv4lrftuwy2jnwyr74pyzexy39uzuvzytt7c463qwscuk7",
+      "hrefs": [
+        "/ordinals/inscription/ae23151c69cfcd1755d7d388f6a09e32cfaef343f643af824ad3477e31bc7debi0",
+        "https://mempool.space/tx/31dc03bf03ed4b73956a2f7e3a5a3f5a9a9134e10e005b4eea971d9d276d38d9"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-08-21T05:21:21.000Z",
+      "inscriptionId": "ce66c3cce3d8ff5becc43a6b2475f75c180e3ead7e8ffe72dbd8dcd4d391bad3i0",
+      "priceBTC": 0.00744151,
+      "raw": "API sale 1251e092205579359b48372095b991cdbf956b1a1c10f402e514c0a8727f6e33 bc1p7kga0fap09qrdw278te7ru5eutfh6gpen695fr5duuc9z636ftqs6qz4y2 -> bc1pt5gcjxt05dl54ugnrgq33sxwcr70fv7ycqxhks0y7a5a8edzv8esuyls56",
+      "hrefs": [
+        "/ordinals/inscription/ce66c3cce3d8ff5becc43a6b2475f75c180e3ead7e8ffe72dbd8dcd4d391bad3i0",
+        "https://mempool.space/tx/1251e092205579359b48372095b991cdbf956b1a1c10f402e514c0a8727f6e33"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-06-27T21:08:21.000Z",
+      "inscriptionId": "35ceb2520c0fc28c82a375cfe874629f288a0f695c97c005a96ae052651c1f77i0",
+      "priceBTC": 0.017015,
+      "raw": "API sale 98c5f6af9228daae6c0cfb1c6f8e603437c2aae6da2783bdcc3d7e26376e7521 bc1phv43j53xjpu8zw0m0l9p0nhyy7ctwj7xv8lqpe2elmvxk20umgrqk7eeqz -> bc1p7p5rgwqtjekhw8mp0n7tjzza72ncl5n2zn90agqmetsjc0luhllq6nf2fv",
+      "hrefs": [
+        "/ordinals/inscription/35ceb2520c0fc28c82a375cfe874629f288a0f695c97c005a96ae052651c1f77i0",
+        "https://mempool.space/tx/98c5f6af9228daae6c0cfb1c6f8e603437c2aae6da2783bdcc3d7e26376e7521"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-06-17T21:15:10.000Z",
+      "inscriptionId": "0bb4d11640f04ade22c65dfaee3e7b04d5aa0b90f144d2dda0ce9e822f895bfai0",
+      "priceBTC": 0.01602,
+      "raw": "API sale 4c4efcb81d8007bad927969893d2bd4c9f6044b9a9c1e46182e176113ca20fcf bc1pt5gcjxt05dl54ugnrgq33sxwcr70fv7ycqxhks0y7a5a8edzv8esuyls56 -> bc1ptm0l8zcvjmck2myet8u446pa55wg0l38w7gnlycz7w65lr00470sw7cwsx",
+      "hrefs": [
+        "/ordinals/inscription/0bb4d11640f04ade22c65dfaee3e7b04d5aa0b90f144d2dda0ce9e822f895bfai0",
+        "https://mempool.space/tx/4c4efcb81d8007bad927969893d2bd4c9f6044b9a9c1e46182e176113ca20fcf"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-06-17T21:15:10.000Z",
+      "inscriptionId": "93a21aa871e545ca88534573599d86462c9b0681d1a269172b0f5a78be5ccd70i0",
+      "priceBTC": 0.015025,
+      "raw": "API sale 4c4efcb81d8007bad927969893d2bd4c9f6044b9a9c1e46182e176113ca20fcf bc1pdx4qtn2axe0afdjygyyr55w4hltyzpjq7lx599w4qqfrkgp9qkns7wsjs6 -> bc1ptm0l8zcvjmck2myet8u446pa55wg0l38w7gnlycz7w65lr00470sw7cwsx",
+      "hrefs": [
+        "/ordinals/inscription/93a21aa871e545ca88534573599d86462c9b0681d1a269172b0f5a78be5ccd70i0",
+        "https://mempool.space/tx/4c4efcb81d8007bad927969893d2bd4c9f6044b9a9c1e46182e176113ca20fcf"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-06-17T21:15:10.000Z",
+      "inscriptionId": "4ca746f998fa6b00740b870dbfee0315036eb0e2ac64bddb34c89ec7891d2e81i0",
+      "priceBTC": 0.01497838,
+      "raw": "API sale 4c4efcb81d8007bad927969893d2bd4c9f6044b9a9c1e46182e176113ca20fcf bc1pdx4qtn2axe0afdjygyyr55w4hltyzpjq7lx599w4qqfrkgp9qkns7wsjs6 -> bc1ptm0l8zcvjmck2myet8u446pa55wg0l38w7gnlycz7w65lr00470sw7cwsx",
+      "hrefs": [
+        "/ordinals/inscription/4ca746f998fa6b00740b870dbfee0315036eb0e2ac64bddb34c89ec7891d2e81i0",
+        "https://mempool.space/tx/4c4efcb81d8007bad927969893d2bd4c9f6044b9a9c1e46182e176113ca20fcf"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-06-17T20:08:06.000Z",
+      "inscriptionId": "018c344927b31a52c6971da3420af101645033cb796f2f56749768fb9c5884e8i0",
+      "priceBTC": 0.0145275,
+      "raw": "API sale ad66779a7b18b768e10ceafa5ad40a4a5c215782d33d6eaef4740496dbda7bf1 bc1pur8err9ss92g2uvgq264rl77dx0q9m0scp47gk0jgewsjw56eu8qe4dlk3 -> bc1ptm0l8zcvjmck2myet8u446pa55wg0l38w7gnlycz7w65lr00470sw7cwsx",
+      "hrefs": [
+        "/ordinals/inscription/018c344927b31a52c6971da3420af101645033cb796f2f56749768fb9c5884e8i0",
+        "https://mempool.space/tx/ad66779a7b18b768e10ceafa5ad40a4a5c215782d33d6eaef4740496dbda7bf1"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-05-26T18:41:37.000Z",
+      "inscriptionId": "c2f56214af4cbb69026c9b42f5d3d1ff1816483b78933ebc4819ba08b9643734i0",
+      "priceBTC": 0.01589115,
+      "raw": "API sale c8c2c2e369fbfbb43219f45460546704b04c9872873aec6a180decf8758e80d1 bc1pkv84rnqa8zzhseut8qh289myuyvj8ynpn5vmxd3vwf9c95sgec6qe95wuq -> bc1p5q6auer7w8nr5gg69lercjukvzrgzkrsl9phtdyhpmu7fs785emqglkmnd",
+      "hrefs": [
+        "/ordinals/inscription/c2f56214af4cbb69026c9b42f5d3d1ff1816483b78933ebc4819ba08b9643734i0",
+        "https://mempool.space/tx/c8c2c2e369fbfbb43219f45460546704b04c9872873aec6a180decf8758e80d1"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-05-26T18:02:32.000Z",
+      "inscriptionId": "c2f56214af4cbb69026c9b42f5d3d1ff1816483b78933ebc4819ba08b9643734i0",
+      "priceBTC": 0.0060503,
+      "raw": "API sale 2e469b30dfdcee2a7c1b83d0fd4742d9092e380ee77c15812233f5816e2699f1 bc1p4886vus7cuhpgw6jugg346w6wq4zdyqqeph95087j9a0003fkjtq2846p9 -> bc1pkv84rnqa8zzhseut8qh289myuyvj8ynpn5vmxd3vwf9c95sgec6qe95wuq",
+      "hrefs": [
+        "/ordinals/inscription/c2f56214af4cbb69026c9b42f5d3d1ff1816483b78933ebc4819ba08b9643734i0",
+        "https://mempool.space/tx/2e469b30dfdcee2a7c1b83d0fd4742d9092e380ee77c15812233f5816e2699f1"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-01-07T20:42:39.000Z",
+      "inscriptionId": "c92c9244d6a5d13f591b24d9c1178cb1cd2da086cd01231e0fc26cfa71a77c82i0",
+      "priceBTC": 0.015025,
+      "raw": "API sale f02a9dd73ed12f2770ef76603d71d644a4f7f5eca406a974a784eae64eb3fc2d bc1p2uzavpgvq0x5jw3dt3uzdcwstytl5j6ms40s57lzxk6z5am5399qrncmym -> bc1pdj46ccl8rt8ev5py6gf0jsed8ta8hx62jjjjyppvcqmw5nd3tg2skrkvc3",
+      "hrefs": [
+        "/ordinals/inscription/c92c9244d6a5d13f591b24d9c1178cb1cd2da086cd01231e0fc26cfa71a77c82i0",
+        "https://mempool.space/tx/f02a9dd73ed12f2770ef76603d71d644a4f7f5eca406a974a784eae64eb3fc2d"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2024-01-07T12:06:22.000Z",
+      "inscriptionId": "799556740fd05065173a1f11a019120759b361901832152ab65027dee5b698d4i0",
+      "priceBTC": 0.00984141,
+      "raw": "API sale dacd2db66ec7edd11b4369f18cbf547dc9f223c445d882439b17eba4b4a0b65e bc1p2uzavpgvq0x5jw3dt3uzdcwstytl5j6ms40s57lzxk6z5am5399qrncmym -> bc1p30n0032x3gcq3dsp7steztz7csqh8es3lanvp5gav9r4gc2cvhlsga9jnp",
+      "hrefs": [
+        "/ordinals/inscription/799556740fd05065173a1f11a019120759b361901832152ab65027dee5b698d4i0",
+        "https://mempool.space/tx/dacd2db66ec7edd11b4369f18cbf547dc9f223c445d882439b17eba4b4a0b65e"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-12-17T23:37:12.000Z",
+      "inscriptionId": "0bb4d11640f04ade22c65dfaee3e7b04d5aa0b90f144d2dda0ce9e822f895bfai0",
+      "priceBTC": 0.001946,
+      "raw": "API sale b81d89f6a0ff06655ad741a94685a6d42f8cd49b8e65f8126d039fcee34d024c bc1pztnz7y0x3gqg9cslsv5f7k84haafqq3jfrf3l3rnm4fcyzjfzzrscvqref -> bc1pt5gcjxt05dl54ugnrgq33sxwcr70fv7ycqxhks0y7a5a8edzv8esuyls56",
+      "hrefs": [
+        "/ordinals/inscription/0bb4d11640f04ade22c65dfaee3e7b04d5aa0b90f144d2dda0ce9e822f895bfai0",
+        "https://mempool.space/tx/b81d89f6a0ff06655ad741a94685a6d42f8cd49b8e65f8126d039fcee34d024c"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-05-20T05:15:24.000Z",
+      "inscriptionId": "e1e7109a61ab95464175f0b077455eea370d211fd9e76e9c5bdc4d7f19fd37c9i0",
+      "priceBTC": 0.01,
+      "raw": "API sale 994d3f5e5f71f475760ef401e92bcf5632f679f8963cc779ddf8ecc9bf214bf8 bc1pay90d32sr3lhvtrqeknutc2zns0gyyyc75drl2tlukauy52k0smq2s4c9f -> bc1phhukzkv3muxyq68rrm03gze89u6xcnszr9pwv55ngwnwad3t5w8qg87cxq",
+      "hrefs": [
+        "/ordinals/inscription/e1e7109a61ab95464175f0b077455eea370d211fd9e76e9c5bdc4d7f19fd37c9i0",
+        "https://mempool.space/tx/994d3f5e5f71f475760ef401e92bcf5632f679f8963cc779ddf8ecc9bf214bf8"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-05-19T15:39:27.000Z",
+      "inscriptionId": "619bdc09f9615327b06ef3792c65b117f6276c4b5e9392755304cc0732002a19i0",
+      "priceBTC": 0.005,
+      "raw": "API sale f4c290d50e299e494154cfe8c86c337563b6d977ec8e1a4d377f8727bf76f67c bc1pnjt2zy0kvne328rcsca47p8l6zqd5hnhj7jqyjv88j5fa5k4l40s844dpq -> bc1p8y73tek6zy8gsjws6nlacng22jewlqu5pwqa97mm2scrw30ezwksnqvfj9",
+      "hrefs": [
+        "/ordinals/inscription/619bdc09f9615327b06ef3792c65b117f6276c4b5e9392755304cc0732002a19i0",
+        "https://mempool.space/tx/f4c290d50e299e494154cfe8c86c337563b6d977ec8e1a4d377f8727bf76f67c"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-05-19T03:13:05.000Z",
+      "inscriptionId": "2033ba46baffeed341c595024adc179c0cad9cece6d1cc3e391719344407045ci0",
+      "priceBTC": 0.005,
+      "raw": "API sale ff4bf3f573461ca18bbb1d631cf90d666bbb63c70dcf592dc4bb34657c538674 bc1pnjt2zy0kvne328rcsca47p8l6zqd5hnhj7jqyjv88j5fa5k4l40s844dpq -> bc1p8y73tek6zy8gsjws6nlacng22jewlqu5pwqa97mm2scrw30ezwksnqvfj9",
+      "hrefs": [
+        "/ordinals/inscription/2033ba46baffeed341c595024adc179c0cad9cece6d1cc3e391719344407045ci0",
+        "https://mempool.space/tx/ff4bf3f573461ca18bbb1d631cf90d666bbb63c70dcf592dc4bb34657c538674"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-05-17T22:03:52.000Z",
+      "inscriptionId": "6759d66d4ddaa10ebde5e5ab9743fce8f580ceac598bd2fb1d5736c91483a9e0i0",
+      "priceBTC": 0.00340537,
+      "raw": "API sale d684a24953fcba04561218859f6133d3bb63e578f6fe74b790353d461727fa69 bc1ph67zs7dgqqx7klryfmww3qeswxd3srk084nylux4puv0qq0hc3ps95n7s2 -> bc1pkq6rveryct8syy70ydv9l20jwfeaxxkwgagra72nwn8h0sxegx9sclfpyc",
+      "hrefs": [
+        "/ordinals/inscription/6759d66d4ddaa10ebde5e5ab9743fce8f580ceac598bd2fb1d5736c91483a9e0i0",
+        "https://mempool.space/tx/d684a24953fcba04561218859f6133d3bb63e578f6fe74b790353d461727fa69"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-05-17T08:40:54.000Z",
+      "inscriptionId": "238b099cb6c38e6742a8c070759c92b1d449a37768611d7a4bdbdd5a085d5158i0",
+      "priceBTC": 0.00144977,
+      "raw": "API sale f1a2568236939e0f23606e2f82c16ae3337aefec608056416d5f5b9a501c0e35 bc1ph67zs7dgqqx7klryfmww3qeswxd3srk084nylux4puv0qq0hc3ps95n7s2 -> bc1pxcxfpxwwc3hrsl0shxkjuhs7nwgluamyqzl607ffxape30kan89qhryugn",
+      "hrefs": [
+        "/ordinals/inscription/238b099cb6c38e6742a8c070759c92b1d449a37768611d7a4bdbdd5a085d5158i0",
+        "https://mempool.space/tx/f1a2568236939e0f23606e2f82c16ae3337aefec608056416d5f5b9a501c0e35"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-04-23T00:57:21.000Z",
+      "inscriptionId": "e9a73604c6fa8258d2b4c9e6c1a5892ee459fc081f591d32a4dabdfc27685688i0",
+      "priceBTC": 0.00177102,
+      "raw": "API sale f261a1db61246184e57ab4779a7407a167ca06090234ab5a2fe3be155750d869 bc1psqtu65l5fa8kn8yg5pjuhq8x937aqc7gtxutxs9xramxsgz699kqy3na38 -> bc1pzsxvz383ddl80h6sd258plnfzt7f9g024gf33v728njyvgsre5uqndvffg",
+      "hrefs": [
+        "/ordinals/inscription/e9a73604c6fa8258d2b4c9e6c1a5892ee459fc081f591d32a4dabdfc27685688i0",
+        "https://mempool.space/tx/f261a1db61246184e57ab4779a7407a167ca06090234ab5a2fe3be155750d869"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-04-20T07:32:57.000Z",
+      "inscriptionId": "5ba623575325e3789fb97941286cb656f7992b1d91b57ec1511036eceaa09371i0",
+      "priceBTC": 0.00175138,
+      "raw": "API sale 888984d6c2f7aaa2cff1e54d464fb930dc67a2ab33ab744d3f51bbe37a9a5b87 bc1pur8err9ss92g2uvgq264rl77dx0q9m0scp47gk0jgewsjw56eu8qe4dlk3 -> bc1pg8rhmykfemmcjn3ac4hs9l2srqr9mjnhmsrmc8eyjpm7s49etrtspcdtk9",
+      "hrefs": [
+        "/ordinals/inscription/5ba623575325e3789fb97941286cb656f7992b1d91b57ec1511036eceaa09371i0",
+        "https://mempool.space/tx/888984d6c2f7aaa2cff1e54d464fb930dc67a2ab33ab744d3f51bbe37a9a5b87"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-04-19T12:08:09.000Z",
+      "inscriptionId": "c2f56214af4cbb69026c9b42f5d3d1ff1816483b78933ebc4819ba08b9643734i0",
+      "priceBTC": 0.00144987,
+      "raw": "API sale ee99ff05b5e4c0995b82eaba6a15cad5d0faf98453c39e641b8e971e3176a589 bc1ph67zs7dgqqx7klryfmww3qeswxd3srk084nylux4puv0qq0hc3ps95n7s2 -> bc1p4886vus7cuhpgw6jugg346w6wq4zdyqqeph95087j9a0003fkjtq2846p9",
+      "hrefs": [
+        "/ordinals/inscription/c2f56214af4cbb69026c9b42f5d3d1ff1816483b78933ebc4819ba08b9643734i0",
+        "https://mempool.space/tx/ee99ff05b5e4c0995b82eaba6a15cad5d0faf98453c39e641b8e971e3176a589"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-04-19T11:31:47.000Z",
+      "inscriptionId": "9bb25cd9f767f3658c7ec2049b14c7ba1af31ba590e300de4055aad527a8962bi0",
+      "priceBTC": 0.00107044,
+      "raw": "API sale a70ba678457143d1e292249fb138e0731ebad19670c868d8ee23c153d209b10f bc1pupz6fpqjfxz0gvx6kjdhyfwjrtkklxmnx6tx6nackd0kdedtnvhsm3hntk -> bc1pg8rhmykfemmcjn3ac4hs9l2srqr9mjnhmsrmc8eyjpm7s49etrtspcdtk9",
+      "hrefs": [
+        "/ordinals/inscription/9bb25cd9f767f3658c7ec2049b14c7ba1af31ba590e300de4055aad527a8962bi0",
+        "https://mempool.space/tx/a70ba678457143d1e292249fb138e0731ebad19670c868d8ee23c153d209b10f"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-04-16T07:00:11.000Z",
+      "inscriptionId": "9bb25cd9f767f3658c7ec2049b14c7ba1af31ba590e300de4055aad527a8962bi0",
+      "priceBTC": 0.00175126,
+      "raw": "API sale 088c0602f1000e4cb1ab446a87972c1d5fedee2d145cb6d51c87bcadc27eb7de bc1p65yz8hsm3antzdtjzlxd7e4z60ht5reuepk970mu8pgf2acthq5qtk8283 -> bc1pupz6fpqjfxz0gvx6kjdhyfwjrtkklxmnx6tx6nackd0kdedtnvhsm3hntk",
+      "hrefs": [
+        "/ordinals/inscription/9bb25cd9f767f3658c7ec2049b14c7ba1af31ba590e300de4055aad527a8962bi0",
+        "https://mempool.space/tx/088c0602f1000e4cb1ab446a87972c1d5fedee2d145cb6d51c87bcadc27eb7de"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-04-16T06:52:13.000Z",
+      "inscriptionId": "9bb25cd9f767f3658c7ec2049b14c7ba1af31ba590e300de4055aad527a8962bi0",
+      "priceBTC": 0.00096337,
+      "raw": "API sale 3b8a36a776ca26b5ced9cff797f0ab5592f20e6875c5d60933015c9333615914 bc1ph67zs7dgqqx7klryfmww3qeswxd3srk084nylux4puv0qq0hc3ps95n7s2 -> bc1p65yz8hsm3antzdtjzlxd7e4z60ht5reuepk970mu8pgf2acthq5qtk8283",
+      "hrefs": [
+        "/ordinals/inscription/9bb25cd9f767f3658c7ec2049b14c7ba1af31ba590e300de4055aad527a8962bi0",
+        "https://mempool.space/tx/3b8a36a776ca26b5ced9cff797f0ab5592f20e6875c5d60933015c9333615914"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-03-22T01:49:32.000Z",
+      "inscriptionId": "51a0a31aba13323b16c3c8532621b15ee852f3c07c78a6253cf429112887cfb1i0",
+      "priceBTC": 0.00145951,
+      "raw": "API sale 8f0ee31173df5e504124cadbfc8ded6c6999e111c88d8a11412150dda3596d97 bc1pfcnx4uvmnly63v99v8xx53em0w68e7arljxj9t982wcaskhg54zscnf0yp -> bc1pqcmwruryhap9enpravtmqumt6p7n8uymm2yjxdxgxrja3u5r7saqudlx3d",
+      "hrefs": [
+        "/ordinals/inscription/51a0a31aba13323b16c3c8532621b15ee852f3c07c78a6253cf429112887cfb1i0",
+        "https://mempool.space/tx/8f0ee31173df5e504124cadbfc8ded6c6999e111c88d8a11412150dda3596d97"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-03-04T09:40:29.000Z",
+      "inscriptionId": "413d7779a1bdf13ccf9ac20deef17860c879636ec7e129b23b5b63c831504a8bi0",
+      "priceBTC": 0.00194599,
+      "raw": "API sale e54a7abfee464fab3776563597310e29616179eb97a8f49a8597ef0e6d78e436 bc1pshkwv9pusfd37y8gf7l2x8ddmp26ttgn0tzvnvhhv2chewuv7c4qw27dwd -> bc1pla7glh2ff8pu2k5573y5zpyjmxy2a4udqffhzmzd6ed7kvw8udhqlswuwj",
+      "hrefs": [
+        "/ordinals/inscription/413d7779a1bdf13ccf9ac20deef17860c879636ec7e129b23b5b63c831504a8bi0",
+        "https://mempool.space/tx/e54a7abfee464fab3776563597310e29616179eb97a8f49a8597ef0e6d78e436"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-03-04T08:21:06.000Z",
+      "inscriptionId": "87d7322cbdf100c490fe3e6f21ac1840f37e78fb2191926ebf452b3ba3379b8di0",
+      "priceBTC": 0.00194596,
+      "raw": "API sale ab9dcca57ce1ebf9aae553d7d775596a0a69cce010cef6a883eaaf92cc9d1bc2 bc1pshkwv9pusfd37y8gf7l2x8ddmp26ttgn0tzvnvhhv2chewuv7c4qw27dwd -> bc1pu69klqtp3fklk94nvy2v4y4fs0qyxwykcv74hfenfnn3k3g4830q0wruwq",
+      "hrefs": [
+        "/ordinals/inscription/87d7322cbdf100c490fe3e6f21ac1840f37e78fb2191926ebf452b3ba3379b8di0",
+        "https://mempool.space/tx/ab9dcca57ce1ebf9aae553d7d775596a0a69cce010cef6a883eaaf92cc9d1bc2"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2023-03-01 13:33:35 UTC",
+      "inscriptionId": "782c27fc1a975565fdfcd3f457b8950d28840da448026bd82b7cef3f55d88204i0",
+      "priceBTC": 0.002,
+      "raw": "Clipper | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 13:36:17 UTC",
+      "inscriptionId": "a73742f18e37f86a3d65bf28f441bac41007ee108118fc484f0db54b3b75a515i0",
+      "priceBTC": 0.002,
+      "raw": "Bones | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 13:55:44 UTC",
+      "inscriptionId": "b2960f04c01a27a4a9cf4fa7861ed69088bd8074bb9edbee89e6e3ebc466d326i0",
+      "priceBTC": 0.002,
+      "raw": "Bill | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 14:52:05 UTC",
+      "inscriptionId": "e9d2ba7b5fb4643d80c906352d7e100c59ee70032bd35851261fe922c504df37i0",
+      "priceBTC": 0.002,
+      "raw": "Bentleyem | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 14:52:49 UTC",
+      "inscriptionId": "11d22870ea9115d9ff2fb3f99e977cfbb351dfbbef6250d434fbbb2eb76fc939i0",
+      "priceBTC": 0.002,
+      "raw": "Beta | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 14:52:49 UTC",
+      "inscriptionId": "c2934202d0396b38aadfd08fcf19633319311cd3badf77b41477b5a7d6c96048i0",
+      "priceBTC": 0.002,
+      "raw": "Claire-Rose | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 15:12:06 UTC",
+      "inscriptionId": "447bdf1930863a8e4a60edf7bf500a849c496022285770663ef8451fee25dd67i0",
+      "priceBTC": 0.002,
+      "raw": "Arthur | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 15:12:06 UTC",
+      "inscriptionId": "6907ae499c5c424a2ea6845d3c27fd52dbf869889dca4cbb2e6de9d44df6fa69i0",
+      "priceBTC": 0.002,
+      "raw": "Blondish | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 16:29:35 UTC",
+      "inscriptionId": "35ceb2520c0fc28c82a375cfe874629f288a0f695c97c005a96ae052651c1f77i0",
+      "priceBTC": 0.002,
+      "raw": "Balie | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 16:29:35 UTC",
+      "inscriptionId": "18324e2c186cf99b14bfe5ec7de3055449b16d3e998fef37200e2d4bd7af456fi0",
+      "priceBTC": 0.002,
+      "raw": "Chancellor | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 16:29:35 UTC",
+      "inscriptionId": "5ba623575325e3789fb97941286cb656f7992b1d91b57ec1511036eceaa09371i0",
+      "priceBTC": 0.002,
+      "raw": "Begorban | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 16:44:04 UTC",
+      "inscriptionId": "209b029aeba0cc736e1ee0f83ba69821c3a463e748c1a90d31337d6419ec7195i0",
+      "priceBTC": 0.002,
+      "raw": "Clay | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 16:44:04 UTC",
+      "inscriptionId": "0fa3c365fdd8e9a2a507de316b7f320b5076f329b44e78c8867f5563ebff5b89i0",
+      "priceBTC": 0.002,
+      "raw": "Caster | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 16:44:04 UTC",
+      "inscriptionId": "ca9b7d92522c594ff79ecf174db6444aad28b6d1886620f485caec04f1ee0795i0",
+      "priceBTC": 0.002,
+      "raw": "Baka | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 16:44:04 UTC",
+      "inscriptionId": "7e7b330359ef8bdf8eb226ebe3560c2085071871ea2fee96aa9282e48f62388fi0",
+      "priceBTC": 0.002,
+      "raw": "Berny | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 19:37:50 UTC",
+      "inscriptionId": "e9a73604c6fa8258d2b4c9e6c1a5892ee459fc081f591d32a4dabdfc27685688i0",
+      "priceBTC": 0.002,
+      "raw": "Daisy | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-01 23:39:12 UTC",
+      "inscriptionId": "95b2e23f3631d4b18aaab0eb7d91236b01747a4cac3edce0f7dd79d62a1a9122i0",
+      "priceBTC": 0.002,
+      "raw": "Ebenar | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 00:12:19 UTC",
+      "inscriptionId": "72904b1d01b347e398b77ff3ca225a0e085552ec1bb7dc6529498b085527e02bi0",
+      "priceBTC": 0.002,
+      "raw": "Daz | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 00:51:30 UTC",
+      "inscriptionId": "112dc0b47b04b858f0f9dbfad45e6c4ed15688b0aaab03a8d9b8a19e7df2348ci0",
+      "priceBTC": 0.002,
+      "raw": "Dre | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 00:51:30 UTC",
+      "inscriptionId": "e592cdfb569289b6d287b573c442ef6a37b345d88446168abf9b327c44f4038bi0",
+      "priceBTC": 0.002,
+      "raw": "Disco | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 00:54:08 UTC",
+      "inscriptionId": "0a16d33462675914ba5cf880b2812be2a7259fe06dab9944f9966ba9024b7494i0",
+      "priceBTC": 0.002,
+      "raw": "Dandy | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 02:26:25 UTC",
+      "inscriptionId": "095043fdff1b93055e00d26297d43ec320437caa1f4b35ab7df1da4d93fc21b2i0",
+      "priceBTC": 0.002,
+      "raw": "Brut | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 03:06:07 UTC",
+      "inscriptionId": "3134d0e16962cacd94adb277c5564360e9f1f8fe212bdf10a1e1eb4c3beb8e01i0",
+      "priceBTC": 0.002,
+      "raw": "Funke | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 03:17:12 UTC",
+      "inscriptionId": "c92c9244d6a5d13f591b24d9c1178cb1cd2da086cd01231e0fc26cfa71a77c82i0",
+      "priceBTC": 0.002,
+      "raw": "George | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 03:23:31 UTC",
+      "inscriptionId": "a231ce58d1a10253645c3b7b6e3dde9f4d913a0cb7d881026cb58d37cf1e9ec1i0",
+      "priceBTC": 0.002,
+      "raw": "DJ | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 12:44:38 UTC",
+      "inscriptionId": "4cc5b164da25ebe9b2837cb4330b39519f6b5c80ebc40d908a56aa61c64dfd26i0",
+      "priceBTC": 0.002,
+      "raw": "Girla | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 13:02:12 UTC",
+      "inscriptionId": "51a0a31aba13323b16c3c8532621b15ee852f3c07c78a6253cf429112887cfb1i0",
+      "priceBTC": 0.002,
+      "raw": "Henri | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 13:11:15 UTC",
+      "inscriptionId": "e1e7109a61ab95464175f0b077455eea370d211fd9e76e9c5bdc4d7f19fd37c9i0",
+      "priceBTC": 0.002,
+      "raw": "Cuto | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 13:11:15 UTC",
+      "inscriptionId": "bab84d314540a457560ebc8c948955533294fb57b18e05dc5bd1a0b029fc25cci0",
+      "priceBTC": 0.002,
+      "raw": "Dangeling | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 04:36:01 UTC",
+      "inscriptionId": "d743bc362dc091ebd5ed875a405bdc634cd788dc3e6a5d8482ccda67c4f1b715i0",
+      "priceBTC": 0.002,
+      "raw": "Rusty | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 04:36:01 UTC",
+      "inscriptionId": "619bdc09f9615327b06ef3792c65b117f6276c4b5e9392755304cc0732002a19i0",
+      "priceBTC": 0.002,
+      "raw": "Wassie | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 04:36:01 UTC",
+      "inscriptionId": "596cedeb22f922ab92066a1536da0031e140e74c2d737fcaf2a626a697ae9326i0",
+      "priceBTC": 0.002,
+      "raw": "Screw | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 05:00:41 UTC",
+      "inscriptionId": "9bb25cd9f767f3658c7ec2049b14c7ba1af31ba590e300de4055aad527a8962bi0",
+      "priceBTC": 0.002,
+      "raw": "Naby | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 05:00:41 UTC",
+      "inscriptionId": "0865b243da63f9614ae1a703e04d2dc9078ffa26dcfbbbe466909239de657d28i0",
+      "priceBTC": 0.002,
+      "raw": "Lil | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 05:12:20 UTC",
+      "inscriptionId": "5913f4fa292b2528c5fe3da3ed576a1add3a564cf6d90597f0b21b3bae3fb033i0",
+      "priceBTC": 0.002,
+      "raw": "Mizz | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 05:12:20 UTC",
+      "inscriptionId": "c2f56214af4cbb69026c9b42f5d3d1ff1816483b78933ebc4819ba08b9643734i0",
+      "priceBTC": 0.002,
+      "raw": "Odello | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 05:12:20 UTC",
+      "inscriptionId": "4994bbbd19df46ff8e06556c7c62bad416834003af1f8f647beaa9096bd63233i0",
+      "priceBTC": 0.002,
+      "raw": "Screwme | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 05:34:08 UTC",
+      "inscriptionId": "219e51b28e27f67f2b7fc567c0dc015bf6482166e27fb883696f78b54d53673di0",
+      "priceBTC": 0.002,
+      "raw": "Kiruna | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 05:34:08 UTC",
+      "inscriptionId": "68a027f86d8b4a67a26280838440d90f183406394b692ecaf2f6a72669b6f741i0",
+      "priceBTC": 0.002,
+      "raw": "Ivanov | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 07:06:18 UTC",
+      "inscriptionId": "9f41c9f8cd3e064c5052ab706393b2779c4141217089ce27885137abed857d51i0",
+      "priceBTC": 0.002,
+      "raw": "Snowglide | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 07:06:18 UTC",
+      "inscriptionId": "e76ccef63bec0937bef12d75dee607dba464479ec30730ed07802fc471f97749i0",
+      "priceBTC": 0.002,
+      "raw": "Monko | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 09:27:16 UTC",
+      "inscriptionId": "399da53bbef3bbd22e71514e4cfa10dac9b75ef6c8546e4978d3bcbb5053fd57i0",
+      "priceBTC": 0.002,
+      "raw": "Liberty | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 09:27:16 UTC",
+      "inscriptionId": "238b099cb6c38e6742a8c070759c92b1d449a37768611d7a4bdbdd5a085d5158i0",
+      "priceBTC": 0.002,
+      "raw": "Mush | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 09:29:35 UTC",
+      "inscriptionId": "1495178031dfc7b2bef1e10635dba87d3cb7f005cef56e3afe76c5dc78fcc55ci0",
+      "priceBTC": 0.002,
+      "raw": "Synth | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 09:29:35 UTC",
+      "inscriptionId": "2033ba46baffeed341c595024adc179c0cad9cece6d1cc3e391719344407045ci0",
+      "priceBTC": 0.002,
+      "raw": "Zouk | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 09:29:35 UTC",
+      "inscriptionId": "2df47f50138da98133b3bc37ea75431c5d83f425dbf41449f7611e09c0479758i0",
+      "priceBTC": 0.002,
+      "raw": "Rockstar | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 11:40:48 UTC",
+      "inscriptionId": "67668448d0ffafd5fac68d794316b41021bd0eda79df3361428c4408b1039061i0",
+      "priceBTC": 0.002,
+      "raw": "Lemonhead | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 11:46:44 UTC",
+      "inscriptionId": "313c1019c26a0de0219e7a82e2486c26de26fa351f5e684e171986f45e9fb365i0",
+      "priceBTC": 0.002,
+      "raw": "Tom | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 11:46:44 UTC",
+      "inscriptionId": "a7d0d82aa65fb409345d952dff276c3548d015c4d7bcd5ef43933f15e3ac1068i0",
+      "priceBTC": 0.002,
+      "raw": "Inspector | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 11:55:42 UTC",
+      "inscriptionId": "02acf16b556ee807b512b52276233a5eb98937a8496ecfc20341014cc3a5346ci0",
+      "priceBTC": 0.002,
+      "raw": "Steve Cook | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 11:58:53 UTC",
+      "inscriptionId": "773730d14e1b84e2c3bde0e285465e715e3b829fbe25e45cd1ae89f5ccd8b874i0",
+      "priceBTC": 0.002,
+      "raw": "Snoop | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 11:58:53 UTC",
+      "inscriptionId": "df786efbadd9e726fa282fa44c0da01e66c8f71de9722b0822247d3db987f774i0",
+      "priceBTC": 0.002,
+      "raw": "Luminati | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 11:58:53 UTC",
+      "inscriptionId": "93a21aa871e545ca88534573599d86462c9b0681d1a269172b0f5a78be5ccd70i0",
+      "priceBTC": 0.002,
+      "raw": "Piroom | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 11:58:53 UTC",
+      "inscriptionId": "fa0fe242922137cd759eb491dc34a9e0da1e198d8b911c6141fa3f2282150771i0",
+      "priceBTC": 0.002,
+      "raw": "Spot | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 11:58:53 UTC",
+      "inscriptionId": "705182739711bdeaab7de0b219dd64c80b9e0f363c8ed2290a7d9240156ac374i0",
+      "priceBTC": 0.002,
+      "raw": "Turkim | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 11:58:53 UTC",
+      "inscriptionId": "93529c1a466bf039df50a0a58892356f7b629fa0564714bd1e4f117667488770i0",
+      "priceBTC": 0.002,
+      "raw": "Wikam | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 22:45:16 UTC",
+      "inscriptionId": "491b740bf7b3d3dc433e43e45cf301b36985de25cfe892aa08186cbdf4f34381i0",
+      "priceBTC": 0.002,
+      "raw": "Vinny | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 22:45:16 UTC",
+      "inscriptionId": "4ca746f998fa6b00740b870dbfee0315036eb0e2ac64bddb34c89ec7891d2e81i0",
+      "priceBTC": 0.002,
+      "raw": "Nash | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 23:39:36 UTC",
+      "inscriptionId": "9b8ffbb9f6003f330220b4609d077ce7528c1845036a266ff61aeeb37c6f6d84i0",
+      "priceBTC": 0.002,
+      "raw": "Jon | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 23:50:41 UTC",
+      "inscriptionId": "413d7779a1bdf13ccf9ac20deef17860c879636ec7e129b23b5b63c831504a8bi0",
+      "priceBTC": 0.002,
+      "raw": "Polobak | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 23:50:41 UTC",
+      "inscriptionId": "c70ee2a217d1370400c2a06a94f369cbc79e8e4fee2d42adfe57572cd2ad818ci0",
+      "priceBTC": 0.002,
+      "raw": "Kanata | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 23:50:41 UTC",
+      "inscriptionId": "87d7322cbdf100c490fe3e6f21ac1840f37e78fb2191926ebf452b3ba3379b8di0",
+      "priceBTC": 0.002,
+      "raw": "Proffatoche | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 23:50:41 UTC",
+      "inscriptionId": "03e1143d2451500cd260f2b9a98d081c94a5e27a52251a0a251e62556f33c88fi0",
+      "priceBTC": 0.002,
+      "raw": "Sket | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 23:58:28 UTC",
+      "inscriptionId": "b0a50db531584c9f8b088c9e8f8e8ea67f0b777b3e6e4c697625c29ad15174a4i0",
+      "priceBTC": 0.002,
+      "raw": "Testo | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-03 23:58:28 UTC",
+      "inscriptionId": "fd40996d8889d6d40d7efa57d1f53b2052c0cc873d3bd0147d5dcfab518bb8a9i0",
+      "priceBTC": 0.002,
+      "raw": "Maurice | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 00:56:27 UTC",
+      "inscriptionId": "f8b8331325b3fc9d7c6c001b2a4892cbac91bca0ed80454e20c4a04325761cadi0",
+      "priceBTC": 0.002,
+      "raw": "Lindle | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 03:41:53 UTC",
+      "inscriptionId": "5f8453a6d87abaf9d67a5f968a4665a0a0a901c666018ff267c3d3534998d3b3i0",
+      "priceBTC": 0.002,
+      "raw": "Mohawk | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 03:54:14 UTC",
+      "inscriptionId": "b04ca499ea8e55208839cf5f8d946a77d2f087ae7f26398d8cbd23726ff90bb9i0",
+      "priceBTC": 0.002,
+      "raw": "Mamie | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 05:39:40 UTC",
+      "inscriptionId": "936c5817e4969acdc4abb91259edf4347a2cb833b2e0570241fbd45fe4ac9ecei0",
+      "priceBTC": 0.002,
+      "raw": "Vindo | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 05:42:29 UTC",
+      "inscriptionId": "6593eb0e4067f7eff093b3758675e0ae7a441a729429e866f2e6315f947100d0i0",
+      "priceBTC": 0.002,
+      "raw": "Tanguy | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 05:43:47 UTC",
+      "inscriptionId": "799556740fd05065173a1f11a019120759b361901832152ab65027dee5b698d4i0",
+      "priceBTC": 0.002,
+      "raw": "Rotka | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 05:43:47 UTC",
+      "inscriptionId": "ce66c3cce3d8ff5becc43a6b2475f75c180e3ead7e8ffe72dbd8dcd4d391bad3i0",
+      "priceBTC": 0.002,
+      "raw": "Gilleto | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 11:18:05 UTC",
+      "inscriptionId": "2a1e7e43a77c650684cf238577ae1f2951fafbbf157588be93b87883d735a9dci0",
+      "priceBTC": 0.002,
+      "raw": "Lenki | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 11:18:05 UTC",
+      "inscriptionId": "acc485c493addc2ce37ea8a82dc7d8a9ac7430a5d69b2784a38d608c56437cdbi0",
+      "priceBTC": 0.002,
+      "raw": "Achampy | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 11:28:20 UTC",
+      "inscriptionId": "f04a89232730ad14ead757c8c4758db77d02e3d2904506b677fd83572ae574dei0",
+      "priceBTC": 0.002,
+      "raw": "Kiddo | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 11:31:00 UTC",
+      "inscriptionId": "6759d66d4ddaa10ebde5e5ab9743fce8f580ceac598bd2fb1d5736c91483a9e0i0",
+      "priceBTC": 0.002,
+      "raw": "Planktune | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 11:31:00 UTC",
+      "inscriptionId": "ec86eb00019d6becf8528c63ba6f89bc16eac7fc51ba554c580bcb04b1bae5dei0",
+      "priceBTC": 0.002,
+      "raw": "Truffle | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 11:36:11 UTC",
+      "inscriptionId": "2808289651ca019895259b4e2dee26f98a9b20914906267b2a8da81b533c56e3i0",
+      "priceBTC": 0.002,
+      "raw": "Student | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 11:37:14 UTC",
+      "inscriptionId": "018c344927b31a52c6971da3420af101645033cb796f2f56749768fb9c5884e8i0",
+      "priceBTC": 0.002,
+      "raw": "Bee | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 11:37:14 UTC",
+      "inscriptionId": "06961950a6fb143ada98a09efceb9450e7ba57f2934b07bad688755104c0e8e7i0",
+      "priceBTC": 0.002,
+      "raw": "Joe | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 11:37:14 UTC",
+      "inscriptionId": "57e0c8aa9b64da79725743b392c2f5f9ccf4fc75e42df674d458261ea0895be5i0",
+      "priceBTC": 0.002,
+      "raw": "Selfie | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 13:56:30 UTC",
+      "inscriptionId": "1d154c8d8370e1bc0b067f56ea48515967fdd5223748dc196e7df543a52ee8eai0",
+      "priceBTC": 0.002,
+      "raw": "Cop | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 13:56:30 UTC",
+      "inscriptionId": "ae23151c69cfcd1755d7d388f6a09e32cfaef343f643af824ad3477e31bc7debi0",
+      "priceBTC": 0.002,
+      "raw": "Monkeyman | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 17:22:40 UTC",
+      "inscriptionId": "4ef575f6ec20e21fdd0f716675e7846aef0620d40c7f6499bb27a019c665d8f5i0",
+      "priceBTC": 0.002,
+      "raw": "Cuba | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 17:29:13 UTC",
+      "inscriptionId": "8022e2e1652cda2b47e9e419f3bcc5a4361b7c8e0eff0eba87c0fc711e4693f9i0",
+      "priceBTC": 0.002,
+      "raw": "Belier | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 17:29:13 UTC",
+      "inscriptionId": "0bb4d11640f04ade22c65dfaee3e7b04d5aa0b90f144d2dda0ce9e822f895bfai0",
+      "priceBTC": 0.002,
+      "raw": "Madame | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 17:29:13 UTC",
+      "inscriptionId": "3325f992de95acd9f0fe7d254c8563b6c415c69667285043762d1a0889625dfai0",
+      "priceBTC": 0.002,
+      "raw": "Turtlebop | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 21:51:40 UTC",
+      "inscriptionId": "d6f4b61935f4a61781ebecc2ad01583c7d27894a1c044fab6cbbdf137791fffbi0",
+      "priceBTC": 0.002,
+      "raw": "King | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-04 23:25:31 UTC",
+      "inscriptionId": "91670914a3e2dd23abe8f3af13e834d2456b7c5ef859c948368e3a9a8ed0c7ffi0",
+      "priceBTC": 0.002,
+      "raw": "RR69 | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2023-03-02 13:11:15 UTC",
+      "inscriptionId": "87a923ac2114f0331cf75c65a5085baeda31993413d7d1b61a3f4ce7f73345cci0",
+      "priceBTC": 0.002,
+      "raw": "Fax | Manual primary sale (date aligned to inscription timestamp)",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    }
+  ],
+  "apiMeta": {
+    "pagesFetched": 3,
+    "error": null
+  },
+  "manualSalesAdded": 90
+}

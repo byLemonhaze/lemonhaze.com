@@ -1,0 +1,217 @@
+{
+  "collectionSlug": "artifacts-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/artifacts-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:05:06.828Z",
+  "totalSales": 23,
+  "totalVolumeBTC": 0.3111,
+  "sales": [
+    {
+      "timestamp": "2024-04-24 00:00:00 UTC",
+      "inscriptionId": "3149817793b7168dfe492dbd9fff53795ed04b3744e235e07f83249b8faf8ed6i0",
+      "priceBTC": 0.037,
+      "raw": "Elsewhere #1 | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2024-04-24 00:00:00 UTC",
+      "inscriptionId": "12b78c612d2a1581eb9333d23e208f6563958d8f4b1bedca708f539b9077c47fi0",
+      "priceBTC": 0.054,
+      "raw": "Basquiat | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2024-03-29 00:00:00 UTC",
+      "inscriptionId": "4f6c1e8e123f0d03e63b1b1dd6cea3cf7802a4e20ea2e38e9508a48879b4f60ei0",
+      "priceBTC": 0.0285,
+      "raw": "Moonlight Motel | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2024-02-12 00:00:00 UTC",
+      "inscriptionId": "d619a885858f9e1b3eae96426b303b489c5cfbbab92dd30351ed01645d7f063ei0",
+      "priceBTC": 0.045,
+      "raw": "Biarritz | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2024-01-01 00:00:00 UTC",
+      "inscriptionId": "3149817793b7168dfe492dbd9fff53795ed04b3744e235e07f83249b8faf8ed6i0",
+      "priceBTC": 0.01,
+      "raw": "Elsewhere #1 | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2023-12-19 00:00:00 UTC",
+      "inscriptionId": "d619a885858f9e1b3eae96426b303b489c5cfbbab92dd30351ed01645d7f063ei0",
+      "priceBTC": 0.01,
+      "raw": "Biarritz | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2023-09-12 00:00:00 UTC",
+      "inscriptionId": "3149817793b7168dfe492dbd9fff53795ed04b3744e235e07f83249b8faf8ed6i0",
+      "priceBTC": 0.0085,
+      "raw": "Elsewhere #1 | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "secondary"
+    },
+    {
+      "timestamp": "2023-08-26 00:00:00 UTC",
+      "inscriptionId": "75174f565a39be5f31a011cce5f969a02ebda7a97467df4031a6eeb7e5c380e0i0",
+      "priceBTC": 0.0069,
+      "raw": "Himarë | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-26 00:00:00 UTC",
+      "inscriptionId": "4dabf8c0f1b7c549ae94857e08dc6f0a844b1d09cf970892e29c285466746a81i0",
+      "priceBTC": 0.0069,
+      "raw": "Adriatic View | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-24 00:00:00 UTC",
+      "inscriptionId": "22660b93859c508c6b0b680ef606858d3a546868cf0c2be0ebaf72d50d9a9bf6i0",
+      "priceBTC": 0.0069,
+      "raw": "Αθήνα | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-24 00:00:00 UTC",
+      "inscriptionId": "3149817793b7168dfe492dbd9fff53795ed04b3744e235e07f83249b8faf8ed6i0",
+      "priceBTC": 0.0069,
+      "raw": "Elsewhere #1 | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-23 00:00:00 UTC",
+      "inscriptionId": "0ba218ab502d21cba7a4fcb6c049a590548054089bc6d3ac84eed838fffddc5ai0",
+      "priceBTC": 0.0069,
+      "raw": "Gjipe | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-23 00:00:00 UTC",
+      "inscriptionId": "39b1c77727f4c85c511d2cc1d26fb07bae5f20b2321bb631fed7d4f9ddc3d1fci0",
+      "priceBTC": 0.0069,
+      "raw": "Race Week | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-22 00:00:00 UTC",
+      "inscriptionId": "4f6c1e8e123f0d03e63b1b1dd6cea3cf7802a4e20ea2e38e9508a48879b4f60ei0",
+      "priceBTC": 0.0069,
+      "raw": "Moonlight Motel | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-20 00:00:00 UTC",
+      "inscriptionId": "db75cdc5a4a1282c42382916c2cb9fd3cd213382b1a3208441962fb80f553a66i0",
+      "priceBTC": 0.0069,
+      "raw": "Bahia Principal | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-18 00:00:00 UTC",
+      "inscriptionId": "893d456bd3cb30ee933b0684e008284b964c2b5aaecf18168f2707a9180b2a41i0",
+      "priceBTC": 0.0069,
+      "raw": "Le Dessinateur | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-13 00:00:00 UTC",
+      "inscriptionId": "12b78c612d2a1581eb9333d23e208f6563958d8f4b1bedca708f539b9077c47fi0",
+      "priceBTC": 0.0069,
+      "raw": "Basquiat | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-13 00:00:00 UTC",
+      "inscriptionId": "dde6c151ecb41e9ae219063611618621e8c17828ca887111f68ab520b75f886ci0",
+      "priceBTC": 0.0069,
+      "raw": "Playa Zicatela | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-08-13 00:00:00 UTC",
+      "inscriptionId": "33b0667a2676b142c51c98729bcb0fecff8e51e26a45e59fe8e3eb81efe95fb6i0",
+      "priceBTC": 0.0069,
+      "raw": "Wisdom | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-06-30 00:00:00 UTC",
+      "inscriptionId": "d619a885858f9e1b3eae96426b303b489c5cfbbab92dd30351ed01645d7f063ei0",
+      "priceBTC": 0.0069,
+      "raw": "Biarritz | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-06-26 00:00:00 UTC",
+      "inscriptionId": "f790cdc32d86611c82d65d5588feb19e43b6f7c319912af0bfc509027254c28ci0",
+      "priceBTC": 0.0069,
+      "raw": "Blood, Lemon & Tango | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-06-11 00:00:00 UTC",
+      "inscriptionId": "2929458becb86fb22ae12b72408b9a136dd068cd06c422db6d35ac78760e8004i0",
+      "priceBTC": 0.005,
+      "raw": "Manifesto | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    },
+    {
+      "timestamp": "2023-06-10 00:00:00 UTC",
+      "inscriptionId": "36a7e633e38899e72dc684f6a228c59552fada10221d4e47f276ba8dcc678cf9i0",
+      "priceBTC": 0.0165,
+      "raw": "Roadtrip | Manual primary sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "primary"
+    }
+  ],
+  "manualSalesAdded": 23
+}

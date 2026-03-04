@@ -1,0 +1,45 @@
+{
+  "collectionSlug": "1on1-2025-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/1on1-2025-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:09:02.588Z",
+  "totalSales": 3,
+  "totalVolumeBTC": 0.09587919,
+  "sales": [
+    {
+      "timestamp": "2025-07-04T09:39:36.000Z",
+      "inscriptionId": "28cc6c152b736d59551de08f0d6bd7984a49a0a1f9eca80df62938eaa96ac7e6i0",
+      "priceBTC": 0.00870274,
+      "raw": "API sale 13afea1dbe7768cec7bec74a416183792a8c468a1a9cacb1b3722b9c2a2540ca bc1pu38xpdem37jsqs7gh2dn4wxvfqx9hs4yaxyrt5wxq4kj7mgky78qgwp07v -> bc1pkn4244w0pr999mgkyhvpdkdehf4jsr2aw9q7tpwvkpkdv66g82dqq7yrqu",
+      "hrefs": [
+        "/ordinals/inscription/28cc6c152b736d59551de08f0d6bd7984a49a0a1f9eca80df62938eaa96ac7e6i0",
+        "https://mempool.space/tx/13afea1dbe7768cec7bec74a416183792a8c468a1a9cacb1b3722b9c2a2540ca"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-07-04T04:54:21.000Z",
+      "inscriptionId": "b66a29be1861ef12253635e0dff825344dc39c5c44644e3224b7974deac8a092i0",
+      "priceBTC": 0.01817645,
+      "raw": "API sale 72093c003037abb9f840f735a52c4f669b39b2377498ff049d7f2791b291921f bc1pu38xpdem37jsqs7gh2dn4wxvfqx9hs4yaxyrt5wxq4kj7mgky78qgwp07v -> bc1pph7mvfnrfhlynvntxfpy00vn3htd7cmutr9rvsy8z0xez4fu9fcq9a0nsv",
+      "hrefs": [
+        "/ordinals/inscription/b66a29be1861ef12253635e0dff825344dc39c5c44644e3224b7974deac8a092i0",
+        "https://mempool.space/tx/72093c003037abb9f840f735a52c4f669b39b2377498ff049d7f2791b291921f"
+      ],
+      "source": "bestinslot-v2api"
+    },
+    {
+      "timestamp": "2025-07-29 00:00:00 UTC",
+      "inscriptionId": "b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0",
+      "priceBTC": 0.069,
+      "raw": "Chanchanok's Temple | Manual OTC/private sale",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    }
+  ],
+  "apiMeta": {
+    "pagesFetched": 2,
+    "error": null
+  },
+  "manualSalesAdded": 1
+}

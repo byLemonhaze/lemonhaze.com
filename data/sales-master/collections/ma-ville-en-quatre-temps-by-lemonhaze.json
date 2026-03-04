@@ -1,0 +1,46 @@
+{
+  "collectionSlug": "ma-ville-en-quatre-temps-by-lemonhaze",
+  "collectionUrl": "https://bestinslot.xyz/ordinals/collections/ma-ville-en-quatre-temps-by-lemonhaze",
+  "scrapedAt": "2026-03-03T23:09:12.927Z",
+  "totalSales": 4,
+  "totalVolumeBTC": 0.17169354,
+  "sales": [
+    {
+      "timestamp": "2025-05-15 00:00:00 UTC",
+      "inscriptionId": "298a55a78a48faafe5ac119cb48dd2235dc9c37210e30c793f39c280b2618f32i0",
+      "priceBTC": 0.05081814,
+      "raw": "L'Hiver, la nuit | Manual primary sale from Gamma release",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2025-05-15 00:00:00 UTC",
+      "inscriptionId": "14bc4ad6dde2cb2440b5edb59ae56fc75b6b4783776af54b0e04f53a6629427ci0",
+      "priceBTC": 0.069,
+      "raw": "Un Été à Montréal | Manual primary sale from Gamma release",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2025-05-15 00:00:00 UTC",
+      "inscriptionId": "d92dce003739ca8a96583195a4c513d159e928d6039878a9520685fa5ad44fadi0",
+      "priceBTC": 0.02785158,
+      "raw": "Retour en classe | Manual primary sale from Gamma release",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    },
+    {
+      "timestamp": "2025-05-15 00:00:00 UTC",
+      "inscriptionId": "8d3ac38068f242faeccadba00ec1525e22c2340dbcdb6ce1fe034b55d6610602i0",
+      "priceBTC": 0.02402382,
+      "raw": "L’Automne s’envole | Manual primary sale from Gamma release",
+      "hrefs": [],
+      "source": "manual-private",
+      "saleType": "otc-primary"
+    }
+  ],
+  "manualSalesAdded": 4
+}
