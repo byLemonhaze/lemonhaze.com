@@ -14,12 +14,45 @@ function normalizeInscriptionId(value) {
 }
 
 function clean(value) {
-  return String(value || '').trim();
+  return String(value || '')
+    .replace(/[\u200e\u200f\u202a-\u202e]/g, '')
+    .trim();
 }
 
-function toTimestampMs(value) {
+function parseRelativeTimestampMs(raw) {
+  const m = raw
+    .toLowerCase()
+    .match(/^(\d+)\s*(s|sec|secs|second|seconds|m|min|mins|minute|minutes|h|hr|hrs|hour|hours|d|day|days|w|week|weeks|mo|month|months|y|yr|yrs|year|years)\s*(ago)?$/);
+  if (!m) return Number.NaN;
+
+  const amount = Number(m[1]);
+  const unit = m[2];
+  if (!Number.isFinite(amount) || amount < 0) return Number.NaN;
+
+  let factorMs = Number.NaN;
+  if (unit === 's' || unit.startsWith('sec')) factorMs = 1000;
+  else if (unit === 'm' || unit.startsWith('min')) factorMs = 60 * 1000;
+  else if (unit === 'h' || unit.startsWith('hr') || unit.startsWith('hour')) factorMs = 60 * 60 * 1000;
+  else if (unit === 'd' || unit.startsWith('day')) factorMs = 24 * 60 * 60 * 1000;
+  else if (unit === 'w' || unit.startsWith('week')) factorMs = 7 * 24 * 60 * 60 * 1000;
+  else if (unit === 'mo' || unit.startsWith('month')) factorMs = 30.4375 * 24 * 60 * 60 * 1000;
+  else if (unit === 'y' || unit.startsWith('yr') || unit.startsWith('year')) factorMs = 365.25 * 24 * 60 * 60 * 1000;
+  if (!Number.isFinite(factorMs)) return Number.NaN;
+
+  return Date.now() - Math.round(amount * factorMs);
+}
+
+export function parseSalesTimestampMs(value) {
   const raw = clean(value);
   if (!raw) return Number.NaN;
+
+  if (/^\d+$/.test(raw)) {
+    const n = Number(raw);
+    if (Number.isFinite(n)) return n > 1e12 ? n : n * 1000;
+  }
+
+  const relative = parseRelativeTimestampMs(raw);
+  if (Number.isFinite(relative)) return relative;
 
   const direct = Date.parse(raw);
   if (Number.isFinite(direct)) return direct;
@@ -65,8 +98,8 @@ export async function getSalesForInscription(inscriptionId) {
     : [];
 
   return [...events].sort((a, b) => {
-    const ta = toTimestampMs(a?.timestamp);
-    const tb = toTimestampMs(b?.timestamp);
+    const ta = parseSalesTimestampMs(a?.timestamp);
+    const tb = parseSalesTimestampMs(b?.timestamp);
     const aValid = Number.isFinite(ta);
     const bValid = Number.isFinite(tb);
     if (aValid && bValid) return tb - ta;

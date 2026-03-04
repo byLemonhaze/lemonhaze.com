@@ -4,6 +4,7 @@ import {
 } from '../../modules/artwork-media.js';
 import {
     getBtcUsdSpot,
+    parseSalesTimestampMs,
     getSalesForInscription,
 } from '../../modules/sales-ledger.js';
 
@@ -266,6 +267,15 @@ export function createArtworkModalController({
         return `${pad(d.getUTCDate())} ${months[d.getUTCMonth()]} ${d.getUTCFullYear()}, ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())} UTC`;
     }
 
+    function fmtSaleDate(raw) {
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const ms = parseSalesTimestampMs(raw);
+        if (!Number.isFinite(ms)) return String(raw || '').trim() || 'Unknown date';
+        const d = new Date(ms);
+        if (isNaN(d)) return String(raw || '').trim() || 'Unknown date';
+        return `${d.getUTCDate()} ${months[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+    }
+
     // ── Shared helper: renders provenance thumbnails, static facts, and live-data
     //    placeholders. Works for both standard inscriptions and BEST BEFORE.
     function renderMetadataList(item) {
@@ -423,13 +433,40 @@ export function createArtworkModalController({
                 return;
             }
 
-            for (const event of events) {
+            const indexed = events.map((event, index) => ({
+                event,
+                index,
+                timestampMs: parseSalesTimestampMs(event?.timestamp),
+            }));
+
+            let oldestIndex = -1;
+            let oldestTimestamp = Number.POSITIVE_INFINITY;
+            for (const entry of indexed) {
+                if (Number.isFinite(entry.timestampMs) && entry.timestampMs < oldestTimestamp) {
+                    oldestTimestamp = entry.timestampMs;
+                    oldestIndex = entry.index;
+                }
+            }
+            if (oldestIndex < 0) oldestIndex = indexed.length - 1;
+
+            for (const entry of indexed) {
+                const { event, index } = entry;
+                const isPrimary = index === oldestIndex;
                 const row = document.createElement('div');
                 row.className = 'py-1.5 border-b border-white/5 last:border-0';
 
                 const dateLine = document.createElement('div');
-                dateLine.className = 'text-[10px] font-mono text-white/60 leading-snug break-words';
-                dateLine.textContent = fmtFullTimestamp(event?.timestamp) || event?.timestamp || 'Unknown time';
+                dateLine.className = 'flex items-center gap-1.5 text-[10px] font-mono text-white/60 leading-snug';
+                const dateText = document.createElement('span');
+                dateText.className = 'break-words';
+                dateText.textContent = fmtSaleDate(event?.timestamp);
+                dateLine.appendChild(dateText);
+                if (isPrimary) {
+                    const primaryTag = document.createElement('span');
+                    primaryTag.className = 'inline-flex items-center px-1.5 py-0.5 border border-white/12 text-[8px] uppercase tracking-[0.14em] text-white/50';
+                    primaryTag.textContent = 'Primary';
+                    dateLine.appendChild(primaryTag);
+                }
 
                 const priceLine = document.createElement('div');
                 priceLine.className = 'text-[11px] font-mono text-white/75 leading-snug break-words';
@@ -439,17 +476,17 @@ export function createArtworkModalController({
                     const usdText = usdNowFormatter.format(usdOriginal);
                     if (Number.isFinite(Number(btcUsdSpot)) && Number(btcUsdSpot) > 0) {
                         const btcNow = usdOriginal / Number(btcUsdSpot);
-                        priceLine.textContent = `${usdText} · ${fmtBtcValue(btcNow)} BTC now`;
+                        priceLine.textContent = `${usdText} · ${fmtBtcValue(btcNow)} BTC`;
                     } else {
-                        priceLine.textContent = `${usdText} · BTC now unavailable`;
+                        priceLine.textContent = `${usdText} · BTC unavailable`;
                     }
                 } else {
                     const btcText = `${fmtBtcValue(event?.priceBTC)} BTC`;
                     if (Number.isFinite(Number(btcUsdSpot)) && Number.isFinite(Number(event?.priceBTC))) {
                         const usdNow = Number(event.priceBTC) * Number(btcUsdSpot);
-                        priceLine.textContent = `${btcText} · ${usdNowFormatter.format(usdNow)} now`;
+                        priceLine.textContent = `${btcText} · ${usdNowFormatter.format(usdNow)}`;
                     } else {
-                        priceLine.textContent = `${btcText} · $— now`;
+                        priceLine.textContent = `${btcText} · $—`;
                     }
                 }
 
