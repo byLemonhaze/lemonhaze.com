@@ -12,7 +12,7 @@ const BUILT = [
         stack: 'Vanilla JS · Vite',
         desc: 'Dedicated site for the BEST BEFORE collection. Tracks phase, palette, and block-countdown lifespan for each piece in real time.',
         live: 'https://bestbefore.gallery',
-        github: null,
+        github: 'https://github.com/BEST-BEFORE-ORDINALS/bestbefore.gallery',
     },
     // ── Tools & Engines ────────────────────────────────────────────────────────
     {
@@ -21,6 +21,27 @@ const BUILT = [
         desc: 'A generative paint engine that lives in a single self-contained HTML file inscribed on Bitcoin. Seed + tag determinism, no server, no dependencies — runs in any browser as long as Bitcoin runs. Available for commission as bespoke visual environments for hotels, Airbnb properties, and private residences.',
         live: null,
         github: 'https://github.com/byLemonhaze/paint-engine-v1.07-passe-partout',
+        inscriptions: [
+            { label: 'v0',                          id: '0c0ba94df1720c8ed40afbc38f97f806e758de9234f99cbaa060bafd22231efbi0' },
+            { label: 'v0.1 [Grossier]',             id: 'f93a9e3655a0d9531871248b9a3e6b78c1aaee24c76265247a3172b16bdbc15di0' },
+            { label: 'v0.2 [O-Swirl]',              id: '054eb44d57f5bd34a9153c5a605e32710fbc36912945db0fc91693526e7c9201i0' },
+            { label: 'v0.3 [Jackie\'s]',            id: '0b1c283e4fe2637a881639a2a715348c56759840f06f7e1142652da60a4a2d4ei0' },
+            { label: 'v0.3.1 [Max Colors]',         id: '723f548d5a05ff53075cfc3be76587040bef3cc129e95b423f01611c21d8122di0' },
+            { label: 'v0.6 [Wild Patch]',           id: '0109e594769bd8c50e1f8fc15e80db0b93188d881bf2a258c7a88dcbe609b391i0' },
+            { label: 'v0.8 [Under Const.]',         id: '36e74fdb856a69281982f9340739aa10863bbd19da8d7e8fb183b9b9284323f8i0' },
+            { label: 'v0.9 [Chasing The Dragon]',   id: '795a40ea70f17c9de70035395df51dce9510999f0c412bf5068c11115456f1c1i0' },
+            { label: 'v1.03 [Faux-Chat]',           id: '7a6d380af9adc2b7b70ac0cea5d054ab8c69a0d7d0f612e66870213276dd4349i0' },
+            { label: 'v1.04 [Mon Enfant]',          id: '99132e479d4c64dcb8267e5a04b959396e90f8f6628c8741eb39f379e6e40840i0' },
+            { label: 'v1.05 [Hidden Gems]',         id: '2cbef7662c4e6c84457e57c9fd9f04fc585956cf66302ba01862c73e53e1e75di0' },
+            { label: 'v1.07 [Passe-Partout]',       id: 'c8d790c42ce1a43c02acf15114d4053c1c9f086dc2856ebd3031ce268f5d58dbi0' },
+        ],
+    },
+    {
+        name: 'ARTWORK ENCRYPTOR',
+        stack: 'Vanilla JS · Web Crypto',
+        desc: 'Offline browser encryptor for artwork HTML/images. Packages work into a standalone sealed HTML with Argon2id + AES-GCM, passphrase checks, and deterministic export formatting for inscription workflows.',
+        live: null,
+        github: 'https://github.com/byLemonhaze/artwork-encryptor-v4',
     },
     {
         name: 'PALETTE ENGINE',
@@ -65,6 +86,22 @@ const BUILT = [
 export function createProjectsSectionNode() {
     const root = document.createElement('div');
     root.className = 'space-y-0';
+
+    // ── Explainer ─────────────────────────────────────────────────────────────
+    const intro = document.createElement('div');
+    intro.className = 'mb-8 pb-6 border-b border-white/10';
+
+    const label = document.createElement('p');
+    label.className = 'text-[9px] font-mono uppercase tracking-[0.18em] text-white/30 mb-2';
+    label.textContent = 'Field Work';
+
+    const blurb = document.createElement('p');
+    blurb.className = 'text-[11px] text-white/50 leading-relaxed';
+    blurb.textContent = 'Studio Output: Everything here was designed, built, and shipped by Lemonhaze — tools, galleries, engines, systems.';
+
+    intro.appendChild(label);
+    intro.appendChild(blurb);
+    root.appendChild(intro);
 
     BUILT.forEach((project) => {
         const hasAction = Boolean(project.action);
@@ -139,6 +176,30 @@ export function createProjectsSectionNode() {
         row.appendChild(header);
         row.appendChild(desc);
         row.appendChild(links);
+
+        // ── Inscriptions ──────────────────────────────────────────────────────
+        if (project.inscriptions?.length) {
+            const insRow = document.createElement('div');
+            insRow.className = 'flex flex-wrap items-center gap-x-3 gap-y-1 mt-2.5';
+
+            const insLabel = document.createElement('span');
+            insLabel.className = 'text-[9px] font-mono uppercase tracking-[0.12em] text-white/20 shrink-0';
+            insLabel.textContent = 'inscribed:';
+            insRow.appendChild(insLabel);
+
+            project.inscriptions.forEach(({ label, id }) => {
+                const a = document.createElement('a');
+                a.href = `/?a=${id}`;
+                a.className = 'text-[9px] font-mono text-white/35 hover:text-white transition-colors tracking-[0.08em]';
+                a.textContent = label;
+                a.title = id;
+                a.onclick = e => e.stopPropagation();
+                insRow.appendChild(a);
+            });
+
+            row.appendChild(insRow);
+        }
+
         root.appendChild(row);
     });
 
