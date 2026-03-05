@@ -2,9 +2,18 @@
   "collectionSlug": "best-before-by-lemonhaze-x-ordinally",
   "collectionUrl": "https://bestinslot.xyz/ordinals/collections/best-before-by-lemonhaze-x-ordinally",
   "scrapedAt": "2026-03-04T04:58:40.002Z",
-  "totalSales": 606,
-  "totalVolumeBTC": 0.49043289,
+  "totalSales": 607,
+  "totalVolumeBTC": 0.49282289,
   "sales": [
+    {
+      "timestamp": "2026-03-04 00:00:00 UTC",
+      "inscriptionId": "c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i68",
+      "priceBTC": 0.00239,
+      "raw": "Best Before #69 | Manual secondary sale",
+      "hrefs": [],
+      "source": "manual-secondary",
+      "saleType": "secondary"
+    },
     {
       "timestamp": "2026-02-25T01:49:28.000Z",
       "inscriptionId": "c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i339",
