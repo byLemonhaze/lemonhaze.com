@@ -31,7 +31,7 @@ export function renderTopNav(container, {
         [internalSections.highlights.label, 'highlights'],
         [internalSections.supply.label, 'supply'],
         [internalSections.media.label, 'media'],
-        [internalSections.blog.label, 'blog'],
+        // [internalSections.blog.label, 'blog'], // hidden for now
         [internalSections.lab.label, 'lab'],
     ];
     const externalLinks = [

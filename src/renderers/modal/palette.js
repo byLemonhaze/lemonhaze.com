@@ -8,6 +8,9 @@ const AUTO_ID = '__auto';
 const SWATCH_COUNT = 5;
 const LOCK_KEY = 'lh-palette-locks-v1';
 const FAV_KEY  = 'lh-palette-favorites-v1';
+const MAX_FAVORITES = 10;
+const VARIANT_COUNT = 8;
+const VARIANT_BASE_THEME_ID = '__variant-base';
 
 // ── State ──────────────────────────────────────────────────────────────────
 let state = {
@@ -23,7 +26,7 @@ let state = {
 
 // ── Persistence ───────────────────────────────────────────────────────────
 const loadFavorites = () => {
-    try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]').slice(0, 12); }
+    try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]').slice(0, MAX_FAVORITES); }
     catch { return []; }
 };
 const saveFavorites = () => {
@@ -49,9 +52,40 @@ function generate() {
 }
 
 function iterate() {
-    // Deterministic next seed: mulberry step
-    const next = ((state.seed + 0x6d2b79f5) >>> 0);
+    const next = deriveIterationSeed(state.seed);
     regen(next, state.selectedThemeId);
+}
+
+function deriveIterationSeed(seed) {
+    const mixed = (Math.imul(seed ^ 0x9e3779b9, 1664525) + 1013904223) >>> 0;
+    const bounded = mixed % 2_147_483_647;
+    return bounded > 0 ? bounded : 1_337_421;
+}
+
+function serializePalette(colors) {
+    return colors.map(color => color.hex).join(',');
+}
+
+function buildVariantPalettes() {
+    if (!Array.isArray(state.palette) || state.palette.length !== SWATCH_COUNT) return [];
+    const variantBaseTheme = {
+        id: VARIANT_BASE_THEME_ID,
+        name: 'Variant Base',
+        colors: state.palette.map(color => color.hex),
+    };
+    const locked = lockedColors();
+
+    return Array.from({ length: VARIANT_COUNT }, (_, index) => {
+        const mixed = (state.seed + Math.imul(index + 1, 2654435761)) >>> 0;
+        const variantSeed = deriveIterationSeed(mixed || state.seed + index + 1);
+        const generated = generatePalette(variantSeed, locked, variantBaseTheme.id, [variantBaseTheme]);
+        return {
+            seed: variantSeed,
+            themeId: state.themeId,
+            themeName: state.themeName,
+            colors: generated.colors,
+        };
+    });
 }
 
 // ── Copy ───────────────────────────────────────────────────────────────────
@@ -127,6 +161,8 @@ function buildFavCard(colors, index, onApply, onRemove) {
 export function openPaletteModal() {
     // Init
     state.favorites = loadFavorites();
+    state.selectedThemeId = AUTO_ID;
+    state.locks = Array(SWATCH_COUNT).fill(false);
     regen(makeRandomSeed(), AUTO_ID);
 
     const overlay = document.createElement('div');
@@ -191,6 +227,7 @@ export function openPaletteModal() {
         regen(state.seed, state.selectedThemeId);
         renderSwatches();
         renderMeta();
+        renderVariantLab();
     };
 
     const seedSpan = document.createElement('span');
@@ -211,6 +248,7 @@ export function openPaletteModal() {
                 regen(state.seed, state.selectedThemeId);
                 renderSwatches();
                 renderMeta();
+                renderVariantLab();
             }));
         });
     }
@@ -252,12 +290,22 @@ export function openPaletteModal() {
         return btn;
     };
 
-    const genBtn = makeBtn('Generate', () => { generate(); renderSwatches(); renderMeta(); }, true);
-    const iterBtn = makeBtn('Iterate', () => { iterate(); renderSwatches(); renderMeta(); });
+    const genBtn = makeBtn('Generate', () => {
+        generate();
+        renderSwatches();
+        renderMeta();
+        renderVariantLab();
+    }, true);
+    const iterBtn = makeBtn('Iterate', () => {
+        iterate();
+        renderSwatches();
+        renderMeta();
+        renderVariantLab();
+    });
     const saveBtn = makeBtn('Save', () => {
-        const key = state.palette.map(c => c.hex).join(',');
-        if (!state.favorites.some(f => f.map(c => c.hex).join(',') === key)) {
-            state.favorites = [state.palette, ...state.favorites].slice(0, 12);
+        const key = serializePalette(state.palette);
+        if (!state.favorites.some(f => serializePalette(f) === key)) {
+            state.favorites = [state.palette, ...state.favorites].slice(0, MAX_FAVORITES);
             saveFavorites();
             renderFavorites();
         }
@@ -266,6 +314,74 @@ export function openPaletteModal() {
     actions.appendChild(genBtn);
     actions.appendChild(iterBtn);
     actions.appendChild(saveBtn);
+
+    // ── Variant Lab ──────────────────────────────────────────────────────────
+    const variantSection = document.createElement('div');
+    variantSection.className = 'px-6 pb-4';
+
+    const variantHeader = document.createElement('div');
+    variantHeader.className = 'pt-2 border-t border-white/5 mb-2';
+
+    const variantTitle = document.createElement('p');
+    variantTitle.className = 'font-mono text-[9px] uppercase tracking-[0.2em] text-white/20';
+    variantTitle.textContent = 'Variant Lab';
+
+    const variantSub = document.createElement('p');
+    variantSub.className = 'font-mono text-[9px] text-white/12 tracking-[0.1em] mt-1';
+    variantSub.textContent = 'same locks, nearby deterministic seeds';
+
+    variantHeader.appendChild(variantTitle);
+    variantHeader.appendChild(variantSub);
+
+    const variantGrid = document.createElement('div');
+    variantGrid.className = 'grid grid-cols-2 md:grid-cols-4 gap-2';
+
+    function renderVariantLab() {
+        variantGrid.innerHTML = '';
+        const variants = buildVariantPalettes();
+        const currentKey = serializePalette(state.palette);
+
+        variants.forEach((variant) => {
+            const card = document.createElement('button');
+            card.className = 'border border-white/10 hover:border-white/35 transition-colors p-2 text-left';
+
+            const swatches = document.createElement('div');
+            swatches.className = 'flex gap-0.5 mb-1.5';
+            variant.colors.forEach((color) => {
+                const dot = document.createElement('div');
+                dot.style.cssText = `background:${color.hex}; height:12px; flex:1;`;
+                swatches.appendChild(dot);
+            });
+
+            const seed = document.createElement('p');
+            seed.className = 'font-mono text-[9px] tracking-[0.08em] text-white/30';
+            seed.textContent = `seed ${variant.seed}`;
+
+            const isCurrent = serializePalette(variant.colors) === currentKey;
+            if (isCurrent) {
+                card.style.borderColor = 'rgba(255, 255, 255, 0.45)';
+                seed.className = 'font-mono text-[9px] tracking-[0.08em] text-white/80';
+            }
+
+            card.onclick = () => {
+                state.seed = variant.seed;
+                state.palette = variant.colors;
+                state.themeId = variant.themeId;
+                state.themeName = variant.themeName;
+                renderSwatches();
+                renderMeta();
+                renderVariantLab();
+            };
+
+            card.appendChild(swatches);
+            card.appendChild(seed);
+            variantGrid.appendChild(card);
+        });
+    }
+
+    variantSection.appendChild(variantHeader);
+    variantSection.appendChild(variantGrid);
+    renderVariantLab();
 
     // ── Favorites ────────────────────────────────────────────────────────────
     const favSection = document.createElement('div');
@@ -278,6 +394,7 @@ export function openPaletteModal() {
     const favList = document.createElement('div');
 
     function renderFavorites() {
+        favHeader.textContent = `Saved Palettes (${state.favorites.length}/${MAX_FAVORITES})`;
         favList.innerHTML = '';
         if (!state.favorites.length) {
             const empty = document.createElement('p');
@@ -295,6 +412,7 @@ export function openPaletteModal() {
                     state.locks = Array(SWATCH_COUNT).fill(false);
                     renderSwatches();
                     renderMeta();
+                    renderVariantLab();
                 },
                 (idx) => {
                     state.favorites.splice(idx, 1);
@@ -315,6 +433,7 @@ export function openPaletteModal() {
     panel.appendChild(swatchGrid);
     panel.appendChild(exportRow);
     panel.appendChild(actions);
+    panel.appendChild(variantSection);
     panel.appendChild(favSection);
     overlay.appendChild(panel);
     document.body.appendChild(overlay);

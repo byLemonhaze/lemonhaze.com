@@ -177,6 +177,15 @@ async function applyUrlStateFromLocation(options = {}) {
     return sectionFlow.applyUrlStateFromLocation(options);
 }
 
+function renderBootError(message) {
+    if (!galleryGrid) return;
+    galleryGrid.innerHTML = `
+      <div class="w-full h-full min-h-[40vh] flex items-center justify-center px-8">
+        <p class="text-[11px] font-mono uppercase tracking-[0.14em] text-white/45 text-center">${message}</p>
+      </div>
+    `;
+}
+
 // Initialization
 async function init() {
     refreshElements();
@@ -192,7 +201,11 @@ async function init() {
 
     const hasDeepLink = await applyUrlStateFromLocation({ replaceHistory: true });
     if (!hasDeepLink) {
-        loadCollection('Home', { updateUrl: false });
+        if (appState.artworks.length > 0) {
+            loadCollection('Home', { updateUrl: false });
+        } else {
+            renderBootError('Unable to load collection data. Please refresh.');
+        }
     }
 
     setLoading(false);

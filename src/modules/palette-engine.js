@@ -14,9 +14,9 @@ const CURATED_PALETTES = [
     { id: 'edo',             name: 'Edo',              colors: ['#E8DCB4','#EAA221','#C02942','#542437','#53777A'] },
     { id: 'atelier',         name: 'Atelier',          colors: ['#E8DCB4','#223A5E','#9C9A40','#D9593D','#CE7B91','#025669'] },
     { id: 'goat',            name: 'gOat',             colors: ['#FBDAA6','#F37022','#B11016','#2ABA9E','#007096'] },
-    { id: 'rouge-a-levres',  name: 'Rouge à Lèvres',  colors: ['#E8DCB4','#D00000','#9D0208','#6A040F','#370617'] },
+    { id: 'rouge-a-levres',  name: 'Rouge a Levres',  colors: ['#E8DCB4','#D00000','#9D0208','#6A040F','#370617'] },
     { id: 'kk',              name: 'KK',               colors: ['#F0F3BD','#1282A2','#034078','#001F54','#0A1128'] },
-    { id: 'osaka-nights',    name: 'Osaka Nights',     colors: ['#E8DCB4','#4FC1E9','#E23E57','#F9C846','#5F76C8','#202A44'] },
+    { id: 'osaka-nights',    name: 'Osaka Nights',     colors: ['#E8DCB4','#E8DCB4','#4FC1E9','#E23E57','#F9C846','#5F76C8','#202A44'] },
     { id: 'rickj',           name: 'RickJ',            colors: ['#E8DCB4','#F4D58D','#2A9D8F','#264653','#002244','#A6192E'] },
     { id: 'winter-night',    name: 'Winter Night',     colors: ['#4E4E4E','#F511C0','#33312B','#4760E9','#410FF0'] },
     { id: 'neonzilla',       name: 'NEONZILLA',        colors: ['#00FFB0','#F90093','#6C00FF','#151515','#FDF6EF'] },
@@ -98,12 +98,13 @@ const rgbToHsl = ([r, g, b]) => {
 const hexToHsl = (hex) => rgbToHsl(hexToRgb(hex));
 
 // ── Palette generation ─────────────────────────────────────────────────────
-const pickPalette = (rand, preferredId) => {
+const pickPalette = (rand, availablePalettes, preferredId) => {
+    const pool = availablePalettes.length > 0 ? availablePalettes : CURATED_PALETTES;
     if (preferredId) {
-        const found = CURATED_PALETTES.find(p => p.id === preferredId);
+        const found = pool.find(p => p.id === preferredId);
         if (found) return found;
     }
-    return CURATED_PALETTES[Math.floor(rand() * CURATED_PALETTES.length)] ?? CURATED_PALETTES[0];
+    return pool[Math.floor(rand() * pool.length)] ?? pool[0] ?? CURATED_PALETTES[0];
 };
 
 const pickFiveFromPalette = (palette, rand) => {
@@ -134,9 +135,22 @@ const pickFiveFromPalette = (palette, rand) => {
 
 export const makeRandomSeed = () => Math.floor(Math.random() * 2_147_483_647);
 
-export const generatePalette = (seed, lockedColors = [null, null, null, null, null], preferredThemeId) => {
+export const generatePalette = (
+    seed,
+    lockedColors = [null, null, null, null, null],
+    preferredThemeId,
+    customThemes = []
+) => {
     const rand = mulberry32(seed);
-    const selected = pickPalette(rand, preferredThemeId);
+    const mergedThemes = [...CURATED_PALETTES, ...customThemes].filter((theme, index, list) =>
+        !!theme &&
+        typeof theme.id === 'string' &&
+        theme.id.length > 0 &&
+        typeof theme.name === 'string' &&
+        Array.isArray(theme.colors) &&
+        list.findIndex(entry => entry.id === theme.id) === index
+    );
+    const selected = pickPalette(rand, mergedThemes, preferredThemeId);
     const localRand = mulberry32(seed ^ hashString(selected.id));
     const baseColors = pickFiveFromPalette(selected, localRand);
 
