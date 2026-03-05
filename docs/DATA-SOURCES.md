@@ -1,0 +1,67 @@
+# lemonhaze.com Data Sources
+
+## Canonical Sources
+
+| Source | Location | Used For |
+|---|---|---|
+| Provenance JSON (primary) | `https://cdn.lemonhaze.com/assets/assets/provenance.json` | Primary artwork metadata feed |
+| Provenance JSON (secondary) | `https://cdn.lemonhaze.com/assets/provenance.json` | Fallback artwork metadata feed |
+| Provenance JSON (local fallback) | `/data/provenance.json` | Local/offline fallback served from this repo |
+| BEST BEFORE collection feed | `https://bestbefore.space/magic_eden_collection.json` | Live BEST BEFORE roster and high-resolution image URLs |
+| BEST BEFORE live state | `https://bestbefore.space/best-before.json` | Status, phase, lifespan, and palette data per inscription |
+| Hiro inscriptions API | `https://api.hiro.so/ordinals/v1/inscriptions/<id>` | Inscription number, timestamp, sat rarity, owner fallback |
+| Ordinals inscription JSON | `https://ordinals.com/r/inscription/<id>` | Owner/address enrichment for modal metadata |
+| Ordinals content | `https://ordinals.com/content/<id>` | Direct rendering of HTML and on-chain media |
+| BTC/USD spot | `https://api.coinbase.com/v2/prices/BTC-USD/spot` | Approximate fiat conversion for displayed sale prices |
+| Generated sales index | `/data/sales-master/by-inscription.json` | Inscription-level sale history served to the browser |
+| Generated bundle sales index | `/data/sales-master/original-bundle-sales.json` | Bundle-sale enrichment served to the browser |
+
+## Repo-Managed Data
+
+### Curated Content
+
+`src/data.js` and `src/data/*` hold:
+
+- chronology by year
+- collection descriptions
+- career highlights
+- supply tables
+- market links
+- media items
+- blog post content
+
+These files are editorial source code, not mirrored external data.
+
+### Sales Working Data
+
+`data/sales-master/` is the script-side workspace for market-history generation:
+
+- `collections/*.json` stores per-collection sale events
+- `master-of-sales.json` stores merged aggregate data
+- `original-bundle-sales.json` stores bundle-level sale mapping
+
+`public/data/sales-master/` contains the browser-facing build artifacts.
+
+## Sales Data Pipeline
+
+The intended refresh flow is:
+
+1. `npm run scrape:bis:sales`
+2. `npm run sales:merge:manual`
+3. `npm run sales:index`
+
+### What Each Step Does
+
+- `scrape:bis:sales` uses Playwright to extract sale rows from Best in Slot collection pages into `data/sales-master/collections/`.
+- `sales:merge:manual` overlays known OTC/private/manual sales using provenance-aware rules.
+- `sales:index` converts collection-level sales into an inscription-keyed index consumed by the modal UI.
+
+## Special Rules
+
+- BEST BEFORE is intentionally live and overrides its corresponding provenance rows at runtime.
+- Some collections are rendered directly from on-chain HTML/media instead of static CDN imagery.
+- Sales data is best-effort enrichment for UI context; it should not be treated as a complete chain-indexing backend.
+
+## Future State
+
+`db/migrations/0001_sales_index.sql` defines a D1/SQLite schema for a future structured sales backend. It is documentation/scaffolding at the moment, not an active production dependency.

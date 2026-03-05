@@ -17,6 +17,13 @@ This project is a vanilla JS + Vite + Tailwind app focused on:
 - Vanilla JavaScript (modular architecture, no framework runtime)
 - Cloudflare Pages (production hosting/deploy)
 
+## Documentation
+
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- [`docs/API.md`](docs/API.md)
+- [`docs/DATA-SOURCES.md`](docs/DATA-SOURCES.md)
+- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
+
 ## Project Structure
 
 ```text
@@ -89,7 +96,8 @@ The BEST BEFORE collection is treated as a special case throughout: its entries 
 ## Local Development
 
 ```bash
-npm install
+nvm use
+npm ci
 npm run dev
 ```
 
@@ -105,6 +113,12 @@ Preview local production build:
 npm run preview
 ```
 
+Run the standard verification gate:
+
+```bash
+npm run verify
+```
+
 ## Deploy (Cloudflare Pages)
 
 Authenticate first:
@@ -116,7 +130,7 @@ npx wrangler whoami
 Deploy to production project:
 
 ```bash
-npm run build
+npm run verify
 npx wrangler pages deploy dist --project-name lemonhaze
 ```
 
@@ -125,6 +139,7 @@ npx wrangler pages deploy dist --project-name lemonhaze
 - Main site entry is `index.html` (bootstraps `src/main.js`).
 - `supply.html` is a separate Vite input with its own script (`src/supply.js`) and legacy UI treatment.
 - Some older files remain for historical/backup context (for example `src/main.js.bak`).
+- `public/_headers` controls the current cache policy for HTML and built assets.
 
 ## Maintainer
 
