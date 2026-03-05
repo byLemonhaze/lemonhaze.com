@@ -553,6 +553,12 @@ export const MEDIA_ITEMS = [
     link: "https://newsletter.gamma.io/p/the-weekly-stack-another-sothebys"
   },
   {
+    title: "Signed Prints Session — ft. Hosoi",
+    platform: "X",
+    caption: "Footage of Lemonhaze's Hosoi 1/1s Signed Prints session in Saigon, Vietnam. (May 2025)",
+    link: "https://x.com/Ordinals10K/status/1925926852297699741?s=20"
+  },
+  {
     title: "Art on Bitcoin: Using Ordinals Interview",
     platform: "YouTube",
     caption: "Video interview exploring the technical and creative aspects of creating art on Bitcoin.",
@@ -565,33 +571,27 @@ export const MEDIA_ITEMS = [
     link: "https://x.com/Ordinals10K/status/1944434474667978923?s=20"
   },
   {
-    title: "Early Ordinals Artwork Showcase",
+    title: "Good Night Signed Prints Session",
     platform: "X",
-    caption: "Highlighting early contributions to the Bitcoin Ordinals art movement.",
-    link: "https://x.com/Ordinals10K/status/1687632640290238476?s=20"
-  },
-  {
-    title: "Collection Feature",
-    platform: "X",
-    caption: "Showcasing recent collection releases and artistic developments.",
+    caption: "Footage from Lemonhaze's Good Night signed print session in Saigon, Vietnam (August 2025).",
     link: "https://x.com/Ordinals10K/status/1960606032675434976?s=20"
   },
   {
-    title: "Artist Spotlight",
+    title: "Solo Exhibition Highlight",
     platform: "X",
-    caption: "Community spotlight on Lemonhaze's contributions to Bitcoin art.",
+    caption: "Solo exhibition highlight at Suburbs Gallery in Montreal, curated by Gamma.",
     link: "https://x.com/Ordinals10K/status/1954488374007599218?s=20"
   },
   {
-    title: "Artwork Announcement",
+    title: "Interview with Sophie from Fabled",
     platform: "X",
-    caption: "New artwork release and collection update.",
+    caption: "Interview with Sophie from Fabled about Lemonhaze's art practice.",
     link: "https://x.com/Ordinals10K/status/1843648515911888935?s=20"
   },
   {
     title: "Latest Collection Update",
     platform: "X",
-    caption: "Recent announcement and community engagement.",
+    caption: "Best Before thread update covering key moments from Lemonhaze x ORDINALLY's collection lifecycle.",
     link: "https://x.com/Ordinals10K/status/2007162702469230886?s=20"
   },
   {
@@ -611,5 +611,11 @@ export const MEDIA_ITEMS = [
     platform: "Forbes",
     caption: "Featured in Forbes Digital Assets NFT coverage.",
     link: "https://www.forbes.com/digital-assets/nfts/manufactured-by-lemonhaze-manufactured-by-lemonhaze/"
+  },
+  {
+    title: "Blood, Lemon & Tango (Collector Display)",
+    platform: "X",
+    caption: "Collector footage of Blood, Lemon & Tango framed with a SATCHIP.",
+    link: "https://x.com/Ordinals10K/status/1687632640290238476?s=20"
   }
 ];
