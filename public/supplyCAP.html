@@ -1,4 +1,4 @@
-`<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -58,10 +58,10 @@
       thead { position: absolute; left: -9999px; top: -9999px; height: 0; width: 0; overflow: hidden; }
       tbody, tr, td, th { display: block; width: 100%; }
 
-      tbody tr { margin: 0 0 12px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: rgba(255,255,255,0.02); }
+      tbody tr { margin: 0 0 8px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: rgba(255,255,255,0.02); }
       tbody tr:hover { background: rgba(255,255,255,0.04); }
 
-      td { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 12px; border-bottom: 1px solid var(--border); white-space: normal; }
+      td { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: normal; }
       td:last-child { border-bottom: none; }
 
       /* Label before values */
@@ -84,10 +84,6 @@
       #ethTable td:nth-child(6) .btn:first-child {
         margin-left: auto; /* push button group to the right */
       }
-
-      /* Slightly reduce overall padding and row spacing for a tighter stack */
-      td { padding: 8px 10px; }
-      tbody tr { margin: 0 0 8px; }
 
       /* Smaller, tighter buttons on mobile */
       .btn { padding: 4px 8px; font-size: 11px; }
@@ -154,8 +150,7 @@
     }
 
     .kpi h3 { margin: 0; font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
-    .kpi .val { margin-top: 6px; font-size: 24px; font-weight: 800; }
-    .kpi .val { text-shadow: 0 0 12px rgba(232, 220, 180, 0.15); }
+    .kpi .val { margin-top: 6px; font-size: 24px; font-weight: 800; text-shadow: 0 0 12px rgba(232, 220, 180, 0.15); }
 
     .section h2 { font-size: 16px; margin: 16px 0 6px; letter-spacing: .4px; }
     .section .muted { color: var(--muted); font-size: 12px; }
@@ -186,30 +181,7 @@
       transform: translateY(-1px);
     }
 
-    /* Marketplace buttons — purple theme */
-    .btn {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 8px;
-      background: rgba(138, 43, 226, 0.18); /* purple glow */
-      border: 1px solid rgba(186, 104, 255, 0.55);
-      color: #e9ddff;
-      text-decoration: none;
-      font-size: 12px;
-      line-height: 1;
-      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
-      box-shadow: 0 0 0 rgba(0,0,0,0);
-      backdrop-filter: blur(6px) saturate(120%);
-      -webkit-backdrop-filter: blur(6px) saturate(120%);
-    }
-    .btn:hover {
-      background: rgba(138, 43, 226, 0.32);
-      border-color: rgba(200, 130, 255, 0.9);
-      box-shadow: 0 0 14px rgba(186, 104, 255, 0.35);
-      transform: translateY(-1px);
-    }
-    .btn:active { transform: translateY(0); }
-    /* Ensure ME/Gamma/OS variants inherit the purple */
+    /* Ensure ME/Gamma/OS variants keep the slightly tinted label color */
     .btn.me, .btn.gamma { color: #f3e9ff; }
 
     ul { margin: 8px 0 0; padding-left: 18px; }
