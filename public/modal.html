@@ -287,18 +287,10 @@
     }
 
   
-    #artwork .rotate-container::back,
-    #artwork .rotate-container::after-back {
-    }
     #artwork .rotate-container::before,
     #artwork .rotate-container::after,
     #artwork .rotate-container .canvas-side-top,
-    #artwork .rotate-container .canvas-side-bottom,
-    #artwork .rotate-container::back {
-    }
-
-    #artwork .rotate-container::back,
-    #artwork .rotate-container::after-back {
+    #artwork .rotate-container .canvas-side-bottom {
     }
 
    
@@ -425,6 +417,7 @@
       gap: 8px;
       justify-content: flex-end;
       flex-wrap: wrap;
+      position: relative;
     }
     #buttonRow button,
     .meta-action-button {
@@ -450,16 +443,6 @@
     .meta-action-button:hover {
       background: #ffffff;
       color: #000000;
-    }
-
-    #buttonRow button:hover {
-      background: #ffffff;
-      color: #000000;
-    }
-
-    /* Under-button hover labels (minimal, fast) */
-    #buttonRow {
-      position: relative;
     }
 
     #buttonRow button {
@@ -698,6 +681,8 @@
       #artContainer {
         align-items: flex-start !important;
         justify-content: flex-start !important;
+        overflow-y: auto;
+        max-height: 100vh;
       }
 
      
@@ -718,11 +703,6 @@
         display: block;
         margin: 0 auto;
         max-height: none;
-      }
-
-      #artContainer {
-        overflow-y: auto;
-        max-height: 100vh;
       }
 
       #metadata {

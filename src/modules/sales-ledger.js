@@ -2,6 +2,11 @@ const SALES_INDEX_URL = '/data/sales-master/by-inscription.json';
 const BUNDLE_SALES_INDEX_URL = '/data/sales-master/original-bundle-sales.json';
 const BTC_SPOT_URL = 'https://api.coinbase.com/v2/prices/BTC-USD/spot';
 const BTC_SPOT_TTL_MS = 2 * 60 * 1000;
+const usdFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 0,
+});
 
 let salesIndexPromise = null;
 let salesIndexCache = null;
@@ -67,6 +72,25 @@ export function parseSalesTimestampMs(value) {
   return Number.NaN;
 }
 
+export function formatBtc(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return '—';
+  return n.toFixed(8).replace(/\.?0+$/, '');
+}
+
+export function formatBtcCompact(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return '—';
+  return n.toFixed(2);
+}
+
+export function formatUsdToday(btcValue, btcUsdSpot) {
+  const btc = Number(btcValue);
+  const spot = Number(btcUsdSpot);
+  if (!Number.isFinite(btc) || !Number.isFinite(spot) || spot <= 0) return '—';
+  return `${usdFormatter.format(btc * spot)} today`;
+}
+
 async function loadSalesIndex() {
   if (salesIndexCache) return salesIndexCache;
   if (salesIndexPromise) return salesIndexPromise;
@@ -91,6 +115,10 @@ async function loadSalesIndex() {
   return salesIndexPromise;
 }
 
+export async function getSalesIndex() {
+  return loadSalesIndex();
+}
+
 async function loadBundleSalesIndex() {
   if (bundleSalesIndexCache) return bundleSalesIndexCache;
   if (bundleSalesIndexPromise) return bundleSalesIndexPromise;
@@ -113,6 +141,89 @@ async function loadBundleSalesIndex() {
   })();
 
   return bundleSalesIndexPromise;
+}
+
+export function computeSalesSummary(indexPayload) {
+  const inscriptions = indexPayload?.inscriptions && typeof indexPayload.inscriptions === 'object'
+    ? indexPayload.inscriptions
+    : {};
+
+  let primaryBtc = 0;
+  let secondaryBtc = 0;
+  const byCollection = new Map();
+
+  for (const eventsRaw of Object.values(inscriptions)) {
+    const events = Array.isArray(eventsRaw)
+      ? eventsRaw.filter((event) => Number.isFinite(Number(event?.priceBTC)))
+      : [];
+    if (!events.length) continue;
+
+    const explicitPrimaryIndices = new Set(
+      events
+        .map((event, index) => ({ event, index }))
+        .filter(({ event }) => clean(event?.saleType).toLowerCase() === 'primary')
+        .map(({ index }) => index),
+    );
+    const explicitClassifiedCount = events.filter((event) => {
+      const kind = clean(event?.saleType).toLowerCase();
+      return kind === 'primary' || kind === 'secondary';
+    }).length;
+
+    let oldestIdx = -1;
+    if (!explicitPrimaryIndices.size && !explicitClassifiedCount) {
+      let oldestTs = Number.POSITIVE_INFINITY;
+      for (let i = 0; i < events.length; i += 1) {
+        const ts = parseSalesTimestampMs(events[i]?.timestamp);
+        const rank = Number.isFinite(ts) ? ts : Number.POSITIVE_INFINITY;
+        if (rank < oldestTs) {
+          oldestTs = rank;
+          oldestIdx = i;
+        }
+      }
+      if (oldestIdx < 0) oldestIdx = events.length - 1;
+    }
+
+    for (let i = 0; i < events.length; i += 1) {
+      const event = events[i];
+      const price = Number(event.priceBTC);
+      const isPrimary = explicitPrimaryIndices.size
+        ? explicitPrimaryIndices.has(i)
+        : (!explicitClassifiedCount && i === oldestIdx);
+
+      if (isPrimary) primaryBtc += price;
+      else secondaryBtc += price;
+
+      const slug = clean(event.collectionSlug) || 'unknown';
+      const current = byCollection.get(slug) || {
+        slug,
+        sales: 0,
+        primaryBtc: 0,
+        secondaryBtc: 0,
+        totalBtc: 0,
+      };
+      current.sales += 1;
+      if (isPrimary) current.primaryBtc += price;
+      else current.secondaryBtc += price;
+      current.totalBtc += price;
+      byCollection.set(slug, current);
+    }
+  }
+
+  const collections = [...byCollection.values()]
+    .map((entry) => ({
+      ...entry,
+      primaryBtc: Number(entry.primaryBtc.toFixed(8)),
+      secondaryBtc: Number(entry.secondaryBtc.toFixed(8)),
+      totalBtc: Number(entry.totalBtc.toFixed(8)),
+    }))
+    .sort((a, b) => b.totalBtc - a.totalBtc);
+
+  return {
+    primaryBtc: Number(primaryBtc.toFixed(8)),
+    secondaryBtc: Number(secondaryBtc.toFixed(8)),
+    totalBtc: Number((primaryBtc + secondaryBtc).toFixed(8)),
+    collections,
+  };
 }
 
 export async function getSalesForInscription(inscriptionId) {
