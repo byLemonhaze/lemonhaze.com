@@ -95,20 +95,20 @@ export const CHRONOLOGY_BY_YEAR = {
 
 export const ABOUT_LEMONHAZE_TEXT = `
 <p class="mb-4 text-white/90 font-light leading-relaxed">
-  Lemonhaze is a Montreal born and Puerto Escondido based self-taught artist who merges his background in music, entrepreneurship, and expressive writing into an explorative digital art journey.
+  Lemonhaze (b. 1990) is the artistic practice of Frédérick Nathaniel St-Louis (FNST), a self-taught Canadian artist who divides his time between Montreal and Puerto Escondido. Drawing from a background in music, expressive writing, and independent experimentation, he develops an evolving digital art practice rooted in exploration and personal reflection.
 </p>
 <p class="mb-4 text-white/90 font-light leading-relaxed">
-  Continually experimenting with the tools of his time, such as - laptop, JavaScript, AI, and various digital drawing software - Lemonhaze craft moments with pixels.
+  Continually experimenting with the tools of his time — laptops, JavaScript, AI, and digital drawing software — Lemonhaze uses code, algorithms, and digital tools to translate lived experience into evolving visual systems.
 </p>
 <p class="mb-4 text-white/90 font-light leading-relaxed">
   His practice is iterative, spontaneous, and modular, touching a wide range of interests from journaling to physical mediums, while remaining anchored in the development of his personal code-based paint engine.
 </p>
 <p class="mb-4 text-white/90 font-light leading-relaxed">
-  His art acts both as a means of escape and as a tangible memento, often deeply personal - capturing fragments of lived experience, emotion, and time.
+  His art acts both as a means of escape and as a tangible memento, often deeply personal — capturing fragments of lived experience, emotion, and time.
   With a deep appreciation for the lasting nature of the Bitcoin blockchain, he has chosen it as the foundation for his poetic and visual expressions.
 </p>
 <p class="mb-0 text-white/90 font-light leading-relaxed">
-  Lemonhaze’s singular and offbeat journey as an artist, without the constraints of traditional art education or industry expectations - exudes a raw individuality, with each piece serving as a modest reflection of his evolving perspective and soul.
+  Lemonhaze’s singular and offbeat journey as an artist, shaped outside the constraints of traditional art education or industry expectations, reflects a raw individuality. His work is collected by more than 100 individual collectors and has been showcased internationally, including at the Sotheby’s Contemporary Discoveries auction in New York (2025).
 </p>
 `;
 

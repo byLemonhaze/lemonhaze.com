@@ -87,6 +87,10 @@
   }
 }
 
+#about-overlay #about-content p {
+  text-wrap: pretty;
+}
+
 @media (min-width: 768px) {
   body.home-art-first #sidebar {
     width: 78px !important;

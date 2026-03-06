@@ -27,7 +27,7 @@ export function openSectionModal({
     if (content instanceof Node) {
         if (isAboutSectionTitle(title)) {
             const wrap = document.createElement('div');
-            wrap.className = 'max-w-2xl mx-auto';
+            wrap.className = 'max-w-[68rem] mx-auto';
             wrap.appendChild(content);
             aboutContent.replaceChildren(wrap);
         } else {
@@ -37,7 +37,7 @@ export function openSectionModal({
         let finalContent = content;
         if (isAboutSectionTitle(title)) {
             finalContent = `
-                <div class="max-w-2xl mx-auto">
+                <div class="max-w-[68rem] mx-auto">
                     ${content}
                 </div>
              `;
