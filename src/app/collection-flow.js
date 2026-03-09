@@ -41,7 +41,6 @@ export function loadCollectionFlow({
     if (appState.homeInterval) clearInterval(appState.homeInterval);
     const resolvedName = resolveCollectionName(name) || 'Home';
 
-    appState.activeCollectorAddress = null;
     appState.activeArtworkId = null;
     appState.activeSectionKey = null;
     appState.currentFilter = resolvedName;
@@ -53,7 +52,6 @@ export function loadCollectionFlow({
         syncUrlState(
             {
                 collection: resolvedName === 'Home' ? null : resolvedName,
-                collector: null,
                 artwork: null,
                 section: null,
             },

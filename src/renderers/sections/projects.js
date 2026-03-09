@@ -189,7 +189,7 @@ export function createProjectsSectionNode() {
 
             project.inscriptions.forEach(({ label, id }) => {
                 const a = document.createElement('a');
-                a.href = `/?a=${id}`;
+                a.href = `/${encodeURIComponent(id)}`;
                 a.className = 'text-[9px] font-mono text-white/35 hover:text-white transition-colors tracking-[0.08em]';
                 a.textContent = label;
                 a.title = id;

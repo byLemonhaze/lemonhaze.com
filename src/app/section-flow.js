@@ -12,9 +12,7 @@ export function createSectionFlow({
     closeModal,
     openAboutModal,
     router,
-    toCollectionSlug,
     closeAboutModal,
-    loadCollectorGallery,
 }) {
     const openArtworkById = (id, options = {}) => {
         const { updateUrl = true, ensureCollection = false, replaceHistory = false } = options;
@@ -54,7 +52,6 @@ export function createSectionFlow({
                 {
                     section: normalizedKey,
                     artwork: null,
-                    collector: null,
                     collection: null,
                 },
                 { replaceHistory }
@@ -69,14 +66,12 @@ export function createSectionFlow({
             router,
             options,
             allArtworks: appState.artworks,
-            toCollectionSlug,
             resolveCollectionName,
             loadCollection,
             openArtworkById,
             closeModal,
             openSection,
             closeAboutModal,
-            loadCollectorGallery,
             appState,
         });
     };

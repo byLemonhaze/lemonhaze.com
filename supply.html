@@ -78,55 +78,8 @@
                     </div>
                 </header>
 
-                <!-- Stats Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4 animate-fade-in" style="animation-delay: 100ms">
-                    <div class="surface p-6 rounded-2xl border border-white/5">
-                        <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Total Inscribed</h3>
-                        <div class="text-3xl font-bold font-mono" data-bind="ord.inscribed">0</div>
-                    </div>
-                    <div class="surface p-6 rounded-2xl border border-white/5">
-                        <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Total Circulating</h3>
-                        <div class="text-3xl font-bold font-mono text-white/90" data-bind="ord.circulating">0</div>
-                    </div>
-                    <div class="surface p-6 rounded-2xl border border-white/5">
-                        <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Total Burned</h3>
-                        <div class="text-3xl font-bold font-mono text-white/40" data-bind="ord.burned">0</div>
-                    </div>
-                    <div class="surface p-6 rounded-2xl border border-white/5">
-                        <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Primary Volume</h3>
-                        <div class="text-2xl font-bold font-mono text-white/90" data-bind="sales.primary.btc">—</div>
-                        <div class="mt-1 text-[11px] text-white/45 font-mono" data-bind="sales.primary.usd">—</div>
-                    </div>
-                    <div class="surface p-6 rounded-2xl border border-white/5">
-                        <h3 class="text-[10px] uppercase tracking-widest text-white/30 mb-2">Secondary Volume</h3>
-                        <div class="text-2xl font-bold font-mono text-white/90" data-bind="sales.secondary.btc">—</div>
-                        <div class="mt-1 text-[11px] text-white/45 font-mono" data-bind="sales.secondary.usd">—</div>
-                    </div>
-                </div>
-
-                <!-- Ordinals Table -->
-                <section class="animate-fade-in" style="animation-delay: 160ms">
-                    <h2 class="text-xl font-bold mb-6 flex items-center gap-3">
-                        <span class="w-8 h-[1px] bg-white/20"></span>
-                        Digital Ordinals [Bitcoin]
-                    </h2>
-                    <div class="surface rounded-2xl border border-white/5 overflow-x-auto shadow-2xl">
-                        <table class="w-full text-left" id="ordTable text-sm">
-                            <thead>
-                                <tr class="text-[10px] uppercase tracking-widest text-white/20 border-b border-white/5">
-                                    <th class="p-5 font-medium">Collection</th>
-                                    <th class="p-5 font-medium">Year</th>
-                                    <th class="p-5 font-medium text-right hidden md:table-cell">Inscribed</th>
-                                    <th class="p-5 font-medium text-right">Circulating</th>
-                                    <th class="p-5 font-medium text-right hidden md:table-cell">Burned</th>
-                                    <th class="p-5 font-medium text-right">Marketplace</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ord-tbody">
-                                <!-- Populated by JS -->
-                            </tbody>
-                        </table>
-                    </div>
+                <section class="animate-fade-in" style="animation-delay: 100ms">
+                    <div id="supply-section-host"></div>
                 </section>
 
                 <!-- ETH Pre-Ordinals -->
@@ -151,33 +104,6 @@
                                 <!-- Populated by JS -->
                             </tbody>
                         </table>
-                    </div>
-                </section>
-
-                <!-- Physical Works -->
-                <section class="animate-fade-in" style="animation-delay: 400ms">
-                    <h2 class="text-xl font-bold mb-6 flex items-center gap-3">
-                        <span class="w-8 h-[1px] bg-white/20"></span>
-                        Physical Works
-                    </h2>
-                    <div class="surface p-8 rounded-2xl border border-white/5">
-                        <ul class="space-y-3 text-sm text-white/60">
-                            <li class="flex items-center gap-3"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-white/20"></span> 16 Signed Prints on SCR 310 gsm
-                                and Hemp 290gsm (2025)</li>
-                            <li class="flex items-center gap-3"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-white/20"></span> 19 Signed Marker on Jeans
-                                (2023, 2024, 2025)</li>
-                            <li class="flex items-center gap-3"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-white/20"></span> 1 E‑Paper code-base "Sex,
-                                Scotch & Soda" (2025)</li>
-                            <li class="flex items-center gap-3"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-white/20"></span> 1 Gold-flecked Xuan paper
-                                "Leftover Trophy" (2024)</li>
-                            <li class="flex items-center gap-3"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-white/20"></span> 1 Acrylic frame "Satoshi CC
-                                Card" (2025)</li>
-                        </ul>
                     </div>
                 </section>
 

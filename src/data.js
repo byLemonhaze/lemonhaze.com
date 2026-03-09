@@ -272,7 +272,7 @@ export const ORDINALS_SUPPLY_DATA = [
   { name: 'Eclosion 1/1 - Amsterdam Blooms', year: 2023, inscribed: 1, circulating: 1 },
   { name: 'Satoshi 1/1 - Counterfeit Cards S00 - C08', year: 2023, inscribed: 1, circulating: 1 },
   { name: 'Skull 506 [Remix] 1/1 - Skullx', year: 2025, inscribed: 1, circulating: 1 },
-  { name: '1 of 1s (2026)', year: 2026, inscribed: 8, circulating: 8 },
+  { name: '1 of 1s (2026)', year: 2026, inscribed: 9, circulating: 9 },
 ];
 
 export const ETH_SUPPLY_DATA = [
@@ -283,219 +283,236 @@ export const ETH_SUPPLY_DATA = [
   { name: 'Marilyn Monero', platform: 'OpenSea', year: 2021, count: 1 },
 ];
 
-export const MARKET_LINKS = {
+export const PHYSICAL_WORKS_ITEMS = [
+  '16 Signed Prints on SCR 310 gsm and Hemp 290gsm (2025)',
+  '19 Signed Marker on Jeans (2023, 2024, 2025)',
+  '1 E-Paper code-base "Sex, Scotch & Soda" (2025)',
+  '1 Gold-flecked Xuan paper "Leftover Trophy" (2024)',
+  '1 Acrylic frame "Satoshi CC Card" (2025)',
+];
+
+const SATFLOW_LINKS = {
+  'BEST BEFORE': 'https://www.satflow.com/ordinals/best-before-by-lemonhaze-x-ordinally',
+  'Manufactured': 'https://www.satflow.com/ordinals/manufactured-by-lemonhaze',
+  'Satoshi CC Edition': 'https://www.satflow.com/ordinals/counterfeit-cards-series-00?attributes=%7B%22CREATOR%22%3A%5B%22LEMONHAZE%22%5D%7D',
+  'Portrait 2490': 'https://www.satflow.com/ordinals/portrait-2490',
+  '1/1s (2024)': 'https://www.satflow.com/ordinals/1on1-by-lemonhaze',
+  'Deprivation prints': 'https://www.satflow.com/ordinals/deprivation-by-lemonhaze',
+  'Mirage prints': 'https://www.satflow.com/ordinals/mirage-by-lemonhaze',
+  'Trilogy prints': 'https://www.satflow.com/ordinals/prints-trilogy-by-lemonhaze',
+  '1/1s (2025)': 'https://www.satflow.com/ordinals/1on1-2025-by-lemonhaze',
+  'Gentlemen': 'https://www.satflow.com/ordinals/gentlemen-by-lemonhaze',
+  'Miscellaneous': 'https://www.satflow.com/ordinals/miscelleneous-by-lemonhaze',
+  'Games': 'https://www.satflow.com/ordinals/games-by-lemonhaze',
+  'Minute, papillon! Edition': 'https://www.satflow.com/ordinals/minute-papillon-editions-by-lemonhaze',
+  'The Artifacts': 'https://www.satflow.com/ordinals/artifacts-by-lemonhaze',
+  'Cypherville': 'https://www.satflow.com/ordinals/cypherville-ordinals',
+  'Old Fashioned': 'https://www.satflow.com/ordinals/old-fashioned-by-lemonhaze',
+  'Volatility': 'https://www.satflow.com/ordinals/volatility-by-lemonhaze',
+  'La Tentation': 'https://www.satflow.com/ordinals/tentation-by-lemonhaze',
+  'Deville': 'https://www.satflow.com/ordinals/deville-by-lemonhaze',
+  'Generative Composition': 'https://www.satflow.com/ordinals/generative-composition-by-lemonhaze',
+  'Lotus': 'https://www.satflow.com/ordinals/lotus-by-lemonhaze',
+  'Split collectible': 'https://www.satflow.com/ordinals/cypherville-split-collectibles-by-lemonhaze',
+  'Untitled': 'https://www.satflow.com/ordinals/untitled-by-lemonhaze',
+  'Mending Fragments': 'https://www.satflow.com/ordinals/mending-fragments-by-lemonhaze',
+  'Berlin': 'https://www.satflow.com/ordinals/berlin-by-lemonhaze',
+  'Oaxaca': 'https://www.satflow.com/ordinals/oaxaca-by-lemonhaze',
+  'Polaroid': 'https://www.satflow.com/ordinals/polaroid-by-lemonhaze',
+  'Montreal': 'https://www.satflow.com/ordinals/montreal-by-lemonhaze',
+  'Candidly Yours': 'https://www.satflow.com/ordinals/candidly-yours-by-lemonhaze',
+  'Discography': 'https://www.satflow.com/ordinals/discography-by-lemonhaze',
+  'L’Orphelinat': 'https://www.satflow.com/ordinals/orphelinat-by-lemonhaze',
+  'Unregulated Minds': 'https://www.satflow.com/ordinals/unregulated-minds-by-lemonhaze',
+  'Framed': 'https://www.satflow.com/ordinals/framed',
+  'Le Bar a Tapas': 'https://www.satflow.com/ordinals/bar-tapas-by-lemonhaze',
+  'World Tour': 'https://www.satflow.com/ordinals/world-tour-by-lemonhaze',
+  'Ma ville en quatre temps': 'https://www.satflow.com/ordinals/ma-ville-en-quatre-temps-by-lemonhaze',
+  'Tori no Roji': 'https://www.satflow.com/ordinals/tori_no_roji_by_lemonhaze',
+  'Little Get Away': 'https://www.satflow.com/ordinals/little-get-away-by-lemonhaze',
+  'Ordinals Summer': 'https://www.satflow.com/ordinals/ordinals-summer-by-lemonhaze',
+  'Jardin Secret': 'https://www.satflow.com/ordinals/jardin-secret-by-lemonhaze',
+  'Tad Small': 'https://www.satflow.com/ordinals/tad-small-by-lemonhaze',
+  'Fading': 'https://www.satflow.com/ordinals/fading-by-lemonhaze',
+  'Dark Days': 'https://www.satflow.com/ordinals/dark-days-by-lemonhaze',
+  'Bento Box': 'https://www.satflow.com/ordinals/bento-box-by-lemonhaze',
+  'Downtown': 'https://www.satflow.com/ordinals/downtown-by-lemonhaze',
+};
+
+function normalizeMarketLinks(linksByCollection) {
+  return Object.fromEntries(
+    Object.entries(linksByCollection).map(([name, links]) => {
+      const { me: _me, ...rest } = links;
+      const satflow = SATFLOW_LINKS[name];
+      return [name, satflow ? { ...rest, satflow } : rest];
+    })
+  );
+}
+
+const RAW_MARKET_LINKS = {
   'BEST BEFORE': {
-    me: 'https://magiceden.io/ordinals/marketplace/best-before-by-lemonhaze-x-ordinally',
     gamma: 'https://gamma.io/ordinals/collections/best-before/items'
   },
   'Manufactured': {
-    me: 'https://magiceden.io/ordinals/marketplace/manufactured-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/manufactured/items'
   },
   'Satoshi CC Edition': {
-    me: 'https://magiceden.io/ordinals/marketplace/counterfeit-cards?selectedAttributes=%7B%22Artist%22%3A%5B%7B%22traitType%22%3A%22Artist%22%2C%22value%22%3A%22Lemonhaze%22%2C%22label%22%3A%22Lemonhaze%22%2C%22count%22%3A111%2C%22floor%22%3A%220.00400%22%2C%22image%22%3A%22https%3A%2F%2Fimg-cdn.magiceden.dev%2Frs%3Afill%3A400%3A0%3A0%2Fplain%2Fhttps%253A%252F%252Ford-mirror.magiceden.dev%252Fcontent%252Fff15d59bd8080f441b44833cddb63178514e203a1b6470e9403ef2ccc24042c8i0%22%2C%22total%22%3A111%2C%22listedPercentage%22%3A%22%22%7D%5D%7D',
     gamma: 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze'
   },
   'Portrait 2490': {
-    me: 'https://magiceden.io/ordinals/marketplace/portrait-2490',
     gamma: 'https://gamma.io/ordinals/collections/portrait-2490-by-lemonhaze/items'
   },
   '1/1s (2024)': {
-    me: 'https://magiceden.io/ordinals/marketplace/1on1-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/1-1-2024-by-lemonhaze/items'
   },
   'Deprivation prints': {
-    me: 'https://magiceden.io/ordinals/marketplace/deprivation-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/prints/cllo44w190001jr0fajdfe7cc/details'
   },
   'Mirage prints': {
-    me: 'https://magiceden.io/ordinals/marketplace/mirage-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/prints/clr14i0q90003l60fw2205qjr/details'
   },
   'Trilogy prints': {
-    me: 'https://magiceden.io/ordinals/marketplace/prints-trilogy-by-lemonhaze',
     gamma: 'https://gamma.io/explore/prints?creator=clkrid54y0000l50fs5qmsbpp'
   },
   '1/1s (2025)': {
-    me: 'https://magiceden.io/ordinals/marketplace/1on1-2025-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/1-1-2025-by-lemonhaze/items'
   },
   'Gentlemen': {
-    me: 'https://magiceden.io/ordinals/marketplace/gentlemen-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/gentlemen-by-lemonhaze/items'
   },
   'Miscellaneous': {
-    me: 'https://magiceden.io/ordinals/marketplace/miscelleneous-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/miscellaneous-by-lemonhaze/items'
   },
   'Games': {
-    me: 'https://magiceden.io/ordinals/marketplace/games-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/games-manufactured/items'
   },
   'Minute, papillon! Edition': {
-    me: 'https://magiceden.io/ordinals/marketplace/minute-papillon-editions-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/minute-papillon/items'
   },
   'The Artifacts': {
-    me: 'https://magiceden.io/ordinals/marketplace/artifacts-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/theartifacts/items'
   },
   'Cypherville': {
-    me: 'https://magiceden.io/ordinals/marketplace/cypherville',
     gamma: 'https://gamma.io/ordinals/collections/cypherville-by-lemonhaze/items'
   },
   'Old Fashioned': {
-    me: 'https://magiceden.io/ordinals/marketplace/old-fashioned-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/old-fashioned-by-lemonhaze/items'
   },
   'Volatility': {
-    me: 'https://magiceden.io/ordinals/marketplace/volatility-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/volatility-by-lemonhaze/items'
   },
   'Provenance': {
-    me: 'https://magiceden.io/ordinals/marketplace/provenance-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/provenance/items'
   },
   'La Tentation': {
-    me: 'https://magiceden.io/ordinals/marketplace/tentation-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/la-tentation-by-lemonhaze/items'
   },
   'Deville': {
-    me: 'https://magiceden.io/ordinals/marketplace/deville-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/deville-by-lemonhaze/items'
   },
   'Text & Unclassified': {
-    me: 'https://magiceden.io/ordinals/item-details/b8acd0a45be8663deea56e28ab831f067ceec54ef68c416b812e17266acf1eddi0',
     gamma: 'https://gamma.io/ordinals/inscriptions/b8acd0a45be8663deea56e28ab831f067ceec54ef68c416b812e17266acf1eddi0'
   },
   'Generative Composition': {
-    me: 'https://magiceden.io/ordinals/marketplace/generative-composition-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/generative-composition-by-lemonhaze/items'
   },
   'Lotus': {
-    me: 'https://magiceden.io/ordinals/marketplace/lotus-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/lotus-by-lemonhaze/items'
   },
   'Split collectible': {
-    me: 'https://magiceden.io/ordinals/marketplace/cypherville-split-collectibles-by-lemonhaze'
   },
   'Untitled': {
-    me: 'https://magiceden.io/ordinals/marketplace/untitled-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/untitled/items'
   },
   'Mending Fragments': {
-    me: 'https://magiceden.io/ordinals/marketplace/mending-fragments-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/mending-fragments-by-lemonhaze/items'
   },
   'Berlin': {
-    me: 'https://magiceden.io/ordinals/marketplace/berlin-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/berlin-by-lemonhaze/items'
   },
   'Oaxaca': {
-    me: 'https://magiceden.io/ordinals/marketplace/oaxaca-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/oaxaca-by-lemonhaze/items'
   },
   'Polaroid': {
-    me: 'https://magiceden.io/ordinals/marketplace/polaroid-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/polaroid-by-lemonhaze/items'
   },
   'Montreal': {
-    me: 'https://magiceden.io/ordinals/marketplace/montreal-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/montreal/items'
   },
   'Candidly Yours': {
-    me: 'https://magiceden.io/ordinals/marketplace/candidly-yours-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/candidly-yours/items'
   },
   'Discography': {
-    me: 'https://magiceden.io/ordinals/marketplace/discography-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/discography-by-lemonhaze/items'
   },
   'L’Orphelinat': {
-    me: 'https://magiceden.io/ordinals/marketplace/orphelinat-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/LOrphelinat/items'
   },
   'Unregulated Minds': {
-    me: 'https://magiceden.io/ordinals/marketplace/unregulated-minds-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/unregulated-minds/items'
   },
   'Framed': {
-    me: 'https://magiceden.io/ordinals/marketplace/framed',
     gamma: 'https://gamma.io/ordinals/collections/framed-ny-lemonhaze/items'
   },
   'Le Bar a Tapas': {
-    me: 'https://magiceden.io/ordinals/marketplace/bar-tapas-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/le-bar-a-tapas-by-lemonhaze/items'
   },
   'World Tour': {
-    me: 'https://magiceden.io/ordinals/marketplace/world-tour-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/world-tour-by-lemonhaze/items'
   },
   'Ma ville en quatre temps': {
-    me: 'https://magiceden.io/ordinals/marketplace/ma-ville-en-quatre-temps-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/ma-ville-en-quatre-temps%20/items'
   },
   'Tori no Roji': {
-    me: 'https://magiceden.io/ordinals/marketplace/tori_no_roji_by_lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/tori-no-roji/items'
   },
   'Little Get Away': {
-    me: 'https://magiceden.io/ordinals/marketplace/little-get-away-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/little-get-away/items'
   },
   'Ordinals Summer': {
-    me: 'https://magiceden.io/ordinals/marketplace/ordinals-summer-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/ordinals-summer-by-lemonhaze/items'
   },
   'Colors': {
     gamma: 'https://gamma.io/ordinals/collections/colours-by-lemonhaze/items'
   },
   'Cypherville Comics': {
-    me: 'https://magiceden.io/ordinals/marketplace/cypherville-comics-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/cypherville-comics-by-lemonhaze/items'
   },
   'Jardin Secret': {
-    me: 'https://magiceden.io/ordinals/marketplace/jardin-secret-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/jardin-secret-by-lemonhaze/items'
   },
   'Tad Small': {
-    me: 'https://magiceden.io/ordinals/marketplace/tad-small-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/tad-small-by-lemonhaze/items'
   },
   'Fading': {
-    me: 'https://magiceden.io/ordinals/marketplace/fading-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/fading-by-lemonhaze/items'
   },
   'Dark Days': {
-    me: 'https://magiceden.io/ordinals/marketplace/dark-days-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/dark-days-by-lemonhaze/items'
   },
   'Bento Box': {
-    me: 'https://magiceden.io/ordinals/marketplace/bento-box-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/bento-box-by-lemonhaze/items'
   },
   'Downtown': {
-    me: 'https://magiceden.io/ordinals/marketplace/downtown-by-lemonhaze',
     gamma: 'https://gamma.io/ordinals/collections/downtown-by-lemonhaze/items'
   },
   'Eclosion 1/1 - Amsterdam Blooms': {
-    me: 'https://magiceden.io/ordinals/item-details/aaf0e314aab67783d7e92b0987b0c34ae610b41f64aa1ff7cae8c4fbeebf9029i0',
     gamma: 'https://gamma.io/ordinals/collections/amsterdam-blooms/items'
   },
   'Satoshi 1/1 - Counterfeit Cards S00 - C08': {
-    me: 'https://magiceden.io/ordinals/marketplace/counterfeit-cards?selectedAttributes=%7B%22Artist%22%3A%5B%7B%22traitType%22%3A%22Artist%22%2C%22value%22%3A%22Lemonhaze%22%2C%22label%22%3A%22Lemonhaze%22%2C%22count%22%3A111%2C%22floor%22%3A%220.00400%22%2C%22image%22%3A%22https%3A%2F%2Fimg-cdn.magiceden.dev%2Frs%3Afill%3A400%3A0%3A0%2Fplain%2Fhttps%253A%252F%252Ford-mirror.magiceden.dev%252Fcontent%252Fff15d59bd8080f441b44833cddb63178514e203a1b6470e9403ef2ccc24042c8i0%22%2C%22total%22%3A111%2C%22listedPercentage%22%3A%22%22%7D%5D%7D',
     gamma: 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze'
   },
   'Skull 506 [Remix] 1/1 - Skullx': {
-    me: 'https://magiceden.io/ordinals/marketplace/skullx_collabs',
     gamma: 'https://gamma.io/ordinals/collections/skullx-the-artist-series/items'
   }
 };
 
+export const MARKET_LINKS = normalizeMarketLinks(RAW_MARKET_LINKS);
+
 export const LINK_OVERRIDES = {
-  'BEST BEFORE': 'https://BESTBEFORE.SPACE',
-  'Satoshi CC Edition': 'https://magiceden.io/ordinals/marketplace/counterfeit-cards',
-  'Satoshi 1/1 - Counterfeit Cards S00 - C08': 'https://magiceden.io/ordinals/marketplace/counterfeit-cards',
+  'BEST BEFORE': 'https://bestbefore.gallery',
+  'Satoshi CC Edition': 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze',
+  'Satoshi 1/1 - Counterfeit Cards S00 - C08': 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze',
   'Deprivation prints': 'https://lemonhaze.com/collection?name=Orphelinat',
   'Mirage prints': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2024)',
   'Trilogy prints': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2025)',

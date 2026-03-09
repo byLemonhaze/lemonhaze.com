@@ -1,56 +1,32 @@
-import { ROUTE_KEYS, LEGACY_ROUTE_KEYS } from './constants.js';
+import { buildCanonicalPath, parseRouteUrl, stripRouteSearchParams } from './path-state.js';
 
-export function createRouter({ normalizeSectionKey, resolveCollectionParam, toCollectionSlug, getIsApplyingUrlState }) {
+export function createRouter({
+    normalizeSectionKey,
+    resolveCollectionParam,
+    resolveCollectionPathToken,
+    toCollectionSlug,
+    getIsApplyingUrlState,
+}) {
     const getRouteStateFromUrl = () => {
-        const params = new URLSearchParams(window.location.search);
-
-        const rawCollection = params.get(ROUTE_KEYS.collection) ?? params.get(LEGACY_ROUTE_KEYS.collection);
-        const rawSection = params.get(ROUTE_KEYS.section) ?? params.get(LEGACY_ROUTE_KEYS.section);
-        const rawArtwork = params.get(ROUTE_KEYS.artwork) ?? params.get(LEGACY_ROUTE_KEYS.artwork);
-        const rawCollector = params.get(ROUTE_KEYS.collector) ?? params.get(LEGACY_ROUTE_KEYS.collector);
-
-        return {
-            collection: resolveCollectionParam(rawCollection),
-            section: normalizeSectionKey(rawSection),
-            artwork: rawArtwork?.trim() || null,
-            collector: rawCollector?.trim() || null,
-            rawCollection,
-            rawSection,
-            rawArtwork,
-            rawCollector,
-            hasLegacyParams: (
-                params.has(LEGACY_ROUTE_KEYS.collection) ||
-                params.has(LEGACY_ROUTE_KEYS.section) ||
-                params.has(LEGACY_ROUTE_KEYS.artwork) ||
-                params.has(LEGACY_ROUTE_KEYS.collector)
-            )
-        };
+        return parseRouteUrl(new URL(window.location.href), {
+            normalizeSectionKey,
+            resolveCollectionParam,
+            resolveCollectionPathToken,
+            toCollectionSlug,
+        });
     };
 
     const buildUrlWithState = (overrides = {}) => {
         const url = new URL(window.location.href);
-        const params = new URLSearchParams(url.search);
         const currentRouteState = getRouteStateFromUrl();
         const nextRouteState = { ...currentRouteState, ...overrides };
-
-        const allRouteKeys = [
-            ROUTE_KEYS.collection,
-            ROUTE_KEYS.section,
-            ROUTE_KEYS.artwork,
-            ROUTE_KEYS.collector,
-            LEGACY_ROUTE_KEYS.collection,
-            LEGACY_ROUTE_KEYS.section,
-            LEGACY_ROUTE_KEYS.artwork,
-            LEGACY_ROUTE_KEYS.collector
-        ];
-        allRouteKeys.forEach((key) => params.delete(key));
-
-        const collectionSlug = toCollectionSlug(nextRouteState.collection);
-        if (collectionSlug) params.set(ROUTE_KEYS.collection, collectionSlug);
-        if (nextRouteState.section) params.set(ROUTE_KEYS.section, nextRouteState.section);
-        if (nextRouteState.artwork) params.set(ROUTE_KEYS.artwork, nextRouteState.artwork);
-        if (nextRouteState.collector) params.set(ROUTE_KEYS.collector, nextRouteState.collector);
-
+        const params = stripRouteSearchParams(new URLSearchParams(url.search));
+        url.pathname = buildCanonicalPath({
+            collection: nextRouteState.collection,
+            section: nextRouteState.section,
+            artwork: nextRouteState.artwork,
+            toCollectionSlug,
+        });
         url.search = params.toString();
         return url;
     };
@@ -80,121 +56,76 @@ export async function applyRouteFromLocation({
     router,
     options = {},
     allArtworks,
-    toCollectionSlug,
     resolveCollectionName,
     loadCollection,
     openArtworkById,
     closeModal,
     openSection,
     closeAboutModal,
-    loadCollectorGallery,
     appState,
 }) {
     const { replaceHistory = true } = options;
     const routeState = router.getRouteStateFromUrl();
-
-    const collector = routeState.collector;
     const section = routeState.section;
     const id = routeState.artwork;
-    let collection = routeState.collection;
+    const collection = routeState.collection;
 
-    let shouldNormalizeUrl = routeState.hasLegacyParams;
-    const normalizedOverrides = {};
+    let shouldNormalizeUrl = routeState.hasQueryRouteParams || routeState.hasUnsupportedPath || routeState.hasNonCanonicalPath;
+    const normalizedState = {
+        collection,
+        section,
+        artwork: id,
+    };
 
-    if (routeState.rawCollection && collection) {
-        const canonicalCollectionSlug = toCollectionSlug(collection);
-        if (canonicalCollectionSlug && routeState.rawCollection.toLowerCase() !== canonicalCollectionSlug) {
-            normalizedOverrides.collection = collection;
+    const linkedArtwork = id
+        ? allArtworks.find((item) => String(item.id || '').trim() === id)
+        : null;
+    const artworkCollection = resolveCollectionName(linkedArtwork?.collection);
+    const fallbackCollection = collection || null;
+
+    if (id) {
+        normalizedState.section = null;
+        normalizedState.collection = null;
+        if (!artworkCollection) {
+            normalizedState.artwork = null;
+            normalizedState.collection = fallbackCollection;
             shouldNormalizeUrl = true;
         }
+    } else if (section) {
+        normalizedState.collection = null;
     }
 
-    if (routeState.rawSection && !section) {
-        normalizedOverrides.section = null;
-        shouldNormalizeUrl = true;
-    } else if (routeState.rawSection && section && routeState.rawSection !== section) {
-        normalizedOverrides.section = section;
-        shouldNormalizeUrl = true;
-    }
-
-    if (routeState.rawArtwork && routeState.rawArtwork !== id) {
-        normalizedOverrides.artwork = id;
-        shouldNormalizeUrl = true;
-    }
-
-    if (routeState.rawCollector && routeState.rawCollector !== collector) {
-        normalizedOverrides.collector = collector;
-        shouldNormalizeUrl = true;
-    }
-
-    if (collector && (collection || id || section)) {
-        normalizedOverrides.collection = null;
-        normalizedOverrides.artwork = null;
-        normalizedOverrides.section = null;
-        shouldNormalizeUrl = true;
-    }
-
-    if (!collector && id && section) {
-        normalizedOverrides.section = null;
-        shouldNormalizeUrl = true;
-    }
-
-    if (!collector && !id && section && collection) {
-        normalizedOverrides.collection = null;
-        shouldNormalizeUrl = true;
-    }
-
-    if (id && !collection) {
-        const linkedArtwork = allArtworks.find((item) => item.id === id);
-        if (linkedArtwork?.collection) {
-            collection = resolveCollectionName(linkedArtwork.collection);
-            normalizedOverrides.collection = collection;
-            shouldNormalizeUrl = true;
-        }
-    } else if (id && collection) {
-        const linkedArtwork = allArtworks.find((item) => item.id === id);
-        const artworkCollection = resolveCollectionName(linkedArtwork?.collection);
-        if (artworkCollection && collection !== artworkCollection) {
-            collection = artworkCollection;
-            normalizedOverrides.collection = artworkCollection;
-            shouldNormalizeUrl = true;
-        }
-    }
-
-    const hasDeepLink = Boolean(collector || collection || section || id);
+    const hasDeepLink = Boolean(normalizedState.collection || normalizedState.section || normalizedState.artwork);
 
     appState.isApplyingUrlState = true;
     try {
-        if (collector) {
-            closeAboutModal({ updateUrl: false });
-            closeModal({ updateUrl: false });
-            await loadCollectorGallery(collector, { updateUrl: false });
-        } else {
-            loadCollection(collection || 'Home', { updateUrl: false });
-
-            if (id) {
-                const opened = openArtworkById(id, { updateUrl: false, ensureCollection: true });
-                if (!opened) {
-                    normalizedOverrides.artwork = null;
-                    shouldNormalizeUrl = true;
-                    closeModal({ updateUrl: false });
-                }
-                closeAboutModal({ updateUrl: false });
-            } else {
+        if (normalizedState.artwork) {
+            loadCollection(artworkCollection || 'Home', { updateUrl: false });
+            const opened = openArtworkById(normalizedState.artwork, { updateUrl: false, ensureCollection: true });
+            if (!opened) {
+                normalizedState.artwork = null;
+                normalizedState.collection = fallbackCollection;
+                shouldNormalizeUrl = true;
                 closeModal({ updateUrl: false });
-                if (section) {
-                    openSection(section, { updateUrl: false });
-                } else {
-                    closeAboutModal({ updateUrl: false });
-                }
+                closeAboutModal({ updateUrl: false });
+                loadCollection(fallbackCollection || 'Home', { updateUrl: false });
+            } else {
+                closeAboutModal({ updateUrl: false });
             }
+        } else if (normalizedState.section) {
+            closeModal({ updateUrl: false });
+            openSection(normalizedState.section, { updateUrl: false });
+        } else {
+            closeModal({ updateUrl: false });
+            closeAboutModal({ updateUrl: false });
+            loadCollection(normalizedState.collection || 'Home', { updateUrl: false });
         }
     } finally {
         appState.isApplyingUrlState = false;
     }
 
     if (shouldNormalizeUrl) {
-        router.syncUrlState(normalizedOverrides, { replaceHistory });
+        router.syncUrlState(normalizedState, { replaceHistory });
     }
 
     return hasDeepLink;

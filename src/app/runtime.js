@@ -7,6 +7,7 @@ import {
     COL_DESCRIPTIONS,
     ORDINALS_SUPPLY_DATA,
     ETH_SUPPLY_DATA,
+    PHYSICAL_WORKS_ITEMS,
     MARKET_LINKS,
     LINK_OVERRIDES,
     MEDIA_ITEMS,
@@ -14,7 +15,6 @@ import {
 import { BLOG_POSTS } from '../data/blog-posts.js';
 import { appState } from '../state/store.js';
 import { createRouter } from '../router/index.js';
-import { ROUTE_KEYS } from '../router/constants.js';
 import { createCollectionResolver } from '../data/collections.js';
 import {
     loadCollectionFlow,
@@ -100,16 +100,23 @@ const collections = createCollectionResolver({
     getArtworks: () => appState.artworks,
 });
 
-const { slugifyCollectionName, rebuildCollectionSlugs, resolveCollectionName, resolveCollectionParam, toCollectionSlug } = collections;
+const {
+    slugifyCollectionName,
+    rebuildCollectionSlugs,
+    resolveCollectionName,
+    resolveCollectionParam,
+    resolveCollectionPathToken,
+    toCollectionSlug,
+} = collections;
 const INTERNAL_SECTIONS = createInternalSections({
     aboutText: ABOUT_LEMONHAZE_TEXT,
     careerHighlightsItems: CAREER_HIGHLIGHTS_ITEMS,
     ordinalsSupplyData: ORDINALS_SUPPLY_DATA,
     marketLinks: MARKET_LINKS,
     linkOverrides: LINK_OVERRIDES,
+    physicalWorksItems: PHYSICAL_WORKS_ITEMS,
     mediaItems: MEDIA_ITEMS,
     blogPosts: BLOG_POSTS,
-    routeKeys: ROUTE_KEYS,
     toCollectionSlug,
     slugifyCollectionName,
 });
@@ -117,6 +124,7 @@ const normalizeSectionKey = (value) => normalizeSection(value, INTERNAL_SECTIONS
 const router = createRouter({
     normalizeSectionKey,
     resolveCollectionParam,
+    resolveCollectionPathToken,
     toCollectionSlug,
     getIsApplyingUrlState: () => appState.isApplyingUrlState,
 });
@@ -131,9 +139,7 @@ const sectionFlow = createSectionFlow({
     closeModal,
     openAboutModal,
     router,
-    toCollectionSlug,
     closeAboutModal,
-    loadCollectorGallery: () => loadCollection('Home'),
 });
 let hasStarted = false;
 let sectionReturnState = null;
@@ -323,7 +329,6 @@ const artworkModalController = createArtworkModalController({
     getMetaOwner: el.metaOwner,
     closeAboutModal: (options) => closeAboutModal(options),
     onOpenArtworkById: (id) => openArtworkById(id),
-    onGoToCollector: () => {},
 });
 
 function openMetacard(item, imgSrc, isHtml, options = {}) {
@@ -351,7 +356,6 @@ function openAboutModal(title, content, options = {}) {
         };
     }
 
-    appState.activeCollectorAddress = null;
     appState.activeArtworkId = null;
 
     if (sectionKey !== null) {
@@ -386,7 +390,6 @@ function openAboutModal(title, content, options = {}) {
         router.syncUrlState({
             section: appState.activeSectionKey,
             artwork: null,
-            collector: null,
             collection: null,
         }, { replaceHistory });
     }
@@ -399,10 +402,6 @@ function closeAboutModal(options = {}) {
     const hadSection = Boolean(appState.activeSectionKey);
     appState.activeSectionKey = null;
     syncSidebarActiveSection(null);
-
-    if (updateUrl && hadSection) {
-        router.syncUrlState({ section: null }, { replaceHistory });
-    }
 
     if (aboutOverlay && !aboutOverlay.classList.contains('hidden')) {
         aboutOverlay.classList.add('opacity-0');
@@ -417,7 +416,16 @@ function closeAboutModal(options = {}) {
     sectionReturnState = null;
 
     const fallbackCollection = returnState?.collection || 'Home';
-    const targetCollection = fallbackCollection.startsWith('Collector:') ? 'Home' : fallbackCollection;
+    const targetCollection = fallbackCollection === 'Home' ? 'Home' : (resolveCollectionName(fallbackCollection) || 'Home');
+
+    if (updateUrl && hadSection) {
+        router.syncUrlState({
+            section: null,
+            artwork: null,
+            collection: targetCollection === 'Home' ? null : targetCollection,
+        }, { replaceHistory });
+    }
+
     loadCollection(targetCollection, { updateUrl: false });
 }
 

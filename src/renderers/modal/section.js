@@ -57,10 +57,7 @@ export function openSectionModal({
         syncUrlState({
             section: appState.activeSectionKey,
             artwork: null,
-            collector: appState.activeCollectorAddress || null,
-            collection: appState.activeCollectorAddress
-                ? null
-                : (appState.currentFilter === 'Home' ? null : appState.currentFilter),
+            collection: appState.currentFilter === 'Home' ? null : appState.currentFilter,
         }, { replaceHistory });
     }
 }

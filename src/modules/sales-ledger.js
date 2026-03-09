@@ -1,5 +1,4 @@
-const SALES_INDEX_URL = '/data/sales-master/by-inscription.json';
-const BUNDLE_SALES_INDEX_URL = '/data/sales-master/original-bundle-sales.json';
+const HISTORICAL_SALES_SHEET_URL = '/data/sales-master/historical-sales-sheet.json';
 const BTC_SPOT_URL = 'https://api.coinbase.com/v2/prices/BTC-USD/spot';
 const BTC_SPOT_TTL_MS = 2 * 60 * 1000;
 const usdFormatter = new Intl.NumberFormat('en-US', {
@@ -8,10 +7,10 @@ const usdFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 0,
 });
 
+let historicalSalesPromise = null;
+let historicalSalesCache = null;
 let salesIndexPromise = null;
 let salesIndexCache = null;
-let bundleSalesIndexPromise = null;
-let bundleSalesIndexCache = null;
 
 let btcSpotPromise = null;
 let btcSpotValue = null;
@@ -91,56 +90,89 @@ export function formatUsdToday(btcValue, btcUsdSpot) {
   return `${usdFormatter.format(btc * spot)} today`;
 }
 
+function compareEventsNewestFirst(a, b) {
+  const ta = parseSalesTimestampMs(a?.timestamp);
+  const tb = parseSalesTimestampMs(b?.timestamp);
+  const aValid = Number.isFinite(ta);
+  const bValid = Number.isFinite(tb);
+  if (aValid && bValid) return tb - ta;
+  if (aValid) return -1;
+  if (bValid) return 1;
+  return (Number(b?.priceBTC) || 0) - (Number(a?.priceBTC) || 0);
+}
+
+function isBundleLikeRow(row) {
+  return Boolean(
+    clean(row?.bundleLabel)
+    || clean(row?.bundleType)
+    || Number.isFinite(Number(row?.bundleCount)),
+  );
+}
+
+async function loadHistoricalSalesSheet() {
+  if (historicalSalesCache) return historicalSalesCache;
+  if (historicalSalesPromise) return historicalSalesPromise;
+
+  historicalSalesPromise = (async () => {
+    try {
+      const res = await fetch(HISTORICAL_SALES_SHEET_URL, { cache: 'no-store' });
+      if (!res.ok) return { rows: [] };
+      const payload = await res.json();
+      historicalSalesCache = payload && typeof payload === 'object'
+        ? payload
+        : { rows: [] };
+      return historicalSalesCache;
+    } catch {
+      historicalSalesCache = { rows: [] };
+      return historicalSalesCache;
+    } finally {
+      historicalSalesPromise = null;
+    }
+  })();
+
+  return historicalSalesPromise;
+}
+
+function buildSalesIndexFromRows(rows) {
+  const inscriptions = {};
+  const safeRows = Array.isArray(rows) ? rows : [];
+
+  for (const row of safeRows) {
+    const inscriptionId = normalizeInscriptionId(row?.inscriptionId);
+    if (!inscriptionId) continue;
+
+    const entryType = clean(row?.entryType).toLowerCase();
+    if (entryType === 'bundle-sale') continue;
+    if (!entryType && isBundleLikeRow(row)) continue;
+
+    if (!Array.isArray(inscriptions[inscriptionId])) inscriptions[inscriptionId] = [];
+    inscriptions[inscriptionId].push(row);
+  }
+
+  for (const events of Object.values(inscriptions)) {
+    events.sort(compareEventsNewestFirst);
+  }
+
+  return { inscriptions };
+}
+
 async function loadSalesIndex() {
   if (salesIndexCache) return salesIndexCache;
   if (salesIndexPromise) return salesIndexPromise;
 
   salesIndexPromise = (async () => {
-    try {
-      const res = await fetch(SALES_INDEX_URL, { cache: 'no-store' });
-      if (!res.ok) return { inscriptions: {} };
-      const payload = await res.json();
-      salesIndexCache = payload && typeof payload === 'object'
-        ? payload
-        : { inscriptions: {} };
-      return salesIndexCache;
-    } catch {
-      salesIndexCache = { inscriptions: {} };
-      return salesIndexCache;
-    } finally {
-      salesIndexPromise = null;
-    }
-  })();
+    const historicalSheet = await loadHistoricalSalesSheet();
+    salesIndexCache = buildSalesIndexFromRows(historicalSheet?.rows);
+    return salesIndexCache;
+  })().finally(() => {
+    salesIndexPromise = null;
+  });
 
   return salesIndexPromise;
 }
 
 export async function getSalesIndex() {
   return loadSalesIndex();
-}
-
-async function loadBundleSalesIndex() {
-  if (bundleSalesIndexCache) return bundleSalesIndexCache;
-  if (bundleSalesIndexPromise) return bundleSalesIndexPromise;
-
-  bundleSalesIndexPromise = (async () => {
-    try {
-      const res = await fetch(BUNDLE_SALES_INDEX_URL, { cache: 'no-store' });
-      if (!res.ok) return { inscriptions: {} };
-      const payload = await res.json();
-      bundleSalesIndexCache = payload && typeof payload === 'object'
-        ? payload
-        : { inscriptions: {} };
-      return bundleSalesIndexCache;
-    } catch {
-      bundleSalesIndexCache = { inscriptions: {} };
-      return bundleSalesIndexCache;
-    } finally {
-      bundleSalesIndexPromise = null;
-    }
-  })();
-
-  return bundleSalesIndexPromise;
 }
 
 export function computeSalesSummary(indexPayload) {
@@ -230,42 +262,10 @@ export async function getSalesForInscription(inscriptionId) {
   const key = normalizeInscriptionId(inscriptionId);
   if (!key) return [];
 
-  const payload = await loadSalesIndex();
-  const events = Array.isArray(payload?.inscriptions?.[key])
-    ? payload.inscriptions[key]
-    : [];
-
-  return [...events].sort((a, b) => {
-    const ta = parseSalesTimestampMs(a?.timestamp);
-    const tb = parseSalesTimestampMs(b?.timestamp);
-    const aValid = Number.isFinite(ta);
-    const bValid = Number.isFinite(tb);
-    if (aValid && bValid) return tb - ta;
-    if (aValid) return -1;
-    if (bValid) return 1;
-    return (Number(b?.priceBTC) || 0) - (Number(a?.priceBTC) || 0);
-  });
-}
-
-export async function getBundleSalesForInscription(inscriptionId) {
-  const key = normalizeInscriptionId(inscriptionId);
-  if (!key) return [];
-
-  const payload = await loadBundleSalesIndex();
-  const events = Array.isArray(payload?.inscriptions?.[key])
-    ? payload.inscriptions[key]
-    : [];
-
-  return [...events].sort((a, b) => {
-    const ta = parseSalesTimestampMs(a?.timestamp);
-    const tb = parseSalesTimestampMs(b?.timestamp);
-    const aValid = Number.isFinite(ta);
-    const bValid = Number.isFinite(tb);
-    if (aValid && bValid) return tb - ta;
-    if (aValid) return -1;
-    if (bValid) return 1;
-    return (Number(b?.priceBTC) || 0) - (Number(a?.priceBTC) || 0);
-  });
+  const payload = await loadHistoricalSalesSheet();
+  const rows = Array.isArray(payload?.rows) ? payload.rows : [];
+  const events = rows.filter((row) => normalizeInscriptionId(row?.inscriptionId) === key);
+  return [...events].sort(compareEventsNewestFirst);
 }
 
 export async function getBtcUsdSpot() {
