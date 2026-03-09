@@ -35,7 +35,6 @@ const ELEMENT_IDS = {
     testerStatusText: 'tester-status-text',
     mobileBackdrop: 'mobile-backdrop',
     topNavSection: 'top-nav-section',
-    collectorSearchInput: 'collector-search-input',
     carouselStyles: 'carousel-styles',
     metaOwner: 'meta-owner',
 };

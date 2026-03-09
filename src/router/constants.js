@@ -1,13 +1,7 @@
-export const ROUTE_KEYS = {
-    collection: 'c',
-    section: 's',
-    artwork: 'a',
-    collector: 'u'
+export const QUERY_ROUTE_KEYS = {
+    collection: ['c', 'collection', 'name'],
+    section: ['s', 'section'],
+    artwork: ['a', 'id'],
 };
 
-export const LEGACY_ROUTE_KEYS = {
-    collection: 'collection',
-    section: 'section',
-    artwork: 'id',
-    collector: 'collector'
-};
+export const ALL_QUERY_ROUTE_KEYS = Object.values(QUERY_ROUTE_KEYS).flat();

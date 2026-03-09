@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-05T15:35:09.685Z",
+  "generatedAt": "2026-03-09T13:38:10.726Z",
   "source": "sales-master-collections",
   "collectionCount": 38,
-  "saleCount": 1548,
+  "saleCount": 1549,
   "inscriptionCount": 1000,
   "inscriptions": {
     "28cc6c152b736d59551de08f0d6bd7984a49a0a1f9eca80df62938eaa96ac7e6i0": [
@@ -465,6 +465,22 @@
         "collectionSlug": "berlin-by-lemonhaze",
         "source": "bestinslot-v2api",
         "saleType": null
+      }
+    ],
+    "c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i315": [
+      {
+        "timestamp": "2026-03-07 00:00:00 UTC",
+        "priceBTC": 0.001,
+        "collectionSlug": "best-before-by-lemonhaze-x-ordinally",
+        "source": "manual-secondary",
+        "saleType": "secondary"
+      },
+      {
+        "timestamp": "2025-09-24 00:00:00 UTC",
+        "priceBTC": 0.000633,
+        "collectionSlug": "best-before-by-lemonhaze-x-ordinally",
+        "source": "manual-primary-normalization",
+        "saleType": "primary"
       }
     ],
     "c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i68": [
@@ -3451,15 +3467,6 @@
       }
     ],
     "c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i313": [
-      {
-        "timestamp": "2025-09-24 00:00:00 UTC",
-        "priceBTC": 0.000633,
-        "collectionSlug": "best-before-by-lemonhaze-x-ordinally",
-        "source": "manual-primary-normalization",
-        "saleType": "primary"
-      }
-    ],
-    "c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i315": [
       {
         "timestamp": "2025-09-24 00:00:00 UTC",
         "priceBTC": 0.000633,

@@ -5,7 +5,6 @@ const _state = {
     homeInterval: null,
     activeSectionKey: null,
     activeArtworkId: null,
-    activeCollectorAddress: null,
     isApplyingUrlState: false,
     collapsedYears: new Set(),
 };

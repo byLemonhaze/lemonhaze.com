@@ -11,6 +11,21 @@ export function createCollectionResolver({ chronologyByYear, getArtworks }) {
             .replace(/(^-|-$)/g, '');
     };
 
+    const findKnownCollectionName = (value) => {
+        const rawValue = String(value || '').trim();
+        if (!rawValue) return null;
+
+        const chronologyCollections = Object.values(chronologyByYear).flat();
+        const chronologyMatch = chronologyCollections.find((col) => col.toLowerCase() === rawValue.toLowerCase());
+        if (chronologyMatch) return chronologyMatch;
+
+        const artworks = getArtworks();
+        const artworkMatch = artworks.find((item) => (item.collection || '').toLowerCase() === rawValue.toLowerCase());
+        if (artworkMatch?.collection) return artworkMatch.collection;
+
+        return null;
+    };
+
     const resolveCollectionName = (name) => {
         if (!name) return null;
 
@@ -18,13 +33,8 @@ export function createCollectionResolver({ chronologyByYear, getArtworks }) {
         if (!rawName) return null;
         if (rawName.toLowerCase() === 'home') return 'Home';
 
-        const chronologyCollections = Object.values(chronologyByYear).flat();
-        const chronologyMatch = chronologyCollections.find((col) => col.toLowerCase() === rawName.toLowerCase());
-        if (chronologyMatch) return chronologyMatch;
-
-        const artworks = getArtworks();
-        const artworkMatch = artworks.find((item) => (item.collection || '').toLowerCase() === rawName.toLowerCase());
-        if (artworkMatch?.collection) return artworkMatch.collection;
+        const knownCollection = findKnownCollectionName(rawName);
+        if (knownCollection) return knownCollection;
 
         return rawName;
     };
@@ -71,7 +81,7 @@ export function createCollectionResolver({ chronologyByYear, getArtworks }) {
         const slugMatch = collectionSlugToName.get(rawValue.toLowerCase());
         if (slugMatch) return slugMatch;
 
-        return resolveCollectionName(rawValue);
+        return findKnownCollectionName(rawValue);
     };
 
     const resolveCollectionPathToken = (value) => {

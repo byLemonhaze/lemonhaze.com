@@ -6,7 +6,6 @@ import {
     getBtcUsdSpot,
     parseSalesTimestampMs,
     getSalesForInscription,
-    getBundleSalesForInscription,
 } from '../../modules/sales-ledger.js';
 
 const HIRO_API = 'https://api.hiro.so/ordinals/v1/inscriptions';
@@ -160,7 +159,6 @@ export function createArtworkModalController({
     getMetaOwner,
     closeAboutModal,
     onOpenArtworkById,
-    onGoToCollector,
 }) {
     let metadataListenersBound = false;
     let htmlSaveClickLocked = false;
@@ -377,7 +375,7 @@ export function createArtworkModalController({
         satTypeRow.id = 'meta-rarity-row';
         modalMetadata.appendChild(satTypeRow);
 
-        // 8. Sales history placeholder (filled from local in-house sales index)
+        // 8. Sales history placeholder (filled from the historical sales sheet)
         const salesWrap = document.createElement('div');
         salesWrap.id = 'meta-sales';
         const salesLoading = document.createElement('div');
@@ -567,15 +565,10 @@ export function createArtworkModalController({
 
         Promise.all([
             getSalesForInscription(item.id),
-            getBundleSalesForInscription(item.id),
             getBtcUsdSpot(),
         ])
-            .then(([events, bundleEvents, btcUsdSpot]) => {
-                const mergedEvents = [
-                    ...(Array.isArray(events) ? events : []),
-                    ...(Array.isArray(bundleEvents) ? bundleEvents : []),
-                ];
-                applySalesData(mergedEvents, btcUsdSpot);
+            .then(([events, btcUsdSpot]) => {
+                applySalesData(events, btcUsdSpot);
             })
             .catch(() => applySalesData([], null));
 
@@ -774,9 +767,6 @@ export function createArtworkModalController({
 
         const shareBtn = pill('⎋ Share', 'Copy share link to clipboard', () => {
             const url = router.buildUrlWithState({
-                collection: resolveCollectionName(item.collection) || appState.currentFilter,
-                collector: null,
-                section: null,
                 artwork: item.id,
             });
             navigator.clipboard.writeText(url.toString()).then(() => {
@@ -815,7 +805,6 @@ export function createArtworkModalController({
         bindMetadataInteractions();
         closeAboutModal({ updateUrl: false });
         appState.activeSectionKey = null;
-        appState.activeCollectorAddress = null;
         appState.activeArtworkId = item.id;
 
         modalTitle.textContent = item.name;
@@ -843,9 +832,6 @@ export function createArtworkModalController({
 
                 if (updateUrl) {
                     router.syncUrlState({
-                        collection: resolveCollectionName(item.collection) || (appState.currentFilter === 'Home' ? null : appState.currentFilter),
-                        collector: null,
-                        section: null,
                         artwork: item.id,
                     }, { replaceHistory });
                 }
@@ -885,9 +871,6 @@ export function createArtworkModalController({
 
         if (updateUrl) {
             router.syncUrlState({
-                collection: resolveCollectionName(item.collection) || (appState.currentFilter === 'Home' ? null : appState.currentFilter),
-                collector: null,
-                section: null,
                 artwork: item.id,
             }, { replaceHistory });
         }
@@ -901,7 +884,12 @@ export function createArtworkModalController({
         appState.activeArtworkId = null;
 
         if (updateUrl && hadArtwork) {
-            router.syncUrlState({ artwork: null }, { replaceHistory });
+            const activeCollection = resolveCollectionName(appState.currentFilter);
+            router.syncUrlState({
+                artwork: null,
+                section: appState.activeSectionKey || null,
+                collection: activeCollection && activeCollection !== 'Home' ? activeCollection : null,
+            }, { replaceHistory });
         }
 
         if (!modalOverlay || modalOverlay.classList.contains('hidden')) return;

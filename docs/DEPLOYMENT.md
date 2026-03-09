@@ -69,6 +69,7 @@ npx wrangler pages deploy dist --project-name lemonhaze
 
 ## Operational Notes
 
-- Cloudflare Pages Functions under `functions/api/` are deployed automatically with the site bundle.
+- Cloudflare Pages Functions under `functions/` are deployed automatically with the site bundle.
+- `functions/[[path]].ts` is required for SPA deep links so direct visits to `/about`, `/best-before`, and `/<inscription-id>` resolve to the app shell instead of a 404.
 - `db/migrations/` is not active in production until a D1 binding and runtime integration are added.
 - If data scripts are used to refresh sales indices, regenerate the browser-facing outputs before deploy so `public/data/sales-master/` stays in sync.

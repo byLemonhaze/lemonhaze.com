@@ -6,8 +6,7 @@ This project is a vanilla JS + Vite + Tailwind app focused on:
 
 - Collection browsing by year
 - Artwork modal deep links
-- Section views (About, Highlights, Supply, Media, Collectors)
-- Collector portfolio lookup by Bitcoin address
+- Section views (About, Highlights, Supply, Media, Lab)
 - Ordinals-native context (inscriptions, provenance, on-chain fallback)
 
 ## Stack
@@ -35,7 +34,8 @@ src/
     collection-flow.js        # collection loading + active state
   router/
     index.js                  # URL state parser/sync/apply
-    constants.js              # compact + legacy route keys
+    path-state.js             # canonical path helpers + legacy query parsing
+    constants.js              # accepted legacy query aliases
   state/
     store.js                  # shared app state
   renderers/
@@ -48,7 +48,7 @@ src/
     sections/
       index.js
       view.js
-      about/highlights/supply/media/collectors renderers
+      about/highlights/supply/media/lab renderers
   ui/
     elements.js
     header.js
@@ -61,21 +61,19 @@ src/
 
 ## URL State and Deep Links
 
-The app uses query-based route state and normalizes legacy params.
+The app now uses canonical path-based routes:
 
-- `c` = collection
-- `s` = section
-- `a` = artwork inscription id
-- `u` = collector address
+- `/<collection-slug>`
+- `/<section-name>`
+- `/<inscription-id>`
 
 Examples:
 
-- `/?c=best-before`
-- `/?s=about`
-- `/?c=jardin-secret&a=<inscription_id>`
-- `/?u=<btc_address>`
+- `/best-before`
+- `/about`
+- `/0c57ce6325d8da6242488d453c13bac0e1e1eaca6a5b3bf4078a6bdd6768d49di0`
 
-Legacy params (`collection`, `section`, `id`, `collector`) are still accepted and normalized to compact keys.
+Legacy query links are still accepted and normalized into path slugs. Supported aliases include `c`, `collection`, `name`, `s`, `section`, `a`, and `id`.
 
 ## Data Sources
 
@@ -138,6 +136,10 @@ npx wrangler pages deploy dist --project-name lemonhaze
 
 - Main site entry is `index.html` (bootstraps `src/main.js`).
 - `supply.html` is a separate Vite input with its own script (`src/supply.js`) and legacy UI treatment.
+- `src/data.js` is the canonical source for supply rows, marketplace links, and supply-page link overrides.
+- `src/renderers/sections/supply.js` is the shared supply renderer used by both the in-app Supply section and the standalone `/supply.html` page.
+- `public/_redirects` carries the legacy `/supplyCAP.html` -> `/supply.html` redirect.
+- `functions/[[path]].ts` serves the SPA shell for clean direct-path visits and old app entry pages like `/modal.html`.
 - Some older files remain for historical/backup context (for example `src/main.js.bak`).
 - `public/_headers` controls the current cache policy for HTML and built assets.
 

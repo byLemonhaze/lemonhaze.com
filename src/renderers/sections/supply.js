@@ -81,17 +81,31 @@ function createTableHeader() {
     return headerRow;
 }
 
+function defaultResolveCollectionHref({
+    row,
+    toCollectionSlug,
+    slugifyCollectionName,
+    linkOverrides,
+}) {
+    const collectionSlug = toCollectionSlug?.(row.name) || slugifyCollectionName?.(row.name);
+    return linkOverrides[row.name] || `/${encodeURIComponent(collectionSlug)}`;
+}
+
 function createSupplyRow({
     row,
-    routeKeys,
     toCollectionSlug,
     slugifyCollectionName,
     marketLinks,
     linkOverrides,
+    resolveCollectionHref,
 }) {
     const burned = row.inscribed - row.circulating;
-    const collectionSlug = toCollectionSlug(row.name) || slugifyCollectionName(row.name);
-    const collectionLink = linkOverrides[row.name] || `/?${routeKeys.collection}=${encodeURIComponent(collectionSlug)}`;
+    const collectionLink = resolveCollectionHref({
+        row,
+        toCollectionSlug,
+        slugifyCollectionName,
+        linkOverrides,
+    });
     const links = marketLinks[row.name] || {};
 
     const tr = createNode('tr', 'border-b border-white/5 text-[11px] hover:bg-white/5');
@@ -108,8 +122,8 @@ function createSupplyRow({
 
     const linksCell = createNode('td', 'py-2 pl-4 text-right');
     const linksWrap = createNode('div', 'flex justify-end gap-1');
-    if (links.me) linksWrap.appendChild(createMarketButton('ME', links.me));
     if (links.gamma) linksWrap.appendChild(createMarketButton('Gamma', links.gamma));
+    if (links.satflow) linksWrap.appendChild(createMarketButton('Satflow', links.satflow));
     linksCell.appendChild(linksWrap);
 
     tr.appendChild(nameCell);
@@ -126,7 +140,10 @@ export function createSupplySectionNode({
     ordinalsSupplyData,
     marketLinks,
     linkOverrides,
-    routeKeys,
+    physicalWorksItems = [],
+    physicalSectionTitle = 'Physical & Other',
+    ordinalsSectionTitle = 'Digital Ordinals',
+    resolveCollectionHref = defaultResolveCollectionHref,
     toCollectionSlug,
     slugifyCollectionName,
 }) {
@@ -203,7 +220,7 @@ export function createSupplySectionNode({
         'text-xs font-bold uppercase tracking-widest text-white/30 mb-3 md:mb-4 flex items-center gap-2'
     );
     ordinalsTitle.appendChild(createNode('span', 'w-4 h-[1px] bg-white/10'));
-    ordinalsTitle.appendChild(document.createTextNode('Digital Ordinals'));
+    ordinalsTitle.appendChild(document.createTextNode(ordinalsSectionTitle));
     ordinalsSection.appendChild(ordinalsTitle);
 
     const tableWrap = createNode('div', 'overflow-x-auto');
@@ -216,11 +233,11 @@ export function createSupplySectionNode({
     ordinalsSupplyData.forEach((row) => {
         tbody.appendChild(createSupplyRow({
             row,
-            routeKeys,
             toCollectionSlug,
             slugifyCollectionName,
             marketLinks,
             linkOverrides,
+            resolveCollectionHref,
         }));
     });
     table.appendChild(tbody);
@@ -229,24 +246,26 @@ export function createSupplySectionNode({
 
     root.appendChild(ordinalsSection);
 
-    const physicalSection = createNode('section', 'opacity-80');
-    const physicalTitle = createNode(
-        'h3',
-        'text-xs font-bold uppercase tracking-widest text-white/30 mb-4 flex items-center gap-2'
-    );
-    physicalTitle.appendChild(createNode('span', 'w-4 h-[1px] bg-white/10'));
-    physicalTitle.appendChild(document.createTextNode('Physical & Other'));
-    physicalSection.appendChild(physicalTitle);
+    if (physicalWorksItems.length) {
+        const physicalSection = createNode('section', 'opacity-80');
+        const physicalTitle = createNode(
+            'h3',
+            'text-xs font-bold uppercase tracking-widest text-white/30 mb-4 flex items-center gap-2'
+        );
+        physicalTitle.appendChild(createNode('span', 'w-4 h-[1px] bg-white/10'));
+        physicalTitle.appendChild(document.createTextNode(physicalSectionTitle));
+        physicalSection.appendChild(physicalTitle);
 
-    const list = createNode('ul', 'space-y-2 text-xs text-white/60 font-mono');
-    const lines = [
-        '- 16 Signed Prints on SCR/Hemp (2025)',
-        '- 19 Signed Marker on Jeans (2023-25)',
-        '- 1 E-Paper "Sex, Scotch & Soda" (2025)',
-    ];
-    lines.forEach((line) => list.appendChild(createNode('li', null, line)));
-    physicalSection.appendChild(list);
-    root.appendChild(physicalSection);
+        const list = createNode('ul', 'space-y-2 md:space-y-3 text-xs md:text-sm text-white/60');
+        physicalWorksItems.forEach((line) => {
+            const item = createNode('li', 'flex items-start gap-3');
+            item.appendChild(createNode('span', 'mt-1.5 w-1.5 h-1.5 rounded-full bg-white/20 shrink-0'));
+            item.appendChild(createNode('span', 'leading-relaxed', line));
+            list.appendChild(item);
+        });
+        physicalSection.appendChild(list);
+        root.appendChild(physicalSection);
+    }
 
     const primaryValueNodes = [
         mobilePrimaryCard.querySelector('div:nth-child(2)'),
