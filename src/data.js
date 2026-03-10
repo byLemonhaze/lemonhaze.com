@@ -292,7 +292,6 @@ export const PHYSICAL_WORKS_ITEMS = [
 ];
 
 const SATFLOW_LINKS = {
-  'BEST BEFORE': 'https://www.satflow.com/ordinals/best-before-by-lemonhaze-x-ordinally',
   'Manufactured': 'https://www.satflow.com/ordinals/manufactured-by-lemonhaze',
   'Satoshi CC Edition': 'https://www.satflow.com/ordinals/counterfeit-cards-series-00?attributes=%7B%22CREATOR%22%3A%5B%22LEMONHAZE%22%5D%7D',
   'Portrait 2490': 'https://www.satflow.com/ordinals/portrait-2490',
