@@ -44,6 +44,7 @@ export async function fetchBBCollection() {
 // EXACT CHRONOLOGY AS REQUESTED
 export const CHRONOLOGY_BY_YEAR = {
   "2026": [
+    "Into The Wild",
     "1 of 1s (2026)"
   ],
   "2025": [
@@ -130,6 +131,7 @@ export const CAREER_HIGHLIGHTS_ITEMS = [
 export const COL_DESCRIPTIONS = {
   "1/1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
   "1 of 1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+  "Into The Wild": `Mirage outputs and whatnot!`,
   "BEST BEFORE": `Art with a best-before date: born sealed at inscription, unsealed by its collector, and aging on block time. Many live short lives, some endure, and the rare outlier may never expire.`,
   "Manufactured": `"When gravity becomes manufactured, you remember the scent of a lemon."`,
   "Satoshi CC Edition": "Counterfeit Cards Series 00 - Card 08",
