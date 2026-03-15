@@ -8,6 +8,13 @@ const BUILT = [
         github: 'https://github.com/byLemonhaze/catalogue.gallery',
     },
     {
+        name: 'LATCH WALLET',
+        stack: 'React Native · Expo Router · TypeScript',
+        desc: 'Demo-wallet prototype. Self-custodial spending layer — hold BTC and USDT, spend anywhere Visa is accepted. Full UI: balance hero, Visa card reveal, transaction feed, send flow with numpad.',
+        live: '/lab/latch-demo-wallet',
+        github: null,
+    },
+    {
         name: 'BEST BEFORE GALLERY',
         stack: 'Vanilla JS · Vite',
         desc: 'Dedicated site for the BEST BEFORE collection. Tracks phase, palette, and block-countdown lifespan for each piece in real time.',
