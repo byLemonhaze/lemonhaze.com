@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gooey Morphic Nav — Latch</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #040D0B;
+    font-family: 'Syne', sans-serif;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; user-select: none;
+  }
+
+  body::before {
+    content: ''; position: fixed; bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 440px; height: 160px;
+    background: radial-gradient(ellipse at 50% 100%, rgba(15,143,122,0.13) 0%, transparent 68%);
+    pointer-events: none;
+  }
+
+  body::after {
+    content: ''; position: fixed; inset: 0; z-index: 200; pointer-events: none;
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  /* Hidden SVG filter definition */
+  .svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  .scene {
+    display: flex; flex-direction: column; align-items: center; gap: 52px;
+    width: 100%;
+  }
+
+  .hint {
+    font-size: 9px; font-weight: 700; letter-spacing: 3.5px;
+    text-transform: uppercase; color: rgba(255,255,255,0.09);
+  }
+
+  /* ── NAV PANEL ── */
+  .nav-panel {
+    position: relative;
+    width: 340px; height: 66px;
+    border-radius: 33px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: visible;
+  }
+
+  /* ── GOO LAYER — filter applied here ── */
+  .nav-goo {
+    position: absolute;
+    inset: 0; border-radius: 33px;
+    overflow: visible;
+    filter: url(#goo);
+    pointer-events: none;
+  }
+
+  /* Indicator pill (morphs between tabs) */
+  .indicator {
+    position: absolute;
+    top: 50%; left: 0;
+    transform: translateY(-50%);
+    width: 64px; height: 46px;
+    border-radius: 23px;
+    background: #0F8F7A;
+    will-change: transform;
+  }
+
+  /* Seed dot at each tab position — indicator absorbs these on arrival */
+  .seed {
+    position: absolute;
+    top: 50%; width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #0F8F7A;
+    transform: translateX(-50%) translateY(-50%);
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  /* Seeds swell on hover cue — driven by JS */
+
+  /* ── LABELS LAYER — crisp text, clickable ── */
+  .nav-labels {
+    position: absolute; inset: 0;
+    display: flex; align-items: center;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+
+  .nav-item {
+    flex: 1; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    position: relative; z-index: 10;
+    transition: none;
+  }
+
+  .nav-item-icon svg {
+    width: 18px; height: 18px;
+    stroke: rgba(255,255,255,0.30); fill: none;
+    stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+    transition: stroke 0.25s;
+  }
+
+  .nav-item-label {
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    transition: color 0.25s;
+  }
+
+  .nav-item.active .nav-item-icon svg { stroke: rgba(255,255,255,0.95); }
+  .nav-item.active .nav-item-label { color: rgba(255,255,255,0.90); }
+
+  /* Subtle feedback on non-active hover */
+  .nav-item:not(.active):hover .nav-item-icon svg { stroke: rgba(255,255,255,0.55); }
+  .nav-item:not(.active):hover .nav-item-label { color: rgba(255,255,255,0.45); }
+</style>
+</head>
+<body>
+
+<!-- SVG filter -->
+<svg class="svg-defs">
+  <defs>
+    <filter id="goo" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix"
+        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9"
+        result="goo"/>
+      <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="scene">
+  <div class="hint">tap to morph</div>
+
+  <div class="nav-panel" id="navPanel">
+
+    <!-- goo layer -->
+    <div class="nav-goo" id="navGoo">
+      <div class="indicator" id="indicator"></div>
+      <div class="seed" data-tab="0" id="seed0"></div>
+      <div class="seed" data-tab="1" id="seed1"></div>
+      <div class="seed" data-tab="2" id="seed2"></div>
+      <div class="seed" data-tab="3" id="seed3"></div>
+    </div>
+
+    <!-- labels layer -->
+    <div class="nav-labels" id="navLabels">
+
+      <div class="nav-item active" data-tab="0">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20"><path d="M3 9l7-6 7 6v9H13v-4H7v4H3z"/></svg>
+        </span>
+        <span class="nav-item-label">Home</span>
+      </div>
+
+      <div class="nav-item" data-tab="1">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20"><rect x="3" y="5" width="14" height="10" rx="2"/><path d="M3 9h14"/></svg>
+        </span>
+        <span class="nav-item-label">Card</span>
+      </div>
+
+      <div class="nav-item" data-tab="2">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20"><path d="M3 14l4-4 3 3 4-5 3 4"/></svg>
+        </span>
+        <span class="nav-item-label">Activity</span>
+      </div>
+
+      <div class="nav-item" data-tab="3">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="10" cy="5.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="10" cy="14.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span class="nav-item-label">More</span>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── 1D spring ──────────────────────────────────────────────────
+class Spring1D {
+  constructor(k = 0.12, d = 0.72, init = 0) {
+    this.x = init; this.v = 0; this.t = init; this.k = k; this.d = d;
+  }
+  to(t) { this.t = t; }
+  step() {
+    this.v = (this.v + (this.t - this.x) * this.k) * this.d;
+    this.x += this.v;
+  }
+}
+
+const panel     = document.getElementById('navPanel');
+const indicator = document.getElementById('indicator');
+const labels    = document.getElementById('navLabels');
+const items     = [...labels.querySelectorAll('.nav-item')];
+const seeds     = [0,1,2,3].map(i => document.getElementById('seed'+i));
+
+// Compute tab center positions
+function getTabCenters() {
+  const panelRect = panel.getBoundingClientRect();
+  return items.map(item => {
+    const r = item.getBoundingClientRect();
+    return r.left - panelRect.left + r.width / 2;
+  });
+}
+
+const IND_W = 64, IND_H = 46;
+const SEED_D = 18;
+
+let activeTab = 0;
+let centers = [];
+
+// Position seeds at tab centers
+function positionSeeds() {
+  centers = getTabCenters();
+  seeds.forEach((seed, i) => {
+    seed.style.left = centers[i] + 'px';
+  });
+}
+
+const xSpring = new Spring1D(0.11, 0.74);
+const scaleXS = new Spring1D(0.14, 0.70, 1);
+const scaleYS = new Spring1D(0.14, 0.70, 1);
+
+function selectTab(i) {
+  if (i === activeTab) return;
+  activeTab = i;
+  positionSeeds();
+  xSpring.to(centers[i] - IND_W / 2);
+
+  // Active labels
+  items.forEach((el, j) => el.classList.toggle('active', j === i));
+}
+
+// Click handlers
+items.forEach((item, i) => {
+  item.addEventListener('click', () => selectTab(i));
+
+  // Hover: swell the corresponding seed
+  item.addEventListener('mouseenter', () => {
+    if (i !== activeTab) {
+      seeds[i].style.transform = `translateX(-50%) translateY(-50%) scale(1.6)`;
+    }
+  });
+  item.addEventListener('mouseleave', () => {
+    seeds[i].style.transform = `translateX(-50%) translateY(-50%) scale(1)`;
+  });
+});
+
+// Init
+window.addEventListener('resize', positionSeeds);
+setTimeout(() => {
+  positionSeeds();
+  xSpring.x = xSpring.t = centers[0] - IND_W / 2;
+}, 50);
+
+// Pulse idle — subtle scale breathe on indicator via spring
+let lastV = 0;
+function loop(t) {
+  xSpring.step();
+
+  // Velocity-driven squash & stretch (liquid blob travelling)
+  const vx = xSpring.v;
+  const speed = Math.abs(vx);
+  const targetSX = 1 + speed * 0.9;
+  const targetSY = 1 / (1 + speed * 0.4);
+  scaleXS.to(targetSX);
+  scaleYS.to(targetSY);
+  scaleXS.step(); scaleYS.step();
+
+  // Idle pulse when settled
+  const settled = speed < 0.05;
+  const pulse = settled ? (1 + Math.sin(t * 0.0018) * 0.025) : 1;
+
+  const x = xSpring.x;
+  const sx = scaleXS.x * pulse;
+  const sy = scaleYS.x * pulse;
+
+  // Transform origin at center of indicator
+  indicator.style.transform = `translateY(-50%) translateX(${x}px) scaleX(${sx}) scaleY(${sy})`;
+  indicator.style.left = '0';
+
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

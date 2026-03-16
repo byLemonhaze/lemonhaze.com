@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liquid Glass Nav</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-blob1: #a78bfa;
+    --bg-blob2: #60a5fa;
+    --bg-blob3: #34d399;
+    --text: #1a1a2e;
+    --text-muted: rgba(26,26,46,0.6);
+    --glass-bg: rgba(255,255,255,0.18);
+    --glass-border: rgba(255,255,255,0.55);
+    --glass-shadow: 0 8px 60px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10);
+    --glass-inner-shadow: inset 0 1px 0 rgba(255,255,255,0.75), inset 0 -1px 0 rgba(0,0,0,0.08);
+    --pill-bg: rgba(255,255,255,0.55);
+    --pill-shadow: 0 2px 12px rgba(0,0,0,0.13);
+    --divider: rgba(0,0,0,0.12);
+    --page-bg: #e8e4f0;
+    --transition-theme: background 0.5s ease, color 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+  }
+
+  [data-theme="dark"] {
+    --bg-blob1: #7c3aed;
+    --bg-blob2: #1d4ed8;
+    --bg-blob3: #065f46;
+    --text: #f0f0ff;
+    --text-muted: rgba(240,240,255,0.55);
+    --glass-bg: rgba(20,20,40,0.35);
+    --glass-border: rgba(255,255,255,0.18);
+    --glass-shadow: 0 8px 60px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.4);
+    --glass-inner-shadow: inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.3);
+    --pill-bg: rgba(255,255,255,0.15);
+    --pill-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    --divider: rgba(255,255,255,0.12);
+    --page-bg: #0d0d1a;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    overflow: hidden;
+  }
+
+  /* ── BACKGROUND ── */
+  .bg {
+    position: fixed; inset: 0;
+    background: var(--page-bg);
+    transition: background 0.6s ease;
+    overflow: hidden;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.75;
+    animation: float linear infinite;
+    transition: background 0.6s ease;
+  }
+
+  .blob1 {
+    width: 520px; height: 520px;
+    background: var(--bg-blob1);
+    top: -100px; left: -80px;
+    animation-duration: 18s;
+  }
+  .blob2 {
+    width: 600px; height: 600px;
+    background: var(--bg-blob2);
+    bottom: -120px; right: -100px;
+    animation-duration: 24s;
+    animation-direction: reverse;
+  }
+  .blob3 {
+    width: 420px; height: 420px;
+    background: var(--bg-blob3);
+    top: 40%; left: 45%;
+    animation-duration: 20s;
+    animation-delay: -8s;
+  }
+
+  @keyframes float {
+    0%   { transform: translate(0px, 0px) scale(1); }
+    25%  { transform: translate(40px, -30px) scale(1.05); }
+    50%  { transform: translate(20px, 50px) scale(0.97); }
+    75%  { transform: translate(-30px, 20px) scale(1.03); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+
+  /* ── VIEWPORT CENTER ── */
+  .stage {
+    position: relative; z-index: 10;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .headline {
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    transition: var(--transition-theme);
+  }
+
+  /* ── LIQUID GLASS CAPSULE ── */
+  .nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 8px;
+    border-radius: 100px;
+
+    /* Material */
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid var(--glass-border);
+
+    /* Caustics + drop shadow */
+    box-shadow:
+      var(--glass-shadow),
+      var(--glass-inner-shadow),
+      0 1px 40px rgba(160,120,255,0.12) inset;
+
+    transition: var(--transition-theme);
+  }
+
+  /* Specular highlight — curved wet surface reflection */
+  .nav::before {
+    content: '';
+    position: absolute;
+    top: 1px; left: 12%; right: 12%;
+    height: 40%;
+    border-radius: 100px 100px 60% 60%;
+    background: linear-gradient(
+      180deg,
+      rgba(255,255,255,0.72) 0%,
+      rgba(255,255,255,0.22) 60%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* Bottom caustic light fringe */
+  .nav::after {
+    content: '';
+    position: absolute;
+    bottom: 1px; left: 20%; right: 20%;
+    height: 30%;
+    border-radius: 0 0 100px 100px;
+    background: linear-gradient(
+      0deg,
+      rgba(255,255,255,0.28) 0%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* Interactive mouse glare */
+  .glare {
+    position: absolute;
+    inset: 0;
+    border-radius: 100px;
+    background: radial-gradient(
+      circle 80px at var(--mx, 50%) var(--my, 50%),
+      rgba(255,255,255,0.22),
+      transparent 70%
+    );
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 4;
+    transition: background 0.05s linear;
+  }
+
+  /* ── SLIDING ACTIVE PILL ── */
+  .pill {
+    position: absolute;
+    height: calc(100% - 12px);
+    border-radius: 100px;
+    background: var(--pill-bg);
+    box-shadow: var(--pill-shadow);
+    z-index: 0;
+    transition: left 0.5s cubic-bezier(0.34, 1.2, 0.64, 1),
+                width 0.5s cubic-bezier(0.34, 1.2, 0.64, 1),
+                background 0.5s ease, box-shadow 0.5s ease;
+    top: 6px;
+    pointer-events: none;
+  }
+
+  /* ── NAV BUTTONS ── */
+  .nav-btn {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 16px;
+    border: none; background: transparent; cursor: pointer;
+    border-radius: 100px;
+    color: var(--text-muted);
+    font-size: 14px; font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: color 0.3s ease, transform 0.15s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-btn:active { transform: scale(0.92); }
+
+  .nav-btn.active { color: var(--text); }
+
+  .nav-btn svg {
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+  .nav-btn:active svg { transform: scale(0.88); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 1px; height: 28px;
+    background: var(--divider);
+    margin: 0 4px;
+    flex-shrink: 0;
+    transition: background 0.5s ease;
+  }
+
+  /* ── THEME TOGGLE ── */
+  .theme-btn {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px;
+    border: none; background: transparent; cursor: pointer;
+    border-radius: 50%;
+    color: var(--text-muted);
+    transition: color 0.3s ease, transform 0.15s ease;
+  }
+
+  .theme-btn:active { transform: scale(0.88); }
+
+  .theme-btn .icon-sun,
+  .theme-btn .icon-moon {
+    position: absolute;
+    transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+
+  /* Light mode: show sun */
+  .theme-btn .icon-sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+  .theme-btn .icon-moon { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+
+  /* Dark mode: show moon */
+  [data-theme="dark"] .theme-btn .icon-sun  { opacity: 0; transform: rotate(90deg) scale(0.5); }
+  [data-theme="dark"] .theme-btn .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+</style>
+</head>
+<body>
+
+<div class="bg">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+</div>
+
+<div class="stage">
+  <div class="headline">Liquid Glass Navigation</div>
+
+  <nav class="nav" id="nav">
+    <div class="glare" id="glare"></div>
+    <div class="pill" id="pill"></div>
+
+    <!-- Home -->
+    <button class="nav-btn active" data-idx="0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+        <path d="M9 21V12h6v9"/>
+      </svg>
+      Home
+    </button>
+
+    <!-- Call -->
+    <button class="nav-btn" data-idx="1">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.14 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 5.99 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
+      </svg>
+      Call
+    </button>
+
+    <!-- List -->
+    <button class="nav-btn" data-idx="2">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="8" y1="6" x2="21" y2="6"/>
+        <line x1="8" y1="12" x2="21" y2="12"/>
+        <line x1="8" y1="18" x2="21" y2="18"/>
+        <line x1="3" y1="6" x2="3.01" y2="6"/>
+        <line x1="3" y1="12" x2="3.01" y2="12"/>
+        <line x1="3" y1="18" x2="3.01" y2="18"/>
+      </svg>
+      List
+    </button>
+
+    <div class="divider"></div>
+
+    <!-- Theme toggle -->
+    <button class="theme-btn" id="themeBtn" title="Toggle theme">
+      <!-- Sun -->
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <!-- Moon -->
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+  </nav>
+</div>
+
+<script>
+  const nav    = document.getElementById('nav');
+  const pill   = document.getElementById('pill');
+  const glare  = document.getElementById('glare');
+  const btns   = nav.querySelectorAll('.nav-btn');
+  const themeBtn = document.getElementById('themeBtn');
+  const html   = document.documentElement;
+
+  // ── PILL positioning ──
+  function movePill(btn) {
+    const navRect = nav.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    pill.style.left  = (btnRect.left - navRect.left) + 'px';
+    pill.style.width = btnRect.width + 'px';
+  }
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      movePill(btn);
+    });
+  });
+
+  // Init pill position (no transition on first render)
+  pill.style.transition = 'none';
+  requestAnimationFrame(() => {
+    movePill(nav.querySelector('.nav-btn.active'));
+    requestAnimationFrame(() => {
+      pill.style.transition = '';
+    });
+  });
+
+  // Reposition on resize
+  window.addEventListener('resize', () => {
+    const active = nav.querySelector('.nav-btn.active');
+    if (active) movePill(active);
+  });
+
+  // ── MOUSE GLARE ──
+  nav.addEventListener('mousemove', (e) => {
+    const rect = nav.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1) + '%';
+    const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%';
+    glare.style.setProperty('--mx', x);
+    glare.style.setProperty('--my', y);
+  });
+
+  nav.addEventListener('mouseleave', () => {
+    glare.style.setProperty('--mx', '50%');
+    glare.style.setProperty('--my', '50%');
+  });
+
+  // ── THEME TOGGLE ──
+  themeBtn.addEventListener('click', () => {
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+</script>
+</body>
+</html>

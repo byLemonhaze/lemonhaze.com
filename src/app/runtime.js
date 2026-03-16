@@ -202,7 +202,11 @@ async function init() {
 
     const [provenanceData, bbLive] = await Promise.all([fetchProvenance(), fetchBBCollection()]);
     const nonBB = provenanceData.filter(item => item.collection !== 'BEST BEFORE');
-    appState.artworks = bbLive.length > 0 ? [...bbLive, ...nonBB] : provenanceData;
+    const bbProvenance = provenanceData.find(item => item.collection === 'BEST BEFORE')?.provenance || null;
+    const enrichedBBLive = bbProvenance
+        ? bbLive.map(item => ({ ...item, provenance: bbProvenance }))
+        : bbLive;
+    appState.artworks = bbLive.length > 0 ? [...enrichedBBLive, ...nonBB] : provenanceData;
     rebuildCollectionSlugs();
 
     const hasDeepLink = await applyUrlStateFromLocation({ replaceHistory: true });

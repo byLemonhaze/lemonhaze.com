@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latch Transaction List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── LATCH KIT TOKENS ── */
+  :root {
+    --bg:            #0A0A0A;
+    --surface:       rgba(18,18,28,0.95);
+    --surface-lo:    rgba(255,255,255,0.04);
+    --surface-hi:    rgba(255,255,255,0.08);
+    --border:        rgba(255,255,255,0.07);
+    --border-hi:     rgba(255,255,255,0.13);
+    --accent:        #0F8F7A;
+    --accent-bright: rgba(15,200,160,0.95);
+    --accent-fill:   rgba(15,143,122,0.18);
+    --accent-border: rgba(15,143,122,0.35);
+    --accent-glow:   rgba(15,143,122,0.28);
+    --text:          rgba(255,255,255,0.92);
+    --text-muted:    rgba(255,255,255,0.45);
+    --text-dim:      rgba(255,255,255,0.22);
+    --r-xl:          24px;
+    --r-lg:          18px;
+    --r-md:          14px;
+    --font:          'Syne', sans-serif;
+    --mono:          'Fragment Mono', monospace;
+    --frame:         375px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: var(--font);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* ── CONTAINER ── */
+  .container {
+    width: var(--frame);
+    padding: 0 20px;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .section-link {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: var(--accent-bright);
+    cursor: pointer;
+  }
+
+  /* ── ROW ── */
+  .tx-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: opacity 0.12s ease;
+  }
+
+  .tx-row:last-child { border-bottom: none; }
+  .tx-row:active { opacity: 0.65; }
+
+  /* Icon tile */
+  .tx-icon {
+    width: 38px; height: 38px;
+    border-radius: var(--r-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .tx-icon svg { stroke: var(--text-muted); }
+  .tx-icon.in svg { stroke: var(--accent-bright); }
+
+  .tx-icon.in {
+    background: var(--accent-fill);
+    border-color: var(--accent-border);
+  }
+
+  /* Body */
+  .tx-body { flex: 1; min-width: 0; }
+
+  .tx-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.1px;
+  }
+
+  .tx-meta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 2px;
+  }
+
+  .tx-date {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.2px;
+  }
+
+  .tx-dot {
+    width: 2px; height: 2px;
+    border-radius: 50%;
+    background: var(--border-hi);
+    flex-shrink: 0;
+  }
+
+  .tx-channel {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* Amount */
+  .tx-amount {
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: -0.3px;
+    flex-shrink: 0;
+  }
+
+  .tx-amount.out { color: var(--text-muted); }
+  .tx-amount.in  { color: var(--accent-bright); }
+
+  /* ── LABEL ── */
+  .page-label {
+    margin-top: 16px;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--text-dim); text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="section-header">
+    <span class="section-title">Recent</span>
+    <span class="section-link">See all</span>
+  </div>
+
+  <div class="tx-row">
+    <div class="tx-icon in">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/>
+      </svg>
+    </div>
+    <div class="tx-body">
+      <div class="tx-label">Bitcoin Sale</div>
+      <div class="tx-meta">
+        <span class="tx-date">Mar 14</span>
+        <div class="tx-dot"></div>
+        <span class="tx-channel">on-chain</span>
+      </div>
+    </div>
+    <div class="tx-amount in">+$294.18</div>
+  </div>
+
+  <div class="tx-row">
+    <div class="tx-icon">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+      </svg>
+    </div>
+    <div class="tx-body">
+      <div class="tx-label">Grocery Store</div>
+      <div class="tx-meta">
+        <span class="tx-date">Mar 14</span>
+        <div class="tx-dot"></div>
+        <span class="tx-channel">card</span>
+      </div>
+    </div>
+    <div class="tx-amount out">−$48.32</div>
+  </div>
+
+  <div class="tx-row">
+    <div class="tx-icon in">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/>
+      </svg>
+    </div>
+    <div class="tx-body">
+      <div class="tx-label">Transfer from Martin</div>
+      <div class="tx-meta">
+        <span class="tx-date">Mar 12</span>
+        <div class="tx-dot"></div>
+        <span class="tx-channel">on-chain</span>
+      </div>
+    </div>
+    <div class="tx-amount in">+$120.00</div>
+  </div>
+
+  <div class="tx-row">
+    <div class="tx-icon">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+      </svg>
+    </div>
+    <div class="tx-body">
+      <div class="tx-label">Café Olimpico</div>
+      <div class="tx-meta">
+        <span class="tx-date">Mar 11</span>
+        <div class="tx-dot"></div>
+        <span class="tx-channel">card</span>
+      </div>
+    </div>
+    <div class="tx-amount out">−$7.50</div>
+  </div>
+
+  <div class="tx-row">
+    <div class="tx-icon">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+      </svg>
+    </div>
+    <div class="tx-body">
+      <div class="tx-label">Send to Emma</div>
+      <div class="tx-meta">
+        <span class="tx-date">Mar 10</span>
+        <div class="tx-dot"></div>
+        <span class="tx-channel">on-chain</span>
+      </div>
+    </div>
+    <div class="tx-amount out">−$200.00</div>
+  </div>
+
+  <div class="page-label">Transaction List</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Ring Transaction List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── GOLD RING LIGHT KIT TOKENS ── */
+  :root {
+    --bg:            #EDE8DF;
+    --surface:       rgba(255,255,255,0.60);
+    --surface-lo:    rgba(0,0,0,0.03);
+    --surface-hi:    rgba(0,0,0,0.06);
+    --border:        rgba(0,0,0,0.07);
+    --border-hi:     rgba(0,0,0,0.12);
+    --accent:        #C49746;
+    --accent-bright: #E8C96A;
+    --accent-fill:   rgba(196,151,70,0.12);
+    --accent-border: rgba(196,151,70,0.28);
+    --accent-glow:   rgba(232,175,72,0.22);
+    --inner-plate:   rgb(238,233,224);
+    --text:          rgba(0,0,0,0.82);
+    --text-muted:    rgba(0,0,0,0.42);
+    --text-dim:      rgba(0,0,0,0.22);
+    --r-xl:          24px;
+    --r-lg:          18px;
+    --r-md:          14px;
+    --font:          'Syne', sans-serif;
+    --mono:          'Fragment Mono', monospace;
+    --frame:         375px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: var(--font);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  /* Film grain */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 100;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  /* Ambient gold glow */
+  .ambient {
+    position: fixed; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px; height: 120px;
+    background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  /* ── LIST CONTAINER ── */
+  .list-wrap {
+    position: relative; z-index: 1;
+    width: var(--frame);
+    padding: 0 16px;
+  }
+
+  /* Section header */
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px 12px;
+  }
+
+  .list-title {
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .list-all {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ── TRANSACTION CARD ── */
+  .tx-list {
+    background: var(--surface);
+    border: 1px solid var(--border-hi);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow:
+      0 4px 20px rgba(0,0,0,0.07),
+      inset 0 1px 0 rgba(255,255,255,0.60);
+  }
+
+  /* ── TRANSACTION ROW ── */
+  .tx-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    position: relative;
+    transition: background 0.12s ease;
+  }
+
+  .tx-row:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 16px; right: 16px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .tx-row:active { background: var(--surface-hi); }
+
+  /* Icon tile */
+  .tx-icon {
+    width: 38px; height: 38px;
+    border-radius: var(--r-md);
+    background: var(--inner-plate);
+    border: 1px solid var(--border-hi);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .tx-icon svg { stroke: var(--text-muted); }
+
+  /* Incoming gets warm gold tile */
+  .tx-row.incoming .tx-icon {
+    background: var(--accent-fill);
+    border-color: var(--accent-border);
+  }
+  .tx-row.incoming .tx-icon svg { stroke: var(--accent); }
+
+  /* Body */
+  .tx-body { flex: 1; }
+
+  .tx-name {
+    font-size: 13px; font-weight: 700;
+    color: var(--text); letter-spacing: 0.1px;
+  }
+
+  .tx-meta {
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 2px;
+  }
+
+  .tx-date {
+    font-size: 10px; letter-spacing: 0.3px;
+    color: var(--text-muted);
+  }
+
+  .tx-tag {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 1px 6px;
+    border-radius: 100px;
+    background: var(--surface-hi);
+    border: 1px solid var(--border);
+  }
+
+  /* Amount */
+  .tx-amount {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: -0.2px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  .tx-row.incoming .tx-amount { color: var(--accent); }
+
+  /* ── LABEL ── */
+  .label {
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 14px;
+    position: relative; z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+
+<div class="list-wrap">
+  <div class="list-header">
+    <span class="list-title">Transactions</span>
+    <span class="list-all">See All</span>
+  </div>
+
+  <div class="tx-list">
+
+    <div class="tx-row incoming">
+      <div class="tx-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/>
+        </svg>
+      </div>
+      <div class="tx-body">
+        <div class="tx-name">Emma L.</div>
+        <div class="tx-meta">
+          <span class="tx-date">Today, 2:14 PM</span>
+          <span class="tx-tag">E-Transfer</span>
+        </div>
+      </div>
+      <div class="tx-amount">+$250.00</div>
+    </div>
+
+    <div class="tx-row">
+      <div class="tx-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="5" width="20" height="14" rx="3"/>
+          <line x1="2" y1="10" x2="22" y2="10"/>
+        </svg>
+      </div>
+      <div class="tx-body">
+        <div class="tx-name">Netflix</div>
+        <div class="tx-meta">
+          <span class="tx-date">Yesterday</span>
+          <span class="tx-tag">Subscription</span>
+        </div>
+      </div>
+      <div class="tx-amount">−$19.99</div>
+    </div>
+
+    <div class="tx-row incoming">
+      <div class="tx-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/>
+        </svg>
+      </div>
+      <div class="tx-body">
+        <div class="tx-name">Pay Check</div>
+        <div class="tx-meta">
+          <span class="tx-date">Mar 14</span>
+          <span class="tx-tag">Direct Deposit</span>
+        </div>
+      </div>
+      <div class="tx-amount">+$1,200.00</div>
+    </div>
+
+    <div class="tx-row">
+      <div class="tx-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div class="tx-body">
+        <div class="tx-name">Marc D.</div>
+        <div class="tx-meta">
+          <span class="tx-date">Mar 13</span>
+          <span class="tx-tag">Send</span>
+        </div>
+      </div>
+      <div class="tx-amount">−$75.00</div>
+    </div>
+
+    <div class="tx-row">
+      <div class="tx-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+      </div>
+      <div class="tx-body">
+        <div class="tx-name">Café Olimpico</div>
+        <div class="tx-meta">
+          <span class="tx-date">Mar 12</span>
+          <span class="tx-tag">Card</span>
+        </div>
+      </div>
+      <div class="tx-amount">−$8.50</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="label">Transaction List</div>
+
+</body>
+</html>

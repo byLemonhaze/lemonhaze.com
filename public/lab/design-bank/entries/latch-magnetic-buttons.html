@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magnetic Action Buttons — Latch</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #050F0D;
+    font-family: 'Syne', sans-serif;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; user-select: none;
+  }
+
+  /* ambient glow */
+  body::before {
+    content: '';
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 520px; height: 220px;
+    background: radial-gradient(ellipse, rgba(15,143,122,0.12) 0%, transparent 68%);
+    pointer-events: none;
+  }
+
+  /* film grain */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    opacity: 0.022;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  .scene { display: flex; flex-direction: column; align-items: center; gap: 54px; }
+
+  .hint {
+    font-size: 9px; font-weight: 700; letter-spacing: 3.5px;
+    text-transform: uppercase; color: rgba(255,255,255,0.09);
+  }
+
+  .row { display: flex; gap: 22px; align-items: flex-start; }
+
+  /* ── button unit ── */
+  .mag-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+    will-change: transform; transform-style: preserve-3d;
+  }
+
+  .btn-wrap { width: 66px; height: 66px; border-radius: 21px; position: relative; }
+
+  .btn-glow {
+    position: absolute; inset: -18px; border-radius: 40px;
+    opacity: 0; transition: opacity 0.35s;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, var(--g, rgba(255,255,255,0.04)) 0%, transparent 65%);
+    filter: blur(10px);
+  }
+  .mag-btn:hover .btn-glow { opacity: 1; }
+
+  .btn-face {
+    position: absolute; inset: 0; border-radius: inherit;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.04);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; will-change: transform;
+  }
+  /* specular top edge */
+  .btn-face::before {
+    content: '';
+    position: absolute; top: 0; left: 18%; right: 18%; height: 1px;
+    background: rgba(255,255,255,0.14);
+  }
+  /* inner top shine */
+  .btn-face::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 38%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.055) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .btn-icon {
+    position: relative; z-index: 2; color: rgba(255,255,255,0.65);
+    display: flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px;
+  }
+  .btn-icon svg {
+    width: 20px; height: 20px;
+    stroke: currentColor; fill: none;
+    stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .btn-label {
+    font-size: 9.5px; font-weight: 700;
+    letter-spacing: 1.8px; text-transform: uppercase;
+    color: rgba(255,255,255,0.20); transition: color 0.25s;
+  }
+  .mag-btn:hover .btn-label { color: rgba(255,255,255,0.46); }
+
+  /* ── SEND — primary ── */
+  .mag-btn[data-id="send"] .btn-face {
+    background: linear-gradient(148deg, #17B096 0%, #0B7A69 100%);
+    border-color: rgba(255,255,255,0.17);
+  }
+  .mag-btn[data-id="send"] .btn-face::after {
+    background: linear-gradient(180deg, rgba(255,255,255,0.11) 0%, transparent 100%);
+  }
+  .mag-btn[data-id="send"] .btn-icon { color: rgba(255,255,255,0.95); }
+  .mag-btn[data-id="send"] .btn-glow { --g: rgba(20,168,146,0.42); }
+  .mag-btn[data-id="send"] .btn-label { color: rgba(20,168,146,0.82); }
+  .mag-btn[data-id="send"]:hover .btn-label { color: rgba(25,210,180,1); }
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="hint">approach · attract · press</div>
+  <div class="row" id="row">
+
+    <div class="mag-btn" data-id="send">
+      <div class="btn-wrap">
+        <div class="btn-glow"></div>
+        <div class="btn-face">
+          <span class="btn-icon"><svg viewBox="0 0 20 20"><path d="M10 15V5M5 10l5-5 5 5"/></svg></span>
+        </div>
+      </div>
+      <span class="btn-label">Send</span>
+    </div>
+
+    <div class="mag-btn" data-id="receive">
+      <div class="btn-wrap">
+        <div class="btn-glow"></div>
+        <div class="btn-face">
+          <span class="btn-icon"><svg viewBox="0 0 20 20"><path d="M10 5v10M15 10l-5 5-5-5"/></svg></span>
+        </div>
+      </div>
+      <span class="btn-label">Receive</span>
+    </div>
+
+    <div class="mag-btn" data-id="buy">
+      <div class="btn-wrap">
+        <div class="btn-glow"></div>
+        <div class="btn-face">
+          <span class="btn-icon"><svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12"/></svg></span>
+        </div>
+      </div>
+      <span class="btn-label">Buy</span>
+    </div>
+
+    <div class="mag-btn" data-id="sell">
+      <div class="btn-wrap">
+        <div class="btn-glow"></div>
+        <div class="btn-face">
+          <span class="btn-icon"><svg viewBox="0 0 20 20"><path d="M4 10h12"/></svg></span>
+        </div>
+      </div>
+      <span class="btn-label">Sell</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── 2D spring ──────────────────────────────────────────────────
+class Spring2D {
+  constructor(k = 0.10, d = 0.70) {
+    this.x = 0; this.y = 0; this.vx = 0; this.vy = 0;
+    this.tx = 0; this.ty = 0; this.k = k; this.d = d;
+  }
+  to(x, y = 0) { this.tx = x; this.ty = y; }
+  step() {
+    this.vx = (this.vx + (this.tx - this.x) * this.k) * this.d;
+    this.vy = (this.vy + (this.ty - this.y) * this.k) * this.d;
+    this.x += this.vx; this.y += this.vy;
+  }
+}
+
+// ── 1D spring for scale ────────────────────────────────────────
+class Spring1D {
+  constructor(k = 0.14, d = 0.72, v = 1) {
+    this.x = v; this.v = 0; this.t = v; this.k = k; this.d = d;
+  }
+  to(t) { this.t = t; }
+  step() {
+    this.v = (this.v + (this.t - this.x) * this.k) * this.d;
+    this.x += this.v;
+  }
+  get nearRest() { return Math.abs(this.x - 1) < 0.025 && Math.abs(this.v) < 0.002; }
+}
+
+const PULL_R = 160, MAX_PULL = 17, MAX_TILT = 15;
+
+const btns    = [...document.querySelectorAll('.mag-btn')];
+const posS    = btns.map(() => new Spring2D(0.09, 0.68));
+const rotS    = btns.map(() => new Spring2D(0.11, 0.72));
+const scaleS  = btns.map(() => new Spring1D(0.13, 0.72));
+const pressed = new Set();
+
+let mx = -9999, my = -9999, onScreen = false;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; onScreen = true; });
+document.addEventListener('mouseleave', () => { onScreen = false; mx = -9999; my = -9999; });
+
+btns.forEach((btn, i) => {
+  btn.addEventListener('mousedown', () => {
+    pressed.add(i);
+    scaleS[i].to(0.85);
+    posS[i].vx *= 0.08; posS[i].vy *= 0.08;
+  });
+  const release = () => {
+    pressed.delete(i);
+    scaleS[i].to(1.07);
+    setTimeout(() => { if (!pressed.has(i)) scaleS[i].to(1.0); }, 80);
+  };
+  btn.addEventListener('mouseup', release);
+  btn.addEventListener('mouseleave', () => {
+    pressed.delete(i);
+    if (scaleS[i].t < 1) scaleS[i].to(1.0);
+  });
+});
+
+function loop(t) {
+  btns.forEach((btn, i) => {
+    const rect = btn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = mx - cx, dy = my - cy;
+    const dist = Math.hypot(dx, dy);
+
+    if (dist < PULL_R && onScreen) {
+      const f = (1 - dist / PULL_R) ** 1.7;
+      const nx = dx / dist, ny = dy / dist;
+      posS[i].to(nx * MAX_PULL * f, ny * MAX_PULL * f);
+      rotS[i].to(nx * MAX_TILT * f, ny * MAX_TILT * f);
+    } else {
+      posS[i].to(0, 0);
+      rotS[i].to(0, 0);
+    }
+
+    posS[i].step(); rotS[i].step(); scaleS[i].step();
+
+    // idle breathing — only when scale is settled near 1
+    const breath = scaleS[i].nearRest
+      ? 1 + Math.sin(t * 0.00082 + i * 1.57) * 0.009
+      : scaleS[i].x;
+
+    const rx = rotS[i].x, ry = rotS[i].y;
+    btn.style.transform = `perspective(600px) translate(${posS[i].x}px,${posS[i].y}px) rotateX(${-ry}deg) rotateY(${rx}deg) scale(${breath})`;
+  });
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

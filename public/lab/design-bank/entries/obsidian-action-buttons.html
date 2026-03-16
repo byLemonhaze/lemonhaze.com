@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obsidian Action Buttons — Obsidian</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #050505;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      repeating-linear-gradient(45deg,  rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 14px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 14px);
+    pointer-events: none;
+  }
+
+  /* ── WRAPPER ── */
+  .wrap {
+    position: relative; z-index: 1;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.16);
+    margin-bottom: 4px;
+  }
+
+  /* ── PRIMARY — SEND ── */
+  .btn-send {
+    width: 100%;
+    height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #b8923e 0%, #C8A850 35%, #E8C97A 60%, #C8A850 80%, #b8923e 100%);
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+    transition: background-position 0.4s ease, box-shadow 0.2s ease;
+    font-family: 'Syne', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-send::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    transition: background 0.18s;
+  }
+
+  .btn-send:hover { background-position: 100% 50%; box-shadow: 0 0 24px rgba(200,168,80,0.25); }
+  .btn-send:active::after { background: rgba(0,0,0,0.15); }
+
+  .btn-send-icon svg {
+    width: 16px; height: 16px;
+    fill: none;
+    stroke: rgba(0,0,0,0.75);
+    stroke-width: 2;
+    stroke-linecap: square;
+  }
+
+  .btn-send-label {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.82);
+    position: relative; z-index: 1;
+  }
+
+  /* ── SECONDARY — RECEIVE ── */
+  .btn-receive {
+    width: 100%;
+    height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px;
+    background: transparent;
+    border: 1px solid rgba(200,168,80,0.28);
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s;
+  }
+
+  .btn-receive:hover { border-color: rgba(200,168,80,0.55); background: rgba(200,168,80,0.04); }
+  .btn-receive:active { background: rgba(200,168,80,0.08); }
+
+  .btn-receive-icon svg {
+    width: 16px; height: 16px;
+    fill: none;
+    stroke: rgba(200,168,80,0.65);
+    stroke-width: 1.8;
+    stroke-linecap: square;
+  }
+
+  .btn-receive-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(200,168,80,0.7);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+    margin: 4px 0;
+  }
+
+  /* ── SECONDARY ROW — BUY / SELL ── */
+  .btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .btn-half {
+    height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.07);
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s;
+  }
+
+  .btn-half:hover { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.14); }
+  .btn-half:active { background: rgba(255,255,255,0.06); }
+
+  .btn-half-icon svg {
+    width: 14px; height: 14px;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: square;
+  }
+
+  .btn-buy .btn-half-icon svg { stroke: rgba(100,210,140,0.55); }
+  .btn-sell .btn-half-icon svg { stroke: rgba(220,90,80,0.5); }
+
+  .btn-half-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+  }
+
+  .btn-buy .btn-half-label { color: rgba(100,210,140,0.55); }
+  .btn-sell .btn-half-label { color: rgba(220,90,80,0.5); }
+
+  /* ── QUICK ACTIONS ROW ── */
+  .quick-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .quick-btn {
+    height: 52px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.06);
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s;
+  }
+
+  .quick-btn:hover { border-color: rgba(255,255,255,0.14); background: rgba(255,255,255,0.03); }
+  .quick-btn:active { background: rgba(255,255,255,0.06); }
+
+  .quick-btn svg {
+    width: 16px; height: 16px;
+    fill: none;
+    stroke: rgba(255,255,255,0.3);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+    transition: stroke 0.18s;
+  }
+
+  .quick-btn:hover svg { stroke: rgba(255,255,255,0.55); }
+
+  .quick-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7.5px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="section-label">primary actions</div>
+
+  <button class="btn-send">
+    <div class="btn-send-icon">
+      <svg viewBox="0 0 16 16"><line x1="8" y1="13" x2="8" y2="3"/><polyline points="4,7 8,3 12,7"/></svg>
+    </div>
+    <span class="btn-send-label">Send</span>
+  </button>
+
+  <button class="btn-receive">
+    <div class="btn-receive-icon">
+      <svg viewBox="0 0 16 16"><line x1="8" y1="3" x2="8" y2="13"/><polyline points="4,9 8,13 12,9"/></svg>
+    </div>
+    <span class="btn-receive-label">Receive</span>
+  </button>
+
+  <div class="divider"></div>
+
+  <div class="btn-row">
+    <button class="btn-half btn-buy">
+      <div class="btn-half-icon">
+        <svg viewBox="0 0 14 14"><polyline points="2,10 5,5 8,7 12,2"/><polyline points="9,2 12,2 12,5"/></svg>
+      </div>
+      <span class="btn-half-label">Buy</span>
+    </button>
+    <button class="btn-half btn-sell">
+      <div class="btn-half-icon">
+        <svg viewBox="0 0 14 14"><polyline points="2,4 5,9 8,7 12,12"/><polyline points="9,12 12,12 12,9"/></svg>
+      </div>
+      <span class="btn-half-label">Sell</span>
+    </button>
+  </div>
+
+  <div class="quick-row">
+    <button class="quick-btn">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><line x1="8" y1="5" x2="8" y2="11"/><line x1="5" y1="8" x2="11" y2="8"/></svg>
+      <span class="quick-label">Add</span>
+    </button>
+    <button class="quick-btn">
+      <svg viewBox="0 0 16 16"><polyline points="2,8 6,4 10,8 14,4"/><line x1="8" y1="12" x2="8" y2="8"/></svg>
+      <span class="quick-label">Swap</span>
+    </button>
+    <button class="quick-btn">
+      <svg viewBox="0 0 16 16"><rect x="2" y="4" width="12" height="9"/><polyline points="5,4 5,2 11,2 11,4"/></svg>
+      <span class="quick-label">Pay</span>
+    </button>
+    <button class="quick-btn">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><line x1="8" y1="6" x2="8" y2="8.5"/><circle cx="8" cy="10.5" r="0.7" fill="rgba(255,255,255,0.3)" stroke="none"/></svg>
+      <span class="quick-label">More</span>
+    </button>
+  </div>
+</div>
+
+</body>
+</html>

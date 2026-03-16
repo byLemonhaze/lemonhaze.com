@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obsidian Nav — Obsidian</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #050505;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* carbon fiber crosshatch */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      repeating-linear-gradient(45deg,  rgba(255,255,255,0.013) 0, rgba(255,255,255,0.013) 1px, transparent 1px, transparent 14px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,0.013) 0, rgba(255,255,255,0.013) 1px, transparent 1px, transparent 14px);
+    pointer-events: none;
+  }
+
+  .scene {
+    position: fixed; inset: 0; z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 52px;
+  }
+
+  .screen-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .screen-page {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.06);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+
+  .screen-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.04);
+  }
+
+  /* ── NAV LABEL ── */
+  .nav-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.1);
+    margin-bottom: 16px;
+    align-self: flex-start;
+    padding-left: calc(50vw - 180px);
+  }
+
+  /* ── NAV SHELL ── */
+  .nav {
+    position: relative;
+    width: 360px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(200,168,80,0.1);
+  }
+
+  /* Sliding gold indicator line — sits above nav top edge */
+  .gold-line {
+    position: absolute;
+    top: -1px; left: 0;
+    height: 2px;
+    width: 25%;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(184,146,62,0.6) 8%,
+      #C8A850 25%,
+      #E8C97A 50%,
+      #C8A850 75%,
+      rgba(184,146,62,0.6) 92%,
+      transparent 100%
+    );
+    box-shadow: 0 0 8px rgba(200,168,80,0.65), 0 0 22px rgba(200,168,80,0.2);
+    z-index: 10;
+    will-change: transform;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    height: 66px;
+  }
+
+  .tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    transition: background 0.18s;
+  }
+
+  .tab:active { background: rgba(200,168,80,0.04); }
+
+  .tab + .tab::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 18px; bottom: 18px;
+    width: 1px;
+    background: rgba(255,255,255,0.05);
+  }
+
+  .tab-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    transition: opacity 0.22s ease;
+    opacity: 0.28;
+  }
+
+  .tab-icon svg {
+    width: 18px; height: 18px;
+    fill: none;
+    stroke: rgba(255,255,255,0.82);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+    transition: stroke 0.22s ease;
+  }
+
+  .tab-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+    transition: color 0.22s ease;
+  }
+
+  .tab.active .tab-icon { opacity: 1; }
+  .tab.active .tab-icon svg { stroke: #C8A850; }
+  .tab.active .tab-label { color: #C8A850; }
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="screen-area">
+    <div class="screen-page" id="screenPage">Vault</div>
+    <div class="screen-sub" id="screenSub">total balance · 4 assets</div>
+  </div>
+
+  <div class="nav-label">bottom navigation · obsidian</div>
+
+  <div class="nav" id="nav">
+    <div class="gold-line" id="goldLine"></div>
+    <div class="tabs">
+
+      <div class="tab active" data-i="0" data-page="Vault" data-sub="total balance · 4 assets">
+        <div class="tab-icon">
+          <svg viewBox="0 0 18 18"><path d="M2 8 L9 2 L16 8 V16 H11 V11 H7 V16 H2 Z"/></svg>
+        </div>
+        <span class="tab-label">Vault</span>
+      </div>
+
+      <div class="tab" data-i="1" data-page="Card" data-sub="obsidian black · no limit">
+        <div class="tab-icon">
+          <svg viewBox="0 0 18 18"><rect x="1.5" y="4.5" width="15" height="9"/><line x1="1.5" y1="7.5" x2="16.5" y2="7.5"/><line x1="3.5" y1="11" x2="6.5" y2="11" stroke-width="1.8"/></svg>
+        </div>
+        <span class="tab-label">Card</span>
+      </div>
+
+      <div class="tab" data-i="2" data-page="Trade" data-sub="markets · 24h change">
+        <div class="tab-icon">
+          <svg viewBox="0 0 18 18"><polyline points="1.5,13.5 5,8 9,10.5 13,5 16.5,8.5"/></svg>
+        </div>
+        <span class="tab-label">Trade</span>
+      </div>
+
+      <div class="tab" data-i="3" data-page="Ledger" data-sub="recent · 12 entries">
+        <div class="tab-icon">
+          <svg viewBox="0 0 18 18"><line x1="2" y1="5" x2="16" y2="5"/><line x1="2" y1="9" x2="11" y2="9"/><line x1="2" y1="13" x2="8" y2="13"/></svg>
+        </div>
+        <span class="tab-label">Ledger</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+class Spring {
+  constructor(x, k, d) { this.x = x; this.v = 0; this.t = x; this.k = k; this.d = d; }
+  to(t) { this.t = t; }
+  step() { this.v = (this.v + (this.t - this.x) * this.k) * this.d; this.x += this.v; }
+  get settled() { return Math.abs(this.v) < 0.06 && Math.abs(this.t - this.x) < 0.06; }
+}
+
+const tabs      = document.querySelectorAll('.tab');
+const goldLine  = document.getElementById('goldLine');
+const screenPage = document.getElementById('screenPage');
+const screenSub  = document.getElementById('screenSub');
+
+let active = 0;
+let raf = null;
+const sp = new Spring(0, 0.11, 0.70);
+
+function tabW() { return tabs[0].offsetWidth; }
+
+function tick() {
+  sp.step();
+  goldLine.style.transform = `translateX(${sp.x}px)`;
+  raf = sp.settled ? null : requestAnimationFrame(tick);
+}
+
+tabs.forEach((tab, i) => {
+  tab.addEventListener('click', () => {
+    if (i === active) return;
+    tabs[active].classList.remove('active');
+    active = i;
+    tabs[active].classList.add('active');
+    screenPage.textContent = tab.dataset.page;
+    screenSub.textContent  = tab.dataset.sub;
+    sp.to(i * tabW());
+    if (!raf) raf = requestAnimationFrame(tick);
+  });
+});
+</script>
+</body>
+</html>

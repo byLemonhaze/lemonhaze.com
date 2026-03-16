@@ -9,6 +9,11 @@ const ONCHAIN_IMAGE_OVERRIDES = new Set([
     '0c57ce6325d8da6242488d453c13bac0e1e1eaca6a5b3bf4078a6bdd6768d49di0',
 ]);
 
+const ENCRYPTED_ARTWORKS = new Set([
+    '41bd86ca3414a204bf5bd735f79f57219db5113a4655d46613d27c1218606638i0', // Self-Portrait by Lemonhaze
+    '773bcd4be1b8a4a9f3e9c427fb4264066e2043b56a9ecb22c8ebcf2192fda561i0', // Paint Engine v1.08 [Bam]
+]);
+
 export function getArtworkImageSrc(item) {
     if (item?._imgSrc) return item._imgSrc;
     if (item?.id && ONCHAIN_IMAGE_OVERRIDES.has(item.id)) {
@@ -48,11 +53,16 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
         card.className = 'group animate-fade-in cursor-pointer';
         card.style.animationDelay = `${idx * 20}ms`;
 
+        const isEncrypted = ENCRYPTED_ARTWORKS.has(item.id);
         const mediaSrc = getArtworkImageSrc(item);
         const isVideo = isVideoArtwork(item);
         const mediaClass = `w-[85%] h-[85%] object-contain drop-shadow-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-300 ${item.artwork_type === 'PNG' ? 'pixelated' : ''}`;
 
-        const mediaMarkup = isVideo
+        const mediaMarkup = isEncrypted
+            ? `<div class="flex flex-col items-center justify-center gap-2">
+                 <span class="text-[9px] font-mono uppercase tracking-[0.22em] text-white/20">Artwork Encrypted</span>
+               </div>`
+            : isVideo
             ? `<video src="${mediaSrc}" class="${mediaClass}" muted loop autoplay playsinline preload="metadata"></video>`
             : `<img src="${mediaSrc}" class="${mediaClass}" loading="lazy" />`;
 

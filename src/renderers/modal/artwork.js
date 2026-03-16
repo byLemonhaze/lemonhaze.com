@@ -284,7 +284,7 @@ export function createArtworkModalController({
 
         const isBB = item.collection === 'BEST BEFORE';
 
-        // 1. Provenance thumbnails
+        // 1. Provenance thumbnails (falls back to text links if parent not in local artworks)
         if (item.provenance && typeof item.provenance === 'string') {
             const ids = item.provenance.split(/[\s,]+/).map(v => v.trim()).filter(v => v.length > 10);
             if (ids.length) {
@@ -292,17 +292,24 @@ export function createArtworkModalController({
                 thumbsWrap.className = 'flex gap-2 flex-wrap';
                 ids.forEach((pid) => {
                     const extItem = getAllArtworks().find((a) => a.id === pid);
-                    if (!extItem) return;
-                    const thumb = document.createElement('img');
-                    thumb.src = getArtworkImageSrc(extItem);
-                    thumb.className = 'max-w-[32px] max-h-[32px] w-auto h-auto object-contain cursor-pointer hover:opacity-80 transition';
-                    thumb.loading = 'lazy';
-                    thumb.dataset.openArtwork = pid;
-                    thumbsWrap.appendChild(thumb);
+                    if (extItem) {
+                        const thumb = document.createElement('img');
+                        thumb.src = getArtworkImageSrc(extItem);
+                        thumb.className = 'max-w-[32px] max-h-[32px] w-auto h-auto object-contain cursor-pointer hover:opacity-80 transition';
+                        thumb.loading = 'lazy';
+                        thumb.dataset.openArtwork = pid;
+                        thumbsWrap.appendChild(thumb);
+                    } else {
+                        const link = document.createElement('a');
+                        link.href = `https://ordinals.com/inscription/${pid}`;
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        link.className = 'text-[9px] font-mono text-white/35 hover:text-white transition-colors break-all leading-snug';
+                        link.textContent = pid;
+                        thumbsWrap.appendChild(link);
+                    }
                 });
-                if (thumbsWrap.children.length) {
-                    modalMetadata.appendChild(makeMetaRow('Provenance', thumbsWrap));
-                }
+                modalMetadata.appendChild(makeMetaRow('Provenance', thumbsWrap));
             }
         }
 

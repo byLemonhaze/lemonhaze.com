@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Latch — Demo-Wallet Prototype · Lemonhaze Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Syne+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      background: #161E1C;
+      color: rgba(255,255,255,0.88);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% -10%, rgba(20,164,144,0.18) 0%, transparent 62%),
+        radial-gradient(ellipse 45% 40% at 5% 100%, rgba(5,46,38,0.55) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 35% at 95% 45%, rgba(15,138,120,0.09) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 40px 22px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      text-align: center;
+      margin-bottom: 22px;
+      flex-shrink: 0;
+    }
+
+    .ring-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .ring-spin {
+      position: absolute;
+      width: 84px;
+      height: 84px;
+      top: -21px;
+      left: -21px;
+      animation: spin 2.8s linear infinite;
+      background: linear-gradient(to right,
+        #010B09, #010B09, #010B09, #010B09,
+        #020E0C, #083D36, #0F6A5E,
+        #14A490, #44D4C4, #ffffff,
+        #44D4C4, #14A490, #010B09
+      );
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .ring-inner {
+      position: absolute;
+      inset: 2px;
+      border-radius: 10px;
+      background: #161E1C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-title {
+      font-weight: 800;
+      font-size: 56px;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 12px;
+      background: linear-gradient(160deg, #ffffff 0%, rgba(255,255,255,0.75) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-sub {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10.5px;
+      letter-spacing: 3.5px;
+      color: rgba(20,164,144,0.80);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .header-desc {
+      font-weight: 400;
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.28);
+      max-width: 380px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .divider {
+      width: 32px;
+      height: 1px;
+      background: rgba(20,164,144,0.38);
+      margin: 16px auto;
+    }
+
+    /* ── SCREENS ── */
+    .screens-wrap {
+      position: relative;
+      flex-shrink: 0;
+      padding: 20px 0 16px;
+      overflow: visible;
+    }
+
+    .screens-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -30px -80px;
+      background:
+        radial-gradient(ellipse 70% 90% at 50% 55%, rgba(20,164,144,0.15) 0%, transparent 68%),
+        radial-gradient(ellipse 30% 60% at 14% 55%, rgba(20,164,144,0.07) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .screens {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      align-items: center;
+      height: 500px;
+      overflow: visible;
+    }
+
+    .screen-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 13px;
+      transform-origin: center center;
+    }
+
+    .screen-col:nth-child(1) { transform: rotate(-8deg)   scale(0.94); }
+    .screen-col:nth-child(2) { transform: rotate(-2.5deg) scale(0.98); }
+    .screen-col:nth-child(3) { transform: rotate( 2.5deg) scale(0.98); }
+    .screen-col:nth-child(4) { transform: rotate( 8deg)   scale(0.94); }
+
+    .screen-label {
+      font-weight: 700;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.24);
+      flex-shrink: 0;
+    }
+
+    .phone-shell {
+      position: relative;
+      width: 196px;
+      aspect-ratio: 9 / 19.5;
+      border-radius: 24px;
+      padding: 2px;
+      background: linear-gradient(
+        148deg,
+        rgba(230,228,224,0.95) 0%,
+        rgba(160,158,155,0.80) 10%,
+        rgba(52,51,49,0.92) 28%,
+        rgba(40,39,37,1) 55%,
+        rgba(55,54,51,0.90) 78%,
+        rgba(170,168,164,0.85) 100%
+      );
+      box-shadow:
+        0 0 0 0.5px rgba(0,0,0,0.55),
+        0 0 0 1px rgba(255,255,255,0.055),
+        0 38px 80px rgba(0,0,0,0.78),
+        0 10px 26px rgba(0,0,0,0.50),
+        0  2px  6px rgba(0,0,0,0.35),
+        0 0 50px rgba(20,164,144,0.09);
+    }
+
+    .phone-shell::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 1px;
+      background: rgba(255,255,255,0.60);
+      border-radius: 1px;
+      pointer-events: none;
+    }
+
+    .btn-vol {
+      position: absolute;
+      left: -3px;
+      width: 3px;
+      background: linear-gradient(90deg, #1a1a18, #2c2c2a);
+      border-radius: 1.5px 0 0 1.5px;
+      box-shadow: -1px 0 3px rgba(0,0,0,0.4);
+    }
+    .btn-vol-1 { top: 16%; height: 24px; }
+    .btn-vol-2 { top: 28%; height: 38px; }
+    .btn-vol-3 { top: 42%; height: 38px; }
+
+    .btn-power {
+      position: absolute;
+      right: -3px;
+      top: 26%;
+      width: 3px;
+      height: 58px;
+      background: linear-gradient(270deg, #1a1a18, #2c2c2a);
+      border-radius: 0 1.5px 1.5px 0;
+      box-shadow: 1px 0 3px rgba(0,0,0,0.4);
+    }
+
+    .phone-screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .phone-screen img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .phone-screen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 20%, transparent 40%);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .phone-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tag {
+      padding: 3px 8px;
+      border-radius: 100px;
+      background: rgba(20,164,144,0.07);
+      border: 1px solid rgba(20,164,144,0.14);
+      font-family: 'Syne Mono', monospace;
+      font-size: 7.5px;
+      letter-spacing: 0.7px;
+      color: rgba(20,164,144,0.55);
+    }
+
+    /* ── DEMO TRIGGER ── */
+    .demo-trigger-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0 4px;
+      flex-shrink: 0;
+    }
+
+    .demo-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 22px 10px 16px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.18s;
+      outline: none;
+    }
+    .demo-trigger:hover {
+      background: rgba(20,164,144,0.10);
+      border-color: rgba(20,164,144,0.28);
+      transform: translateY(-1px);
+    }
+    .demo-trigger:active { transform: scale(0.97); }
+
+    .demo-play-ring {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #14A490, #0A5C4E);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 14px rgba(20,164,144,0.45);
+    }
+    .demo-play-ring::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 9px solid rgba(255,255,255,0.92);
+      margin-left: 2px;
+    }
+
+    .demo-trigger-label {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    /* ── BOTTOM ── */
+    .bottom {
+      flex-shrink: 0;
+      margin-top: auto;
+      padding-top: 14px;
+    }
+
+    .stack-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .stack-tag {
+      padding: 4px 11px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      font-family: 'Syne Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.3px;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .footer {
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .footer-year {
+      font-family: 'Syne Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.13);
+      text-transform: uppercase;
+    }
+
+    .footer-dot {
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.10);
+    }
+
+    .footer-name {
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.24);
+    }
+
+    .footer-credit {
+      font-family: 'Syne Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.18);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-credit:hover { color: rgba(255,255,255,0.45); }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(8,14,12,0.90);
+      backdrop-filter: blur(14px) saturate(0.75);
+      -webkit-backdrop-filter: blur(14px) saturate(0.75);
+    }
+
+    .lightbox-card {
+      position: relative;
+      z-index: 1;
+      width: auto;
+      max-width: 90vw;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #0D1614;
+      border: 1px solid rgba(20,164,144,0.18);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.5),
+        0 40px 90px rgba(0,0,0,0.80),
+        0 0 60px rgba(20,164,144,0.12);
+      transform: scale(0.88) translateY(18px);
+      transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.32s ease;
+      opacity: 0;
+    }
+    .lightbox.open .lightbox-card {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    .lightbox-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      width: 100%;
+    }
+
+    .lightbox-title {
+      font-family: 'Syne Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(20,164,144,0.70);
+    }
+
+    .lightbox-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.09);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.50);
+      font-size: 14px;
+      line-height: 1;
+      transition: background 0.15s, color 0.15s;
+      outline: none;
+    }
+    .lightbox-close:hover {
+      background: rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.85);
+    }
+
+    .lightbox-video {
+      display: block;
+      height: 72vh;
+      width: auto;
+      max-width: 90vw;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="ring-wrap">
+      <div class="ring-spin"></div>
+      <div class="ring-inner">
+        <svg width="22" height="22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="80" height="80" rx="25" stroke="#14A490" stroke-width="6"/>
+          <path d="M35 50 C 35 35, 65 35, 65 50 C 65 65, 35 65, 35 50 M 65 50 L 75 50"
+                stroke="#14A490" stroke-width="6" stroke-linecap="round"/>
+          <rect x="45" y="45" width="10" height="10" rx="5" fill="#14A490"/>
+        </svg>
+      </div>
+    </div>
+    <div class="header-title">LATCH</div>
+    <div class="header-sub">Bitcoin · Visa · Demo-Wallet</div>
+    <div class="header-desc">
+      A self-custodial spending layer.<br>
+      Hold BTC and USDT.<br>
+      Spend anywhere Visa is accepted.
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <div class="screens-wrap">
+    <div class="screens">
+
+      <div class="screen-col">
+        <div class="screen-label">Home</div>
+        <div class="phone-shell">
+          <div class="btn-vol btn-vol-1"></div>
+          <div class="btn-vol btn-vol-2"></div>
+          <div class="btn-vol btn-vol-3"></div>
+          <div class="btn-power"></div>
+          <div class="phone-screen">
+            <img src="./assets/home.jpg" alt="Home" />
+          </div>
+        </div>
+        <div class="tags">
+          <span class="tag">Balance hero</span>
+          <span class="tag">BTC · USDT</span>
+        </div>
+      </div>
+
+      <div class="screen-col">
+        <div class="screen-label">Card</div>
+        <div class="phone-shell">
+          <div class="btn-vol btn-vol-1"></div>
+          <div class="btn-vol btn-vol-2"></div>
+          <div class="btn-vol btn-vol-3"></div>
+          <div class="btn-power"></div>
+          <div class="phone-screen">
+            <img src="./assets/card.jpg" alt="Card" />
+          </div>
+        </div>
+        <div class="tags">
+          <span class="tag">Card face</span>
+          <span class="tag">Details reveal</span>
+        </div>
+      </div>
+
+      <div class="screen-col">
+        <div class="screen-label">Activity</div>
+        <div class="phone-shell">
+          <div class="btn-vol btn-vol-1"></div>
+          <div class="btn-vol btn-vol-2"></div>
+          <div class="btn-vol btn-vol-3"></div>
+          <div class="btn-power"></div>
+          <div class="phone-screen">
+            <img src="./assets/activity.jpg" alt="Activity" />
+          </div>
+        </div>
+        <div class="tags">
+          <span class="tag">Tx feed</span>
+          <span class="tag">Bottom sheet</span>
+        </div>
+      </div>
+
+      <div class="screen-col">
+        <div class="screen-label">Send</div>
+        <div class="phone-shell">
+          <div class="btn-vol btn-vol-1"></div>
+          <div class="btn-vol btn-vol-2"></div>
+          <div class="btn-vol btn-vol-3"></div>
+          <div class="btn-power"></div>
+          <div class="phone-screen">
+            <img src="./assets/send.jpg" alt="Send" />
+          </div>
+        </div>
+        <div class="tags">
+          <span class="tag">Numpad</span>
+          <span class="tag">Glass card</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="demo-trigger-wrap">
+    <button class="demo-trigger" id="demoBtn">
+      <div class="demo-play-ring"></div>
+      <span class="demo-trigger-label">Watch prototype demo</span>
+    </button>
+  </div>
+
+  <div class="bottom">
+    <div class="stack-row">
+      <span class="stack-tag">React Native</span>
+      <span class="stack-tag">Expo Router v6</span>
+      <span class="stack-tag">TypeScript</span>
+      <span class="stack-tag">expo-linear-gradient</span>
+      <span class="stack-tag">Animated API</span>
+      <span class="stack-tag">Syne · Syne Mono</span>
+      <span class="stack-tag">Safe Area Context</span>
+    </div>
+    <div class="footer">
+      <span class="footer-year">Prototype v0.4 · 2026</span>
+      <div class="footer-dot"></div>
+      <span class="footer-name">Frédérick St-Louis — Lemonhaze</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+  <div class="lightbox-card">
+    <div class="lightbox-bar">
+      <span class="lightbox-title">Latch · Prototype Demo</span>
+      <button class="lightbox-close" id="lightboxClose">✕</button>
+    </div>
+    <video
+      class="lightbox-video"
+      id="demoVideo"
+      src="./assets/demo.mp4"
+      controls
+      playsinline
+    ></video>
+  </div>
+</div>
+
+<script>
+  const btn      = document.getElementById('demoBtn');
+  const lightbox = document.getElementById('lightbox');
+  const closeBtn = document.getElementById('lightboxClose');
+  const backdrop = document.getElementById('lightboxBackdrop');
+  const video    = document.getElementById('demoVideo');
+
+  function openLightbox() {
+    lightbox.classList.add('open');
+    setTimeout(() => video.play(), 160);
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    video.pause();
+    video.currentTime = 0;
+  }
+
+  btn.addEventListener('click', openLightbox);
+  closeBtn.addEventListener('click', closeLightbox);
+  backdrop.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spring Slide Nav</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── LATCH KIT TOKENS ── */
+  :root {
+    --bg:            #0A0A0A;
+    --surface:       rgba(18,18,28,0.95);
+    --surface-lo:    rgba(255,255,255,0.04);
+    --surface-hi:    rgba(255,255,255,0.08);
+    --border:        rgba(255,255,255,0.07);
+    --border-hi:     rgba(255,255,255,0.13);
+    --accent:        #0F8F7A;
+    --accent-bright: rgba(15,200,160,0.95);
+    --accent-fill:   rgba(15,143,122,0.18);
+    --accent-border: rgba(15,143,122,0.35);
+    --accent-glow:   rgba(15,143,122,0.28);
+    --text:          rgba(255,255,255,0.92);
+    --text-muted:    rgba(255,255,255,0.45);
+    --text-dim:      rgba(255,255,255,0.22);
+    --r-xl:          24px;
+    --r-lg:          18px;
+    --r-md:          14px;
+    --font:          'Syne', sans-serif;
+    --mono:          'Fragment Mono', monospace;
+    --frame:         375px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #0A0A0A;
+    font-family: 'Syne', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 60px;
+    overflow: hidden;
+  }
+
+  /* ── BOTTOM NAV BAR ── */
+  .nav-bar {
+    position: relative;
+    width: 340px;
+    height: 72px;
+    background: rgba(18, 18, 28, 0.95);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    box-shadow:
+      0 32px 64px rgba(0,0,0,0.6),
+      0 8px 24px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    overflow: hidden;
+    padding: 8px;
+  }
+
+  /* ── SLIDING PILL INDICATOR ── */
+  .indicator {
+    position: absolute;
+    top: 8px;
+    height: calc(100% - 16px);
+    width: 72px;
+    border-radius: 16px;
+    background: rgba(15,143,122,0.18);
+    border: 1px solid rgba(15,143,122,0.35);
+    pointer-events: none;
+    z-index: 1;
+    /* JS controls left via style.left, transition via JS springTo */
+    will-change: left, width;
+  }
+
+  /* Teal glow behind indicator */
+  .indicator::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    background: radial-gradient(ellipse at center,
+      rgba(15,143,122,0.35) 0%,
+      transparent 68%
+    );
+    filter: blur(8px);
+    border-radius: 20px;
+    pointer-events: none;
+  }
+
+  /* Specular top-edge on indicator */
+  .indicator::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(15,143,122,0.8) 30%,
+      rgba(20,200,170,0.9) 50%,
+      rgba(15,143,122,0.8) 70%,
+      transparent 100%
+    );
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  /* ── NAV ITEMS ── */
+  .nav-item {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 14px;
+    color: rgba(255,255,255,0.32);
+    transition: color 0.22s ease, transform 0.12s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    padding: 0;
+  }
+
+  .nav-item:active {
+    transform: scale(0.88);
+  }
+
+  .nav-item.active {
+    color: rgba(15,200,160,0.95);
+  }
+
+  .nav-item svg {
+    transition: transform 0.32s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+
+  .nav-item.active svg {
+    transform: scale(1.12);
+  }
+
+  .nav-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  /* ── PAGE LABEL ── */
+  .page-label {
+    position: absolute;
+    bottom: 16px;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.20);
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav-bar" id="navBar">
+  <div class="indicator" id="indicator"></div>
+
+  <button class="nav-item active" data-idx="0">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 10L12 3l9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z"/>
+      <polyline points="9 22 9 13 15 13 15 22"/>
+    </svg>
+    <span class="nav-label">Home</span>
+  </button>
+
+  <button class="nav-item" data-idx="1">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="5" width="20" height="14" rx="3"/>
+      <line x1="2" y1="10" x2="22" y2="10"/>
+    </svg>
+    <span class="nav-label">Card</span>
+  </button>
+
+  <button class="nav-item" data-idx="2">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+    </svg>
+    <span class="nav-label">Activity</span>
+  </button>
+
+  <button class="nav-item" data-idx="3">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="1.5"/>
+      <circle cx="19" cy="12" r="1.5"/>
+      <circle cx="5" cy="12" r="1.5"/>
+    </svg>
+    <span class="nav-label">More</span>
+  </button>
+</nav>
+
+<div class="page-label">Spring Slide Nav Indicator</div>
+
+<script>
+  const navBar   = document.getElementById('navBar');
+  const indicator = document.getElementById('indicator');
+  const items    = navBar.querySelectorAll('.nav-item');
+
+  // Spring physics state
+  let currentX   = 0;
+  let targetX    = 0;
+  let currentW   = 0;
+  let targetW    = 0;
+  let velX       = 0;
+  let velW       = 0;
+  let rafId      = null;
+
+  const STIFFNESS = 220;
+  const DAMPING   = 22;
+  const MASS      = 1;
+
+  function springStep(current, target, velocity, dt) {
+    const force = -STIFFNESS * (current - target) - DAMPING * velocity;
+    const acc   = force / MASS;
+    velocity   += acc * dt;
+    current    += velocity * dt;
+    return { value: current, velocity };
+  }
+
+  function animate() {
+    const dt = 1 / 60;
+    const thresholdPos = 0.08;
+    const thresholdVel = 0.08;
+
+    const rx = springStep(currentX, targetX, velX, dt);
+    const rw = springStep(currentW, targetW, velW, dt);
+
+    currentX = rx.value; velX = rx.velocity;
+    currentW = rw.value; velW = rw.velocity;
+
+    indicator.style.left  = currentX + 'px';
+    indicator.style.width = currentW + 'px';
+
+    const doneX = Math.abs(currentX - targetX) < thresholdPos && Math.abs(velX) < thresholdVel;
+    const doneW = Math.abs(currentW - targetW) < thresholdPos && Math.abs(velW) < thresholdVel;
+
+    if (!doneX || !doneW) {
+      rafId = requestAnimationFrame(animate);
+    } else {
+      currentX = targetX;
+      currentW = targetW;
+      indicator.style.left  = targetX + 'px';
+      indicator.style.width = targetW + 'px';
+      rafId = null;
+    }
+  }
+
+  function moveTo(btn) {
+    const barRect = navBar.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    targetX = btnRect.left - barRect.left;
+    targetW = btnRect.width;
+    if (!rafId) rafId = requestAnimationFrame(animate);
+  }
+
+  // Init without animation
+  requestAnimationFrame(() => {
+    const active = navBar.querySelector('.nav-item.active');
+    const barRect = navBar.getBoundingClientRect();
+    const btnRect = active.getBoundingClientRect();
+    currentX = targetX = btnRect.left - barRect.left;
+    currentW = targetW = btnRect.width;
+    indicator.style.left  = currentX + 'px';
+    indicator.style.width = currentW + 'px';
+  });
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      items.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      moveTo(item);
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    const active = navBar.querySelector('.nav-item.active');
+    if (active) {
+      const barRect = navBar.getBoundingClientRect();
+      const btnRect = active.getBoundingClientRect();
+      currentX = targetX = btnRect.left - barRect.left;
+      currentW = targetW = btnRect.width;
+      indicator.style.left  = currentX + 'px';
+      indicator.style.width = currentW + 'px';
+    }
+  });
+</script>
+</body>
+</html>
