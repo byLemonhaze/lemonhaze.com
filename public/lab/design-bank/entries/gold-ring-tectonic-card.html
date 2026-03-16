@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tectonic Card — Gold Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #EDE8DF;
+    --accent: #C49746;
+    --accent-glow: rgba(232,175,72,0.24);
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: 'Syne', sans-serif;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 28px; overflow: hidden;
+    user-select: none;
+  }
+
+  body::after {
+    content: ''; position: fixed; inset: 0; z-index: 100;
+    pointer-events: none; opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  .ambient {
+    position: fixed; left: 50%; top: 46%;
+    transform: translate(-50%,-50%);
+    width: 380px; height: 200px;
+    background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 68%);
+    filter: blur(36px); pointer-events: none;
+  }
+
+  /* ── card stage: holds perspective ── */
+  .card-stage {
+    perspective: 900px;
+    perspective-origin: 50% 50%;
+  }
+
+  /* ── 3D wrapper: gets the rotateX/Y transforms ── */
+  .card-3d {
+    position: relative;
+    width: 335px; height: 204px;
+    border-radius: 18px;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: box-shadow 0.25s ease;
+  }
+
+  /* ── card surface ── */
+  .card {
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg,
+      #2C1A08 0%, #5C3A12 28%, #9B7230 55%,
+      #C49746 78%, #E8C96A 100%
+    );
+    box-shadow:
+      0 40px 80px rgba(0,0,0,0.22),
+      0 12px 32px rgba(0,0,0,0.16),
+      inset 0 1px 0 rgba(255,255,255,0.28);
+    overflow: hidden;
+  }
+
+  /* Bottom caustic */
+  .card::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 42%;
+    background: linear-gradient(0deg, rgba(25,12,0,0.48) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* ── specular overlay — moves with mouse ── */
+  .card-specular {
+    position: absolute; inset: 0; border-radius: inherit;
+    z-index: 8; pointer-events: none;
+    mix-blend-mode: screen;
+    background: radial-gradient(ellipse 70% 65% at 28% 22%,
+      rgba(255,255,255,0.30) 0%,
+      rgba(255,255,255,0.07) 42%,
+      transparent 68%
+    );
+    transition: background 0.05s linear;
+  }
+
+  /* ── foil shimmer — angle-dependent iridescent layer ── */
+  .card-foil {
+    position: absolute; inset: 0; border-radius: inherit;
+    z-index: 7; pointer-events: none; opacity: 0.22;
+    background: linear-gradient(105deg,
+      transparent 0%,
+      rgba(255,220,100,0.4) 25%,
+      rgba(255,180,80,0.25) 50%,
+      rgba(255,140,60,0.15) 75%,
+      transparent 100%
+    );
+  }
+
+  /* ── card content ── */
+  .card-inner {
+    position: relative; z-index: 10;
+    width: 100%; height: 100%;
+    padding: 22px 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+
+  .card-brand {
+    font-size: 14px; font-weight: 800;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(255,245,210,0.95);
+    will-change: transform;
+  }
+
+  /* Ring badge */
+  .ring-badge { width: 26px; height: 26px; border-radius: 8px; position: relative; overflow: hidden; will-change: transform; }
+  .ring-spin {
+    position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
+    animation: spin 4.5s linear infinite;
+    background: conic-gradient(
+      #533517 0deg, #c49746 63deg, #feeaa5 126deg,
+      #ffffff 126deg, #ffffff 131deg,
+      #ffc0cb 131deg, #ffc0cb 134deg,
+      #ffffff 134deg, #ffffff 140deg,
+      #533517 140deg, #533517 180deg,
+      #533517 180deg, #c49746 243deg, #feeaa5 306deg,
+      #ffffff 306deg, #ffffff 311deg,
+      #ffc0cb 311deg, #ffc0cb 314deg,
+      #ffffff 314deg, #ffffff 320deg,
+      #533517 320deg, #533517 360deg
+    );
+  }
+  .ring-plate { position: absolute; inset: 2px; border-radius: 6px; background: rgba(30,15,5,0.5); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Chip */
+  .chip {
+    width: 32px; height: 24px; border-radius: 5px;
+    background: linear-gradient(135deg, rgba(255,240,180,0.55) 0%, rgba(200,165,80,0.4) 100%);
+    border: 1px solid rgba(255,240,190,0.35);
+    will-change: transform;
+    position: relative; overflow: hidden;
+  }
+  .chip::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 80%; height: 1px;
+    background: rgba(255,240,180,0.3);
+  }
+
+  .card-number {
+    font-family: 'Fragment Mono', monospace;
+    font-size: 13px; letter-spacing: 2.5px;
+    color: rgba(255,240,195,0.78); text-align: center;
+    will-change: transform;
+  }
+
+  .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+
+  .card-name {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,240,195,0.70);
+    will-change: transform;
+  }
+
+  .visa-mark {
+    font-size: 17px; font-weight: 800;
+    font-style: italic; color: rgba(255,240,195,0.65);
+    letter-spacing: -1px; will-change: transform;
+  }
+
+  /* ── label ── */
+  .label {
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: rgba(0,0,0,0.25);
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+
+<div class="card-stage" id="stage">
+  <div class="card-3d" id="card3d">
+    <div class="card" id="cardEl">
+      <div class="card-specular" id="specular"></div>
+      <div class="card-foil" id="foil"></div>
+      <div class="card-inner">
+        <div class="card-top">
+          <div class="card-brand" data-depth="1">LATCH</div>
+          <div class="ring-badge" data-depth="3">
+            <div class="ring-spin"></div>
+            <div class="ring-plate"></div>
+          </div>
+        </div>
+        <div class="chip" data-depth="4.5"></div>
+        <div class="card-number" data-depth="2">•••• &nbsp;•••• &nbsp;•••• &nbsp;4291</div>
+        <div class="card-bottom">
+          <div class="card-name" data-depth="1.5">ALBERT EINSTEIN</div>
+          <div class="visa-mark" data-depth="1.5">VISA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="label">Tilt to reveal depth</div>
+
+<script>
+class Spring2D {
+  constructor(k = 0.10, d = 0.72) {
+    this.x = 0; this.y = 0; this.vx = 0; this.vy = 0;
+    this.tx = 0; this.ty = 0; this.k = k; this.d = d;
+  }
+  to(x, y) { this.tx = x; this.ty = y; }
+  step() {
+    this.vx = (this.vx + (this.tx - this.x) * this.k) * this.d;
+    this.vy = (this.vy + (this.ty - this.y) * this.k) * this.d;
+    this.x += this.vx; this.y += this.vy;
+  }
+}
+
+const stage    = document.getElementById('stage');
+const card3d   = document.getElementById('card3d');
+const cardEl   = document.getElementById('cardEl');
+const specular = document.getElementById('specular');
+const foil     = document.getElementById('foil');
+const layers   = [...cardEl.querySelectorAll('[data-depth]')];
+const tilt     = new Spring2D(0.08, 0.72);
+
+const MAX_TILT = 16;
+let mx = -9999, my = -9999, onCard = false;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+stage.addEventListener('mouseenter', () => { onCard = true; });
+stage.addEventListener('mouseleave', () => { onCard = false; });
+
+function loop(t) {
+  const rect = card3d.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+
+  if (onCard && mx > 0) {
+    // Mouse tracking
+    const dx = (mx - cx) / (rect.width  / 2);
+    const dy = (my - cy) / (rect.height / 2);
+    tilt.to(dx * MAX_TILT, dy * MAX_TILT);
+
+    // Specular: follows mouse position on card surface
+    const bx = ((mx - rect.left) / rect.width  * 100).toFixed(1);
+    const by = ((my - rect.top)  / rect.height * 100).toFixed(1);
+    specular.style.background = `radial-gradient(ellipse 72% 68% at ${bx}% ${by}%, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.07) 42%, transparent 68%)`;
+
+    // Foil: angle shifts hue slightly based on tilt
+    const angle = 90 + tilt.x * 2.5 + tilt.y * 1.5;
+    foil.style.background = `linear-gradient(${angle}deg, transparent 0%, rgba(255,220,100,0.4) 25%, rgba(255,180,80,0.25) 50%, rgba(255,140,60,0.15) 75%, transparent 100%)`;
+  } else {
+    // Idle float — gentle sinusoidal orbit
+    const ix = Math.sin(t * 0.00065) * 4.5;
+    const iy = Math.cos(t * 0.00048) * 3.0;
+    tilt.to(ix, iy);
+  }
+
+  tilt.step();
+
+  // Apply 3D tilt
+  card3d.style.transform = `rotateX(${-tilt.y}deg) rotateY(${tilt.x}deg)`;
+
+  // Drop shadow deepens with tilt
+  const shadowY = 40 + Math.abs(tilt.y) * 2;
+  const shadowBlur = 80 + Math.abs(tilt.x) * 3;
+  cardEl.style.boxShadow = `0 ${shadowY}px ${shadowBlur}px rgba(0,0,0,0.22), 0 12px 32px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.28)`;
+
+  // Parallax layers
+  layers.forEach(el => {
+    const depth = parseFloat(el.dataset.depth);
+    const px = tilt.x * depth * 0.8;
+    const py = tilt.y * depth * 0.8;
+    el.style.transform = `translate(${px}px, ${py}px)`;
+  });
+
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

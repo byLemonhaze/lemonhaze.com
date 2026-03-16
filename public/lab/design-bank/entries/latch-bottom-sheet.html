@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latch Bottom Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── LATCH KIT TOKENS ── */
+  :root {
+    --bg:            #0A0A0A;
+    --surface:       rgba(18,18,28,0.95);
+    --surface-lo:    rgba(255,255,255,0.04);
+    --surface-hi:    rgba(255,255,255,0.08);
+    --border:        rgba(255,255,255,0.07);
+    --border-hi:     rgba(255,255,255,0.13);
+    --accent:        #0F8F7A;
+    --accent-bright: rgba(15,200,160,0.95);
+    --accent-fill:   rgba(15,143,122,0.18);
+    --accent-border: rgba(15,143,122,0.35);
+    --accent-glow:   rgba(15,143,122,0.28);
+    --text:          rgba(255,255,255,0.92);
+    --text-muted:    rgba(255,255,255,0.45);
+    --text-dim:      rgba(255,255,255,0.22);
+    --r-xl:          24px;
+    --r-lg:          18px;
+    --r-md:          14px;
+    --font:          'Syne', sans-serif;
+    --mono:          'Fragment Mono', monospace;
+    --frame:         375px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: var(--font);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── SCRIM ── */
+  .scrim {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 1;
+  }
+
+  /* Faint bg lines */
+  .bg-content {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 10px; pointer-events: none; opacity: 0.2;
+  }
+
+  .bg-line {
+    height: 8px; border-radius: 4px;
+    background: rgba(255,255,255,0.10);
+  }
+
+  /* ── SHEET ── */
+  .sheet {
+    position: fixed;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: var(--frame);
+    z-index: 2;
+    background: var(--surface);
+    border-top: 1px solid var(--border-hi);
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    padding-bottom: 28px;
+    animation: slideUp 0.40s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+    box-shadow:
+      0 -8px 60px rgba(0,0,0,0.55),
+      0 -2px 12px rgba(0,0,0,0.3),
+      inset 0 1px 0 rgba(255,255,255,0.07);
+  }
+
+  @keyframes slideUp {
+    from { transform: translateX(-50%) translateY(100%); }
+    to   { transform: translateX(-50%) translateY(0); }
+  }
+
+  /* Handle */
+  .handle {
+    width: 32px; height: 3px;
+    background: var(--border-hi);
+    border-radius: 2px;
+    margin: 10px auto 0;
+  }
+
+  /* Header */
+  .sheet-header {
+    padding: 18px 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .sheet-title {
+    font-size: 18px; font-weight: 800;
+    color: var(--text); letter-spacing: -0.2px;
+  }
+
+  .sheet-subtitle {
+    font-size: 11px; font-weight: 400;
+    color: var(--text-muted); letter-spacing: 0.3px;
+    margin-top: 3px;
+  }
+
+  .sheet-close {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--surface-hi);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0;
+    color: var(--text-muted);
+  }
+
+  /* Amount summary */
+  .amount-row {
+    margin: 14px 20px;
+    padding: 12px 14px;
+    background: var(--surface-lo);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .amount-row-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .amount-row-value {
+    font-family: var(--mono);
+    font-size: 16px; color: var(--accent-bright);
+    letter-spacing: -0.3px;
+  }
+
+  /* Actions */
+  .sheet-actions {
+    padding: 0 20px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+
+  .sheet-action {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px;
+    background: var(--surface-lo);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition: opacity 0.12s ease, transform 0.12s ease;
+    position: relative; overflow: hidden;
+  }
+
+  .sheet-action::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 50%;
+    border-radius: var(--r-md) var(--r-md) 0 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+  }
+
+  .sheet-action.primary {
+    background: var(--accent-fill);
+    border-color: var(--accent-border);
+    box-shadow: 0 4px 20px var(--accent-glow),
+                inset 0 1px 0 rgba(15,200,160,0.12);
+  }
+
+  /* Teal specular on primary */
+  .sheet-action.primary::after {
+    content: '';
+    position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent-border) 30%,
+      rgba(15,200,160,0.6) 50%, var(--accent-border) 70%, transparent 100%);
+  }
+
+  .sheet-action:active { transform: scale(0.98); opacity: 0.8; }
+
+  .action-icon {
+    width: 34px; height: 34px;
+    border-radius: var(--r-md);
+    background: var(--surface-hi);
+    border: 1px solid var(--border-hi);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .sheet-action.primary .action-icon {
+    background: var(--accent-fill);
+    border-color: var(--accent-border);
+  }
+
+  .action-icon svg { stroke: var(--text-muted); }
+  .sheet-action.primary .action-icon svg { stroke: var(--accent-bright); }
+
+  .action-body { flex: 1; }
+
+  .action-label {
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.2px; color: var(--text);
+  }
+
+  .sheet-action.primary .action-label { color: var(--accent-bright); }
+
+  .action-sub {
+    font-size: 11px; letter-spacing: 0.3px;
+    color: var(--text-muted); margin-top: 2px;
+  }
+
+  .action-chevron { stroke: var(--border-hi); flex-shrink: 0; }
+  .sheet-action.primary .action-chevron { stroke: var(--accent-border); }
+</style>
+</head>
+<body>
+
+<div class="bg-content">
+  <div class="bg-line" style="width:180px"></div>
+  <div class="bg-line" style="width:220px"></div>
+  <div class="bg-line" style="width:140px"></div>
+  <div class="bg-line" style="width:200px"></div>
+</div>
+
+<div class="scrim"></div>
+
+<div class="sheet">
+  <div class="handle"></div>
+
+  <div class="sheet-header">
+    <div>
+      <div class="sheet-title">Confirm Send</div>
+      <div class="sheet-subtitle">Review before sending</div>
+    </div>
+    <div class="sheet-close">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="amount-row">
+    <span class="amount-row-label">Amount</span>
+    <span class="amount-row-value">+$250.00 CAD</span>
+  </div>
+
+  <div class="sheet-actions">
+
+    <div class="sheet-action primary">
+      <div class="action-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+        </svg>
+      </div>
+      <div class="action-body">
+        <div class="action-label">Confirm & Send</div>
+        <div class="action-sub">To Emma L. · Instant</div>
+      </div>
+      <svg class="action-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </div>
+
+    <div class="sheet-action">
+      <div class="action-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="17" y1="17" x2="22" y2="22"/>
+        </svg>
+      </div>
+      <div class="action-body">
+        <div class="action-label">Change Recipient</div>
+        <div class="action-sub">Search contacts</div>
+      </div>
+      <svg class="action-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

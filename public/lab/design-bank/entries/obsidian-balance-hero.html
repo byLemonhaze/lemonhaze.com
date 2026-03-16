@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obsidian Balance Hero — Obsidian</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Fragment+Mono&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #050505;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      repeating-linear-gradient(45deg,  rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 14px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 14px);
+    pointer-events: none;
+  }
+
+  /* ── CARD ── */
+  .card {
+    position: relative; z-index: 1;
+    width: 340px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid rgba(200,168,80,0.2);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* gold top accent line */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #C8A850, #E8C97A, #C8A850, transparent);
+    box-shadow: 0 0 10px rgba(200,168,80,0.4);
+  }
+
+  /* ── HEADER ROW ── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 20px 0;
+  }
+
+  .header-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8.5px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .asset-pill {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 8px;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .asset-dot {
+    width: 6px; height: 6px;
+    background: #C8A850;
+  }
+
+  .asset-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8.5px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* ── BALANCE BLOCK ── */
+  .balance-block {
+    padding: 22px 20px 20px;
+  }
+
+  .balance-main {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .balance-symbol {
+    font-family: 'Fragment Mono', monospace;
+    font-size: 22px;
+    color: rgba(200,168,80,0.7);
+    line-height: 1;
+  }
+
+  .balance-amount {
+    font-family: 'Fragment Mono', monospace;
+    font-size: 40px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.95);
+    letter-spacing: -1px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .balance-usd {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.28);
+    letter-spacing: 0.3px;
+    margin-bottom: 14px;
+  }
+
+  .change-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .change-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border: 1px solid rgba(200,168,80,0.35);
+    background: rgba(200,168,80,0.06);
+  }
+
+  .change-arrow {
+    font-size: 10px;
+    color: #C8A850;
+  }
+
+  .change-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: #C8A850;
+  }
+
+  .change-period {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.18);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 0 20px;
+  }
+
+  /* ── ASSET ROW ── */
+  .asset-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .asset-row:last-of-type { border-bottom: none; }
+
+  .asset-left {
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .asset-icon {
+    width: 28px; height: 28px;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.03);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .asset-icon svg {
+    width: 14px; height: 14px;
+    fill: none;
+    stroke: rgba(255,255,255,0.4);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+  }
+
+  .asset-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.75);
+  }
+
+  .asset-ticker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.22);
+    margin-top: 2px;
+  }
+
+  .asset-right { text-align: right; }
+
+  .asset-amount {
+    font-family: 'Fragment Mono', monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.78);
+    letter-spacing: 0.3px;
+  }
+
+  .asset-usd {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: rgba(255,255,255,0.2);
+    margin-top: 2px;
+  }
+
+  /* ── ACTION TILES ── */
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .action-btn {
+    padding: 16px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: background 0.18s;
+    border: none; background: transparent;
+    position: relative;
+  }
+
+  .action-btn:first-child {
+    border-right: 1px solid rgba(255,255,255,0.06);
+    background: rgba(200,168,80,0.06);
+  }
+
+  .action-btn:active { background: rgba(200,168,80,0.1); }
+  .action-btn:last-child:active { background: rgba(255,255,255,0.04); }
+
+  .action-icon {
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .action-icon svg {
+    width: 16px; height: 16px;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: square;
+  }
+
+  .action-btn:first-child .action-icon svg { stroke: #C8A850; }
+  .action-btn:last-child .action-icon svg { stroke: rgba(255,255,255,0.4); }
+
+  .action-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8.5px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .action-btn:first-child .action-label { color: #C8A850; }
+  .action-btn:last-child .action-label { color: rgba(255,255,255,0.28); }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="header">
+    <div class="header-label">Total Balance</div>
+    <div class="asset-pill">
+      <div class="asset-dot"></div>
+      <span class="asset-label">4 assets</span>
+    </div>
+  </div>
+
+  <div class="balance-block">
+    <div class="balance-main">
+      <span class="balance-symbol">₿</span>
+      <span class="balance-amount" id="balanceAmt">0.000000</span>
+    </div>
+    <div class="balance-usd" id="balanceUsd">$0.00 USD</div>
+    <div class="change-row">
+      <div class="change-pill">
+        <span class="change-arrow">↑</span>
+        <span class="change-value">+2.4%</span>
+      </div>
+      <span class="change-period">today</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="asset-row">
+    <div class="asset-left">
+      <div class="asset-icon">
+        <svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5"/><path d="M5 7h4M7 5v4"/></svg>
+      </div>
+      <div>
+        <div class="asset-name">Bitcoin</div>
+        <div class="asset-ticker">BTC</div>
+      </div>
+    </div>
+    <div class="asset-right">
+      <div class="asset-amount">0.284710</div>
+      <div class="asset-usd">$18,234</div>
+    </div>
+  </div>
+
+  <div class="asset-row">
+    <div class="asset-left">
+      <div class="asset-icon">
+        <svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5"/><line x1="4" y1="7" x2="10" y2="7"/><line x1="7" y1="5" x2="7" y2="7"/></svg>
+      </div>
+      <div>
+        <div class="asset-name">Tether</div>
+        <div class="asset-ticker">USDT</div>
+      </div>
+    </div>
+    <div class="asset-right">
+      <div class="asset-amount">4,619.00</div>
+      <div class="asset-usd">$4,619</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="actions">
+    <button class="action-btn">
+      <div class="action-icon">
+        <svg viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14"/><polyline points="4,6 8,2 12,6"/></svg>
+      </div>
+      <span class="action-label">Send</span>
+    </button>
+    <button class="action-btn">
+      <div class="action-icon">
+        <svg viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14"/><polyline points="4,10 8,14 12,10"/></svg>
+      </div>
+      <span class="action-label">Receive</span>
+    </button>
+  </div>
+
+</div>
+
+<script>
+// Count-up animation on load
+const TARGET_BTC = 0.284710;
+const TARGET_USD = 22853;
+const dur = 1400;
+const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+
+const balAmt = document.getElementById('balanceAmt');
+const balUsd = document.getElementById('balanceUsd');
+
+document.fonts.ready.then(() => {
+  const start = performance.now();
+  function frame(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const e = ease(p);
+    balAmt.textContent = (TARGET_BTC * e).toFixed(6);
+    balUsd.textContent = '$' + Math.round(TARGET_USD * e).toLocaleString() + '.00 USD';
+    if (p < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+});
+</script>
+</body>
+</html>

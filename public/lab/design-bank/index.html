@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Bank — Lemonhaze</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #000;
+    --sidebar-bg: #080808;
+    --sidebar-border: rgba(255,255,255,0.07);
+    --card-bg: #0a0a0a;
+    --card-border: rgba(255,255,255,0.07);
+    --card-hover-border: rgba(255,255,255,0.22);
+    --teal: #0F8F7A;
+    --text: rgba(255,255,255,0.92);
+    --text-muted: rgba(255,255,255,0.32);
+    --text-dim: rgba(255,255,255,0.16);
+    --mono: 'IBM Plex Mono', monospace;
+    --sidebar-w: 228px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: 'Syne', sans-serif;
+    color: var(--text);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999;
+    pointer-events: none;
+    opacity: 0.018;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: flex;
+    width: 100%; height: 100%;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    height: 100%;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+  }
+
+  .sidebar-header {
+    padding: 32px 20px 26px;
+  }
+
+  .wordmark {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.96);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .byline {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: var(--text-dim);
+  }
+
+  .sidebar-divider {
+    height: 1px;
+    background: var(--sidebar-border);
+    margin: 0;
+  }
+
+  .filters {
+    padding: 18px 0;
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+    min-height: 0;
+  }
+
+  .filters::-webkit-scrollbar { display: none; }
+
+  .filter-section-label {
+    padding: 8px 20px 5px;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .filter-item {
+    display: flex;
+    align-items: center;
+    padding: 9px 20px;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    border-left: 1px solid transparent;
+    transition: color 0.14s, border-color 0.14s;
+    user-select: none;
+    position: relative;
+  }
+
+  .filter-item:hover { color: rgba(255,255,255,0.65); }
+
+  .filter-item.active {
+    color: rgba(255,255,255,0.96);
+    border-left-color: rgba(255,255,255,0.7);
+  }
+
+  .filter-item.active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .filter-item-sub {
+    padding-left: 32px;
+    font-size: 10.5px;
+  }
+
+  .sidebar-footer {
+    padding: 14px 20px 24px;
+    border-top: 1px solid var(--sidebar-border);
+  }
+
+  .entry-count {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: var(--text-dim);
+  }
+
+  /* ── MAIN ── */
+  .main {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.07) transparent;
+    transform: translateZ(0);
+    isolation: isolate;
+  }
+
+  .main::-webkit-scrollbar { width: 3px; }
+  .main::-webkit-scrollbar-track { background: transparent; }
+  .main::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); }
+
+  /* ── MAIN HEADER ── */
+  .main-header {
+    padding: 32px 32px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--sidebar-border);
+    padding-bottom: 20px;
+  }
+
+  .main-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.14s;
+    padding: 0;
+    background: none;
+    border: none;
+  }
+  .main-back:hover { color: rgba(255,255,255,0.75); }
+  .main-back-arrow { font-size: 12px; }
+
+  .main-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+
+  .main-filter-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    color: var(--text-dim);
+  }
+
+  /* ── KIT GALLERY GRID ── */
+  .kit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    padding: 32px 32px 40px;
+    gap: 16px;
+  }
+
+  /* ── KIT CARD ── */
+  .kit-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 0;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transform: translateZ(0);
+    transition: border-color 0.18s ease;
+  }
+
+  .kit-card:hover {
+    border-color: var(--card-hover-border);
+  }
+
+  .kit-card-preview {
+    position: relative;
+    height: 260px;
+    overflow: hidden;
+    background: #060606;
+    transform: translateZ(0);
+    isolation: isolate;
+  }
+
+  .kit-card-preview iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 250%;
+    height: 650px;
+    border: none;
+    pointer-events: none;
+    transform: scale(0.4);
+    transform-origin: top left;
+    display: block;
+  }
+
+  .kit-card-preview::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to top, var(--kit-accent-fade, #000) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .kit-card-preview-overlay {
+    position: absolute;
+    inset: 0; z-index: 5;
+    cursor: pointer;
+  }
+
+  .kit-card-body {
+    padding: 18px 18px 20px;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .kit-card-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .kit-card-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    color: rgba(255,255,255,0.96);
+  }
+
+  .kit-card-count {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+
+  .kit-card-desc {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  .kit-open-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    padding: 5px 12px;
+    background: rgba(0,0,0,0.82);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.85);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.16s;
+    z-index: 8;
+    pointer-events: none;
+  }
+
+  .kit-card:hover .kit-open-btn { opacity: 1; }
+
+  /* ── ENTRY GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    padding: 32px 32px 40px;
+  }
+
+  /* ── ENTRY CARD ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 0;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transform: translateZ(0);
+    transition: border-color 0.18s ease;
+  }
+
+  .card:hover { border-color: var(--card-hover-border); }
+
+  .card-preview {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    background: #060606;
+    transform: translateZ(0);
+    isolation: isolate;
+  }
+
+  .card-preview iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 250%;
+    height: 550px;
+    border: none;
+    pointer-events: none;
+    transform: scale(0.4);
+    transform-origin: top left;
+    display: block;
+  }
+
+  .preview-overlay {
+    position: absolute;
+    inset: 0; z-index: 5;
+    cursor: pointer;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+  }
+
+  .open-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    padding: 5px 12px;
+    background: rgba(0,0,0,0.82);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.85);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.16s, border-color 0.14s;
+    z-index: 10;
+  }
+
+  .card:hover .open-btn { opacity: 1; }
+  .open-btn:hover { border-color: rgba(255,255,255,0.45); }
+
+  .card-footer {
+    padding: 14px 14px 15px;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.92);
+    letter-spacing: 0.1px;
+    line-height: 1.2;
+  }
+
+  .card-date {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 400;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    letter-spacing: 0.2px;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .tag {
+    padding: 2px 7px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    color: rgba(255,255,255,0.28);
+  }
+
+  .empty {
+    grid-column: 1 / -1;
+    padding: 80px 0;
+    text-align: center;
+    font-family: var(--mono);
+    color: var(--text-dim);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.94);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal-panel {
+    width: 90vw;
+    height: 90vh;
+    max-width: 1400px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    transform: scale(0.98) translateY(6px);
+    transition: transform 0.26s cubic-bezier(0.34, 1.2, 0.64, 1);
+    box-shadow: 0 60px 120px rgba(0,0,0,0.8);
+  }
+
+  .modal-overlay.open .modal-panel { transform: scale(1) translateY(0); }
+
+  .modal-preview {
+    flex: 0 0 65%;
+    position: relative;
+    background: #050505;
+    border-right: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .modal-preview iframe {
+    width: 100%; height: 100%;
+    border: none; display: block;
+  }
+
+  .modal-meta {
+    flex: 0 0 35%;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .modal-meta::-webkit-scrollbar { display: none; }
+
+  .modal-entry-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.96);
+    letter-spacing: -0.4px;
+    line-height: 1.1;
+    margin-top: -6px;
+  }
+
+  .modal-category-row { display: flex; align-items: center; gap: 8px; }
+
+  .modal-category {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    padding: 3px 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.09);
+  }
+
+  .modal-date {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.3px;
+  }
+
+  .modal-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  .modal-description {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1px;
+  }
+
+  .modal-divider { height: 1px; background: rgba(255,255,255,0.06); }
+
+  .modal-actions { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+
+  .modal-btn {
+    width: 100%; padding: 12px 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.14s, color 0.14s, border-color 0.14s;
+    border: none;
+  }
+  .modal-btn:active { opacity: 0.7; }
+  .modal-btn-primary {
+    background: rgba(255,255,255,0.96);
+    color: #000;
+    border: 1px solid transparent;
+  }
+  .modal-btn-primary:hover { background: #fff; }
+  .modal-btn-secondary {
+    background: transparent;
+    color: rgba(255,255,255,0.42);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .modal-btn-secondary:hover { border-color: rgba(255,255,255,0.28); color: rgba(255,255,255,0.7); }
+  .modal-btn-secondary.copied {
+    border-color: rgba(15,143,122,0.4);
+    color: rgba(15,200,160,0.75);
+  }
+
+  .modal-close {
+    position: absolute; top: 14px; right: 14px;
+    width: 36px; height: 36px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.4);
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.14s, color 0.14s;
+    z-index: 10; line-height: 1;
+    font-family: var(--mono);
+  }
+  .modal-close:hover { border-color: rgba(255,255,255,0.35); color: rgba(255,255,255,0.9); }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="wordmark">Design Bank</div>
+      <div class="byline">by Lemonhaze</div>
+    </div>
+    <div class="sidebar-divider"></div>
+
+    <nav class="filters" id="filters">
+      <div class="filter-section-label">By Kit</div>
+      <div class="filter-item active" data-view="kits">All Kits</div>
+      <div class="filter-item filter-item-sub" data-view="kit" data-kit="liquid-glass">Liquid Glass</div>
+      <div class="filter-item filter-item-sub" data-view="kit" data-kit="gold-ring">Gold Ring</div>
+      <div class="filter-item filter-item-sub" data-view="kit" data-kit="latch">Latch</div>
+      <div class="filter-item filter-item-sub" data-view="kit" data-kit="obsidian">Obsidian</div>
+
+      <div class="filter-section-label" style="margin-top:12px">By Type</div>
+      <div class="filter-item filter-item-sub" data-view="category" data-cat="surfaces">Surfaces</div>
+      <div class="filter-item filter-item-sub" data-view="category" data-cat="navigation">Navigation</div>
+      <div class="filter-item filter-item-sub" data-view="category" data-cat="components">Components</div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="entry-count" id="entryCount">— entries</div>
+    </div>
+  </aside>
+
+  <main class="main" id="main">
+    <div class="main-header" id="mainHeader">
+      <div class="main-title" id="mainTitle">Kits</div>
+      <div class="main-filter-label" id="activeFilterLabel"></div>
+    </div>
+    <div id="mainContent"></div>
+  </main>
+
+</div>
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-panel" id="modalPanel">
+    <div class="modal-preview">
+      <iframe id="modalIframe" src="" title="Entry preview" allowtransparency="true"></iframe>
+    </div>
+    <div class="modal-meta">
+      <div>
+        <div class="modal-entry-label" id="modalCategory">—</div>
+        <div class="modal-title" id="modalTitle">—</div>
+      </div>
+      <div class="modal-category-row">
+        <span class="modal-category" id="modalCategoryBadge">—</span>
+        <span class="modal-date" id="modalDate">—</span>
+      </div>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-divider"></div>
+      <p class="modal-description" id="modalDesc">—</p>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-primary" id="viewCodeBtn">View Source</button>
+        <button class="modal-btn modal-btn-secondary" id="copyPathBtn">Copy Path</button>
+      </div>
+    </div>
+    <button class="modal-close" id="modalClose">✕</button>
+  </div>
+</div>
+
+<script src="data/entries.js"></script>
+<script>
+
+// ── KIT DEFINITIONS ──────────────────────────────────────────────────────
+const KITS = {
+  'liquid-glass': {
+    name: 'Liquid Glass',
+    description: '5-layer glass surfaces. Caustics, specular arc, mouse-tracking glare, spring-physics sliding indicator.',
+    hero: 'liquid-glass-nav',
+    accent: '#4FC3F7',
+    accentFade: '#07070E',
+  },
+  'gold-ring': {
+    name: 'Gold Ring',
+    description: 'Warm light mode fintech. Comet ring badge, ivory surfaces, teal brand, full component library.',
+    hero: 'gold-ring-nav-light',
+    accent: '#D4A84B',
+    accentFade: '#0D0A04',
+  },
+  'latch': {
+    name: 'Latch',
+    description: 'Bitcoin-native dark fintech. Physical card, teal brand, spring-physics nav, glass action surfaces.',
+    hero: 'latch-card-gradient',
+    accent: '#0F8F7A',
+    accentFade: '#04100E',
+  },
+  'obsidian': {
+    name: 'Obsidian',
+    description: 'Carbon fiber depth, gold specular, vault-unlock animations. Luxury dark matter.',
+    hero: 'obsidian-balance-hero',
+    accent: '#C8A850',
+    accentFade: '#0D0B06',
+  },
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let state = { view: 'kits', kit: null, category: null };
+let activeEntry = null;
+
+// ── ELEMENTS ─────────────────────────────────────────────────────────────
+const mainContent     = document.getElementById('mainContent');
+const mainTitle       = document.getElementById('mainTitle');
+const mainHeader      = document.getElementById('mainHeader');
+const activeFilterLbl = document.getElementById('activeFilterLabel');
+const entryCount      = document.getElementById('entryCount');
+const filtersNav      = document.getElementById('filters');
+const modalOverlay    = document.getElementById('modalOverlay');
+const modalIframe     = document.getElementById('modalIframe');
+const modalTitleEl    = document.getElementById('modalTitle');
+const modalCategory   = document.getElementById('modalCategory');
+const modalCategoryBadge = document.getElementById('modalCategoryBadge');
+const modalDate       = document.getElementById('modalDate');
+const modalTags       = document.getElementById('modalTags');
+const modalDesc       = document.getElementById('modalDesc');
+const modalClose      = document.getElementById('modalClose');
+const viewCodeBtn     = document.getElementById('viewCodeBtn');
+const copyPathBtn     = document.getElementById('copyPathBtn');
+
+// ── SIDEBAR SYNC ─────────────────────────────────────────────────────────
+function syncSidebar() {
+  filtersNav.querySelectorAll('.filter-item').forEach(el => {
+    let active = false;
+    if (el.dataset.view === 'kits' && state.view === 'kits') active = true;
+    if (el.dataset.view === 'kit' && state.view === 'kit' && el.dataset.kit === state.kit) active = true;
+    if (el.dataset.view === 'category' && state.view === 'category' && el.dataset.cat === state.category) active = true;
+    el.classList.toggle('active', active);
+  });
+}
+
+filtersNav.addEventListener('click', e => {
+  const item = e.target.closest('.filter-item');
+  if (!item) return;
+  const v = item.dataset.view;
+  if (v === 'kits')     navigate({ view: 'kits' });
+  if (v === 'kit')      navigate({ view: 'kit', kit: item.dataset.kit });
+  if (v === 'category') navigate({ view: 'category', category: item.dataset.cat });
+});
+
+// ── NAVIGATE ─────────────────────────────────────────────────────────────
+function navigate(newState) {
+  state = { view: 'kits', kit: null, category: null, ...newState };
+  syncSidebar();
+  render();
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────────
+function render() {
+  if (state.view === 'kits') renderKitGallery();
+  else if (state.view === 'kit') renderKitEntries(state.kit);
+  else if (state.view === 'category') renderCategoryEntries(state.category);
+}
+
+// ── KIT GALLERY ───────────────────────────────────────────────────────────
+function renderKitGallery() {
+  // Header
+  mainHeader.innerHTML = `
+    <div class="main-title">Design Bank</div>
+    <div class="main-filter-label">${Object.keys(KITS).length} kits</div>
+  `;
+
+  entryCount.textContent = `${window.ENTRIES.length} entries total`;
+
+  const grid = document.createElement('div');
+  grid.className = 'kit-grid';
+
+  Object.entries(KITS).forEach(([kitId, kit]) => {
+    const entries = window.ENTRIES.filter(e => e.kit === kitId);
+    const heroEntry = entries.find(e => e.id === kit.hero) || entries[0];
+
+    const card = document.createElement('div');
+    card.className = 'kit-card';
+
+    card.innerHTML = `
+      <div class="kit-card-preview" style="--kit-accent-fade: ${kit.accentFade}">
+        ${heroEntry ? `<iframe src="${heroEntry.file}" loading="lazy" scrolling="no" tabindex="-1" inert></iframe>` : ''}
+        <div class="kit-card-preview-overlay"></div>
+        <div class="kit-open-btn">Open Kit</div>
+      </div>
+      <div class="kit-card-body">
+        <div class="kit-card-top">
+          <div class="kit-card-name">${kit.name}</div>
+          <div class="kit-card-count">${entries.length} element${entries.length !== 1 ? 's' : ''}</div>
+        </div>
+        <div class="kit-card-desc">${kit.description}</div>
+      </div>
+    `;
+
+    card.addEventListener('click', () => navigate({ view: 'kit', kit: kitId }));
+    grid.appendChild(card);
+  });
+
+  mainContent.innerHTML = '';
+  mainContent.appendChild(grid);
+}
+
+// ── KIT ENTRIES ───────────────────────────────────────────────────────────
+function renderKitEntries(kitId) {
+  const kit = KITS[kitId];
+  const entries = window.ENTRIES.filter(e => e.kit === kitId);
+
+  // Header with back button
+  mainHeader.innerHTML = `
+    <button class="main-back" id="backToKits">
+      <span class="main-back-arrow">←</span> All Kits
+    </button>
+    <div class="main-filter-label">${kit?.name || kitId}</div>
+  `;
+  document.getElementById('backToKits').addEventListener('click', () => navigate({ view: 'kits' }));
+
+  entryCount.textContent = `${entries.length} entr${entries.length === 1 ? 'y' : 'ies'}`;
+  renderEntryGrid(entries);
+}
+
+// ── CATEGORY ENTRIES ──────────────────────────────────────────────────────
+function renderCategoryEntries(cat) {
+  const entries = window.ENTRIES.filter(e => e.category.toLowerCase() === cat.toLowerCase());
+
+  mainHeader.innerHTML = `
+    <div class="main-title">${cap(cat)}</div>
+    <div class="main-filter-label">${entries.length} entr${entries.length === 1 ? 'y' : 'ies'}</div>
+  `;
+
+  entryCount.textContent = `${entries.length} entr${entries.length === 1 ? 'y' : 'ies'}`;
+  renderEntryGrid(entries);
+}
+
+// ── ENTRY GRID ────────────────────────────────────────────────────────────
+function renderEntryGrid(entries) {
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+
+  if (entries.length === 0) {
+    grid.innerHTML = '<div class="empty">No entries here yet</div>';
+    mainContent.innerHTML = '';
+    mainContent.appendChild(grid);
+    return;
+  }
+
+  entries.forEach(entry => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-preview">
+        <iframe src="${entry.file}" loading="lazy" scrolling="no" tabindex="-1" inert></iframe>
+        <div class="preview-overlay"></div>
+        <button class="open-btn" data-id="${entry.id}">Open</button>
+      </div>
+      <div class="card-footer">
+        <div class="card-meta">
+          <div class="card-title">${entry.title}</div>
+          <div class="card-date">${formatDate(entry.date)}</div>
+        </div>
+        <div class="card-tags">${entry.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    `;
+
+    card.addEventListener('click', e => {
+      if (!e.target.closest('.open-btn')) openModal(entry);
+    });
+    card.querySelector('.open-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      openModal(entry);
+    });
+
+    grid.appendChild(card);
+  });
+
+  mainContent.innerHTML = '';
+  mainContent.appendChild(grid);
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+function formatDate(str) {
+  const [y, m, d] = str.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[parseInt(m,10)-1]} ${d}, ${y}`;
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────
+function openModal(entry) {
+  activeEntry = entry;
+  modalTitleEl.textContent        = entry.title;
+  modalCategory.textContent       = entry.category.toUpperCase();
+  modalCategoryBadge.textContent  = entry.category.toUpperCase();
+  modalDate.textContent           = formatDate(entry.date);
+  modalDesc.textContent           = entry.description;
+  modalTags.innerHTML             = entry.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  modalIframe.src                 = entry.file;
+  modalOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    if (!modalOverlay.classList.contains('open')) modalIframe.src = '';
+  }, 320);
+  activeEntry = null;
+}
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+viewCodeBtn.addEventListener('click', () => { if (activeEntry) window.open(activeEntry.file, '_blank'); });
+
+copyPathBtn.addEventListener('click', () => {
+  if (!activeEntry) return;
+  navigator.clipboard.writeText(activeEntry.file).then(() => {
+    copyPathBtn.textContent = 'Copied!';
+    copyPathBtn.classList.add('copied');
+    setTimeout(() => {
+      copyPathBtn.textContent = 'Copy Path';
+      copyPathBtn.classList.remove('copied');
+    }, 1800);
+  }).catch(() => {
+    copyPathBtn.textContent = activeEntry.file;
+    setTimeout(() => { copyPathBtn.textContent = 'Copy Path'; }, 2500);
+  });
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+navigate({ view: 'kits' });
+
+</script>
+</body>
+</html>

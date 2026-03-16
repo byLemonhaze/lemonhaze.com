@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Ring Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── GOLD RING LIGHT KIT TOKENS ── */
+  :root {
+    --bg:            #EDE8DF;
+    --surface:       rgba(255,255,255,0.60);
+    --surface-lo:    rgba(0,0,0,0.03);
+    --surface-hi:    rgba(0,0,0,0.06);
+    --border:        rgba(0,0,0,0.07);
+    --border-hi:     rgba(0,0,0,0.12);
+    --accent:        #C49746;
+    --accent-bright: #E8C96A;
+    --accent-fill:   rgba(196,151,70,0.12);
+    --accent-border: rgba(196,151,70,0.28);
+    --accent-glow:   rgba(232,175,72,0.22);
+    --inner-plate:   rgb(238,233,224);
+    --text:          rgba(0,0,0,0.82);
+    --text-muted:    rgba(0,0,0,0.42);
+    --text-dim:      rgba(0,0,0,0.22);
+    --r-xl:          24px;
+    --r-lg:          18px;
+    --r-md:          14px;
+    --font:          'Syne', sans-serif;
+    --mono:          'Fragment Mono', monospace;
+    --frame:         375px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: var(--font);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    overflow: hidden;
+  }
+
+  /* Film grain */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 100;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  /* Ambient gold glow */
+  .ambient {
+    position: fixed; left: 50%; top: 42%;
+    transform: translate(-50%, -50%);
+    width: 320px; height: 160px;
+    background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+    filter: blur(32px);
+    pointer-events: none;
+  }
+
+  /* ── CARD ── */
+  .card {
+    position: relative;
+    width: 335px; height: 204px;
+    border-radius: var(--r-lg);
+    background: linear-gradient(135deg,
+      #2C1A08 0%,
+      #5C3A12 28%,
+      #9B7230 55%,
+      #C49746 78%,
+      #E8C96A 100%
+    );
+    box-shadow:
+      0 32px 64px rgba(0,0,0,0.22),
+      0 8px 24px rgba(0,0,0,0.14),
+      inset 0 1px 0 rgba(255,255,255,0.28);
+    overflow: hidden;
+  }
+
+  /* Specular arc */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -25%; left: -10%;
+    width: 65%; height: 75%;
+    background: radial-gradient(ellipse at 30% 25%,
+      rgba(255,255,255,0.35) 0%,
+      rgba(255,255,255,0.10) 35%,
+      transparent 65%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* Bottom caustic */
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 40%;
+    background: linear-gradient(0deg,
+      rgba(30,15,0,0.45) 0%,
+      rgba(30,15,0,0.12) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .card-inner {
+    position: relative; z-index: 2;
+    width: 100%; height: 100%;
+    padding: 22px 24px;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .card-brand {
+    font-size: 14px; font-weight: 800;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(255,245,210,0.95);
+  }
+
+  /* Ring indicator — small version */
+  .ring-badge {
+    width: 26px; height: 26px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ring-spin {
+    position: absolute;
+    width: 200%; height: 200%;
+    top: -50%; left: -50%;
+    animation: spin 4.5s linear infinite;
+    background: conic-gradient(
+      #533517 0deg, #c49746 63deg, #feeaa5 126deg,
+      #ffffff 126deg, #ffffff 131deg,
+      #ffc0cb 131deg, #ffc0cb 134deg,
+      #ffffff 134deg, #ffffff 140deg,
+      #533517 140deg, #533517 180deg,
+      #533517 180deg, #c49746 243deg, #feeaa5 306deg,
+      #ffffff 306deg, #ffffff 311deg,
+      #ffc0cb 311deg, #ffc0cb 314deg,
+      #ffffff 314deg, #ffffff 320deg,
+      #533517 320deg, #533517 360deg
+    );
+  }
+
+  .ring-plate {
+    position: absolute;
+    inset: 2px;
+    border-radius: 6px;
+    background: rgba(30,15,5,0.5);
+  }
+
+  @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+
+  .card-number {
+    font-family: var(--mono);
+    font-size: 13px; letter-spacing: 2.5px;
+    color: rgba(255,240,195,0.78);
+    text-align: center;
+  }
+
+  .card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .card-name {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,240,195,0.70);
+  }
+
+  .visa-mark {
+    font-size: 17px; font-weight: 800;
+    font-style: italic;
+    color: rgba(255,240,195,0.65);
+    letter-spacing: -1px;
+  }
+
+  /* ── LABEL ── */
+  .label {
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--text-dim);
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="card-brand">LATCH</div>
+      <div class="ring-badge">
+        <div class="ring-spin"></div>
+        <div class="ring-plate"></div>
+      </div>
+    </div>
+    <div class="card-number">•••• &nbsp;•••• &nbsp;•••• &nbsp;4291</div>
+    <div class="card-bottom">
+      <div class="card-name">ALBERT EINSTEIN</div>
+      <div class="visa-mark">VISA</div>
+    </div>
+  </div>
+</div>
+
+<div class="label">Card Surface</div>
+
+</body>
+</html>

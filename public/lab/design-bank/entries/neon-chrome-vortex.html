@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Chrome Vortex</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --neon-m: rgba(255,0,255,0.65);
+  --neon-c: rgba(0,255,255,0.55);
+  --arc-col: rgba(255,0,255,0.6);
+  --plasma-spd: 2.6s;
+  --glow-mul: 1;
+  --halo-spd: 3s;
+}
+
+[data-mode="funky"] {
+  --neon-m: rgba(255,0,255,0.95);
+  --neon-c: rgba(0,255,255,0.90);
+  --arc-col: rgba(0,255,255,1);
+  --plasma-spd: 0.85s;
+  --glow-mul: 2.2;
+  --halo-spd: 0.55s;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: #07050F;
+  overflow: hidden;
+  font-family: 'Syne', sans-serif;
+  user-select: none;
+}
+
+/* ── void nebula ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 38% at 22% 32%, rgba(120,0,200,0.11) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 35% at 78% 68%, rgba(0,60,200,0.09) 0%, transparent 58%),
+    radial-gradient(ellipse 35% 45% at 52% 52%, rgba(0,120,160,0.07) 0%, transparent 65%);
+}
+
+/* ── neon grid ── */
+.grid {
+  position: fixed; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(rgba(0,255,255,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,255,0.028) 1px, transparent 1px);
+  background-size: 56px 56px;
+  animation: gridDrift 16s ease-in-out infinite alternate;
+}
+[data-mode="funky"] .grid {
+  background:
+    linear-gradient(rgba(255,0,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,255,0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+@keyframes gridDrift {
+  from { transform: perspective(500px) rotateX(0deg) translateY(0px); }
+  to   { transform: perspective(500px) rotateX(5deg) translateY(-8px); }
+}
+
+/* ── film grain ── */
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* ── background canvas ── */
+#bg { position: fixed; inset: 0; pointer-events: none; }
+
+/* ── energy surge ── */
+#surge {
+  position: fixed; inset: 0; z-index: 998; pointer-events: none;
+  opacity: 0; transition: opacity 0.08s;
+}
+
+/* ── dashboard shell ── */
+#dash {
+  position: fixed; top: 50%; left: 50%;
+  width: 700px; height: 176px;
+  border-radius: 88px;
+  transform: translate(-50%, -50%);
+  isolation: isolate;
+  overflow: hidden;
+  animation: dashBob 7s ease-in-out infinite;
+
+  background:
+    radial-gradient(ellipse 45% 65% at 30% 16%, rgba(255,255,255,0.58) 0%, transparent 42%),
+    radial-gradient(ellipse 30% 40% at 80% 76%, rgba(255,255,255,0.22) 0%, transparent 38%),
+    linear-gradient(148deg,
+      #1c1c2a 0%, #5c5c72 14%, #c8c8dc 30%,
+      #3c3c50 46%, #a8a8c0 62%, #2c2c3e 78%, #dcdcf0 100%
+    );
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.13),
+    0 0 80px rgba(180,0,255,calc(0.22 * var(--glow-mul))),
+    0 0 160px rgba(0,180,255,calc(0.10 * var(--glow-mul))),
+    0 48px 96px rgba(0,0,0,0.60),
+    inset 0 1px 0 rgba(255,255,255,0.38),
+    inset 0 -1px 0 rgba(0,0,0,0.38);
+}
+@keyframes dashBob {
+  0%, 100% { transform: translate(-50%, calc(-50% - 5px)); }
+  50%       { transform: translate(-50%, calc(-50% + 5px)); }
+}
+[data-mode="funky"] #dash { animation: dashBob 3.5s ease-in-out infinite, dashFunkyShake 0.07s linear infinite; }
+@keyframes dashFunkyShake {
+  0%  { margin-left:  0px; }
+  25% { margin-left:  2px; }
+  75% { margin-left: -2px; }
+}
+
+/* ── webgl vortex ── */
+#vortex {
+  position: absolute; top: 50%; left: 50%;
+  width: 280px; height: 280px;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 3; border-radius: 50%;
+}
+
+/* ── plasma edge bleeds ── */
+.plasma-l, .plasma-r {
+  position: absolute; top: 0; bottom: 0; width: 220px;
+  z-index: 2; pointer-events: none;
+}
+.plasma-l {
+  left: 0; border-radius: 88px 0 0 88px;
+  background: radial-gradient(ellipse at left, var(--neon-m) 0%, transparent 68%);
+  animation: plFlicker var(--plasma-spd) ease-in-out infinite alternate;
+}
+.plasma-r {
+  right: 0; border-radius: 0 88px 88px 0;
+  background: radial-gradient(ellipse at right, var(--neon-c) 0%, transparent 68%);
+  animation: plFlicker var(--plasma-spd) ease-in-out infinite alternate-reverse;
+}
+@keyframes plFlicker { from { opacity: 0.5; } to { opacity: 1; } }
+
+/* ── scanlines ── */
+.scanlines {
+  position: absolute; inset: 0; z-index: 6; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, transparent 0, transparent 2px,
+    rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 3px
+  );
+  animation: scanMove 12s linear infinite;
+}
+@keyframes scanMove {
+  from { background-position: 0 0; }
+  to   { background-position: 0 120px; }
+}
+
+/* ── glitch layer ── */
+#glitch {
+  position: absolute; inset: 0; z-index: 7; pointer-events: none; opacity: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,0,0,0.05) 0, rgba(255,0,0,0.05) 1px,
+    transparent 1px, transparent 5px,
+    rgba(0,255,255,0.05) 5px, rgba(0,255,255,0.05) 6px,
+    transparent 6px, transparent 10px
+  );
+  transition: opacity 0.04s;
+}
+
+/* ── nav ── */
+#nav {
+  position: absolute; inset: 0; right: 84px;
+  display: flex; align-items: center;
+  padding: 0 48px; z-index: 10; gap: 0;
+}
+
+.nav-item {
+  flex: 1; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; cursor: pointer; position: relative;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
+}
+.nav-item:hover { transform: scale(0.93); }
+.nav-item:active { transform: scale(0.87); }
+
+.nav-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+.nav-icon svg {
+  width: 26px; height: 26px; stroke: rgba(255,255,255,0.35); fill: none;
+  stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  transition: stroke 0.22s, filter 0.22s;
+  filter: drop-shadow(0 0 0px rgba(255,255,255,0));
+}
+.nav-item:hover .nav-icon svg,
+.nav-item.active .nav-icon svg {
+  stroke: rgba(255,255,255,0.95);
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));
+}
+[data-mode="funky"] .nav-item.active .nav-icon svg {
+  filter: drop-shadow(0 0 8px rgba(0,255,255,0.8)) drop-shadow(0 0 3px cyan);
+}
+.nav-lbl {
+  font-size: 8.5px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.28); transition: color 0.22s;
+}
+.nav-item.active .nav-lbl,
+.nav-item:hover  .nav-lbl { color: rgba(255,255,255,0.90); }
+
+/* ── plasma arc dividers ── */
+.arc {
+  width: 1px; height: 68%; flex-shrink: 0;
+  background: linear-gradient(180deg, transparent 0%, var(--arc-col) 28%, var(--arc-col) 72%, transparent 100%);
+  filter: blur(1px);
+  animation: arcGlow var(--plasma-spd) ease-in-out infinite alternate;
+  position: relative;
+}
+.arc::after {
+  content: ''; position: absolute; inset: 0;
+  background: inherit; filter: blur(5px); opacity: 0.55;
+}
+@keyframes arcGlow { from { opacity: 0.45; } to { opacity: 1; } }
+
+/* ── active halo ring ── */
+#halo {
+  position: absolute; z-index: 2; pointer-events: none;
+  width: 80px; height: 80px; border-radius: 50%;
+  top: 50%; transform: translate(-50%, -50%);
+  transition: left 0.38s cubic-bezier(0.34,1.56,0.64,1);
+}
+#halo::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: conic-gradient(
+    rgba(200,200,220,0.75) 0%,
+    rgba(255,0,255,0.95)   22%,
+    rgba(0,255,255,0.95)   45%,
+    rgba(255,255,0,0.80)   68%,
+    rgba(200,200,220,0.75) 100%
+  );
+  animation: haloSpin var(--halo-spd) linear infinite;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), white 0);
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), white 0);
+}
+@keyframes haloSpin { to { transform: rotate(360deg); } }
+#halo.burst::before { animation-duration: 0.5s; }
+
+/* ── mode orb ── */
+#orb-wrap {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  width: 68px; display: flex; flex-direction: column; align-items: center; gap: 5px;
+  cursor: pointer; z-index: 15;
+}
+#orb {
+  width: 40px; height: 40px; border-radius: 50%;
+  background:
+    radial-gradient(ellipse 55% 42% at 33% 27%, rgba(255,255,255,0.65) 0%, transparent 48%),
+    conic-gradient(from 0deg, #101020, #5a5a7a, #c8c8e8, #5a5a7a, #101020);
+  border: 1px solid rgba(255,255,255,0.22);
+  box-shadow: 0 0 14px rgba(200,0,255,0.45), 0 0 28px rgba(0,200,255,0.2);
+  animation: orbSpin 4.5s linear infinite;
+}
+@keyframes orbSpin { to { transform: rotate(360deg); } }
+#orb.implode { animation: orbImplode 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+@keyframes orbImplode {
+  0%   { transform: rotate(0deg)   scale(1);   }
+  35%  { transform: rotate(360deg) scale(0.35); }
+  65%  { transform: rotate(720deg) scale(0.35); }
+  100% { transform: rotate(720deg) scale(1);   }
+}
+[data-mode="funky"] #orb {
+  box-shadow: 0 0 24px rgba(255,0,255,0.8), 0 0 48px rgba(0,255,255,0.4);
+  animation: orbSpin 1.2s linear infinite;
+}
+#orb-lbl {
+  font-size: 7px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,0.42); white-space: nowrap;
+}
+
+/* ── zap press effect ── */
+@keyframes zapBurst {
+  0%   { box-shadow: 0 0 0 0px rgba(255,255,255,0.9), 0 0 0 0px rgba(255,0,255,0.8); }
+  60%  { box-shadow: 0 0 0 18px rgba(255,255,255,0), 0 0 0 28px rgba(255,0,255,0); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.nav-item.zapped .nav-icon { animation: zapBurst 0.4s ease-out; }
+</style>
+</head>
+<body data-mode="stable">
+
+<canvas id="bg"></canvas>
+<div class="grid"></div>
+<div id="surge"></div>
+
+<div id="dash">
+  <canvas id="vortex" width="256" height="256"></canvas>
+  <div class="plasma-l"></div>
+  <div class="plasma-r"></div>
+  <div class="scanlines"></div>
+  <div id="glitch"></div>
+
+  <div id="nav">
+
+    <div class="nav-item active" data-i="0">
+      <div class="nav-icon">
+        <svg viewBox="0 0 26 26">
+          <path d="M4 22V10.5L13 4l9 6.5V22"/>
+          <path d="M9 22v-7h8v7"/>
+          <line x1="1" y1="22" x2="25" y2="22"/>
+          <line x1="4" y1="14.5" x2="7.5" y2="14.5" stroke-opacity="0.3"/>
+          <line x1="19" y1="11" x2="23" y2="11" stroke-opacity="0.3"/>
+        </svg>
+      </div>
+      <span class="nav-lbl">Portal</span>
+    </div>
+
+    <div class="arc"></div>
+
+    <div class="nav-item" data-i="1">
+      <div class="nav-icon">
+        <svg viewBox="0 0 26 26">
+          <polyline points="1,13 5,13 7,7 10,19 13,4 16,22 19,10 22,13 25,13"/>
+          <line x1="11.5" y1="4" x2="11.5" y2="6.5" stroke-opacity="0.32"/>
+        </svg>
+      </div>
+      <span class="nav-lbl">Pulse</span>
+    </div>
+
+    <div class="arc"></div>
+
+    <div class="nav-item" data-i="2">
+      <div class="nav-icon">
+        <svg viewBox="0 0 26 26">
+          <circle cx="13" cy="13" r="3.2"/>
+          <path d="M13 2v3.5M13 20.5V24M2 13h3.5M20.5 13H24"/>
+          <path d="M5.8 5.8l2.3 2.3M17.9 17.9l2.3 2.3M20.2 5.8l-2.3 2.3M7.9 17.9l-2.3 2.3"/>
+          <path d="M5.5 18 Q9 16 13 18 Q17 20 20.5 18" stroke-opacity="0.42"/>
+        </svg>
+      </div>
+      <span class="nav-lbl">Flux</span>
+    </div>
+
+    <div class="arc"></div>
+
+    <div class="nav-item" data-i="3" id="chaosBtn">
+      <div class="nav-icon">
+        <svg viewBox="0 0 26 26">
+          <polyline points="15,2 7,13 13,13 11,24"/>
+          <line x1="16" y1="6"  x2="20" y2="4.5" stroke-opacity="0.4"/>
+          <line x1="5.5" y1="16" x2="3" y2="18"   stroke-opacity="0.4"/>
+          <line x1="14" y1="19" x2="18" y2="21"   stroke-opacity="0.4"/>
+        </svg>
+      </div>
+      <span class="nav-lbl">Chaos</span>
+    </div>
+
+    <div id="halo"></div>
+  </div>
+
+  <div id="orb-wrap">
+    <div id="orb"></div>
+    <span id="orb-lbl">STABLE</span>
+  </div>
+</div>
+
+<script>
+// ── WebGL Vortex ─────────────────────────────────────────────────────────
+const vc  = document.getElementById('vortex');
+const gl  = vc.getContext('webgl') || vc.getContext('experimental-webgl');
+
+const VERT = `attribute vec2 p; void main(){gl_Position=vec4(p,0,1);}`;
+const FRAG = `
+precision mediump float;
+uniform float T; uniform vec2 R; uniform float M; uniform float F;
+
+float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.55);}
+float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+  return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+
+void main(){
+  vec2 uv=(gl_FragCoord.xy/R-0.5)*2.2;
+  uv.x*=R.x/R.y;
+  float r=length(uv), a=atan(uv.y,uv.x);
+  float spd=0.38+M*1.5+F*1.0;
+  float sw=(3.0+M*3.8)/(r*r+0.11);
+  a+=sw*sin(T*spd+r*2.0);
+  vec2 w=vec2(r*cos(a),r*sin(a));
+  float n=vn(w*2.5+T*0.13)*0.5+vn(w*5.5-T*0.21)*0.3+vn(w*12.+T*0.4)*0.2;
+  float c=smoothstep(0.05,0.95,n);
+  vec3 col=mix(vec3(0.03,0.04,0.08),mix(vec3(0.48,0.50,0.58),vec3(0.96,0.97,1.0),c*c),c);
+  float r1=sin(r*7.5-T*2.0+n*9.0)*.5+.5, r2=sin(r*4.5+T*2.4-n*5.5)*.5+.5;
+  float hue=T*0.07+F*0.55;
+  vec3 neo=vec3(.5+.5*sin(hue*6.28),.5+.5*sin(hue*6.28+2.09),.5+.5*sin(hue*6.28+4.19));
+  col+=neo*(0.18+M*0.48+F*0.38)*r1*r2;
+  float eg=smoothstep(0.62,1.1,r)*(0.12+M*0.2+F*0.22);
+  col+=vec3(eg*0.7,0.,eg);
+  gl_FragColor=vec4(col,smoothstep(1.1,0.18,r)*0.94);
+}`;
+
+let glOK = false, prog, UL;
+if (gl) {
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  const vs = gl.createShader(gl.VERTEX_SHADER);
+  gl.shaderSource(vs, VERT); gl.compileShader(vs);
+  const fs = gl.createShader(gl.FRAGMENT_SHADER);
+  gl.shaderSource(fs, FRAG); gl.compileShader(fs);
+  prog = gl.createProgram();
+  gl.attachShader(prog, vs); gl.attachShader(prog, fs);
+  gl.linkProgram(prog); gl.useProgram(prog);
+  const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+  const pl = gl.getAttribLocation(prog, 'p');
+  gl.enableVertexAttribArray(pl); gl.vertexAttribPointer(pl, 2, gl.FLOAT, false, 0, 0);
+  UL = { T: gl.getUniformLocation(prog,'T'), R: gl.getUniformLocation(prog,'R'),
+         M: gl.getUniformLocation(prog,'M'), F: gl.getUniformLocation(prog,'F') };
+  gl.uniform2f(UL.R, 256, 256);
+  glOK = true;
+}
+
+// ── Background canvas ────────────────────────────────────────────────────
+const bgc = document.getElementById('bg');
+const bx  = bgc.getContext('2d');
+bgc.width  = window.innerWidth;
+bgc.height = window.innerHeight;
+window.addEventListener('resize', () => { bgc.width = window.innerWidth; bgc.height = window.innerHeight; });
+
+// Stars
+const STARS = Array.from({length: 220}, () => ({
+  x: Math.random(), y: Math.random(),
+  r: Math.random() * 1.4 + 0.2,
+  a: Math.random() * 0.7 + 0.15,
+  tw: Math.random() * 0.002 + 0.0005,
+  ph: Math.random() * Math.PI * 2,
+}));
+
+// Chrome debris
+const DEBRIS = Array.from({length: 7}, () => ({
+  x: Math.random(), y: Math.random(),
+  w: Math.random() * 14 + 6, h: Math.random() * 8 + 4,
+  rot: Math.random() * Math.PI,
+  spd: Math.random() * 0.00006 + 0.00002,
+  a: Math.random() * 0.4 + 0.15,
+}));
+
+function drawBg(t) {
+  const W = bgc.width, H = bgc.height;
+  bx.clearRect(0, 0, W, H);
+
+  // Stars
+  STARS.forEach(s => {
+    const a = s.a * (0.6 + 0.4 * Math.sin(t * s.tw + s.ph));
+    bx.beginPath();
+    bx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+    bx.fillStyle = `rgba(220,220,255,${a})`;
+    bx.fill();
+  });
+
+  // Debris blobs
+  DEBRIS.forEach(d => {
+    d.rot += d.spd;
+    const dx = d.x * W, dy = d.y * H;
+    bx.save();
+    bx.translate(dx, dy); bx.rotate(d.rot);
+    const g = bx.createLinearGradient(-d.w/2, 0, d.w/2, 0);
+    g.addColorStop(0,   `rgba(30,30,40,${d.a})`);
+    g.addColorStop(0.4, `rgba(140,140,160,${d.a * 1.6})`);
+    g.addColorStop(0.7, `rgba(220,220,240,${d.a * 1.8})`);
+    g.addColorStop(1,   `rgba(60,60,80,${d.a * 0.5})`);
+    bx.fillStyle = g;
+    bx.beginPath();
+    bx.ellipse(0, 0, d.w, d.h, 0, 0, Math.PI * 2);
+    bx.fill();
+    bx.restore();
+  });
+}
+
+// ── State ────────────────────────────────────────────────────────────────
+let mode      = 'stable';
+let activeTab = 0;
+let proximity = 0;
+
+const body    = document.body;
+const dash    = document.getElementById('dash');
+const surge   = document.getElementById('surge');
+const halo    = document.getElementById('halo');
+const glitch  = document.getElementById('glitch');
+const orbEl   = document.getElementById('orb');
+const orbLbl  = document.getElementById('orbLbl');
+const items   = [...document.querySelectorAll('.nav-item')];
+
+// ── Mouse proximity ──────────────────────────────────────────────────────
+document.addEventListener('mousemove', e => {
+  const r  = dash.getBoundingClientRect();
+  const dx = e.clientX - (r.left + r.width  / 2);
+  const dy = e.clientY - (r.top  + r.height / 2);
+  proximity = Math.max(0, 1 - Math.hypot(dx, dy) / 340);
+});
+
+// ── Halo ─────────────────────────────────────────────────────────────────
+function moveHalo() {
+  const nav  = document.getElementById('nav').getBoundingClientRect();
+  const item = items[activeTab].getBoundingClientRect();
+  halo.style.left = (item.left - nav.left + item.width / 2) + 'px';
+}
+window.addEventListener('resize', moveHalo);
+setTimeout(moveHalo, 80);
+
+// ── Tab select ───────────────────────────────────────────────────────────
+function selectTab(i) {
+  if (i === activeTab) return;
+  items[activeTab].classList.remove('active');
+  activeTab = i;
+  items[i].classList.add('active');
+  moveHalo();
+  triggerGlitch(0.22);
+  halo.classList.add('burst');
+  setTimeout(() => halo.classList.remove('burst'), 600);
+  items[i].classList.add('zapped');
+  setTimeout(() => items[i].classList.remove('zapped'), 420);
+}
+
+items.forEach((el, i) => {
+  if (i !== 3) el.addEventListener('click', () => selectTab(i));
+});
+
+// ── Chaos ────────────────────────────────────────────────────────────────
+document.getElementById('chaosBtn').addEventListener('click', () => {
+  selectTab(3);
+  const h1 = Math.random()*360, h2 = (h1 + 120 + Math.random()*80) % 360;
+  body.style.setProperty('--neon-m', `hsla(${h1},100%,62%,0.95)`);
+  body.style.setProperty('--neon-c', `hsla(${h2},100%,62%,0.90)`);
+  body.style.setProperty('--arc-col', `hsla(${(h1+60)%360},100%,72%,1)`);
+  triggerGlitch(0.5);
+  triggerSurge(h1);
+  setTimeout(() => {
+    body.style.removeProperty('--neon-m');
+    body.style.removeProperty('--neon-c');
+    body.style.removeProperty('--arc-col');
+  }, 1800);
+});
+
+// ── Mode toggle ───────────────────────────────────────────────────────────
+document.getElementById('orb-wrap').addEventListener('click', () => {
+  orbEl.classList.add('implode');
+  setTimeout(() => orbEl.classList.remove('implode'), 700);
+  mode = mode === 'stable' ? 'funky' : 'stable';
+  body.dataset.mode = mode;
+  orbLbl.textContent = mode === 'funky' ? 'OVERDRIVE' : 'STABLE';
+  triggerSurge(mode === 'funky' ? 280 : 200);
+  if (mode === 'funky') startFunkyLoop(); else stopFunkyLoop();
+});
+
+// ── Glitch ────────────────────────────────────────────────────────────────
+function triggerGlitch(dur) {
+  glitch.style.opacity = '1';
+  const tx = (Math.random() - 0.5) * 10;
+  dash.style.filter = `brightness(${1.1 + Math.random()*0.4}) hue-rotate(${Math.random()*30-15}deg)`;
+  glitch.style.transform = `translate(${tx}px,${(Math.random()-0.5)*4}px)`;
+  setTimeout(() => { glitch.style.opacity = '0'; glitch.style.transform = ''; dash.style.filter = ''; }, dur * 1000);
+}
+
+// ── Surge ─────────────────────────────────────────────────────────────────
+function triggerSurge(hue = Math.random() * 360) {
+  surge.style.background = `radial-gradient(ellipse at center, hsla(${hue},100%,68%,0.22) 0%, transparent 65%)`;
+  surge.style.opacity = '1';
+  setTimeout(() => { surge.style.opacity = '0'; }, 160);
+}
+
+let surgeTimer;
+(function scheduleSurge() { surgeTimer = setTimeout(() => { triggerSurge(); scheduleSurge(); }, 5000 + Math.random()*6000); })();
+
+// ── Funky mode persistent glitch ─────────────────────────────────────────
+let funkyTimer = null;
+function startFunkyLoop() {
+  funkyTimer = setInterval(() => triggerGlitch(0.12 + Math.random()*0.18), 600 + Math.random()*900);
+}
+function stopFunkyLoop() { clearInterval(funkyTimer); funkyTimer = null; }
+
+// Neon flicker in funky mode
+setInterval(() => {
+  if (mode !== 'funky') return;
+  body.style.setProperty('--neon-m', `rgba(255,0,255,${0.5 + Math.random()*0.5})`);
+  body.style.setProperty('--neon-c', `rgba(0,255,255,${0.45 + Math.random()*0.45})`);
+}, 95);
+
+// ── Main loop ─────────────────────────────────────────────────────────────
+let t0 = null;
+function loop(ts) {
+  if (!t0) t0 = ts;
+  const t = (ts - t0) * 0.001;
+
+  drawBg(t);
+
+  if (glOK) {
+    gl.viewport(0, 0, 256, 256);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.uniform1f(UL.T, t);
+    gl.uniform1f(UL.M, proximity);
+    gl.uniform1f(UL.F, mode === 'funky' ? 1.0 : 0.0);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

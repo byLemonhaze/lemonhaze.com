@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Ring Bottom Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── GOLD RING LIGHT KIT TOKENS ── */
+  :root {
+    --bg:            #EDE8DF;
+    --surface:       rgba(255,255,255,0.60);
+    --surface-lo:    rgba(0,0,0,0.03);
+    --surface-hi:    rgba(0,0,0,0.06);
+    --border:        rgba(0,0,0,0.07);
+    --border-hi:     rgba(0,0,0,0.12);
+    --accent:        #C49746;
+    --accent-bright: #E8C96A;
+    --accent-fill:   rgba(196,151,70,0.12);
+    --accent-border: rgba(196,151,70,0.28);
+    --accent-glow:   rgba(232,175,72,0.22);
+    --inner-plate:   rgb(238,233,224);
+    --text:          rgba(0,0,0,0.82);
+    --text-muted:    rgba(0,0,0,0.42);
+    --text-dim:      rgba(0,0,0,0.22);
+    --r-xl:          24px;
+    --r-lg:          18px;
+    --r-md:          14px;
+    --font:          'Syne', sans-serif;
+    --mono:          'Fragment Mono', monospace;
+    --frame:         375px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: var(--font);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Film grain */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 200;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  /* ── SCRIM ── */
+  .scrim {
+    position: fixed; inset: 0;
+    background: rgba(180,160,120,0.18);
+    z-index: 1;
+  }
+
+  /* Faint bg lines */
+  .bg-content {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 10px; pointer-events: none; opacity: 0.5;
+  }
+
+  .bg-line {
+    height: 8px; border-radius: 4px;
+    background: rgba(0,0,0,0.06);
+  }
+
+  /* ── SHEET ── */
+  .sheet {
+    position: fixed;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: var(--frame);
+    z-index: 2;
+    background: rgba(240,235,226,0.96);
+    border-top: 1px solid var(--border-hi);
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    padding-bottom: 28px;
+    animation: slideUp 0.40s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+    box-shadow:
+      0 -8px 60px rgba(0,0,0,0.12),
+      0 -2px 12px rgba(0,0,0,0.07),
+      inset 0 1px 0 rgba(255,255,255,0.80);
+  }
+
+  @keyframes slideUp {
+    from { transform: translateX(-50%) translateY(100%); }
+    to   { transform: translateX(-50%) translateY(0); }
+  }
+
+  /* Handle */
+  .handle {
+    width: 32px; height: 3px;
+    background: var(--border-hi);
+    border-radius: 2px;
+    margin: 10px auto 0;
+  }
+
+  /* Header */
+  .sheet-header {
+    padding: 18px 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .sheet-title {
+    font-size: 18px; font-weight: 800;
+    color: var(--text); letter-spacing: -0.2px;
+  }
+
+  .sheet-subtitle {
+    font-size: 11px; font-weight: 400;
+    color: var(--text-muted); letter-spacing: 0.3px;
+    margin-top: 3px;
+  }
+
+  .sheet-close {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--surface-hi);
+    border: 1px solid var(--border-hi);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0;
+    color: var(--text-muted);
+  }
+
+  /* Amount summary */
+  .amount-row {
+    margin: 14px 20px;
+    padding: 12px 14px;
+    background: var(--inner-plate);
+    border: 1px solid var(--border-hi);
+    border-radius: var(--r-md);
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.70);
+  }
+
+  .amount-row-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .amount-row-value {
+    font-family: var(--mono);
+    font-size: 16px; color: var(--accent);
+    letter-spacing: -0.3px;
+  }
+
+  /* Actions */
+  .sheet-actions {
+    padding: 0 20px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+
+  .sheet-action {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border-hi);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition: opacity 0.12s ease, transform 0.12s ease;
+    position: relative; overflow: hidden;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+  }
+
+  .sheet-action::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 50%;
+    border-radius: var(--r-md) var(--r-md) 0 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.30) 0%, transparent 100%);
+  }
+
+  .sheet-action.primary {
+    background: linear-gradient(135deg, #B8852E 0%, #C49746 40%, #DDB455 70%, #E8C96A 100%);
+    border-color: var(--accent-border);
+    box-shadow:
+      0 6px 24px rgba(196,151,70,0.30),
+      inset 0 1px 0 rgba(255,255,255,0.30);
+  }
+
+  /* Gold specular on primary */
+  .sheet-action.primary::after {
+    content: '';
+    position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
+  }
+
+  .sheet-action:active { transform: scale(0.98); opacity: 0.85; }
+
+  .action-icon {
+    width: 34px; height: 34px;
+    border-radius: var(--r-md);
+    background: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.55);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .sheet-action:not(.primary) .action-icon {
+    background: var(--inner-plate);
+    border-color: var(--border-hi);
+  }
+
+  .action-icon svg { stroke: var(--text-muted); }
+  .sheet-action.primary .action-icon svg { stroke: rgba(0,0,0,0.65); }
+
+  .action-body { flex: 1; }
+
+  .action-label {
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.2px; color: var(--text);
+  }
+
+  .sheet-action.primary .action-label { color: rgba(0,0,0,0.78); }
+
+  .action-sub {
+    font-size: 11px; letter-spacing: 0.3px;
+    color: var(--text-muted); margin-top: 2px;
+  }
+
+  .sheet-action.primary .action-sub { color: rgba(0,0,0,0.52); }
+
+  .action-chevron { stroke: var(--border-hi); flex-shrink: 0; }
+  .sheet-action.primary .action-chevron { stroke: rgba(0,0,0,0.40); }
+</style>
+</head>
+<body>
+
+<div class="bg-content">
+  <div class="bg-line" style="width:180px"></div>
+  <div class="bg-line" style="width:220px"></div>
+  <div class="bg-line" style="width:140px"></div>
+  <div class="bg-line" style="width:200px"></div>
+</div>
+
+<div class="scrim"></div>
+
+<div class="sheet">
+  <div class="handle"></div>
+
+  <div class="sheet-header">
+    <div>
+      <div class="sheet-title">Confirm Send</div>
+      <div class="sheet-subtitle">Review before sending</div>
+    </div>
+    <div class="sheet-close">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="amount-row">
+    <span class="amount-row-label">Amount</span>
+    <span class="amount-row-value">+$250.00 CAD</span>
+  </div>
+
+  <div class="sheet-actions">
+
+    <div class="sheet-action primary">
+      <div class="action-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+        </svg>
+      </div>
+      <div class="action-body">
+        <div class="action-label">Confirm & Send</div>
+        <div class="action-sub">To Emma L. · Instant</div>
+      </div>
+      <svg class="action-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </div>
+
+    <div class="sheet-action">
+      <div class="action-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="17" y1="17" x2="22" y2="22"/>
+        </svg>
+      </div>
+      <div class="action-body">
+        <div class="action-label">Change Recipient</div>
+        <div class="action-sub">Search contacts</div>
+      </div>
+      <svg class="action-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

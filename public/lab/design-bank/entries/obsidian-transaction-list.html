@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obsidian Transaction List — Obsidian</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Fragment+Mono&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #050505;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      repeating-linear-gradient(45deg,  rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 14px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 14px);
+    pointer-events: none;
+  }
+
+  /* ── CARD ── */
+  .card {
+    position: relative; z-index: 1;
+    width: 340px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid rgba(200,168,80,0.18);
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 15%; right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #C8A850, transparent);
+    box-shadow: 0 0 8px rgba(200,168,80,0.3);
+  }
+
+  /* ── HEADER ── */
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: rgba(255,255,255,0.82);
+  }
+
+  .card-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.2);
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px 6px;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(200,168,80,0.5);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.04);
+  }
+
+  /* ── TRANSACTION ROW ── */
+  .tx-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.14s;
+    cursor: pointer;
+  }
+
+  .tx-row:last-child { border-bottom: none; }
+  .tx-row:hover { background: rgba(255,255,255,0.02); }
+
+  /* icon tile */
+  .tx-icon {
+    width: 32px; height: 32px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: #111;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .tx-icon svg {
+    width: 14px; height: 14px;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: square;
+  }
+
+  .tx-icon.in svg  { stroke: rgba(200,168,80,0.65); }
+  .tx-icon.out svg { stroke: rgba(255,255,255,0.3); }
+  .tx-icon.fee svg { stroke: rgba(255,255,255,0.2); }
+
+  /* text block */
+  .tx-text { flex: 1; min-width: 0; }
+
+  .tx-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    color: rgba(255,255,255,0.72);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .tx-meta {
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 3px;
+  }
+
+  .tx-time {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.2px;
+  }
+
+  .tx-tag {
+    padding: 1px 5px;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.8px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+  }
+
+  /* amount */
+  .tx-amount {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .tx-btc {
+    font-family: 'Fragment Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.2px;
+  }
+
+  .tx-row.in  .tx-btc { color: #C8A850; }
+  .tx-row.out .tx-btc { color: rgba(255,255,255,0.45); }
+  .tx-row.fee .tx-btc { color: rgba(255,255,255,0.25); }
+
+  .tx-usd {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: rgba(255,255,255,0.18);
+    margin-top: 2px;
+    text-align: right;
+  }
+
+  /* ── STATUS DOT ── */
+  .tx-status {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-confirmed { background: rgba(100,210,140,0.55); }
+  .status-pending   { background: rgba(200,168,80,0.5); box-shadow: 0 0 4px rgba(200,168,80,0.4); }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="card-header">
+    <span class="card-title">Transactions</span>
+    <span class="card-count">6 recent</span>
+  </div>
+
+  <!-- TODAY -->
+  <div class="section-head">
+    <span class="section-label">Today</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="tx-row in">
+    <div class="tx-icon in">
+      <svg viewBox="0 0 14 14"><line x1="7" y1="2" x2="7" y2="12"/><polyline points="3,8 7,12 11,8"/></svg>
+    </div>
+    <div class="tx-text">
+      <div class="tx-name">Received · Lightning</div>
+      <div class="tx-meta">
+        <span class="tx-time">14:32</span>
+        <span class="tx-tag">Lightning</span>
+      </div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-btc">+0.008400</div>
+      <div class="tx-usd">+$538</div>
+    </div>
+    <div class="tx-status status-confirmed"></div>
+  </div>
+
+  <div class="tx-row out">
+    <div class="tx-icon out">
+      <svg viewBox="0 0 14 14"><line x1="7" y1="12" x2="7" y2="2"/><polyline points="3,6 7,2 11,6"/></svg>
+    </div>
+    <div class="tx-text">
+      <div class="tx-name">Sent · Cold Storage</div>
+      <div class="tx-meta">
+        <span class="tx-time">11:08</span>
+        <span class="tx-tag">On-chain</span>
+      </div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-btc">−0.050000</div>
+      <div class="tx-usd">−$3,202</div>
+    </div>
+    <div class="tx-status status-confirmed"></div>
+  </div>
+
+  <div class="tx-row fee">
+    <div class="tx-icon fee">
+      <svg viewBox="0 0 14 14"><polygon points="7,1 13,4.5 13,9.5 7,13 1,9.5 1,4.5"/></svg>
+    </div>
+    <div class="tx-text">
+      <div class="tx-name">Network Fee</div>
+      <div class="tx-meta">
+        <span class="tx-time">11:08</span>
+        <span class="tx-tag">Miner</span>
+      </div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-btc">−0.000280</div>
+      <div class="tx-usd">−$18</div>
+    </div>
+    <div class="tx-status status-confirmed"></div>
+  </div>
+
+  <!-- YESTERDAY -->
+  <div class="section-head">
+    <span class="section-label">Yesterday</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="tx-row in">
+    <div class="tx-icon in">
+      <svg viewBox="0 0 14 14"><line x1="7" y1="2" x2="7" y2="12"/><polyline points="3,8 7,12 11,8"/></svg>
+    </div>
+    <div class="tx-text">
+      <div class="tx-name">DCA Purchase</div>
+      <div class="tx-meta">
+        <span class="tx-time">09:00</span>
+        <span class="tx-tag">Auto</span>
+      </div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-btc">+0.015620</div>
+      <div class="tx-usd">+$1,000</div>
+    </div>
+    <div class="tx-status status-confirmed"></div>
+  </div>
+
+  <div class="tx-row out">
+    <div class="tx-icon out">
+      <svg viewBox="0 0 14 14"><rect x="2" y="3" width="10" height="8"/><line x1="5" y1="3" x2="5" y2="1"/><line x1="9" y1="3" x2="9" y2="1"/></svg>
+    </div>
+    <div class="tx-text">
+      <div class="tx-name">Subscription · Stack</div>
+      <div class="tx-meta">
+        <span class="tx-time">00:01</span>
+        <span class="tx-tag">Recurring</span>
+      </div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-btc">−0.000156</div>
+      <div class="tx-usd">−$10</div>
+    </div>
+    <div class="tx-status status-pending"></div>
+  </div>
+
+</div>
+
+</body>
+</html>

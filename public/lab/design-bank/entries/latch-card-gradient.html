@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latch Card Gradient</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── LATCH KIT TOKENS ── */
+  :root {
+    --bg:            #0A0A0A;
+    --surface:       rgba(18,18,28,0.95);
+    --surface-lo:    rgba(255,255,255,0.04);
+    --surface-hi:    rgba(255,255,255,0.08);
+    --border:        rgba(255,255,255,0.07);
+    --border-hi:     rgba(255,255,255,0.13);
+    --accent:        #0F8F7A;
+    --accent-bright: rgba(15,200,160,0.95);
+    --accent-fill:   rgba(15,143,122,0.18);
+    --accent-border: rgba(15,143,122,0.35);
+    --accent-glow:   rgba(15,143,122,0.28);
+    --text:          rgba(255,255,255,0.92);
+    --text-muted:    rgba(255,255,255,0.45);
+    --text-dim:      rgba(255,255,255,0.22);
+    --r-xl:          24px;
+    --r-lg:          18px;
+    --r-md:          14px;
+    --font:          'Syne', sans-serif;
+    --mono:          'Fragment Mono', monospace;
+    --frame:         375px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: var(--font);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    overflow: hidden;
+  }
+
+  /* ── CARD ── */
+  .card {
+    position: relative;
+    width: 335px;
+    height: 204px;
+    border-radius: var(--r-lg);
+    background: linear-gradient(135deg,
+      #052E26 0%,
+      #0A6558 35%,
+      #0F8F7A 70%,
+      #14A490 100%
+    );
+    box-shadow:
+      0 32px 64px rgba(0,0,0,0.6),
+      0 8px 24px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.10);
+    overflow: hidden;
+  }
+
+  /* Specular arc */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -30%; left: -15%;
+    width: 70%; height: 80%;
+    background: radial-gradient(ellipse at 30% 25%,
+      rgba(255,255,255,0.20) 0%,
+      rgba(255,255,255,0.06) 35%,
+      transparent 65%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* Bottom caustic */
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 45%;
+    background: linear-gradient(0deg,
+      rgba(5,20,18,0.55) 0%,
+      rgba(5,20,18,0.18) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .card-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%; height: 100%;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .card-brand {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.95);
+    text-transform: uppercase;
+  }
+
+  .chip {
+    width: 30px; height: 23px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: linear-gradient(135deg,
+      rgba(255,255,255,0.16) 0%,
+      rgba(255,255,255,0.05) 100%
+    );
+    position: relative;
+    overflow: hidden;
+  }
+
+  .chip::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 1px;
+    background: rgba(255,255,255,0.16);
+    transform: translateY(-50%);
+  }
+
+  .chip::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 0; bottom: 0;
+    width: 1px;
+    background: rgba(255,255,255,0.16);
+    transform: translateX(-50%);
+  }
+
+  .card-number {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.80);
+    text-align: center;
+  }
+
+  .card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .card-name {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.72);
+    text-transform: uppercase;
+  }
+
+  .visa-mark {
+    font-size: 18px;
+    font-weight: 800;
+    font-style: italic;
+    color: rgba(255,255,255,0.68);
+    letter-spacing: -1px;
+  }
+
+  /* ── LABEL ── */
+  .label {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="card-brand">LATCH</div>
+      <div class="chip"></div>
+    </div>
+    <div class="card-number">•••• &nbsp;•••• &nbsp;•••• &nbsp;4291</div>
+    <div class="card-bottom">
+      <div class="card-name">ALBERT EINSTEIN</div>
+      <div class="visa-mark">VISA</div>
+    </div>
+  </div>
+</div>
+
+<div class="label">Card Surface</div>
+
+</body>
+</html>
