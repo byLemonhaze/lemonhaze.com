@@ -192,6 +192,19 @@ function renderBootError(message) {
     `;
 }
 
+function buildParentIds(artworks) {
+    const INSCRIPTION_RE = /^[a-f0-9]{64}i\d+$/;
+    const ids = new Set();
+    for (const artwork of artworks) {
+        if (!artwork.provenance || typeof artwork.provenance !== 'string') continue;
+        for (const part of artwork.provenance.split(/[\s,]+/)) {
+            const value = part.trim();
+            if (INSCRIPTION_RE.test(value)) ids.add(value);
+        }
+    }
+    return ids;
+}
+
 // Initialization
 async function init() {
     refreshElements();
@@ -202,7 +215,12 @@ async function init() {
 
     const [provenanceData, bbLive] = await Promise.all([fetchProvenance(), fetchBBCollection()]);
     const nonBB = provenanceData.filter(item => item.collection !== 'BEST BEFORE');
-    appState.artworks = bbLive.length > 0 ? [...bbLive, ...nonBB] : provenanceData;
+    const bbProvenance = provenanceData.find(item => item.collection === 'BEST BEFORE')?.provenance || null;
+    const enrichedBBLive = bbProvenance
+        ? bbLive.map((item) => ({ ...item, provenance: bbProvenance }))
+        : bbLive;
+    appState.artworks = bbLive.length > 0 ? [...enrichedBBLive, ...nonBB] : provenanceData;
+    appState.parentIds = buildParentIds(appState.artworks);
     rebuildCollectionSlugs();
 
     const hasDeepLink = await applyUrlStateFromLocation({ replaceHistory: true });
@@ -298,6 +316,7 @@ function renderGallery(items) {
         galleryGrid,
         contentArea,
         onOpenArtworkById: openArtworkById,
+        parentIds: appState.parentIds,
     });
 }
 

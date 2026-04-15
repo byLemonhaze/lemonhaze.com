@@ -1,5 +1,6 @@
 const _state = {
     artworks: [],
+    parentIds: new Set(),
     currentFilter: 'Home',
     isMobileMenuOpen: false,
     homeInterval: null,

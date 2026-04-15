@@ -22,7 +22,7 @@ export function getArtworkImageSrc(item) {
     return `https://cdn.lemonhaze.com/assets/assets/${item.id}.${ext}`;
 }
 
-export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtworkById }) {
+export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtworkById, parentIds }) {
     if (!galleryGrid) return;
 
     galleryGrid.innerHTML = '';
@@ -48,6 +48,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
         card.className = 'group animate-fade-in cursor-pointer';
         card.style.animationDelay = `${idx * 20}ms`;
 
+        const isParent = parentIds?.has(item.id) ?? false;
         const mediaSrc = getArtworkImageSrc(item);
         const isVideo = isVideoArtwork(item);
         const mediaClass = `w-[85%] h-[85%] object-contain drop-shadow-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-300 ${item.artwork_type === 'PNG' ? 'pixelated' : ''}`;
@@ -56,9 +57,17 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
             ? `<video src="${mediaSrc}" class="${mediaClass}" muted loop autoplay playsinline preload="metadata"></video>`
             : `<img src="${mediaSrc}" class="${mediaClass}" loading="lazy" />`;
 
+        const parentLabel = isParent
+            ? `<span class="absolute bottom-2 left-0 right-0 text-center text-[8px] font-mono uppercase tracking-[0.22em] text-white/0 group-hover:text-white/50 transition-all duration-300">Collection Parent</span>`
+            : '';
+        const borderClass = isParent
+            ? 'border border-white/10 group-hover:border-white/25 transition-colors duration-300'
+            : '';
+
         card.innerHTML = `
-      <div class="aspect-square bg-[#0a0a0a] overflow-hidden flex items-center justify-center">
+      <div class="relative aspect-square bg-[#0a0a0a] overflow-hidden flex items-center justify-center ${borderClass}">
         ${mediaMarkup}
+        ${parentLabel}
       </div>
       <div class="pt-2 pb-1">
         <p class="text-[10px] font-bold uppercase tracking-widest text-white text-center truncate">${item.name || 'Untitled'}</p>
