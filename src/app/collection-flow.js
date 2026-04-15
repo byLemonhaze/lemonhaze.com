@@ -2,7 +2,7 @@ const BASE_COLLECTION_BUTTON_CLASS =
     'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white/45 hover:text-white';
 const ACTIVE_COLLECTION_BUTTON_CLASS =
     'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white font-bold';
-const COLLECTION_LEAD_ARTWORK_IDS = {
+export const COLLECTION_LEAD_ARTWORK_IDS = {
     'BEST BEFORE': ['bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0'],
 };
 
