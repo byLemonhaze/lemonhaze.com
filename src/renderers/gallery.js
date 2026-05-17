@@ -70,8 +70,9 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
         const parentLabel = isParent
             ? `<span class="absolute bottom-2 left-0 right-0 text-center text-[8px] font-mono uppercase tracking-[0.22em] text-white/0 group-hover:text-white/50 transition-all duration-300">Collection Parent</span>`
             : '';
-
-        const borderClass = isParent ? 'border border-white/10 group-hover:border-white/25 transition-colors duration-300' : '';
+        const borderClass = isParent
+            ? 'border border-white/10 group-hover:border-white/25 transition-colors duration-300'
+            : '';
 
         card.innerHTML = `
       <div class="relative aspect-square bg-[#0a0a0a] overflow-hidden flex items-center justify-center ${borderClass}">

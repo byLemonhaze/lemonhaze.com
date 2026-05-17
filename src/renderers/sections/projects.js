@@ -16,14 +16,6 @@ const BUILT = [
         action: 'latch',
     },
     {
-        name: 'DESIGN BANK',
-        stack: 'Vanilla JS · CSS · WebGL',
-        desc: 'Personal UI component library. Navigation, balance heroes, action buttons, transaction lists — each kit with its own visual language and motion system.',
-        live: null,
-        github: null,
-        action: 'design-bank',
-    },
-    {
         name: 'BEST BEFORE GALLERY',
         stack: 'Vanilla JS · Vite',
         desc: 'Dedicated site for the BEST BEFORE collection. Tracks phase, palette, and block-countdown lifespan for each piece in real time.',
@@ -285,8 +277,6 @@ async function handleAction(action) {
         openPressEngine();
     } else if (action === 'latch') {
         openLatchOverlay();
-    } else if (action === 'design-bank') {
-        openDesignBankOverlay();
     }
 }
 
@@ -378,96 +368,6 @@ function openLatchOverlay() {
     document.body.appendChild(overlay);
 
     // Trigger animation
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-        overlay.style.opacity = '1';
-        overlay.style.transform = 'translateY(0)';
-    }));
-}
-
-// ── Design Bank fullscreen overlay ───────────────────────────────────────
-function openDesignBankOverlay() {
-    if (document.getElementById('db-overlay')) return;
-
-    const overlay = document.createElement('div');
-    overlay.id = 'db-overlay';
-    Object.assign(overlay.style, {
-        position: 'fixed',
-        inset: '0',
-        zIndex: '9999',
-        background: '#000',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        opacity: '0',
-        transform: 'translateY(24px)',
-        transition: 'opacity 0.32s ease, transform 0.38s cubic-bezier(0.22,1,0.36,1)',
-    });
-
-    const prevUrl = location.pathname + location.search + location.hash;
-    history.pushState({ designBank: true }, '', '/lab/design-bank');
-
-    function close() {
-        overlay.style.opacity = '0';
-        overlay.style.transform = 'translateY(24px)';
-        document.removeEventListener('keydown', onKey);
-        window.removeEventListener('popstate', onPop);
-        history.pushState({}, '', prevUrl);
-        setTimeout(() => overlay.remove(), 340);
-    }
-
-    function onKey(e) { if (e.key === 'Escape') close(); }
-    function onPop() { close(); }
-    document.addEventListener('keydown', onKey);
-    window.addEventListener('popstate', onPop);
-
-    // ── Close button ─────────────────────────────────────────────────────
-    const closeBtn = document.createElement('button');
-    closeBtn.textContent = '✕';
-    Object.assign(closeBtn.style, {
-        position: 'absolute',
-        top: '16px',
-        right: '18px',
-        zIndex: '10001',
-        width: '32px',
-        height: '32px',
-        border: '1px solid rgba(255,255,255,0.10)',
-        background: 'rgba(255,255,255,0.05)',
-        color: 'rgba(255,255,255,0.45)',
-        fontSize: '13px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        transition: 'background 0.15s, color 0.15s',
-        lineHeight: '1',
-    });
-    closeBtn.addEventListener('mouseenter', () => {
-        closeBtn.style.background = 'rgba(255,255,255,0.12)';
-        closeBtn.style.color = 'rgba(255,255,255,0.88)';
-    });
-    closeBtn.addEventListener('mouseleave', () => {
-        closeBtn.style.background = 'rgba(255,255,255,0.05)';
-        closeBtn.style.color = 'rgba(255,255,255,0.45)';
-    });
-    closeBtn.onclick = close;
-
-    // ── iframe ────────────────────────────────────────────────────────────
-    const iframe = document.createElement('iframe');
-    iframe.src = '/lab/design-bank/';
-    Object.assign(iframe.style, {
-        flex: '1',
-        width: '100%',
-        border: 'none',
-        display: 'block',
-    });
-    iframe.setAttribute('allowfullscreen', '');
-
-    overlay.appendChild(closeBtn);
-    overlay.appendChild(iframe);
-    document.body.appendChild(overlay);
-
     requestAnimationFrame(() => requestAnimationFrame(() => {
         overlay.style.opacity = '1';
         overlay.style.transform = 'translateY(0)';

@@ -19,6 +19,7 @@ import { createCollectionResolver } from '../data/collections.js';
 import {
     loadCollectionFlow,
     syncSidebarActiveCollection as syncSidebarActiveCollectionFromNav,
+    COLLECTION_LEAD_ARTWORK_IDS,
 } from './collection-flow.js';
 import { createSectionFlow } from './section-flow.js';
 import { el, refreshElements as refreshDomElements } from '../ui/elements.js';
@@ -199,13 +200,25 @@ function buildParentIds(artworks) {
     for (const artwork of artworks) {
         if (!artwork.provenance || typeof artwork.provenance !== 'string') continue;
         for (const part of artwork.provenance.split(/[\s,]+/)) {
-            const v = part.trim();
-            if (INSCRIPTION_RE.test(v)) ids.add(v);
+            const value = part.trim();
+            if (INSCRIPTION_RE.test(value)) ids.add(value);
         }
     }
     return ids;
 }
 
+function getCollectionLeadArtworks({ artworks, collectionName }) {
+    const leadIds = COLLECTION_LEAD_ARTWORK_IDS[collectionName];
+    if (!Array.isArray(leadIds) || leadIds.length === 0) return [];
+
+    const seen = new Set();
+    return artworks.filter((item) => {
+        if (item.collection !== collectionName) return false;
+        if (!leadIds.includes(item.id) || seen.has(item.id)) return false;
+        seen.add(item.id);
+        return true;
+    });
+}
 // Initialization
 async function init() {
     refreshElements();
@@ -216,11 +229,15 @@ async function init() {
 
     const [provenanceData, bbLive] = await Promise.all([fetchProvenance(), fetchBBCollection()]);
     const nonBB = provenanceData.filter(item => item.collection !== 'BEST BEFORE');
+    const bbLeadArtworks = getCollectionLeadArtworks({
+        artworks: provenanceData,
+        collectionName: 'BEST BEFORE',
+    });
     const bbProvenance = provenanceData.find(item => item.collection === 'BEST BEFORE')?.provenance || null;
     const enrichedBBLive = bbProvenance
-        ? bbLive.map(item => ({ ...item, provenance: bbProvenance }))
+        ? bbLive.map((item) => ({ ...item, provenance: bbProvenance }))
         : bbLive;
-    appState.artworks = bbLive.length > 0 ? [...enrichedBBLive, ...nonBB] : provenanceData;
+    appState.artworks = bbLive.length > 0 ? [...enrichedBBLive, ...bbLeadArtworks, ...nonBB] : provenanceData;
     appState.parentIds = buildParentIds(appState.artworks);
     rebuildCollectionSlugs();
 
