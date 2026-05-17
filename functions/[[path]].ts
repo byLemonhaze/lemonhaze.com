@@ -17,6 +17,8 @@ const LEGACY_REDIRECT_PATHS = new Map([
     ['/marketplace/', '/supply'],
     ['/marketplace.html', '/supply'],
     ['/supply.html', '/supply'],
+    ['/lab/design-bank', '/lab'],
+    ['/lab/design-bank/', '/lab'],
 ]);
 
 const NON_SPA_PREFIXES = [
