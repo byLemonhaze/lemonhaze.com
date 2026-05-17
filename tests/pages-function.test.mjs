@@ -113,6 +113,24 @@ test("/marketplace redirects to /supply", async () => {
   assert.equal(response.headers.get("location"), "https://lemonhaze.com/supply");
 });
 
+test("/lab/design-bank redirects to /lab", async () => {
+  const { context, calls } = createContext("/lab/design-bank", {
+    nextResponse: new Response("<title>Design Bank — Lemonhaze</title>", {
+      headers: { "content-type": "text/html; charset=utf-8" },
+    }),
+    assetResponse: new Response("<title>Lemonhaze</title>", {
+      headers: { "content-type": "text/html; charset=utf-8" },
+    }),
+  });
+
+  const response = await onRequest(context);
+
+  assert.equal(calls.next, 0);
+  assert.equal(calls.assets.length, 0);
+  assert.equal(response.status, 307);
+  assert.equal(response.headers.get("location"), "https://lemonhaze.com/lab");
+});
+
 test("/best-before still falls through and uses the 404 SPA fallback", async () => {
   const { context, calls } = createContext("/best-before", {
     nextResponse: new Response("Not found", {
