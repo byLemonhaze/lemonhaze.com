@@ -1,1 +1,4 @@
-/supplyCAP.html /supply.html 301
+/supply /marketplace 301
+/supply/ /marketplace 301
+/supplyCAP.html /marketplace 301
+/supply.html /marketplace 301

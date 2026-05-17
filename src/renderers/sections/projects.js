@@ -384,7 +384,7 @@ function openLatchOverlay() {
     }));
 }
 
-// ── Design Bank fullscreen overlay (password protected) ───────────────────
+// ── Design Bank fullscreen overlay ───────────────────────────────────────
 function openDesignBankOverlay() {
     if (document.getElementById('db-overlay')) return;
 
@@ -394,11 +394,10 @@ function openDesignBankOverlay() {
         position: 'fixed',
         inset: '0',
         zIndex: '9999',
-        background: '#050505',
+        background: '#000',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: 'stretch',
         opacity: '0',
         transform: 'translateY(24px)',
         transition: 'opacity 0.32s ease, transform 0.38s cubic-bezier(0.22,1,0.36,1)',
@@ -421,175 +420,56 @@ function openDesignBankOverlay() {
     document.addEventListener('keydown', onKey);
     window.addEventListener('popstate', onPop);
 
-    // ── Password gate ──────────────────────────────────────────────────────
-    const gate = document.createElement('div');
-    Object.assign(gate.style, {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-        width: '280px',
-    });
-
-    const gateLabel = document.createElement('p');
-    Object.assign(gateLabel.style, {
-        fontFamily: '"IBM Plex Mono", monospace',
-        fontSize: '9px',
-        fontWeight: '500',
-        letterSpacing: '2.5px',
-        textTransform: 'uppercase',
-        color: 'rgba(255,255,255,0.2)',
-    });
-    gateLabel.textContent = 'Design Bank · lemonhaze';
-
-    const input = document.createElement('input');
-    input.type = 'password';
-    input.placeholder = 'Password';
-    Object.assign(input.style, {
-        width: '100%',
-        background: 'transparent',
-        border: '1px solid rgba(255,255,255,0.12)',
-        color: 'rgba(255,255,255,0.75)',
-        fontFamily: '"IBM Plex Mono", monospace',
-        fontSize: '12px',
-        padding: '10px 12px',
-        letterSpacing: '2px',
-        outline: 'none',
-    });
-    input.addEventListener('focus', () => { input.style.borderColor = 'rgba(200,168,80,0.5)'; });
-    input.addEventListener('blur',  () => { input.style.borderColor = 'rgba(255,255,255,0.12)'; });
-
-    const err = document.createElement('p');
-    Object.assign(err.style, {
-        fontFamily: '"IBM Plex Mono", monospace',
-        fontSize: '9px',
-        color: 'rgba(220,80,70,0.75)',
-        letterSpacing: '0.5px',
-        display: 'none',
-    });
-    err.textContent = 'Wrong password.';
-
-    const btn = document.createElement('button');
-    Object.assign(btn.style, {
-        fontFamily: '"IBM Plex Mono", monospace',
-        fontSize: '10px',
-        fontWeight: '500',
-        letterSpacing: '2px',
-        textTransform: 'uppercase',
-        color: '#000',
-        background: 'rgba(200,168,80,0.9)',
-        border: 'none',
-        padding: '10px 0',
-        cursor: 'pointer',
-        transition: 'background 0.15s',
-        width: '100%',
-    });
-    btn.textContent = 'Enter';
-    btn.addEventListener('mouseenter', () => { btn.style.background = '#C8A850'; });
-    btn.addEventListener('mouseleave', () => { btn.style.background = 'rgba(200,168,80,0.9)'; });
-
-    const attempt = async () => {
-        const pass = input.value.trim();
-        if (!pass) return;
-        btn.textContent = '···';
-        btn.style.opacity = '0.6';
-        try {
-            const res = await fetch('/api/design-bank-auth', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'x-db-password': pass },
-            });
-            if (res.ok) {
-                // Unlock — swap gate for iframe
-                gate.style.opacity = '0';
-                gate.style.transition = 'opacity 0.2s ease';
-                setTimeout(() => {
-                    gate.remove();
-                    mountIframe();
-                }, 200);
-            } else {
-                err.style.display = 'block';
-                input.value = '';
-                input.focus();
-                btn.textContent = 'Enter';
-                btn.style.opacity = '1';
-            }
-        } catch {
-            err.style.display = 'block';
-            btn.textContent = 'Enter';
-            btn.style.opacity = '1';
-        }
-    };
-
-    btn.onclick = attempt;
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') attempt(); });
-
-    gate.appendChild(gateLabel);
-    gate.appendChild(input);
-    gate.appendChild(err);
-    gate.appendChild(btn);
-
-    // ── Discreet close button (top-right) ────────────────────────────────
+    // ── Close button ─────────────────────────────────────────────────────
     const closeBtn = document.createElement('button');
     closeBtn.textContent = '✕';
     Object.assign(closeBtn.style, {
         position: 'absolute',
         top: '16px',
         right: '18px',
-        zIndex: '10',
+        zIndex: '10001',
         width: '32px',
         height: '32px',
-        border: '1px solid rgba(255,255,255,0.08)',
-        background: 'transparent',
-        color: 'rgba(255,255,255,0.3)',
+        border: '1px solid rgba(255,255,255,0.10)',
+        background: 'rgba(255,255,255,0.05)',
+        color: 'rgba(255,255,255,0.45)',
         fontSize: '13px',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontFamily: '"IBM Plex Mono", monospace',
-        transition: 'border-color 0.14s, color 0.14s',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        transition: 'background 0.15s, color 0.15s',
         lineHeight: '1',
     });
     closeBtn.addEventListener('mouseenter', () => {
-        closeBtn.style.borderColor = 'rgba(255,255,255,0.3)';
-        closeBtn.style.color = 'rgba(255,255,255,0.8)';
+        closeBtn.style.background = 'rgba(255,255,255,0.12)';
+        closeBtn.style.color = 'rgba(255,255,255,0.88)';
     });
     closeBtn.addEventListener('mouseleave', () => {
-        closeBtn.style.borderColor = 'rgba(255,255,255,0.08)';
-        closeBtn.style.color = 'rgba(255,255,255,0.3)';
+        closeBtn.style.background = 'rgba(255,255,255,0.05)';
+        closeBtn.style.color = 'rgba(255,255,255,0.45)';
     });
     closeBtn.onclick = close;
 
-    // ── Mount iframe after auth ──────────────────────────────────────────
-    function mountIframe() {
-        // Recenter overlay for the iframe view
-        overlay.style.justifyContent = 'flex-start';
-        overlay.style.alignItems = 'stretch';
-
-        const iframe = document.createElement('iframe');
-        iframe.src = '/lab/design-bank/';
-        Object.assign(iframe.style, {
-            flex: '1',
-            width: '100%',
-            border: 'none',
-            display: 'block',
-        });
-        iframe.setAttribute('allowfullscreen', '');
-        overlay.appendChild(iframe);
-
-        // Re-expose close button above iframe
-        closeBtn.style.zIndex = '10001';
-    }
+    // ── iframe ────────────────────────────────────────────────────────────
+    const iframe = document.createElement('iframe');
+    iframe.src = '/lab/design-bank/';
+    Object.assign(iframe.style, {
+        flex: '1',
+        width: '100%',
+        border: 'none',
+        display: 'block',
+    });
+    iframe.setAttribute('allowfullscreen', '');
 
     overlay.appendChild(closeBtn);
-    overlay.appendChild(gate);
+    overlay.appendChild(iframe);
     document.body.appendChild(overlay);
 
-    // Trigger entrance animation
     requestAnimationFrame(() => requestAnimationFrame(() => {
         overlay.style.opacity = '1';
         overlay.style.transform = 'translateY(0)';
     }));
-
-    // Focus input after animation
-    setTimeout(() => input.focus(), 380);
 }

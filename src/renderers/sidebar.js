@@ -20,6 +20,7 @@ export function syncSidebarActiveSection({ topNav, sectionKey }) {
     }
 }
 
+
 export function renderTopNav(container, {
     internalSections,
     activeSectionKey,

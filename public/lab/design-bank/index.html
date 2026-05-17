@@ -643,7 +643,6 @@
     <nav class="filters" id="filters">
       <div class="filter-section-label">By Kit</div>
       <div class="filter-item active" data-view="kits">All Kits</div>
-      <div class="filter-item filter-item-sub" data-view="kit" data-kit="liquid-glass">Liquid Glass</div>
       <div class="filter-item filter-item-sub" data-view="kit" data-kit="gold-ring">Gold Ring</div>
       <div class="filter-item filter-item-sub" data-view="kit" data-kit="latch">Latch</div>
       <div class="filter-item filter-item-sub" data-view="kit" data-kit="obsidian">Obsidian</div>
@@ -701,13 +700,6 @@
 
 // ── KIT DEFINITIONS ──────────────────────────────────────────────────────
 const KITS = {
-  'liquid-glass': {
-    name: 'Liquid Glass',
-    description: '5-layer glass surfaces. Caustics, specular arc, mouse-tracking glare, spring-physics sliding indicator.',
-    hero: 'liquid-glass-nav',
-    accent: '#4FC3F7',
-    accentFade: '#07070E',
-  },
   'gold-ring': {
     name: 'Gold Ring',
     description: 'Warm light mode fintech. Comet ring badge, ivory surfaces, teal brand, full component library.',
@@ -925,12 +917,14 @@ function openModal(entry) {
   modalDate.textContent           = formatDate(entry.date);
   modalDesc.textContent           = entry.description;
   modalTags.innerHTML             = entry.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  modalIframe.style.pointerEvents = 'auto';
   modalIframe.src                 = entry.file;
   modalOverlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
+  modalIframe.style.pointerEvents = 'none';
   modalOverlay.classList.remove('open');
   document.body.style.overflow = '';
   setTimeout(() => {

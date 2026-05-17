@@ -2,12 +2,14 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
-    base: './', // Use relative paths for CDN deployment
+    // Deep-linked SPA routes are served from nested paths like /supply/,
+    // so production assets need root-relative URLs instead of ./assets/...
+    base: '/',
     build: {
         rollupOptions: {
             input: {
                 main: resolve(__dirname, 'index.html'),
-                supply: resolve(__dirname, 'supply.html'),
+                marketplace: resolve(__dirname, 'marketplace.html'),
             },
         },
     },

@@ -14,8 +14,8 @@ This document is the high-level engineering map for `lemonhaze.com`:
 | Layer | Component | Responsibility |
 |---|---|---|
 | Frontend | Vite app (`index.html`, `src/`) | Collection browsing, deep links, modals, internal sections, blog, and supply navigation |
-| Secondary entry | `supply.html` + `src/supply.js` | Separate supply-oriented page shell that reuses the shared supply renderer |
-| Legacy alias | `public/_redirects` | Redirect rule preserving `/supplyCAP.html` as an alias to `/supply.html` |
+| Secondary entry | `marketplace.html` + `src/supply.js` | Separate supply-oriented page shell that reuses the shared supply renderer |
+| Legacy alias | `public/_redirects` | Redirect rules preserving `/supplyCAP.html` and `/supply.html` as aliases to `/marketplace` |
 | Static data | `src/data.js`, `src/data/*`, `public/data/*` | Curated copy, chronology, supply tables, blog posts, fallback provenance, generated sales indices |
 | Edge runtime | Cloudflare Pages Functions (`functions/`) | SPA shell fallback, inscription metadata proxying, and password-protected Press Engine generation |
 | Sales pipeline | `scripts/` + `data/sales-master/` | Marketplace scraping, manual private-sale merge, inscription-level sales index generation |

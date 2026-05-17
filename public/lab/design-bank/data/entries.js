@@ -55,20 +55,6 @@ window.ENTRIES = [
   },
 
   /* ─────────────────────────────────────────────
-     LIQUID GLASS KIT
-  ───────────────────────────────────────────── */
-  {
-    id: "liquid-glass-nav",
-    title: "Liquid Glass Nav",
-    category: "navigation",
-    kit: "liquid-glass",
-    tags: ["glass", "backdrop-filter", "specular", "mouse-tracking", "dark-light"],
-    description: "True liquid glass navigation pill. 5-layer stack: caustics, specular arc, mouse-tracking glare, spring-physics sliding pill. Dark/light mode.",
-    file: "entries/liquid-glass-nav.html",
-    date: "2026-03-15",
-  },
-
-  /* ─────────────────────────────────────────────
      GOLD RING KIT
   ───────────────────────────────────────────── */
   {
@@ -156,6 +142,46 @@ window.ENTRIES = [
      LATCH KIT
   ───────────────────────────────────────────── */
   {
+    id: "latch-home-screen",
+    title: "Latch Home Screen",
+    category: "surfaces",
+    kit: "latch",
+    tags: ["home", "screen", "balance", "warm-ivory", "teal", "assets", "count-up", "fintech", "latch"],
+    description: "Full home screen. Warm ivory #EDE8DF surface, Fragment Mono balance with count-up, teal gradient Send button, warm glass Receive, Bitcoin + USDT asset rows, morphing pill nav.",
+    file: "entries/latch-home-screen.html",
+    date: "2026-03-16",
+  },
+  {
+    id: "latch-bottom-nav",
+    title: "Latch Bottom Nav",
+    category: "navigation",
+    kit: "latch",
+    tags: ["nav", "morphing-pill", "spring-physics", "squash-stretch", "teal", "silver", "warm-ivory", "latch"],
+    description: "Morphing pill navigation. Silver-warm pill stretches wide during travel, splats vertically on arrival. Teal glow + accent line. Spring-damped with overshoot. Tap to navigate.",
+    file: "entries/latch-bottom-nav.html",
+    date: "2026-03-16",
+  },
+  {
+    id: "latch-card-screen",
+    title: "Latch Card Screen",
+    category: "surfaces",
+    kit: "latch",
+    tags: ["card", "screen", "spinning-ring", "teal", "reveal", "details", "warm-ivory", "fintech", "latch"],
+    description: "Card management screen. Spinning conic teal ring border animates around card. Reveal toggle fades card number, expiry, CVC in/out. Apple Wallet + Freeze action buttons.",
+    file: "entries/latch-card-screen.html",
+    date: "2026-03-16",
+  },
+  {
+    id: "latch-activity-screen",
+    title: "Latch Activity Screen",
+    category: "surfaces",
+    kit: "latch",
+    tags: ["activity", "transactions", "screen", "bottom-sheet", "spring", "teal", "warm-ivory", "fintech", "latch"],
+    description: "Activity screen with transaction list on warm glass. Tap any row to spring-animate a bottom sheet with full transaction detail. Teal for incoming, muted for outgoing.",
+    file: "entries/latch-activity-screen.html",
+    date: "2026-03-16",
+  },
+  {
     id: "latch-magnetic-buttons",
     title: "Magnetic Action Buttons",
     category: "components",
@@ -163,16 +189,6 @@ window.ENTRIES = [
     tags: ["magnetic", "spring-physics", "3d-tilt", "interactive", "living", "haptic", "breathing"],
     description: "4 action buttons with spring-physics magnetic attraction. Cursor proximity pulls each button toward you with 3D tilt. Idle breathing scale. Press compresses like putty and springs back with organic overshoot.",
     file: "entries/latch-magnetic-buttons.html",
-    date: "2026-03-15",
-  },
-  {
-    id: "latch-gooey-nav",
-    title: "Gooey Morphic Nav",
-    category: "navigation",
-    kit: "latch",
-    tags: ["goo", "svg-filter", "morphic", "mercury", "spring-physics", "squash-stretch", "living"],
-    description: "Tab navigation with SVG goo filter — indicator morphs like liquid mercury between tabs. Squash-and-stretch based on travel velocity. Seed dots at each position merge with the blob on arrival.",
-    file: "entries/latch-gooey-nav.html",
     date: "2026-03-15",
   },
   {

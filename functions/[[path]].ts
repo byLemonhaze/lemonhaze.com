@@ -12,9 +12,15 @@ const LEGACY_APP_ENTRY_PATHS = new Set([
     '/collector.html',
 ]);
 
+const LEGACY_REDIRECT_PATHS = new Map([
+    ['/supply', '/marketplace'],
+    ['/supply/', '/marketplace'],
+]);
+
 const NON_SPA_PREFIXES = [
     '/api/',
     '/assets/',
+    '/lab/',
 ];
 
 const shouldBypassSpaFallback = (pathname: string) => {
@@ -22,12 +28,12 @@ const shouldBypassSpaFallback = (pathname: string) => {
     return pathname.includes('.');
 };
 
-const serveAppShell = (context: EventContext<Env, string, unknown>) => {
+const serveAppShell = async (context: EventContext<Env, string, unknown>) => {
     const requestUrl = new URL(context.request.url);
-    const indexUrl = new URL('/index.html', requestUrl);
-    indexUrl.search = requestUrl.search;
-    indexUrl.hash = requestUrl.hash;
-    return context.env.ASSETS.fetch(new Request(indexUrl, context.request));
+    const shellUrl = new URL('/index.html', requestUrl);
+    shellUrl.search = requestUrl.search;
+    shellUrl.hash = requestUrl.hash;
+    return context.env.ASSETS.fetch(new Request(shellUrl, context.request));
 };
 
 export const onRequest: PagesFunction<Env> = async (context) => {
@@ -37,13 +43,20 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     }
 
     const url = new URL(request.url);
+    const legacyRedirectTarget = LEGACY_REDIRECT_PATHS.get(url.pathname);
+    if (legacyRedirectTarget) {
+        const redirectUrl = new URL(legacyRedirectTarget, url);
+        redirectUrl.search = url.search;
+        return Response.redirect(redirectUrl.toString(), 307);
+    }
+
     if (LEGACY_APP_ENTRY_PATHS.has(url.pathname)) {
-        return serveAppShell(context);
+        return await serveAppShell(context);
     }
 
     const response = await context.next();
     if (response.status !== 404) return response;
     if (shouldBypassSpaFallback(url.pathname)) return response;
 
-    return serveAppShell(context);
+    return await serveAppShell(context);
 };

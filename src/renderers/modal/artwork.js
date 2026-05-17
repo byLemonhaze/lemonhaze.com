@@ -8,6 +8,62 @@ import {
     getSalesForInscription,
 } from '../../modules/sales-ledger.js';
 
+// ── Paint Engine help text keyed by inscription ID ────────────────────────
+const PAINT_ENGINE_HELP = {
+    '0c0ba94df1720c8ed40afbc38f97f806e758de9234f99cbaa060bafd22231efbi0': {
+        label: 'v0',
+        help: 'G  generate\nB  undo\nP  palette\nR  ratio\nT  texture on/off\nS  save\n\nClick the canvas to see the current seed.\nNo seed input — every output is unique.',
+    },
+    'f93a9e3655a0d9531871248b9a3e6b78c1aaee24c76265247a3172b16bdbc15di0': {
+        label: 'v0.1 [Grossier]',
+        help: 'G  generate\nB  undo\nP  palette\nR  ratio\nT  texture on/off\nS  save\n\nIdentical controls to v0.\nClick the canvas to see the current seed.',
+    },
+    '054eb44d57f5bd34a9153c5a605e32710fbc36912945db0fc91693526e7c9201i0': {
+        label: 'v0.2 [O-Swirl]',
+        help: 'G  generate\nB  undo\nP  palette\nR  ratio\nT  texture on/off\nS  save\n\nSame controls as v0/v0.1.\nNo seed input — purely generative.',
+    },
+    '0b1c283e4fe2637a881639a2a715348c56759840f06f7e1142652da60a4a2d4ei0': {
+        label: 'v0.3 [Jackie\'s]',
+        help: 'G  generate\nB  undo\nP  palette\nR  ratio\nW  version picker\nT  texture on/off\nS  save\n\nSeed panel: enter a 64-char hex seed + Enter\nor click Load to reproduce a specific output.',
+    },
+    '723f548d5a05ff53075cfc3be76587040bef3cc129e95b423f01611c21d8122di0': {
+        label: 'v0.3.1 [Max Colors]',
+        help: 'G  generate\nB  undo\nP  palette\nR  ratio\nW  version picker\nT  texture on/off\nS  save\n\nSeed panel: 64-char hex + Enter to load.\nExpanded colour range — more simultaneous colours.',
+    },
+    '0109e594769bd8c50e1f8fc15e80db0b93188d881bf2a258c7a88dcbe609b391i0': {
+        label: 'v0.6 [Wild Patch]',
+        help: 'G  generate\nB  undo\nP  palette\nR  ratio\nT  cycle texture (3 modes)\nS  save\n\nSeed panel: 3 fields — seed · palette tag · iteration tag.\nUse arrow buttons to step each value up/down.\nCanvas popup: download or view HTML source.',
+    },
+    '36e74fdb856a69281982f9340739aa10863bbd19da8d7e8fb183b9b9284323f8i0': {
+        label: 'v0.8 [Under Const.]',
+        help: 'G  generate\nB  undo\nP  palette\nR  ratio (17 presets)\nT  texture: Plain Cantext / Futex / Chic-Trash\nS  save\n\nSeed panel: main seed · palette tag · iteration tag.\nArrow buttons step each field. Enter on any field loads.',
+    },
+    '795a40ea70f17c9de70035395df51dce9510999f0c412bf5068c11115456f1c1i0': {
+        label: 'v0.9 [Chasing The Dragon]',
+        help: 'G  generate\nB  undo\nP  palette\nR  ratio\nT  texture: Plain Cantext / Futex / Chic-Trash\nS  save\n\nSame 3-field seed system as v0.8.\nClick canvas to toggle metadata popup with save options.',
+    },
+    '7a6d380af9adc2b7b70ac0cea5d054ab8c69a0d7d0f612e66870213276dd4349i0': {
+        label: 'v1.03 [Faux-Chat]',
+        help: 'G  generate · B  undo · I  iterate\nZ  brush · F  frame\n\nMulti-card engine — each card is a live canvas.\nClick a card to activate, click again to flip (detail view).\nInfo panel: edit seed, palette tag, iteration tag (blur to apply).\nMaster seed format: P[pal][iter]B[bg]M[brush]T[tex]F[frame]S[seed]\nGrid view: adjust density (cols), filter by palette.\nGrid preview: load any output back into the engine.',
+    },
+    '99132e479d4c64dcb8267e5a04b959396e90f8f6628c8741eb39f379e6e40840i0': {
+        label: 'v1.04 [Mon Enfant]',
+        help: 'G  generate · B  undo · I  iterate\nZ  brush · F  frame · BG  background\n\nBG button: toggle transparent or black background.\nSame multi-card engine as v1.03.\nInfo panel: seed · palette tag · iteration tag (blur to apply).\nGrid view with density slider and palette filter.\nMaster seed encodes all parameters in one string.',
+    },
+    '2cbef7662c4e6c84457e57c9fd9f04fc585956cf66302ba01862c73e53e1e75di0': {
+        label: 'v1.05 [Hidden Gems]',
+        help: 'G  generate · B  undo · I  iterate\nZ  brush · F  frame\n\nInfo panel: seed · palette tag · iteration tag (blur to apply).\nCopy-all: copy master seed to clipboard.\nLoad params: paste a master seed to restore any output.\nGrid view: density slider (3–10 cols) + palette filter.\nGrid preview: load any output back into the engine.',
+    },
+    'c8d790c42ce1a43c02acf15114d4053c1c9f086dc2856ebd3031ce268f5d58dbi0': {
+        label: 'v1.07 [Passe-Partout]',
+        help: 'G  generate · B  undo · I  iterate\nZ  brush · F  frame\nV  favourites · L  collection · C  customise\n← →  navigate collection\n\nSave outputs to a favourites list.\nExport your full collection as a ZIP archive.\nCollection browser with prev/next navigation.\nInfo panel for seed and parameter editing.\nMost complete version of the engine.',
+    },
+    'a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0': {
+        label: 'Into The Wild',
+        help: 'G  generate · B  undo · I  iterate\nP  palette · R  ratio (18 presets)\nT  texture: Plain / Futex / Chic-Trash / FutureTex\nF  frame: None / Inset / Standard\nO  background: Transparent / Black / Grid\nW or S  seed panel\n\nPortrait-format engine. Master seed encodes 8 parameters.\nGrid view: density slider (2–8 cols) + palette filter.\nMost feature-complete single-canvas version.',
+    },
+};
+
 const HIRO_API = 'https://api.hiro.so/ordinals/v1/inscriptions';
 const ORDINALS_INSCRIPTION_API = 'https://ordinals.com/r/inscription';
 const BB_LIVE_URL = 'https://bestbefore.space/best-before.json';
@@ -309,11 +365,16 @@ export function createArtworkModalController({
                         thumbsWrap.appendChild(link);
                     }
                 });
-                modalMetadata.appendChild(makeMetaRow('Provenance', thumbsWrap));
+                modalMetadata.appendChild(makeMetaRow('Lineage', thumbsWrap));
             }
         }
 
-        // 2. Timestamp — initial value from provenance, updated async by Hiro
+        // 2. Collection
+        if (item.collection) {
+            modalMetadata.appendChild(makeMetaRow('Collection', makeMetaText(item.collection)));
+        }
+
+        // 3. Timestamp — initial value from provenance, updated async by Hiro
         const tsSpan = makeMetaText(
             fmtFullTimestamp(item.timestamp) || item.timestamp || '—',
             'text-[11px] font-mono text-white/70 leading-snug',
@@ -321,7 +382,7 @@ export function createArtworkModalController({
         tsSpan.id = 'meta-timestamp';
         modalMetadata.appendChild(makeMetaRow('Timestamp', tsSpan));
 
-        // 3. Static artwork facts (from provenance.json — only for non-BB)
+        // 4. Static artwork facts (from provenance.json — only for non-BB)
         if (!isBB) {
             const artType = item.artwork_type?.toUpperCase();
             if (artType && artType !== 'HTML') {
@@ -354,7 +415,7 @@ export function createArtworkModalController({
             }
         }
 
-        // 4. BB live section placeholder (only for BEST BEFORE)
+        // 5. BB live section placeholder (only for BEST BEFORE)
         if (isBB) {
             const bbLiveSection = document.createElement('div');
             bbLiveSection.id = 'meta-bb-live';
@@ -783,6 +844,15 @@ export function createArtworkModalController({
         });
         modalActions.appendChild(shareBtn);
 
+        // Paint Engine help button — only for inscribed engine versions
+        const peHelp = PAINT_ENGINE_HELP[item.id];
+        if (peHelp) {
+            const helpBtn = pill('?', 'How to use this engine', () => {
+                showPaintEngineHelp(helpBtn, peHelp);
+            });
+            modalActions.appendChild(helpBtn);
+        }
+
         modalActions.appendChild(pill('⟳', 'Reload content', () => {
             if (!modalImage.classList.contains('hidden') && modalImage.src) {
                 const base = modalImage.src.split('?')[0];
@@ -915,4 +985,59 @@ export function createArtworkModalController({
     }
 
     return { openMetacard, closeModal };
+}
+
+// ── Paint Engine help popover ─────────────────────────────────────────────
+let _activePeHelp = null;
+
+function showPaintEngineHelp(anchor, { label, help }) {
+    if (_activePeHelp) {
+        const wasThisOne = _activePeHelp.dataset.label === label;
+        _activePeHelp.remove();
+        _activePeHelp = null;
+        if (wasThisOne) return;
+    }
+
+    const pop = document.createElement('div');
+    pop.dataset.label = label;
+    Object.assign(pop.style, {
+        position: 'absolute',
+        top: 'calc(100% + 8px)',
+        right: '0',
+        zIndex: '9999',
+        minWidth: '210px',
+        maxWidth: '270px',
+        background: '#000',
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderRadius: '8px',
+        padding: '10px 13px',
+        boxShadow: '0 10px 36px rgba(0,0,0,0.85)',
+    });
+
+    const titleEl = document.createElement('div');
+    titleEl.textContent = label;
+    titleEl.style.cssText = 'font-family:monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:8px;';
+    pop.appendChild(titleEl);
+
+    const body = document.createElement('pre');
+    body.textContent = help;
+    body.style.cssText = 'font-family:monospace;font-size:9.5px;line-height:1.7;color:rgba(255,255,255,0.60);white-space:pre-wrap;margin:0;';
+    pop.appendChild(body);
+
+    // Anchor needs position:relative to contain absolute popover
+    const anchorParent = anchor.parentElement;
+    const prevPos = anchorParent.style.position;
+    anchorParent.style.position = 'relative';
+    anchorParent.appendChild(pop);
+    _activePeHelp = pop;
+
+    const onOutside = (e) => {
+        if (!pop.contains(e.target) && e.target !== anchor) {
+            pop.remove();
+            anchorParent.style.position = prevPos;
+            _activePeHelp = null;
+            document.removeEventListener('click', onOutside, true);
+        }
+    };
+    setTimeout(() => document.addEventListener('click', onOutside, true), 0);
 }

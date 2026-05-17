@@ -417,6 +417,107 @@
     }
     .footer-credit:hover { color: rgba(255,255,255,0.45); }
 
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .page {
+        padding: 24px 20px 18px;
+      }
+
+      .header-title {
+        font-size: 36px;
+        letter-spacing: 7px;
+      }
+
+      .screens-wrap {
+        overflow: hidden;
+        margin: 0 -20px;
+      }
+
+      .screens-wrap::before {
+        display: none;
+      }
+
+      .screens {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        height: auto;
+        gap: 0;
+        padding: 16px 20px 24px;
+        align-items: flex-start;
+      }
+      .screens::-webkit-scrollbar { display: none; }
+
+      .screen-col {
+        flex: 0 0 auto;
+        scroll-snap-align: center;
+        transform: none !important;
+        padding: 0 10px;
+        width: calc(80vw);
+        max-width: 260px;
+        align-items: center;
+      }
+
+      .phone-shell {
+        width: min(58vw, 196px);
+      }
+
+      /* Scroll hint dots */
+      .scroll-dots {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 4px;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+      }
+
+      .footer-dot { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .header-title {
+        font-size: 30px;
+        letter-spacing: 5px;
+      }
+
+      .header-sub {
+        font-size: 9px;
+        letter-spacing: 2.5px;
+      }
+
+      .screen-col {
+        width: 85vw;
+        max-width: 240px;
+      }
+
+      .phone-shell {
+        width: min(62vw, 196px);
+      }
+    }
+
+    /* Hide scroll-dots on desktop */
+    @media (min-width: 769px) {
+      .scroll-dots { display: none; }
+    }
+
+    .scroll-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      transition: background 0.2s;
+    }
+    .scroll-dot.active {
+      background: rgba(20,164,144,0.65);
+    }
+
     /* ── LIGHTBOX ── */
     .lightbox {
       position: fixed;
@@ -508,6 +609,25 @@
       height: 72vh;
       width: auto;
       max-width: 90vw;
+    }
+
+    @media (max-width: 768px) {
+      .lightbox {
+        padding: 16px;
+        align-items: flex-end;
+      }
+      .lightbox-card {
+        border-radius: 18px 18px 14px 14px;
+        max-width: 100%;
+        width: 100%;
+      }
+      .lightbox-video {
+        height: auto;
+        width: 100%;
+        max-height: 65vh;
+        max-width: 100%;
+        object-fit: contain;
+      }
     }
   </style>
 </head>
@@ -610,6 +730,13 @@
     </div>
   </div>
 
+  <div class="scroll-dots" id="scrollDots">
+    <div class="scroll-dot active" data-i="0"></div>
+    <div class="scroll-dot" data-i="1"></div>
+    <div class="scroll-dot" data-i="2"></div>
+    <div class="scroll-dot" data-i="3"></div>
+  </div>
+
   <div class="demo-trigger-wrap">
     <button class="demo-trigger" id="demoBtn">
       <div class="demo-play-ring"></div>
@@ -669,6 +796,19 @@
     lightbox.classList.remove('open');
     video.pause();
     video.currentTime = 0;
+  }
+
+  // Scroll dots
+  const screensEl = document.querySelector('.screens');
+  const dots = document.querySelectorAll('.scroll-dot');
+  if (screensEl && dots.length) {
+    screensEl.addEventListener('scroll', () => {
+      const cols = screensEl.querySelectorAll('.screen-col');
+      const scrollLeft = screensEl.scrollLeft;
+      const colWidth = cols[0]?.offsetWidth ?? 1;
+      const idx = Math.round(scrollLeft / colWidth);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }, { passive: true });
   }
 
   btn.addEventListener('click', openLightbox);

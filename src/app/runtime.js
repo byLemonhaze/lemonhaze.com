@@ -192,6 +192,19 @@ function renderBootError(message) {
     `;
 }
 
+function buildParentIds(artworks) {
+    const INSCRIPTION_RE = /^[a-f0-9]{64}i\d+$/;
+    const ids = new Set();
+    for (const artwork of artworks) {
+        if (!artwork.provenance || typeof artwork.provenance !== 'string') continue;
+        for (const part of artwork.provenance.split(/[\s,]+/)) {
+            const v = part.trim();
+            if (INSCRIPTION_RE.test(v)) ids.add(v);
+        }
+    }
+    return ids;
+}
+
 // Initialization
 async function init() {
     refreshElements();
@@ -207,6 +220,7 @@ async function init() {
         ? bbLive.map(item => ({ ...item, provenance: bbProvenance }))
         : bbLive;
     appState.artworks = bbLive.length > 0 ? [...enrichedBBLive, ...nonBB] : provenanceData;
+    appState.parentIds = buildParentIds(appState.artworks);
     rebuildCollectionSlugs();
 
     const hasDeepLink = await applyUrlStateFromLocation({ replaceHistory: true });
@@ -302,6 +316,7 @@ function renderGallery(items) {
         galleryGrid,
         contentArea,
         onOpenArtworkById: openArtworkById,
+        parentIds: appState.parentIds,
     });
 }
 
