@@ -112,6 +112,7 @@ const INTERNAL_SECTIONS = createInternalSections({
     aboutText: ABOUT_LEMONHAZE_TEXT,
     careerHighlightsItems: CAREER_HIGHLIGHTS_ITEMS,
     ordinalsSupplyData: ORDINALS_SUPPLY_DATA,
+    ethSupplyData: ETH_SUPPLY_DATA,
     marketLinks: MARKET_LINKS,
     linkOverrides: LINK_OVERRIDES,
     physicalWorksItems: PHYSICAL_WORKS_ITEMS,

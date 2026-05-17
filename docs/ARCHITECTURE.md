@@ -14,8 +14,7 @@ This document is the high-level engineering map for `lemonhaze.com`:
 | Layer | Component | Responsibility |
 |---|---|---|
 | Frontend | Vite app (`index.html`, `src/`) | Collection browsing, deep links, modals, internal sections, blog, and supply navigation |
-| Secondary entry | `marketplace.html` + `src/supply.js` | Separate supply-oriented page shell that reuses the shared supply renderer |
-| Legacy alias | `public/_redirects` | Redirect rules preserving `/supplyCAP.html` and `/supply.html` as aliases to `/marketplace` |
+| Legacy alias | `public/_redirects` | Redirect rules preserving `/marketplace`, `/supplyCAP.html`, and `/supply.html` as aliases to `/supply` |
 | Static data | `src/data.js`, `src/data/*`, `public/data/*` | Curated copy, chronology, supply tables, blog posts, fallback provenance, generated sales indices |
 | Edge runtime | Cloudflare Pages Functions (`functions/`) | SPA shell fallback, inscription metadata proxying, and password-protected Press Engine generation |
 | Sales pipeline | `scripts/` + `data/sales-master/` | Marketplace scraping, manual private-sale merge, inscription-level sales index generation |
@@ -69,6 +68,7 @@ The artwork modal is therefore the main integration point between curated repo d
 
 - Serves `index.html` for clean direct-path visits like `/about`, `/best-before`, and `/<inscription-id>`
 - Rewrites legacy app entry pages such as `/collection.html` and `/modal.html` to the SPA shell so old shared links can normalize forward
+- Redirects legacy `/marketplace` requests to the canonical `/supply` route
 - Leaves asset and API requests alone
 
 ### `GET /api/inscription-metadata`
@@ -88,7 +88,7 @@ The artwork modal is therefore the main integration point between curated repo d
 
 - `src/data.js` and `src/data/*` contain editorially curated site copy and chronology.
 - Supply rows, marketplace links, and supply-page collection overrides are centralized in `src/data.js`.
-- `src/renderers/sections/supply.js` contains the shared supply UI used by both the main app section and the standalone marketplace page.
+- `src/renderers/sections/supply.js` contains the shared supply UI for the canonical `/supply` section, including Bitcoin collections, Ethereum works, and physical works.
 - Provenance is expected primarily from Lemonhaze CDN, with `/public/data/provenance.json` as a local fallback.
 - BEST BEFORE is intentionally treated as a live external integration rather than static repo data.
 - `data/sales-master/` is working data for scripts; `public/data/sales-master/` is the browser-served output.

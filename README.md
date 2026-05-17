@@ -135,10 +135,9 @@ npx wrangler pages deploy dist --project-name lemonhaze
 ## Notes
 
 - Main site entry is `index.html` (bootstraps `src/main.js`).
-- `marketplace.html` is a separate Vite input with its own script (`src/supply.js`) and legacy UI treatment.
 - `src/data.js` is the canonical source for supply rows, marketplace links, and supply-page link overrides.
-- `src/renderers/sections/supply.js` is the shared supply renderer used by both the in-app Supply section and the standalone `/marketplace` page.
-- `public/_redirects` carries the legacy `/supplyCAP.html` and `/supply.html` redirects to `/marketplace`.
+- `src/renderers/sections/supply.js` is the shared supply renderer used by the in-app `/supply` section, including the Bitcoin, Ethereum, and physical-work listings.
+- `public/_redirects` carries legacy redirects so `/marketplace`, `/supplyCAP.html`, and `/supply.html` normalize to `/supply`.
 - `functions/[[path]].ts` serves the SPA shell for clean direct-path visits and old app entry pages like `/modal.html`.
 - Some older files remain for historical/backup context (for example `src/main.js.bak`).
 - `public/_headers` controls the current cache policy for HTML and built assets.

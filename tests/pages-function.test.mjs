@@ -38,10 +38,11 @@ async function responseText(response) {
   return await response.text();
 }
 
-test("/supply redirects to /marketplace before Pages can return a 200 document", async () => {
+test("/supply uses the SPA fallback so refreshing preserves the in-app section route", async () => {
   const { context, calls } = createContext("/supply", {
-    nextResponse: new Response("<title>Marketplace | Lemonhaze</title>", {
-      headers: { "content-type": "text/html; charset=utf-8" },
+    nextResponse: new Response("Not found", {
+      status: 404,
+      headers: { "content-type": "text/plain; charset=utf-8" },
     }),
     assetResponse: new Response("<title>Lemonhaze</title>", {
       headers: { "content-type": "text/html; charset=utf-8" },
@@ -49,14 +50,14 @@ test("/supply redirects to /marketplace before Pages can return a 200 document",
   });
 
   const response = await onRequest(context);
+  const text = await responseText(response);
 
-  assert.equal(calls.next, 0);
-  assert.equal(calls.assets.length, 0);
-  assert.equal(response.status, 307);
-  assert.equal(response.headers.get("location"), "https://lemonhaze.com/marketplace");
+  assert.equal(calls.next, 1);
+  assert.equal(calls.assets.length, 1);
+  assert.match(text, /<title>Lemonhaze<\/title>/);
 });
 
-test("/supply/ redirects to /marketplace before the SPA fallback runs", async () => {
+test("/supply/ still uses the 404 SPA fallback", async () => {
   const { context, calls } = createContext("/supply/", {
     nextResponse: new Response("Not found", {
       status: 404,
@@ -68,10 +69,11 @@ test("/supply/ redirects to /marketplace before the SPA fallback runs", async ()
   });
 
   const response = await onRequest(context);
-  assert.equal(calls.next, 0);
-  assert.equal(calls.assets.length, 0);
-  assert.equal(response.status, 307);
-  assert.equal(response.headers.get("location"), "https://lemonhaze.com/marketplace");
+  const text = await responseText(response);
+
+  assert.equal(calls.next, 1);
+  assert.equal(calls.assets.length, 1);
+  assert.match(text, /<title>Lemonhaze<\/title>/);
 });
 
 test("/about still uses the 404 SPA fallback", async () => {
@@ -93,7 +95,7 @@ test("/about still uses the 404 SPA fallback", async () => {
   assert.match(text, /<title>Lemonhaze<\/title>/);
 });
 
-test("/marketplace keeps the standalone marketplace document", async () => {
+test("/marketplace redirects to /supply", async () => {
   const { context, calls } = createContext("/marketplace", {
     nextResponse: new Response("<title>Marketplace | Lemonhaze</title>", {
       headers: { "content-type": "text/html; charset=utf-8" },
@@ -104,11 +106,11 @@ test("/marketplace keeps the standalone marketplace document", async () => {
   });
 
   const response = await onRequest(context);
-  const text = await responseText(response);
 
-  assert.equal(calls.next, 1);
+  assert.equal(calls.next, 0);
   assert.equal(calls.assets.length, 0);
-  assert.match(text, /<title>Marketplace \| Lemonhaze<\/title>/);
+  assert.equal(response.status, 307);
+  assert.equal(response.headers.get("location"), "https://lemonhaze.com/supply");
 });
 
 test("/best-before still falls through and uses the 404 SPA fallback", async () => {

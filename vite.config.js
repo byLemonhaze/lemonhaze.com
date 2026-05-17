@@ -9,7 +9,6 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 main: resolve(__dirname, 'index.html'),
-                marketplace: resolve(__dirname, 'marketplace.html'),
             },
         },
     },

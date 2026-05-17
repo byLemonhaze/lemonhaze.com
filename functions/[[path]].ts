@@ -13,8 +13,10 @@ const LEGACY_APP_ENTRY_PATHS = new Set([
 ]);
 
 const LEGACY_REDIRECT_PATHS = new Map([
-    ['/supply', '/marketplace'],
-    ['/supply/', '/marketplace'],
+    ['/marketplace', '/supply'],
+    ['/marketplace/', '/supply'],
+    ['/marketplace.html', '/supply'],
+    ['/supply.html', '/supply'],
 ]);
 
 const NON_SPA_PREFIXES = [

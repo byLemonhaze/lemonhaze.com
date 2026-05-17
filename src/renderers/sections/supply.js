@@ -58,20 +58,11 @@ function createMarketButton(label, href) {
     return link;
 }
 
-function createTableHeader() {
+function createTableHeader(columns) {
     const headerRow = createNode(
         'tr',
         'text-[10px] uppercase tracking-widest text-white/20 border-b border-white/5'
     );
-
-    const columns = [
-        { label: 'Collection', className: 'pb-2 font-medium' },
-        { label: 'Year', className: 'pb-2 px-2 font-medium' },
-        { label: 'Inscribed', className: 'pb-2 px-2 font-medium text-right hidden sm:table-cell' },
-        { label: 'Circ.', className: 'pb-2 px-2 font-medium text-right' },
-        { label: 'Burn', className: 'pb-2 px-2 font-medium text-right hidden sm:table-cell' },
-        { label: 'Links', className: 'pb-2 pl-4 font-medium text-right' },
-    ];
 
     columns.forEach(({ label, className }) => {
         const th = createNode('th', className, label);
@@ -136,13 +127,31 @@ function createSupplyRow({
     return tr;
 }
 
+function createEthSupplyRow(row) {
+    const tr = createNode('tr', 'border-b border-white/5 text-[11px] hover:bg-white/5');
+
+    const nameCell = createNode('td', 'py-2 pr-4 font-medium', row.name);
+    const platformCell = createNode('td', 'py-2 px-2 text-white/40 hidden sm:table-cell', row.platform);
+    const yearCell = createNode('td', 'py-2 px-2 text-white/40', String(row.year));
+    const countCell = createNode('td', 'py-2 pl-4 text-right font-mono text-white/90', String(row.count));
+
+    tr.appendChild(nameCell);
+    tr.appendChild(platformCell);
+    tr.appendChild(yearCell);
+    tr.appendChild(countCell);
+
+    return tr;
+}
+
 export function createSupplySectionNode({
     ordinalsSupplyData,
+    ethSupplyData = [],
     marketLinks,
     linkOverrides,
     physicalWorksItems = [],
     physicalSectionTitle = 'Physical & Other',
     ordinalsSectionTitle = 'Digital Ordinals',
+    ethSectionTitle = 'Ethereum Works',
     resolveCollectionHref = defaultResolveCollectionHref,
     toCollectionSlug,
     slugifyCollectionName,
@@ -226,7 +235,14 @@ export function createSupplySectionNode({
     const tableWrap = createNode('div', 'overflow-x-auto');
     const table = createNode('table', 'w-full text-left');
     const thead = createNode('thead');
-    thead.appendChild(createTableHeader());
+    thead.appendChild(createTableHeader([
+        { label: 'Collection', className: 'pb-2 font-medium' },
+        { label: 'Year', className: 'pb-2 px-2 font-medium' },
+        { label: 'Inscribed', className: 'pb-2 px-2 font-medium text-right hidden sm:table-cell' },
+        { label: 'Circ.', className: 'pb-2 px-2 font-medium text-right' },
+        { label: 'Burn', className: 'pb-2 px-2 font-medium text-right hidden sm:table-cell' },
+        { label: 'Links', className: 'pb-2 pl-4 font-medium text-right' },
+    ]));
     table.appendChild(thead);
 
     const tbody = createNode('tbody');
@@ -245,6 +261,38 @@ export function createSupplySectionNode({
     ordinalsSection.appendChild(tableWrap);
 
     root.appendChild(ordinalsSection);
+
+    if (ethSupplyData.length) {
+        const ethSection = createNode('section');
+        const ethTitle = createNode(
+            'h3',
+            'text-xs font-bold uppercase tracking-widest text-white/30 mb-3 md:mb-4 flex items-center gap-2'
+        );
+        ethTitle.appendChild(createNode('span', 'w-4 h-[1px] bg-white/10'));
+        ethTitle.appendChild(document.createTextNode(ethSectionTitle));
+        ethSection.appendChild(ethTitle);
+
+        const ethTableWrap = createNode('div', 'overflow-x-auto');
+        const ethTable = createNode('table', 'w-full text-left');
+        const ethThead = createNode('thead');
+        ethThead.appendChild(createTableHeader([
+            { label: 'Collection', className: 'pb-2 font-medium' },
+            { label: 'Platform', className: 'pb-2 px-2 font-medium hidden sm:table-cell' },
+            { label: 'Year', className: 'pb-2 px-2 font-medium' },
+            { label: 'Supply', className: 'pb-2 pl-4 font-medium text-right' },
+        ]));
+        ethTable.appendChild(ethThead);
+
+        const ethTbody = createNode('tbody');
+        ethSupplyData.forEach((row) => {
+            ethTbody.appendChild(createEthSupplyRow(row));
+        });
+        ethTable.appendChild(ethTbody);
+        ethTableWrap.appendChild(ethTable);
+        ethSection.appendChild(ethTableWrap);
+
+        root.appendChild(ethSection);
+    }
 
     if (physicalWorksItems.length) {
         const physicalSection = createNode('section', 'opacity-80');
