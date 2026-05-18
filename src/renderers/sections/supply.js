@@ -113,6 +113,7 @@ function createSupplyRow({
 
     const linksCell = createNode('td', 'py-2 pl-4 text-right');
     const linksWrap = createNode('div', 'flex justify-end gap-1');
+    if (links.ordnet) linksWrap.appendChild(createMarketButton('Ord.net', links.ordnet));
     if (links.gamma) linksWrap.appendChild(createMarketButton('Gamma', links.gamma));
     if (links.satflow) linksWrap.appendChild(createMarketButton('Satflow', links.satflow));
     linksCell.appendChild(linksWrap);

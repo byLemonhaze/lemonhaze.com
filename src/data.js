@@ -341,12 +341,48 @@ const SATFLOW_LINKS = {
   'Downtown': 'https://www.satflow.com/ordinals/downtown-by-lemonhaze',
 };
 
+const ORDNET_LINKS = {
+  'BEST BEFORE': 'https://ord.net/collection/best-before-by-lemonhaze-x-ordinally',
+  'Manufactured': 'https://ord.net/collection/manufactured-by-lemonhaze',
+  '1/1s (2024)': 'https://ord.net/collection/1on1-by-lemonhaze',
+  '1/1s (2025)': 'https://ord.net/collection/1on1-2025-by-lemonhaze',
+  '1 of 1s (2026)': 'https://ord.net/collection/1-of-1s-2026-by-lemonhaze',
+  'Games': 'https://ord.net/collection/games-by-lemonhaze',
+  'Minute, papillon! Edition': 'https://ord.net/collection/minute-papillon-editions-by-lemonhaze',
+  'Bento Box': 'https://ord.net/collection/bento-box-by-lemonhaze',
+  'Candidly Yours': 'https://ord.net/collection/candidly-yours-by-lemonhaze',
+  'Deville': 'https://ord.net/collection/deville-by-lemonhaze',
+  'Into The Wild': 'https://ord.net/collection/into-the-wild-by-lemonhaze',
+  'La Tentation': 'https://ord.net/collection/tentation-by-lemonhaze',
+  'Little Get Away': 'https://ord.net/collection/little-get-away-by-lemonhaze',
+  'Ma ville en quatre temps': 'https://ord.net/collection/ma-ville-en-quatre-temps-by-lemonhaze',
+  'Montreal': 'https://ord.net/collection/montreal-by-lemonhaze',
+  'Tori no Roji': 'https://ord.net/collection/tori_no_roji_by_lemonhaze',
+  'Unregulated Minds': 'https://ord.net/collection/unregulated-minds-by-lemonhaze',
+  'Untitled': 'https://ord.net/collection/untitled-by-lemonhaze',
+};
+
 function normalizeMarketLinks(linksByCollection) {
+  const keys = new Set([
+    ...Object.keys(linksByCollection),
+    ...Object.keys(SATFLOW_LINKS),
+    ...Object.keys(ORDNET_LINKS),
+  ]);
+
   return Object.fromEntries(
-    Object.entries(linksByCollection).map(([name, links]) => {
+    [...keys].map((name) => {
+      const links = linksByCollection[name] || {};
       const { me: _me, ...rest } = links;
+      const ordnet = ORDNET_LINKS[name];
       const satflow = SATFLOW_LINKS[name];
-      return [name, satflow ? { ...rest, satflow } : rest];
+      return [
+        name,
+        {
+          ...(ordnet ? { ordnet } : {}),
+          ...rest,
+          ...(satflow ? { satflow } : {}),
+        },
+      ];
     })
   );
 }
@@ -379,6 +415,8 @@ const RAW_MARKET_LINKS = {
   '1/1s (2025)': {
     gamma: 'https://gamma.io/ordinals/collections/1-1-2025-by-lemonhaze/items'
   },
+  '1 of 1s (2026)': {
+  },
   'Gentlemen': {
     gamma: 'https://gamma.io/ordinals/collections/gentlemen-by-lemonhaze/items'
   },
@@ -390,6 +428,8 @@ const RAW_MARKET_LINKS = {
   },
   'Minute, papillon! Edition': {
     gamma: 'https://gamma.io/ordinals/collections/minute-papillon/items'
+  },
+  'Into The Wild': {
   },
   'The Artifacts': {
     gamma: 'https://gamma.io/ordinals/collections/theartifacts/items'
