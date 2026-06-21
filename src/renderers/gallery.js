@@ -1,7 +1,9 @@
 import {
+    getDirectOnchainPreviewSrc,
     getPreferredFileExtension,
     isHtmlArtwork,
     isVideoArtwork,
+    shouldUseDirectOnchainPreview,
     shouldUseDirectOnchainMedia,
 } from '../modules/artwork-media.js';
 
@@ -56,6 +58,8 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
         const isEncrypted = ENCRYPTED_ARTWORKS.has(item.id);
         const isParent = parentIds?.has(item.id) ?? false;
         const mediaSrc = getArtworkImageSrc(item);
+        const previewSrc = getDirectOnchainPreviewSrc(item);
+        const shouldUsePreview = shouldUseDirectOnchainPreview(item);
         const isVideo = isVideoArtwork(item);
         const mediaClass = `w-[85%] h-[85%] object-contain drop-shadow-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-300 ${item.artwork_type === 'PNG' ? 'pixelated' : ''}`;
 
@@ -63,6 +67,8 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
             ? `<div class="flex flex-col items-center justify-center gap-2">
                  <span class="text-[9px] font-mono uppercase tracking-[0.22em] text-white/20">Artwork Encrypted</span>
                </div>`
+            : shouldUsePreview && previewSrc
+            ? `<iframe src="${previewSrc}" class="${mediaClass}" loading="lazy" sandbox="allow-scripts" scrolling="no" aria-hidden="true" tabindex="-1" style="border:0; pointer-events:none;"></iframe>`
             : isVideo
             ? `<video src="${mediaSrc}" class="${mediaClass}" muted loop autoplay playsinline preload="metadata"></video>`
             : `<img src="${mediaSrc}" class="${mediaClass}" loading="lazy" />`;
