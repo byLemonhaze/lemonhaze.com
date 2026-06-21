@@ -172,7 +172,8 @@
       border-radius: 4px;
     }
 
-    .frame img {
+    .frame img,
+    .frame iframe {
       position: absolute;
       top: 0;
       left: 0;
@@ -186,7 +187,12 @@
       transition: filter 0.3s ease, transform 0.2s ease;
     }
 
-    .frame:hover img {
+    .frame iframe {
+      background: transparent;
+    }
+
+    .frame:hover img,
+    .frame:hover iframe {
       filter: drop-shadow(0 0 2px rgba(255, 255, 255, 1)) drop-shadow(0 0 5px rgba(232, 220, 180, 0.8)) drop-shadow(0 0 8px rgba(249, 243, 246, 0.5));
     }
 
@@ -530,6 +536,37 @@ between Osaka’s bustling streets and its quiet, hidden, and charming alleys.`,
       const gallery = document.getElementById('gallery');
       const title = document.querySelector('title');
       const h1 = document.querySelector('h1');
+      const DIRECT_ONCHAIN_PREVIEW_IDS = new Set([
+        '22c45a61ac26e42545e29a1c0af72190134f94f489596619f0b0e023908952e3i0',
+        '6f4dee1d7fb56cb3f6655f343d3824e0694f1932d20e41b0abe982cae958ae21i0',
+      ]);
+
+      function shouldUseDirectOnchainPreview(id) {
+        return DIRECT_ONCHAIN_PREVIEW_IDS.has(id);
+      }
+
+      function createCollectionPreview({ id, name, finalId, finalExt, className = '' }) {
+        if (shouldUseDirectOnchainPreview(id)) {
+          const iframe = document.createElement('iframe');
+          iframe.src = `https://ordinals.com/preview/${id}`;
+          iframe.className = className;
+          iframe.title = `${name} preview`;
+          iframe.loading = 'lazy';
+          iframe.tabIndex = -1;
+          iframe.setAttribute('aria-hidden', 'true');
+          iframe.setAttribute('scrolling', 'no');
+          iframe.setAttribute('sandbox', 'allow-scripts');
+          return iframe;
+        }
+
+        const img = document.createElement('img');
+        img.src = `https://cdn.lemonhaze.com/assets/assets/${finalId}.${finalExt}`;
+        img.alt = name;
+        img.title = name;
+        img.loading = 'lazy';
+        img.setAttribute('aria-hidden', 'true');
+        return img;
+      }
 
       // Get collection name from URL parameter
       const params = new URLSearchParams(window.location.search);
@@ -678,12 +715,15 @@ between Osaka’s bustling streets and its quiet, hidden, and charming alleys.`,
               const slide = document.createElement('div');
               slide.className = 'slide';
 
-              const img = document.createElement('img');
-              img.className = 'slideshow-image';
-              img.src = `https://cdn.lemonhaze.com/assets/assets/${finalId}.${finalExt}`;
-              img.alt = name;
-              img.loading = 'lazy';
-              img.addEventListener('click', () => {
+              const preview = createCollectionPreview({
+                id,
+                name,
+                finalId,
+                finalExt,
+                className: 'slideshow-image',
+              });
+
+              slide.addEventListener('click', () => {
                 try {
                   sessionStorage.setItem('lastYear', yearMap[collectionName] || '2023');
                   sessionStorage.setItem('lastCollection', collectionName);
@@ -700,7 +740,7 @@ between Osaka’s bustling streets and its quiet, hidden, and charming alleys.`,
               cap.className = 'caption';
               cap.textContent = name;
 
-              slide.appendChild(img);
+              slide.appendChild(preview);
               slide.appendChild(cap);
               fragment.appendChild(slide);
             });
@@ -772,10 +812,13 @@ between Osaka’s bustling streets and its quiet, hidden, and charming alleys.`,
               div.className = 'frame pair';
               const container = document.createElement('div');
               container.className = 'preview-container';
-              const preview = document.createElement('img');
               let finalExt = artwork_type === "JPEG" ? "jpg" : artwork_type === "WEBP" ? "webp" : "png";
-              preview.src = `https://cdn.lemonhaze.com/assets/assets/${id}.${finalExt}`;
-              preview.alt = name;
+              const preview = createCollectionPreview({
+                id,
+                name,
+                finalId: id,
+                finalExt,
+              });
               container.appendChild(preview);
               div.appendChild(container);
               const label = document.createElement('p');
@@ -826,12 +869,12 @@ between Osaka’s bustling streets and its quiet, hidden, and charming alleys.`,
             `;
             container.appendChild(loadingOverlay);
 
-            const preview = document.createElement('img');
-            preview.src = `https://cdn.lemonhaze.com/assets/assets/${finalId}.${finalExt}`;
-            preview.alt = name;
-            preview.title = name;
-            preview.loading = 'lazy';
-            preview.setAttribute('aria-hidden', 'true');
+            const preview = createCollectionPreview({
+              id,
+              name,
+              finalId,
+              finalExt,
+            });
             container.appendChild(preview);
 
             div.appendChild(container);
@@ -841,7 +884,7 @@ between Osaka’s bustling streets and its quiet, hidden, and charming alleys.`,
             div.appendChild(label);
 
             preview.addEventListener('load', () => {
-              if (preview.naturalWidth <= 100 || preview.naturalHeight <= 100) {
+              if (preview.tagName === 'IMG' && (preview.naturalWidth <= 100 || preview.naturalHeight <= 100)) {
                 preview.style.imageRendering = 'pixelated';
               }
               loadingOverlay.remove();
