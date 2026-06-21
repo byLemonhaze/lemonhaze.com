@@ -21,7 +21,10 @@ const DIRECT_ONCHAIN_COLLECTIONS = new Set([
 
 const DIRECT_ONCHAIN_PREVIEW_ARTWORK_IDS = new Set([
     '22c45a61ac26e42545e29a1c0af72190134f94f489596619f0b0e023908952e3i0',
-    '6f4dee1d7fb56cb3f6655f343d3824e0694f1932d20e41b0abe982cae958ae21i0',
+]);
+
+const CDN_MEDIA_EXTENSION_OVERRIDES = new Map([
+    ['6f4dee1d7fb56cb3f6655f343d3824e0694f1932d20e41b0abe982cae958ae21i0', 'mp4'],
 ]);
 
 function normalize(value) {
@@ -66,6 +69,10 @@ export function getDirectOnchainPreviewSrc(item) {
 }
 
 export function getPreferredFileExtension(item) {
+    const id = normalize(item?.id);
+    const overriddenExtension = CDN_MEDIA_EXTENSION_OVERRIDES.get(id);
+    if (overriddenExtension) return overriddenExtension;
+
     const artworkType = normalize(item?.artwork_type);
     if (artworkType === 'jpeg' || artworkType === 'jpg') return 'jpg';
     if (artworkType === 'webp') return 'webp';
