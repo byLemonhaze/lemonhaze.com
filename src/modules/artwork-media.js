@@ -27,6 +27,10 @@ const CDN_MEDIA_EXTENSION_OVERRIDES = new Map([
     ['6f4dee1d7fb56cb3f6655f343d3824e0694f1932d20e41b0abe982cae958ae21i0', 'mp4'],
 ]);
 
+const CDN_MEDIA_FALLBACK_IMAGE_EXTENSIONS = new Map([
+    ['6f4dee1d7fb56cb3f6655f343d3824e0694f1932d20e41b0abe982cae958ae21i0', 'png'],
+]);
+
 function normalize(value) {
     return String(value || '').trim().toLowerCase();
 }
@@ -66,6 +70,18 @@ export function shouldUseDirectOnchainPreview(item) {
 export function getDirectOnchainPreviewSrc(item) {
     const id = String(item?.id || '').trim();
     return shouldUseDirectOnchainPreview(item) && id ? `https://ordinals.com/preview/${id}` : null;
+}
+
+export function getCdnMediaSrc(item, extension = null) {
+    const ext = extension || getPreferredFileExtension(item);
+    return `https://cdn.lemonhaze.com/assets/assets/${item.id}.${ext}`;
+}
+
+export function getCdnFallbackImageSrc(item) {
+    const id = normalize(item?.id);
+    const fallbackExtension = CDN_MEDIA_FALLBACK_IMAGE_EXTENSIONS.get(id);
+    if (!fallbackExtension) return null;
+    return getCdnMediaSrc(item, fallbackExtension);
 }
 
 export function getPreferredFileExtension(item) {

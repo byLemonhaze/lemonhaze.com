@@ -1,4 +1,6 @@
 import {
+    getCdnFallbackImageSrc,
+    getCdnMediaSrc,
     getDirectOnchainPreviewSrc,
     getPreferredFileExtension,
     isHtmlArtwork,
@@ -26,7 +28,7 @@ export function getArtworkImageSrc(item) {
     }
 
     const ext = getPreferredFileExtension(item);
-    return `https://cdn.lemonhaze.com/assets/assets/${item.id}.${ext}`;
+    return getCdnMediaSrc(item, ext);
 }
 
 export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtworkById, parentIds }) {
@@ -61,6 +63,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
         const previewSrc = getDirectOnchainPreviewSrc(item);
         const shouldUsePreview = shouldUseDirectOnchainPreview(item);
         const isVideo = isVideoArtwork(item);
+        const fallbackImageSrc = getCdnFallbackImageSrc(item);
         const mediaClass = `w-[85%] h-[85%] object-contain drop-shadow-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-300 ${item.artwork_type === 'PNG' ? 'pixelated' : ''}`;
 
         const mediaMarkup = isEncrypted
@@ -70,7 +73,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
             : shouldUsePreview && previewSrc
             ? `<iframe src="${previewSrc}" class="${mediaClass}" loading="lazy" sandbox="allow-scripts" scrolling="no" aria-hidden="true" tabindex="-1" style="border:0; pointer-events:none;"></iframe>`
             : isVideo
-            ? `<video src="${mediaSrc}" class="${mediaClass}" muted loop autoplay playsinline preload="metadata"></video>`
+            ? `<video src="${mediaSrc}" class="${mediaClass}" muted loop autoplay playsinline preload="metadata"${fallbackImageSrc ? ` poster="${fallbackImageSrc}"` : ''}></video>`
             : `<img src="${mediaSrc}" class="${mediaClass}" loading="lazy" />`;
 
         const parentLabel = isParent
@@ -91,6 +94,20 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
     `;
 
         card.onclick = () => onOpenArtworkById(item.id);
+
+        if (isVideo && fallbackImageSrc) {
+            const video = card.querySelector('video');
+            if (video) {
+                video.addEventListener('error', () => {
+                    const fallbackImage = document.createElement('img');
+                    fallbackImage.src = fallbackImageSrc;
+                    fallbackImage.className = mediaClass;
+                    fallbackImage.loading = 'lazy';
+                    video.replaceWith(fallbackImage);
+                }, { once: true });
+            }
+        }
+
         fragment.appendChild(card);
     });
 
