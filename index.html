@@ -14,6 +14,11 @@
     body {
       background-color: #000 !important;
       color: white !important;
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      font-family: "Syne", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     a,
@@ -22,6 +27,89 @@
     a:active {
       color: white !important;
       text-decoration: none;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    :where(#mobile-backdrop) {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    :where(#sidebar) {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 50;
+      width: 20rem;
+      max-width: calc(100vw - 2rem);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      background: #080808;
+      transform: translateX(0);
+      transition: transform 300ms ease;
+    }
+
+    :where(#sidebar.-translate-x-full) {
+      transform: translateX(-100%);
+    }
+
+    main {
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #060606;
+    }
+
+    header {
+      min-height: 4rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: #070707;
+    }
+
+    :where(#content-area) {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 1.5rem;
+    }
+
+    :where(#gallery-grid) {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 5rem;
+    }
+
+    @media (min-width: 768px) {
+      :where(#mobile-backdrop),
+      :where(#menu-toggle) {
+        display: none !important;
+      }
+
+      :where(#sidebar) {
+        position: relative;
+        transform: translateX(0) !important;
+        flex: 0 0 20rem;
+      }
+
+      :where(#content-area) {
+        padding: 2.5rem;
+      }
     }
   </style>
 </head>
