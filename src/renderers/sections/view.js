@@ -79,10 +79,10 @@ export function renderSectionView({
     galleryGrid.className = 'grid grid-cols-1 mb-20';
 
     const sectionShell = document.createElement('section');
-    sectionShell.className = 'w-full max-w-3xl animate-fade-in';
+    sectionShell.className = 'w-full max-w-3xl min-w-0 animate-fade-in';
 
     const sectionBody = document.createElement('div');
-    sectionBody.className = 'text-sm md:text-base text-white/80 leading-relaxed';
+    sectionBody.className = 'min-w-0 max-w-full text-sm md:text-base text-white/80 leading-relaxed break-words';
     appendSectionContent({ title, content, sectionBody });
 
     sectionShell.appendChild(sectionBody);

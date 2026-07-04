@@ -25,7 +25,7 @@ import { createSectionFlow } from './section-flow.js';
 import { el, refreshElements as refreshDomElements } from '../ui/elements.js';
 import { setLoadingIndicator } from '../ui/loading.js';
 import { updateHeaderView } from '../ui/header.js';
-import { toggleMobileSidebar } from '../ui/menu.js';
+import { closeMobileSidebar, toggleMobileSidebar } from '../ui/menu.js';
 import { createHomeLayoutController } from '../ui/home-layout.js';
 import { createTesterController } from '../ui/tester.js';
 import { getArtworkImageSrc, renderGalleryGrid } from '../renderers/gallery.js';
@@ -268,14 +268,12 @@ function renderSidebar() {
         chronologyByYear: CHRONOLOGY_BY_YEAR,
         currentFilter: appState.currentFilter,
         activeSectionKey: appState.activeSectionKey,
-        onOpenSection: (sectionKey) => openSection(sectionKey),
+        onOpenSection: (sectionKey) => {
+            if (openSection(sectionKey)) closeMobileMenu();
+        },
         onOpenExternal: (url) => window.open(url, '_blank'),
         onLoadCollection: (collectionName) => loadCollection(collectionName),
-        onAfterSelect: () => {
-            if (window.innerWidth < 768) {
-                toggleMobileMenu();
-            }
-        },
+        onAfterSelect: closeMobileMenu,
     });
 }
 
@@ -478,10 +476,21 @@ function toggleMobileMenu() {
     });
 }
 
+function closeMobileMenu() {
+    if (window.innerWidth >= 768 || !appState.isMobileMenuOpen) return;
+
+    closeMobileSidebar({
+        appState,
+        sidebar,
+        mobileBackdrop: el.mobileBackdrop,
+    });
+}
+
 function setupEventListeners() {
     setupAppEventListeners({
         menuToggle,
         toggleMobileMenu,
+        closeMobileMenu,
         applyUrlStateFromLocation,
         mobileBackdrop: el.mobileBackdrop,
         closeModal,

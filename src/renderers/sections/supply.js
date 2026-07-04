@@ -49,13 +49,21 @@ function createStatCard(
 function createMarketButton(label, href) {
     const link = createNode(
         'a',
-        'px-2 py-0.5 border border-white/10 bg-[#131313] hover:border-white/30 transition-colors text-[10px] font-mono',
+        'px-2 py-0.5 border border-white/10 bg-[#131313] hover:border-white/30 transition-colors text-[10px] font-mono whitespace-nowrap',
         label
     );
     link.href = href;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     return link;
+}
+
+function createMarketLinksWrap(links, className = 'flex flex-wrap justify-end gap-1') {
+    const linksWrap = createNode('div', className);
+    if (links.ordnet) linksWrap.appendChild(createMarketButton('Ord.net', links.ordnet));
+    if (links.gamma) linksWrap.appendChild(createMarketButton('Gamma', links.gamma));
+    if (links.satflow) linksWrap.appendChild(createMarketButton('Satflow', links.satflow));
+    return linksWrap;
 }
 
 function createTableHeader(columns) {
@@ -112,11 +120,7 @@ function createSupplyRow({
     const burnedCell = createNode('td', 'py-2 px-2 text-right font-mono text-white/30 hidden sm:table-cell', String(burned));
 
     const linksCell = createNode('td', 'py-2 pl-4 text-right');
-    const linksWrap = createNode('div', 'flex justify-end gap-1');
-    if (links.ordnet) linksWrap.appendChild(createMarketButton('Ord.net', links.ordnet));
-    if (links.gamma) linksWrap.appendChild(createMarketButton('Gamma', links.gamma));
-    if (links.satflow) linksWrap.appendChild(createMarketButton('Satflow', links.satflow));
-    linksCell.appendChild(linksWrap);
+    linksCell.appendChild(createMarketLinksWrap(links));
 
     tr.appendChild(nameCell);
     tr.appendChild(yearCell);
@@ -142,6 +146,79 @@ function createEthSupplyRow(row) {
     tr.appendChild(countCell);
 
     return tr;
+}
+
+function createMobileMetric(label, value, valueClassName = 'text-white/80') {
+    const metric = createNode('div', 'min-w-0 border border-white/10 bg-white/[0.015] px-2 py-1.5');
+    metric.appendChild(createNode(
+        'div',
+        'text-[8px] uppercase tracking-[0.16em] text-white/25 leading-none',
+        label
+    ));
+    metric.appendChild(createNode(
+        'div',
+        `mt-1 text-[11px] font-mono leading-none break-words ${valueClassName}`.trim(),
+        String(value)
+    ));
+    return metric;
+}
+
+function createSupplyCard({
+    row,
+    toCollectionSlug,
+    slugifyCollectionName,
+    marketLinks,
+    linkOverrides,
+    resolveCollectionHref,
+}) {
+    const burned = row.inscribed - row.circulating;
+    const collectionLink = resolveCollectionHref({
+        row,
+        toCollectionSlug,
+        slugifyCollectionName,
+        linkOverrides,
+    });
+    const links = marketLinks[row.name] || {};
+
+    const card = createNode('article', 'min-w-0 border border-white/10 bg-white/[0.015] p-3');
+
+    const nameLink = createNode(
+        'a',
+        'block text-[12px] font-bold uppercase tracking-[0.12em] text-white break-words',
+        row.name
+    );
+    nameLink.href = collectionLink;
+    card.appendChild(nameLink);
+
+    const metrics = createNode('div', 'mt-3 grid grid-cols-3 gap-2');
+    metrics.appendChild(createMobileMetric('Year', row.year, 'text-white/45'));
+    metrics.appendChild(createMobileMetric('Circ.', row.circulating));
+    metrics.appendChild(createMobileMetric('Burn', burned, 'text-white/35'));
+    card.appendChild(metrics);
+
+    const linksWrap = createMarketLinksWrap(links, 'mt-3 flex flex-wrap gap-1');
+    if (linksWrap.childNodes.length) {
+        card.appendChild(linksWrap);
+    }
+
+    return card;
+}
+
+function createEthSupplyCard(row) {
+    const card = createNode('article', 'min-w-0 border border-white/10 bg-white/[0.015] p-3');
+    card.appendChild(createNode(
+        'div',
+        'text-[12px] font-bold uppercase tracking-[0.12em] text-white break-words',
+        row.name
+    ));
+
+    const metrics = createNode('div', 'mt-3 grid grid-cols-3 gap-2');
+    metrics.appendChild(createMobileMetric('Platform', row.platform, 'text-white/45'));
+    metrics.appendChild(createMobileMetric('Year', row.year, 'text-white/45'));
+    metrics.appendChild(createMobileMetric('Supply', row.count));
+    card.appendChild(metrics);
+
+    return card;
 }
 
 export function createSupplySectionNode({
@@ -233,7 +310,20 @@ export function createSupplySectionNode({
     ordinalsTitle.appendChild(document.createTextNode(ordinalsSectionTitle));
     ordinalsSection.appendChild(ordinalsTitle);
 
-    const tableWrap = createNode('div', 'overflow-x-auto');
+    const mobileSupplyList = createNode('div', 'sm:hidden space-y-2');
+    ordinalsSupplyData.forEach((row) => {
+        mobileSupplyList.appendChild(createSupplyCard({
+            row,
+            toCollectionSlug,
+            slugifyCollectionName,
+            marketLinks,
+            linkOverrides,
+            resolveCollectionHref,
+        }));
+    });
+    ordinalsSection.appendChild(mobileSupplyList);
+
+    const tableWrap = createNode('div', 'hidden sm:block overflow-x-auto');
     const table = createNode('table', 'w-full text-left');
     const thead = createNode('thead');
     thead.appendChild(createTableHeader([
@@ -273,7 +363,13 @@ export function createSupplySectionNode({
         ethTitle.appendChild(document.createTextNode(ethSectionTitle));
         ethSection.appendChild(ethTitle);
 
-        const ethTableWrap = createNode('div', 'overflow-x-auto');
+        const ethMobileList = createNode('div', 'sm:hidden space-y-2');
+        ethSupplyData.forEach((row) => {
+            ethMobileList.appendChild(createEthSupplyCard(row));
+        });
+        ethSection.appendChild(ethMobileList);
+
+        const ethTableWrap = createNode('div', 'hidden sm:block overflow-x-auto');
         const ethTable = createNode('table', 'w-full text-left');
         const ethThead = createNode('thead');
         ethThead.appendChild(createTableHeader([

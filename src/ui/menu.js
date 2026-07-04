@@ -13,3 +13,16 @@ export function toggleMobileSidebar({ appState, sidebar, mobileBackdrop }) {
         }
     }
 }
+
+export function closeMobileSidebar({ appState, sidebar, mobileBackdrop }) {
+    appState.isMobileMenuOpen = false;
+
+    if (sidebar) {
+        sidebar.classList.add('-translate-x-full');
+    }
+
+    const backdrop = mobileBackdrop();
+    if (backdrop) {
+        backdrop.classList.add('hidden');
+    }
+}

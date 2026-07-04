@@ -178,17 +178,17 @@ export function createProjectsSectionNode() {
 
         // ── Header: name + stack ──────────────────────────────────────────────
         const header = document.createElement('div');
-        header.className = 'flex items-baseline justify-between gap-4 mb-1.5';
+        header.className = 'min-w-0 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4 mb-1.5';
 
         const name = document.createElement('span');
-        name.className = 'text-[11px] font-bold uppercase tracking-[0.18em] text-white';
+        name.className = 'min-w-0 text-[11px] font-bold uppercase tracking-[0.18em] text-white break-words';
         name.textContent = project.name;
 
         const stackWrap = document.createElement('div');
-        stackWrap.className = 'flex items-center gap-2 shrink-0';
+        stackWrap.className = 'min-w-0 flex items-center gap-2 sm:shrink-0';
 
         const stack = document.createElement('span');
-        stack.className = 'text-[9px] font-mono uppercase tracking-[0.12em] text-white/25';
+        stack.className = 'min-w-0 text-[9px] font-mono uppercase tracking-[0.12em] text-white/25 break-words';
         stack.textContent = project.stack;
         stackWrap.appendChild(stack);
 
@@ -202,7 +202,7 @@ export function createProjectsSectionNode() {
 
         // ── Links ─────────────────────────────────────────────────────────────
         const links = document.createElement('div');
-        links.className = 'flex items-center gap-4';
+        links.className = 'min-w-0 flex flex-wrap items-center gap-x-4 gap-y-1';
 
         if (hasAction) {
             const openBtn = document.createElement('button');
@@ -217,7 +217,7 @@ export function createProjectsSectionNode() {
             liveLink.href = project.live;
             liveLink.target = '_blank';
             liveLink.rel = 'noopener noreferrer';
-            liveLink.className = 'text-[9px] font-mono text-white/40 hover:text-white transition-colors tracking-[0.1em]';
+            liveLink.className = 'max-w-full text-[9px] font-mono text-white/40 hover:text-white transition-colors tracking-[0.1em] break-all';
             liveLink.textContent = '↗ ' + project.live.replace(/^https?:\/\//, '');
             liveLink.onclick = e => e.stopPropagation();
             links.appendChild(liveLink);
@@ -228,7 +228,7 @@ export function createProjectsSectionNode() {
             ghLink.href = project.github;
             ghLink.target = '_blank';
             ghLink.rel = 'noopener noreferrer';
-            ghLink.className = 'text-[9px] font-mono text-white/25 hover:text-white/60 transition-colors tracking-[0.1em]';
+            ghLink.className = 'max-w-full text-[9px] font-mono text-white/25 hover:text-white/60 transition-colors tracking-[0.1em] break-all';
             ghLink.textContent = '⌥ github';
             ghLink.onclick = e => e.stopPropagation();
             links.appendChild(ghLink);
@@ -251,7 +251,7 @@ export function createProjectsSectionNode() {
             project.inscriptions.forEach(({ label, id }) => {
                 const a = document.createElement('a');
                 a.href = `/${encodeURIComponent(id)}`;
-                a.className = 'text-[9px] font-mono text-white/35 hover:text-white transition-colors tracking-[0.08em]';
+                a.className = 'max-w-full text-[9px] font-mono text-white/35 hover:text-white transition-colors tracking-[0.08em] break-words';
                 a.textContent = label;
                 a.title = id;
                 a.onclick = e => e.stopPropagation();

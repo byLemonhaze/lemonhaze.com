@@ -67,7 +67,7 @@
   </aside>
 
   <!-- Main Content Area -->
-  <main class="flex-1 h-full relative flex flex-col bg-[#060606]">
+  <main class="flex-1 min-w-0 h-full relative flex flex-col bg-[#060606]">
 
     <!-- Top Bar (Mobile Menu Toggle & Info) -->
     <header
@@ -78,9 +78,9 @@
         </svg>
       </button>
 
-      <div class="flex flex-col flex-1 mx-4">
-        <div class="flex items-center gap-2">
-          <h2 id="current-view-title" class="text-base md:text-lg font-bold tracking-[0.18em] uppercase"></h2>
+      <div class="flex flex-col flex-1 min-w-0 mx-4">
+        <div class="flex items-center gap-2 min-w-0">
+          <h2 id="current-view-title" class="min-w-0 text-base md:text-lg font-bold tracking-[0.18em] uppercase leading-tight break-words"></h2>
           <button id="refresh-btn"
             class="p-1.5 text-white/40 hover:text-white hover:rotate-180 transition-all duration-300 hidden"
             title="Refresh collection">
@@ -98,9 +98,9 @@
     </header>
 
     <!-- Content Scroll Area -->
-    <div id="content-area" class="flex-1 overflow-y-auto p-6 md:p-10 scroll-smooth">
+    <div id="content-area" class="flex-1 min-w-0 overflow-y-auto overflow-x-hidden p-6 md:p-10 scroll-smooth">
       <div id="gallery-grid"
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-20">
+        class="grid min-w-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-20">
         <!-- Artworks injected here -->
       </div>
 

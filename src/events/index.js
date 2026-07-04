@@ -1,6 +1,7 @@
 export function setupAppEventListeners({
     menuToggle,
     toggleMobileMenu,
+    closeMobileMenu,
     applyUrlStateFromLocation,
     mobileBackdrop,
     closeModal,
@@ -37,9 +38,7 @@ export function setupAppEventListeners({
             closeModal({ updateUrl: false });
             closeAboutModal({ updateUrl: false });
             loadCollection('Home');
-            if (window.innerWidth < 768 && isMobileMenuOpen()) {
-                toggleMobileMenu();
-            }
+            if (isMobileMenuOpen()) closeMobileMenu();
         });
     }
 
