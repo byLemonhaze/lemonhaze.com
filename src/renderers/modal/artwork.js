@@ -282,18 +282,19 @@ export function createArtworkModalController({
 
     function makeMetaRow(label, valueNode) {
         const row = document.createElement('div');
-        row.className = 'flex items-start gap-4 py-2 border-b border-white/5 last:border-0';
+        row.className = 'meta-row flex items-start gap-4 py-2 border-b border-white/5 last:border-0';
 
         const lbl = document.createElement('span');
         lbl.className = 'text-[9px] font-mono uppercase tracking-[0.2em] text-white/25 w-20 shrink-0 pt-0.5';
         lbl.textContent = label;
 
+        valueNode.classList.add('meta-value', 'min-w-0');
         row.appendChild(lbl);
         row.appendChild(valueNode);
         return row;
     }
 
-    function makeMetaText(text, className = 'text-[11px] font-mono text-white/70 break-all leading-snug') {
+    function makeMetaText(text, className = 'text-[11px] font-mono text-white/70 break-words leading-snug') {
         const span = document.createElement('span');
         span.className = className;
         span.textContent = text;

@@ -232,22 +232,26 @@
     line-height: 1.15;
   }
 
-  #modal-overlay #modal-metadata > div {
+  #modal-overlay #modal-metadata .meta-row {
     display: grid;
     grid-template-columns: 68px minmax(0, 1fr);
     column-gap: 0.5rem;
     align-items: start;
   }
 
-  #modal-overlay #modal-metadata > div > span:first-child {
+  #modal-overlay #modal-metadata .meta-row > span:first-child {
     width: auto !important;
   }
 
   #modal-overlay #modal-metadata,
   #modal-overlay #modal-metadata * {
     max-width: 100%;
+  }
+
+  #modal-overlay #modal-metadata .meta-value {
+    min-width: 0;
     overflow-wrap: anywhere;
-    word-break: break-word;
+    word-break: normal;
   }
 }
 
