@@ -71,7 +71,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
                  <span class="text-[9px] font-mono uppercase tracking-[0.22em] text-white/20">Artwork Encrypted</span>
                </div>`
             : shouldUsePreview && previewSrc
-            ? `<iframe src="${previewSrc}" class="${mediaClass}" loading="lazy" sandbox="allow-scripts" scrolling="no" aria-hidden="true" tabindex="-1" style="border:0; pointer-events:none;"></iframe>`
+            ? `<iframe src="${previewSrc}" class="${mediaClass}" loading="lazy" sandbox="allow-scripts allow-same-origin" scrolling="no" aria-hidden="true" tabindex="-1" style="border:0; pointer-events:none;"></iframe>`
             : isVideo
             ? `<video src="${mediaSrc}" class="${mediaClass}" muted loop autoplay playsinline preload="metadata"${fallbackImageSrc ? ` poster="${fallbackImageSrc}"` : ''}></video>`
             : `<img src="${mediaSrc}" class="${mediaClass}" loading="lazy" />`;
