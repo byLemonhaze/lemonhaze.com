@@ -6,6 +6,8 @@ const PROVENANCE_URLS = [
 ];
 const BB_COLLECTION_URL = "https://bestbefore.space/magic_eden_collection.json";
 
+export { fetchFeaturedCollections } from './data/featured-collections.js';
+
 export async function fetchProvenance() {
   for (const url of PROVENANCE_URLS) {
     try {
@@ -49,6 +51,7 @@ export const CHRONOLOGY_BY_YEAR = {
   ],
   "2025": [
     "BEST BEFORE",
+    "Trilogy (Prints)",
     "Ma ville en quatre temps",
     "Tori no Roji",
     "1 of 1s (2025)",
@@ -60,6 +63,7 @@ export const CHRONOLOGY_BY_YEAR = {
     "Montreal",
     "La Tentation",
     "DeVille",
+    "Mirage (Prints)",
     "Unregulated Minds",
     "1 of 1s (2024)"
   ],
@@ -69,7 +73,9 @@ export const CHRONOLOGY_BY_YEAR = {
     "Untitled",
     "Downtown",
     "Oaxaca",
+    "Satoshi (Original & Editions)",
     "Old-Fashioned",
+    "Deprivation (Prints)",
     "Orphelinat",
     "Volatility",
     "Generative Composition",
@@ -79,8 +85,8 @@ export const CHRONOLOGY_BY_YEAR = {
     "Lotus",
     "Berlin",
     "Fading",
-    "Mending Fragments",
     "Dark Days",
+    "Mending Fragments",
     "Polaroid",
     "Ordinals Summer",
     "Framed",
@@ -134,7 +140,7 @@ export const COL_DESCRIPTIONS = {
   "Into The Wild": `Mirage outputs and whatnot!`,
   "BEST BEFORE": `Art with a best-before date: born sealed at inscription, unsealed by its collector, and aging on block time. Many live short lives, some endure, and the rare outlier may never expire.`,
   "Manufactured": `"When gravity becomes manufactured, you remember the scent of a lemon."`,
-  "Satoshi CC Edition": "Counterfeit Cards Series 00 - Card 08",
+  "Satoshi (Original & Editions)": "Counterfeit Cards: Series 00 - Card 08. A gentleman hacking the fiat banking system.",
   "Portrait 2490": `Portrait2490 is a collection of 90 futuristic portrait of robots and/or human living in the year 2490.
 
 Asking one not so simple question:
@@ -155,15 +161,12 @@ Released in March 2023 - all pieces were minted/inscribed sub-300k - these works
   "1/1s 2025": `1/1s of 2025 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
   "1 of 1s 2025": `1/1s of 2025 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
 
-  "Deprivation prints": "Between passion and obsession lies deprivation, the duality of a soul longing for light amidst the enveloping darkness of sleepless nights.",
-  "Mirage prints": "A vivid interplay between true happiness and misleading hope, where real fulfillment is found in harmonizing dreams with reality.",
-  "Trilogy prints": `Trilogy of Gamma prints (2025).
-
-Off-Kilter: Away from the usual - tilted by instinct, curiosity, and dissonance. But even in imbalance, there's movement. Lean into the tilt until motion finds you where logic won't.
-
-Glass Breaker: The pulse scatters, the mind fractures and for a moment, everything feels like truth. But it's taking over, turning rhythm into hollow.
-
-Mending Out: When denial dissolves and clarity takes form, what remains is not hope but choice - the will to exist despite the shivers, mending out the fracture.`,
+  "Deprivation (Prints)": "Between passion and obsession lies deprivation, the duality of a soul longing for light amidst the enveloping darkness of sleepless nights.",
+  "Mirage (Prints)": "A vivid interplay between true happiness and misleading hope, where real fulfillment is found in harmonizing dreams with reality.",
+  "Trilogy (Prints)": `<span class="block mb-3">Three works, presented as one set of 33 prints.</span>
+<span class="block mb-2"><strong class="text-white/70">Glass Breaker:</strong> The pulse scatters, the mind fractures and for a moment, everything feels like truth. But it's taking over, turning rhythm into hollow.</span>
+<span class="block mb-2"><strong class="text-white/70">Mending Out:</strong> When denial dissolves and clarity takes form, what remains is not hope but choice - the will to exist despite the shivers, mending out the fracture.</span>
+<span class="block"><strong class="text-white/70">Off-Kilter:</strong> Away from the usual - tilted by instinct, curiosity, and dissonance. But even in imbalance, there's movement. Lean into the tilt until motion finds you where logic won't.</span>`,
   "Gentlemen": `Gentlemen is a work in progress.The Gentlemen represent the person I want to become for the love of my life.
 
 Becoming a gentleman is a lifelong process, a journey that only ends with my death.
@@ -224,13 +227,13 @@ between Osaka's bustling streets and its quiet, hidden, and charming alleys.`,
 export const ORDINALS_SUPPLY_DATA = [
   { name: 'BEST BEFORE', year: 2025, inscribed: 420, circulating: 420 },
   { name: 'Manufactured', year: 2024, inscribed: 420, circulating: 239 },
-  { name: 'Satoshi CC Edition', year: 2023, inscribed: 110, circulating: 109 },
+  { name: 'Satoshi (Original & Editions)', year: 2023, inscribed: 111, circulating: 110 },
   { name: 'Portrait 2490', year: 2023, inscribed: 90, circulating: 87 },
   { name: '1/1s (2024)', year: 2024, inscribed: 49, circulating: 10 },
   { name: '1/1s (2025)', year: 2025, inscribed: 35, circulating: 19 },
-  { name: 'Deprivation prints', year: 2023, inscribed: 33, circulating: 33 },
-  { name: 'Mirage prints', year: 2024, inscribed: 33, circulating: 33 },
-  { name: 'Trilogy prints', year: 2025, inscribed: 33, circulating: 33 },
+  { name: 'Deprivation (Prints)', year: 2023, inscribed: 33, circulating: 33 },
+  { name: 'Mirage (Prints)', year: 2024, inscribed: 33, circulating: 33 },
+  { name: 'Trilogy (Prints)', year: 2025, inscribed: 33, circulating: 33 },
   { name: 'Gentlemen', year: 2023, inscribed: 25, circulating: 24 },
   { name: 'Miscellaneous', year: 2023, inscribed: 25, circulating: 9 },
   { name: 'Games', year: 2024, inscribed: 26, circulating: 26 },
@@ -272,7 +275,6 @@ export const ORDINALS_SUPPLY_DATA = [
   { name: 'Bento Box', year: 2023, inscribed: 2, circulating: 1 },
   { name: 'Downtown', year: 2023, inscribed: 2, circulating: 2 },
   { name: 'Eclosion 1/1 - Amsterdam Blooms', year: 2023, inscribed: 1, circulating: 1 },
-  { name: 'Satoshi 1/1 - Counterfeit Cards S00 - C08', year: 2023, inscribed: 1, circulating: 1 },
   { name: 'Skull 506 [Remix] 1/1 - Skullx', year: 2025, inscribed: 1, circulating: 1 },
   { name: '1 of 1s (2026)', year: 2026, inscribed: 13, circulating: 13 },
   { name: 'Into The Wild', year: 2026, inscribed: 5, circulating: 5 },
@@ -296,12 +298,12 @@ export const PHYSICAL_WORKS_ITEMS = [
 
 const SATFLOW_LINKS = {
   'Manufactured': 'https://www.satflow.com/ordinals/manufactured-by-lemonhaze',
-  'Satoshi CC Edition': 'https://www.satflow.com/ordinals/counterfeit-cards-series-00?attributes=%7B%22CREATOR%22%3A%5B%22LEMONHAZE%22%5D%7D',
+  'Satoshi (Original & Editions)': 'https://www.satflow.com/ordinals/counterfeit-cards-series-00?attributes=%7B%22CREATOR%22%3A%5B%22LEMONHAZE%22%5D%7D',
   'Portrait 2490': 'https://www.satflow.com/ordinals/portrait-2490',
   '1/1s (2024)': 'https://www.satflow.com/ordinals/1on1-by-lemonhaze',
-  'Deprivation prints': 'https://www.satflow.com/ordinals/deprivation-by-lemonhaze',
-  'Mirage prints': 'https://www.satflow.com/ordinals/mirage-by-lemonhaze',
-  'Trilogy prints': 'https://www.satflow.com/ordinals/prints-trilogy-by-lemonhaze',
+  'Deprivation (Prints)': 'https://www.satflow.com/ordinals/deprivation-by-lemonhaze',
+  'Mirage (Prints)': 'https://www.satflow.com/ordinals/mirage-by-lemonhaze',
+  'Trilogy (Prints)': 'https://www.satflow.com/ordinals/prints-trilogy-by-lemonhaze',
   '1/1s (2025)': 'https://www.satflow.com/ordinals/1on1-2025-by-lemonhaze',
   'Gentlemen': 'https://www.satflow.com/ordinals/gentlemen-by-lemonhaze',
   'Miscellaneous': 'https://www.satflow.com/ordinals/miscelleneous-by-lemonhaze',
@@ -404,7 +406,7 @@ const RAW_MARKET_LINKS = {
   'Manufactured': {
     gamma: 'https://gamma.io/ordinals/collections/manufactured/items'
   },
-  'Satoshi CC Edition': {
+  'Satoshi (Original & Editions)': {
     gamma: 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze'
   },
   'Portrait 2490': {
@@ -413,13 +415,13 @@ const RAW_MARKET_LINKS = {
   '1/1s (2024)': {
     gamma: 'https://gamma.io/ordinals/collections/1-1-2024-by-lemonhaze/items'
   },
-  'Deprivation prints': {
+  'Deprivation (Prints)': {
     gamma: 'https://gamma.io/ordinals/prints/cllo44w190001jr0fajdfe7cc/details'
   },
-  'Mirage prints': {
+  'Mirage (Prints)': {
     gamma: 'https://gamma.io/ordinals/prints/clr14i0q90003l60fw2205qjr/details'
   },
-  'Trilogy prints': {
+  'Trilogy (Prints)': {
     gamma: 'https://gamma.io/explore/prints?creator=clkrid54y0000l50fs5qmsbpp'
   },
   '1/1s (2025)': {
@@ -563,11 +565,10 @@ export const MARKET_LINKS = normalizeMarketLinks(RAW_MARKET_LINKS);
 
 export const LINK_OVERRIDES = {
   'BEST BEFORE': 'https://bestbefore.gallery',
-  'Satoshi CC Edition': 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze',
-  'Satoshi 1/1 - Counterfeit Cards S00 - C08': 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze',
-  'Deprivation prints': 'https://lemonhaze.com/collection?name=Orphelinat',
-  'Mirage prints': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2024)',
-  'Trilogy prints': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2025)',
+  'Satoshi (Original & Editions)': 'https://lemonhaze.com/satoshi-original-and-editions',
+  'Deprivation (Prints)': 'https://lemonhaze.com/deprivation-prints',
+  'Mirage (Prints)': 'https://lemonhaze.com/mirage-prints',
+  'Trilogy (Prints)': 'https://lemonhaze.com/trilogy-prints',
   '1/1s (2024)': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2024)',
   '1/1s (2025)': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2025)',
   'Provenance': 'https://lemonhaze.com/',

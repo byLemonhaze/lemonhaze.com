@@ -25,9 +25,10 @@ This document is the high-level engineering map for `lemonhaze.com`:
 ### 1. Boot
 
 1. The browser loads `index.html`, which bootstraps `src/main.js`.
-2. `startApp()` in `src/app/runtime.js` fetches provenance data and the live BEST BEFORE collection.
+2. `startApp()` in `src/app/runtime.js` fetches provenance data, the live BEST BEFORE collection, and the repo-managed featured collection manifests.
 3. BEST BEFORE rows from provenance are replaced at runtime with the live collection payload when available.
-4. Sidebar navigation, section definitions, and collection slug maps are built from the resolved artwork set.
+4. Satoshi, Deprivation prints, Mirage prints, and the prints trilogy are merged from their inscription-ordered local manifests, taking precedence over matching provenance IDs.
+5. Sidebar navigation, section definitions, and collection slug maps are built from the resolved artwork set.
 
 ### 2. Routing
 

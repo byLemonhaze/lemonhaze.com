@@ -84,7 +84,7 @@ export function renderYearGroups({
         yearLabel.textContent = year;
 
         const indicator = document.createElement('span');
-        indicator.className = 'text-[9px] font-mono text-white/20 group-hover:text-white/40 transition-colors';
+        indicator.className = 'text-[11px] leading-none font-mono font-medium text-white/30 group-hover:text-white/55 transition-colors';
         indicator.textContent = isCollapsed ? '+' : '−';
 
         yearBtn.appendChild(yearLabel);

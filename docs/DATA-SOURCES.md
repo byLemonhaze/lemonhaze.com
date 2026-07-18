@@ -7,6 +7,7 @@
 | Provenance JSON (primary) | `https://cdn.lemonhaze.com/assets/assets/provenance.json` | Primary artwork metadata feed |
 | Provenance JSON (secondary) | `https://cdn.lemonhaze.com/assets/provenance.json` | Fallback artwork metadata feed |
 | Provenance JSON (local fallback) | `/data/provenance.json` | Local/offline fallback served from this repo |
+| Featured collection manifests | `/data/collections/*.json` | Ordered inscription rosters for Satoshi, Deprivation prints, Mirage prints, and the prints trilogy |
 | BEST BEFORE collection feed | `https://bestbefore.space/magic_eden_collection.json` | Live BEST BEFORE roster and high-resolution image URLs |
 | BEST BEFORE live state | `https://bestbefore.space/best-before.json` | Status, phase, lifespan, and palette data per inscription |
 | Hiro inscriptions API | `https://api.hiro.so/ordinals/v1/inscriptions/<id>` | Inscription number, timestamp, sat rarity, owner fallback |
@@ -33,6 +34,8 @@
 - blog post content
 
 These files are editorial source code, not mirrored external data.
+
+`src/data/featured-collections.js` normalizes the four repo-managed collection manifests into the same artwork shape as provenance data. Their array order is intentional: it preserves official inscription-number order. Satoshi includes its WebP original followed by 110 recursive SVG editions; the three print manifests contain editions only. Lineage links connect recursive editions back to their source inscription.
 
 ### Sales Working Data
 
@@ -68,6 +71,7 @@ After bootstrapping, ongoing edits should happen in `public/data/sales-master/hi
 
 - BEST BEFORE is intentionally live and overrides its corresponding provenance rows at runtime.
 - Some collections are rendered directly from on-chain HTML/media instead of static CDN imagery.
+- The four featured manifests render from their official on-chain content and remain available even when the primary CDN provenance feed has not yet been refreshed.
 - Sales data is a curated static ledger for UI context; it should not be treated as a complete chain-indexing backend.
 
 ## Future State

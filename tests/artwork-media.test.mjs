@@ -50,3 +50,29 @@ test('other 2025 HTML artworks keep their normal CDN thumbnail path', () => {
     };
     assert.equal(getCdnMediaSrc(darkHorse), `https://cdn.lemonhaze.com/assets/assets/${darkHorse.id}.png`);
 });
+
+test('recursive print collections use their on-chain HTML as grid previews', () => {
+    const item = {
+        name: 'Deprivation #1',
+        id: 'a851ea29e01f41890d2745af4425ca4351c75e6d5d3b4ff337b3b5aa293b92bai0',
+        collection: 'Deprivation (Prints)',
+        artwork_type: 'HTML',
+        content_type: 'text/html;charset=utf-8',
+    };
+
+    assert.equal(shouldUseDirectOnchainPreview(item), true);
+    assert.equal(getDirectOnchainPreviewSrc(item), `https://ordinals.com/content/${item.id}`);
+});
+
+test('recursive Satoshi SVG editions use on-chain iframe previews', () => {
+    const item = {
+        name: 'Satoshi #1',
+        id: '8d053a1ab58da680b760562986a09595a75befd06d28ee67e9648e4ffcc52abei0',
+        collection: 'Satoshi (Original & Editions)',
+        artwork_type: 'SVG',
+        content_type: 'image/svg+xml',
+    };
+
+    assert.equal(shouldUseDirectOnchainPreview(item), true);
+    assert.equal(getDirectOnchainPreviewSrc(item), `https://ordinals.com/content/${item.id}`);
+});

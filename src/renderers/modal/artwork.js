@@ -112,9 +112,21 @@ const SAT_RARITY_LABELS = {
     mythic: 'Mythic',
 };
 
-const DIRECT_HTML_RENDER_COLLECTIONS = new Set([
+const DIRECT_IFRAME_RENDER_COLLECTIONS = new Set([
     'BEST BEFORE',
+    'Satoshi (Original & Editions)',
+    'Deprivation (Prints)',
+    'Mirage (Prints)',
+    'Trilogy (Prints)',
 ]);
+
+export function shouldUseDirectModalIframe(item, isHtml) {
+    const collection = String(item?.collection || '').trim();
+    if (!DIRECT_IFRAME_RENDER_COLLECTIONS.has(collection)) return false;
+    if (isHtml) return true;
+    return collection === 'Satoshi (Original & Editions)'
+        && String(item?.artwork_type || '').trim().toLowerCase() === 'svg';
+}
 
 const satsFormatter = new Intl.NumberFormat('en-US');
 const usdNowFormatter = new Intl.NumberFormat('en-US', {
@@ -879,6 +891,7 @@ export function createArtworkModalController({
         const { modalTitle, modalImage, modalIframe, modalVideo, rawHtmlContainer, modalOverlay } = refs();
         if (!modalTitle || !modalImage || !modalIframe || !modalVideo || !rawHtmlContainer || !modalOverlay) return;
         const isVideo = isVideoArtwork(item);
+        const useDirectIframe = shouldUseDirectModalIframe(item, isHtml);
 
         bindMetadataInteractions();
         closeAboutModal({ updateUrl: false });
@@ -897,10 +910,10 @@ export function createArtworkModalController({
         clearActiveHtmlBlobUrl();
         htmlBlobLoadToken += 1;
 
-        if (isHtml) {
+        if (isHtml || useDirectIframe) {
             const currentToken = htmlBlobLoadToken;
             modalIframe.classList.remove('hidden');
-            if (DIRECT_HTML_RENDER_COLLECTIONS.has(item.collection)) {
+            if (useDirectIframe) {
                 modalIframe.src = `https://ordinals.com/content/${item.id}`;
                 renderMetadataList(item);
                 renderActionButtons(item, cdnSrc, isHtml);

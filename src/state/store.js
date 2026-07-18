@@ -27,9 +27,8 @@ export const subscribe = (fn) => {
 };
 
 export const initCollapsedYears = (years) => {
-    _state.collapsedYears = new Set();
-    // Mark all years except the most recent as collapsed
-    years.slice(1).forEach((year) => _state.collapsedYears.add(String(year)));
+    // Keep the chronology quiet on first load; visitors expand only the year they want.
+    _state.collapsedYears = new Set(years.map((year) => String(year)));
 };
 
 export const toggleYearCollapse = (year) => {

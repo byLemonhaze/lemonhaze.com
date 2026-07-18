@@ -17,10 +17,20 @@ const DIRECT_ONCHAIN_COLLECTIONS = new Set([
     'Jardin Secret',
     'World Tour',
     'Discography',
+    'Satoshi (Original & Editions)',
+    'Deprivation (Prints)',
+    'Mirage (Prints)',
+    'Trilogy (Prints)',
 ]);
 
 const DIRECT_ONCHAIN_PREVIEW_ARTWORK_IDS = new Set([
     '22c45a61ac26e42545e29a1c0af72190134f94f489596619f0b0e023908952e3i0',
+]);
+
+const DIRECT_ONCHAIN_CONTENT_PREVIEW_COLLECTIONS = new Set([
+    'Deprivation (Prints)',
+    'Mirage (Prints)',
+    'Trilogy (Prints)',
 ]);
 
 const DIRECT_ONCHAIN_CONTENT_PREVIEW_ARTWORK_IDS = new Set([
@@ -76,7 +86,12 @@ export function shouldUseDirectOnchainMedia(item) {
 export function shouldUseDirectOnchainPreview(item) {
     const id = normalize(item?.id);
     if (!id) return false;
+    const collection = String(item?.collection || '').trim();
+    const isSatoshiEdition = collection === 'Satoshi (Original & Editions)'
+        && normalize(item?.artwork_type) === 'svg';
     return (
+        isSatoshiEdition ||
+        DIRECT_ONCHAIN_CONTENT_PREVIEW_COLLECTIONS.has(collection) ||
         DIRECT_ONCHAIN_PREVIEW_ARTWORK_IDS.has(id) ||
         DIRECT_ONCHAIN_CONTENT_PREVIEW_ARTWORK_IDS.has(id)
     );

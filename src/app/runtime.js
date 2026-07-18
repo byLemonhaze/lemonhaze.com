@@ -1,6 +1,7 @@
 import {
     fetchProvenance,
     fetchBBCollection,
+    fetchFeaturedCollections,
     CHRONOLOGY_BY_YEAR,
     ABOUT_LEMONHAZE_TEXT,
     CAREER_HIGHLIGHTS_ITEMS,
@@ -227,7 +228,11 @@ async function init() {
     setLoading(true);
     renderSidebar();
 
-    const [provenanceData, bbLive] = await Promise.all([fetchProvenance(), fetchBBCollection()]);
+    const [provenanceData, bbLive, featuredCollections] = await Promise.all([
+        fetchProvenance(),
+        fetchBBCollection(),
+        fetchFeaturedCollections(),
+    ]);
     const nonBB = provenanceData.filter(item => item.collection !== 'BEST BEFORE');
     const bbLeadArtworks = getCollectionLeadArtworks({
         artworks: provenanceData,
@@ -237,7 +242,14 @@ async function init() {
     const enrichedBBLive = bbProvenance
         ? bbLive.map((item) => ({ ...item, provenance: bbProvenance }))
         : bbLive;
-    appState.artworks = bbLive.length > 0 ? [...enrichedBBLive, ...bbLeadArtworks, ...nonBB] : provenanceData;
+    const primaryArtworks = bbLive.length > 0
+        ? [...enrichedBBLive, ...bbLeadArtworks, ...nonBB]
+        : provenanceData;
+    const featuredIds = new Set(featuredCollections.map((item) => item.id));
+    appState.artworks = [
+        ...featuredCollections,
+        ...primaryArtworks.filter((item) => !featuredIds.has(item.id)),
+    ];
     appState.parentIds = buildParentIds(appState.artworks);
     rebuildCollectionSlugs();
 
