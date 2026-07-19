@@ -227,13 +227,13 @@ between Osaka's bustling streets and its quiet, hidden, and charming alleys.`,
 export const ORDINALS_SUPPLY_DATA = [
   { name: 'BEST BEFORE', year: 2025, inscribed: 420, circulating: 420 },
   { name: 'Manufactured', year: 2024, inscribed: 420, circulating: 239 },
-  { name: 'Satoshi (Original & Editions)', year: 2023, inscribed: 111, circulating: 110 },
+  { name: 'Satoshi CC Edition', year: 2023, inscribed: 110, circulating: 109 },
   { name: 'Portrait 2490', year: 2023, inscribed: 90, circulating: 87 },
   { name: '1/1s (2024)', year: 2024, inscribed: 49, circulating: 10 },
   { name: '1/1s (2025)', year: 2025, inscribed: 35, circulating: 19 },
-  { name: 'Deprivation (Prints)', year: 2023, inscribed: 33, circulating: 33 },
-  { name: 'Mirage (Prints)', year: 2024, inscribed: 33, circulating: 33 },
-  { name: 'Trilogy (Prints)', year: 2025, inscribed: 33, circulating: 33 },
+  { name: 'Deprivation prints', year: 2023, inscribed: 33, circulating: 33 },
+  { name: 'Mirage prints', year: 2024, inscribed: 33, circulating: 33 },
+  { name: 'Trilogy prints', year: 2025, inscribed: 33, circulating: 33 },
   { name: 'Gentlemen', year: 2023, inscribed: 25, circulating: 24 },
   { name: 'Miscellaneous', year: 2023, inscribed: 25, circulating: 9 },
   { name: 'Games', year: 2024, inscribed: 26, circulating: 26 },
@@ -275,6 +275,7 @@ export const ORDINALS_SUPPLY_DATA = [
   { name: 'Bento Box', year: 2023, inscribed: 2, circulating: 1 },
   { name: 'Downtown', year: 2023, inscribed: 2, circulating: 2 },
   { name: 'Eclosion 1/1 - Amsterdam Blooms', year: 2023, inscribed: 1, circulating: 1 },
+  { name: 'Satoshi 1/1 - Counterfeit Cards S00 - C08', year: 2023, inscribed: 1, circulating: 1 },
   { name: 'Skull 506 [Remix] 1/1 - Skullx', year: 2025, inscribed: 1, circulating: 1 },
   { name: '1 of 1s (2026)', year: 2026, inscribed: 13, circulating: 13 },
   { name: 'Into The Wild', year: 2026, inscribed: 5, circulating: 5 },
@@ -298,11 +299,15 @@ export const PHYSICAL_WORKS_ITEMS = [
 
 const SATFLOW_LINKS = {
   'Manufactured': 'https://www.satflow.com/ordinals/manufactured-by-lemonhaze',
+  'Satoshi CC Edition': 'https://www.satflow.com/ordinals/counterfeit-cards-series-00?attributes=%7B%22CREATOR%22%3A%5B%22LEMONHAZE%22%5D%7D',
   'Satoshi (Original & Editions)': 'https://www.satflow.com/ordinals/counterfeit-cards-series-00?attributes=%7B%22CREATOR%22%3A%5B%22LEMONHAZE%22%5D%7D',
   'Portrait 2490': 'https://www.satflow.com/ordinals/portrait-2490',
   '1/1s (2024)': 'https://www.satflow.com/ordinals/1on1-by-lemonhaze',
+  'Deprivation prints': 'https://www.satflow.com/ordinals/deprivation-by-lemonhaze',
   'Deprivation (Prints)': 'https://www.satflow.com/ordinals/deprivation-by-lemonhaze',
+  'Mirage prints': 'https://www.satflow.com/ordinals/mirage-by-lemonhaze',
   'Mirage (Prints)': 'https://www.satflow.com/ordinals/mirage-by-lemonhaze',
+  'Trilogy prints': 'https://www.satflow.com/ordinals/prints-trilogy-by-lemonhaze',
   'Trilogy (Prints)': 'https://www.satflow.com/ordinals/prints-trilogy-by-lemonhaze',
   '1/1s (2025)': 'https://www.satflow.com/ordinals/1on1-2025-by-lemonhaze',
   'Gentlemen': 'https://www.satflow.com/ordinals/gentlemen-by-lemonhaze',
@@ -346,10 +351,19 @@ const SATFLOW_LINKS = {
 const ORDNET_LINKS = {
   'BEST BEFORE': 'https://ord.net/collection/best-before-by-lemonhaze-x-ordinally',
   'Manufactured': 'https://ord.net/collection/manufactured-by-lemonhaze',
+  'Satoshi CC Edition': 'https://ord.net/collection/satoshi-by-lemonhaze',
+  'Satoshi 1/1 - Counterfeit Cards S00 - C08': 'https://ord.net/collection/satoshi-by-lemonhaze',
+  'Satoshi (Original & Editions)': 'https://ord.net/collection/satoshi-by-lemonhaze',
   'Portrait 2490': 'https://ord.net/collection/portrait-2490-by-lemonhaze',
   '1/1s (2024)': 'https://ord.net/collection/1on1-by-lemonhaze',
   '1/1s (2025)': 'https://ord.net/collection/1on1-2025-by-lemonhaze',
   '1 of 1s (2026)': 'https://ord.net/collection/1-of-1s-2026-by-lemonhaze',
+  'Deprivation prints': 'https://ord.net/collection/deprivation-by-lemonhaze',
+  'Deprivation (Prints)': 'https://ord.net/collection/deprivation-by-lemonhaze',
+  'Mirage prints': 'https://ord.net/collection/mirage-by-lemonhaze',
+  'Mirage (Prints)': 'https://ord.net/collection/mirage-by-lemonhaze',
+  'Trilogy prints': 'https://ord.net/collection/prints-trilogy-by-lemonhaze',
+  'Trilogy (Prints)': 'https://ord.net/collection/prints-trilogy-by-lemonhaze',
   'Gentlemen': 'https://ord.net/collection/gentlemen-by-lemonhaze',
   'Miscellaneous': 'https://ord.net/collection/miscellaneous-by-lemonhaze',
   'Games': 'https://ord.net/collection/games-by-lemonhaze',
@@ -406,6 +420,9 @@ const RAW_MARKET_LINKS = {
   'Manufactured': {
     gamma: 'https://gamma.io/ordinals/collections/manufactured/items'
   },
+  'Satoshi CC Edition': {
+    gamma: 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze'
+  },
   'Satoshi (Original & Editions)': {
     gamma: 'https://gamma.io/ordinals/collections/counterfeit-cards/items?a.Artist=Lemonhaze'
   },
@@ -415,11 +432,20 @@ const RAW_MARKET_LINKS = {
   '1/1s (2024)': {
     gamma: 'https://gamma.io/ordinals/collections/1-1-2024-by-lemonhaze/items'
   },
+  'Deprivation prints': {
+    gamma: 'https://gamma.io/ordinals/prints/cllo44w190001jr0fajdfe7cc/details'
+  },
   'Deprivation (Prints)': {
     gamma: 'https://gamma.io/ordinals/prints/cllo44w190001jr0fajdfe7cc/details'
   },
+  'Mirage prints': {
+    gamma: 'https://gamma.io/ordinals/prints/clr14i0q90003l60fw2205qjr/details'
+  },
   'Mirage (Prints)': {
     gamma: 'https://gamma.io/ordinals/prints/clr14i0q90003l60fw2205qjr/details'
+  },
+  'Trilogy prints': {
+    gamma: 'https://gamma.io/explore/prints?creator=clkrid54y0000l50fs5qmsbpp'
   },
   'Trilogy (Prints)': {
     gamma: 'https://gamma.io/explore/prints?creator=clkrid54y0000l50fs5qmsbpp'
@@ -565,9 +591,14 @@ export const MARKET_LINKS = normalizeMarketLinks(RAW_MARKET_LINKS);
 
 export const LINK_OVERRIDES = {
   'BEST BEFORE': 'https://bestbefore.gallery',
+  'Satoshi CC Edition': 'https://lemonhaze.com/satoshi-original-and-editions',
+  'Satoshi 1/1 - Counterfeit Cards S00 - C08': 'https://lemonhaze.com/satoshi-original-and-editions',
   'Satoshi (Original & Editions)': 'https://lemonhaze.com/satoshi-original-and-editions',
+  'Deprivation prints': 'https://lemonhaze.com/deprivation-prints',
   'Deprivation (Prints)': 'https://lemonhaze.com/deprivation-prints',
+  'Mirage prints': 'https://lemonhaze.com/mirage-prints',
   'Mirage (Prints)': 'https://lemonhaze.com/mirage-prints',
+  'Trilogy prints': 'https://lemonhaze.com/trilogy-prints',
   'Trilogy (Prints)': 'https://lemonhaze.com/trilogy-prints',
   '1/1s (2024)': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2024)',
   '1/1s (2025)': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2025)',
