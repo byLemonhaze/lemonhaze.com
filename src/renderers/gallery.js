@@ -20,6 +20,7 @@ const ENCRYPTED_ARTWORKS = new Set([
 
 export function getArtworkImageSrc(item) {
     if (item?._imgSrc) return item._imgSrc;
+    if (item?.grid_preview) return item.grid_preview;
     if (item?.id && ONCHAIN_IMAGE_OVERRIDES.has(item.id)) {
         return `https://ordinals.com/content/${item.id}`;
     }

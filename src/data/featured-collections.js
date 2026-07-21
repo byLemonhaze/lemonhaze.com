@@ -54,6 +54,7 @@ function normalizeItem(item, source) {
         year: item?.year || metadata.year,
         about: item?.about || metadata.about,
         note: item?.note || metadata.note,
+        grid_preview: item?.grid_preview,
         timestamp: item?.timestamp,
         content_size: item?.content_size,
         fee: item?.fee,
