@@ -7,6 +7,10 @@ import {
     parseSalesTimestampMs,
     getSalesForInscription,
 } from '../../modules/sales-ledger.js';
+import {
+    pauseGalleryOnchainPreviews,
+    resumeGalleryOnchainPreviews,
+} from '../../modules/gallery-preview-lifecycle.js';
 
 // ── Paint Engine help text keyed by inscription ID ────────────────────────
 const PAINT_ENGINE_HELP = {
@@ -942,11 +946,12 @@ export function createArtworkModalController({
 
     function openMetacard(item, cdnSrc, isHtml, options = {}) {
         const { updateUrl = true, replaceHistory = false } = options;
-        const { modalTitle, modalImage, modalIframe, modalVideo, rawHtmlContainer, modalOverlay } = refs();
+        const { modalTitle, modalImage, modalIframe, modalVideo, rawHtmlContainer, modalOverlay, galleryGrid } = refs();
         if (!modalTitle || !modalImage || !modalIframe || !modalVideo || !rawHtmlContainer || !modalOverlay) return;
         const isVideo = isVideoArtwork(item);
         const useDirectIframe = shouldUseDirectModalIframe(item, isHtml);
 
+        pauseGalleryOnchainPreviews(galleryGrid);
         bindMetadataInteractions();
         closeAboutModal({ updateUrl: false });
         appState.activeSectionKey = null;
@@ -1023,7 +1028,7 @@ export function createArtworkModalController({
 
     function closeModal(options = {}) {
         const { updateUrl = true, replaceHistory = false } = options;
-        const { modalOverlay, modalImage, modalIframe, modalVideo, rawHtmlContainer } = refs();
+        const { modalOverlay, modalImage, modalIframe, modalVideo, rawHtmlContainer, galleryGrid } = refs();
 
         const hadArtwork = Boolean(appState.activeArtworkId);
         appState.activeArtworkId = null;
@@ -1037,7 +1042,10 @@ export function createArtworkModalController({
             }, { replaceHistory });
         }
 
-        if (!modalOverlay || modalOverlay.classList.contains('hidden')) return;
+        if (!modalOverlay || modalOverlay.classList.contains('hidden')) {
+            resumeGalleryOnchainPreviews(galleryGrid);
+            return;
+        }
 
         modalOverlay.classList.add('opacity-0');
         setTimeout(() => {
@@ -1049,6 +1057,7 @@ export function createArtworkModalController({
             htmlBlobLoadToken += 1;
             metadataRenderToken += 1;
             clearActiveHtmlBlobUrl();
+            resumeGalleryOnchainPreviews(galleryGrid);
         }, 300);
     }
 
