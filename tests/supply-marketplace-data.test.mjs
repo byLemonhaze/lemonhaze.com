@@ -45,13 +45,13 @@ test('preserves the historical supply ledger rows and separates the Satoshi orig
     assert.equal(rowsByName.has('Trilogy (Prints)'), false);
 });
 
-test('tracks the six Liminality artworks without counting the collection parent', () => {
+test('tracks the seven Liminality artworks without counting the collection parent', () => {
     const row = ORDINALS_SUPPLY_DATA.find((item) => item.name === 'Liminality');
     assert.deepEqual(row, {
         name: 'Liminality',
         year: 2026,
-        inscribed: 6,
-        circulating: 6,
+        inscribed: 7,
+        circulating: 7,
     });
 });
 
