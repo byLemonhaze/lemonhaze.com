@@ -127,5 +127,23 @@
     "height": "959015",
     "charms": "vindicated",
     "inscription_number": 126955717
+  },
+  {
+    "id": "dfac609d390809809a738b83fbe0dfe70f4811982e20faf7b070011c4dbb3828i0",
+    "grid_preview": "/images/liminality/dfac609d390809809a738b83fbe0dfe70f4811982e20faf7b070011c4dbb3828i0-frameless.png",
+    "meta": {
+      "name": "Terminal 36",
+      "artist": "Lemonhaze",
+      "series": "Liminality",
+      "year": 2026,
+      "about": "Departure delayed. Arrival unknown.",
+      "note": "Additional writings are embedded in the HTML source of this inscription."
+    },
+    "timestamp": "2026-07-21 15:43:49 UTC",
+    "content_size": "33701 bytes",
+    "fee": "6044",
+    "sat": "1694409632821029",
+    "height": "959027",
+    "inscription_number": 126956777
   }
 ]

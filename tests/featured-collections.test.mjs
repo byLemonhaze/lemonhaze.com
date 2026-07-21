@@ -24,13 +24,13 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const items = await fetchFeaturedCollections();
     const byCollection = Map.groupBy(items, (item) => item.collection);
 
-    assert.equal(items.length, 217);
-    assert.equal(new Set(items.map((item) => item.id)).size, 217);
+    assert.equal(items.length, 218);
+    assert.equal(new Set(items.map((item) => item.id)).size, 218);
     assert.equal(byCollection.get('Satoshi (Original & Editions)').length, 111);
     assert.equal(byCollection.get('Deprivation (Prints)').length, 33);
     assert.equal(byCollection.get('Mirage (Prints)').length, 33);
     assert.equal(byCollection.get('Trilogy (Prints)').length, 33);
-    assert.equal(byCollection.get('Liminality').length, 6);
+    assert.equal(byCollection.get('Liminality').length, 7);
 
     const satoshi = byCollection.get('Satoshi (Original & Editions)');
     assert.equal(satoshi[0].name, 'Satoshi (Original)');
@@ -62,7 +62,7 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const liminality = byCollection.get('Liminality');
     assert.deepEqual(
         liminality.map((item) => item.name),
-        ['Betwixt & Between', 'Eerie Night', 'Non-Place', 'Chlorine Dream', 'Melon Days', 'Porcelain Sunset']
+        ['Betwixt & Between', 'Eerie Night', 'Non-Place', 'Chlorine Dream', 'Melon Days', 'Porcelain Sunset', 'Terminal 36']
     );
     assert.deepEqual(
         liminality.map((item) => item.id),
@@ -73,6 +73,7 @@ test('featured collection manifests load complete, ordered galleries', async () 
             '30e88e8a5ac33a3607d7b4b35042d48ef3a9a9f1d4af014a4667d6b4e29f04d9i0',
             'ba1d7eaf918d78821037fc256789f5e070dd7e58fcec6e15cef64a4e51ab7ba3i0',
             '4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0',
+            'dfac609d390809809a738b83fbe0dfe70f4811982e20faf7b070011c4dbb3828i0',
         ]
     );
     assert.ok(liminality.every((item) => item.artwork_type === 'HTML'));
@@ -83,11 +84,20 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.ok(liminality.every((item) => item.grid_preview?.startsWith('/images/liminality/')));
     assert.deepEqual(
         liminality.map((item) => item.inscription_number),
-        [126951627, 126951940, 126952137, 126952246, 126955537, 126955717]
+        [126951627, 126951940, 126952137, 126952246, 126955537, 126955717, 126956777]
     );
     assert.ok(liminality.every((item) => (
         item.provenance === 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0'
     )));
+
+    const terminal36 = liminality.at(-1);
+    assert.equal(terminal36.name, 'Terminal 36');
+    assert.equal(terminal36.about, 'Departure delayed. Arrival unknown.');
+    assert.equal(terminal36.timestamp, '2026-07-21 15:43:49 UTC');
+    assert.equal(terminal36.content_size, '33701 bytes');
+    assert.equal(terminal36.fee, '6044');
+    assert.equal(terminal36.sat, '1694409632821029');
+    assert.equal(terminal36.height, '959027');
 });
 
 test('featured collections sit in the intended reverse chronology', () => {
