@@ -1,0 +1,124 @@
+[
+  {
+    "id": "a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0",
+    "collection": "Provenance",
+    "role": "parent",
+    "meta": {
+      "name": "Liminality",
+      "artist": "Lemonhaze",
+      "series": "Liminality",
+      "year": 2026,
+      "about": "In anthropology, liminality (from Latin limen ‘threshold’) is the quality of ambiguity or disorientation that occurs in the middle stage of a rite of passage, when participants no longer hold their pre-ritual status but have not yet begun the transition to the status they will hold when the rite is complete. During a rite’s liminal stage, participants ‘stand at the threshold’ between their previous way of structuring their identity, time, or community, and a new way (which completing the rite establishes).",
+      "note": "Additional writings embedded in source."
+    },
+    "timestamp": "2026-07-21 00:27:56 UTC",
+    "content_size": "39003 bytes",
+    "fee": "7005",
+    "sat": "1799063264754829",
+    "height": "958944",
+    "charms": "vindicated",
+    "inscription_number": 126950634
+  },
+  {
+    "id": "b1b64766543cbcb089d252f67f77d0f562ae96bbee28ad4effee25d42b19da04i0",
+    "meta": {
+      "name": "Betwixt & Between",
+      "artist": "Lemonhaze",
+      "series": "Liminality",
+      "year": 2026,
+      "about": "Tracking the edge of change before it becomes a name."
+    },
+    "timestamp": "2026-07-21 03:50:25 UTC",
+    "content_size": "33640 bytes",
+    "fee": "8744",
+    "sat": "1799063264762164",
+    "height": "958958",
+    "charms": "vindicated",
+    "inscription_number": 126951627
+  },
+  {
+    "id": "7a267ee7dd4c56950d1e4b70c914389793cab7e738ace8b591ec56fec0312674i0",
+    "meta": {
+      "name": "Eerie Night",
+      "artist": "Lemonhaze",
+      "series": "Liminality",
+      "year": 2026,
+      "about": "Something shifts quietly beyond the frame."
+    },
+    "timestamp": "2026-07-21 04:29:05 UTC",
+    "content_size": "33571 bytes",
+    "fee": "8726",
+    "sat": "1799063264771238",
+    "height": "958965",
+    "charms": "vindicated",
+    "inscription_number": 126951940
+  },
+  {
+    "id": "38368e42ce7817d6994e459f27b85574e9be0eadaee6645af0fba81829ca8102i0",
+    "meta": {
+      "name": "Non-Place",
+      "artist": "Lemonhaze",
+      "series": "Liminality",
+      "year": 2026,
+      "about": "The condition of passing through without belonging."
+    },
+    "timestamp": "2026-07-21 04:58:13 UTC",
+    "content_size": "33608 bytes",
+    "fee": "8733",
+    "sat": "1799063264780294",
+    "height": "958969",
+    "charms": "vindicated",
+    "inscription_number": 126952137
+  },
+  {
+    "id": "30e88e8a5ac33a3607d7b4b35042d48ef3a9a9f1d4af014a4667d6b4e29f04d9i0",
+    "meta": {
+      "name": "Chlorine Dream",
+      "artist": "Lemonhaze",
+      "series": "Liminality",
+      "year": 2026,
+      "about": "Somewhere between sunlight and submersion."
+    },
+    "timestamp": "2026-07-21 06:14:19 UTC",
+    "content_size": "33587 bytes",
+    "fee": "8733",
+    "sat": "1799063264789357",
+    "height": "958976",
+    "charms": "vindicated",
+    "inscription_number": 126952246
+  },
+  {
+    "id": "ba1d7eaf918d78821037fc256789f5e070dd7e58fcec6e15cef64a4e51ab7ba3i0",
+    "meta": {
+      "name": "Melon Days",
+      "artist": "Lemonhaze",
+      "series": "Liminality",
+      "year": 2026,
+      "about": "Sweet summertime."
+    },
+    "timestamp": "2026-07-21 13:26:15 UTC",
+    "content_size": "33485 bytes",
+    "fee": "6002",
+    "sat": "1799063264798420",
+    "height": "959011",
+    "charms": "vindicated",
+    "inscription_number": 126955537
+  },
+  {
+    "id": "4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0",
+    "meta": {
+      "name": "Porcelain Sunset",
+      "artist": "Lemonhaze",
+      "series": "Liminality",
+      "year": 2026,
+      "about": "The fragile hour between light and disappearance."
+    },
+    "timestamp": "2026-07-21 13:52:01 UTC",
+    "content_size": "33863 bytes",
+    "fee": "6074",
+    "sat": "1799063264804752",
+    "height": "959015",
+    "charms": "vindicated",
+    "inscription_number": 126955717
+  }
+]

@@ -29,21 +29,48 @@ const SOURCES = [
             return null;
         },
     },
+    {
+        url: '/data/collections/liminality.json',
+        collection: 'Liminality',
+        resolveLineage: (_name, item) => item?.role === 'parent'
+            ? '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0'
+            : 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0',
+    },
 ];
 
 function normalizeItem(item, source) {
     const name = String(item?.meta?.name || item?.name || 'Untitled').trim();
+    const collection = String(item?.collection || source.collection).trim();
     const media = source.resolveMedia?.(name) || {
         artwork_type: 'HTML',
         content_type: 'text/html;charset=utf-8',
     };
-    const provenance = source.resolveLineage?.(name) || null;
+    const provenance = source.resolveLineage?.(name, item) || null;
+    const metadata = item?.meta && typeof item.meta === 'object' ? item.meta : {};
+    const optionalFields = {
+        role: item?.role || metadata.role,
+        artist: item?.artist || metadata.artist,
+        series: item?.series || metadata.series,
+        year: item?.year || metadata.year,
+        about: item?.about || metadata.about,
+        note: item?.note || metadata.note,
+        timestamp: item?.timestamp,
+        content_size: item?.content_size,
+        fee: item?.fee,
+        sat: item?.sat,
+        height: item?.height,
+        charms: item?.charms,
+        inscription_number: item?.inscription_number,
+    };
 
     return {
         id: String(item?.id || '').trim(),
         name,
-        collection: source.collection,
+        collection,
         ...media,
+        ...Object.fromEntries(
+            Object.entries(optionalFields).filter(([, value]) => value !== undefined && value !== null && value !== '')
+        ),
         ...(provenance ? { provenance } : {}),
     };
 }

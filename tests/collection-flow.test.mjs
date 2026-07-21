@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { prependCollectionLeadArtworks } from '../src/app/collection-flow.js';
 
 const BB_PARENT_ID = 'bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0';
+const LIMINALITY_PARENT_ID = 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0';
 
 test('prependCollectionLeadArtworks prepends the configured BEST BEFORE parent', () => {
     const parent = {
@@ -38,6 +39,26 @@ test('prependCollectionLeadArtworks does not duplicate the parent when it is alr
     });
 
     assert.deepEqual(result.map((item) => item.id), [BB_PARENT_ID, 'bb-1']);
+});
+
+test('prependCollectionLeadArtworks prepends the Liminality provenance parent', () => {
+    const parent = {
+        id: LIMINALITY_PARENT_ID,
+        name: 'Liminality',
+        collection: 'Provenance',
+    };
+    const works = [
+        { id: 'liminality-1', name: 'Betwixt & Between', collection: 'Liminality' },
+        { id: 'liminality-2', name: 'Eerie Night', collection: 'Liminality' },
+    ];
+
+    const result = prependCollectionLeadArtworks({
+        items: works,
+        collectionName: 'Liminality',
+        allArtworks: [parent, ...works],
+    });
+
+    assert.deepEqual(result.map((item) => item.id), [LIMINALITY_PARENT_ID, 'liminality-1', 'liminality-2']);
 });
 
 test('prependCollectionLeadArtworks leaves unrelated collections untouched', () => {

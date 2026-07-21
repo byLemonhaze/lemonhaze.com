@@ -21,6 +21,7 @@ const DIRECT_ONCHAIN_COLLECTIONS = new Set([
     'Deprivation (Prints)',
     'Mirage (Prints)',
     'Trilogy (Prints)',
+    'Liminality',
 ]);
 
 const DIRECT_ONCHAIN_PREVIEW_ARTWORK_IDS = new Set([
@@ -31,9 +32,11 @@ const DIRECT_ONCHAIN_CONTENT_PREVIEW_COLLECTIONS = new Set([
     'Deprivation (Prints)',
     'Mirage (Prints)',
     'Trilogy (Prints)',
+    'Liminality',
 ]);
 
 const DIRECT_ONCHAIN_CONTENT_PREVIEW_ARTWORK_IDS = new Set([
+    'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0', // Liminality parent
     '15ed0a345c10cb0b26fad820f364898f355924dbf0ce5527dd5d7237e0a25964i0', // Off-Kilter
     '58d21c5f1bbc25932fe1cc784ac47baf8b0ed9241ea989ad2a47b41839d132e7i0', // Glass Breaker
     'a75945e142877ade9392a0855ef0fdab215af10a7f3e4381d31697c706836228i0', // Mending Out

@@ -64,6 +64,29 @@ test('recursive print collections use their on-chain HTML as grid previews', () 
     assert.equal(getDirectOnchainPreviewSrc(item), `https://ordinals.com/content/${item.id}`);
 });
 
+test('Liminality renders its HTML artworks directly from Bitcoin in the grid', () => {
+    const item = {
+        name: 'Betwixt & Between',
+        id: 'b1b64766543cbcb089d252f67f77d0f562ae96bbee28ad4effee25d42b19da04i0',
+        collection: 'Liminality',
+        artwork_type: 'HTML',
+        content_type: 'text/html;charset=utf-8',
+    };
+
+    assert.equal(shouldUseDirectOnchainPreview(item), true);
+    assert.equal(getDirectOnchainPreviewSrc(item), `https://ordinals.com/content/${item.id}`);
+
+    const parent = {
+        name: 'Liminality',
+        id: 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0',
+        collection: 'Provenance',
+        artwork_type: 'HTML',
+        content_type: 'text/html;charset=utf-8',
+    };
+    assert.equal(shouldUseDirectOnchainPreview(parent), true);
+    assert.equal(getDirectOnchainPreviewSrc(parent), `https://ordinals.com/content/${parent.id}`);
+});
+
 test('recursive Satoshi SVG editions use on-chain iframe previews', () => {
     const item = {
         name: 'Satoshi #1',

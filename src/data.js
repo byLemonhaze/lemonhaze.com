@@ -46,6 +46,7 @@ export async function fetchBBCollection() {
 // EXACT CHRONOLOGY AS REQUESTED
 export const CHRONOLOGY_BY_YEAR = {
   "2026": [
+    "Liminality",
     "Into The Wild",
     "1 of 1s (2026)"
   ],
@@ -137,6 +138,7 @@ export const CAREER_HIGHLIGHTS_ITEMS = [
 export const COL_DESCRIPTIONS = {
   "1/1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
   "1 of 1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+  "Liminality": `In anthropology, liminality (from Latin limen ‘threshold’) is the quality of ambiguity or disorientation that occurs in the middle stage of a rite of passage, when participants no longer hold their pre-ritual status but have not yet begun the transition to the status they will hold when the rite is complete. During a rite’s liminal stage, participants ‘stand at the threshold’ between their previous way of structuring their identity, time, or community, and a new way (which completing the rite establishes). Wikipedia contributors. “Liminality.” Wikipedia, The Free Encyclopedia. Last edited 8 July 2026, at 17:56 (UTC).`,
   "Into The Wild": `Mirage outputs and whatnot!`,
   "BEST BEFORE": `Art with a best-before date: born sealed at inscription, unsealed by its collector, and aging on block time. Many live short lives, some endure, and the rare outlier may never expire.`,
   "Manufactured": `"When gravity becomes manufactured, you remember the scent of a lemon."`,
@@ -278,6 +280,7 @@ export const ORDINALS_SUPPLY_DATA = [
   { name: 'Satoshi 1/1 - Counterfeit Cards S00 - C08', year: 2023, inscribed: 1, circulating: 1 },
   { name: 'Skull 506 [Remix] 1/1 - Skullx', year: 2025, inscribed: 1, circulating: 1 },
   { name: '1 of 1s (2026)', year: 2026, inscribed: 13, circulating: 13 },
+  { name: 'Liminality', year: 2026, inscribed: 6, circulating: 6 },
   { name: 'Into The Wild', year: 2026, inscribed: 5, circulating: 5 },
 ];
 
@@ -454,6 +457,8 @@ const RAW_MARKET_LINKS = {
     gamma: 'https://gamma.io/ordinals/collections/1-1-2025-by-lemonhaze/items'
   },
   '1 of 1s (2026)': {
+  },
+  'Liminality': {
   },
   'Gentlemen': {
     gamma: 'https://gamma.io/ordinals/collections/gentlemen-by-lemonhaze/items'

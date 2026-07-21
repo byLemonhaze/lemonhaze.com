@@ -4,6 +4,7 @@ const ACTIVE_COLLECTION_BUTTON_CLASS =
     'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white font-bold';
 export const COLLECTION_LEAD_ARTWORK_IDS = {
     'BEST BEFORE': ['bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0'],
+    Liminality: ['a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0'],
 };
 
 export function updateSidebarActiveState({ collectionsNav, activeBtn }) {

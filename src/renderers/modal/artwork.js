@@ -118,11 +118,16 @@ const DIRECT_IFRAME_RENDER_COLLECTIONS = new Set([
     'Deprivation (Prints)',
     'Mirage (Prints)',
     'Trilogy (Prints)',
+    'Liminality',
+]);
+
+const DIRECT_IFRAME_RENDER_ARTWORK_IDS = new Set([
+    'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0',
 ]);
 
 export function shouldUseDirectModalIframe(item, isHtml) {
     const collection = String(item?.collection || '').trim();
-    if (!DIRECT_IFRAME_RENDER_COLLECTIONS.has(collection)) return false;
+    if (!DIRECT_IFRAME_RENDER_COLLECTIONS.has(collection) && !DIRECT_IFRAME_RENDER_ARTWORK_IDS.has(item?.id)) return false;
     if (isHtml) return true;
     return collection === 'Satoshi (Original & Editions)'
         && String(item?.artwork_type || '').trim().toLowerCase() === 'svg';
@@ -313,6 +318,24 @@ export function createArtworkModalController({
         return span;
     }
 
+    function fmtContentSize(raw) {
+        const match = String(raw || '').match(/^\s*(\d+)/);
+        if (!match) return String(raw || '').trim() || null;
+        const bytes = Number(match[1]);
+        if (!Number.isFinite(bytes)) return String(raw || '').trim() || null;
+        if (bytes < 1024) return `${bytes} bytes`;
+        return `${(bytes / 1024).toFixed(1)} KB`;
+    }
+
+    function fmtCharm(raw) {
+        return String(raw || '')
+            .split(/[\s,]+/)
+            .map((value) => value.trim())
+            .filter(Boolean)
+            .map((value) => value.charAt(0).toUpperCase() + value.slice(1))
+            .join(', ');
+    }
+
     function fmtBlockTime(blocks) {
         if (!blocks || blocks <= 0) return '—';
         const mins = Math.round(blocks * 10);
@@ -387,6 +410,25 @@ export function createArtworkModalController({
             modalMetadata.appendChild(makeMetaRow('Collection', makeMetaText(item.collection)));
         }
 
+        if (item.role === 'parent') {
+            modalMetadata.appendChild(makeMetaRow('Role', makeMetaText('Collection Parent')));
+        }
+        if (item.artist) {
+            modalMetadata.appendChild(makeMetaRow('Artist', makeMetaText(item.artist)));
+        }
+        if (item.series) {
+            modalMetadata.appendChild(makeMetaRow('Series', makeMetaText(item.series)));
+        }
+        if (item.year) {
+            modalMetadata.appendChild(makeMetaRow('Year', makeMetaText(String(item.year))));
+        }
+        if (item.about) {
+            modalMetadata.appendChild(makeMetaRow('About', makeMetaText(item.about)));
+        }
+        if (item.note) {
+            modalMetadata.appendChild(makeMetaRow('Note', makeMetaText(item.note)));
+        }
+
         // 3. Timestamp — initial value from provenance, updated async by Hiro
         const tsSpan = makeMetaText(
             fmtFullTimestamp(item.timestamp) || item.timestamp || '—',
@@ -407,6 +449,12 @@ export function createArtworkModalController({
             if (item.size) {
                 modalMetadata.appendChild(makeMetaRow('Art. Size', makeMetaText(item.size)));
             }
+            if (item.content_size) {
+                modalMetadata.appendChild(makeMetaRow('Content Size', makeMetaText(
+                    fmtContentSize(item.content_size),
+                    'text-[11px] font-mono text-white/45 leading-snug',
+                )));
+            }
             if (item.height) {
                 modalMetadata.appendChild(makeMetaRow('Block', makeMetaText(
                     Number(item.height).toLocaleString(),
@@ -414,8 +462,9 @@ export function createArtworkModalController({
                 )));
             }
             if (item.sat) {
+                const charm = fmtCharm(item.charms);
                 modalMetadata.appendChild(makeMetaRow('Sat', makeMetaText(
-                    String(item.sat),
+                    charm ? `${item.sat} · ${charm}` : String(item.sat),
                     'text-[11px] font-mono text-white/55 break-all leading-snug',
                 )));
             }
@@ -441,7 +490,12 @@ export function createArtworkModalController({
 
         // 5. Inscription number (animated, filled by Hiro)
         if (!isBB) {
-            const insNoSpan = makeMetaText('—', 'text-[11px] font-mono text-white/60 leading-snug animate-pulse');
+            const inscriptionNumber = Number(item.inscription_number);
+            const hasInscriptionNumber = Number.isFinite(inscriptionNumber);
+            const insNoSpan = makeMetaText(
+                hasInscriptionNumber ? `#${inscriptionNumber.toLocaleString()}` : '—',
+                `text-[11px] font-mono text-white/60 leading-snug${hasInscriptionNumber ? '' : ' animate-pulse'}`,
+            );
             insNoSpan.id = 'meta-inscription-number';
             modalMetadata.appendChild(makeMetaRow('Ins. No.', insNoSpan));
         }
