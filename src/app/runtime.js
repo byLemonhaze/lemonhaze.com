@@ -363,6 +363,7 @@ function getArtworkModalRefs() {
         modalActions,
         rawHtmlContainer,
         rawHtmlContent,
+        galleryGrid,
     };
 }
 
