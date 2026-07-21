@@ -44,6 +44,12 @@ test("wrangler config exists for deployability", () => {
   expectFile("wrangler.toml");
 });
 
+test("asset fallbacks cannot be cached as immutable JavaScript", () => {
+  const headers = readFileSync(new URL("../public/_headers", import.meta.url), "utf8");
+  assert.match(headers, /\/assets\/\*[\s\S]*max-age=0, must-revalidate/);
+  assert.doesNotMatch(headers, /\/assets\/\*[\s\S]*max-age=31536000, immutable/);
+});
+
 test("core source layout is present", () => {
   expectFile("src");
   expectFile("functions");
