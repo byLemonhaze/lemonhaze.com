@@ -56,7 +56,7 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.equal(liminalityParent.content_size, '39003 bytes');
     assert.equal(
         liminalityParent.grid_preview,
-        '/images/liminality/a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0.jpg'
+        '/images/liminality/a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0-frameless.png'
     );
 
     const liminality = byCollection.get('Liminality');
