@@ -85,7 +85,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
             : '';
 
         card.innerHTML = `
-      <div class="relative aspect-square bg-[#0a0a0a] overflow-hidden flex items-center justify-center ${borderClass}">
+      <div class="relative aspect-square bg-[#0a0a0a] overflow-hidden flex items-center justify-center ${borderClass}" data-collection-parent="${isParent ? 'true' : 'false'}">
         ${mediaMarkup}
         ${parentLabel}
       </div>
