@@ -45,13 +45,23 @@ test('preserves the historical supply ledger rows and separates the Satoshi orig
     assert.equal(rowsByName.has('Trilogy (Prints)'), false);
 });
 
-test('tracks the seven Liminality artworks without counting the collection parent', () => {
+test('tracks the Liminality parent burn in the collection supply', () => {
     const row = ORDINALS_SUPPLY_DATA.find((item) => item.name === 'Liminality');
     assert.deepEqual(row, {
         name: 'Liminality',
         year: 2026,
-        inscribed: 7,
+        inscribed: 8,
         circulating: 7,
+    });
+});
+
+test('tracks the Into The Wild burn in the collection supply', () => {
+    const row = ORDINALS_SUPPLY_DATA.find((item) => item.name === 'Into The Wild');
+    assert.deepEqual(row, {
+        name: 'Into The Wild',
+        year: 2026,
+        inscribed: 5,
+        circulating: 4,
     });
 });
 
