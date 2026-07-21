@@ -56,6 +56,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
     items.forEach((item, idx) => {
         const card = document.createElement('div');
         card.className = 'group animate-fade-in cursor-pointer';
+        card.dataset.artworkId = item.id;
         card.style.animationDelay = `${idx * 20}ms`;
 
         const isEncrypted = ENCRYPTED_ARTWORKS.has(item.id);
