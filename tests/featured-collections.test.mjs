@@ -54,6 +54,10 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.equal(liminalityParent.provenance, '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0');
     assert.equal(liminalityParent.inscription_number, 126950634);
     assert.equal(liminalityParent.content_size, '39003 bytes');
+    assert.equal(
+        liminalityParent.grid_preview,
+        '/images/liminality/a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0.jpg'
+    );
 
     const liminality = byCollection.get('Liminality');
     assert.deepEqual(
@@ -76,6 +80,7 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.ok(liminality.every((item) => item.series === 'Liminality'));
     assert.ok(liminality.every((item) => item.year === 2026));
     assert.ok(liminality.every((item) => item.about));
+    assert.ok(liminality.every((item) => item.grid_preview?.startsWith('/images/liminality/')));
     assert.deepEqual(
         liminality.map((item) => item.inscription_number),
         [126951627, 126951940, 126952137, 126952246, 126955537, 126955717]

@@ -89,6 +89,7 @@ export function shouldUseDirectOnchainMedia(item) {
 export function shouldUseDirectOnchainPreview(item) {
     const id = normalize(item?.id);
     if (!id) return false;
+    if (String(item?.grid_preview || '').trim()) return false;
     const collection = String(item?.collection || '').trim();
     const isSatoshiEdition = collection === 'Satoshi (Original & Editions)'
         && normalize(item?.artwork_type) === 'svg';
