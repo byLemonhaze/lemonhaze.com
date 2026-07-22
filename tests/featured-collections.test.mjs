@@ -44,6 +44,20 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.match(trilogy[0].name, /^(Glass Breaker|Mending Out|Off-Kilter) #\d+$/);
     assert.ok(trilogy.every((item) => item.provenance));
     assert.ok(trilogy.every((item) => item.artwork_type === 'HTML'));
+    const trilogyPreviews = new Map([
+        ['Glass Breaker', 'https://cdn.lemonhaze.com/assets/assets/58d21c5f1bbc25932fe1cc784ac47baf8b0ed9241ea989ad2a47b41839d132e7i0.png'],
+        ['Mending Out', 'https://cdn.lemonhaze.com/assets/assets/a75945e142877ade9392a0855ef0fdab215af10a7f3e4381d31697c706836228i0.png'],
+        ['Off-Kilter', 'https://cdn.lemonhaze.com/assets/assets/15ed0a345c10cb0b26fad820f364898f355924dbf0ce5527dd5d7237e0a25964i0.png'],
+    ]);
+    assert.ok(trilogy.every((item) => {
+        const title = [...trilogyPreviews.keys()].find((candidate) => item.name.startsWith(candidate));
+        return item.grid_preview === trilogyPreviews.get(title);
+    }));
+
+    const mirage = byCollection.get('Mirage (Prints)');
+    assert.ok(mirage.every((item) => (
+        item.grid_preview === 'https://cdn.lemonhaze.com/assets/assets/18328c7aeb829846f0c20d5786a2a383b1b546c985681382cd5f073cfa4e3e15i0.png'
+    )));
 
     const liminalityParent = items.find((item) => (
         item.id === 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0'

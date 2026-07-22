@@ -51,7 +51,7 @@ test('other 2025 HTML artworks keep their normal CDN thumbnail path', () => {
     assert.equal(getCdnMediaSrc(darkHorse), `https://cdn.lemonhaze.com/assets/assets/${darkHorse.id}.png`);
 });
 
-test('recursive print collections use their on-chain HTML as grid previews', () => {
+test('Deprivation editions keep their on-chain HTML grid previews', () => {
     const item = {
         name: 'Deprivation #1',
         id: 'a851ea29e01f41890d2745af4425ca4351c75e6d5d3b4ff337b3b5aa293b92bai0',
@@ -62,6 +62,28 @@ test('recursive print collections use their on-chain HTML as grid previews', () 
 
     assert.equal(shouldUseDirectOnchainPreview(item), true);
     assert.equal(getDirectOnchainPreviewSrc(item), `https://ordinals.com/content/${item.id}`);
+});
+
+test('Mirage and Trilogy editions use their static master PNGs in the grid', () => {
+    const items = [
+        {
+            name: 'Mirage #1',
+            id: 'ee9febf151c62c7c1bba0cf222e6b60c593688a0f403ddd6adc202de66067af0i0',
+            collection: 'Mirage (Prints)',
+            grid_preview: 'https://cdn.lemonhaze.com/assets/assets/18328c7aeb829846f0c20d5786a2a383b1b546c985681382cd5f073cfa4e3e15i0.png',
+        },
+        {
+            name: 'Off-Kilter #1',
+            id: 'edition-id',
+            collection: 'Trilogy (Prints)',
+            grid_preview: 'https://cdn.lemonhaze.com/assets/assets/15ed0a345c10cb0b26fad820f364898f355924dbf0ce5527dd5d7237e0a25964i0.png',
+        },
+    ];
+
+    for (const item of items) {
+        assert.equal(shouldUseDirectOnchainPreview(item), false, item.name);
+        assert.equal(getDirectOnchainPreviewSrc(item), null, item.name);
+    }
 });
 
 test('Liminality uses static grid previews while keeping its HTML for the modal', () => {

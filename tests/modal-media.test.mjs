@@ -13,6 +13,17 @@ test('recursive print HTML renders directly in the artwork modal', () => {
     assert.equal(shouldUseDirectModalIframe(item, true), true);
 });
 
+test('static print grid previews do not replace the live modal HTML', () => {
+    const item = {
+        collection: 'Trilogy (Prints)',
+        artwork_type: 'HTML',
+        content_type: 'text/html;charset=utf-8',
+        grid_preview: 'https://cdn.lemonhaze.com/assets/assets/master.png',
+    };
+
+    assert.equal(shouldUseDirectModalIframe(item, true), true);
+});
+
 test('Liminality HTML renders directly in the artwork modal', () => {
     const item = {
         collection: 'Liminality',
