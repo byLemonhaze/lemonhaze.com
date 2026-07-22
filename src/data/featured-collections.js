@@ -1,4 +1,18 @@
 const SATOSHI_ORIGINAL_ID = '88050d79df061385765faefd8b24b4c3103720c86a5b30bf8f2e8fe2b41ec87ei0';
+const MIRAGE_ORIGINAL_ID = '18328c7aeb829846f0c20d5786a2a383b1b546c985681382cd5f073cfa4e3e15i0';
+const TRILOGY_ORIGINAL_IDS = {
+    'Glass Breaker': '58d21c5f1bbc25932fe1cc784ac47baf8b0ed9241ea989ad2a47b41839d132e7i0',
+    'Mending Out': 'a75945e142877ade9392a0855ef0fdab215af10a7f3e4381d31697c706836228i0',
+    'Off-Kilter': '15ed0a345c10cb0b26fad820f364898f355924dbf0ce5527dd5d7237e0a25964i0',
+};
+const CDN_ASSET_BASE = 'https://cdn.lemonhaze.com/assets/assets';
+
+const getCdnPng = (id) => id ? `${CDN_ASSET_BASE}/${id}.png` : null;
+
+function resolveTrilogyOriginalId(name) {
+    return Object.entries(TRILOGY_ORIGINAL_IDS)
+        .find(([title]) => name.startsWith(title))?.[1] || null;
+}
 
 const SOURCES = [
     {
@@ -17,17 +31,14 @@ const SOURCES = [
     {
         url: '/data/collections/mirage.json',
         collection: 'Mirage (Prints)',
-        resolveLineage: () => '18328c7aeb829846f0c20d5786a2a383b1b546c985681382cd5f073cfa4e3e15i0',
+        resolveLineage: () => MIRAGE_ORIGINAL_ID,
+        resolveGridPreview: () => getCdnPng(MIRAGE_ORIGINAL_ID),
     },
     {
         url: '/data/collections/trilogy.json',
         collection: 'Trilogy (Prints)',
-        resolveLineage: (name) => {
-            if (name.startsWith('Glass Breaker')) return '58d21c5f1bbc25932fe1cc784ac47baf8b0ed9241ea989ad2a47b41839d132e7i0';
-            if (name.startsWith('Mending Out')) return 'a75945e142877ade9392a0855ef0fdab215af10a7f3e4381d31697c706836228i0';
-            if (name.startsWith('Off-Kilter')) return '15ed0a345c10cb0b26fad820f364898f355924dbf0ce5527dd5d7237e0a25964i0';
-            return null;
-        },
+        resolveLineage: resolveTrilogyOriginalId,
+        resolveGridPreview: (name) => getCdnPng(resolveTrilogyOriginalId(name)),
     },
     {
         url: '/data/collections/liminality.json',
@@ -54,7 +65,7 @@ function normalizeItem(item, source) {
         year: item?.year || metadata.year,
         about: item?.about || metadata.about,
         note: item?.note || metadata.note,
-        grid_preview: item?.grid_preview,
+        grid_preview: item?.grid_preview || source.resolveGridPreview?.(name, item, provenance),
         timestamp: item?.timestamp,
         content_size: item?.content_size,
         fee: item?.fee,
