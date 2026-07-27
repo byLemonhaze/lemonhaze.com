@@ -27,7 +27,7 @@ This document is the high-level engineering map for `lemonhaze.com`:
 1. The browser loads `index.html`, which bootstraps `src/main.js`.
 2. `startApp()` in `src/app/runtime.js` fetches provenance data, the live BEST BEFORE collection, and the repo-managed featured collection manifests.
 3. BEST BEFORE rows from provenance are replaced at runtime with the live collection payload when available.
-4. Satoshi, Deprivation prints, Mirage prints, and the prints trilogy are merged from their inscription-ordered local manifests, taking precedence over matching provenance IDs.
+4. Satoshi, Deprivation prints, Mirage prints, the prints trilogy, Liminality, and Eclosion are merged from their repo-managed local manifests, taking precedence over matching provenance IDs.
 5. Sidebar navigation, section definitions, and collection slug maps are built from the resolved artwork set.
 
 ### 2. Routing
@@ -58,8 +58,9 @@ When an artwork opens:
    - direct on-chain HTML/media for selected collections
    - BEST BEFORE live HTML and status data
 3. Metadata is enriched from Hiro and Ordinals endpoints.
-4. Sales history is loaded from generated local indices in `public/data/sales-master/`.
-5. BTC/USD spot is fetched client-side to add approximate fiat context to BTC sale prices.
+4. Collection medium, creation tools, source links, and documented launch prices are read from `COLLECTION_DETAILS` in `src/data.js`.
+5. Sales history is loaded from the canonical ledger in `public/data/sales-master/`.
+6. BTC/USD spot is fetched client-side to add approximate current fiat context when sale-time USD is unavailable.
 
 The artwork modal is therefore the main integration point between curated repo data, live Ordinals metadata, and generated market history.
 
@@ -89,6 +90,7 @@ The artwork modal is therefore the main integration point between curated repo d
 
 - `src/data.js` and `src/data/*` contain editorially curated site copy and chronology.
 - Supply rows, marketplace links, and supply-page collection overrides are centralized in `src/data.js`.
+- The supply summary separates manually documented primary volume from indexed resale volume. It never infers primary sales from transfer history, includes documented launch bundles, and excludes secondary aggregate roll-ups that would duplicate inscription-level trades.
 - `src/renderers/sections/supply.js` contains the shared supply UI for the canonical `/supply` section, including Bitcoin collections, Ethereum works, and physical works.
 - Provenance is expected primarily from Lemonhaze CDN, with `/public/data/provenance.json` as a local fallback.
 - BEST BEFORE is intentionally treated as a live external integration rather than static repo data.

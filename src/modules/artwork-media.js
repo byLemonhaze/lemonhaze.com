@@ -22,6 +22,7 @@ const DIRECT_ONCHAIN_COLLECTIONS = new Set([
     'Mirage (Prints)',
     'Trilogy (Prints)',
     'Liminality',
+    'Eclosion 1/1 - Amsterdam Blooms',
 ]);
 
 const DIRECT_ONCHAIN_PREVIEW_ARTWORK_IDS = new Set([

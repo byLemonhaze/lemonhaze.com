@@ -71,6 +71,7 @@ export const CHRONOLOGY_BY_YEAR = {
   "2023": [
     "Bento Box",
     "Candidly Yours",
+    "Eclosion 1/1 - Amsterdam Blooms",
     "Untitled",
     "Downtown",
     "Oaxaca",
@@ -222,66 +223,173 @@ between Osaka's bustling streets and its quiet, hidden, and charming alleys.`,
   "Bento Box": `Digital delicacies crafted with code. Each 'Bento Box' is meticulously curated to capture simplicity and artful elegance. Pure aesthetic love, no words.`,
   "Downtown": `Downtown is a pair of generative artworks, melding retro-wave nostalgia with the chaos of urban life on a large 16:9 digital canvas. Crafted with p5js, these two pieces mark a continuation of Lemonhaze's journey in creating art with code. The artworks presented here were crafted with an emphasis on exploring minimalistic textures, coupled with the goal of recreating glimpses of the artist's past metropolitan life. Additional note: Visit the official ordinals content link of the inscription and press 'S' on your keyboard to download the 6400x3600 high resolution PNG.`,
   "Satoshi 1/1 - Counterfeit Cards S00 - C08": "A unique piece from the Counterfeit Cards series.",
-  "Eclosion 1/1 - Amsterdam Blooms": "A collaboration celebrating Amsterdam's artistic heritage.",
+  "Eclosion 1/1 - Amsterdam Blooms": "The flourishing future we imagine for ourselves. A 6400 × 3600 artwork rendered fully on-chain through recursion.",
   "Skull 506 [Remix] 1/1 - Skullx": "A remix contribution to the Skullx project.",
   "Text & Unclassified": "Experimental text-based works and uncategorized pieces."
 };;
-export const ORDINALS_SUPPLY_DATA = [
+
+function gigaDetails(_medium, tools) {
+  // Creation research stays internal; the public site shows only the tool line.
+  return { tools };
+}
+
+export const COLLECTION_DETAILS = {
+  'Gentlemen': gigaDetails('Mixed media', 'AI · Krita · sampling/collage'),
+  'Lotus': gigaDetails('Mixed media', 'AI · Krita · sampling/collage'),
+  'Montreal': gigaDetails('Generative art', 'p5.js'),
+  'La Tentation': gigaDetails('Generative art', 'p5.js'),
+  'Old Fashioned': gigaDetails('Generative art', 'p5.js'),
+  'Old-Fashioned': gigaDetails('Generative art', 'p5.js'),
+  'Berlin': gigaDetails('Digitally hand-made', 'Krita'),
+  'Mending Fragments': gigaDetails('Digitally hand-made', 'Krita'),
+  "L'Orphelinat": gigaDetails('Mixed media', 'p5.js · AI'),
+  'Orphelinat': gigaDetails('Mixed media', 'p5.js · AI'),
+  'Candidly Yours': gigaDetails('Mixed media', 'Krita · p5.js'),
+  'Oaxaca': gigaDetails('Generative art', 'p5.js'),
+  'Downtown': gigaDetails('Generative art', 'p5.js'),
+  'The Artifacts': gigaDetails('Mixed media', 'Krita · sampling/collage · AI'),
+  'Tad Small': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'Ordinals Summer': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'Le Bar a Tapas': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'Le Bar à Tapas': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'Framed': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'Dark Days': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'Fading': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'Polaroid': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'Volatility': gigaDetails('Generative art', 'p5.js'),
+  'Untitled': gigaDetails('Mixed media', 'p5.js · AI · Krita'),
+  'Bento Box': gigaDetails('Generative art', 'p5.js'),
+  'Unregulated Minds': gigaDetails('Generative art', 'p5.js'),
+  'Little Get Away': gigaDetails('Generative art', 'p5.js'),
+  'Eclosion 1/1 - Amsterdam Blooms': {
+    tools: 'Krita · AI · p5.js',
+    primaryPriceBTC: 0.08,
+  },
+  'Satoshi (Original & Editions)': {
+    ...gigaDetails('Mixed media', 'AI · Krita · collage'),
+  },
+  'Satoshi CC Edition': {
+    ...gigaDetails('Mixed media', 'AI · Krita · collage'),
+  },
+  'Cypherville': gigaDetails('Mixed media', 'AI · Krita · sampling/collage'),
+  'Portrait 2490': gigaDetails('Mixed media', 'AI · Krita · sampling/collage'),
+  'Miscellaneous': gigaDetails('Mixed media', 'AI · Krita · sampling/collage'),
+  'Generative Composition': gigaDetails('Generative art', 'p5.js'),
+  'Discography': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'World Tour': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'Jardin Secret': gigaDetails('Digitally hand-drawn', 'Krita'),
+  'Manufactured': gigaDetails('Generative art', 'p5.js'),
+  'Deprivation (Prints)': {
+    tools: 'Source artwork published as WEBP',
+    primaryPriceBTC: 0.00069,
+    primarySaleInHistory: true,
+  },
+  'Mirage (Prints)': {
+    tools: 'p5.js · Krita',
+    primaryPriceBTC: 0.00169,
+    primarySaleInHistory: true,
+  },
+  'Trilogy (Prints)': {
+    tools: 'p5.js · Krita',
+    primaryPriceBTC: 0.00169,
+    primarySaleInHistory: true,
+  },
+};
+
+const ORDNET_COLLECTION_SUPPLY = [
+  // Ord.net collection roster, refreshed 2026-07-27. Parent inscriptions are
+  // applied below so each belongs to the collection it actually supports.
+  { name: '1 of 1s (2026)', year: 2026, inscribed: 13, circulating: 13 },
+  { name: 'Liminality', year: 2026, inscribed: 7, circulating: 7 },
+  { name: 'Into The Wild', year: 2026, inscribed: 4, circulating: 4 },
   { name: 'BEST BEFORE', year: 2025, inscribed: 420, circulating: 420 },
+  { name: '1 of 1s (2025)', year: 2025, inscribed: 35, circulating: 19 },
+  { name: 'Trilogy (Prints)', year: 2025, inscribed: 33, circulating: 33 },
+  { name: 'Minute, papillon! Edition', year: 2025, inscribed: 21, circulating: 21 },
+  { name: 'Ma ville en quatre temps', year: 2025, inscribed: 4, circulating: 4 },
+  { name: 'Tori no Roji', year: 2025, inscribed: 4, circulating: 4 },
   { name: 'Manufactured', year: 2024, inscribed: 420, circulating: 239 },
-  { name: 'Satoshi CC Edition', year: 2023, inscribed: 110, circulating: 109 },
+  { name: '1 of 1s (2024)', year: 2024, inscribed: 49, circulating: 10 },
+  { name: 'Mirage (Prints)', year: 2024, inscribed: 33, circulating: 33 },
+  { name: 'Games', year: 2024, inscribed: 26, circulating: 26 },
+  { name: 'DeVille', year: 2024, inscribed: 15, circulating: 15 },
+  { name: 'Montreal', year: 2024, inscribed: 7, circulating: 7 },
+  { name: 'Unregulated Minds', year: 2024, inscribed: 6, circulating: 6 },
+  { name: 'Little Get Away', year: 2024, inscribed: 4, circulating: 4 },
+  { name: 'Satoshi (Original & Editions)', year: 2023, inscribed: 111, circulating: 110 },
   { name: 'Portrait 2490', year: 2023, inscribed: 90, circulating: 87 },
-  { name: '1/1s (2024)', year: 2024, inscribed: 49, circulating: 10 },
-  { name: '1/1s (2025)', year: 2025, inscribed: 35, circulating: 19 },
-  { name: 'Deprivation prints', year: 2023, inscribed: 33, circulating: 33 },
-  { name: 'Mirage prints', year: 2024, inscribed: 33, circulating: 33 },
-  { name: 'Trilogy prints', year: 2025, inscribed: 33, circulating: 33 },
+  { name: 'Deprivation (Prints)', year: 2023, inscribed: 33, circulating: 33 },
   { name: 'Gentlemen', year: 2023, inscribed: 25, circulating: 24 },
   { name: 'Miscellaneous', year: 2023, inscribed: 25, circulating: 9 },
-  { name: 'Games', year: 2024, inscribed: 26, circulating: 26 },
-  { name: 'Minute, papillon! Edition', year: 2025, inscribed: 21, circulating: 21 },
   { name: 'The Artifacts', year: 2023, inscribed: 18, circulating: 17 },
   { name: 'Cypherville', year: 2023, inscribed: 16, circulating: 16 },
-  { name: 'Old Fashioned', year: 2023, inscribed: 16, circulating: 14 },
+  { name: 'Old-Fashioned', year: 2023, inscribed: 16, circulating: 14 },
   { name: 'Volatility', year: 2023, inscribed: 16, circulating: 16 },
-  { name: 'Provenance', year: 2023, inscribed: 17, circulating: 3 },
   { name: 'La Tentation', year: 2024, inscribed: 15, circulating: 14 },
-  { name: 'Deville', year: 2024, inscribed: 15, circulating: 15 },
-  { name: 'Text & Unclassified', year: 2023, inscribed: 11, circulating: 1 },
   { name: 'Generative Composition', year: 2023, inscribed: 9, circulating: 8 },
   { name: 'Lotus', year: 2023, inscribed: 9, circulating: 8 },
-  { name: 'Split collectible', year: 2023, inscribed: 9, circulating: 8 },
   { name: 'Untitled', year: 2023, inscribed: 8, circulating: 2 },
   { name: 'Mending Fragments', year: 2023, inscribed: 8, circulating: 7 },
   { name: 'Berlin', year: 2023, inscribed: 8, circulating: 8 },
   { name: 'Oaxaca', year: 2023, inscribed: 8, circulating: 8 },
   { name: 'Polaroid', year: 2023, inscribed: 8, circulating: 7 },
-  { name: 'Montreal', year: 2024, inscribed: 7, circulating: 7 },
   { name: 'Candidly Yours', year: 2023, inscribed: 7, circulating: 7 },
   { name: 'Discography', year: 2023, inscribed: 7, circulating: 0 },
-  { name: 'L’Orphelinat', year: 2023, inscribed: 6, circulating: 3 },
-  { name: 'Unregulated Minds', year: 2024, inscribed: 6, circulating: 6 },
+  { name: "L'Orphelinat", year: 2023, inscribed: 6, circulating: 3 },
   { name: 'Framed', year: 2023, inscribed: 5, circulating: 5 },
-  { name: 'Le Bar a Tapas', year: 2023, inscribed: 5, circulating: 5 },
+  { name: 'Le Bar à Tapas', year: 2023, inscribed: 5, circulating: 5 },
   { name: 'World Tour', year: 2023, inscribed: 5, circulating: 0 },
-  { name: 'Ma ville en quatre temps', year: 2025, inscribed: 4, circulating: 4 },
-  { name: 'Tori no Roji', year: 2025, inscribed: 4, circulating: 4 },
-  { name: 'Little Get Away', year: 2024, inscribed: 4, circulating: 4 },
   { name: 'Ordinals Summer', year: 2023, inscribed: 4, circulating: 4 },
-  { name: 'Colors', year: 2023, inscribed: 4, circulating: 0 },
-  { name: 'Cypherville Comics', year: 2023, inscribed: 3, circulating: 0 },
   { name: 'Jardin Secret', year: 2023, inscribed: 3, circulating: 1 },
   { name: 'Tad Small', year: 2023, inscribed: 3, circulating: 1 },
   { name: 'Fading', year: 2023, inscribed: 3, circulating: 3 },
   { name: 'Dark Days', year: 2023, inscribed: 3, circulating: 3 },
   { name: 'Bento Box', year: 2023, inscribed: 2, circulating: 1 },
   { name: 'Downtown', year: 2023, inscribed: 2, circulating: 2 },
+];
+
+// A parent is counted with the work it actually supports. The BEST BEFORE
+// engine/diary parent is burned; the Ordinally collaboration parent is not a
+// Lemonhaze supply item, and the Lemonhaze Stuntman parent is listed below as
+// its own Additional Ordinal.
+const PARENT_SUPPLY_ADJUSTMENTS = {
+  '1 of 1s (2024)': { burned: 1 },
+  'Manufactured': { burned: 2 },
+  'DeVille': { burned: 1 },
+  'Bento Box': { burned: 1 },
+  'Candidly Yours': { burned: 1 },
+  'Games': { burned: 1 },
+  'La Tentation': { burned: 1 },
+  'Little Get Away': { burned: 1 },
+  'Ma ville en quatre temps': { burned: 1 },
+  'Montreal': { burned: 1 },
+  'Tori no Roji': { burned: 1 },
+  'Unregulated Minds': { burned: 1 },
+  'Untitled': { burned: 1 },
+  'BEST BEFORE': { burned: 1 },
+  'Liminality': { burned: 1 },
+  'Into The Wild': { burned: 1 },
+};
+
+export const ORDINALS_SUPPLY_DATA = ORDNET_COLLECTION_SUPPLY.map((row) => {
+  const adjustment = PARENT_SUPPLY_ADJUSTMENTS[row.name] || {};
+  const burned = Number(adjustment.burned) || 0;
+  const live = Number(adjustment.live) || 0;
+  return {
+    ...row,
+    inscribed: row.inscribed + burned + live,
+    circulating: row.circulating + live,
+  };
+});
+
+export const EXTRA_ORDINALS_SUPPLY_DATA = [
+  { name: 'Stuntman', year: 2025, inscribed: 1, circulating: 1 },
+  { name: 'Text & Unclassified', year: 2023, inscribed: 11, circulating: 1 },
+  { name: 'Split collectible', year: 2023, inscribed: 9, circulating: 8 },
+  { name: 'Colors', year: 2023, inscribed: 4, circulating: 0 },
+  { name: 'Cypherville Comics', year: 2023, inscribed: 3, circulating: 0 },
   { name: 'Eclosion 1/1 - Amsterdam Blooms', year: 2023, inscribed: 1, circulating: 1 },
-  { name: 'Satoshi 1/1 - Counterfeit Cards S00 - C08', year: 2023, inscribed: 1, circulating: 1 },
   { name: 'Skull 506 [Remix] 1/1 - Skullx', year: 2025, inscribed: 1, circulating: 1 },
-  { name: '1 of 1s (2026)', year: 2026, inscribed: 13, circulating: 13 },
-  { name: 'Liminality', year: 2026, inscribed: 8, circulating: 7 },
-  { name: 'Into The Wild', year: 2026, inscribed: 5, circulating: 4 },
 ];
 
 export const ETH_SUPPLY_DATA = [
@@ -302,10 +410,15 @@ export const PHYSICAL_WORKS_ITEMS = [
 
 const SATFLOW_LINKS = {
   'Manufactured': 'https://www.satflow.com/ordinals/manufactured-by-lemonhaze',
+  'BEST BEFORE': 'https://www.satflow.com/ordinals/best-before-by-lemonhaze-x-ordinally',
+  '1 of 1s (2026)': 'https://www.satflow.com/ordinals/1-of-1s-2026-by-lemonhaze',
+  'Liminality': 'https://www.satflow.com/ordinals/liminality-by-lemonhaze',
+  'Into The Wild': 'https://www.satflow.com/ordinals/into-the-wild-by-lemonhaze',
   'Satoshi CC Edition': 'https://www.satflow.com/ordinals/counterfeit-cards-series-00?attributes=%7B%22CREATOR%22%3A%5B%22LEMONHAZE%22%5D%7D',
   'Satoshi (Original & Editions)': 'https://www.satflow.com/ordinals/counterfeit-cards-series-00?attributes=%7B%22CREATOR%22%3A%5B%22LEMONHAZE%22%5D%7D',
   'Portrait 2490': 'https://www.satflow.com/ordinals/portrait-2490',
   '1/1s (2024)': 'https://www.satflow.com/ordinals/1on1-by-lemonhaze',
+  '1 of 1s (2024)': 'https://www.satflow.com/ordinals/1on1-by-lemonhaze',
   'Deprivation prints': 'https://www.satflow.com/ordinals/deprivation-by-lemonhaze',
   'Deprivation (Prints)': 'https://www.satflow.com/ordinals/deprivation-by-lemonhaze',
   'Mirage prints': 'https://www.satflow.com/ordinals/mirage-by-lemonhaze',
@@ -313,6 +426,7 @@ const SATFLOW_LINKS = {
   'Trilogy prints': 'https://www.satflow.com/ordinals/prints-trilogy-by-lemonhaze',
   'Trilogy (Prints)': 'https://www.satflow.com/ordinals/prints-trilogy-by-lemonhaze',
   '1/1s (2025)': 'https://www.satflow.com/ordinals/1on1-2025-by-lemonhaze',
+  '1 of 1s (2025)': 'https://www.satflow.com/ordinals/1on1-2025-by-lemonhaze',
   'Gentlemen': 'https://www.satflow.com/ordinals/gentlemen-by-lemonhaze',
   'Miscellaneous': 'https://www.satflow.com/ordinals/miscelleneous-by-lemonhaze',
   'Games': 'https://www.satflow.com/ordinals/games-by-lemonhaze',
@@ -320,9 +434,11 @@ const SATFLOW_LINKS = {
   'The Artifacts': 'https://www.satflow.com/ordinals/artifacts-by-lemonhaze',
   'Cypherville': 'https://www.satflow.com/ordinals/cypherville-ordinals',
   'Old Fashioned': 'https://www.satflow.com/ordinals/old-fashioned-by-lemonhaze',
+  'Old-Fashioned': 'https://www.satflow.com/ordinals/old-fashioned-by-lemonhaze',
   'Volatility': 'https://www.satflow.com/ordinals/volatility-by-lemonhaze',
   'La Tentation': 'https://www.satflow.com/ordinals/tentation-by-lemonhaze',
   'Deville': 'https://www.satflow.com/ordinals/deville-by-lemonhaze',
+  'DeVille': 'https://www.satflow.com/ordinals/deville-by-lemonhaze',
   'Generative Composition': 'https://www.satflow.com/ordinals/generative-composition-by-lemonhaze',
   'Lotus': 'https://www.satflow.com/ordinals/lotus-by-lemonhaze',
   'Split collectible': 'https://www.satflow.com/ordinals/cypherville-split-collectibles-by-lemonhaze',
@@ -335,9 +451,11 @@ const SATFLOW_LINKS = {
   'Candidly Yours': 'https://www.satflow.com/ordinals/candidly-yours-by-lemonhaze',
   'Discography': 'https://www.satflow.com/ordinals/discography-by-lemonhaze',
   'L’Orphelinat': 'https://www.satflow.com/ordinals/orphelinat-by-lemonhaze',
+  "L'Orphelinat": 'https://www.satflow.com/ordinals/orphelinat-by-lemonhaze',
   'Unregulated Minds': 'https://www.satflow.com/ordinals/unregulated-minds-by-lemonhaze',
   'Framed': 'https://www.satflow.com/ordinals/framed',
   'Le Bar a Tapas': 'https://www.satflow.com/ordinals/bar-tapas-by-lemonhaze',
+  'Le Bar à Tapas': 'https://www.satflow.com/ordinals/bar-tapas-by-lemonhaze',
   'World Tour': 'https://www.satflow.com/ordinals/world-tour-by-lemonhaze',
   'Ma ville en quatre temps': 'https://www.satflow.com/ordinals/ma-ville-en-quatre-temps-by-lemonhaze',
   'Tori no Roji': 'https://www.satflow.com/ordinals/tori_no_roji_by_lemonhaze',
@@ -359,14 +477,16 @@ const ORDNET_LINKS = {
   'Satoshi (Original & Editions)': 'https://ord.net/collection/satoshi-by-lemonhaze',
   'Portrait 2490': 'https://ord.net/collection/portrait-2490-by-lemonhaze',
   '1/1s (2024)': 'https://ord.net/collection/1on1-by-lemonhaze',
+  '1 of 1s (2024)': 'https://ord.net/collection/1on1-by-lemonhaze',
   '1/1s (2025)': 'https://ord.net/collection/1on1-2025-by-lemonhaze',
+  '1 of 1s (2025)': 'https://ord.net/collection/1on1-2025-by-lemonhaze',
   '1 of 1s (2026)': 'https://ord.net/collection/1-of-1s-2026-by-lemonhaze',
-  'Deprivation prints': 'https://ord.net/collection/deprivation-by-lemonhaze',
-  'Deprivation (Prints)': 'https://ord.net/collection/deprivation-by-lemonhaze',
-  'Mirage prints': 'https://ord.net/collection/mirage-by-lemonhaze',
-  'Mirage (Prints)': 'https://ord.net/collection/mirage-by-lemonhaze',
-  'Trilogy prints': 'https://ord.net/collection/prints-trilogy-by-lemonhaze',
-  'Trilogy (Prints)': 'https://ord.net/collection/prints-trilogy-by-lemonhaze',
+  'Deprivation prints': 'https://ord.net/collection/deprivation-prints-by-lemonhaze',
+  'Deprivation (Prints)': 'https://ord.net/collection/deprivation-prints-by-lemonhaze',
+  'Mirage prints': 'https://ord.net/collection/mirage-prints-by-lemonhaze',
+  'Mirage (Prints)': 'https://ord.net/collection/mirage-prints-by-lemonhaze',
+  'Trilogy prints': 'https://ord.net/collection/trilogy-prints-by-lemonhaze',
+  'Trilogy (Prints)': 'https://ord.net/collection/trilogy-prints-by-lemonhaze',
   'Gentlemen': 'https://ord.net/collection/gentlemen-by-lemonhaze',
   'Miscellaneous': 'https://ord.net/collection/miscellaneous-by-lemonhaze',
   'Games': 'https://ord.net/collection/games-by-lemonhaze',
@@ -376,10 +496,12 @@ const ORDNET_LINKS = {
   'Cypherville': 'https://ord.net/collection/cypherville-by-lemonhaze',
   'Candidly Yours': 'https://ord.net/collection/candidly-yours-by-lemonhaze',
   'Deville': 'https://ord.net/collection/deville-by-lemonhaze',
+  'DeVille': 'https://ord.net/collection/deville-by-lemonhaze',
   'Into The Wild': 'https://ord.net/collection/into-the-wild-by-lemonhaze',
   'La Tentation': 'https://ord.net/collection/tentation-by-lemonhaze',
   'Framed': 'https://ord.net/collection/framed-by-lemonhaze',
   'Le Bar a Tapas': 'https://ord.net/collection/bar-tapas-by-lemonhaze',
+  'Le Bar à Tapas': 'https://ord.net/collection/bar-tapas-by-lemonhaze',
   'Little Get Away': 'https://ord.net/collection/little-get-away-by-lemonhaze',
   'Ma ville en quatre temps': 'https://ord.net/collection/ma-ville-en-quatre-temps-by-lemonhaze',
   'Ordinals Summer': 'https://ord.net/collection/ordinals-summer-by-lemonhaze',
@@ -389,6 +511,24 @@ const ORDNET_LINKS = {
   'Tori no Roji': 'https://ord.net/collection/tori_no_roji_by_lemonhaze',
   'Unregulated Minds': 'https://ord.net/collection/unregulated-minds-by-lemonhaze',
   'Untitled': 'https://ord.net/collection/untitled-by-lemonhaze',
+  'Old Fashioned': 'https://ord.net/collection/old-fashioned-by-lemonhaze',
+  'Old-Fashioned': 'https://ord.net/collection/old-fashioned-by-lemonhaze',
+  'Volatility': 'https://ord.net/collection/volatility-by-lemonhaze',
+  'Generative Composition': 'https://ord.net/collection/generative-composition-by-lemonhaze',
+  'Lotus': 'https://ord.net/collection/lotus-by-lemonhaze',
+  'Mending Fragments': 'https://ord.net/collection/mending-fragments-by-lemonhaze',
+  'Berlin': 'https://ord.net/collection/berlin-by-lemonhaze',
+  'Oaxaca': 'https://ord.net/collection/oaxaca-by-lemonhaze',
+  'Discography': 'https://ord.net/collection/discography-by-lemonhaze',
+  'Downtown': 'https://ord.net/collection/downtown-by-lemonhaze',
+  'L’Orphelinat': 'https://ord.net/collection/orphelinat-by-lemonhaze',
+  "L'Orphelinat": 'https://ord.net/collection/orphelinat-by-lemonhaze',
+  'Orphelinat': 'https://ord.net/collection/orphelinat-by-lemonhaze',
+  'World Tour': 'https://ord.net/collection/world-tour-by-lemonhaze',
+  'Jardin Secret': 'https://ord.net/collection/jardin-secret-by-lemonhaze',
+  'Fading': 'https://ord.net/collection/fading-by-lemonhaze',
+  'Dark Days': 'https://ord.net/collection/dark-days-by-lemonhaze',
+  'Liminality': 'https://ord.net/collection/liminality-by-lemonhaze',
 };
 
 function normalizeMarketLinks(linksByCollection) {
@@ -435,6 +575,9 @@ const RAW_MARKET_LINKS = {
   '1/1s (2024)': {
     gamma: 'https://gamma.io/ordinals/collections/1-1-2024-by-lemonhaze/items'
   },
+  '1 of 1s (2024)': {
+    gamma: 'https://gamma.io/ordinals/collections/1-1-2024-by-lemonhaze/items'
+  },
   'Deprivation prints': {
     gamma: 'https://gamma.io/ordinals/prints/cllo44w190001jr0fajdfe7cc/details'
   },
@@ -454,6 +597,9 @@ const RAW_MARKET_LINKS = {
     gamma: 'https://gamma.io/explore/prints?creator=clkrid54y0000l50fs5qmsbpp'
   },
   '1/1s (2025)': {
+    gamma: 'https://gamma.io/ordinals/collections/1-1-2025-by-lemonhaze/items'
+  },
+  '1 of 1s (2025)': {
     gamma: 'https://gamma.io/ordinals/collections/1-1-2025-by-lemonhaze/items'
   },
   '1 of 1s (2026)': {
@@ -483,6 +629,9 @@ const RAW_MARKET_LINKS = {
   'Old Fashioned': {
     gamma: 'https://gamma.io/ordinals/collections/old-fashioned-by-lemonhaze/items'
   },
+  'Old-Fashioned': {
+    gamma: 'https://gamma.io/ordinals/collections/old-fashioned-by-lemonhaze/items'
+  },
   'Volatility': {
     gamma: 'https://gamma.io/ordinals/collections/volatility-by-lemonhaze/items'
   },
@@ -493,6 +642,9 @@ const RAW_MARKET_LINKS = {
     gamma: 'https://gamma.io/ordinals/collections/la-tentation-by-lemonhaze/items'
   },
   'Deville': {
+    gamma: 'https://gamma.io/ordinals/collections/deville-by-lemonhaze/items'
+  },
+  'DeVille': {
     gamma: 'https://gamma.io/ordinals/collections/deville-by-lemonhaze/items'
   },
   'Text & Unclassified': {
@@ -533,6 +685,9 @@ const RAW_MARKET_LINKS = {
   'L’Orphelinat': {
     gamma: 'https://gamma.io/ordinals/collections/LOrphelinat/items'
   },
+  "L'Orphelinat": {
+    gamma: 'https://gamma.io/ordinals/collections/LOrphelinat/items'
+  },
   'Unregulated Minds': {
     gamma: 'https://gamma.io/ordinals/collections/unregulated-minds/items'
   },
@@ -540,6 +695,9 @@ const RAW_MARKET_LINKS = {
     gamma: 'https://gamma.io/ordinals/collections/framed-ny-lemonhaze/items'
   },
   'Le Bar a Tapas': {
+    gamma: 'https://gamma.io/ordinals/collections/le-bar-a-tapas-by-lemonhaze/items'
+  },
+  'Le Bar à Tapas': {
     gamma: 'https://gamma.io/ordinals/collections/le-bar-a-tapas-by-lemonhaze/items'
   },
   'World Tour': {
@@ -606,16 +764,23 @@ export const LINK_OVERRIDES = {
   'Trilogy prints': 'https://lemonhaze.com/trilogy-prints',
   'Trilogy (Prints)': 'https://lemonhaze.com/trilogy-prints',
   '1/1s (2024)': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2024)',
+  '1 of 1s (2024)': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2024)',
   '1/1s (2025)': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2025)',
-  'Provenance': 'https://lemonhaze.com/',
-  'Text & Unclassified': 'https://lemonhaze.com/',
-  'Eclosion 1/1 - Amsterdam Blooms': 'https://gamma.io/ordinals/collections/amsterdam-blooms/items',
+  '1 of 1s (2025)': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2025)',
+  'Text & Unclassified': 'https://gamma.io/ordinals/inscriptions/b8acd0a45be8663deea56e28ab831f067ceec54ef68c416b812e17266acf1eddi0',
+  'Stuntman': 'https://ordinals.com/inscription/05c2bd3924695dde46d417cdbe30aad5980cefdbf587e2d7a1f93b017a9284abi0',
   'Skull 506 [Remix] 1/1 - Skullx': 'https://gamma.io/ordinals/collections/skullx-the-artist-series/items',
   'L’Orphelinat': 'https://lemonhaze.com/collection?name=Orphelinat',
+  "L'Orphelinat": 'https://lemonhaze.com/collection?name=Orphelinat',
+  'Le Bar à Tapas': 'https://lemonhaze.com/collection?name=Le%20Bar%20a%20Tapas',
   'Minute, papillon! Edition': 'https://lemonhaze.com/collection?name=1%20of%201s%20(2025)',
   'Old Fashioned': 'https://lemonhaze.com/collection?name=Old-Fashioned',
+  'Old-Fashioned': 'https://lemonhaze.com/collection?name=Old-Fashioned',
   'Deville': 'https://lemonhaze.com/collection?name=DeVille',
+  'DeVille': 'https://lemonhaze.com/collection?name=DeVille',
   'Split collectible': 'https://cypherville.xyz',
+  'Colors': 'https://gamma.io/ordinals/collections/colours-by-lemonhaze/items',
+  'Cypherville Comics': 'https://gamma.io/ordinals/collections/cypherville-comics-by-lemonhaze/items',
   'Cypherville Comics': 'https://cypherville.xyz',
   'Tad Small': 'https://lemonhaze.com/collection?name=Tad%20Small',
   'Dark Days': 'https://lemonhaze.com/collection?name=Dark%20Days',

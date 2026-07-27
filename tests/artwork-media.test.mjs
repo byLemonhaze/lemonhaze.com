@@ -111,6 +111,20 @@ test('Liminality uses static grid previews while keeping its HTML for the modal'
     assert.equal(getDirectOnchainPreviewSrc(parent), null);
 });
 
+test('Eclosion keeps its supplied grid image while its HTML remains on-chain', () => {
+    const item = {
+        name: 'Eclosion 1/1',
+        id: 'aaf0e314aab67783d7e92b0987b0c34ae610b41f64aa1ff7cae8c4fbeebf9029i0',
+        collection: 'Eclosion 1/1 - Amsterdam Blooms',
+        artwork_type: 'HTML',
+        content_type: 'text/html;charset=utf-8',
+        grid_preview: '/images/eclosion/eclosion-1-by-lemonhaze.jpg',
+    };
+
+    assert.equal(shouldUseDirectOnchainPreview(item), false);
+    assert.equal(getDirectOnchainPreviewSrc(item), null);
+});
+
 test('recursive Satoshi SVG editions use on-chain iframe previews', () => {
     const item = {
         name: 'Satoshi #1',

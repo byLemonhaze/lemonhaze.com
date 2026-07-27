@@ -47,6 +47,10 @@ const SOURCES = [
             ? '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0'
             : 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0',
     },
+    {
+        url: '/data/collections/eclosion.json',
+        collection: 'Eclosion 1/1 - Amsterdam Blooms',
+    },
 ];
 
 function normalizeItem(item, source) {

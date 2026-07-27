@@ -1,0 +1,21 @@
+[
+  {
+    "id": "aaf0e314aab67783d7e92b0987b0c34ae610b41f64aa1ff7cae8c4fbeebf9029i0",
+    "grid_preview": "/images/eclosion/eclosion-1-by-lemonhaze.jpg",
+    "meta": {
+      "name": "Eclosion 1/1",
+      "artist": "Lemonhaze",
+      "series": "Amsterdam Blooms",
+      "year": 2023,
+      "about": "The flourishing future we imagine for ourselves.",
+      "note": "A 6400 × 3600 artwork rendered fully on-chain through recursion."
+    },
+    "timestamp": "2023-10-13 10:10:01 UTC",
+    "content_size": "36803 bytes",
+    "fee": "143085",
+    "sat": "1940321875000000",
+    "height": "811987",
+    "charms": "uncommon",
+    "inscription_number": 35257919
+  }
+]

@@ -14,6 +14,7 @@ export function updateHeaderView({
     appState,
     allArtworks,
     collectionDescriptions,
+    collectionDetails = {},
     chronologyByYear,
     onRefreshCollection,
 }) {
@@ -70,6 +71,13 @@ export function updateHeaderView({
         const body = currentViewMeta.querySelector('#desc-body');
         const chevron = currentViewMeta.querySelector('#desc-chevron');
         const siteTrigger = currentViewMeta.querySelector('.site-overlay-trigger');
+        const tools = collectionDetails[title]?.tools;
+        if (body && tools) {
+            const toolsLine = document.createElement('p');
+            toolsLine.className = 'mt-3 pt-3 border-t border-white/8 text-[10px] font-mono text-white/45 leading-relaxed';
+            toolsLine.textContent = `Tools · ${tools}`;
+            body.appendChild(toolsLine);
+        }
 
         if (siteTrigger) {
             siteTrigger.addEventListener('click', (e) => {

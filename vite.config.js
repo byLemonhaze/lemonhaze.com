@@ -12,4 +12,21 @@ export default defineConfig({
             },
         },
     },
+    plugins: [
+        {
+            name: 'visualizer-directory-index',
+            apply: 'serve',
+            configureServer(server) {
+                // Vite's SPA fallback otherwise serves the gallery index for
+                // /visualizer/. Route the directory URL to its static entry.
+                server.middlewares.use((request, _response, next) => {
+                    const [pathname, query = ''] = (request.url || '').split('?');
+                    if (pathname === '/visualizer' || pathname === '/visualizer/') {
+                        request.url = `/visualizer/index.html${query ? `?${query}` : ''}`;
+                    }
+                    next();
+                });
+            },
+        },
+    ],
 });

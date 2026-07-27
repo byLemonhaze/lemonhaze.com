@@ -2,84 +2,86 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+    EXTRA_ORDINALS_SUPPLY_DATA,
     LINK_OVERRIDES,
     MARKET_LINKS,
     ORDINALS_SUPPLY_DATA,
 } from '../src/data.js';
 
-const EXPECTED_LEGACY_ROWS = [
-    { name: 'Satoshi CC Edition', year: 2023, inscribed: 110, circulating: 109 },
-    { name: 'Deprivation prints', year: 2023, inscribed: 33, circulating: 33 },
-    { name: 'Mirage prints', year: 2024, inscribed: 33, circulating: 33 },
-    { name: 'Trilogy prints', year: 2025, inscribed: 33, circulating: 33 },
-    {
-        name: 'Satoshi 1/1 - Counterfeit Cards S00 - C08',
-        year: 2023,
-        inscribed: 1,
-        circulating: 1,
-    },
+const GALLERY_ROWS = [
+    ['Satoshi (Original & Editions)', '/satoshi-original-and-editions', 'satoshi-by-lemonhaze'],
+    ['Deprivation (Prints)', '/deprivation-prints', 'deprivation-prints-by-lemonhaze'],
+    ['Mirage (Prints)', '/mirage-prints', 'mirage-prints-by-lemonhaze'],
+    ['Trilogy (Prints)', '/trilogy-prints', 'trilogy-prints-by-lemonhaze'],
+    ['1 of 1s (2024)', '/collection?name=1%20of%201s%20(2024)', '1on1-by-lemonhaze'],
+    ['1 of 1s (2025)', '/collection?name=1%20of%201s%20(2025)', '1on1-2025-by-lemonhaze'],
 ];
 
-const GALLERY_ALIASES = [
-    [
-        'Satoshi CC Edition',
-        'Satoshi (Original & Editions)',
-        '/satoshi-original-and-editions',
-        'satoshi-by-lemonhaze',
-    ],
-    ['Deprivation prints', 'Deprivation (Prints)', '/deprivation-prints', 'deprivation-by-lemonhaze'],
-    ['Mirage prints', 'Mirage (Prints)', '/mirage-prints', 'mirage-by-lemonhaze'],
-    ['Trilogy prints', 'Trilogy (Prints)', '/trilogy-prints', 'prints-trilogy-by-lemonhaze'],
-];
+test('Supply uses the complete 47-collection Ord.net roster without a Provenance collection', () => {
+    assert.equal(ORDINALS_SUPPLY_DATA.length, 47);
+    assert.equal(ORDINALS_SUPPLY_DATA.some((row) => row.name === 'Provenance'), false);
 
-test('preserves the historical supply ledger rows and separates the Satoshi original', () => {
     const rowsByName = new Map(ORDINALS_SUPPLY_DATA.map((row) => [row.name, row]));
-
-    for (const expected of EXPECTED_LEGACY_ROWS) {
-        assert.deepEqual(rowsByName.get(expected.name), expected);
-    }
-
-    assert.equal(rowsByName.has('Satoshi (Original & Editions)'), false);
-    assert.equal(rowsByName.has('Deprivation (Prints)'), false);
-    assert.equal(rowsByName.has('Mirage (Prints)'), false);
-    assert.equal(rowsByName.has('Trilogy (Prints)'), false);
-});
-
-test('tracks the Liminality parent burn in the collection supply', () => {
-    const row = ORDINALS_SUPPLY_DATA.find((item) => item.name === 'Liminality');
-    assert.deepEqual(row, {
-        name: 'Liminality',
-        year: 2026,
-        inscribed: 8,
-        circulating: 7,
+    assert.deepEqual(rowsByName.get('Satoshi (Original & Editions)'), {
+        name: 'Satoshi (Original & Editions)', year: 2023, inscribed: 111, circulating: 110,
     });
-});
-
-test('tracks the Into The Wild burn in the collection supply', () => {
-    const row = ORDINALS_SUPPLY_DATA.find((item) => item.name === 'Into The Wild');
-    assert.deepEqual(row, {
-        name: 'Into The Wild',
-        year: 2026,
-        inscribed: 5,
-        circulating: 4,
+    assert.deepEqual(rowsByName.get('Manufactured'), {
+        name: 'Manufactured', year: 2024, inscribed: 422, circulating: 239,
     });
+    assert.deepEqual(rowsByName.get('BEST BEFORE'), {
+        name: 'BEST BEFORE', year: 2025, inscribed: 421, circulating: 420,
+    });
+    assert.deepEqual(rowsByName.get('Liminality'), {
+        name: 'Liminality', year: 2026, inscribed: 8, circulating: 7,
+    });
+    assert.deepEqual(rowsByName.get('Into The Wild'), {
+        name: 'Into The Wild', year: 2026, inscribed: 5, circulating: 4,
+    });
+
+    const totals = [...ORDINALS_SUPPLY_DATA, ...EXTRA_ORDINALS_SUPPLY_DATA]
+        .reduce((sum, row) => ({
+            inscribed: sum.inscribed + row.inscribed,
+            circulating: sum.circulating + row.circulating,
+        }), { inscribed: 0, circulating: 0 });
+    assert.deepEqual(totals, { inscribed: 1626, circulating: 1300 });
+    assert.equal(totals.inscribed - totals.circulating, 326);
 });
 
-test('keeps supply marketplace keys and gallery aliases linked to the same markets', () => {
-    for (const [supplyName, galleryName, galleryPath, ordnetSlug] of GALLERY_ALIASES) {
-        assert.deepEqual(MARKET_LINKS[supplyName], MARKET_LINKS[galleryName]);
-        assert.ok(MARKET_LINKS[supplyName].gamma);
-        assert.equal(MARKET_LINKS[supplyName].ordnet, `https://ord.net/collection/${ordnetSlug}`);
-        assert.equal(LINK_OVERRIDES[supplyName], `https://lemonhaze.com${galleryPath}`);
-        assert.equal(LINK_OVERRIDES[galleryName], `https://lemonhaze.com${galleryPath}`);
+test('keeps non-Ord.net works separate from the indexed collection roster', () => {
+    assert.deepEqual(
+        EXTRA_ORDINALS_SUPPLY_DATA.map((row) => row.name),
+        [
+            'Stuntman',
+            'Text & Unclassified',
+            'Split collectible',
+            'Colors',
+            'Cypherville Comics',
+            'Eclosion 1/1 - Amsterdam Blooms',
+            'Skull 506 [Remix] 1/1 - Skullx',
+        ],
+    );
+    assert.equal(EXTRA_ORDINALS_SUPPLY_DATA.some((row) => row.name === 'Provenance'), false);
+});
+
+test('keeps the collection marketplace links aligned with their gallery routes', () => {
+    for (const [name, path, ordnetSlug] of GALLERY_ROWS) {
+        assert.ok(MARKET_LINKS[name].gamma);
+        assert.equal(MARKET_LINKS[name].ordnet, `https://ord.net/collection/${ordnetSlug}`);
+        assert.equal(LINK_OVERRIDES[name], `https://lemonhaze.com${path}`);
     }
 
     assert.equal(
-        LINK_OVERRIDES['Satoshi 1/1 - Counterfeit Cards S00 - C08'],
-        'https://lemonhaze.com/satoshi-original-and-editions'
+        LINK_OVERRIDES['Skull 506 [Remix] 1/1 - Skullx'],
+        'https://gamma.io/ordinals/collections/skullx-the-artist-series/items',
     );
-    assert.equal(
-        MARKET_LINKS['Satoshi 1/1 - Counterfeit Cards S00 - C08'].ordnet,
-        'https://ord.net/collection/satoshi-by-lemonhaze'
-    );
+});
+
+test('includes an Ord.net collection link for each of the 47 indexed collections', () => {
+    for (const row of ORDINALS_SUPPLY_DATA) {
+        assert.match(
+            MARKET_LINKS[row.name]?.ordnet || '',
+            /^https:\/\/ord\.net\/collection\/[a-z0-9_-]+$/,
+            `${row.name} should link to its live Ord.net collection`,
+        );
+    }
 });
