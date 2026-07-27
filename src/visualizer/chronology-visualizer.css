@@ -53,13 +53,13 @@ body {
   z-index: 10;
   top: 16px;
   right: 18px;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
   padding: 0;
   border: 1px solid rgba(241, 241, 237, 0.22);
-  border-radius: 999px;
+  border-radius: 0;
   background: rgba(8, 8, 8, 0.78);
   color: rgba(241, 241, 237, 0.72);
   font-family: Arial, Helvetica, sans-serif;

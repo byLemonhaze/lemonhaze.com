@@ -1,9 +1,9 @@
 import { initCollapsedYears, toggleYearCollapse, getCollapsedYears } from '../state/store.js';
 
 const BASE_TOP_NAV_BUTTON_CLASS =
-    'w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 hover:text-white text-white/45';
+    'w-full text-left border-l border-transparent px-3 py-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white/80 hover:border-white/40 hover:bg-white/[0.05] hover:text-white';
 const ACTIVE_TOP_NAV_BUTTON_CLASS =
-    'w-full text-left px-3 py-2 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 text-white';
+    'w-full text-left border-l border-white/85 bg-white/[0.07] px-3 py-2.5 text-[12px] font-bold uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white';
 
 // Keep the sidebar concise without changing the collection’s full public name.
 const SIDEBAR_COLLECTION_LABELS = {
@@ -94,14 +94,14 @@ export function renderYearGroups({
         yearGroup.className = 'animate-fade-in';
 
         const yearBtn = document.createElement('button');
-        yearBtn.className = 'w-full flex items-center justify-between px-3 mt-8 mb-2 group';
+        yearBtn.className = 'w-full flex items-center justify-between border-t border-white/[0.07] px-3 pt-3 mt-8 mb-2 group';
 
         const yearLabel = document.createElement('span');
-        yearLabel.className = 'text-[10px] font-semibold text-white/30 uppercase tracking-[0.28em]';
+        yearLabel.className = 'text-[11px] font-bold text-white/65 uppercase tracking-[0.24em]';
         yearLabel.textContent = year;
 
         const indicator = document.createElement('span');
-        indicator.className = 'text-[11px] leading-none font-mono font-medium text-white/30 group-hover:text-white/55 transition-colors';
+        indicator.className = 'text-[11px] leading-none font-mono font-medium text-white/65 group-hover:text-white transition-colors';
         indicator.textContent = isCollapsed ? '+' : '−';
 
         yearBtn.appendChild(yearLabel);
@@ -119,8 +119,8 @@ export function renderYearGroups({
             const displayName = SIDEBAR_COLLECTION_LABELS[collectionName] || collectionName;
             const isActive = currentFilter === collectionName;
             btn.className = isActive
-                ? 'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white font-bold'
-                : 'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white/45 hover:text-white';
+                ? 'w-full text-left border-l border-white/85 bg-white/[0.07] px-3 py-1.5 text-xs uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white font-bold'
+                : 'w-full text-left border-l border-transparent px-3 py-1.5 text-xs font-medium uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white/75 hover:border-white/40 hover:bg-white/[0.05] hover:text-white';
             btn.dataset.collection = collectionName;
             btn.textContent = displayName;
             btn.onclick = () => {

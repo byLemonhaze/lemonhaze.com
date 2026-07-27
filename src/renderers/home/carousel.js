@@ -13,7 +13,7 @@ function buildCollectionYearMap(chronologyByYear) {
 function createArrowButton(direction, onClick) {
     const isRight = direction === 'right';
     const button = document.createElement('button');
-    button.className = `absolute ${isRight ? 'right-4 md:right-8' : 'left-4 md:left-8'} top-1/2 -translate-y-1/2 z-30 text-white/20 hover:text-white/70 transition-colors duration-300 font-mono select-none`;
+    button.className = `home-carousel-arrow absolute ${isRight ? 'right-4 md:right-8' : 'left-4 md:left-8'} top-1/2 -translate-y-1/2 z-30 transition-colors duration-300 font-mono select-none`;
     button.style.fontFamily = '"Fragment Mono", monospace';
     button.style.fontSize = '10px';
     button.style.letterSpacing = '0.1em';
@@ -41,14 +41,14 @@ export function createHomeCarousel({
     let currentX = 0;
 
     const carouselWrapper = document.createElement('div');
-    carouselWrapper.className = 'relative w-full h-[60vh] md:h-[72vh] flex items-center justify-center overflow-hidden';
+    carouselWrapper.className = 'home-exhibition relative w-full h-[60vh] md:h-[72vh] flex items-center justify-center overflow-hidden';
 
     const tracksContainer = document.createElement('div');
     tracksContainer.className = 'relative w-full max-w-[1160px] h-[52vh] md:h-[64vh]';
     carouselWrapper.appendChild(tracksContainer);
 
     const labelContainer = document.createElement('div');
-    labelContainer.className = 'mt-3 md:mt-6 animate-fade-in delay-500 min-h-[3.5rem] relative z-40 px-4 md:px-12';
+    labelContainer.className = 'home-art-caption mt-3 md:mt-6 animate-fade-in delay-500 min-h-[3.5rem] relative z-40';
 
     const itemEls = selection.map((artwork, index) => {
         const itemDiv = document.createElement('div');
@@ -60,7 +60,7 @@ export function createHomeCarousel({
         const isInteractive = artwork.id !== 'SEALED' && artwork.id !== 'EXPIRED';
 
         itemDiv.innerHTML = `
-            <div class="w-full h-full relative group flex items-center justify-center">
+            <div class="home-art-item w-full h-full relative group flex items-center justify-center">
                  <div class="absolute w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
                  <img src="${src}"
                     style="width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated;"
@@ -100,7 +100,7 @@ export function createHomeCarousel({
             return;
         }
         labelContainer.innerHTML = `
-            <div>
+            <div class="flex flex-col gap-1">
                 <p class="text-[9px] font-mono uppercase tracking-[0.3em] text-white/25 mb-1">${item.collection}</p>
                 <h4 class="text-sm md:text-base font-bold text-white tracking-widest opacity-90">${item.name || 'Untitled'}</h4>
             </div>
