@@ -44,7 +44,7 @@ export function createHomeCarousel({
     carouselWrapper.className = 'home-exhibition relative w-full h-[60vh] md:h-[72vh] flex items-center justify-center overflow-hidden';
 
     const tracksContainer = document.createElement('div');
-    tracksContainer.className = 'relative w-full max-w-[1160px] h-[52vh] md:h-[64vh]';
+    tracksContainer.className = 'home-carousel-track relative w-full max-w-[1160px] h-[52vh] md:h-[64vh]';
     carouselWrapper.appendChild(tracksContainer);
 
     const labelContainer = document.createElement('div');
