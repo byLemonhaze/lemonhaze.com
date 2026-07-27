@@ -177,11 +177,13 @@
   height: 2.65rem;
   align-items: center;
   justify-content: center;
+  padding: 0;
   border: 1px solid rgba(231, 225, 210, 0.14);
   background: rgba(10, 10, 9, 0.64);
   color: rgba(231, 225, 210, 0.45);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
   backdrop-filter: blur(8px);
+  white-space: nowrap;
 }
 
 .home-carousel-arrow:hover {
@@ -256,6 +258,12 @@
 }
 
 @media (max-width: 767px) {
+  #sidebar .sidebar-brand-tagline {
+    font-size: clamp(7px, 2.1vw, 9px) !important;
+    letter-spacing: 0.11em !important;
+    white-space: nowrap;
+  }
+
   body.home-art-first #content-area {
     padding: 0.5rem 0 1rem;
   }
@@ -285,8 +293,8 @@
   }
 
   .home-carousel-arrow {
-    width: 2.35rem;
-    height: 2.35rem;
+    width: 3.25rem;
+    height: 2.65rem;
   }
 
   #modal-overlay:not(.hidden) {
