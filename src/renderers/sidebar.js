@@ -5,6 +5,11 @@ const BASE_TOP_NAV_BUTTON_CLASS =
 const ACTIVE_TOP_NAV_BUTTON_CLASS =
     'w-full text-left px-3 py-2 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 text-white';
 
+// Keep the sidebar concise without changing the collection’s full public name.
+const SIDEBAR_COLLECTION_LABELS = {
+    'Eclosion 1/1 - Amsterdam Blooms': 'Eclosion 1/1',
+};
+
 export function syncSidebarActiveSection({ topNav, sectionKey }) {
     if (!topNav) return;
 
@@ -48,6 +53,18 @@ export function renderTopNav(container, {
         btn.onclick = () => onOpenSection(sectionKey);
         container.appendChild(btn);
     });
+
+    // The document has a global white-link style. Use a button for this
+    // internal navigation so it receives the same muted / active treatment as
+    // every other sidebar item.
+    const visualizerLink = document.createElement('button');
+    visualizerLink.type = 'button';
+    visualizerLink.className = BASE_TOP_NAV_BUTTON_CLASS;
+    visualizerLink.textContent = 'Visualizer';
+    visualizerLink.onclick = () => window.location.assign('/visualizer/');
+    // Keep it immediately beneath About while leaving the rest of the section
+    // navigation in its current order.
+    container.insertBefore(visualizerLink, container.children[1] || null);
 
     externalLinks.forEach(([label, action]) => {
         const btn = document.createElement('button');
@@ -99,12 +116,13 @@ export function renderYearGroups({
         collections.forEach((collectionName) => {
             const li = document.createElement('li');
             const btn = document.createElement('button');
+            const displayName = SIDEBAR_COLLECTION_LABELS[collectionName] || collectionName;
             const isActive = currentFilter === collectionName;
             btn.className = isActive
                 ? 'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white font-bold'
                 : 'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white/45 hover:text-white';
             btn.dataset.collection = collectionName;
-            btn.textContent = collectionName;
+            btn.textContent = displayName;
             btn.onclick = () => {
                 onLoadCollection(collectionName);
                 onAfterSelect();

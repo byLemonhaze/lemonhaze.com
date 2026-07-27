@@ -24,13 +24,13 @@ function createStatCard(
     const card = createNode('div', `min-w-0 flex flex-col ${wrapperClassName}`.trim());
     const labelNode = createNode(
         'div',
-        'text-[7px] md:text-[9px] uppercase tracking-[0.18em] md:tracking-[0.3em] text-white/25 mb-0.5 leading-none',
+        'text-[7px] md:text-[9px] uppercase tracking-[0.18em] md:tracking-[0.3em] text-white/25 mb-0.5 leading-none whitespace-nowrap',
         label
     );
     const rendered = typeof value === 'number' ? value.toLocaleString() : String(value);
     const valueNode = createNode(
         'div',
-        `${valueSizeClass} leading-[0.92] font-bold font-mono ${valueClassName}`.trim(),
+        `${valueSizeClass} leading-[0.92] font-bold font-mono tabular-nums whitespace-nowrap ${valueClassName}`.trim(),
         rendered
     );
     card.appendChild(labelNode);
@@ -38,7 +38,7 @@ function createStatCard(
     if (secondaryText != null) {
         const tiny = createNode(
             'div',
-            'mt-0.5 text-[9px] md:text-[11px] text-white/45 font-mono leading-none',
+            'mt-0.5 overflow-hidden text-ellipsis text-[9px] md:text-[10px] text-white/45 font-mono leading-none whitespace-nowrap',
             String(secondaryText)
         );
         card.appendChild(tiny);
@@ -221,24 +221,97 @@ function createEthSupplyCard(row) {
     return card;
 }
 
+function createOrdinalsSupplyListSection({
+    title,
+    rows,
+    toCollectionSlug,
+    slugifyCollectionName,
+    marketLinks,
+    linkOverrides,
+    resolveCollectionHref,
+}) {
+    const section = createNode('section');
+    const heading = createNode(
+        'h3',
+        'text-xs font-bold uppercase tracking-widest text-white/30 mb-3 md:mb-4 flex items-center gap-2'
+    );
+    heading.appendChild(createNode('span', 'w-4 h-[1px] bg-white/10'));
+    heading.appendChild(document.createTextNode(title));
+    section.appendChild(heading);
+
+    const mobileList = createNode('div', 'sm:hidden space-y-2');
+    rows.forEach((row) => {
+        mobileList.appendChild(createSupplyCard({
+            row,
+            toCollectionSlug,
+            slugifyCollectionName,
+            marketLinks,
+            linkOverrides,
+            resolveCollectionHref,
+        }));
+    });
+    section.appendChild(mobileList);
+
+    const tableWrap = createNode('div', 'hidden sm:block overflow-x-auto');
+    const table = createNode('table', 'w-full text-left');
+    const thead = createNode('thead');
+    thead.appendChild(createTableHeader([
+        { label: 'Collection', className: 'pb-2 font-medium' },
+        { label: 'Year', className: 'pb-2 px-2 font-medium' },
+        { label: 'Inscribed', className: 'pb-2 px-2 font-medium text-right hidden sm:table-cell' },
+        { label: 'Circ.', className: 'pb-2 px-2 font-medium text-right' },
+        { label: 'Burn', className: 'pb-2 px-2 font-medium text-right hidden sm:table-cell' },
+        { label: 'Links', className: 'pb-2 pl-4 font-medium text-right' },
+    ]));
+    table.appendChild(thead);
+
+    const tbody = createNode('tbody');
+    rows.forEach((row) => {
+        tbody.appendChild(createSupplyRow({
+            row,
+            toCollectionSlug,
+            slugifyCollectionName,
+            marketLinks,
+            linkOverrides,
+            resolveCollectionHref,
+        }));
+    });
+    table.appendChild(tbody);
+    tableWrap.appendChild(table);
+    section.appendChild(tableWrap);
+
+    return section;
+}
+
 export function createSupplySectionNode({
     ordinalsSupplyData,
+    extraOrdinalsSupplyData = [],
     ethSupplyData = [],
     marketLinks,
     linkOverrides,
     physicalWorksItems = [],
     physicalSectionTitle = 'Physical & Other',
-    ordinalsSectionTitle = 'Digital Ordinals',
+    ordinalsSectionTitle = 'Bitcoin Ordinals Collection',
+    extraOrdinalsSectionTitle = 'Additional Ordinals',
     ethSectionTitle = 'Ethereum Works',
     resolveCollectionHref = defaultResolveCollectionHref,
     toCollectionSlug,
     slugifyCollectionName,
 }) {
+    const orderBySupply = (left, right) => (
+        right.inscribed - left.inscribed
+        || right.circulating - left.circulating
+        || left.name.localeCompare(right.name)
+    );
+    const ordnetRows = [...ordinalsSupplyData].sort(orderBySupply);
+    const extraRows = [...extraOrdinalsSupplyData].sort(orderBySupply);
+    const allOrdinalRows = [...ordnetRows, ...extraRows];
+
     let ordInscribed = 0;
     let ordCirc = 0;
     let ordBurned = 0;
 
-    ordinalsSupplyData.forEach((row) => {
+    allOrdinalRows.forEach((row) => {
         ordInscribed += row.inscribed;
         ordCirc += row.circulating;
         ordBurned += row.inscribed - row.circulating;
@@ -248,7 +321,9 @@ export function createSupplySectionNode({
 
     const statsStrip = createNode('div', 'mb-3 md:mb-8 md:border-b md:border-white/8 pb-2 md:pb-6');
 
-    const mobileWrap = createNode('div', 'md:hidden');
+    // Below extra-large widths, deliberately use a 3 + 2 layout. It prevents
+    // financial values from wrapping while keeping the same hierarchy on phones.
+    const mobileWrap = createNode('div', 'xl:hidden');
     const mobileTopRow = createNode(
         'div',
         'grid grid-cols-3 border border-white/10 divide-x divide-white/10 bg-white/[0.01]'
@@ -268,32 +343,47 @@ export function createSupplySectionNode({
         'grid grid-cols-2 border-x border-b border-white/10 divide-x divide-white/10 bg-white/[0.01]'
     );
     const mobilePrimaryCard = createStatCard(
-        'Primary Sales',
+        'Primary',
         '— BTC',
         'text-white/90',
-        '—',
+        'Loading ledger…',
         'text-[0.98rem]',
-        'px-1.5 py-1.5 text-center'
+        'px-2 py-2 text-center'
     );
     const mobileSecondaryCard = createStatCard(
         'Secondary Volume',
         '— BTC',
         'text-white/90',
-        '—',
+        'Loading ledger…',
         'text-[0.98rem]',
-        'px-1.5 py-1.5 text-center'
+        'px-2 py-2 text-center'
     );
     mobileBottomRow.appendChild(mobilePrimaryCard);
     mobileBottomRow.appendChild(mobileSecondaryCard);
     mobileWrap.appendChild(mobileTopRow);
     mobileWrap.appendChild(mobileBottomRow);
 
-    const desktopGrid = createNode('div', 'hidden md:grid md:grid-cols-5 md:gap-6');
+    const desktopGrid = createNode(
+        'div',
+        'hidden xl:grid xl:grid-cols-[minmax(0,.92fr)_minmax(0,.92fr)_minmax(0,.72fr)_minmax(11rem,1.15fr)_minmax(13rem,1.45fr)] xl:gap-5'
+    );
     desktopGrid.appendChild(createStatCard('Inscribed', ordInscribed, '', null, 'text-3xl'));
     desktopGrid.appendChild(createStatCard('Circulating', ordCirc, 'text-white/90', null, 'text-3xl'));
     desktopGrid.appendChild(createStatCard('Burned', ordBurned, 'text-white/30', null, 'text-3xl'));
-    const desktopPrimaryCard = createStatCard('Primary Sales', '— BTC', 'text-white/90', '—', 'text-xl');
-    const desktopSecondaryCard = createStatCard('Secondary Volume', '— BTC', 'text-white/90', '—', 'text-xl');
+    const desktopPrimaryCard = createStatCard(
+        'Primary',
+        '— BTC',
+        'text-white/90',
+        'Loading ledger…',
+        'text-[1.35rem]'
+    );
+    const desktopSecondaryCard = createStatCard(
+        'Secondary Volume',
+        '— BTC',
+        'text-white/90',
+        'Loading ledger…',
+        'text-[1.35rem]'
+    );
     desktopGrid.appendChild(desktopPrimaryCard);
     desktopGrid.appendChild(desktopSecondaryCard);
 
@@ -301,57 +391,27 @@ export function createSupplySectionNode({
     statsStrip.appendChild(desktopGrid);
     root.appendChild(statsStrip);
 
-    const ordinalsSection = createNode('section');
-    const ordinalsTitle = createNode(
-        'h3',
-        'text-xs font-bold uppercase tracking-widest text-white/30 mb-3 md:mb-4 flex items-center gap-2'
-    );
-    ordinalsTitle.appendChild(createNode('span', 'w-4 h-[1px] bg-white/10'));
-    ordinalsTitle.appendChild(document.createTextNode(ordinalsSectionTitle));
-    ordinalsSection.appendChild(ordinalsTitle);
+    root.appendChild(createOrdinalsSupplyListSection({
+        title: ordinalsSectionTitle,
+        rows: ordnetRows,
+        toCollectionSlug,
+        slugifyCollectionName,
+        marketLinks,
+        linkOverrides,
+        resolveCollectionHref,
+    }));
 
-    const mobileSupplyList = createNode('div', 'sm:hidden space-y-2');
-    ordinalsSupplyData.forEach((row) => {
-        mobileSupplyList.appendChild(createSupplyCard({
-            row,
+    if (extraRows.length) {
+        root.appendChild(createOrdinalsSupplyListSection({
+            title: extraOrdinalsSectionTitle,
+            rows: extraRows,
             toCollectionSlug,
             slugifyCollectionName,
             marketLinks,
             linkOverrides,
             resolveCollectionHref,
         }));
-    });
-    ordinalsSection.appendChild(mobileSupplyList);
-
-    const tableWrap = createNode('div', 'hidden sm:block overflow-x-auto');
-    const table = createNode('table', 'w-full text-left');
-    const thead = createNode('thead');
-    thead.appendChild(createTableHeader([
-        { label: 'Collection', className: 'pb-2 font-medium' },
-        { label: 'Year', className: 'pb-2 px-2 font-medium' },
-        { label: 'Inscribed', className: 'pb-2 px-2 font-medium text-right hidden sm:table-cell' },
-        { label: 'Circ.', className: 'pb-2 px-2 font-medium text-right' },
-        { label: 'Burn', className: 'pb-2 px-2 font-medium text-right hidden sm:table-cell' },
-        { label: 'Links', className: 'pb-2 pl-4 font-medium text-right' },
-    ]));
-    table.appendChild(thead);
-
-    const tbody = createNode('tbody');
-    ordinalsSupplyData.forEach((row) => {
-        tbody.appendChild(createSupplyRow({
-            row,
-            toCollectionSlug,
-            slugifyCollectionName,
-            marketLinks,
-            linkOverrides,
-            resolveCollectionHref,
-        }));
-    });
-    table.appendChild(tbody);
-    tableWrap.appendChild(table);
-    ordinalsSection.appendChild(tableWrap);
-
-    root.appendChild(ordinalsSection);
+    }
 
     if (ethSupplyData.length) {
         const ethSection = createNode('section');

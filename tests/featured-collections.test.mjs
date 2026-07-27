@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-import { CHRONOLOGY_BY_YEAR } from '../src/data.js';
+import { CHRONOLOGY_BY_YEAR, COLLECTION_DETAILS } from '../src/data.js';
 import { fetchFeaturedCollections } from '../src/data/featured-collections.js';
 
 const originalFetch = globalThis.fetch;
@@ -24,13 +24,14 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const items = await fetchFeaturedCollections();
     const byCollection = Map.groupBy(items, (item) => item.collection);
 
-    assert.equal(items.length, 218);
-    assert.equal(new Set(items.map((item) => item.id)).size, 218);
+    assert.equal(items.length, 219);
+    assert.equal(new Set(items.map((item) => item.id)).size, 219);
     assert.equal(byCollection.get('Satoshi (Original & Editions)').length, 111);
     assert.equal(byCollection.get('Deprivation (Prints)').length, 33);
     assert.equal(byCollection.get('Mirage (Prints)').length, 33);
     assert.equal(byCollection.get('Trilogy (Prints)').length, 33);
     assert.equal(byCollection.get('Liminality').length, 7);
+    assert.equal(byCollection.get('Eclosion 1/1 - Amsterdam Blooms').length, 1);
 
     const satoshi = byCollection.get('Satoshi (Original & Editions)');
     assert.equal(satoshi[0].name, 'Satoshi (Original)');
@@ -104,6 +105,14 @@ test('featured collection manifests load complete, ordered galleries', async () 
         item.provenance === 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0'
     )));
 
+    const eclosion = byCollection.get('Eclosion 1/1 - Amsterdam Blooms')[0];
+    assert.equal(eclosion.name, 'Eclosion 1/1');
+    assert.equal(eclosion.year, 2023);
+    assert.equal(eclosion.artwork_type, 'HTML');
+    assert.equal(eclosion.content_type, 'text/html;charset=utf-8');
+    assert.equal(eclosion.inscription_number, 35257919);
+    assert.equal(eclosion.grid_preview, '/images/eclosion/eclosion-1-by-lemonhaze.jpg');
+
     const terminal36 = liminality.at(-1);
     assert.equal(terminal36.name, 'Terminal 36');
     assert.equal(terminal36.about, 'Departure delayed. Arrival unknown.');
@@ -120,6 +129,8 @@ test('featured collections sit in the intended reverse chronology', () => {
     assert.ok(year2026.indexOf('Liminality') < year2026.indexOf('Into The Wild'));
 
     const year2023 = CHRONOLOGY_BY_YEAR['2023'];
+    assert.ok(year2023.indexOf('Candidly Yours') < year2023.indexOf('Eclosion 1/1 - Amsterdam Blooms'));
+    assert.ok(year2023.indexOf('Eclosion 1/1 - Amsterdam Blooms') < year2023.indexOf('Untitled'));
     assert.ok(year2023.indexOf('Oaxaca') < year2023.indexOf('Satoshi (Original & Editions)'));
     assert.ok(year2023.indexOf('Satoshi (Original & Editions)') < year2023.indexOf('Old-Fashioned'));
     assert.ok(year2023.indexOf('Old-Fashioned') < year2023.indexOf('Deprivation (Prints)'));
@@ -133,4 +144,20 @@ test('featured collections sit in the intended reverse chronology', () => {
     const year2025 = CHRONOLOGY_BY_YEAR['2025'];
     assert.ok(year2025.indexOf('BEST BEFORE') < year2025.indexOf('Trilogy (Prints)'));
     assert.ok(year2025.indexOf('Trilogy (Prints)') < year2025.indexOf('Ma ville en quatre temps'));
+});
+
+test('collection details expose tools and documented print launch prices', () => {
+    assert.equal(COLLECTION_DETAILS.Gentlemen.medium, undefined);
+    assert.match(COLLECTION_DETAILS.Gentlemen.tools, /AI/);
+    assert.equal(COLLECTION_DETAILS.Manufactured.tools, 'p5.js');
+    assert.equal(COLLECTION_DETAILS['Satoshi (Original & Editions)'].tools, 'AI · Krita · collage');
+
+    assert.equal(COLLECTION_DETAILS['Deprivation (Prints)'].primaryPriceBTC, 0.00069);
+    assert.equal(COLLECTION_DETAILS['Mirage (Prints)'].primaryPriceBTC, 0.00169);
+    assert.equal(COLLECTION_DETAILS['Trilogy (Prints)'].primaryPriceBTC, 0.00169);
+    assert.equal(COLLECTION_DETAILS['Eclosion 1/1 - Amsterdam Blooms'].tools, 'Krita · AI · p5.js');
+    assert.equal(COLLECTION_DETAILS['Eclosion 1/1 - Amsterdam Blooms'].primaryPriceBTC, 0.08);
+    assert.equal(COLLECTION_DETAILS['Deprivation (Prints)'].primarySaleInHistory, true);
+    assert.equal(COLLECTION_DETAILS['Mirage (Prints)'].primarySaleInHistory, true);
+    assert.equal(COLLECTION_DETAILS['Trilogy (Prints)'].primarySaleInHistory, true);
 });

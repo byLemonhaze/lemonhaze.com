@@ -6,7 +6,9 @@ import {
     ABOUT_LEMONHAZE_TEXT,
     CAREER_HIGHLIGHTS_ITEMS,
     COL_DESCRIPTIONS,
+    COLLECTION_DETAILS,
     ORDINALS_SUPPLY_DATA,
+    EXTRA_ORDINALS_SUPPLY_DATA,
     ETH_SUPPLY_DATA,
     PHYSICAL_WORKS_ITEMS,
     MARKET_LINKS,
@@ -114,6 +116,7 @@ const INTERNAL_SECTIONS = createInternalSections({
     aboutText: ABOUT_LEMONHAZE_TEXT,
     careerHighlightsItems: CAREER_HIGHLIGHTS_ITEMS,
     ordinalsSupplyData: ORDINALS_SUPPLY_DATA,
+    extraOrdinalsSupplyData: EXTRA_ORDINALS_SUPPLY_DATA,
     ethSupplyData: ETH_SUPPLY_DATA,
     marketLinks: MARKET_LINKS,
     linkOverrides: LINK_OVERRIDES,
@@ -323,6 +326,7 @@ function updateHeader(title) {
         appState,
         allArtworks: appState.artworks,
         collectionDescriptions: COL_DESCRIPTIONS,
+        collectionDetails: COLLECTION_DETAILS,
         chronologyByYear: CHRONOLOGY_BY_YEAR,
         onRefreshCollection: (collectionName) => loadCollection(collectionName),
     });
@@ -375,6 +379,7 @@ const artworkModalController = createArtworkModalController({
     getArtworkImageSrc,
     getAllArtworks: () => appState.artworks,
     getMetaOwner: el.metaOwner,
+    collectionDetails: COLLECTION_DETAILS,
     closeAboutModal: (options) => closeAboutModal(options),
     onOpenArtworkById: (id) => openArtworkById(id),
 });

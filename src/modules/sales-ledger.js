@@ -16,8 +16,23 @@ let btcSpotPromise = null;
 let btcSpotValue = null;
 let btcSpotFetchedAt = 0;
 
+const COLLECTION_SLUG_ALIASES = {
+  cypherville: 'cypherville-by-lemonhaze',
+  'portrait-2490': 'portrait-2490-by-lemonhaze',
+  'deprivation-by-lemonhaze': 'deprivation-prints-by-lemonhaze',
+  'mirage-by-lemonhaze': 'mirage-prints-by-lemonhaze',
+  'prints-trilogy-by-lemonhaze': 'trilogy-prints-by-lemonhaze',
+  'miscelleneous-by-lemonhaze': 'miscellaneous-by-lemonhaze',
+  framed: 'framed-by-lemonhaze',
+};
+
 function normalizeInscriptionId(value) {
   return String(value || '').trim().toLowerCase();
+}
+
+function canonicalCollectionSlug(value) {
+  const slug = clean(value).toLowerCase() || 'unknown';
+  return COLLECTION_SLUG_ALIASES[slug] || slug;
 }
 
 function clean(value) {
@@ -80,14 +95,17 @@ export function formatBtc(value) {
 export function formatBtcCompact(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return '—';
-  return n.toFixed(2);
+  return n.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 4,
+  });
 }
 
 export function formatUsdToday(btcValue, btcUsdSpot) {
   const btc = Number(btcValue);
   const spot = Number(btcUsdSpot);
   if (!Number.isFinite(btc) || !Number.isFinite(spot) || spot <= 0) return '—';
-  return `${usdFormatter.format(btc * spot)} today`;
+  return usdFormatter.format(btc * spot);
 }
 
 function compareEventsNewestFirst(a, b) {
@@ -133,7 +151,7 @@ async function loadHistoricalSalesSheet() {
   return historicalSalesPromise;
 }
 
-function buildSalesIndexFromRows(rows) {
+function buildSalesIndexFromRows(rows, marketplaceCoverage = []) {
   const inscriptions = {};
   const safeRows = Array.isArray(rows) ? rows : [];
 
@@ -153,7 +171,11 @@ function buildSalesIndexFromRows(rows) {
     events.sort(compareEventsNewestFirst);
   }
 
-  return { inscriptions };
+  return {
+    inscriptions,
+    summaryRows: safeRows,
+    marketplaceCoverage: Array.isArray(marketplaceCoverage) ? marketplaceCoverage : [],
+  };
 }
 
 async function loadSalesIndex() {
@@ -162,7 +184,10 @@ async function loadSalesIndex() {
 
   salesIndexPromise = (async () => {
     const historicalSheet = await loadHistoricalSalesSheet();
-    salesIndexCache = buildSalesIndexFromRows(historicalSheet?.rows);
+    salesIndexCache = buildSalesIndexFromRows(
+      historicalSheet?.rows,
+      historicalSheet?.marketplaceCoverage,
+    );
     return salesIndexCache;
   })().finally(() => {
     salesIndexPromise = null;
@@ -179,67 +204,102 @@ export function computeSalesSummary(indexPayload) {
   const inscriptions = indexPayload?.inscriptions && typeof indexPayload.inscriptions === 'object'
     ? indexPayload.inscriptions
     : {};
+  const rows = Array.isArray(indexPayload?.summaryRows)
+    ? indexPayload.summaryRows
+    : Object.values(inscriptions).flatMap((events) => (
+      Array.isArray(events) ? events : []
+    ));
 
   let primaryBtc = 0;
   let secondaryBtc = 0;
+  let primarySales = 0;
+  let secondarySales = 0;
+  let excludedAggregateRows = 0;
+  let unclassifiedSales = 0;
   const byCollection = new Map();
 
-  for (const eventsRaw of Object.values(inscriptions)) {
-    const events = Array.isArray(eventsRaw)
-      ? eventsRaw.filter((event) => Number.isFinite(Number(event?.priceBTC)))
-      : [];
-    if (!events.length) continue;
+  for (const event of rows) {
+    const price = Number(event?.priceBTC);
+    if (!Number.isFinite(price)) continue;
 
-    const explicitPrimaryIndices = new Set(
-      events
-        .map((event, index) => ({ event, index }))
-        .filter(({ event }) => clean(event?.saleType).toLowerCase() === 'primary')
-        .map(({ index }) => index),
-    );
-    const explicitClassifiedCount = events.filter((event) => {
-      const kind = clean(event?.saleType).toLowerCase();
-      return kind === 'primary' || kind === 'secondary';
-    }).length;
-
-    let oldestIdx = -1;
-    if (!explicitPrimaryIndices.size && !explicitClassifiedCount) {
-      let oldestTs = Number.POSITIVE_INFINITY;
-      for (let i = 0; i < events.length; i += 1) {
-        const ts = parseSalesTimestampMs(events[i]?.timestamp);
-        const rank = Number.isFinite(ts) ? ts : Number.POSITIVE_INFINITY;
-        if (rank < oldestTs) {
-          oldestTs = rank;
-          oldestIdx = i;
-        }
-      }
-      if (oldestIdx < 0) oldestIdx = events.length - 1;
+    const saleType = clean(event?.saleType).toLowerCase();
+    if (saleType !== 'primary' && saleType !== 'secondary') {
+      unclassifiedSales += 1;
+      continue;
     }
 
-    for (let i = 0; i < events.length; i += 1) {
-      const event = events[i];
-      const price = Number(event.priceBTC);
-      const isPrimary = explicitPrimaryIndices.size
-        ? explicitPrimaryIndices.has(i)
-        : (!explicitClassifiedCount && i === oldestIdx);
-
-      if (isPrimary) primaryBtc += price;
-      else secondaryBtc += price;
-
-      const slug = clean(event.collectionSlug) || 'unknown';
-      const current = byCollection.get(slug) || {
-        slug,
-        sales: 0,
-        primaryBtc: 0,
-        secondaryBtc: 0,
-        totalBtc: 0,
-      };
-      current.sales += 1;
-      if (isPrimary) current.primaryBtc += price;
-      else current.secondaryBtc += price;
-      current.totalBtc += price;
-      byCollection.set(slug, current);
+    const entryType = clean(event?.entryType).toLowerCase();
+    const source = clean(event?.source).toLowerCase();
+    const isPrimaryAdjustment = saleType === 'primary' && entryType === 'primary-adjustment';
+    const isSecondaryAggregate = saleType === 'secondary'
+      && entryType === 'bundle-sale'
+      && (
+        Number.isFinite(Number(event?.aggregateSalesCount))
+        || source.includes('aggregate')
+      );
+    if (isSecondaryAggregate) {
+      excludedAggregateRows += 1;
+      continue;
     }
+
+    const isPrimary = saleType === 'primary';
+    if (isPrimary) {
+      primaryBtc += price;
+      if (!isPrimaryAdjustment) primarySales += 1;
+    } else {
+      secondaryBtc += price;
+      secondarySales += 1;
+    }
+
+    const slug = canonicalCollectionSlug(event.collectionSlug);
+    const current = byCollection.get(slug) || {
+      slug,
+      sales: 0,
+      primarySales: 0,
+      secondarySales: 0,
+      primaryBtc: 0,
+      secondaryBtc: 0,
+      totalBtc: 0,
+    };
+    if (!isPrimaryAdjustment) current.sales += 1;
+    if (isPrimary) {
+      if (!isPrimaryAdjustment) current.primarySales += 1;
+      current.primaryBtc += price;
+    } else {
+      current.secondarySales += 1;
+      current.secondaryBtc += price;
+    }
+    current.totalBtc += price;
+    byCollection.set(slug, current);
   }
+
+  const marketplaceCoverage = Array.isArray(indexPayload?.marketplaceCoverage)
+    ? indexPayload.marketplaceCoverage
+    : [];
+  for (const coverage of marketplaceCoverage) {
+    const volumeBTC = Number(coverage?.volumeBTC);
+    if (!Number.isFinite(volumeBTC) || volumeBTC < 0) continue;
+
+    const slug = canonicalCollectionSlug(coverage?.collectionSlug);
+    const current = byCollection.get(slug) || {
+      slug,
+      sales: 0,
+      primarySales: 0,
+      secondarySales: 0,
+      primaryBtc: 0,
+      secondaryBtc: 0,
+      totalBtc: 0,
+    };
+    const secondaryFloor = Math.max(0, volumeBTC - current.primaryBtc);
+    current.secondaryBtc = Math.max(current.secondaryBtc, secondaryFloor);
+    current.totalBtc = current.primaryBtc + current.secondaryBtc;
+    byCollection.set(slug, current);
+  }
+
+  secondaryBtc = [...byCollection.values()].reduce(
+    (sum, collection) => sum + collection.secondaryBtc,
+    0,
+  );
 
   const collections = [...byCollection.values()]
     .map((entry) => ({
@@ -254,6 +314,11 @@ export function computeSalesSummary(indexPayload) {
     primaryBtc: Number(primaryBtc.toFixed(8)),
     secondaryBtc: Number(secondaryBtc.toFixed(8)),
     totalBtc: Number((primaryBtc + secondaryBtc).toFixed(8)),
+    primarySales,
+    secondarySales,
+    includedSales: primarySales + secondarySales,
+    excludedAggregateRows,
+    unclassifiedSales,
     collections,
   };
 }
@@ -266,6 +331,17 @@ export async function getSalesForInscription(inscriptionId) {
   const rows = Array.isArray(payload?.rows) ? payload.rows : [];
   const events = rows.filter((row) => normalizeInscriptionId(row?.inscriptionId) === key);
   return [...events].sort(compareEventsNewestFirst);
+}
+
+export async function getSalesForCollection(collectionSlug) {
+  const slug = canonicalCollectionSlug(collectionSlug);
+  if (!slug) return [];
+
+  const payload = await loadHistoricalSalesSheet();
+  const rows = Array.isArray(payload?.rows) ? payload.rows : [];
+  return rows
+    .filter((row) => canonicalCollectionSlug(row?.collectionSlug) === slug)
+    .sort(compareEventsNewestFirst);
 }
 
 export async function getBtcUsdSpot() {

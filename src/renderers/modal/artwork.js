@@ -5,6 +5,7 @@ import {
 import {
     getBtcUsdSpot,
     parseSalesTimestampMs,
+    getSalesForCollection,
     getSalesForInscription,
 } from '../../modules/sales-ledger.js';
 import {
@@ -71,6 +72,9 @@ const PAINT_ENGINE_HELP = {
 const HIRO_API = 'https://api.hiro.so/ordinals/v1/inscriptions';
 const ORDINALS_INSCRIPTION_API = 'https://ordinals.com/r/inscription';
 const BB_LIVE_URL = 'https://bestbefore.space/best-before.json';
+const COLLECTION_RELEASE_MASTERS = {
+    'b40f54c56d0ad7993e59f279d6386c78864f8b8b6cb9a2abc45e5d829ff9de12i0': 'manufactured-by-lemonhaze',
+};
 
 let _bbLiveCache = null;
 let _bbLivePending = null;
@@ -123,6 +127,7 @@ const DIRECT_IFRAME_RENDER_COLLECTIONS = new Set([
     'Mirage (Prints)',
     'Trilogy (Prints)',
     'Liminality',
+    'Eclosion 1/1 - Amsterdam Blooms',
 ]);
 
 const DIRECT_IFRAME_RENDER_ARTWORK_IDS = new Set([
@@ -234,6 +239,7 @@ export function createArtworkModalController({
     getArtworkImageSrc,
     getAllArtworks,
     getMetaOwner,
+    collectionDetails = {},
     closeAboutModal,
     onOpenArtworkById,
 }) {
@@ -414,6 +420,11 @@ export function createArtworkModalController({
             modalMetadata.appendChild(makeMetaRow('Collection', makeMetaText(item.collection)));
         }
 
+        const details = collectionDetails[item.collection];
+        if (details?.tools) {
+            modalMetadata.appendChild(makeMetaRow('Tools', makeMetaText(details.tools)));
+        }
+
         if (item.role === 'parent') {
             modalMetadata.appendChild(makeMetaRow('Role', makeMetaText('Collection Parent')));
         }
@@ -563,7 +574,25 @@ export function createArtworkModalController({
             if (!salesEl) return;
             salesEl.innerHTML = '';
 
-            if (!Array.isArray(events) || !events.length) {
+            const salesEvents = Array.isArray(events) ? [...events] : [];
+            const documentedLaunchPrice = Number(details?.primaryPriceBTC);
+            const hasRecordedPrimary = salesEvents.some((event) => (
+                String(event?.saleType || '').trim().toLowerCase() === 'primary'
+            ));
+            if (details?.primarySaleInHistory
+                && Number.isFinite(documentedLaunchPrice)
+                && documentedLaunchPrice > 0
+                && !hasRecordedPrimary) {
+                salesEvents.push({
+                    dateLabel: 'Launch price',
+                    saleType: 'primary',
+                    priceBTC: documentedLaunchPrice,
+                    marketplace: 'gamma',
+                    priceBasis: 'gross',
+                });
+            }
+
+            if (!salesEvents.length) {
                 salesEl.appendChild(makeMetaText(
                     'No sales recorded.',
                     'text-[11px] font-mono text-white/35 leading-snug',
@@ -571,7 +600,7 @@ export function createArtworkModalController({
                 return;
             }
 
-            const orderedEvents = [...events].sort((a, b) => {
+            const orderedEvents = salesEvents.sort((a, b) => {
                 const ta = parseSalesTimestampMs(a?.timestamp);
                 const tb = parseSalesTimestampMs(b?.timestamp);
                 const aValid = Number.isFinite(ta);
@@ -624,9 +653,11 @@ export function createArtworkModalController({
                 const dateText = document.createElement('span');
                 dateText.className = 'break-words';
                 const explicitDateLabel = String(event?.dateLabel || '').trim();
-                dateText.textContent = isPrimary
-                    ? `${explicitDateLabel || fmtSaleDate(event?.timestamp)} - Primary`
-                    : (explicitDateLabel || fmtSaleDate(event?.timestamp));
+                const saleType = String(event?.saleType || '').trim().toLowerCase();
+                const saleKind = isPrimary || saleType === 'primary'
+                    ? 'Primary'
+                    : (saleType === 'secondary' ? 'Resale' : 'Sale');
+                dateText.textContent = `${explicitDateLabel || fmtSaleDate(event?.timestamp)} · ${saleKind}`;
                 dateLine.appendChild(dateText);
 
                 const priceLine = document.createElement('div');
@@ -687,10 +718,15 @@ export function createArtworkModalController({
                         priceLine.textContent = `${usdText} · BTC unavailable`;
                     }
                 } else {
-                    const btcText = `${fmtBtcValue(event?.priceBTC)} BTC`;
-                    if (Number.isFinite(Number(btcUsdSpot)) && Number.isFinite(Number(event?.priceBTC))) {
+                    const priceBTC = Number(event?.priceBTC);
+                    const usdAtSale = Number(event?.priceUSDAtSale);
+                    const btcText = `${fmtBtcValue(priceBTC)} BTC`;
+
+                    if (Number.isFinite(usdAtSale) && usdAtSale > 0) {
+                        priceLine.textContent = `${btcText} · ${usdNowFormatter.format(usdAtSale)} at sale`;
+                    } else if (Number.isFinite(Number(btcUsdSpot)) && Number.isFinite(priceBTC)) {
                         const usdNow = Number(event.priceBTC) * Number(btcUsdSpot);
-                        priceLine.textContent = `${btcText} · ${usdNowFormatter.format(usdNow)}`;
+                        priceLine.textContent = `${btcText} · ${usdNowFormatter.format(usdNow)} today`;
                     } else {
                         priceLine.textContent = `${btcText} · $—`;
                     }
@@ -702,12 +738,16 @@ export function createArtworkModalController({
             }
         };
 
+        const collectionReleaseSlug = COLLECTION_RELEASE_MASTERS[item.id];
         Promise.all([
             getSalesForInscription(item.id),
+            collectionReleaseSlug
+                ? getSalesForCollection(collectionReleaseSlug)
+                : Promise.resolve([]),
             getBtcUsdSpot(),
         ])
-            .then(([events, btcUsdSpot]) => {
-                applySalesData(events, btcUsdSpot);
+            .then(([events, collectionAggregateEvents, btcUsdSpot]) => {
+                applySalesData([...events, ...collectionAggregateEvents], btcUsdSpot);
             })
             .catch(() => applySalesData([], null));
 

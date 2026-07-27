@@ -8,6 +8,7 @@ export function createInternalSections({
     aboutText,
     careerHighlightsItems,
     ordinalsSupplyData,
+    extraOrdinalsSupplyData,
     ethSupplyData,
     marketLinks,
     linkOverrides,
@@ -33,6 +34,7 @@ export function createInternalSections({
             title: 'Supply & Marketplace',
             content: () => createSupplySectionNode({
                 ordinalsSupplyData,
+                extraOrdinalsSupplyData,
                 ethSupplyData,
                 marketLinks,
                 linkOverrides,
