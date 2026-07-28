@@ -36,7 +36,14 @@ export function updateHeaderView({
     document.title = `${title} | Lemonhaze`;
 
     const desc = collectionDescriptions[title] || 'ART BY LEMONHAZE';
-    const worksCount = allArtworks.filter((item) => item.collection === title).length;
+    const worksCount = allArtworks.filter((item) => (
+        item.collection === title ||
+        (
+            item.collection === 'Provenance' &&
+            item.role === 'parent' &&
+            item.series === title
+        )
+    )).length;
 
     let year = '2023–2026';
     for (const [y, list] of Object.entries(chronologyByYear)) {

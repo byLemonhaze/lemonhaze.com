@@ -46,6 +46,7 @@ export async function fetchBBCollection() {
 // EXACT CHRONOLOGY AS REQUESTED
 export const CHRONOLOGY_BY_YEAR = {
   "2026": [
+    "Griffintown",
     "Liminality",
     "Into The Wild",
     "1 of 1s (2026)"
@@ -139,6 +140,7 @@ export const CAREER_HIGHLIGHTS_ITEMS = [
 export const COL_DESCRIPTIONS = {
   "1/1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
   "1 of 1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+  "Griffintown": `Interactive Photo-Chromatic Bas-Relief`,
   "Liminality": `In anthropology, liminality (from Latin limen ‘threshold’) is the quality of ambiguity or disorientation that occurs in the middle stage of a rite of passage, when participants no longer hold their pre-ritual status but have not yet begun the transition to the status they will hold when the rite is complete. During a rite’s liminal stage, participants ‘stand at the threshold’ between their previous way of structuring their identity, time, or community, and a new way (which completing the rite establishes). Wikipedia contributors. “Liminality.” Wikipedia, The Free Encyclopedia. Last edited 8 July 2026, at 17:56 (UTC).`,
   "Into The Wild": `Mirage outputs and whatnot!`,
   "BEST BEFORE": `Art with a best-before date: born sealed at inscription, unsealed by its collector, and aging on block time. Many live short lives, some endure, and the rare outlier may never expire.`,
@@ -300,6 +302,7 @@ const ORDNET_COLLECTION_SUPPLY = [
   // Ord.net collection roster, refreshed 2026-07-27. Parent inscriptions are
   // applied below so each belongs to the collection it actually supports.
   { name: '1 of 1s (2026)', year: 2026, inscribed: 13, circulating: 13 },
+  { name: 'Griffintown', year: 2026, inscribed: 3, circulating: 3 },
   { name: 'Liminality', year: 2026, inscribed: 7, circulating: 7 },
   { name: 'Into The Wild', year: 2026, inscribed: 4, circulating: 4 },
   { name: 'BEST BEFORE', year: 2025, inscribed: 420, circulating: 420 },
@@ -367,6 +370,7 @@ const PARENT_SUPPLY_ADJUSTMENTS = {
   'Unregulated Minds': { burned: 1 },
   'Untitled': { burned: 1 },
   'BEST BEFORE': { burned: 1 },
+  'Griffintown': { burned: 1 },
   'Liminality': { burned: 1 },
   'Into The Wild': { burned: 1 },
 };
@@ -528,6 +532,7 @@ const ORDNET_LINKS = {
   'Jardin Secret': 'https://ord.net/collection/jardin-secret-by-lemonhaze',
   'Fading': 'https://ord.net/collection/fading-by-lemonhaze',
   'Dark Days': 'https://ord.net/collection/dark-days-by-lemonhaze',
+  'Griffintown': 'https://ord.net/collection/griffintown-by-lemonhaze',
   'Liminality': 'https://ord.net/collection/liminality-by-lemonhaze',
 };
 
@@ -603,6 +608,8 @@ const RAW_MARKET_LINKS = {
     gamma: 'https://gamma.io/ordinals/collections/1-1-2025-by-lemonhaze/items'
   },
   '1 of 1s (2026)': {
+  },
+  'Griffintown': {
   },
   'Liminality': {
   },

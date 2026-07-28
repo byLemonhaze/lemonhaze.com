@@ -126,11 +126,13 @@ const DIRECT_IFRAME_RENDER_COLLECTIONS = new Set([
     'Deprivation (Prints)',
     'Mirage (Prints)',
     'Trilogy (Prints)',
+    'Griffintown',
     'Liminality',
     'Eclosion 1/1 - Amsterdam Blooms',
 ]);
 
 const DIRECT_IFRAME_RENDER_ARTWORK_IDS = new Set([
+    '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0',
     'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0',
 ]);
 

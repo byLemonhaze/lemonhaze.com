@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { prependCollectionLeadArtworks } from '../src/app/collection-flow.js';
 
 const BB_PARENT_ID = 'bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0';
+const GRIFFINTOWN_PARENT_ID = '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0';
 const LIMINALITY_PARENT_ID = 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0';
 
 test('prependCollectionLeadArtworks prepends the configured BEST BEFORE parent', () => {
@@ -59,6 +60,26 @@ test('prependCollectionLeadArtworks prepends the Liminality provenance parent', 
     });
 
     assert.deepEqual(result.map((item) => item.id), [LIMINALITY_PARENT_ID, 'liminality-1', 'liminality-2']);
+});
+
+test('prependCollectionLeadArtworks prepends the Griffintown provenance parent', () => {
+    const parent = {
+        id: GRIFFINTOWN_PARENT_ID,
+        name: 'Griffintown',
+        collection: 'Provenance',
+    };
+    const works = [
+        { id: 'griffintown-1', name: 'Alfred Café', collection: 'Griffintown' },
+        { id: 'griffintown-2', name: 'Rue des Bassins', collection: 'Griffintown' },
+    ];
+
+    const result = prependCollectionLeadArtworks({
+        items: works,
+        collectionName: 'Griffintown',
+        allArtworks: [parent, ...works],
+    });
+
+    assert.deepEqual(result.map((item) => item.id), [GRIFFINTOWN_PARENT_ID, 'griffintown-1', 'griffintown-2']);
 });
 
 test('prependCollectionLeadArtworks leaves unrelated collections untouched', () => {

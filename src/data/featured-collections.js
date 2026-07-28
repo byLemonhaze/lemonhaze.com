@@ -41,6 +41,13 @@ const SOURCES = [
         resolveGridPreview: (name) => getCdnPng(resolveTrilogyOriginalId(name)),
     },
     {
+        url: '/data/collections/griffintown.json',
+        collection: 'Griffintown',
+        resolveLineage: (_name, item) => item?.role === 'parent'
+            ? '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0'
+            : '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0',
+    },
+    {
         url: '/data/collections/liminality.json',
         collection: 'Liminality',
         resolveLineage: (_name, item) => item?.role === 'parent'

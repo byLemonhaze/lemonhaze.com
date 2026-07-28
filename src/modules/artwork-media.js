@@ -21,6 +21,7 @@ const DIRECT_ONCHAIN_COLLECTIONS = new Set([
     'Deprivation (Prints)',
     'Mirage (Prints)',
     'Trilogy (Prints)',
+    'Griffintown',
     'Liminality',
     'Eclosion 1/1 - Amsterdam Blooms',
 ]);
@@ -33,10 +34,12 @@ const DIRECT_ONCHAIN_CONTENT_PREVIEW_COLLECTIONS = new Set([
     'Deprivation (Prints)',
     'Mirage (Prints)',
     'Trilogy (Prints)',
+    'Griffintown',
     'Liminality',
 ]);
 
 const DIRECT_ONCHAIN_CONTENT_PREVIEW_ARTWORK_IDS = new Set([
+    '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0', // Griffintown parent
     'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0', // Liminality parent
     '15ed0a345c10cb0b26fad820f364898f355924dbf0ce5527dd5d7237e0a25964i0', // Off-Kilter
     '58d21c5f1bbc25932fe1cc784ac47baf8b0ed9241ea989ad2a47b41839d132e7i0', // Glass Breaker
@@ -54,6 +57,11 @@ const CDN_MEDIA_EXTENSION_OVERRIDES = new Map([
 
 const CDN_MEDIA_FALLBACK_IMAGE_EXTENSIONS = new Map([
     ['6f4dee1d7fb56cb3f6655f343d3824e0694f1932d20e41b0abe982cae958ae21i0', 'png'],
+]);
+
+const LOCAL_GRID_PREVIEW_COLLECTIONS = new Map([
+    ['Generative Composition', 'generative-composition'],
+    ['Oaxaca', 'oaxaca'],
 ]);
 
 function normalize(value) {
@@ -121,6 +129,18 @@ export function getCdnFallbackImageSrc(item) {
     const fallbackExtension = CDN_MEDIA_FALLBACK_IMAGE_EXTENSIONS.get(id);
     if (!fallbackExtension) return null;
     return getCdnMediaSrc(item, fallbackExtension);
+}
+
+export function getLocalGridPreviewSrc(item) {
+    const id = String(item?.id || '').trim();
+    const collection = String(item?.collection || '').trim();
+    const collectionSlug = LOCAL_GRID_PREVIEW_COLLECTIONS.get(collection);
+    if (!id || !collectionSlug) return null;
+    return `/images/${collectionSlug}/${id}.jpg`;
+}
+
+export function shouldPixelateGridPreview(item) {
+    return normalize(item?.artwork_type) === 'png' && !getLocalGridPreviewSrc(item);
 }
 
 export function getPreferredFileExtension(item) {

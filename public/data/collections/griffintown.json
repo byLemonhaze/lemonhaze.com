@@ -1,0 +1,72 @@
+[
+  {
+    "id": "93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0",
+    "collection": "Provenance",
+    "role": "parent",
+    "meta": {
+      "name": "Griffintown",
+      "artist": "Lemonhaze",
+      "series": "Griffintown",
+      "year": 2026,
+      "about": "Interactive Photo-Chromatic Bas-Relief"
+    },
+    "timestamp": "2026-07-27 22:21:00 UTC",
+    "content_size": "318285 bytes",
+    "fee": "55416",
+    "sat": "1704028436992546",
+    "height": "959893",
+    "charms": "vindicated",
+    "inscription_number": 127002775
+  },
+  {
+    "id": "313e86271590527ad6ac0b1b850190f4fe891b9783a6855cf1374b1db29517cai0",
+    "meta": {
+      "name": "Alfred Café",
+      "artist": "Lemonhaze",
+      "series": "Griffintown",
+      "year": 2026,
+      "about": "Interactive Photo-Chromatic Bas-Relief"
+    },
+    "timestamp": "2026-07-27 22:53:29 UTC",
+    "content_size": "259148 bytes",
+    "fee": "45159",
+    "sat": "1704028437048292",
+    "height": "959896",
+    "charms": "vindicated",
+    "inscription_number": 127002915
+  },
+  {
+    "id": "9994154d4de8d87b818b7fd71f607fff5a54a10d85c3579068894b52dbcd8709i0",
+    "meta": {
+      "name": "Rue des Bassins",
+      "artist": "Lemonhaze",
+      "series": "Griffintown",
+      "year": 2026,
+      "about": "Interactive Photo-Chromatic Bas-Relief"
+    },
+    "timestamp": "2026-07-27 23:13:27 UTC",
+    "content_size": "247143 bytes",
+    "fee": "43075",
+    "sat": "1704028437093781",
+    "height": "959900",
+    "charms": "vindicated",
+    "inscription_number": 127003034
+  },
+  {
+    "id": "21a9f6f82a281c72f1f3375004477f8130f4ad6a52926e48c382f35820d5fc00i0",
+    "meta": {
+      "name": "Le Piano du Havre",
+      "artist": "Lemonhaze",
+      "series": "Griffintown",
+      "year": 2026,
+      "about": "Interactive Photo-Chromatic Bas-Relief"
+    },
+    "timestamp": "2026-07-27 23:26:07 UTC",
+    "content_size": "151055 bytes",
+    "fee": "26405",
+    "sat": "1704028437137186",
+    "height": "959901",
+    "charms": "vindicated",
+    "inscription_number": 127003095
+  }
+]

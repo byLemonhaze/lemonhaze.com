@@ -17,8 +17,8 @@ const GALLERY_ROWS = [
     ['1 of 1s (2025)', '/collection?name=1%20of%201s%20(2025)', '1on1-2025-by-lemonhaze'],
 ];
 
-test('Supply uses the complete 47-collection Ord.net roster without a Provenance collection', () => {
-    assert.equal(ORDINALS_SUPPLY_DATA.length, 47);
+test('Supply uses the complete 48-collection Ord.net roster without a Provenance collection', () => {
+    assert.equal(ORDINALS_SUPPLY_DATA.length, 48);
     assert.equal(ORDINALS_SUPPLY_DATA.some((row) => row.name === 'Provenance'), false);
 
     const rowsByName = new Map(ORDINALS_SUPPLY_DATA.map((row) => [row.name, row]));
@@ -34,6 +34,9 @@ test('Supply uses the complete 47-collection Ord.net roster without a Provenance
     assert.deepEqual(rowsByName.get('Liminality'), {
         name: 'Liminality', year: 2026, inscribed: 8, circulating: 7,
     });
+    assert.deepEqual(rowsByName.get('Griffintown'), {
+        name: 'Griffintown', year: 2026, inscribed: 4, circulating: 3,
+    });
     assert.deepEqual(rowsByName.get('Into The Wild'), {
         name: 'Into The Wild', year: 2026, inscribed: 5, circulating: 4,
     });
@@ -43,8 +46,8 @@ test('Supply uses the complete 47-collection Ord.net roster without a Provenance
             inscribed: sum.inscribed + row.inscribed,
             circulating: sum.circulating + row.circulating,
         }), { inscribed: 0, circulating: 0 });
-    assert.deepEqual(totals, { inscribed: 1626, circulating: 1300 });
-    assert.equal(totals.inscribed - totals.circulating, 326);
+    assert.deepEqual(totals, { inscribed: 1630, circulating: 1303 });
+    assert.equal(totals.inscribed - totals.circulating, 327);
 });
 
 test('keeps non-Ord.net works separate from the indexed collection roster', () => {
@@ -76,7 +79,7 @@ test('keeps the collection marketplace links aligned with their gallery routes',
     );
 });
 
-test('includes an Ord.net collection link for each of the 47 indexed collections', () => {
+test('includes an Ord.net collection link for each of the 48 indexed collections', () => {
     for (const row of ORDINALS_SUPPLY_DATA) {
         assert.match(
             MARKET_LINKS[row.name]?.ordnet || '',

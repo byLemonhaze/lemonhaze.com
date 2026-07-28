@@ -24,12 +24,13 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const items = await fetchFeaturedCollections();
     const byCollection = Map.groupBy(items, (item) => item.collection);
 
-    assert.equal(items.length, 219);
-    assert.equal(new Set(items.map((item) => item.id)).size, 219);
+    assert.equal(items.length, 223);
+    assert.equal(new Set(items.map((item) => item.id)).size, 223);
     assert.equal(byCollection.get('Satoshi (Original & Editions)').length, 111);
     assert.equal(byCollection.get('Deprivation (Prints)').length, 33);
     assert.equal(byCollection.get('Mirage (Prints)').length, 33);
     assert.equal(byCollection.get('Trilogy (Prints)').length, 33);
+    assert.equal(byCollection.get('Griffintown').length, 3);
     assert.equal(byCollection.get('Liminality').length, 7);
     assert.equal(byCollection.get('Eclosion 1/1 - Amsterdam Blooms').length, 1);
 
@@ -63,6 +64,38 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const liminalityParent = items.find((item) => (
         item.id === 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0'
     ));
+
+    const griffintownParent = items.find((item) => (
+        item.id === '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0'
+    ));
+    assert.equal(griffintownParent.name, 'Griffintown');
+    assert.equal(griffintownParent.collection, 'Provenance');
+    assert.equal(griffintownParent.role, 'parent');
+    assert.equal(griffintownParent.provenance, '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0');
+    assert.equal(griffintownParent.inscription_number, 127002775);
+    assert.equal(griffintownParent.content_size, '318285 bytes');
+
+    const griffintown = byCollection.get('Griffintown');
+    assert.deepEqual(
+        griffintown.map((item) => item.name),
+        ['Alfred Café', 'Rue des Bassins', 'Le Piano du Havre']
+    );
+    assert.deepEqual(
+        griffintown.map((item) => item.id),
+        [
+            '313e86271590527ad6ac0b1b850190f4fe891b9783a6855cf1374b1db29517cai0',
+            '9994154d4de8d87b818b7fd71f607fff5a54a10d85c3579068894b52dbcd8709i0',
+            '21a9f6f82a281c72f1f3375004477f8130f4ad6a52926e48c382f35820d5fc00i0',
+        ]
+    );
+    assert.ok(griffintown.every((item) => item.artwork_type === 'HTML'));
+    assert.ok(griffintown.every((item) => item.artist === 'Lemonhaze'));
+    assert.ok(griffintown.every((item) => item.series === 'Griffintown'));
+    assert.ok(griffintown.every((item) => item.year === 2026));
+    assert.ok(griffintown.every((item) => (
+        item.provenance === '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0'
+    )));
+
     assert.equal(liminalityParent.name, 'Liminality');
     assert.equal(liminalityParent.collection, 'Provenance');
     assert.equal(liminalityParent.role, 'parent');
@@ -125,7 +158,9 @@ test('featured collection manifests load complete, ordered galleries', async () 
 
 test('featured collections sit in the intended reverse chronology', () => {
     const year2026 = CHRONOLOGY_BY_YEAR['2026'];
-    assert.equal(year2026[0], 'Liminality');
+    assert.equal(year2026[0], 'Griffintown');
+    assert.equal(year2026[1], 'Liminality');
+    assert.ok(year2026.indexOf('Griffintown') < year2026.indexOf('Liminality'));
     assert.ok(year2026.indexOf('Liminality') < year2026.indexOf('Into The Wild'));
 
     const year2023 = CHRONOLOGY_BY_YEAR['2023'];

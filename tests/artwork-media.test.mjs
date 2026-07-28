@@ -4,6 +4,8 @@ import assert from 'node:assert/strict';
 import {
     getCdnMediaSrc,
     getDirectOnchainPreviewSrc,
+    getLocalGridPreviewSrc,
+    shouldPixelateGridPreview,
     shouldUseDirectOnchainPreview,
 } from '../src/modules/artwork-media.js';
 
@@ -111,6 +113,28 @@ test('Liminality uses static grid previews while keeping its HTML for the modal'
     assert.equal(getDirectOnchainPreviewSrc(parent), null);
 });
 
+test('Griffintown uses direct on-chain previews for the collection and parent artwork', () => {
+    const child = {
+        name: 'Alfred Café',
+        id: '313e86271590527ad6ac0b1b850190f4fe891b9783a6855cf1374b1db29517cai0',
+        collection: 'Griffintown',
+        artwork_type: 'HTML',
+        content_type: 'text/html;charset=utf-8',
+    };
+    const parent = {
+        name: 'Griffintown',
+        id: '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0',
+        collection: 'Provenance',
+        artwork_type: 'HTML',
+        content_type: 'text/html;charset=utf-8',
+    };
+
+    assert.equal(shouldUseDirectOnchainPreview(child), true);
+    assert.equal(getDirectOnchainPreviewSrc(child), `https://ordinals.com/content/${child.id}`);
+    assert.equal(shouldUseDirectOnchainPreview(parent), true);
+    assert.equal(getDirectOnchainPreviewSrc(parent), `https://ordinals.com/content/${parent.id}`);
+});
+
 test('Eclosion keeps its supplied grid image while its HTML remains on-chain', () => {
     const item = {
         name: 'Eclosion 1/1',
@@ -136,4 +160,34 @@ test('recursive Satoshi SVG editions use on-chain iframe previews', () => {
 
     assert.equal(shouldUseDirectOnchainPreview(item), true);
     assert.equal(getDirectOnchainPreviewSrc(item), `https://ordinals.com/content/${item.id}`);
+});
+
+test('large generative PNG collections use smooth local gallery previews', () => {
+    const examples = [
+        {
+            id: 'gc-id',
+            collection: 'Generative Composition',
+            artwork_type: 'PNG',
+            expected: '/images/generative-composition/gc-id.jpg',
+        },
+        {
+            id: 'oaxaca-id',
+            collection: 'Oaxaca',
+            artwork_type: 'PNG',
+            expected: '/images/oaxaca/oaxaca-id.jpg',
+        },
+    ];
+
+    for (const item of examples) {
+        assert.equal(getLocalGridPreviewSrc(item), item.expected);
+        assert.equal(shouldPixelateGridPreview(item), false);
+    }
+
+    const pixelArt = {
+        id: 'pixel-id',
+        collection: 'Another Collection',
+        artwork_type: 'PNG',
+    };
+    assert.equal(getLocalGridPreviewSrc(pixelArt), null);
+    assert.equal(shouldPixelateGridPreview(pixelArt), true);
 });
