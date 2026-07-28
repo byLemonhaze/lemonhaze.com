@@ -56,6 +56,23 @@ test('Liminality parent renders directly despite belonging to provenance', () =>
     assert.equal(shouldUseDirectModalIframe(item, true), true);
 });
 
+test('Griffintown HTML and its provenance parent render directly in the artwork modal', () => {
+    const child = {
+        collection: 'Griffintown',
+        artwork_type: 'HTML',
+        content_type: 'text/html;charset=utf-8',
+    };
+    const parent = {
+        id: '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0',
+        collection: 'Provenance',
+        artwork_type: 'HTML',
+        content_type: 'text/html;charset=utf-8',
+    };
+
+    assert.equal(shouldUseDirectModalIframe(child, true), true);
+    assert.equal(shouldUseDirectModalIframe(parent, true), true);
+});
+
 test('recursive Satoshi SVG editions render directly while the original stays an image', () => {
     const edition = {
         collection: 'Satoshi (Original & Editions)',

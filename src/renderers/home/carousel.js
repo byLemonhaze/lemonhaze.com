@@ -10,18 +10,6 @@ function buildCollectionYearMap(chronologyByYear) {
     return colToYear;
 }
 
-function createArrowButton(direction, onClick) {
-    const isRight = direction === 'right';
-    const button = document.createElement('button');
-    button.className = `home-carousel-arrow absolute ${isRight ? 'right-4 md:right-8' : 'left-4 md:left-8'} top-1/2 -translate-y-1/2 z-30 transition-colors duration-300 font-mono select-none`;
-    button.style.fontFamily = '"Fragment Mono", monospace';
-    button.style.fontSize = '10px';
-    button.style.letterSpacing = '0.1em';
-    button.textContent = isRight ? '[ → ]' : '[ ← ]';
-    button.addEventListener('click', onClick);
-    return button;
-}
-
 export function createHomeCarousel({
     appState,
     selection,
@@ -100,8 +88,7 @@ export function createHomeCarousel({
             return;
         }
         labelContainer.innerHTML = `
-            <div class="flex flex-col gap-1">
-                <p class="text-[9px] font-mono uppercase tracking-[0.3em] text-white/25 mb-1">${item.collection}</p>
+            <div>
                 <h4 class="text-sm md:text-base font-bold text-white tracking-widest opacity-90">${item.name || 'Untitled'}</h4>
             </div>
         `;
@@ -262,21 +249,6 @@ export function createHomeCarousel({
     window.addEventListener('mouseup', onTouchEnd);
     window.addEventListener('keydown', onKeyDown);
 
-    const leftArrow = createArrowButton('left', (event) => {
-        event.stopPropagation();
-        stopAutoPlay();
-        prev();
-        startAutoPlay();
-    });
-    const rightArrow = createArrowButton('right', (event) => {
-        event.stopPropagation();
-        stopAutoPlay();
-        next();
-        startAutoPlay();
-    });
-    carouselWrapper.appendChild(leftArrow);
-    carouselWrapper.appendChild(rightArrow);
-
     function mount(container) {
         container.appendChild(carouselWrapper);
         container.appendChild(labelContainer);
@@ -298,8 +270,6 @@ export function createHomeCarousel({
         window.removeEventListener('mouseup', onTouchEnd);
         window.removeEventListener('keydown', onKeyDown);
 
-        leftArrow.remove();
-        rightArrow.remove();
         carouselWrapper.remove();
         labelContainer.remove();
     }

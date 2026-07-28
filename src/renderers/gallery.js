@@ -2,9 +2,11 @@ import {
     getCdnFallbackImageSrc,
     getCdnMediaSrc,
     getDirectOnchainPreviewSrc,
+    getLocalGridPreviewSrc,
     getPreferredFileExtension,
     isHtmlArtwork,
     isVideoArtwork,
+    shouldPixelateGridPreview,
     shouldUseDirectOnchainPreview,
     shouldUseDirectOnchainMedia,
 } from '../modules/artwork-media.js';
@@ -21,6 +23,8 @@ const ENCRYPTED_ARTWORKS = new Set([
 export function getArtworkImageSrc(item) {
     if (item?._imgSrc) return item._imgSrc;
     if (item?.grid_preview) return item.grid_preview;
+    const localGridPreview = getLocalGridPreviewSrc(item);
+    if (localGridPreview) return localGridPreview;
     if (item?.id && ONCHAIN_IMAGE_OVERRIDES.has(item.id)) {
         return `https://ordinals.com/content/${item.id}`;
     }
@@ -66,7 +70,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
         const shouldUsePreview = shouldUseDirectOnchainPreview(item);
         const isVideo = isVideoArtwork(item);
         const fallbackImageSrc = getCdnFallbackImageSrc(item);
-        const mediaClass = `w-[85%] h-[85%] object-contain drop-shadow-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-300 ${item.artwork_type === 'PNG' ? 'pixelated' : ''}`;
+        const mediaClass = `w-[85%] h-[85%] object-contain drop-shadow-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-300 ${shouldPixelateGridPreview(item) ? 'pixelated' : ''}`;
 
         const mediaMarkup = isEncrypted
             ? `<div class="flex flex-col items-center justify-center gap-2">

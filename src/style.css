@@ -149,47 +149,15 @@
   background: radial-gradient(ellipse 44% 54% at 50% 48%, rgba(231, 225, 210, 0.04), transparent 70%);
 }
 
-.home-exhibition::after {
-  content: '';
-  position: absolute;
-  inset: auto 12% 7%;
-  height: 1px;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(231, 225, 210, 0.2), transparent);
-}
-
 .home-art-caption {
   width: min(760px, 88vw);
   padding: 0.8rem 0.95rem 0.2rem;
-  border-top: 1px solid rgba(231, 225, 210, 0.13);
   background: linear-gradient(90deg, rgba(231, 225, 210, 0.045), transparent 62%);
 }
 
 .home-art-caption h4 {
   color: var(--lh-ink);
   text-shadow: 0 1px 12px rgba(231, 225, 210, 0.11);
-}
-
-.home-carousel-arrow {
-  display: inline-flex;
-  width: 2.65rem;
-  height: 2.65rem;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 1px solid rgba(231, 225, 210, 0.14);
-  background: rgba(10, 10, 9, 0.64);
-  color: rgba(231, 225, 210, 0.45);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(8px);
-  white-space: nowrap;
-}
-
-.home-carousel-arrow:hover {
-  border-color: rgba(231, 225, 210, 0.42);
-  background: rgba(231, 225, 210, 0.08);
-  color: var(--lh-ink);
 }
 
 #about-overlay #about-content p {
@@ -290,11 +258,6 @@
     min-height: auto;
     margin-inline: auto;
     padding: 0.7rem 0.8rem 0.1rem;
-  }
-
-  .home-carousel-arrow {
-    width: 3.25rem;
-    height: 2.65rem;
   }
 
   #modal-overlay:not(.hidden) {

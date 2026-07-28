@@ -14,6 +14,10 @@ const FORBIDDEN_2023_COLLECTIONS = new Set([
     'Gentlemen',
 ]);
 
+const HOME_EXCLUDED_COLLECTIONS = new Set([
+    'Generative Composition',
+]);
+
 function shuffle(items) {
     const cloned = [...items];
     for (let i = cloned.length - 1; i > 0; i -= 1) {
@@ -42,19 +46,24 @@ export function buildHomeSelection({ artworks, chronologyByYear }) {
     };
 
     const add = (item) => {
-        if (!item || selectedIds.has(item.id)) return;
+        if (
+            !item
+            || selectedIds.has(item.id)
+            || HOME_EXCLUDED_COLLECTIONS.has(item.collection)
+        ) return;
         selection.push(item);
         selectedIds.add(item.id);
     };
 
     const addToPool = (pool, item) => {
-        if (!item) return;
+        if (!item || HOME_EXCLUDED_COLLECTIONS.has(item.collection)) return;
         pool.push(item);
     };
 
     const isValidArtwork = (item) => (
         item
         && !selectedIds.has(item.id)
+        && !HOME_EXCLUDED_COLLECTIONS.has(item.collection)
         && ['PNG', 'JPEG', 'WEBP'].includes(item.artwork_type)
     );
 

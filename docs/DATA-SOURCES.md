@@ -7,7 +7,7 @@
 | Provenance JSON (primary) | `https://cdn.lemonhaze.com/assets/assets/provenance.json` | Primary artwork metadata feed |
 | Provenance JSON (secondary) | `https://cdn.lemonhaze.com/assets/provenance.json` | Fallback artwork metadata feed |
 | Provenance JSON (local fallback) | `/data/provenance.json` | Local/offline fallback served from this repo |
-| Featured collection manifests | `/data/collections/*.json` | Ordered inscription rosters and curated metadata for Satoshi, Deprivation prints, Mirage prints, the prints trilogy, Liminality, and Eclosion |
+| Featured collection manifests | `/data/collections/*.json` | Ordered inscription rosters and curated metadata for Satoshi, Deprivation prints, Mirage prints, the prints trilogy, Griffintown, Liminality, and Eclosion |
 | BEST BEFORE collection feed | `https://bestbefore.space/magic_eden_collection.json` | Live BEST BEFORE roster and high-resolution image URLs |
 | BEST BEFORE live state | `https://bestbefore.space/best-before.json` | Status, phase, lifespan, and palette data per inscription |
 | Hiro inscriptions API | `https://api.hiro.so/ordinals/v1/inscriptions/<id>` | Inscription number, timestamp, sat rarity, owner fallback |
@@ -40,7 +40,7 @@
 
 These files are editorial source code, not mirrored external data.
 
-`src/data/featured-collections.js` normalizes the repo-managed collection manifests into the same artwork shape as provenance data. Their array order is intentional: it preserves official inscription-number order. Satoshi includes its WebP original followed by 110 recursive SVG editions; the three print manifests contain editions only. Liminality and Eclosion include curated metadata and local grid previews while their HTML remains live on-chain. Lineage links connect recursive editions back to their source inscription.
+`src/data/featured-collections.js` normalizes the repo-managed collection manifests into the same artwork shape as provenance data. Their array order is intentional: it preserves official inscription-number order. Satoshi includes its WebP original followed by 110 recursive SVG editions; the three print manifests contain editions only. Griffintown renders its interactive HTML directly from the chain; Liminality and Eclosion include curated metadata and local grid previews while their HTML remains live on-chain. Lineage links connect recursive editions back to their source inscription.
 
 ### Sales Working Data
 

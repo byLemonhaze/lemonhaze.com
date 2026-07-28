@@ -33,6 +33,7 @@ const COLLECTIONS = [
   ["L'Orphelinat", 'orphelinat-by-lemonhaze'],
   ['La Tentation', 'tentation-by-lemonhaze'],
   ['Le Bar à Tapas', 'bar-tapas-by-lemonhaze'],
+  ['Griffintown', 'griffintown-by-lemonhaze'],
   ['Liminality', 'liminality-by-lemonhaze'],
   ['Little Get Away', 'little-get-away-by-lemonhaze'],
   ['Lotus', 'lotus-by-lemonhaze'],
