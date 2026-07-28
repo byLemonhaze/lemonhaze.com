@@ -13,9 +13,26 @@ const GALLERY_ROWS = [
     ['Deprivation (Prints)', '/deprivation-prints', 'deprivation-prints-by-lemonhaze'],
     ['Mirage (Prints)', '/mirage-prints', 'mirage-prints-by-lemonhaze'],
     ['Trilogy (Prints)', '/trilogy-prints', 'trilogy-prints-by-lemonhaze'],
-    ['1 of 1s (2024)', '/collection?name=1%20of%201s%20(2024)', '1on1-by-lemonhaze'],
-    ['1 of 1s (2025)', '/collection?name=1%20of%201s%20(2025)', '1on1-2025-by-lemonhaze'],
+    ['1 of 1s (2024)', '/1-of-1s-2024', '1on1-by-lemonhaze'],
+    ['1 of 1s (2025)', '/1-of-1s-2025', '1on1-2025-by-lemonhaze'],
 ];
+
+const INTERNAL_COLLECTION_ROUTES = {
+    '1/1s (2024)': '/1-of-1s-2024',
+    '1 of 1s (2024)': '/1-of-1s-2024',
+    '1/1s (2025)': '/1-of-1s-2025',
+    '1 of 1s (2025)': '/1-of-1s-2025',
+    'L’Orphelinat': '/orphelinat',
+    "L'Orphelinat": '/orphelinat',
+    'Le Bar à Tapas': '/le-bar-a-tapas',
+    'Minute, papillon! Edition': '/1-of-1s-2025',
+    'Old Fashioned': '/old-fashioned',
+    'Old-Fashioned': '/old-fashioned',
+    Deville: '/deville',
+    DeVille: '/deville',
+    'Tad Small': '/tad-small',
+    'Dark Days': '/dark-days',
+};
 
 test('Supply uses the complete 48-collection Ord.net roster without a Provenance collection', () => {
     assert.equal(ORDINALS_SUPPLY_DATA.length, 48);
@@ -70,13 +87,23 @@ test('keeps the collection marketplace links aligned with their gallery routes',
     for (const [name, path, ordnetSlug] of GALLERY_ROWS) {
         assert.ok(MARKET_LINKS[name].gamma);
         assert.equal(MARKET_LINKS[name].ordnet, `https://ord.net/collection/${ordnetSlug}`);
-        assert.equal(LINK_OVERRIDES[name], `https://lemonhaze.com${path}`);
+        assert.equal(LINK_OVERRIDES[name], path);
     }
 
     assert.equal(
         LINK_OVERRIDES['Skull 506 [Remix] 1/1 - Skullx'],
         'https://gamma.io/ordinals/collections/skullx-the-artist-series/items',
     );
+});
+
+test('Supply collection links use current canonical routes instead of the legacy collection page', () => {
+    for (const [name, path] of Object.entries(INTERNAL_COLLECTION_ROUTES)) {
+        assert.equal(LINK_OVERRIDES[name], path);
+    }
+
+    for (const href of Object.values(LINK_OVERRIDES)) {
+        assert.doesNotMatch(href, /\/collection(?:\.html)?\?name=/);
+    }
 });
 
 test('includes an Ord.net collection link for each of the 48 indexed collections', () => {
