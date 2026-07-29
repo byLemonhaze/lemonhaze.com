@@ -72,6 +72,31 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.ok(minutePapillon.every((item) => (
         item.grid_preview === 'https://cdn.lemonhaze.com/assets/assets/611fad09e407fe63e70c54ee853e755f92cb4d69049eff21f31d3d414a2db74di0.png'
     )));
+    assert.ok(minutePapillon.every((item) => item.timestamp));
+    assert.ok(minutePapillon.every((item) => item.content_size));
+    assert.ok(minutePapillon.every((item) => item.fee));
+    assert.ok(minutePapillon.every((item) => item.sat));
+    assert.ok(minutePapillon.every((item) => item.height));
+    assert.ok(minutePapillon.every((item) => item.charms === 'palindrome, vindicated'));
+    assert.ok(minutePapillon.every((item) => Number.isInteger(item.inscription_number)));
+    assert.deepEqual(
+        {
+            timestamp: minutePapillon[0].timestamp,
+            content_size: minutePapillon[0].content_size,
+            fee: minutePapillon[0].fee,
+            sat: minutePapillon[0].sat,
+            height: minutePapillon[0].height,
+            inscription_number: minutePapillon[0].inscription_number,
+        },
+        {
+            timestamp: '2025-08-22 07:28:59 UTC',
+            content_size: '1592 bytes',
+            fee: '663',
+            sat: '9820245420289',
+            height: '911144',
+            inscription_number: 104461784,
+        }
+    );
 
     const liminalityParent = items.find((item) => (
         item.id === 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0'
