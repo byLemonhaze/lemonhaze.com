@@ -473,6 +473,16 @@ export function createArtworkModalController({
                     'text-[11px] font-mono text-white/45 leading-snug',
                 )));
             }
+            if (item.fee) {
+                const fee = Number(item.fee);
+                const feeText = Number.isFinite(fee)
+                    ? `${fee.toLocaleString()} sats`
+                    : String(item.fee);
+                modalMetadata.appendChild(makeMetaRow('Fee', makeMetaText(
+                    feeText,
+                    'text-[11px] font-mono text-white/45 leading-snug',
+                )));
+            }
             if (item.height) {
                 modalMetadata.appendChild(makeMetaRow('Block', makeMetaText(
                     Number(item.height).toLocaleString(),
