@@ -53,6 +53,7 @@ export const CHRONOLOGY_BY_YEAR = {
   ],
   "2025": [
     "BEST BEFORE",
+    "Minute, papillon! Edition",
     "Trilogy (Prints)",
     "Ma ville en quatre temps",
     "Tori no Roji",
@@ -780,7 +781,7 @@ export const LINK_OVERRIDES = {
   'L’Orphelinat': '/orphelinat',
   "L'Orphelinat": '/orphelinat',
   'Le Bar à Tapas': '/le-bar-a-tapas',
-  'Minute, papillon! Edition': '/1-of-1s-2025',
+  'Minute, papillon! Edition': '/minute-papillon-edition',
   'Old Fashioned': '/old-fashioned',
   'Old-Fashioned': '/old-fashioned',
   'Deville': '/deville',

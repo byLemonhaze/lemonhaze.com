@@ -126,6 +126,7 @@ const DIRECT_IFRAME_RENDER_COLLECTIONS = new Set([
     'Deprivation (Prints)',
     'Mirage (Prints)',
     'Trilogy (Prints)',
+    'Minute, papillon! Edition',
     'Griffintown',
     'Liminality',
     'Eclosion 1/1 - Amsterdam Blooms',

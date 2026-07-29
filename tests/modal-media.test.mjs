@@ -24,6 +24,17 @@ test('static print grid previews do not replace the live modal HTML', () => {
     assert.equal(shouldUseDirectModalIframe(item, true), true);
 });
 
+test('Minute, papillon! editions keep their static grid preview and live on-chain HTML', () => {
+    const item = {
+        collection: 'Minute, papillon! Edition',
+        artwork_type: 'HTML',
+        content_type: 'text/html;charset=utf-8',
+        grid_preview: 'https://cdn.lemonhaze.com/assets/assets/master.png',
+    };
+
+    assert.equal(shouldUseDirectModalIframe(item, true), true);
+});
+
 test('Liminality HTML renders directly in the artwork modal', () => {
     const item = {
         collection: 'Liminality',

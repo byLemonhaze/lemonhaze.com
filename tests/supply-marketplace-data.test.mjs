@@ -13,6 +13,7 @@ const GALLERY_ROWS = [
     ['Deprivation (Prints)', '/deprivation-prints', 'deprivation-prints-by-lemonhaze'],
     ['Mirage (Prints)', '/mirage-prints', 'mirage-prints-by-lemonhaze'],
     ['Trilogy (Prints)', '/trilogy-prints', 'trilogy-prints-by-lemonhaze'],
+    ['Minute, papillon! Edition', '/minute-papillon-edition', 'minute-papillon-editions-by-lemonhaze'],
     ['1 of 1s (2024)', '/1-of-1s-2024', '1on1-by-lemonhaze'],
     ['1 of 1s (2025)', '/1-of-1s-2025', '1on1-2025-by-lemonhaze'],
 ];
@@ -25,7 +26,7 @@ const INTERNAL_COLLECTION_ROUTES = {
     'L’Orphelinat': '/orphelinat',
     "L'Orphelinat": '/orphelinat',
     'Le Bar à Tapas': '/le-bar-a-tapas',
-    'Minute, papillon! Edition': '/1-of-1s-2025',
+    'Minute, papillon! Edition': '/minute-papillon-edition',
     'Old Fashioned': '/old-fashioned',
     'Old-Fashioned': '/old-fashioned',
     Deville: '/deville',

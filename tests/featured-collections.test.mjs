@@ -24,12 +24,13 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const items = await fetchFeaturedCollections();
     const byCollection = Map.groupBy(items, (item) => item.collection);
 
-    assert.equal(items.length, 223);
-    assert.equal(new Set(items.map((item) => item.id)).size, 223);
+    assert.equal(items.length, 244);
+    assert.equal(new Set(items.map((item) => item.id)).size, 244);
     assert.equal(byCollection.get('Satoshi (Original & Editions)').length, 111);
     assert.equal(byCollection.get('Deprivation (Prints)').length, 33);
     assert.equal(byCollection.get('Mirage (Prints)').length, 33);
     assert.equal(byCollection.get('Trilogy (Prints)').length, 33);
+    assert.equal(byCollection.get('Minute, papillon! Edition').length, 21);
     assert.equal(byCollection.get('Griffintown').length, 3);
     assert.equal(byCollection.get('Liminality').length, 7);
     assert.equal(byCollection.get('Eclosion 1/1 - Amsterdam Blooms').length, 1);
@@ -59,6 +60,17 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const mirage = byCollection.get('Mirage (Prints)');
     assert.ok(mirage.every((item) => (
         item.grid_preview === 'https://cdn.lemonhaze.com/assets/assets/18328c7aeb829846f0c20d5786a2a383b1b546c985681382cd5f073cfa4e3e15i0.png'
+    )));
+
+    const minutePapillon = byCollection.get('Minute, papillon! Edition');
+    assert.equal(minutePapillon[0].name, 'Minute, papillon! Edition 1 of 21');
+    assert.equal(minutePapillon.at(-1).name, 'Minute, papillon! Edition 21 of 21');
+    assert.ok(minutePapillon.every((item) => item.artwork_type === 'HTML'));
+    assert.ok(minutePapillon.every((item) => (
+        item.provenance === '611fad09e407fe63e70c54ee853e755f92cb4d69049eff21f31d3d414a2db74di0'
+    )));
+    assert.ok(minutePapillon.every((item) => (
+        item.grid_preview === 'https://cdn.lemonhaze.com/assets/assets/611fad09e407fe63e70c54ee853e755f92cb4d69049eff21f31d3d414a2db74di0.png'
     )));
 
     const liminalityParent = items.find((item) => (
@@ -177,7 +189,8 @@ test('featured collections sit in the intended reverse chronology', () => {
     assert.ok(year2024.indexOf('Mirage (Prints)') < year2024.indexOf('Unregulated Minds'));
 
     const year2025 = CHRONOLOGY_BY_YEAR['2025'];
-    assert.ok(year2025.indexOf('BEST BEFORE') < year2025.indexOf('Trilogy (Prints)'));
+    assert.ok(year2025.indexOf('BEST BEFORE') < year2025.indexOf('Minute, papillon! Edition'));
+    assert.ok(year2025.indexOf('Minute, papillon! Edition') < year2025.indexOf('Trilogy (Prints)'));
     assert.ok(year2025.indexOf('Trilogy (Prints)') < year2025.indexOf('Ma ville en quatre temps'));
 });
 

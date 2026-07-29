@@ -1,5 +1,6 @@
 const SATOSHI_ORIGINAL_ID = '88050d79df061385765faefd8b24b4c3103720c86a5b30bf8f2e8fe2b41ec87ei0';
 const MIRAGE_ORIGINAL_ID = '18328c7aeb829846f0c20d5786a2a383b1b546c985681382cd5f073cfa4e3e15i0';
+const MINUTE_PAPILLON_ORIGINAL_ID = '611fad09e407fe63e70c54ee853e755f92cb4d69049eff21f31d3d414a2db74di0';
 const TRILOGY_ORIGINAL_IDS = {
     'Glass Breaker': '58d21c5f1bbc25932fe1cc784ac47baf8b0ed9241ea989ad2a47b41839d132e7i0',
     'Mending Out': 'a75945e142877ade9392a0855ef0fdab215af10a7f3e4381d31697c706836228i0',
@@ -39,6 +40,12 @@ const SOURCES = [
         collection: 'Trilogy (Prints)',
         resolveLineage: resolveTrilogyOriginalId,
         resolveGridPreview: (name) => getCdnPng(resolveTrilogyOriginalId(name)),
+    },
+    {
+        url: '/data/collections/minute-papillon.json',
+        collection: 'Minute, papillon! Edition',
+        resolveLineage: () => MINUTE_PAPILLON_ORIGINAL_ID,
+        resolveGridPreview: () => getCdnPng(MINUTE_PAPILLON_ORIGINAL_ID),
     },
     {
         url: '/data/collections/griffintown.json',
