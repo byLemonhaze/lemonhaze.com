@@ -24,8 +24,8 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const items = await fetchFeaturedCollections();
     const byCollection = Map.groupBy(items, (item) => item.collection);
 
-    assert.equal(items.length, 244);
-    assert.equal(new Set(items.map((item) => item.id)).size, 244);
+    assert.equal(items.length, 245);
+    assert.equal(new Set(items.map((item) => item.id)).size, 245);
     assert.equal(byCollection.get('Satoshi (Original & Editions)').length, 111);
     assert.equal(byCollection.get('Deprivation (Prints)').length, 33);
     assert.equal(byCollection.get('Mirage (Prints)').length, 33);
@@ -34,6 +34,13 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.equal(byCollection.get('Griffintown').length, 3);
     assert.equal(byCollection.get('Liminality').length, 7);
     assert.equal(byCollection.get('Eclosion 1/1 - Amsterdam Blooms').length, 1);
+
+    const dacSon = byCollection.get('1 of 1s (2026)')[0];
+    assert.equal(dacSon.name, 'Đắc-Sơn');
+    assert.equal(dacSon.inscription_number, 127290868);
+    assert.equal(dacSon.provenance, '8364ada14a420eff704c0eeca009c8460769879fdfd70270ff4a3b1c92cbe482i0');
+    assert.equal(dacSon.content_size, '22301 bytes');
+    assert.equal(dacSon.about, 'Geometric Wordmark - Vanilla JavaScript');
 
     const satoshi = byCollection.get('Satoshi (Original & Editions)');
     assert.equal(satoshi[0].name, 'Satoshi (Original)');

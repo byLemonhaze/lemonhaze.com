@@ -47,7 +47,7 @@ test('Supply uses the complete 48-collection Ord.net roster without a Provenance
         name: 'Manufactured', year: 2024, inscribed: 422, circulating: 239,
     });
     assert.deepEqual(rowsByName.get('BEST BEFORE'), {
-        name: 'BEST BEFORE', year: 2025, inscribed: 421, circulating: 420,
+        name: 'BEST BEFORE', year: 2025, inscribed: 421, circulating: 412,
     });
     assert.deepEqual(rowsByName.get('Liminality'), {
         name: 'Liminality', year: 2026, inscribed: 8, circulating: 7,
@@ -64,8 +64,8 @@ test('Supply uses the complete 48-collection Ord.net roster without a Provenance
             inscribed: sum.inscribed + row.inscribed,
             circulating: sum.circulating + row.circulating,
         }), { inscribed: 0, circulating: 0 });
-    assert.deepEqual(totals, { inscribed: 1630, circulating: 1303 });
-    assert.equal(totals.inscribed - totals.circulating, 327);
+    assert.deepEqual(totals, { inscribed: 1631, circulating: 1296 });
+    assert.equal(totals.inscribed - totals.circulating, 335);
 });
 
 test('keeps non-Ord.net works separate from the indexed collection roster', () => {

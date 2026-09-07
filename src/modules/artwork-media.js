@@ -40,6 +40,7 @@ const DIRECT_ONCHAIN_CONTENT_PREVIEW_COLLECTIONS = new Set([
 ]);
 
 const DIRECT_ONCHAIN_CONTENT_PREVIEW_ARTWORK_IDS = new Set([
+    'd6b1b35b58d873a81f6b8aea3e02cd5a7177e1d86de9ee66adfe006284897d6bi0', // Đắc-Sơn
     '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0', // Griffintown parent
     'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0', // Liminality parent
     '15ed0a345c10cb0b26fad820f364898f355924dbf0ce5527dd5d7237e0a25964i0', // Off-Kilter
