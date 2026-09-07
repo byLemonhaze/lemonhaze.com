@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { computeSalesSummary, getSalesIndex } from '../src/modules/sales-ledger.js';
 
 const sheet = JSON.parse(readFileSync(
     new URL('../public/data/sales-master/historical-sales-sheet.json', import.meta.url),
@@ -9,13 +10,13 @@ const sheet = JSON.parse(readFileSync(
 
 test('sales sheet includes reconciled Satoshi and latest Gentlemen trades', () => {
     assert.equal(sheet.rowCount, sheet.rows.length);
-    assert.equal(sheet.rows.length, 1673);
+    assert.equal(sheet.rows.length, 1684);
 
     const satoshi = sheet.rows.filter((row) => row.collectionSlug === 'satoshi-by-lemonhaze');
     const satoshiSecondary = satoshi.filter((row) => row.saleType === 'secondary');
     const satoshiPrimary = satoshi.filter((row) => row.saleType === 'primary');
-    assert.equal(satoshi.length, 40);
-    assert.equal(satoshiSecondary.length, 39);
+    assert.equal(satoshi.length, 41);
+    assert.equal(satoshiSecondary.length, 40);
     assert.ok(satoshiSecondary.every((row) => row.source === 'satflow' || row.source === 'ord.net+satflow'));
     assert.equal(satoshiPrimary.length, 1);
     assert.equal(satoshiPrimary[0].source, 'reconstructed-issuance');
@@ -57,8 +58,8 @@ test('records Éclosion and recent Ord.net resale coverage without reclassifying
     const manufacturedRows = sheet.rows.filter((row) => row.collectionSlug === 'manufactured-by-lemonhaze');
     const manufacturedResales = manufacturedRows.filter((row) => row.saleType === 'secondary');
     const manufacturedPrimary = manufacturedRows.filter((row) => row.saleType === 'primary');
-    assert.equal(manufacturedRows.length, 553);
-    assert.equal(manufacturedResales.length, 344);
+    assert.equal(manufacturedRows.length, 556);
+    assert.equal(manufacturedResales.length, 347);
     assert.equal(manufacturedResales.filter((row) => row.source === 'ord.net-public-insights').length, 62);
     assert.equal(manufacturedResales.filter((row) => row.source === 'historical-sales-archive').length, 282);
     assert.equal(manufacturedPrimary.length, 209);
@@ -73,10 +74,10 @@ test('records Éclosion and recent Ord.net resale coverage without reclassifying
         manufacturedRows.filter((row) => row.source === 'bestinslot-v2api').length,
         0,
     );
-    assert.equal(sheet.marketplaceCoverage.length, 47);
+    assert.equal(sheet.marketplaceCoverage.length, 48);
     assert.equal(
         sheet.marketplaceCoverage.find((row) => row.collectionSlug === 'manufactured-by-lemonhaze')?.volumeBTC,
-        7.08096671,
+        7.08613671,
     );
 });
 
@@ -114,4 +115,31 @@ test('canonical CSV carries the same reconciled sale rows', () => {
         csv,
         /gentlemen-by-lemonhaze,Gentlemen,Gentleman Nº10,2026-07-26T09:23:56\.480Z,secondary,0\.11/,
     );
+});
+
+
+test('recent sales appear once per inscription in the modal index and volume totals', async () => {
+    const recent = sheet.rows.filter(row => Date.parse(row.timestamp) >= Date.parse('2026-07-27T03:00:49.184Z'));
+    assert.equal(recent.length, 11);
+    assert.equal(new Set(recent.map(row => `${row.transactionId}:${row.inscriptionId}`)).size, 11);
+    assert.equal(new Set(recent.map(row => row.transactionId)).size, 8);
+    assert.ok(recent.every(row => row.saleType === 'secondary' && row.settlementPriceBTC > 0));
+    assert.equal(recent.reduce((sum, row) => sum + Math.round(row.priceBTC * 1e8), 0), 1226000);
+    const originalFetch = globalThis.fetch;
+    try {
+        globalThis.fetch = async () => ({ ok: true, json: async () => sheet });
+        const index = await getSalesIndex();
+        for (const sale of recent) {
+            const history = index.inscriptions[sale.inscriptionId];
+            assert.equal(history.filter(row => row.transactionId === sale.transactionId).length, 1);
+            assert.equal(history[0].transactionId, sale.transactionId);
+            assert.ok(history.length > 1, 'Existing artwork history remains available');
+        }
+        const summary = computeSalesSummary(index);
+        assert.equal(summary.primaryBtc, 5.21710698);
+        assert.equal(summary.secondaryBtc, 10.37760732);
+        assert.equal(summary.secondarySales, 754);
+    } finally {
+        globalThis.fetch = originalFetch;
+    }
 });
