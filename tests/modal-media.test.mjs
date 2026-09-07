@@ -99,3 +99,8 @@ test('recursive Satoshi SVG editions render directly while the original stays an
     assert.equal(shouldUseDirectModalIframe(edition, false), true);
     assert.equal(shouldUseDirectModalIframe(original, false), false);
 });
+
+test('Đắc-Sơn renders directly from the chain in the modal', () => {
+    const item = { id: 'd6b1b35b58d873a81f6b8aea3e02cd5a7177e1d86de9ee66adfe006284897d6bi0', collection: '1 of 1s (2026)', content_type: 'text/html' };
+    assert.equal(shouldUseDirectModalIframe(item, true), true);
+});

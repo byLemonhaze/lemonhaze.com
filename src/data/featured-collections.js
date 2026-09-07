@@ -17,6 +17,11 @@ function resolveTrilogyOriginalId(name) {
 
 const SOURCES = [
     {
+        url: '/data/collections/1-of-1s-2026.json',
+        collection: '1 of 1s (2026)',
+        resolveLineage: () => '8364ada14a420eff704c0eeca009c8460769879fdfd70270ff4a3b1c92cbe482i0',
+    },
+    {
         url: '/data/collections/satoshi.json',
         collection: 'Satoshi (Original & Editions)',
         resolveLineage: (name) => name === 'Satoshi (Original)' ? null : SATOSHI_ORIGINAL_ID,

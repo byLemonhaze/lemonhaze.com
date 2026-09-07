@@ -302,11 +302,12 @@ export const COLLECTION_DETAILS = {
 const ORDNET_COLLECTION_SUPPLY = [
   // Ord.net collection roster, refreshed 2026-07-27. Parent inscriptions are
   // applied below so each belongs to the collection it actually supports.
-  { name: '1 of 1s (2026)', year: 2026, inscribed: 13, circulating: 13 },
+  // Updated 2026-09-07: Đắc-Sơn added; eight BEST BEFORE artworks burned.
+  { name: '1 of 1s (2026)', year: 2026, inscribed: 14, circulating: 14 },
   { name: 'Griffintown', year: 2026, inscribed: 3, circulating: 3 },
   { name: 'Liminality', year: 2026, inscribed: 7, circulating: 7 },
   { name: 'Into The Wild', year: 2026, inscribed: 4, circulating: 4 },
-  { name: 'BEST BEFORE', year: 2025, inscribed: 420, circulating: 420 },
+  { name: 'BEST BEFORE', year: 2025, inscribed: 420, circulating: 412 },
   { name: '1 of 1s (2025)', year: 2025, inscribed: 35, circulating: 19 },
   { name: 'Trilogy (Prints)', year: 2025, inscribed: 33, circulating: 33 },
   { name: 'Minute, papillon! Edition', year: 2025, inscribed: 21, circulating: 21 },

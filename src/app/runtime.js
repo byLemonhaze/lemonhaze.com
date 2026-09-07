@@ -249,9 +249,12 @@ async function init() {
         ? [...enrichedBBLive, ...bbLeadArtworks, ...nonBB]
         : provenanceData;
     const featuredIds = new Set(featuredCollections.map((item) => item.id));
+    // New 2026 1/1s follow the existing chronological roster.
+    const newOneOfOnes = featuredCollections.filter((item) => item.collection === '1 of 1s (2026)');
     appState.artworks = [
-        ...featuredCollections,
+        ...featuredCollections.filter((item) => item.collection !== '1 of 1s (2026)'),
         ...primaryArtworks.filter((item) => !featuredIds.has(item.id)),
+        ...newOneOfOnes,
     ];
     appState.parentIds = buildParentIds(appState.artworks);
     rebuildCollectionSlugs();

@@ -191,3 +191,8 @@ test('large generative PNG collections use smooth local gallery previews', () =>
     assert.equal(getLocalGridPreviewSrc(pixelArt), null);
     assert.equal(shouldPixelateGridPreview(pixelArt), true);
 });
+
+test('Đắc-Sơn uses its live on-chain content for the gallery preview', () => {
+    const item = { id: 'd6b1b35b58d873a81f6b8aea3e02cd5a7177e1d86de9ee66adfe006284897d6bi0', collection: '1 of 1s (2026)', content_type: 'text/html' };
+    assert.equal(getDirectOnchainPreviewSrc(item), `https://ordinals.com/content/${item.id}`);
+});
