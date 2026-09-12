@@ -45,7 +45,7 @@ test('Supply uses the complete 48-collection Ord.net roster without a Provenance
         name: 'Satoshi (Original & Editions)', year: 2023, inscribed: 111, circulating: 110,
     });
     assert.deepEqual(rowsByName.get('Manufactured'), {
-        name: 'Manufactured', year: 2024, inscribed: 422, circulating: 239,
+        name: 'Manufactured', year: 2024, inscribed: 428, circulating: 239,
     });
     assert.deepEqual(rowsByName.get('BEST BEFORE'), {
         name: 'BEST BEFORE', year: 2025, inscribed: 421, circulating: 412,
@@ -65,8 +65,8 @@ test('Supply uses the complete 48-collection Ord.net roster without a Provenance
             inscribed: sum.inscribed + row.inscribed,
             circulating: sum.circulating + row.circulating,
         }), { inscribed: 0, circulating: 0 });
-    assert.deepEqual(totals, { inscribed: 1635, circulating: 1300 });
-    assert.equal(totals.inscribed - totals.circulating, 335);
+    assert.deepEqual(totals, { inscribed: 1643, circulating: 1302 });
+    assert.equal(totals.inscribed - totals.circulating, 341);
 });
 
 test('keeps non-Ord.net works separate from the indexed collection roster', () => {
