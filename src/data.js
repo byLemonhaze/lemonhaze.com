@@ -1,8 +1,8 @@
 
 const PROVENANCE_URLS = [
+  "/data/provenance.json",
   "https://cdn.lemonhaze.com/assets/assets/provenance.json",
   "https://cdn.lemonhaze.com/assets/provenance.json",
-  "/data/provenance.json",
 ];
 const BB_COLLECTION_URL = "https://bestbefore.space/magic_eden_collection.json";
 
@@ -317,7 +317,7 @@ const ORDNET_COLLECTION_SUPPLY = [
   { name: 'Minute, papillon! Edition', year: 2025, inscribed: 21, circulating: 21 },
   { name: 'Ma ville en quatre temps', year: 2025, inscribed: 4, circulating: 4 },
   { name: 'Tori no Roji', year: 2025, inscribed: 4, circulating: 4 },
-  { name: 'Manufactured', year: 2024, inscribed: 420, circulating: 239 },
+  { name: 'Manufactured', year: 2024, inscribed: 420, circulating: 233 },
   { name: '1 of 1s (2024)', year: 2024, inscribed: 49, circulating: 10 },
   { name: 'Mirage (Prints)', year: 2024, inscribed: 33, circulating: 33 },
   { name: 'Games', year: 2024, inscribed: 28, circulating: 28 },
