@@ -45,7 +45,7 @@ test('featured collection manifests load complete, ordered galleries', async () 
     });
     assert.deepEqual(tinBox.map(item => item.name), ['Tin Box of Solitude', 'Reaching', 'Fisherman', 'Park Lane']);
     assert.equal(tinBox[0].role, 'parent');
-    assert.ok(tinBox.slice(1).every(item => item.provenance === tinBox[0].id));
+    assert.ok(tinBox.slice(1).every(item => item.provenance.includes(tinBox[0].id) && item.provenance.includes('757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0')));
     assert.ok(tinBox.every(item => item.grid_preview === `https://cdn.lemonhaze.com/assets/assets/${item.id}.png`));
     assert.ok(tinBox.every(item => !shouldUseDirectOnchainPreview(item)));
     assert.ok(tinBox.every(item => shouldUseDirectModalIframe(item, true)));

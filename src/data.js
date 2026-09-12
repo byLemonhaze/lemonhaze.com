@@ -142,7 +142,7 @@ export const CAREER_HIGHLIGHTS_ITEMS = [
 export const COL_DESCRIPTIONS = {
   "1/1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
   "1 of 1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
-  "Tin Box of Solitude": `Moments of bliss.`,
+  "Tin Box of Solitude": `Nothing else in the frame.`,
   "Griffintown": `Interactive Photo-Chromatic Bas-Relief`,
   "Liminality": `In anthropology, liminality (from Latin limen ‘threshold’) is the quality of ambiguity or disorientation that occurs in the middle stage of a rite of passage, when participants no longer hold their pre-ritual status but have not yet begun the transition to the status they will hold when the rite is complete. During a rite’s liminal stage, participants ‘stand at the threshold’ between their previous way of structuring their identity, time, or community, and a new way (which completing the rite establishes). Wikipedia contributors. “Liminality.” Wikipedia, The Free Encyclopedia. Last edited 8 July 2026, at 17:56 (UTC).`,
   "Into The Wild": `Mirage outputs and whatnot!`,
@@ -320,7 +320,7 @@ const ORDNET_COLLECTION_SUPPLY = [
   { name: 'Manufactured', year: 2024, inscribed: 420, circulating: 239 },
   { name: '1 of 1s (2024)', year: 2024, inscribed: 49, circulating: 10 },
   { name: 'Mirage (Prints)', year: 2024, inscribed: 33, circulating: 33 },
-  { name: 'Games', year: 2024, inscribed: 26, circulating: 26 },
+  { name: 'Games', year: 2024, inscribed: 28, circulating: 28 },
   { name: 'DeVille', year: 2024, inscribed: 15, circulating: 15 },
   { name: 'Montreal', year: 2024, inscribed: 7, circulating: 7 },
   { name: 'Unregulated Minds', year: 2024, inscribed: 6, circulating: 6 },
@@ -364,7 +364,7 @@ const ORDNET_COLLECTION_SUPPLY = [
 const PARENT_SUPPLY_ADJUSTMENTS = {
   'Tin Box of Solitude': { live: 1 },
   '1 of 1s (2024)': { burned: 1 },
-  'Manufactured': { burned: 2 },
+  'Manufactured': { burned: 8 },
   'DeVille': { burned: 1 },
   'Bento Box': { burned: 1 },
   'Candidly Yours': { burned: 1 },

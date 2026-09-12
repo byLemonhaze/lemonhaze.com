@@ -14032,6 +14032,36 @@
     "charms": "Block 9"
   },
   {
+    "name": "Game Nº27",
+    "id": "537faf0b186fb2a319b1282741e3ab32271c05e0a7763fe7ae2a0af751a46002i0",
+    "collection": "Games",
+    "artwork_type": "HTML",
+    "dimensions": "2700x3600",
+    "provenance": "757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0, b40f54c56d0ad7993e59f279d6386c78864f8b8b6cb9a2abc45e5d829ff9de12i0, 7271fcca75e6ea1112cc84fb56a78a11d5ddb7c83f3ba5f45f17d1ce5b7ed8afi0",
+    "timestamp": "2026-09-07 05:19:17 UTC",
+    "content_type": "text/html",
+    "content_size": "9660 bytes",
+    "fee": "1873",
+    "sat": "45072755933",
+    "height": "965996",
+    "charms": "nineball, vindicated"
+  },
+  {
+    "name": "Game Nº28",
+    "id": "75fde48043f8941ad8f2865c45e76945d7e1ea775282595f0454a5c9167e16abi0",
+    "collection": "Games",
+    "artwork_type": "HTML",
+    "dimensions": "2700x3600",
+    "provenance": "757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0, b40f54c56d0ad7993e59f279d6386c78864f8b8b6cb9a2abc45e5d829ff9de12i0, 7271fcca75e6ea1112cc84fb56a78a11d5ddb7c83f3ba5f45f17d1ce5b7ed8afi0",
+    "timestamp": "2026-09-10 17:19:15 UTC",
+    "content_type": "text/html",
+    "content_size": "7777 bytes",
+    "fee": "1546",
+    "sat": "45072755945",
+    "height": "966508",
+    "charms": "nineball, vindicated"
+  },
+  {
     "name": "Gentleman SE25",
     "id": "627d9a054e2db14bc892cec8a747da726dbadc1677079ff49675b17f78e262d8i0",
     "collection": "1 of 1s (2025)",
