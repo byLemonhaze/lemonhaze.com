@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 import { CHRONOLOGY_BY_YEAR, COLLECTION_DETAILS } from '../src/data.js';
+import { prependCollectionLeadArtworks } from '../src/app/collection-flow.js';
+import { shouldUseDirectOnchainPreview } from '../src/modules/artwork-media.js';
+import { shouldUseDirectModalIframe } from '../src/renderers/modal/artwork.js';
 import { fetchFeaturedCollections } from '../src/data/featured-collections.js';
 
 const originalFetch = globalThis.fetch;
@@ -24,8 +27,8 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const items = await fetchFeaturedCollections();
     const byCollection = Map.groupBy(items, (item) => item.collection);
 
-    assert.equal(items.length, 245);
-    assert.equal(new Set(items.map((item) => item.id)).size, 245);
+    assert.equal(items.length, 249);
+    assert.equal(new Set(items.map((item) => item.id)).size, 249);
     assert.equal(byCollection.get('Satoshi (Original & Editions)').length, 111);
     assert.equal(byCollection.get('Deprivation (Prints)').length, 33);
     assert.equal(byCollection.get('Mirage (Prints)').length, 33);
@@ -34,6 +37,19 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.equal(byCollection.get('Griffintown').length, 3);
     assert.equal(byCollection.get('Liminality').length, 7);
     assert.equal(byCollection.get('Eclosion 1/1 - Amsterdam Blooms').length, 1);
+
+    const tinBox = prependCollectionLeadArtworks({
+        items: byCollection.get('Tin Box of Solitude'),
+        collectionName: 'Tin Box of Solitude',
+        allArtworks: items,
+    });
+    assert.deepEqual(tinBox.map(item => item.name), ['Tin Box of Solitude', 'Reaching', 'Fisherman', 'Park Lane']);
+    assert.equal(tinBox[0].role, 'parent');
+    assert.ok(tinBox.slice(1).every(item => item.provenance === tinBox[0].id));
+    assert.ok(tinBox.every(item => item.grid_preview === `https://cdn.lemonhaze.com/assets/assets/${item.id}.png`));
+    assert.ok(tinBox.every(item => !shouldUseDirectOnchainPreview(item)));
+    assert.ok(tinBox.every(item => shouldUseDirectModalIframe(item, true)));
+    assert.deepEqual(tinBox.map(item => item.inscription_number), [127360324, 127360428, 127360447, 127360460]);
 
     const dacSon = byCollection.get('1 of 1s (2026)')[0];
     assert.equal(dacSon.name, 'Đắc-Sơn');
@@ -202,8 +218,9 @@ test('featured collection manifests load complete, ordered galleries', async () 
 
 test('featured collections sit in the intended reverse chronology', () => {
     const year2026 = CHRONOLOGY_BY_YEAR['2026'];
-    assert.equal(year2026[0], 'Griffintown');
-    assert.equal(year2026[1], 'Liminality');
+    assert.equal(year2026[0], 'Tin Box of Solitude');
+    assert.equal(year2026[1], 'Griffintown');
+    assert.equal(year2026[2], 'Liminality');
     assert.ok(year2026.indexOf('Griffintown') < year2026.indexOf('Liminality'));
     assert.ok(year2026.indexOf('Liminality') < year2026.indexOf('Into The Wild'));
 

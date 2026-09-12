@@ -36,7 +36,8 @@ const INTERNAL_COLLECTION_ROUTES = {
 };
 
 test('Supply uses the complete 48-collection Ord.net roster without a Provenance collection', () => {
-    assert.equal(ORDINALS_SUPPLY_DATA.length, 48);
+    assert.equal(ORDINALS_SUPPLY_DATA.length, 49);
+    assert.deepEqual(ORDINALS_SUPPLY_DATA.find(row => row.name === 'Tin Box of Solitude'), { name: 'Tin Box of Solitude', year: 2026, inscribed: 4, circulating: 4 });
     assert.equal(ORDINALS_SUPPLY_DATA.some((row) => row.name === 'Provenance'), false);
 
     const rowsByName = new Map(ORDINALS_SUPPLY_DATA.map((row) => [row.name, row]));
@@ -64,7 +65,7 @@ test('Supply uses the complete 48-collection Ord.net roster without a Provenance
             inscribed: sum.inscribed + row.inscribed,
             circulating: sum.circulating + row.circulating,
         }), { inscribed: 0, circulating: 0 });
-    assert.deepEqual(totals, { inscribed: 1631, circulating: 1296 });
+    assert.deepEqual(totals, { inscribed: 1635, circulating: 1300 });
     assert.equal(totals.inscribed - totals.circulating, 335);
 });
 
@@ -107,8 +108,10 @@ test('Supply collection links use current canonical routes instead of the legacy
     }
 });
 
-test('includes an Ord.net collection link for each of the 48 indexed collections', () => {
-    for (const row of ORDINALS_SUPPLY_DATA) {
+test('includes links for indexed collections without inventing a pending listing URL', () => {
+    // Tin Box of Solitude is submitted separately and awaits Ord.net indexing.
+    assert.equal(MARKET_LINKS['Tin Box of Solitude']?.ordnet, undefined);
+    for (const row of ORDINALS_SUPPLY_DATA.filter(row => row.name !== 'Tin Box of Solitude')) {
         assert.match(
             MARKET_LINKS[row.name]?.ordnet || '',
             /^https:\/\/ord\.net\/collection\/[a-z0-9_-]+$/,

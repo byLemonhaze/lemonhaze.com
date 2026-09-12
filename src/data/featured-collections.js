@@ -17,6 +17,13 @@ function resolveTrilogyOriginalId(name) {
 
 const SOURCES = [
     {
+        url: '/data/collections/tin-box-of-solitude.json',
+        collection: 'Tin Box of Solitude',
+        resolveLineage: (_name, item) => item?.role === 'parent'
+            ? '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0'
+            : '3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0',
+    },
+    {
         url: '/data/collections/1-of-1s-2026.json',
         collection: '1 of 1s (2026)',
         resolveLineage: () => '8364ada14a420eff704c0eeca009c8460769879fdfd70270ff4a3b1c92cbe482i0',

@@ -121,6 +121,7 @@ const SAT_RARITY_LABELS = {
 };
 
 const DIRECT_IFRAME_RENDER_COLLECTIONS = new Set([
+    'Tin Box of Solitude',
     'BEST BEFORE',
     'Satoshi (Original & Editions)',
     'Deprivation (Prints)',
@@ -133,6 +134,7 @@ const DIRECT_IFRAME_RENDER_COLLECTIONS = new Set([
 ]);
 
 const DIRECT_IFRAME_RENDER_ARTWORK_IDS = new Set([
+    '3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0',
     'd6b1b35b58d873a81f6b8aea3e02cd5a7177e1d86de9ee66adfe006284897d6bi0', // Đắc-Sơn
     '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0',
     'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0',

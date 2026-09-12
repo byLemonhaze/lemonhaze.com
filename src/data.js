@@ -46,6 +46,7 @@ export async function fetchBBCollection() {
 // EXACT CHRONOLOGY AS REQUESTED
 export const CHRONOLOGY_BY_YEAR = {
   "2026": [
+    "Tin Box of Solitude",
     "Griffintown",
     "Liminality",
     "Into The Wild",
@@ -141,6 +142,7 @@ export const CAREER_HIGHLIGHTS_ITEMS = [
 export const COL_DESCRIPTIONS = {
   "1/1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
   "1 of 1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
+  "Tin Box of Solitude": `Moments of bliss.`,
   "Griffintown": `Interactive Photo-Chromatic Bas-Relief`,
   "Liminality": `In anthropology, liminality (from Latin limen ‘threshold’) is the quality of ambiguity or disorientation that occurs in the middle stage of a rite of passage, when participants no longer hold their pre-ritual status but have not yet begun the transition to the status they will hold when the rite is complete. During a rite’s liminal stage, participants ‘stand at the threshold’ between their previous way of structuring their identity, time, or community, and a new way (which completing the rite establishes). Wikipedia contributors. “Liminality.” Wikipedia, The Free Encyclopedia. Last edited 8 July 2026, at 17:56 (UTC).`,
   "Into The Wild": `Mirage outputs and whatnot!`,
@@ -237,6 +239,7 @@ function gigaDetails(_medium, tools) {
 }
 
 export const COLLECTION_DETAILS = {
+  'Tin Box of Solitude': { tools: 'Vanilla JavaScript · HTML Canvas' },
   'Gentlemen': gigaDetails('Mixed media', 'AI · Krita · sampling/collage'),
   'Lotus': gigaDetails('Mixed media', 'AI · Krita · sampling/collage'),
   'Montreal': gigaDetails('Generative art', 'p5.js'),
@@ -304,6 +307,7 @@ const ORDNET_COLLECTION_SUPPLY = [
   // applied below so each belongs to the collection it actually supports.
   // Updated 2026-09-07: Đắc-Sơn added; eight BEST BEFORE artworks burned.
   { name: '1 of 1s (2026)', year: 2026, inscribed: 14, circulating: 14 },
+  { name: 'Tin Box of Solitude', year: 2026, inscribed: 3, circulating: 3 },
   { name: 'Griffintown', year: 2026, inscribed: 3, circulating: 3 },
   { name: 'Liminality', year: 2026, inscribed: 7, circulating: 7 },
   { name: 'Into The Wild', year: 2026, inscribed: 4, circulating: 4 },
@@ -358,6 +362,7 @@ const ORDNET_COLLECTION_SUPPLY = [
 // Lemonhaze supply item, and the Lemonhaze Stuntman parent is listed below as
 // its own Additional Ordinal.
 const PARENT_SUPPLY_ADJUSTMENTS = {
+  'Tin Box of Solitude': { live: 1 },
   '1 of 1s (2024)': { burned: 1 },
   'Manufactured': { burned: 2 },
   'DeVille': { burned: 1 },
