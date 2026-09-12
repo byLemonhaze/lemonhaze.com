@@ -364,7 +364,7 @@ const ORDNET_COLLECTION_SUPPLY = [
 const PARENT_SUPPLY_ADJUSTMENTS = {
   'Tin Box of Solitude': { live: 1 },
   '1 of 1s (2024)': { burned: 1 },
-  'Manufactured': { burned: 8 },
+  'Manufactured': { burned: 2 },
   'DeVille': { burned: 1 },
   'Bento Box': { burned: 1 },
   'Candidly Yours': { burned: 1 },
