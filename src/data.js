@@ -9,20 +9,20 @@ const BB_COLLECTION_URL = "https://bestbefore.space/magic_eden_collection.json";
 export { fetchFeaturedCollections } from './data/featured-collections.js';
 
 export async function fetchProvenance() {
+  const merged = new Map();
   for (const url of PROVENANCE_URLS) {
     try {
       const response = await fetch(url);
       if (!response.ok) continue;
       const data = await response.json();
-      if (Array.isArray(data)) return data;
-      if (Array.isArray(data?.items)) return data.items;
-      if (Array.isArray(data?.data)) return data.data;
+      const items = Array.isArray(data) ? data : Array.isArray(data?.items) ? data.items : Array.isArray(data?.data) ? data.data : [];
+      for (const item of items) if (item?.id && !merged.has(item.id)) merged.set(item.id, item);
     } catch {
       // Try next source.
     }
   }
   console.error("Error fetching provenance: all sources failed");
-  return [];
+  return [...merged.values()];
 }
 
 export async function fetchBBCollection() {
