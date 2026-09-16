@@ -307,7 +307,7 @@ const ORDNET_COLLECTION_SUPPLY = [
   // applied below so each belongs to the collection it actually supports.
   // Updated 2026-09-07: Đắc-Sơn added; eight BEST BEFORE artworks burned.
   { name: '1 of 1s (2026)', year: 2026, inscribed: 14, circulating: 14 },
-  { name: 'Tin Box of Solitude', year: 2026, inscribed: 3, circulating: 3 },
+  { name: 'Tin Box of Solitude', year: 2026, inscribed: 6, circulating: 6 },
   { name: 'Griffintown', year: 2026, inscribed: 3, circulating: 3 },
   { name: 'Liminality', year: 2026, inscribed: 7, circulating: 7 },
   { name: 'Into The Wild', year: 2026, inscribed: 4, circulating: 4 },
@@ -481,6 +481,7 @@ const SATFLOW_LINKS = {
 };
 
 const ORDNET_LINKS = {
+  'Tin Box of Solitude': 'https://ord.net/collection/tin-box-of-solitude-by-lemonhaze',
   'BEST BEFORE': 'https://ord.net/collection/best-before-by-lemonhaze-x-ordinally',
   'Manufactured': 'https://ord.net/collection/manufactured-by-lemonhaze',
   'Satoshi CC Edition': 'https://ord.net/collection/satoshi-by-lemonhaze',
