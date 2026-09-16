@@ -109,8 +109,7 @@ test('Supply collection links use current canonical routes instead of the legacy
 });
 
 test('includes links for indexed collections without inventing a pending listing URL', () => {
-    // Tin Box of Solitude is submitted separately and awaits Ord.net indexing.
-    assert.equal(MARKET_LINKS['Tin Box of Solitude']?.ordnet, undefined);
+    assert.equal(MARKET_LINKS['Tin Box of Solitude']?.ordnet, 'https://ord.net/collection/tin-box-of-solitude-by-lemonhaze');
     for (const row of ORDINALS_SUPPLY_DATA.filter(row => row.name !== 'Tin Box of Solitude')) {
         assert.match(
             MARKET_LINKS[row.name]?.ordnet || '',
