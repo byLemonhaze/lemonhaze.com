@@ -27,8 +27,8 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const items = await fetchFeaturedCollections();
     const byCollection = Map.groupBy(items, (item) => item.collection);
 
-    assert.equal(items.length, 249);
-    assert.equal(new Set(items.map((item) => item.id)).size, 249);
+    assert.equal(items.length, 252);
+    assert.equal(new Set(items.map((item) => item.id)).size, 252);
     assert.equal(byCollection.get('Satoshi (Original & Editions)').length, 111);
     assert.equal(byCollection.get('Deprivation (Prints)').length, 33);
     assert.equal(byCollection.get('Mirage (Prints)').length, 33);
@@ -43,13 +43,13 @@ test('featured collection manifests load complete, ordered galleries', async () 
         collectionName: 'Tin Box of Solitude',
         allArtworks: items,
     });
-    assert.deepEqual(tinBox.map(item => item.name), ['Tin Box of Solitude', 'Reaching', 'Fisherman', 'Park Lane']);
+    assert.deepEqual(tinBox.map(item => item.name), ['Tin Box of Solitude', 'Reaching', 'Fisherman', 'Park Lane', 'Tea Pot', 'Bacon & Butcher', 'Hang On']);
     assert.equal(tinBox[0].role, 'parent');
     assert.ok(tinBox.slice(1).every(item => item.provenance.includes(tinBox[0].id) && item.provenance.includes('757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0')));
     assert.ok(tinBox.every(item => item.grid_preview === `https://cdn.lemonhaze.com/assets/assets/${item.id}.png`));
     assert.ok(tinBox.every(item => !shouldUseDirectOnchainPreview(item)));
     assert.ok(tinBox.every(item => shouldUseDirectModalIframe(item, true)));
-    assert.deepEqual(tinBox.map(item => item.inscription_number), [127360324, 127360428, 127360447, 127360460]);
+    assert.deepEqual(tinBox.map(item => item.inscription_number), [127360324, 127360428, 127360447, 127360460, 127373041, 127373179, 127373468]);
 
     const dacSon = byCollection.get('1 of 1s (2026)')[0];
     assert.equal(dacSon.name, 'Đắc-Sơn');
