@@ -307,7 +307,7 @@ const ORDNET_COLLECTION_SUPPLY = [
   // applied below so each belongs to the collection it actually supports.
   // Updated 2026-09-07: Đắc-Sơn added; eight BEST BEFORE artworks burned.
   { name: '1 of 1s (2026)', year: 2026, inscribed: 14, circulating: 14 },
-  { name: 'Tin Box of Solitude', year: 2026, inscribed: 12, circulating: 12 },
+  { name: 'Tin Box of Solitude', year: 2026, inscribed: 13, circulating: 12 },
   { name: 'Griffintown', year: 2026, inscribed: 3, circulating: 3 },
   { name: 'Liminality', year: 2026, inscribed: 7, circulating: 7 },
   { name: 'Into The Wild', year: 2026, inscribed: 4, circulating: 4 },
@@ -362,7 +362,6 @@ const ORDNET_COLLECTION_SUPPLY = [
 // Lemonhaze supply item, and the Lemonhaze Stuntman parent is listed below as
 // its own Additional Ordinal.
 const PARENT_SUPPLY_ADJUSTMENTS = {
-  'Tin Box of Solitude': { live: 1 },
   '1 of 1s (2024)': { burned: 1 },
   'Manufactured': { burned: 2 },
   'DeVille': { burned: 1 },
