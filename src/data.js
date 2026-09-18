@@ -307,7 +307,7 @@ const ORDNET_COLLECTION_SUPPLY = [
   // applied below so each belongs to the collection it actually supports.
   // Updated 2026-09-07: Đắc-Sơn added; eight BEST BEFORE artworks burned.
   { name: '1 of 1s (2026)', year: 2026, inscribed: 14, circulating: 14 },
-  { name: 'Tin Box of Solitude', year: 2026, inscribed: 6, circulating: 6 },
+  { name: 'Tin Box of Solitude', year: 2026, inscribed: 12, circulating: 12 },
   { name: 'Griffintown', year: 2026, inscribed: 3, circulating: 3 },
   { name: 'Liminality', year: 2026, inscribed: 7, circulating: 7 },
   { name: 'Into The Wild', year: 2026, inscribed: 4, circulating: 4 },

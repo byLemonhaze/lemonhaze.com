@@ -37,7 +37,7 @@ const INTERNAL_COLLECTION_ROUTES = {
 
 test('Supply uses the complete 48-collection Ord.net roster without a Provenance collection', () => {
     assert.equal(ORDINALS_SUPPLY_DATA.length, 49);
-    assert.deepEqual(ORDINALS_SUPPLY_DATA.find(row => row.name === 'Tin Box of Solitude'), { name: 'Tin Box of Solitude', year: 2026, inscribed: 7, circulating: 7 });
+    assert.deepEqual(ORDINALS_SUPPLY_DATA.find(row => row.name === 'Tin Box of Solitude'), { name: 'Tin Box of Solitude', year: 2026, inscribed: 13, circulating: 13 });
     assert.equal(ORDINALS_SUPPLY_DATA.some((row) => row.name === 'Provenance'), false);
 
     const rowsByName = new Map(ORDINALS_SUPPLY_DATA.map((row) => [row.name, row]));
@@ -65,7 +65,7 @@ test('Supply uses the complete 48-collection Ord.net roster without a Provenance
             inscribed: sum.inscribed + row.inscribed,
             circulating: sum.circulating + row.circulating,
         }), { inscribed: 0, circulating: 0 });
-    assert.deepEqual(totals, { inscribed: 1640, circulating: 1299 });
+    assert.deepEqual(totals, { inscribed: 1646, circulating: 1305 });
     assert.equal(totals.inscribed - totals.circulating, 341);
 });
 
