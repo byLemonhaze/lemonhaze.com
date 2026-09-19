@@ -1,3 +1,4 @@
+import { normalizeEditorialHref } from './links.js';
 import {storyKeys, storySections, storyDirectory, artworkFootnotes} from './story-renderer.js';
 import montreal from './content/index.html?raw';
 import gentlemen from './content/gentlemen.html?raw';
@@ -13,7 +14,6 @@ import './style.css';
 let navigate = null;
 export function configureEditorialNavigation(callback) { navigate = callback; }
 const sources = { Montreal: montreal, Gentlemen: gentlemen, Liminality: liminality, 'BEST BEFORE': bestBefore, practice, 'paint-engine': engine, exhibitions, collecting };
-const routes = { 'index.html': '/montreal', 'process.html': '/practice', 'paint-engine.html': '/paint-engine', 'gentlemen.html': '/gentlemen', 'liminality.html': '/liminality', 'best-before.html': '/best-before', 'exhibitions.html': '/highlights', 'collecting.html': '/collecting', 'review.html': '/about', 'editorial-sources.md': '/editorial/sources.md', 'sources.md': '/editorial/archive-sources.md' };
 const collectionKeys = new Set(['Montreal', 'Gentlemen', 'Liminality', 'BEST BEFORE', ...storyKeys]);
 
 function scrollToAnchor(hash) {
@@ -27,15 +27,7 @@ function scrollToAnchor(hash) {
 
 export function wireEditorial(root) {
     root.querySelectorAll('a[href]').forEach(a => {
-        const originalUrl = new URL(a.getAttribute('href'), location.href);
-        if (['lemonhaze.com', 'www.lemonhaze.com'].includes(originalUrl.hostname)) {
-            a.setAttribute('href', originalUrl.pathname + originalUrl.search + originalUrl.hash);
-        }
-        const href = a.getAttribute('href');
-        const [file, rawHash] = href.split('#');
-        const hash = rawHash === 'gallery' ? 'artworks' : rawHash;
-        if (file.startsWith('assets/')) a.href = '/editorial/' + file;
-        if (routes[file]) a.href = routes[file] + (hash ? '#' + hash : '');
+        a.setAttribute('href', normalizeEditorialHref(a.getAttribute('href'), location.href));
         if (a.getAttribute('href').startsWith('/')) {
             a.removeAttribute('target');
         }
