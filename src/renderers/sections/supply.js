@@ -391,6 +391,15 @@ export function createSupplySectionNode({
     statsStrip.appendChild(desktopGrid);
     root.appendChild(statsStrip);
 
+    const marketWatch = createNode('section', 'market-watch-entry');
+    const marketWatchCopy = createNode('div');
+    marketWatchCopy.appendChild(createNode('h3', '', 'Market Watch'));
+    marketWatchCopy.appendChild(createNode('p', '', 'Listings, public offers, and cross-listed works across Bitcoin marketplaces.'));
+    const marketWatchLink = createNode('a', '', 'Open Market Watch ↗');
+    marketWatchLink.href = '/market-watch/';
+    marketWatch.append(marketWatchCopy, marketWatchLink);
+    root.appendChild(marketWatch);
+
     root.appendChild(createOrdinalsSupplyListSection({
         title: ordinalsSectionTitle,
         rows: ordnetRows,

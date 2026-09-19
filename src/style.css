@@ -374,3 +374,11 @@
   overflow-wrap: anywhere;
   word-break: break-word;
 }
+
+/* Collector access to the on-demand market index. */
+.market-watch-entry{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px;border:1px solid var(--lh-line);background:var(--lh-surface)}
+.market-watch-entry h3{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
+.market-watch-entry p{font-size:11px;color:var(--lh-muted);line-height:1.7;max-width:440px}
+.market-watch-entry a{flex-shrink:0;border:1px solid var(--lh-line);padding:11px 14px;background:#191813;font-family:"Fragment Mono",monospace;font-size:10px;transition:border-color .2s}
+.market-watch-entry a:hover,.market-watch-entry a:focus-visible{border-color:var(--lh-accent)}
+@media(max-width:600px){.market-watch-entry{align-items:flex-start;flex-direction:column;gap:18px;padding:18px}.market-watch-entry a{width:100%;text-align:center}}

@@ -85,3 +85,11 @@ x-press-password: <PRESS_ENGINE_PASSWORD>
 - `401` for missing/incorrect password
 - `500` when `CLAUDE_API_KEY` is not configured
 - `502` when the upstream generation request fails
+
+## Market Watch (public, read-only marketplace monitoring)
+
+- `GET /api/market-watch/snapshot`: known collections and per-market saved observations.
+- `POST /api/market-watch/scan`, JSON `{ "discover": true }`: refresh the creator catalog, subject to a shared five-minute cache.
+- `POST /api/market-watch/scan`, JSON `{ "key": "manufactured-by-lemonhaze", "market": "ord" }`: refresh a known collection on `ord`, `gamma`, `satflow`, or `ow`. Recent checks and concurrent requests reuse saved data. A `cooldown` response tells the UI to pause Satflow.
+
+Cross-origin browser scan requests are rejected. Source URLs are resolved server-side from the catalogue, not accepted from visitors. These endpoints never connect wallets, sign orders, or execute purchases.

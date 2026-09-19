@@ -9,6 +9,7 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 main: resolve(__dirname, 'index.html'),
+                marketWatch: resolve(__dirname, 'market-watch/index.html'),
             },
         },
     },

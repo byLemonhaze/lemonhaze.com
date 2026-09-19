@@ -1,3 +1,9 @@
 name = "lemonhaze"
 compatibility_date = "2024-09-23"
 pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "MARKET_WATCH_DB"
+database_name = "lemonhaze-market-watch"
+database_id = "4bcb59c6-5040-4a46-9dcb-0226d838d541"
+migrations_dir = "db/market-watch-migrations"

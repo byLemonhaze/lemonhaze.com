@@ -71,5 +71,13 @@ npx wrangler pages deploy dist --project-name lemonhaze
 
 - Cloudflare Pages Functions under `functions/` are deployed automatically with the site bundle.
 - `functions/[[path]].ts` is required for SPA deep links so direct visits to `/about`, `/best-before`, and `/<inscription-id>` resolve to the app shell instead of a 404.
-- `db/migrations/` is not active in production until a D1 binding and runtime integration are added.
+- `MARKET_WATCH_DB` stores public Market Watch snapshots and refresh leases. Apply `db/market-watch-migrations/` with `npx wrangler d1 migrations apply MARKET_WATCH_DB --remote` before the first deployment. The separate legacy `db/migrations/` sales schema remains inactive.
 - If data scripts are used to refresh sales indices, regenerate the browser-facing outputs before deploy so `public/data/sales-master/` stays in sync.
+
+## Market Watch
+
+`/market-watch/` is a separate Vite entry linked from Supply & Marketplace. It uses the same public site origin and requires no login, wallet connection, or marketplace API key.
+
+The Pages endpoints `GET /api/market-watch/snapshot` and `POST /api/market-watch/scan` persist shared snapshots in the dedicated D1 binding. Scan targets must be catalogued; client input cannot choose arbitrary external URLs. Atomic five-minute leases prevent visitors from duplicating the same source check. Satflow connections are paced, and HTTP 429 pauses its checks for five minutes. Failed refreshes preserve the previous result with a stale label.
+
+The initial bundled snapshot is a dated fallback. Coverage is incomplete when public feeds omit auctions, lots, private offers, or exact inscription IDs. Do not treat unavailable sources as zero. Source adapters are in `src/market-watch/lib/scanner.ts`; recheck them if a marketplace changes its public interfaces.
