@@ -9,9 +9,9 @@
       "timestamp": "2024-03-05 00:00:00 UTC",
       "inscriptionId": "3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0",
       "priceBTC": 0.5,
-      "raw": "Hosoi | Manual primary sale",
+      "raw": "Hosoi | Public primary sale (artist confirmed)",
       "hrefs": [],
-      "source": "manual-private",
+      "source": "artist-confirmed-public",
       "saleType": "primary"
     }
   ],

@@ -3506,7 +3506,7 @@
       "timestamp": "2024-03-05 00:00:00 UTC",
       "saleType": "primary",
       "priceBTC": 0.5,
-      "source": "manual-private"
+      "source": "artist-confirmed-public"
     },
     {
       "entryType": "inscription-sale",

@@ -1,3 +1,4 @@
+import { sortedRows } from '../../utils/sorting.js';
 import '../../market-watch/embed.js';
 import {
     computeSalesSummary,
@@ -222,6 +223,32 @@ function createEthSupplyCard(row) {
     return card;
 }
 
+
+function createSupplyControls({section, title, rows, mobileList, tbody, card, tableRow, ethereum = false}) {
+    const controls = createNode('div', 'supply-controls');
+    const searchLabel = createNode('label', '', 'Find a collection');
+    const search = createNode('input'); search.type = 'search'; search.placeholder = 'Collection name…';
+    search.setAttribute('aria-label', `Search ${title}`); searchLabel.appendChild(search);
+    const sortLabel = createNode('label', '', 'Sort by');
+    const select = createNode('select'); select.setAttribute('aria-label', `Sort ${title}`);
+    const options = [['name:asc', 'Name A–Z'], ['name:desc', 'Name Z–A'], ['year:desc', 'Newest year'], ['year:asc', 'Oldest year'],
+        ...(ethereum ? [['count:desc', 'Largest supply'], ['count:asc', 'Smallest supply'], ['platform:asc', 'Platform A–Z']]
+        : [['inscribed:desc', 'Most inscribed'], ['inscribed:asc', 'Fewest inscribed'], ['circulating:desc', 'Most circulating'], ['circulating:asc', 'Fewest circulating'], ['burned:desc', 'Most burned'], ['burned:asc', 'Fewest burned']])];
+    for (const [value, text] of options) { const option = createNode('option', '', text); option.value = value; select.appendChild(option); }
+    select.value = ethereum ? 'name:asc' : 'inscribed:desc'; sortLabel.appendChild(select);
+    const count = createNode('span', 'supply-result-count'); count.setAttribute('role', 'status');
+    controls.append(searchLabel, sortLabel, count); section.insertBefore(controls, mobileList);
+    const empty = createNode('p', 'supply-empty', 'No matching collections. Clear the search to see all works.'); empty.hidden = true; section.appendChild(empty);
+    function render() {
+        const filtered = rows.filter(row => row.name.toLocaleLowerCase().includes(search.value.trim().toLocaleLowerCase()));
+        const sorted = sortedRows(filtered, select.value, {name: r => r.name, year: r => r.year, inscribed: r => r.inscribed,
+            circulating: r => r.circulating, burned: r => r.inscribed - r.circulating, count: r => r.count, platform: r => r.platform});
+        mobileList.replaceChildren(...sorted.map(card)); tbody.replaceChildren(...sorted.map(tableRow));
+        count.textContent = `${sorted.length} of ${rows.length} collections`; empty.hidden = sorted.length > 0;
+    }
+    search.addEventListener('input', render); select.addEventListener('change', render); render();
+}
+
 function createOrdinalsSupplyListSection({
     title,
     rows,
@@ -281,6 +308,9 @@ function createOrdinalsSupplyListSection({
     tableWrap.appendChild(table);
     section.appendChild(tableWrap);
 
+    const args = {toCollectionSlug, slugifyCollectionName, marketLinks, linkOverrides, resolveCollectionHref};
+    createSupplyControls({section, title, rows, mobileList, tbody,
+        card: row => createSupplyCard({...args, row}), tableRow: row => createSupplyRow({...args, row})});
     return section;
 }
 
@@ -465,6 +495,8 @@ export function createSupplySectionNode({
         ethTableWrap.appendChild(ethTable);
         ethSection.appendChild(ethTableWrap);
 
+        createSupplyControls({section: ethSection, title: ethSectionTitle, rows: ethSupplyData, mobileList: ethMobileList,
+            tbody: ethTbody, card: createEthSupplyCard, tableRow: createEthSupplyRow, ethereum: true});
         root.appendChild(ethSection);
     }
 

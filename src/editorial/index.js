@@ -1,3 +1,4 @@
+import {storyKeys, storySections, storyDirectory, artworkFootnotes} from './story-renderer.js';
 import montreal from './content/index.html?raw';
 import gentlemen from './content/gentlemen.html?raw';
 import liminality from './content/liminality.html?raw';
@@ -13,7 +14,7 @@ let navigate = null;
 export function configureEditorialNavigation(callback) { navigate = callback; }
 const sources = { Montreal: montreal, Gentlemen: gentlemen, Liminality: liminality, 'BEST BEFORE': bestBefore, practice, 'paint-engine': engine, exhibitions, collecting };
 const routes = { 'index.html': '/montreal', 'process.html': '/practice', 'paint-engine.html': '/paint-engine', 'gentlemen.html': '/gentlemen', 'liminality.html': '/liminality', 'best-before.html': '/best-before', 'exhibitions.html': '/highlights', 'collecting.html': '/collecting', 'review.html': '/about', 'editorial-sources.md': '/editorial/sources.md', 'sources.md': '/editorial/archive-sources.md' };
-const collectionKeys = new Set(['Montreal', 'Gentlemen', 'Liminality', 'BEST BEFORE']);
+const collectionKeys = new Set(['Montreal', 'Gentlemen', 'Liminality', 'BEST BEFORE', ...storyKeys]);
 
 function scrollToAnchor(hash) {
     const target = document.getElementById(decodeURIComponent(hash.replace(/^#/, '')));
@@ -67,7 +68,7 @@ export function wireEditorial(root) {
             event.preventDefault();
             history.replaceState({}, '', url.pathname + url.hash);
             scrollToAnchor(url.hash);
-        } else if (navigate?.(url.pathname, url.hash)) {
+        } else if (!/\.[a-z0-9]+$/i.test(url.pathname) && navigate?.(url.pathname, url.hash)) {
             event.preventDefault();
             if (url.hash) {
                 history.replaceState({}, '', location.pathname + url.hash);
@@ -89,10 +90,12 @@ export function wireEditorial(root) {
 export function createEditorialPage(key) {
     // These are reviewed editorial fragments. Parse their body in an inert document;
     // never attach their standalone scripts, navigation, styles, or document shell.
-    const doc = new DOMParser().parseFromString(sources[key], 'text/html');
+    const doc = storyKeys.includes(key) ? null : new DOMParser().parseFromString(sources[key], 'text/html');
     const article = document.createElement('article');
     article.className = 'lh-editorial';
-    if (key === 'Montreal') {
+    if (storyKeys.includes(key)) {
+        article.append(...storySections(key).children);
+    } else if (key === 'Montreal') {
         article.append(...doc.querySelector('#additions').children);
     } else {
         const main = doc.querySelector('main');
@@ -188,6 +191,7 @@ export function createExplorePractice() {
         <a class="card-link" href="/best-before#diary"><strong>BEST BEFORE →</strong><span>Making the work, living with time, and the complete diary.</span></a>
         <a class="card-link" href="/liminality#collection-story"><strong>Liminality →</strong><span>The personal transition behind the series.</span></a>
       </section>`;
+    hub.appendChild(storyDirectory());
     return wireEditorial(hub);
 }
 
@@ -210,14 +214,18 @@ export function readingLink(href, title, description) {
 export function createArtistNotes(item) {
     const notes = artistNotes[item.id];
     const isSE = item.id === '627d9a054e2db14bc892cec8a747da726dbadc1677079ff49675b17f78e262d8i0';
-    if (!notes && !isSE) return null;
+    const footnotes = artworkFootnotes(item.id);
+    if (!notes && !isSE && !footnotes) return null;
     const node = document.createElement('div');
     node.className = 'lh-editorial artwork-artist-notes';
     for (const text of notes || []) {
         const p = document.createElement('p'); p.className = 'verbatim'; p.textContent = text; node.appendChild(p);
     }
-    const cite = document.createElement('cite');
-    cite.textContent = 'Original artist writing · inscription HTML archive'; node.appendChild(cite);
+    if (notes || isSE) {
+        const cite = document.createElement('cite');
+        cite.textContent = 'Original artist writing · inscription HTML archive'; node.appendChild(cite);
+    }
+    if (footnotes) node.appendChild(footnotes);
     if (isSE) {
         const a = document.createElement('a'); a.href = '/practice'; a.textContent = 'Read the complete statement & process →'; node.appendChild(a);
     }

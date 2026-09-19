@@ -65,3 +65,20 @@
 .lh-editorial.artwork-artist-notes .verbatim{font-size:12px;line-height:1.85}
 @media(max-width:1000px){.lh-editorial .section-row{grid-template-columns:1fr;gap:8px}.lh-editorial .event-row{grid-template-columns:1fr}.lh-editorial .work-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.lh-editorial{font-size:14px}.lh-editorial h2{font-size:21px}.lh-editorial .two-up,.lh-editorial .three-up{grid-template-columns:1fr}.lh-editorial .wide-figure img,.lh-editorial .two-up .wide-figure img{height:auto;max-height:500px}.lh-editorial .essay-section{margin-top:35px;padding-top:25px}.lh-editorial .lead{font-size:18px}.lh-editorial .verbatim{font-size:14px}.lh-editorial .reader-image{width:110px;height:110px;margin-left:15px}.lh-editorial .engine-frame{height:580px}.lh-editorial .lifecycle-tabs{gap:8px}.lh-editorial .lifecycle-tabs button{font-size:12px;padding:9px 12px}.lh-editorial.collection-story{margin-top:25px;padding-top:28px}.editorial-jumps{font-size:9px;gap:10px 17px}}
+
+/* Supply controls retain the site's black, compact table treatment. */
+.supply-controls { display:flex; align-items:end; gap:12px; flex-wrap:wrap; margin:0 0 16px; }
+.supply-controls label { display:flex; flex-direction:column; gap:7px; font:10px monospace; color:#999; }
+.supply-controls input,.supply-controls select { background:#111; border:1px solid #333; border-radius:2px; color:#eee; font:12px monospace; padding:10px; min-height:40px; max-width:100%; }
+.supply-controls input:focus,.supply-controls select:focus { outline:1px solid #aaa; outline-offset:2px; }
+.supply-result-count,.supply-empty { font:11px monospace; color:#aaa; padding:10px 0; }
+@media(max-width:600px) { .supply-controls label { flex:1 1 140px; min-width:0; } .supply-result-count { width:100%; padding:0; } }
+.lh-editorial .story-directory { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 24px; }
+.lh-editorial .story-directory .card-link { height:100%; }
+.lh-editorial .story-work-links { display:flex; flex-wrap:wrap; gap:10px 22px; margin:20px 0; }
+.lh-editorial .story-work-links a { font-size:13px; border-bottom:1px solid #555; padding:6px 0; }
+.lh-editorial .story-sources { display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:22px; }
+.lh-editorial .story-sources a,.lh-editorial .story-footnotes>a { font:11px/1.7 monospace; color:#999; }
+.lh-editorial .story-footnotes>p:not(:first-child) { margin-top:26px; }
+.lh-editorial .story-footnotes .verbatim { white-space:pre-line; }
+@media(max-width:650px) { .lh-editorial .story-directory { grid-template-columns:1fr; } }
