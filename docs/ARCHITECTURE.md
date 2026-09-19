@@ -35,7 +35,7 @@ This document is the high-level engineering map for `lemonhaze.com`:
 The router in `src/router/index.js` owns canonical path-based state:
 
 - `/<collection-slug>` for collection browsing
-- `/<section-name>` for internal sections (`about`, `highlights`, `supply`, `media`, `lab`)
+- `/<section-name>` for internal sections (`about`, `highlights`, `explore`, `practice`, `paint-engine`, `collecting`, `supply`, `media`, `lab`)
 - `/<inscription-id>` for artwork modal deep links
 
 Legacy query links (`c`, `collection`, `name`, `s`, `section`, `a`, `id`) are still accepted and normalized. Invalid or conflicting combinations are rewritten to the canonical path shape.
@@ -102,3 +102,13 @@ The artwork modal is therefore the main integration point between curated repo d
 - The public app should fail soft when external data is unavailable: provenance falls back across multiple sources, BEST BEFORE data degrades gracefully, and missing metadata/sales data should not block browsing.
 - `public/_headers` controls cache behavior for HTML and immutable built assets.
 - Clean path routing depends on the Cloudflare Pages fallback function in `functions/[[path]].ts`; local `vite preview` exercises the built client app but not that edge fallback layer.
+
+## Explore the practice
+
+`/explore` is the reading hub linked directly below Career Highlights in the sidebar, from About and Career Highlights, and from every collection header. It leads to `/practice`, `/paint-engine`, `/collecting`, and the four collection stories. Those reading pages keep Explore the practice active in the sidebar.
+
+`src/editorial/` contains scoped styles, reviewed HTML content fragments, original Montreal notes keyed by inscription ID, and DOM navigation helpers. Collection stories are appended beneath the existing gallery cards for Montreal, Gentlemen, Liminality, and BEST BEFORE. Header anchors jump directly to the story or diary. The gallery renderer and collection datasets are unchanged.
+
+The artwork modal receives an optional artist-note renderer from runtime; Montreal notes and the Gentleman SE 2025 reading link appear alongside existing metadata. Original biography, collection descriptions, and career entries are retained. BEST BEFORE includes dated excerpts, a complete expandable diary, lifecycle explanation, and clearly labeled AI framing studies. The composite nature of diary Part Two is explicitly attributed.
+
+`public/editorial/` holds image assets, public source credits, and the saved Passe-Partout engine. The engine iframe loads only on request. Original artist writing remains unchanged; local-review labels and document shells are excluded from production fragments. New reading routes use the existing Pages SPA fallback. Route changes clear obsolete collection anchors, while direct reading anchors are restored after initial rendering.

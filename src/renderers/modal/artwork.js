@@ -246,6 +246,7 @@ export function createArtworkModalController({
     getAllArtworks,
     getMetaOwner,
     collectionDetails = {},
+    createArtistNotes = () => null,
     closeAboutModal,
     onOpenArtworkById,
 }) {
@@ -446,6 +447,8 @@ export function createArtworkModalController({
         if (item.about) {
             modalMetadata.appendChild(makeMetaRow('About', makeMetaText(item.about)));
         }
+        const artistNotes = createArtistNotes(item);
+        if (artistNotes) modalMetadata.appendChild(makeMetaRow('Artist’s notes', artistNotes));
         if (item.note) {
             modalMetadata.appendChild(makeMetaRow('Note', makeMetaText(item.note)));
         }

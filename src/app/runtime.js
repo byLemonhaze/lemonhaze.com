@@ -1,3 +1,4 @@
+import { configureEditorialNavigation, appendCollectionStory, createArtistNotes } from '../editorial/index.js';
 import {
     fetchProvenance,
     fetchBBCollection,
@@ -173,7 +174,7 @@ function syncSidebarActiveCollection(collectionName) {
 function syncSidebarActiveSection(sectionKey) {
     syncSidebarActiveSectionFromNav({
         topNav: el.topNavSection(),
-        sectionKey: sectionKey || null,
+        sectionKey: ({ practice: 'explore', 'paint-engine': 'explore', collecting: 'explore' })[sectionKey] || sectionKey || null,
     });
 }
 
@@ -226,6 +227,17 @@ function getCollectionLeadArtworks({ artworks, collectionName }) {
 // Initialization
 async function init() {
     refreshElements();
+    configureEditorialNavigation((path) => {
+        const token = decodeURIComponent(path.replace(/^\//, ''));
+        const section = normalizeSectionKey(token);
+        const collection = resolveCollectionPathToken(token);
+        if (!section && !collection && path !== '/') return false;
+        closeModal({ updateUrl: false });
+        if (section) openSection(section);
+        else loadCollection(collection || 'Home');
+        closeMobileMenu();
+        return true;
+    });
     homeLayoutController.setup();
     setupSiteOverlay();
     setLoading(true);
@@ -271,6 +283,11 @@ async function init() {
     setLoading(false);
 
     setupEventListeners();
+    if (location.hash) requestAnimationFrame(() => {
+        const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+        if (target?.tagName === 'DETAILS') target.open = true;
+        target?.scrollIntoView({ block: 'start', behavior: 'instant' });
+    });
 }
 
 
@@ -353,6 +370,8 @@ function renderGallery(items) {
         onOpenArtworkById: openArtworkById,
         parentIds: appState.parentIds,
     });
+    appendCollectionStory({ collection: appState.currentFilter, galleryGrid, currentViewMeta });
+    contentArea?.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 // ---------------------------------------------------------
@@ -383,6 +402,7 @@ const artworkModalController = createArtworkModalController({
     getAllArtworks: () => appState.artworks,
     getMetaOwner: el.metaOwner,
     collectionDetails: COLLECTION_DETAILS,
+    createArtistNotes,
     closeAboutModal: (options) => closeAboutModal(options),
     onOpenArtworkById: (id) => openArtworkById(id),
 });

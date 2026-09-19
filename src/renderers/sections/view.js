@@ -87,4 +87,5 @@ export function renderSectionView({
 
     sectionShell.appendChild(sectionBody);
     galleryGrid.appendChild(sectionShell);
+    contentArea?.scrollTo({ top: 0, behavior: 'instant' });
 }

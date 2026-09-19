@@ -27,6 +27,7 @@ export function createRouter({
             artwork: nextRouteState.artwork,
             toCollectionSlug,
         });
+        if (url.pathname !== window.location.pathname) url.hash = '';
         url.search = params.toString();
         return url;
     };

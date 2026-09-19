@@ -1,3 +1,4 @@
+import { enhanceAbout, enhanceHighlights, createExplorePractice, createEditorialPage, readingLink } from '../../editorial/index.js';
 import { createCareerHighlightsNode } from './highlights.js';
 import { createSupplySectionNode } from './supply.js';
 import { createMediaSectionNode } from './media.js';
@@ -22,17 +23,36 @@ export function createInternalSections({
         about: {
             label: 'About',
             title: 'About',
-            content: () => aboutText,
+            content: () => enhanceAbout(aboutText),
         },
         highlights: {
             label: 'Career Highlights',
             title: 'Career Highlights',
-            content: () => createCareerHighlightsNode(careerHighlightsItems),
+            content: () => enhanceHighlights(createCareerHighlightsNode(careerHighlightsItems)),
+        },
+        explore: {
+            label: 'Explore the practice', title: 'Explore the practice',
+            content: () => createExplorePractice(),
+        },
+        practice: {
+            label: 'Practice & Process', title: 'Practice & Process',
+            content: () => createEditorialPage('practice'),
+        },
+        'paint-engine': {
+            label: 'Paint Engine', title: 'Paint Engine',
+            content: () => createEditorialPage('paint-engine'),
+        },
+        collecting: {
+            label: 'Viewing & Collecting', title: 'Viewing & Collecting',
+            content: () => createEditorialPage('collecting'),
         },
         supply: {
             label: 'Supply & Marketplace',
             title: 'Supply & Marketplace',
-            content: () => createSupplySectionNode({
+            content: () => {
+                const wrap = document.createElement('div');
+                wrap.appendChild(readingLink('/collecting', 'Viewing & collecting →', 'A guide to exploring, displaying, and inquiring about a work.'));
+                wrap.appendChild(createSupplySectionNode({
                 ordinalsSupplyData,
                 extraOrdinalsSupplyData,
                 ethSupplyData,
@@ -41,7 +61,9 @@ export function createInternalSections({
                 physicalWorksItems,
                 toCollectionSlug,
                 slugifyCollectionName,
-            }),
+            }));
+                return wrap;
+            },
         },
         media: {
             label: 'Media & Press',
@@ -56,7 +78,11 @@ export function createInternalSections({
         lab: {
             label: 'Lab',
             title: 'Lab',
-            content: () => createProjectsSectionNode(),
+            content: () => {
+                const wrap = document.createElement('div');
+                wrap.append(readingLink('/paint-engine', 'Explore the paint engine →', 'An evolving tool: process, inscribed milestones, and an interactive study.'), createProjectsSectionNode());
+                return wrap;
+            },
         },
     };
 }
