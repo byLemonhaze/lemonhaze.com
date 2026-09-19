@@ -76,8 +76,10 @@ npx wrangler pages deploy dist --project-name lemonhaze
 
 ## Market Watch
 
-`/market-watch/` is a separate Vite entry linked from Supply & Marketplace. It uses the same public site origin and requires no login, wallet connection, or marketplace API key.
+`/supply#market-watch` embeds Market Watch below the Ordinals supply tables. The old `/market-watch/` route redirects there. Its React bundle loads only when Supply is opened, and navigation cancels in-flight client scans. It uses the same public site origin and requires no login, wallet connection, or marketplace API key.
 
 The Pages endpoints `GET /api/market-watch/snapshot` and `POST /api/market-watch/scan` persist shared snapshots in the dedicated D1 binding. Scan targets must be catalogued; client input cannot choose arbitrary external URLs. Atomic five-minute leases prevent visitors from duplicating the same source check. Satflow connections are paced, and HTTP 429 pauses its checks for five minutes. Failed refreshes preserve the previous result with a stale label.
 
 The initial bundled snapshot is a dated fallback. Coverage is incomplete when public feeds omit auctions, lots, private offers, or exact inscription IDs. Do not treat unavailable sources as zero. Source adapters are in `src/market-watch/lib/scanner.ts`; recheck them if a marketplace changes its public interfaces.
+
+Artwork titles are indexed at build time from the sales history, artist provenance, and collection manifests (in increasing precedence). Exact inscription IDs join these titles to existing and new snapshots. The supplementary title map records names read directly from each inscription’s metadata on ordinals.com. Unknown generic titles are checked against inscription metadata, then content, during scans and cached; the UI never presents a global inscription number as an edition number.

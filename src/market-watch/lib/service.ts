@@ -1,3 +1,4 @@
+import {enrichArtworkTitles} from './inscription-titles';
 import {createStore} from './store';
 import {read,readJSON,discoverGamma,scanCollection} from './scanner';
 import {ordCatalog,mergeGamma,mergeWallet} from './catalog';
@@ -39,6 +40,6 @@ export async function handleScan(request:Request,env:MarketEnv){
   if(market==='satflow'&&!await store.claim('satflow:connection',2200))return unchanged('Satflow is serving another scan. Its last snapshot is retained.');
   const r=await scanCollection(c,market);const rateLimited=r.message.includes('HTTP 429');
   if(market==='satflow'&&rateLimited)await store.put('satflow:cooldown',Date.now()+300000);
-  return json({...await store.save(r),cooldown:market==='satflow'&&rateLimited});
+  return json({...await store.save(await enrichArtworkTitles(r,store)),cooldown:market==='satflow'&&rateLimited});
  }catch(error){console.error('Market Watch scan failed',error instanceof Error?error.message:'Unexpected failure');return json({error:'The scan could not finish. Existing snapshots are retained.'},503);}
 }

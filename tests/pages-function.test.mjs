@@ -149,3 +149,13 @@ test("/best-before still falls through and uses the 404 SPA fallback", async () 
   assert.equal(calls.assets.length, 1);
   assert.match(text, /<title>Lemonhaze<\/title>/);
 });
+
+test('old Market Watch links resolve directly to its embedded Supply section', async () => {
+  for (const path of ['/market-watch', '/market-watch/', '/market-watch/index.html']) {
+    const {context,calls}=createContext(path+'?ref=bookmark',{nextResponse:new Response('Old standalone page')});
+    const response=await onRequest(context);
+    assert.equal(response.status,307);
+    assert.equal(response.headers.get('location'),'https://lemonhaze.com/supply?ref=bookmark#market-watch');
+    assert.equal(calls.next,0);
+  }
+});

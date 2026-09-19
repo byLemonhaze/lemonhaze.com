@@ -1,3 +1,4 @@
+import '../../market-watch/embed.js';
 import {
     computeSalesSummary,
     formatBtcCompact,
@@ -391,14 +392,17 @@ export function createSupplySectionNode({
     statsStrip.appendChild(desktopGrid);
     root.appendChild(statsStrip);
 
-    const marketWatch = createNode('section', 'market-watch-entry');
-    const marketWatchCopy = createNode('div');
-    marketWatchCopy.appendChild(createNode('h3', '', 'Market Watch'));
-    marketWatchCopy.appendChild(createNode('p', '', 'Listings, public offers, and cross-listed works across Bitcoin marketplaces.'));
-    const marketWatchLink = createNode('a', '', 'Open Market Watch ↗');
-    marketWatchLink.href = '/market-watch/';
-    marketWatch.append(marketWatchCopy, marketWatchLink);
-    root.appendChild(marketWatch);
+    const marketWatchJump = createNode('a', 'supply-market-watch-jump', 'Market Watch ↓');
+    marketWatchJump.href = '#market-watch';
+    marketWatchJump.addEventListener('click', (event) => {
+        const target = root.querySelector('#market-watch');
+        const area = document.getElementById('content-area');
+        if (!target || !area) return;
+        event.preventDefault();
+        history.replaceState(history.state, '', `${location.pathname}${location.search}#market-watch`);
+        area.scrollTo({top: area.scrollTop + target.getBoundingClientRect().top - area.getBoundingClientRect().top - 24, behavior: 'instant'});
+    });
+    statsStrip.appendChild(marketWatchJump);
 
     root.appendChild(createOrdinalsSupplyListSection({
         title: ordinalsSectionTitle,
@@ -421,6 +425,10 @@ export function createSupplySectionNode({
             resolveCollectionHref,
         }));
     }
+
+    const marketWatch = createNode('lemonhaze-market-watch', 'market-watch');
+    marketWatch.id = 'market-watch';
+    root.appendChild(marketWatch);
 
     if (ethSupplyData.length) {
         const ethSection = createNode('section');

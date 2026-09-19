@@ -13,6 +13,9 @@ const LEGACY_APP_ENTRY_PATHS = new Set([
 ]);
 
 const LEGACY_REDIRECT_PATHS = new Map([
+    ['/market-watch', '/supply#market-watch'],
+    ['/market-watch/', '/supply#market-watch'],
+    ['/market-watch/index.html', '/supply#market-watch'],
     ['/marketplace', '/supply'],
     ['/marketplace/', '/supply'],
     ['/marketplace.html', '/supply'],
