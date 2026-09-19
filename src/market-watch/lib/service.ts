@@ -2,6 +2,7 @@ import {enrichArtworkTitles} from './inscription-titles';
 import {createStore} from './store';
 import {read,readJSON,discoverGamma,scanCollection} from './scanner';
 import {ordCatalog,mergeGamma,mergeWallet} from './catalog';
+import {canonicalCatalog} from './collection-policy';
 import {markets,type Market} from './types';
 export interface MarketEnv{MARKET_WATCH_DB:D1Database}
 const json=(value:unknown,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
@@ -17,16 +18,16 @@ export async function handleScan(request:Request,env:MarketEnv){
   const store=createStore(env.MARKET_WATCH_DB);
   if(input.discover===true){
    const previous=await store.catalog();
-   if(!await store.claim('discovery',300000)){const cached=await store.get('catalog');return json(cached||{catalog:previous,discoveredAt:'',discoveryWarning:'Collection discovery is already running. Known collections remain available.'});}
+   if(!await store.claim('discovery',300000)){const cached=await store.get('catalog');return json(cached?{...cached as object,catalog:previous}:{catalog:previous,discoveredAt:'',discoveryWarning:'Collection discovery is already running. Known collections remain available.'});}
    const results=await Promise.allSettled([read('https://ord.net/collections?sort=marketCap&q=lemonhaze').then(ordCatalog),discoverGamma(),readJSON('https://turbo.ordinalswallet.com/v2/search/lemonhaze?limit=100&t=1&include_collection_objects=true&group_collection_objects=true')]);
    const warnings:string[]=[];let catalog=results[0].status==='fulfilled'?results[0].value:previous;
    if(results[0].status==='rejected')warnings.push('Ord.net discovery unavailable');
    if(results[1].status==='fulfilled')catalog=mergeGamma(catalog,results[1].value);else warnings.push('Gamma discovery unavailable');
    if(results[2].status==='fulfilled'&&Array.isArray(results[2].value.collections))catalog=mergeWallet(catalog,results[2].value.collections);else warnings.push('Ordinals Wallet discovery unavailable');
-   for(const old of previous){const current=catalog.find(c=>c.key===old.key);if(current)current.refs={...old.refs,...current.refs};else catalog.push(old);}
+   for(const old of previous){const current=catalog.find(c=>c.key===old.key);if(current){if(results[1].status==='rejected'&&old.refs.gamma)current.refs.gamma=old.refs.gamma;if(results[2].status==='rejected'&&old.refs.ow)current.refs.ow=old.refs.ow;}}
    // Do not make old discovery-only offer summaries appear newly checked.
    for(const c of catalog){if(results[0].status==='rejected'&&c.stats)delete c.stats.ord;if(results[1].status==='rejected'&&c.stats)delete c.stats.gamma;}
-   const value={catalog,discoveredAt:new Date().toISOString(),discoveryWarning:warnings.join('. ')};await store.put('catalog',value);return json(value);
+   const value={catalog:canonicalCatalog(catalog),discoveredAt:new Date().toISOString(),discoveryWarning:warnings.join('. ')};await store.put('catalog',value);return json(value);
   }
   if(typeof input.key!=='string'||!markets.includes(input.market))return json({error:'Invalid collection or marketplace.'},400);
   const market=input.market as Market;const catalog=await store.catalog();const c=catalog.find(c=>c.key===input.key);if(!c?.refs[market])return json({error:'Collection source has not been mapped.'},404);

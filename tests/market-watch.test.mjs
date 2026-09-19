@@ -54,3 +54,54 @@ test('embedded styles are scoped and keep the host visible at phone widths',asyn
   }
  });
 });
+
+const {canonicalSnapshot,canonicalCatalog}=await load('../src/market-watch/lib/collection-policy.ts');
+const {mergeGamma,mergeWallet}=await load('../src/market-watch/lib/catalog.ts');
+const {scanCollection}=await load('../src/market-watch/lib/scanner.ts');
+const {readFile}=await import('node:fs/promises');
+const seed=JSON.parse(await readFile(new URL('../src/market-watch/lib/initial.json',import.meta.url),'utf8'));
+test('Ord.net defines the roster; excluded and duplicate market rows leave every total',()=>{
+ const s=canonicalSnapshot(seed);
+ assert.equal(s.catalog.length,49);
+ assert.ok(s.catalog.every(c=>c.refs.ord));
+ assert.ok(!s.catalog.some(c=>/provenance|colors|^off-kilter$|^glass breaker$|^mending out$/i.test(c.name)));
+ assert.ok(Object.values(s.results).every(r=>s.catalog.some(c=>c.key===r.key)));
+ const trilogy=s.catalog.find(c=>c.name==='Trilogy');
+ assert.equal(trilogy.refs.gamma.sources.length,3);
+ assert.equal(s.results['gamma:'+trilogy.key].listed,1);
+ assert.equal(s.results['gamma:minute-papillon-editions-by-lemonhaze'].listed,1);
+ assert.deepEqual(canonicalSnapshot(s),s);
+});
+test('legacy print snapshots survive a saved canonical catalogue before the next scan',()=>{
+ const s=canonicalSnapshot({...seed,catalog:canonicalCatalog(seed.catalog)});
+ assert.equal(s.results['gamma:trilogy-prints-by-lemonhaze'].listed,1);
+ assert.equal(s.results['gamma:minute-papillon-editions-by-lemonhaze'].listed,1);
+});
+test('Gamma and wallet discovery attach sources but cannot create collection rows',()=>{
+ const catalog=canonicalCatalog(seed.catalog);
+ const stats=seed.catalog.filter(c=>c.refs.gamma).map(c=>({collection:{id:c.refs.gamma.id,name:c.name,chain:'bitcoin',creator_user_ref:{slug:'lemonhaze'},type:c.refs.gamma.type,location_url:c.refs.gamma.url}}));
+ const merged=mergeGamma(catalog,stats);
+ assert.equal(merged.length,catalog.length);
+ assert.equal(merged.find(c=>c.name==='Trilogy').refs.gamma.sources.length,3);
+ const wallet=mergeWallet(merged,[{name:'Colors by Lemonhaze',slug:'colors-by-lemonhaze'},{name:'Provenance by Lemonhaze',slug:'provenance-by-lemonhaze'},{name:'New unmapped by Lemonhaze',slug:'new'}]);
+ assert.equal(wallet.length,catalog.length);
+});
+test('Trilogy scans all three Gamma print feeds and deduplicates their inscriptions',async t=>{
+ const c=canonicalCatalog(seed.catalog).find(c=>c.name==='Trilogy');const calls=[];
+ t.mock.method(globalThis,'fetch',async raw=>{
+  const url=new URL(raw);const print=url.searchParams.get('print_id');calls.push(print);
+  assert.ok(c.refs.gamma.sources.some(s=>s.id===print));
+  return Response.json({items:[{id,name:'Print #1',market_summary:{listing:{price_amount:{unit:'sats',amount:10000+calls.length}}}}]});
+ });
+ const r=await scanCollection(c,'gamma');
+ assert.equal(calls.length,3);assert.equal(r.status,'ok');assert.equal(r.listed,1);assert.equal(r.floor,10001);
+});
+test('a failed Gamma print feed leaves the combined row partial, not falsely complete',async t=>{
+ const c=canonicalCatalog(seed.catalog).find(c=>c.name==='Trilogy');let calls=0;
+ t.mock.method(globalThis,'fetch',async()=>{
+  if(++calls===1)return new Response('Unavailable',{status:503});
+  return Response.json({items:[{id,name:'Print #1',market_summary:{listing:{price_amount:{unit:'sats',amount:10000}}}}]});
+ });
+ const r=await scanCollection(c,'gamma');
+ assert.equal(r.status,'partial');assert.equal(r.listed,1);assert.match(r.message,/2 of 3/);
+});

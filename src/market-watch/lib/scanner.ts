@@ -1,7 +1,8 @@
+import {gammaSources,combineGammaResults} from './collection-policy';
 import { Collection, Listing, Market, Result } from './types';
 import {balanced,dataBlock,svelteJSON,rscText,jsonBlock,canonicalId,sats} from './parsers';
 const MAX_PAGES=25;
-export async function read(url:string){const res=await fetch(url,{headers:{Accept:'application/json,text/html;q=0.9','Cache-Control':'no-cache','User-Agent':'LemonhazeMarketWatch/1.0 (read-only personal collection tracker)'},signal:AbortSignal.timeout(18000)});if(!res.ok)throw Error(`Source returned HTTP ${res.status}`);const text=await res.text();if(text.length>8_000_000)throw Error('Source response too large');return text;}
+export async function read(url:string){const res=await fetch(url,{headers:{Accept:'application/json,text/html;q=0.9','Cache-Control':'no-cache','User-Agent':'LemonhazeMarketWatch/1.0 (public artwork market snapshots)'},signal:AbortSignal.timeout(18000)});if(!res.ok)throw Error(`Source returned HTTP ${res.status}`);const text=await res.text();if(text.length>8_000_000)throw Error('Source response too large');return text;}
 export const readJSON=async(url:string)=>JSON.parse(await read(url));
 export function gammaURL(path:string,params:Record<string,unknown>){const u=new URL('https://gamma.io/api/'+path);for(const [k,v]of Object.entries(params))if(v!==undefined&&v!==null)u.searchParams.set(k,String(v));return u.href;}
 export async function discoverGamma(){const all:any[]=[];let page:unknown;const seen=new Set();for(let i=0;i<MAX_PAGES;i++){const d=await readJSON(gammaURL('get-collection-stats',{created_by_user_slug_or_address:'lemonhaze',chain:'bitcoin',sort:'newest',page}));if(!Array.isArray(d.collection_stats))throw Error('Gamma collection format changed');all.push(...d.collection_stats);if(d.next_page==null)return all;if(seen.has(d.next_page))throw Error('Gamma pagination repeated');seen.add(d.next_page);page=d.next_page;}throw Error('Gamma discovery page limit reached');}
@@ -17,6 +18,11 @@ export async function scanCollection(c:Collection,market:Market):Promise<Result>
   return base;
  }
  if(market==='gamma'){
+  const sources=gammaSources(ref);
+  if(sources.length>1){
+   const parts=await Promise.all(sources.map(source=>scanCollection({...c,refs:{...c.refs,gamma:source}},'gamma')));
+   return combineGammaResults(c.key,parts,sources.length);
+  }
   const listings:Listing[]=[];let cursor:any={};let complete=false;const seen=new Set();
   for(let page=0;page<MAX_PAGES;page++){
    const d=await readJSON(gammaURL('get-inscriptions',{[ref.type==='print'?'print_id':'collection_id_or_slug']:ref.id,availability:'for_sale',sort:'lowest_price',...cursor}));if(!Array.isArray(d.items))throw Error('Gamma listing format changed');

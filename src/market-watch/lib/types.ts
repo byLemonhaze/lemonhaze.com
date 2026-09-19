@@ -2,7 +2,7 @@ import {artworkName} from './artwork-names';
 export const markets = ['ord','gamma','satflow','ow'] as const;
 export type Market = typeof markets[number];
 export const marketNames: Record<Market,string> = {ord:'Ord.net',gamma:'Gamma',satflow:'Satflow',ow:'Ordinals Wallet'};
-export type Ref = {id:string;url:string;type?:string;aliases?:string[]};
+export type Ref = {id:string;url:string;type?:string;name?:string;aliases?:string[];sources?:{id:string;url:string;type?:string;name?:string}[]};
 export type Collection = {key:string;name:string;kind:string;image:string|null;supply:number|null;refs:Partial<Record<Market,Ref>>;stats?:Partial<Record<Market,{listed:number|null;floor:number|null;topOffer:number|null}>>};
 export type Listing = {id:string;name:string;price:number;url:string;origin?:string;expiresAt?:string|null};
 export type Bid = {id:string;price:number;scope:'collection'|'inscription';inscriptionId?:string;expiresAt:string|null;url:string};

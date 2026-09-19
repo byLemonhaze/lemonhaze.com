@@ -38,3 +38,5 @@
 
 .market-watch .heading h3{display:flex;align-items:center;gap:8px}
 .market-watch .heading h3::before{content:"";display:block;width:16px;height:1px;background:rgba(255,255,255,.1)}
+
+.market-watch .detail-source-links{display:flex;flex-wrap:wrap;gap:10px 16px;margin-bottom:18px;font:10px var(--mono);color:var(--muted)}
