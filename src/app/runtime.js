@@ -1,3 +1,5 @@
+import {assembleArtworkCatalog} from '../data/catalog.js';
+import {setupSeo} from '../seo/runtime.js';
 import { configureEditorialNavigation, appendCollectionStory, createArtistNotes } from '../editorial/index.js';
 import {
     fetchProvenance,
@@ -23,7 +25,6 @@ import { createCollectionResolver } from '../data/collections.js';
 import {
     loadCollectionFlow,
     syncSidebarActiveCollection as syncSidebarActiveCollectionFromNav,
-    COLLECTION_LEAD_ARTWORK_IDS,
 } from './collection-flow.js';
 import { createSectionFlow } from './section-flow.js';
 import { el, refreshElements as refreshDomElements } from '../ui/elements.js';
@@ -213,18 +214,6 @@ function buildParentIds(artworks) {
     return ids;
 }
 
-function getCollectionLeadArtworks({ artworks, collectionName }) {
-    const leadIds = COLLECTION_LEAD_ARTWORK_IDS[collectionName];
-    if (!Array.isArray(leadIds) || leadIds.length === 0) return [];
-
-    const seen = new Set();
-    return artworks.filter((item) => {
-        if (item.collection !== collectionName) return false;
-        if (!leadIds.includes(item.id) || seen.has(item.id)) return false;
-        seen.add(item.id);
-        return true;
-    });
-}
 // Initialization
 async function init() {
     refreshElements();
@@ -239,6 +228,9 @@ async function init() {
         closeMobileMenu();
         return true;
     });
+    if (document.documentElement.dataset.prerendered === 'true') {
+        homeLayoutController.setHomeMode(document.body.classList.contains('home-art-first'));
+    }
     homeLayoutController.setup();
     setupSiteOverlay();
     setLoading(true);
@@ -249,26 +241,7 @@ async function init() {
         fetchBBCollection(),
         fetchFeaturedCollections(),
     ]);
-    const nonBB = provenanceData.filter(item => item.collection !== 'BEST BEFORE');
-    const bbLeadArtworks = getCollectionLeadArtworks({
-        artworks: provenanceData,
-        collectionName: 'BEST BEFORE',
-    });
-    const bbProvenance = provenanceData.find(item => item.collection === 'BEST BEFORE')?.provenance || null;
-    const enrichedBBLive = bbProvenance
-        ? bbLive.map((item) => ({ ...item, provenance: bbProvenance }))
-        : bbLive;
-    const primaryArtworks = bbLive.length > 0
-        ? [...enrichedBBLive, ...bbLeadArtworks, ...nonBB]
-        : provenanceData;
-    const featuredIds = new Set(featuredCollections.map((item) => item.id));
-    // New 2026 1/1s follow the existing chronological roster.
-    const newOneOfOnes = featuredCollections.filter((item) => item.collection === '1 of 1s (2026)');
-    appState.artworks = [
-        ...featuredCollections.filter((item) => item.collection !== '1 of 1s (2026)'),
-        ...primaryArtworks.filter((item) => !featuredIds.has(item.id)),
-        ...newOneOfOnes,
-    ];
+    appState.artworks = assembleArtworkCatalog(provenanceData, bbLive, featuredCollections);
     appState.parentIds = buildParentIds(appState.artworks);
     rebuildCollectionSlugs();
 
@@ -281,7 +254,9 @@ async function init() {
         }
     }
 
+    setupSeo({router,getArtworks:()=>appState.artworks,descriptions:COL_DESCRIPTIONS,toCollectionSlug});
     setLoading(false);
+    document.documentElement.dataset.appReady = 'true';
 
     setupEventListeners();
     if (location.hash) requestAnimationFrame(() => {
@@ -302,6 +277,7 @@ function renderSidebar() {
         collectionsNav,
         internalSections: INTERNAL_SECTIONS,
         chronologyByYear: CHRONOLOGY_BY_YEAR,
+        toCollectionSlug,
         currentFilter: appState.currentFilter,
         activeSectionKey: appState.activeSectionKey,
         onOpenSection: (sectionKey) => {
@@ -508,6 +484,7 @@ function closeAboutModal(options = {}) {
 }
 
 function setLoading(isLoading) {
+    if (isLoading && document.documentElement.dataset.prerendered === 'true') return;
     setLoadingIndicator(loadingIndicator, isLoading);
 }
 

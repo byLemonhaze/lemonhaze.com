@@ -1,9 +1,9 @@
 import { initCollapsedYears, toggleYearCollapse, getCollapsedYears } from '../state/store.js';
 
 const BASE_TOP_NAV_BUTTON_CLASS =
-    'w-full text-left border-l border-transparent px-3 py-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white/80 hover:border-white/40 hover:bg-white/[0.05] hover:text-white';
+    'block w-full text-left border-l border-transparent px-3 py-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white/80 hover:border-white/40 hover:bg-white/[0.05] hover:text-white';
 const ACTIVE_TOP_NAV_BUTTON_CLASS =
-    'w-full text-left border-l border-white/85 bg-white/[0.07] px-3 py-2.5 text-[12px] font-bold uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white';
+    'block w-full text-left border-l border-white/85 bg-white/[0.07] px-3 py-2.5 text-[12px] font-bold uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white';
 
 // Keep the sidebar concise without changing the collection’s full public name.
 const SIDEBAR_COLLECTION_LABELS = {
@@ -13,7 +13,7 @@ const SIDEBAR_COLLECTION_LABELS = {
 export function syncSidebarActiveSection({ topNav, sectionKey }) {
     if (!topNav) return;
 
-    const allSectionButtons = Array.from(topNav.querySelectorAll('button[data-section]'));
+    const allSectionButtons = Array.from(topNav.querySelectorAll('[data-section]'));
     allSectionButtons.forEach((button) => {
         button.className = BASE_TOP_NAV_BUTTON_CLASS;
     });
@@ -47,11 +47,12 @@ export function renderTopNav(container, {
     ];
 
     sectionLinks.forEach(([label, sectionKey]) => {
-        const btn = document.createElement('button');
+        const btn = document.createElement('a');
+        btn.href = '/' + sectionKey;
         btn.className = sectionKey === activeSectionKey ? ACTIVE_TOP_NAV_BUTTON_CLASS : BASE_TOP_NAV_BUTTON_CLASS;
         btn.dataset.section = sectionKey;
         btn.textContent = label;
-        btn.onclick = () => onOpenSection(sectionKey);
+        btn.onclick = event => {if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();onOpenSection(sectionKey);};
         container.appendChild(btn);
     });
 
@@ -82,6 +83,7 @@ export function renderYearGroups({
     currentFilter,
     onLoadCollection,
     onAfterSelect,
+    toCollectionSlug,
 }) {
     const years = Object.keys(chronologyByYear).sort((a, b) => b - a);
     initCollapsedYears(years);
@@ -116,15 +118,18 @@ export function renderYearGroups({
 
         collections.forEach((collectionName) => {
             const li = document.createElement('li');
-            const btn = document.createElement('button');
+            const btn = document.createElement('a');
+            btn.href = '/' + toCollectionSlug(collectionName);
             const displayName = SIDEBAR_COLLECTION_LABELS[collectionName] || collectionName;
             const isActive = currentFilter === collectionName;
             btn.className = isActive
-                ? 'w-full text-left border-l border-white/85 bg-white/[0.07] px-3 py-1.5 text-xs uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white font-bold'
-                : 'w-full text-left border-l border-transparent px-3 py-1.5 text-xs font-medium uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white/75 hover:border-white/40 hover:bg-white/[0.05] hover:text-white';
+                ? 'block w-full text-left border-l border-white/85 bg-white/[0.07] px-3 py-1.5 text-xs uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white font-bold'
+                : 'block w-full text-left border-l border-transparent px-3 py-1.5 text-xs font-medium uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white/75 hover:border-white/40 hover:bg-white/[0.05] hover:text-white';
             btn.dataset.collection = collectionName;
             btn.textContent = displayName;
-            btn.onclick = () => {
+            btn.onclick = event => {
+                if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+                event.preventDefault();
                 onLoadCollection(collectionName);
                 onAfterSelect();
             };
@@ -155,6 +160,7 @@ export function renderSidebarSections({
     onOpenExternal,
     onLoadCollection,
     onAfterSelect,
+    toCollectionSlug,
 }) {
     if (topNav) {
         topNav.innerHTML = '';
@@ -174,6 +180,7 @@ export function renderSidebarSections({
             currentFilter,
             onLoadCollection,
             onAfterSelect,
+    toCollectionSlug,
         });
     }
 }

@@ -44,6 +44,7 @@ export function createRouter({
 
         const historyMethod = replaceHistory ? 'replaceState' : 'pushState';
         window.history[historyMethod]({}, '', next);
+        window.dispatchEvent?.(new Event('lemonhaze:route-change'));
     };
 
     return {
@@ -129,5 +130,6 @@ export async function applyRouteFromLocation({
         router.syncUrlState(normalizedState, { replaceHistory });
     }
 
+    window.dispatchEvent?.(new Event('lemonhaze:route-change'));
     return hasDeepLink;
 }

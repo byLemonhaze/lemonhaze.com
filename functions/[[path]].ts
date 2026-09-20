@@ -24,17 +24,6 @@ const LEGACY_REDIRECT_PATHS = new Map([
     ['/lab/design-bank/', '/lab'],
 ]);
 
-const NON_SPA_PREFIXES = [
-    '/api/',
-    '/assets/',
-    '/lab/',
-];
-
-const shouldBypassSpaFallback = (pathname: string) => {
-    if (NON_SPA_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return true;
-    return pathname.includes('.');
-};
-
 const serveAppShell = async (context: EventContext<Env, string, unknown>) => {
     const requestUrl = new URL(context.request.url);
     const shellUrl = new URL('/index.html', requestUrl);
@@ -61,9 +50,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
         return await serveAppShell(context);
     }
 
-    const response = await context.next();
-    if (response.status !== 404) return response;
-    if (shouldBypassSpaFallback(url.pathname)) return response;
-
-    return await serveAppShell(context);
+    // Known pages are generated as HTML. Preserve genuine 404s for unknown URLs.
+    return context.next();
 };

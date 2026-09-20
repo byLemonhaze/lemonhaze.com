@@ -207,7 +207,7 @@ const CHRONOLOGY = {
     "Trilogy (Prints)",
     "BEST BEFORE",
   ],
-  "2026": ["1 of 1s (2026)", "Into The Wild", "Liminality"],
+  "2026": ["1 of 1s (2026)", "Into The Wild", "Liminality", "Griffintown", "Tin Box of Solitude"],
 } as const;
 
 const PRE_PARENT_COLLECTIONS = CHRONOLOGY["2023"].slice(0, 26);
@@ -228,13 +228,13 @@ const GRAND_PERIODS = [
     label: "2025",
     year: "2025",
     names: CHRONOLOGY["2025"],
-    rect: { x: 3870, y: 1870, width: 2700, height: 2260 },
+    rect: { x: 3870, y: 1870, width: 2470, height: 2260 },
   },
   {
     label: "2026",
     year: "2026",
     names: CHRONOLOGY["2026"],
-    rect: { x: 6600, y: 1870, width: 870, height: 2260 },
+    rect: { x: 6370, y: 1870, width: 1100, height: 2260 },
   },
 ] as const;
 
@@ -325,9 +325,13 @@ function resolveTrilogyPreview(name: string): string | undefined {
   return match ? `${CDN_BASE}/${match[1]}.png` : undefined;
 }
 
-async function loadCatalogue(): Promise<Artwork[]> {
+export async function loadCatalogue(): Promise<Artwork[]> {
   const [
     provenanceResult,
+    localProvenanceResult,
+    tinBoxResult,
+    griffintownResult,
+    oneOfOnesResult,
     liminalityResult,
     satoshiResult,
     deprivationResult,
@@ -336,31 +340,35 @@ async function loadCatalogue(): Promise<Artwork[]> {
     bestBeforeResult,
   ] = await Promise.allSettled([
     fetchJson<Artwork[]>(PROVENANCE_URL),
+    fetchJson<Artwork[]>("/data/provenance.json"),
+    fetchJson<Array<Artwork & { meta?: { name?: string } }>>("/data/collections/tin-box-of-solitude.json"),
+    fetchJson<Array<Artwork & { meta?: { name?: string } }>>("/data/collections/griffintown.json"),
+    fetchJson<Array<Artwork & { meta?: { name?: string } }>>("/data/collections/1-of-1s-2026.json"),
     fetchJson<
       Array<
         Artwork & {
           meta?: { name?: string };
         }
       >
-    >(`${LIVE_SITE}/data/collections/liminality.json`),
+    >(`/data/collections/liminality.json`),
     fetchJson<Array<{ id: string; meta?: { name?: string } }>>(
-      `${LIVE_SITE}/data/collections/satoshi.json`,
+      `/data/collections/satoshi.json`,
     ),
     fetchJson<Array<{ id: string; meta?: { name?: string } }>>(
-      `${LIVE_SITE}/data/collections/deprivation.json`,
+      `/data/collections/deprivation.json`,
     ),
     fetchJson<Array<{ id: string; meta?: { name?: string } }>>(
-      `${LIVE_SITE}/data/collections/mirage.json`,
+      `/data/collections/mirage.json`,
     ),
     fetchJson<Array<{ id: string; meta?: { name?: string } }>>(
-      `${LIVE_SITE}/data/collections/trilogy.json`,
+      `/data/collections/trilogy.json`,
     ),
     fetchJson<
       Array<{ id?: string; meta?: { high_res_img_url?: string } }>
     >("https://bestbefore.space/magic_eden_collection.json"),
   ]);
 
-  if (provenanceResult.status !== "fulfilled") {
+  if (provenanceResult.status !== "fulfilled" && localProvenanceResult.status !== "fulfilled") {
     throw new Error("The live provenance catalogue could not be loaded.");
   }
 
@@ -373,7 +381,11 @@ async function loadCatalogue(): Promise<Artwork[]> {
     });
   }
 
-  const provenance = provenanceResult.value
+  const sourceRecords = [
+    ...(provenanceResult.status === "fulfilled" ? provenanceResult.value : []),
+    ...(localProvenanceResult.status === "fulfilled" ? localProvenanceResult.value : []),
+  ];
+  const provenance = sourceRecords
     .map((item) =>
       normalizeArtwork({
         ...item,
@@ -383,6 +395,18 @@ async function loadCatalogue(): Promise<Artwork[]> {
     .filter((item) => item.id);
 
   const supplements: Artwork[] = [];
+  for (const [name, result] of [
+    ["Tin Box of Solitude", tinBoxResult],
+    ["Griffintown", griffintownResult],
+    ["1 of 1s (2026)", oneOfOnesResult],
+  ] as const) {
+    if (result.status !== "fulfilled") throw new Error(`The ${name} collection could not be loaded. Please retry.`);
+    supplements.push(...result.value.map(item => normalizeArtwork({
+      ...item,
+      name: getMetaName(item),
+      preview: item.grid_preview || (name !== "Tin Box of Solitude" ? `https://render.ord.net/v9/snapshots/${item.id}/512.webp` : undefined),
+    }, name)));
+  }
 
   if (liminalityResult.status === "fulfilled") {
     supplements.push(
@@ -392,7 +416,7 @@ async function loadCatalogue(): Promise<Artwork[]> {
             ...item,
             name: getMetaName(item),
             preview: item.grid_preview
-              ? `${LIVE_SITE}${item.grid_preview}`
+              ? new URL(item.grid_preview, LIVE_SITE).href
               : undefined,
           },
           "Liminality",
@@ -495,7 +519,10 @@ async function loadCatalogue(): Promise<Artwork[]> {
     ),
   );
 
-  return [...provenance, ...supplements].filter((item) => item.id);
+  // Deduplicate shared parents and prefer the current collection manifests.
+  return [...new Map([...provenance, ...supplements]
+    .filter(item => /^[a-f0-9]{64}i\d+$/.test(item.id))
+    .map(item => [item.id, item])).values()];
 }
 
 function provenanceIds(item: Artwork): string[] {
@@ -585,7 +612,7 @@ function splitLineage(
   };
 }
 
-function buildGroups(artworks: Artwork[]): CollectionGroup[] {
+export function buildGroups(artworks: Artwork[]): CollectionGroup[] {
   const byCollection = new Map<string, Artwork[]>();
   const catalogueById = new Map(artworks.map((item) => [item.id, item]));
   artworks.forEach((item) => {
@@ -630,6 +657,7 @@ function getMediaCandidates(item: Artwork): string[] {
     item._imgSrc,
     `${CDN_BASE}/${item.id}.${preferred}`,
     preferred !== "png" ? `${CDN_BASE}/${item.id}.png` : undefined,
+    `https://render.ord.net/v9/snapshots/${item.id}/512.webp`,
     `https://ordinals.com/content/${item.id}`,
   ].filter(Boolean) as string[];
   return [...new Set(candidates)];
@@ -673,6 +701,7 @@ async function loadArtworkImage(
   item: Artwork,
   promiseCache: Map<string, Promise<HTMLImageElement | null>>,
 ): Promise<HTMLImageElement | null> {
+  if (ENCRYPTED_ARTWORK_IDS.has(item.id)) return null;
   for (const candidate of getMediaCandidates(item)) {
     const proxied = resizedPreviewUrl(candidate);
     let promise = promiseCache.get(proxied);
@@ -911,7 +940,7 @@ function fitFont(
   return minimumSize;
 }
 
-function groupDisplayItems(group: CollectionGroup): Artwork[] {
+export function groupDisplayItems(group: CollectionGroup): Artwork[] {
   if (group.name === "Ma ville en quatre temps") {
     return [
       ...new Map(
@@ -933,7 +962,7 @@ function groupDisplayItems(group: CollectionGroup): Artwork[] {
   ];
 }
 
-function preferredGridShape(
+export function preferredGridShape(
   group: CollectionGroup,
   itemCount = groupDisplayItems(group).length,
 ): { columns: number; rows: number } {
@@ -949,6 +978,8 @@ function preferredGridShape(
     Berlin: [4, 2],
     "Into The Wild": [3, 2],
     Liminality: [4, 2],
+    Griffintown: [2, 2],
+    "Tin Box of Solitude": [4, 3],
     "Ma ville en quatre temps": [2, 2],
     "Tori no Roji": [3, 2],
   };
@@ -1048,61 +1079,29 @@ function layoutOrderedRows(
   });
 }
 
-function layoutGrandPeriod(
+export function layoutGrandPeriod(
   groups: CollectionGroup[],
   rect: Rect,
   year: string,
 ): GroupLayout[] {
   const gap = 18;
   if (year === "2026") {
-    const oneOfOnes = groups.find(
-      (group) => group.name === "1 of 1s (2026)",
-    );
-    const intoTheWild = groups.find(
-      (group) => group.name === "Into The Wild",
-    );
-    const liminality = groups.find((group) => group.name === "Liminality");
-    if (oneOfOnes && intoTheWild && liminality) {
-      const usableHeight = rect.height - gap * 2;
-      const oneOfOnesHeight = usableHeight * 0.42;
-      const intoTheWildHeight = usableHeight * 0.26;
-      const liminalityHeight =
-        usableHeight - oneOfOnesHeight - intoTheWildHeight;
-      return [
-        {
-          group: oneOfOnes,
-          rect: {
-            x: rect.x,
-            y: rect.y,
-            width: rect.width,
-            height: oneOfOnesHeight,
-          },
-        },
-        {
-          group: intoTheWild,
-          rect: {
-            x: rect.x,
-            y: rect.y + oneOfOnesHeight + gap,
-            width: rect.width,
-            height: intoTheWildHeight,
-          },
-        },
-        {
-          group: liminality,
-          rect: {
-            x: rect.x,
-            y:
-              rect.y +
-              oneOfOnesHeight +
-              gap +
-              intoTheWildHeight +
-              gap,
-            width: rect.width,
-            height: liminalityHeight,
-          },
-        },
-      ];
-    }
+    const weights: Record<string, number> = {
+      "1 of 1s (2026)": 0.28,
+      "Into The Wild": 0.13,
+      "Liminality": 0.13,
+      "Griffintown": 0.16,
+      "Tin Box of Solitude": 0.30,
+    };
+    const usableHeight = rect.height - gap * (groups.length - 1);
+    const totalWeight = groups.reduce((sum, group) => sum + (weights[group.name] || 0.2), 0);
+    let y = rect.y;
+    return groups.map(group => {
+      const height = usableHeight * (weights[group.name] || 0.2) / totalWeight;
+      const layout = { group, rect: { x: rect.x, y, width: rect.width, height } };
+      y += height + gap;
+      return layout;
+    });
   }
 
   if (year === "2024") {
@@ -1721,6 +1720,11 @@ function drawCollectionGrid(
     return;
   }
 
+  if (group.name === "Tin Box of Solitude" && drawTinBoxGrid(context, group, images, rect)) return;
+  if (group.name === "Griffintown") {
+    const size = Math.min(rect.width, rect.height);
+    rect = { x: rect.x + (rect.width - size) / 2, y: rect.y + (rect.height - size) / 2, width: size, height: size };
+  }
   const shape = preferredGridShape(group, items.length);
   const columns = shape.columns;
   const rows = shape.rows;
@@ -1835,6 +1839,38 @@ function drawTieredParentGrid(
       cellHeight,
       index + 1,
     );
+  });
+  return true;
+}
+
+export function tinBoxTileLayout(rect: Rect, workCount: number) {
+  const gap = 12;
+  const parentSize = Math.min(160, rect.height * 0.23, rect.width * 0.25);
+  const rows = Math.max(1, Math.ceil(workCount / 4));
+  const workTop = rect.y + parentSize + gap * 2;
+  const cell = Math.min((rect.width - gap * 3) / 4, (rect.height - parentSize - gap * 2 - gap * (rows - 1)) / rows);
+  const width = cell * 4 + gap * 3;
+  const left = rect.x + (rect.width - width) / 2;
+  return {
+    parent: { x: rect.x + (rect.width - parentSize) / 2, y: rect.y, width: parentSize, height: parentSize },
+    works: Array.from({ length: workCount }, (_, index) => ({
+      x: left + (index % 4) * (cell + gap),
+      y: workTop + Math.floor(index / 4) * (cell + gap),
+      width: cell,
+      height: cell,
+    })),
+  };
+}
+
+function drawTinBoxGrid(context: CanvasRenderingContext2D, group: CollectionGroup, images: Map<string, HTMLImageElement>, rect: Rect): boolean {
+  const parent = group.parents[0];
+  if (!parent || !group.works.length) return false;
+  const layout = tinBoxTileLayout(rect, group.works.length);
+  const p = layout.parent;
+  drawArtworkTile(context, parent, images.get(itemKey(parent)), p.x, p.y, p.width, p.height, undefined, "COLLECTION PARENT");
+  group.works.forEach((work, index) => {
+    const r = layout.works[index];
+    drawArtworkTile(context, work, images.get(itemKey(work)), r.x, r.y, r.width, r.height);
   });
   return true;
 }
@@ -2291,6 +2327,15 @@ function drawGrandParentEra(
   });
 }
 
+export function latestChronologyDate(groups: CollectionGroup[]): string {
+  const dates = groups.flatMap(group => group.allItems)
+    .map(item => Date.parse(String(item.timestamp || '').replace(' UTC', 'Z').replace(' ', 'T')))
+    .filter(Number.isFinite);
+  if (!dates.length) return '2026';
+  return new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' })
+    .format(new Date(Math.max(...dates))).toUpperCase();
+}
+
 function drawPoster(
   canvas: HTMLCanvasElement,
   groups: CollectionGroup[],
@@ -2327,7 +2372,7 @@ function drawPoster(
   context.fillStyle = "#92928b";
   context.font = '500 25px "Courier New", monospace';
   context.fillText(
-    "COMPLETE ORDINALS CHRONOLOGY · FEB 2023 → JUL 2026",
+    `COMPLETE ORDINALS CHRONOLOGY · FEB 2023 → ${latestChronologyDate(groups)}`,
     524,
     171,
   );

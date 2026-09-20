@@ -42,7 +42,11 @@ export function setupAppEventListeners({
         });
     }
 
-    if (modalClose) modalClose.addEventListener('click', closeModal);
+    if (modalClose) modalClose.addEventListener('click', (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        closeModal();
+    });
     if (modalOverlay) {
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) closeModal();

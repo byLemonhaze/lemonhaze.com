@@ -12,7 +12,7 @@ export const COLLECTION_LEAD_ARTWORK_IDS = {
 export function updateSidebarActiveState({ collectionsNav, activeBtn }) {
     if (!collectionsNav) return;
 
-    const allButtons = collectionsNav.querySelectorAll('button[data-collection]');
+    const allButtons = collectionsNav.querySelectorAll('[data-collection]');
     allButtons.forEach((button) => {
         button.className = BASE_COLLECTION_BUTTON_CLASS;
     });
@@ -24,7 +24,7 @@ export function updateSidebarActiveState({ collectionsNav, activeBtn }) {
 
 export function syncSidebarActiveCollection({ collectionsNav, collectionName }) {
     if (!collectionsNav) return;
-    const allButtons = Array.from(collectionsNav.querySelectorAll('button[data-collection]'));
+    const allButtons = Array.from(collectionsNav.querySelectorAll('[data-collection]'));
     const activeBtn = allButtons.find((btn) => btn.dataset.collection === collectionName) || null;
     updateSidebarActiveState({ collectionsNav, activeBtn });
 }

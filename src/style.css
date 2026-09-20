@@ -415,3 +415,10 @@ a,button,summary{-webkit-tap-highlight-color:transparent}
  body.home-art-first #current-view-meta{container-type:inline-size}
  #current-view-meta .home-brand-tagline{font-size:min(9px,3.8cqi)}
 }
+
+/* Navigation remains visually identical when exposed as crawlable links. */
+#sidebar a[data-section],#sidebar a[data-collection]{display:block;text-decoration:none!important}
+#sidebar a[data-section]:not(.font-bold){color:rgb(255 255 255 / .8)!important}
+#sidebar a[data-collection]:not(.font-bold){color:rgb(255 255 255 / .75)!important}
+#sidebar a[data-section]:hover,#sidebar a[data-collection]:hover{color:#fff!important}
+@media(max-width:767px){#sidebar nav a[data-section],#sidebar nav a[data-collection]{min-height:44px}}

@@ -21,26 +21,31 @@ export async function fetchProvenance() {
       // Try next source.
     }
   }
-  console.error("Error fetching provenance: all sources failed");
+  if (!merged.size) console.error("Error fetching provenance: all sources failed");
   return [...merged.values()];
 }
 
+export function normalizeBBCollection(data) {
+  if (!Array.isArray(data)) throw new Error('Expected BEST BEFORE collection array');
+  return data.map(item => ({
+    id: item.id,
+    name: item.meta?.name || 'BEST BEFORE',
+    collection: 'BEST BEFORE',
+    content_type: 'text/html',
+    _imgSrc: item.meta?.high_res_img_url || null,
+  }));
+}
+
 export async function fetchBBCollection() {
-  try {
-    const res = await fetch(BB_COLLECTION_URL);
-    if (!res.ok) throw new Error("Failed to fetch BB collection");
-    const data = await res.json();
-    return data.map(item => ({
-      id: item.id,
-      name: item.meta?.name || 'BEST BEFORE',
-      collection: 'BEST BEFORE',
-      content_type: 'text/html',
-      _imgSrc: item.meta?.high_res_img_url || null,
-    }));
-  } catch (error) {
-    console.error("Error fetching BB collection:", error);
-    return [];
+  for (const url of [BB_COLLECTION_URL, '/data/collections/best-before.json']) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) continue;
+      const items = normalizeBBCollection(await res.json());
+      if (items.length) return items;
+    } catch { /* Try the saved official manifest when the live feed is unavailable. */ }
   }
+  return [];
 }
 
 // EXACT CHRONOLOGY AS REQUESTED

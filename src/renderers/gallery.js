@@ -58,8 +58,9 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
     const fragment = document.createDocumentFragment();
 
     items.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = 'group animate-fade-in cursor-pointer';
+        const card = document.createElement('a');
+        card.href = '/' + encodeURIComponent(item.id);
+        card.className = 'block group animate-fade-in cursor-pointer';
         card.dataset.artworkId = item.id;
         card.style.animationDelay = `${idx * 20}ms`;
 
@@ -99,7 +100,9 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
       </div>
     `;
 
-        card.onclick = () => onOpenArtworkById(item.id);
+        const image = card.querySelector('img');
+        if (image) image.alt = `${item.name || 'Untitled'} by Lemonhaze`;
+        card.onclick = event => {if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();onOpenArtworkById(item.id);};
 
         if (isVideo && fallbackImageSrc) {
             const video = card.querySelector('video');

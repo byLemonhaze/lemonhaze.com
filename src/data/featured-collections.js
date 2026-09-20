@@ -117,7 +117,7 @@ function normalizeItem(item, source) {
     };
 }
 
-export async function fetchFeaturedCollections() {
+export async function fetchFeaturedCollections({ strict = false } = {}) {
     const collections = await Promise.all(SOURCES.map(async (source) => {
         try {
             const response = await fetch(source.url);
@@ -126,6 +126,7 @@ export async function fetchFeaturedCollections() {
             if (!Array.isArray(items)) throw new Error('Expected an array');
             return items.map((item) => normalizeItem(item, source)).filter((item) => item.id);
         } catch (error) {
+            if (strict) throw error;
             console.error(`Error fetching ${source.collection}:`, error);
             return [];
         }

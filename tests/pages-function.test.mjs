@@ -38,61 +38,34 @@ async function responseText(response) {
   return await response.text();
 }
 
-test("/supply uses the SPA fallback so refreshing preserves the in-app section route", async () => {
+test("/supply preserves a missing static page as 404", async () => {
   const { context, calls } = createContext("/supply", {
-    nextResponse: new Response("Not found", {
-      status: 404,
-      headers: { "content-type": "text/plain; charset=utf-8" },
-    }),
-    assetResponse: new Response("<title>Lemonhaze</title>", {
-      headers: { "content-type": "text/html; charset=utf-8" },
-    }),
+    nextResponse: new Response("Not found", { status: 404 }),
   });
-
   const response = await onRequest(context);
-  const text = await responseText(response);
-
+  assert.equal(response.status, 404);
   assert.equal(calls.next, 1);
-  assert.equal(calls.assets.length, 1);
-  assert.match(text, /<title>Lemonhaze<\/title>/);
+  assert.equal(calls.assets.length, 0);
 });
 
-test("/supply/ still uses the 404 SPA fallback", async () => {
+test("/supply/ preserves a missing static page as 404", async () => {
   const { context, calls } = createContext("/supply/", {
-    nextResponse: new Response("Not found", {
-      status: 404,
-      headers: { "content-type": "text/plain; charset=utf-8" },
-    }),
-    assetResponse: new Response("<title>Lemonhaze</title>", {
-      headers: { "content-type": "text/html; charset=utf-8" },
-    }),
+    nextResponse: new Response("Not found", { status: 404 }),
   });
-
   const response = await onRequest(context);
-  const text = await responseText(response);
-
+  assert.equal(response.status, 404);
   assert.equal(calls.next, 1);
-  assert.equal(calls.assets.length, 1);
-  assert.match(text, /<title>Lemonhaze<\/title>/);
+  assert.equal(calls.assets.length, 0);
 });
 
-test("/about still uses the 404 SPA fallback", async () => {
+test("/about preserves a missing static page as 404", async () => {
   const { context, calls } = createContext("/about", {
-    nextResponse: new Response("Not found", {
-      status: 404,
-      headers: { "content-type": "text/plain; charset=utf-8" },
-    }),
-    assetResponse: new Response("<title>Lemonhaze</title>", {
-      headers: { "content-type": "text/html; charset=utf-8" },
-    }),
+    nextResponse: new Response("Not found", { status: 404 }),
   });
-
   const response = await onRequest(context);
-  const text = await responseText(response);
-
+  assert.equal(response.status, 404);
   assert.equal(calls.next, 1);
-  assert.equal(calls.assets.length, 1);
-  assert.match(text, /<title>Lemonhaze<\/title>/);
+  assert.equal(calls.assets.length, 0);
 });
 
 test("/marketplace redirects to /supply", async () => {
@@ -131,23 +104,14 @@ test("/lab/design-bank redirects to /lab", async () => {
   assert.equal(response.headers.get("location"), "https://lemonhaze.com/lab");
 });
 
-test("/best-before still falls through and uses the 404 SPA fallback", async () => {
+test("/best-before preserves a missing static page as 404", async () => {
   const { context, calls } = createContext("/best-before", {
-    nextResponse: new Response("Not found", {
-      status: 404,
-      headers: { "content-type": "text/plain; charset=utf-8" },
-    }),
-    assetResponse: new Response("<title>Lemonhaze</title>", {
-      headers: { "content-type": "text/html; charset=utf-8" },
-    }),
+    nextResponse: new Response("Not found", { status: 404 }),
   });
-
   const response = await onRequest(context);
-  const text = await responseText(response);
-
+  assert.equal(response.status, 404);
   assert.equal(calls.next, 1);
-  assert.equal(calls.assets.length, 1);
-  assert.match(text, /<title>Lemonhaze<\/title>/);
+  assert.equal(calls.assets.length, 0);
 });
 
 test('old Market Watch links resolve directly to its embedded Supply section', async () => {
