@@ -7,7 +7,7 @@
 
 /* Inherit the surrounding Supply section's scale, spacing, and palette. */
 .market-watch{color:#f0f0f0;background:none;font:12px 'Syne',sans-serif;letter-spacing:normal;--foreground:#f0f0f0;--background:var(--lh-bg,#050505);--surface:transparent;--border:rgba(255,255,255,.14);--muted:#ababab}
-.market-watch .shell{width:100%;min-width:0;margin:0;padding:0}
+.market-watch .shell{width:100%;max-width:none;min-width:0;margin:0;padding:0}
 .market-watch .heading{display:flex;flex-direction:row;align-items:center;gap:16px;margin:0 0 8px;padding-top:6px}
 .market-watch .heading h3{font:700 12px 'Syne',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3)}
 .market-watch .scan-button{width:auto;min-width:0;min-height:32px;padding:7px 10px;background:transparent;border-color:var(--border);font-size:9px}

@@ -148,6 +148,7 @@ export function appendCollectionStory({ collection, galleryGrid, currentViewMeta
     const article = createEditorialPage(collection);
     article.classList.add('collection-story');
     galleryGrid.id = 'gallery-grid';
+    galleryGrid.classList.add('relative');
     // The original gallery cards and their order are retained; the essay spans the next row.
     galleryGrid.prepend(Object.assign(document.createElement('span'), { id: 'artworks', className: 'editorial-anchor' }));
     galleryGrid.appendChild(article);

@@ -58,7 +58,7 @@
 .editorial-jumps{display:flex;gap:12px 22px;flex-wrap:wrap;margin-top:17px;font-size:10px;line-height:1.8;font-family:'Fragment Mono',monospace;text-transform:uppercase;letter-spacing:.08em}
 .editorial-jumps a{color:#aaa!important;text-decoration:underline;text-underline-offset:5px}
 .editorial-jumps a:hover{color:white!important}
-.editorial-anchor{position:absolute;width:0;height:0;pointer-events:none}
+.editorial-anchor{position:absolute;top:0;left:0;width:1px;height:1px;pointer-events:none}
 .editorial-about-links{margin-top:42px;padding-top:30px;border-top:1px solid #333}
 .editorial-entry{margin-bottom:24px}
 .lh-editorial.artwork-artist-notes{font-size:12px;line-height:1.85}

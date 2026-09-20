@@ -453,6 +453,7 @@ function openAboutModal(title, content, options = {}) {
     destroyHomeView();
 
     renderSectionView({
+        fullWidth: appState.activeSectionKey === 'supply',
         title,
         content,
         headerElement: document.querySelector('header'),
