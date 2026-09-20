@@ -381,3 +381,27 @@
 
 .supply-market-watch-jump{display:block;width:max-content;margin:14px 0 0 auto;font:10px "Fragment Mono",monospace;color:var(--lh-muted);border-bottom:1px solid var(--lh-line);padding-bottom:4px}
 .supply-market-watch-jump:hover{color:var(--lh-ink)}
+
+.collection-meta-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+@media(max-width:767px){
+ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+ body.h-screen,body>main.h-full{height:100dvh}
+ body>main>header.site-header{display:grid;grid-template-columns:44px minmax(0,1fr);align-items:start;gap:8px;padding:12px 16px}
+ body>main>header.site-header>div.flex{margin:0;align-self:center}
+ body>main>header.site-header>div:last-child:not(.flex){display:none}
+ #menu-toggle{width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+ #current-view-title{font-size:16px;line-height:1.4;letter-spacing:.09em;overflow-wrap:anywhere}
+ #current-view-meta #desc-toggle{flex-wrap:wrap;gap:4px 8px;text-align:left;font-size:11px;line-height:1.6;letter-spacing:.05em;min-height:32px}
+ #desc-toggle>span{flex-shrink:0}
+ #current-view-meta .site-overlay-trigger{font-size:12px;min-height:32px;white-space:nowrap}
+ #desc-body p{font-size:14px;line-height:1.75}
+ #current-view-meta .editorial-jumps{font-size:10px;letter-spacing:.05em;gap:0 16px;margin-top:8px}
+ .editorial-jumps a{display:inline-flex;align-items:center;min-height:34px}
+ #content-area{padding:20px 16px;min-height:0}
+ #sidebar nav button{min-height:44px}
+ #content-area input,#content-area select,#content-area textarea,.market-watch input,.market-watch select{font-size:16px}
+ #modal-overlay .modal-media-panel{flex-shrink:0}
+ #modal-overlay .modal-meta-panel{border-radius:0}
+ #modal-overlay #modal-close{min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+ #modal-overlay #modal-actions button{min-height:36px;font-size:11px;line-height:1.4}
+}

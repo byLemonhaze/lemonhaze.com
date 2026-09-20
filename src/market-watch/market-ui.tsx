@@ -7,12 +7,12 @@ export function Tabs({value,onValueChange,children}:{value:string;onValueChange:
 export function TabsList({children}:{children:React.ReactNode;variant?:string}){return <div className="tabs-list" role="tablist" aria-label="Market views">{children}</div>}
 export function TabsTrigger({value,children}:{value:string;children:React.ReactNode}){const ctx=useContext(TabsContext);return <button role="tab" aria-selected={ctx.value===value} aria-controls={`panel-${value}`} id={`tab-${value}`} data-slot="tabs-trigger" data-state={ctx.value===value?'active':'inactive'} onClick={()=>ctx.onValueChange(value)} onKeyDown={e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const tabs=[...e.currentTarget.parentElement!.querySelectorAll<HTMLButtonElement>('[role=tab]')];const i=tabs.indexOf(e.currentTarget);const target=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];target.focus();target.click();}}>{children}</button>}
 export function TabsContent({value,children}:{value:string;children:React.ReactNode}){const ctx=useContext(TabsContext);return ctx.value===value?<section role="tabpanel" id={`panel-${value}`} aria-labelledby={`tab-${value}`}>{children}</section>:null}
-export function Table({children}:Props){return <div className="table-scroll" tabIndex={0} role="region" aria-label="Marketplace table"><table>{children}</table></div>}
-export const TableHeader=({children}:Props)=><thead>{children}</thead>;
-export const TableBody=({children}:Props)=><tbody>{children}</tbody>;
-export const TableRow=({children}:Props)=><tr>{children}</tr>;
-export const TableHead=({children}:Props)=><th scope="col">{children}</th>;
-export const TableCell=({children,className}:Props)=><td className={className}>{children}</td>;
+export function Table({children}:Props){return <div className="table-scroll" tabIndex={0} role="region" aria-label="Marketplace table"><table role="table">{children}</table></div>}
+export const TableHeader=({children}:Props)=><thead role="rowgroup">{children}</thead>;
+export const TableBody=({children}:Props)=><tbody role="rowgroup">{children}</tbody>;
+export const TableRow=({children}:Props)=><tr role="row">{children}</tr>;
+export const TableHead=({children}:Props)=><th role="columnheader" scope="col">{children}</th>;
+export const TableCell=({children,className,label}:Props&{label?:string})=><td role="cell" className={className}>{label&&<span className="mobile-cell-label" aria-hidden="true">{label}</span>}{children}</td>;
 const SheetContext=createContext({title:'',description:''});
 export function Sheet({open,onOpenChange,children}:{open:boolean;onOpenChange:(v:boolean)=>void;children:React.ReactNode}){const ref=useRef<HTMLDialogElement>(null);const id=useId();useEffect(()=>{const d=ref.current;if(open&&!d?.open)d?.showModal();else if(!open&&d?.open)d.close();},[open]);return <SheetContext.Provider value={{title:id+'title',description:id+'description'}}><dialog ref={ref} className="sheet-dialog" aria-labelledby={id+'title'} aria-describedby={id+'description'} onCancel={()=>onOpenChange(false)} onClick={e=>{if(e.target===e.currentTarget)onOpenChange(false)}}><button className="sheet-close" aria-label="Close panel" onClick={()=>onOpenChange(false)}>×</button>{children}</dialog></SheetContext.Provider>}
 export const SheetContent=({children,className}:Props)=><div className={className}>{children}</div>;

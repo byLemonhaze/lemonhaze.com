@@ -82,3 +82,19 @@
 .lh-editorial .story-footnotes>p:not(:first-child) { margin-top:26px; }
 .lh-editorial .story-footnotes .verbatim { white-space:pre-line; }
 @media(max-width:650px) { .lh-editorial .story-directory { grid-template-columns:1fr; } }
+
+@media(max-width:767px){
+ .lh-editorial,.lh-editorial .verbatim,.lh-editorial .full-text,.lh-editorial .original-note,.lh-editorial.artwork-artist-notes,.lh-editorial.artwork-artist-notes .verbatim{font-size:16px;line-height:1.8}
+ .lh-editorial .card-link span,.lh-editorial .three-up p{font-size:14px;line-height:1.75}
+ .lh-editorial .two-up,.lh-editorial .three-up,.lh-editorial .section-row{min-width:0}
+ .lh-editorial .two-up>*,.lh-editorial .three-up>*,.lh-editorial .section-row>*{min-width:0}
+ .lh-editorial p,.lh-editorial a,.lh-editorial td{overflow-wrap:anywhere}
+ .lh-editorial .reader-image{float:none;display:block;width:100%;height:auto;max-height:280px;margin:0 0 24px;object-fit:contain}
+ .lh-editorial summary{font-size:16px;min-height:44px}
+ .lh-editorial .lifecycle-tabs{flex-wrap:wrap}
+ .lh-editorial .lifecycle-tabs button{min-height:44px;font-size:14px}
+ .lh-editorial .story-work-links a,.lh-editorial .story-sources a,.editorial-related a{display:inline-flex;align-items:center;min-height:36px}
+ .supply-controls input,.supply-controls select{font-size:16px;min-height:44px;border-radius:0}
+}
+@media(max-width:420px){.lh-editorial .work-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:767px){#current-view-meta .editorial-jumps a[href$="#artworks"]{display:none}}

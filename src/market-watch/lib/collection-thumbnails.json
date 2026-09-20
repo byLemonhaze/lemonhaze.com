@@ -1,0 +1,394 @@
+{
+  "deprivation-prints-by-lemonhaze": {
+    "id": "a851ea29e01f41890d2745af4425ca4351c75e6d5d3b4ff337b3b5aa293b92bai0",
+    "name": "Deprivation #1",
+    "role": "first-work",
+    "src": "/images/market-watch/deprivation-prints-by-lemonhaze.png",
+    "source": "https://render.ord.net/v9/snapshots/a851ea29e01f41890d2745af4425ca4351c75e6d5d3b4ff337b3b5aa293b92bai0/512.webp",
+    "bytes": 13892
+  },
+  "minute-papillon-editions-by-lemonhaze": {
+    "id": "cd3daa466ec8c9ee1316c0bd50969669a5d4e1df4dad32d4292a3f8c69184d12i0",
+    "name": "Minute, papillon! Edition 1 of 21",
+    "role": "first-work",
+    "src": "/images/market-watch/minute-papillon-editions-by-lemonhaze.png",
+    "source": "https://render.ord.net/v9/snapshots/cd3daa466ec8c9ee1316c0bd50969669a5d4e1df4dad32d4292a3f8c69184d12i0/512.webp",
+    "bytes": 18420
+  },
+  "into-the-wild-by-lemonhaze": {
+    "id": "a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0",
+    "name": "Into The Wild",
+    "role": "parent",
+    "src": "/images/market-watch/into-the-wild-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0.png",
+    "bytes": 17605
+  },
+  "candidly-yours-by-lemonhaze": {
+    "id": "0ddde660fb6c37b6b44219580c903daa2568bbbe279fc9e0aaa5165829663530i0",
+    "name": "Primitive",
+    "role": "parent",
+    "src": "/images/market-watch/candidly-yours-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/0ddde660fb6c37b6b44219580c903daa2568bbbe279fc9e0aaa5165829663530i0.png",
+    "bytes": 11478
+  },
+  "best-before-by-lemonhaze-x-ordinally": {
+    "id": "bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0",
+    "name": "BEST BEFORE (Engine and Diary)",
+    "role": "parent",
+    "src": "/images/market-watch/best-before-by-lemonhaze-x-ordinally.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0.png",
+    "bytes": 23691
+  },
+  "liminality-by-lemonhaze": {
+    "id": "a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0",
+    "name": "Liminality",
+    "role": "parent",
+    "src": "/images/market-watch/liminality-by-lemonhaze.png",
+    "source": "https://render.ord.net/v9/snapshots/a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0/512.webp",
+    "bytes": 17408
+  },
+  "fading-by-lemonhaze": {
+    "id": "9ec7b1a38408e340f382744025c7dacecf44fbb139ce00e1051bdd849d49ba5ai0",
+    "name": "Hollywood Boulevard",
+    "role": "first-work",
+    "src": "/images/market-watch/fading-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/9ec7b1a38408e340f382744025c7dacecf44fbb139ce00e1051bdd849d49ba5ai0.png",
+    "bytes": 7955
+  },
+  "deville-by-lemonhaze": {
+    "id": "1e162002d6eab4d2ba16725871c44a93ca6eecdb8902ecdb25316249b8ad2501i0",
+    "name": "DeVille Nº1",
+    "role": "parent",
+    "src": "/images/market-watch/deville-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/1e162002d6eab4d2ba16725871c44a93ca6eecdb8902ecdb25316249b8ad2501i0.png",
+    "bytes": 31247
+  },
+  "griffintown-by-lemonhaze": {
+    "id": "93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0",
+    "name": "Griffintown",
+    "role": "parent",
+    "src": "/images/market-watch/griffintown-by-lemonhaze.png",
+    "source": "https://render.ord.net/v9/snapshots/93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0/512.webp",
+    "bytes": 24102
+  },
+  "trilogy-prints-by-lemonhaze": {
+    "id": "4bd623118923b334e81b1a9a6a625fa93d03c9f407b32e173e717b32994ace59i0",
+    "name": "Glass Breaker #1",
+    "role": "first-work",
+    "src": "/images/market-watch/trilogy-prints-by-lemonhaze.png",
+    "source": "https://render.ord.net/v9/snapshots/4bd623118923b334e81b1a9a6a625fa93d03c9f407b32e173e717b32994ace59i0/512.webp",
+    "bytes": 20978
+  },
+  "tad-small-by-lemonhaze": {
+    "id": "73ac6d559ef233768d5503d82c220c522dce33b2c61ac9f24cc343187e9db698i0",
+    "name": "The Void",
+    "role": "first-work",
+    "src": "/images/market-watch/tad-small-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/73ac6d559ef233768d5503d82c220c522dce33b2c61ac9f24cc343187e9db698i0.png",
+    "bytes": 17506
+  },
+  "tentation-by-lemonhaze": {
+    "id": "daf064a28fd61c3f6fdaa223a8f9080c60635c3caf691c3accc6f8f0a8935b93i0",
+    "name": "La Tentation Nº0",
+    "role": "parent",
+    "src": "/images/market-watch/tentation-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/daf064a28fd61c3f6fdaa223a8f9080c60635c3caf691c3accc6f8f0a8935b93i0.png",
+    "bytes": 23188
+  },
+  "ma-ville-en-quatre-temps-by-lemonhaze": {
+    "id": "83cb06caf61b9700652226b99a15aada757fbdaad072448777fd4722131973a6i0",
+    "name": "Ma ville en quatre tremps",
+    "role": "parent",
+    "src": "/images/market-watch/ma-ville-en-quatre-temps-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/83cb06caf61b9700652226b99a15aada757fbdaad072448777fd4722131973a6i0.png",
+    "bytes": 16991
+  },
+  "bento-box-by-lemonhaze": {
+    "id": "6189ef1aa8fa1b824f42a0de64e08c63a51319a81ba66415ca950fb7692e38a8i0",
+    "name": "Bento Box Nº0",
+    "role": "parent",
+    "src": "/images/market-watch/bento-box-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/6189ef1aa8fa1b824f42a0de64e08c63a51319a81ba66415ca950fb7692e38a8i0.png",
+    "bytes": 21911
+  },
+  "miscellaneous-by-lemonhaze": {
+    "id": "6dd9a65c0a8405bc1b2a986d66f5df24ebaea3e7f50fbae54e40e8ea85483b35i0",
+    "name": "Totem Teaser",
+    "role": "first-work",
+    "src": "/images/market-watch/miscellaneous-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/6dd9a65c0a8405bc1b2a986d66f5df24ebaea3e7f50fbae54e40e8ea85483b35i0.png",
+    "bytes": 20867
+  },
+  "1-of-1s-2026-by-lemonhaze": {
+    "id": "8364ada14a420eff704c0eeca009c8460769879fdfd70270ff4a3b1c92cbe482i0",
+    "name": "Gentleman: Special Edition 2026",
+    "role": "parent",
+    "src": "/images/market-watch/1-of-1s-2026-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/8364ada14a420eff704c0eeca009c8460769879fdfd70270ff4a3b1c92cbe482i0.png",
+    "bytes": 32376
+  },
+  "unregulated-minds-by-lemonhaze": {
+    "id": "d00a09f392051642d736b0a9126828bf8eb5b4a4877feb63446f503e93cf07e9i0",
+    "name": "Unregulated Minds Nº0",
+    "role": "parent",
+    "src": "/images/market-watch/unregulated-minds-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/d00a09f392051642d736b0a9126828bf8eb5b4a4877feb63446f503e93cf07e9i0.png",
+    "bytes": 15871
+  },
+  "jardin-secret-by-lemonhaze": {
+    "id": "87ffc16c9645335958f8347bfe9006ffaa0d88f5d1eba75fed9e63f6d1862825i0",
+    "name": "Bonzai",
+    "role": "first-work",
+    "src": "/images/market-watch/jardin-secret-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/87ffc16c9645335958f8347bfe9006ffaa0d88f5d1eba75fed9e63f6d1862825i0.png",
+    "bytes": 6012
+  },
+  "games-by-lemonhaze": {
+    "id": "7271fcca75e6ea1112cc84fb56a78a11d5ddb7c83f3ba5f45f17d1ce5b7ed8afi0",
+    "name": "Game Nº0",
+    "role": "parent",
+    "src": "/images/market-watch/games-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/7271fcca75e6ea1112cc84fb56a78a11d5ddb7c83f3ba5f45f17d1ce5b7ed8afi0.png",
+    "bytes": 21635
+  },
+  "world-tour-by-lemonhaze": {
+    "id": "fa1b407280447426a94fdfe8a6ff2095c5c8b4eacc8334d6c13f45f0bea192cei0",
+    "name": "American Dream",
+    "role": "first-work",
+    "src": "/images/market-watch/world-tour-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/fa1b407280447426a94fdfe8a6ff2095c5c8b4eacc8334d6c13f45f0bea192cei0.png",
+    "bytes": 15352
+  },
+  "old-fashioned-by-lemonhaze": {
+    "id": "7ba4226a0db0e8306f1611ea7e35bb5b6d21a6fcd8fe8e0373fa926105c0d8f1i0",
+    "name": "Tuna",
+    "role": "first-work",
+    "src": "/images/market-watch/old-fashioned-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/7ba4226a0db0e8306f1611ea7e35bb5b6d21a6fcd8fe8e0373fa926105c0d8f1i0.png",
+    "bytes": 16188
+  },
+  "polaroid-by-lemonhaze": {
+    "id": "a3f04ea42ceded41f8af4d63ef9d313cbdcf90877c6eeb98064b12f59b8ffac7i0",
+    "name": "Polaroid #1",
+    "role": "first-work",
+    "src": "/images/market-watch/polaroid-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/a3f04ea42ceded41f8af4d63ef9d313cbdcf90877c6eeb98064b12f59b8ffac7i0.png",
+    "bytes": 1066
+  },
+  "oaxaca-by-lemonhaze": {
+    "id": "a29a80624d945662084a9881aab2eb57c1db8f660f674bf369d0158085314ae5i0",
+    "name": "#0",
+    "role": "first-work",
+    "src": "/images/market-watch/oaxaca-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/a29a80624d945662084a9881aab2eb57c1db8f660f674bf369d0158085314ae5i0.png",
+    "bytes": 12040
+  },
+  "lotus-by-lemonhaze": {
+    "id": "445bcb28bbc8ae9e64fee6c3342908f2bf45f1fbba2b45da09d1da18d964a761i0",
+    "name": "Lotus #1",
+    "role": "first-work",
+    "src": "/images/market-watch/lotus-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/445bcb28bbc8ae9e64fee6c3342908f2bf45f1fbba2b45da09d1da18d964a761i0.jpg",
+    "bytes": 24704
+  },
+  "dark-days-by-lemonhaze": {
+    "id": "048958f5f68d3f27b2ece603cbf4e3aa67d62a7dd303ce327f097bb689fe2aa4i0",
+    "name": "Fading",
+    "role": "first-work",
+    "src": "/images/market-watch/dark-days-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/048958f5f68d3f27b2ece603cbf4e3aa67d62a7dd303ce327f097bb689fe2aa4i0.png",
+    "bytes": 8945
+  },
+  "manufactured-by-lemonhaze": {
+    "id": "b40f54c56d0ad7993e59f279d6386c78864f8b8b6cb9a2abc45e5d829ff9de12i0",
+    "name": "Manufactured",
+    "role": "parent",
+    "src": "/images/market-watch/manufactured-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/b40f54c56d0ad7993e59f279d6386c78864f8b8b6cb9a2abc45e5d829ff9de12i0.png",
+    "bytes": 21511
+  },
+  "gentlemen-by-lemonhaze": {
+    "id": "757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0",
+    "name": "Gentleman Nº1",
+    "role": "first-work",
+    "src": "/images/market-watch/gentlemen-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0.jpg",
+    "bytes": 20589
+  },
+  "generative-composition-by-lemonhaze": {
+    "id": "1cde8abaf823ac7e143edbd33dc4cafebc9eb5ae12cbf9d1d1a1af2aeed607fbi0",
+    "name": "Generative Composition #9",
+    "role": "first-work",
+    "src": "/images/market-watch/generative-composition-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/1cde8abaf823ac7e143edbd33dc4cafebc9eb5ae12cbf9d1d1a1af2aeed607fbi0.png",
+    "bytes": 5339
+  },
+  "untitled-by-lemonhaze": {
+    "id": "63683bb4644618334816f16bd563f4d0f7f99f92498b7092a452f11f3ab6b5dfi0",
+    "name": "Mommy",
+    "role": "parent",
+    "src": "/images/market-watch/untitled-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/63683bb4644618334816f16bd563f4d0f7f99f92498b7092a452f11f3ab6b5dfi0.png",
+    "bytes": 10240
+  },
+  "little-get-away-by-lemonhaze": {
+    "id": "56d46dfbb1ab158680f7c620838faac92965d14d4910bf0da3ab00e51f37dbbbi0",
+    "name": "Hollywood Moon",
+    "role": "parent",
+    "src": "/images/market-watch/little-get-away-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/56d46dfbb1ab158680f7c620838faac92965d14d4910bf0da3ab00e51f37dbbbi0.png",
+    "bytes": 3030
+  },
+  "cypherville-by-lemonhaze": {
+    "id": "8a44fac50ee67942819179d6e8564a8eb39dc40db4c00785c255c3ae4c0f03e1i0",
+    "name": "Creature #1",
+    "role": "first-work",
+    "src": "/images/market-watch/cypherville-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/8a44fac50ee67942819179d6e8564a8eb39dc40db4c00785c255c3ae4c0f03e1i0.jpg",
+    "bytes": 24796
+  },
+  "ordinals-summer-by-lemonhaze": {
+    "id": "5fd9b0dc4f549ca262b233d0543eb48000a5f25c0d7a31d940f23bb9d90e440ci0",
+    "name": "Music Festival",
+    "role": "first-work",
+    "src": "/images/market-watch/ordinals-summer-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/5fd9b0dc4f549ca262b233d0543eb48000a5f25c0d7a31d940f23bb9d90e440ci0.png",
+    "bytes": 7789
+  },
+  "volatility-by-lemonhaze": {
+    "id": "4b4c5fca79fb29040860f89e3cf2d6639719b433142a3d0ae84b14901ae76172i0",
+    "name": "Volatility #1",
+    "role": "first-work",
+    "src": "/images/market-watch/volatility-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/4b4c5fca79fb29040860f89e3cf2d6639719b433142a3d0ae84b14901ae76172i0.png",
+    "bytes": 11235
+  },
+  "artifacts-by-lemonhaze": {
+    "id": "a461f726b8931e9c8f00850cde8fc1c8ef8087b9e77d2eb5e8f636dc9ade8873i0",
+    "name": "Sex, Scotch & Soda",
+    "role": "first-work",
+    "src": "/images/market-watch/artifacts-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/a461f726b8931e9c8f00850cde8fc1c8ef8087b9e77d2eb5e8f636dc9ade8873i0.png",
+    "bytes": 5402
+  },
+  "montreal-by-lemonhaze": {
+    "id": "08b0fe910d795ffcc2bfc25f42d9dbe2262ad2456271e4a93ba6eb969e9bc285i0",
+    "name": "De Sève",
+    "role": "parent",
+    "src": "/images/market-watch/montreal-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/08b0fe910d795ffcc2bfc25f42d9dbe2262ad2456271e4a93ba6eb969e9bc285i0.png",
+    "bytes": 20913
+  },
+  "mending-fragments-by-lemonhaze": {
+    "id": "028b002f6e6b19d34293078f4307574c2e3e989f9d9f903c228a8183f218bae0i0",
+    "name": "Marilyn Monero",
+    "role": "first-work",
+    "src": "/images/market-watch/mending-fragments-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/028b002f6e6b19d34293078f4307574c2e3e989f9d9f903c228a8183f218bae0i0.png",
+    "bytes": 8418
+  },
+  "tin-box-of-solitude-by-lemonhaze": {
+    "id": "3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0",
+    "name": "Tin Box of Solitude",
+    "role": "parent",
+    "src": "/images/market-watch/tin-box-of-solitude-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0.png",
+    "bytes": 17287
+  },
+  "downtown-by-lemonhaze": {
+    "id": "3b77f0775b669431f2a4a9ee09f1f729462b77dda6125ca98007266b2fb851aci0",
+    "name": "Downtown (Zero)",
+    "role": "first-work",
+    "src": "/images/market-watch/downtown-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/3b77f0775b669431f2a4a9ee09f1f729462b77dda6125ca98007266b2fb851aci0.png",
+    "bytes": 14987
+  },
+  "portrait-2490-by-lemonhaze": {
+    "id": "782c27fc1a975565fdfcd3f457b8950d28840da448026bd82b7cef3f55d88204i0",
+    "name": "Clipper",
+    "role": "first-work",
+    "src": "/images/market-watch/portrait-2490-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/782c27fc1a975565fdfcd3f457b8950d28840da448026bd82b7cef3f55d88204i0.jpg",
+    "bytes": 23259
+  },
+  "berlin-by-lemonhaze": {
+    "id": "f81f4f5aaedb7482b6885923c17239b04feb7e3cf6ab17799f1c48dddcfc74ddi0",
+    "name": "Revaler Straße 99",
+    "role": "first-work",
+    "src": "/images/market-watch/berlin-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/f81f4f5aaedb7482b6885923c17239b04feb7e3cf6ab17799f1c48dddcfc74ddi0.png",
+    "bytes": 7319
+  },
+  "1on1-2025-by-lemonhaze": {
+    "id": "627d9a054e2db14bc892cec8a747da726dbadc1677079ff49675b17f78e262d8i0",
+    "name": "Gentleman SE25",
+    "role": "parent",
+    "src": "/images/market-watch/1on1-2025-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/627d9a054e2db14bc892cec8a747da726dbadc1677079ff49675b17f78e262d8i0.png",
+    "bytes": 39686
+  },
+  "discography-by-lemonhaze": {
+    "id": "a456d01418a12bc5df6b0a5ecf50f32fbfd9781d7724a611853066a58a79be2fi0",
+    "name": "Sexuality",
+    "role": "first-work",
+    "src": "/images/market-watch/discography-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/a456d01418a12bc5df6b0a5ecf50f32fbfd9781d7724a611853066a58a79be2fi0.png",
+    "bytes": 12494
+  },
+  "framed-by-lemonhaze": {
+    "id": "35e817d16f0544827a537e9b8edf11f2f7aa6c09518e90ae8603c31108dd3d19i0",
+    "name": "Talisman",
+    "role": "first-work",
+    "src": "/images/market-watch/framed-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/35e817d16f0544827a537e9b8edf11f2f7aa6c09518e90ae8603c31108dd3d19i0.png",
+    "bytes": 7281
+  },
+  "orphelinat-by-lemonhaze": {
+    "id": "8bdf78a37e01119795ec1023010a693e7af79128376df0e715a4f2a22ca01fb2i0",
+    "name": "Ascension",
+    "role": "first-work",
+    "src": "/images/market-watch/orphelinat-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/8bdf78a37e01119795ec1023010a693e7af79128376df0e715a4f2a22ca01fb2i0.png",
+    "bytes": 4558
+  },
+  "tori_no_roji_by_lemonhaze": {
+    "id": "ec65500c8992c50e031acbad8211e1eb06173d1516b18b099c85cfd939ba344ei0",
+    "name": "Dai-Rei",
+    "role": "parent",
+    "src": "/images/market-watch/tori_no_roji_by_lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/ec65500c8992c50e031acbad8211e1eb06173d1516b18b099c85cfd939ba344ei0.png",
+    "bytes": 24073
+  },
+  "bar-tapas-by-lemonhaze": {
+    "id": "f672afa4bd585eea472e023823a1cd0c3f855f55389512ad69f2e1c72eabd4e9i0",
+    "name": "OK",
+    "role": "first-work",
+    "src": "/images/market-watch/bar-tapas-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/f672afa4bd585eea472e023823a1cd0c3f855f55389512ad69f2e1c72eabd4e9i0.png",
+    "bytes": 5244
+  },
+  "satoshi-by-lemonhaze": {
+    "id": "88050d79df061385765faefd8b24b4c3103720c86a5b30bf8f2e8fe2b41ec87ei0",
+    "name": "Satoshi (Original)",
+    "role": "parent",
+    "src": "/images/market-watch/satoshi-by-lemonhaze.png",
+    "source": "https://render.ord.net/v9/snapshots/88050d79df061385765faefd8b24b4c3103720c86a5b30bf8f2e8fe2b41ec87ei0/512.webp",
+    "bytes": 22276
+  },
+  "1on1-by-lemonhaze": {
+    "id": "9c639452f65e0bd348085d04a5f41cffba18e502814bea834e7251280ee4e2efi0",
+    "name": "Uncut Gem (Miami Edition - 1/1s)",
+    "role": "parent",
+    "src": "/images/market-watch/1on1-by-lemonhaze.png",
+    "source": "https://cdn.lemonhaze.com/assets/assets/9c639452f65e0bd348085d04a5f41cffba18e502814bea834e7251280ee4e2efi0.png",
+    "bytes": 23595
+  },
+  "mirage-prints-by-lemonhaze": {
+    "id": "ee9febf151c62c7c1bba0cf222e6b60c593688a0f403ddd6adc202de66067af0i0",
+    "name": "Mirage #1",
+    "role": "first-work",
+    "src": "/images/market-watch/mirage-prints-by-lemonhaze.png",
+    "source": "https://render.ord.net/v9/snapshots/ee9febf151c62c7c1bba0cf222e6b60c593688a0f403ddd6adc202de66067af0i0/512.webp",
+    "bytes": 17762
+  }
+}

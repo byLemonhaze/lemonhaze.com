@@ -114,6 +114,7 @@ const {
     toCollectionSlug,
 } = collections;
 const INTERNAL_SECTIONS = createInternalSections({
+    getArtworks: () => appState.artworks,
     aboutText: ABOUT_LEMONHAZE_TEXT,
     careerHighlightsItems: CAREER_HIGHLIGHTS_ITEMS,
     ordinalsSupplyData: ORDINALS_SUPPLY_DATA,

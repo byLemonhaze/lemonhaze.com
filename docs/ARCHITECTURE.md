@@ -120,3 +120,14 @@ Collection narratives in `src/editorial/collection-stories.json` extend the exis
 Supply lists have independent search and name/year/supply/circulation/burn sorts for desktop and mobile, without changing aggregate totals. Ethereum lists expose their supported year/platform/count fields. Market Watch collection, cross-listing and offer tabs each have relevant sort controls. `src/utils/sorting.js` puts missing values last in either direction, preserves known zeros and never mutates source arrays. Market totals, scan behavior and coverage qualifiers are unchanged. Sort state lasts for the mounted page; it is not persisted in the URL.
 
 Editorial links are normalized by `src/editorial/links.js` before click handling. Legacy reading filenames and presentation assets resolve to canonical internal routes on both production hosts and local preview, preserving query strings and section anchors. Tests cover the links extracted from every editorial HTML fragment.
+
+
+### Collection chronology and mobile Market Watch
+
+Supply’s newest/oldest controls use collection parent timestamps rather than year labels. Pre-parent collections use their first documented inscription; missing dates remain last. `src/utils/collection-chronology.js` resolves the chronology from artwork lineage, with verified dates for missing parent records in `src/data/collection-parent-dates.js`.
+
+Market Watch uses explicit parent/first-artwork choices from `src/market-watch/lib/collection-thumbnails.json`. Optimized assets in `public/images/market-watch/` retain source URLs and inscription IDs in that manifest, so marketplace refreshes cannot replace them with gallery covers. Forty-two derive from CDN images and seven from previews of the same inscription where the CDN image is absent. The palette is neutral white/grey.
+
+At phone/tablet widths, collection and offer table rows become labelled cards. Every marketplace count, floor, offer field, coverage marker and details link remains available without horizontal table scrolling. Cross-listed marketplace observations stack vertically. Desktop tables retain their original layout. Table roles and column headers remain available to assistive technology.
+
+Mobile collection headers wrap metadata and keep the external-site control separate from the description toggle. Story and diary body text uses a readable 16px size; form controls use 16px to avoid focus zoom on iOS. The redundant mobile header Artworks link is hidden while the story’s return-to-works link remains. Games displays only “Three works become one” on its collection story; original artwork notes remain with each inscription.

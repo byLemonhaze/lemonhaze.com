@@ -61,14 +61,16 @@ export function updateHeaderView({
             ? `<button class="site-overlay-trigger text-white/40 hover:text-white transition-colors" data-site-url="${externalSite}" data-site-label="${title}">↗ Site</button>`
             : '';
         currentViewMeta.innerHTML = `
-      <div class="mt-1">
-        <button class="outline-none focus:outline-none flex items-center gap-3 text-[10px] text-white/35 font-mono uppercase tracking-[0.22em] hover:text-white/70 transition-colors group" id="desc-toggle">
+      <div class="mt-1 collection-meta">
+        <div class="collection-meta-actions">
+        <button type="button" aria-expanded="false" aria-controls="desc-body" class="outline-none focus:outline-none flex items-center gap-3 text-[10px] text-white/35 font-mono uppercase tracking-[0.22em] hover:text-white/70 transition-colors group" id="desc-toggle">
           <span>${worksCount} artworks</span>
           <span class="text-white/15">·</span>
           <span>${attribution}</span>
-          ${externalSite ? `<span class="text-white/15">·</span>${externalBtn}` : ''}
           <span id="desc-chevron" class="text-white/35 group-hover:text-white/70 transition-colors text-[11px] font-mono ml-1 select-none">+</span>
         </button>
+        ${externalBtn}
+        </div>
         <div id="desc-body" class="hidden mt-2 border-l border-white/15 pl-3 py-1">
           <p class="text-[11px] text-white/50 max-w-2xl leading-relaxed">${desc}</p>
         </div>
@@ -100,6 +102,7 @@ export function updateHeaderView({
                 e.stopPropagation();
                 const isOpen = !body.classList.contains('hidden');
                 body.classList.toggle('hidden', isOpen);
+                toggle.setAttribute('aria-expanded', String(!isOpen));
                 chevron.textContent = isOpen ? '+' : '−';
             });
         }

@@ -1,3 +1,4 @@
+import { withCollectionChronology } from '../../utils/collection-chronology.js';
 import { sortedRows } from '../../utils/sorting.js';
 import '../../market-watch/embed.js';
 import {
@@ -231,7 +232,7 @@ function createSupplyControls({section, title, rows, mobileList, tbody, card, ta
     search.setAttribute('aria-label', `Search ${title}`); searchLabel.appendChild(search);
     const sortLabel = createNode('label', '', 'Sort by');
     const select = createNode('select'); select.setAttribute('aria-label', `Sort ${title}`);
-    const options = [['name:asc', 'Name A–Z'], ['name:desc', 'Name Z–A'], ['year:desc', 'Newest year'], ['year:asc', 'Oldest year'],
+    const options = [['name:asc', 'Name A–Z'], ['name:desc', 'Name Z–A'], ...(ethereum ? [['year:desc', 'Newest year'], ['year:asc', 'Oldest year']] : [['chronology:desc', 'Newest first'], ['chronology:asc', 'Oldest first']]),
         ...(ethereum ? [['count:desc', 'Largest supply'], ['count:asc', 'Smallest supply'], ['platform:asc', 'Platform A–Z']]
         : [['inscribed:desc', 'Most inscribed'], ['inscribed:asc', 'Fewest inscribed'], ['circulating:desc', 'Most circulating'], ['circulating:asc', 'Fewest circulating'], ['burned:desc', 'Most burned'], ['burned:asc', 'Fewest burned']])];
     for (const [value, text] of options) { const option = createNode('option', '', text); option.value = value; select.appendChild(option); }
@@ -241,7 +242,7 @@ function createSupplyControls({section, title, rows, mobileList, tbody, card, ta
     const empty = createNode('p', 'supply-empty', 'No matching collections. Clear the search to see all works.'); empty.hidden = true; section.appendChild(empty);
     function render() {
         const filtered = rows.filter(row => row.name.toLocaleLowerCase().includes(search.value.trim().toLocaleLowerCase()));
-        const sorted = sortedRows(filtered, select.value, {name: r => r.name, year: r => r.year, inscribed: r => r.inscribed,
+        const sorted = sortedRows(filtered, select.value, {name: r => r.name, year: r => r.year, chronology: r => r.chronology, inscribed: r => r.inscribed,
             circulating: r => r.circulating, burned: r => r.inscribed - r.circulating, count: r => r.count, platform: r => r.platform});
         mobileList.replaceChildren(...sorted.map(card)); tbody.replaceChildren(...sorted.map(tableRow));
         count.textContent = `${sorted.length} of ${rows.length} collections`; empty.hidden = sorted.length > 0;
@@ -316,6 +317,7 @@ function createOrdinalsSupplyListSection({
 
 export function createSupplySectionNode({
     ordinalsSupplyData,
+    artworks = [],
     extraOrdinalsSupplyData = [],
     ethSupplyData = [],
     marketLinks,
@@ -334,8 +336,8 @@ export function createSupplySectionNode({
         || right.circulating - left.circulating
         || left.name.localeCompare(right.name)
     );
-    const ordnetRows = [...ordinalsSupplyData].sort(orderBySupply);
-    const extraRows = [...extraOrdinalsSupplyData].sort(orderBySupply);
+    const ordnetRows = withCollectionChronology(ordinalsSupplyData, artworks).sort(orderBySupply);
+    const extraRows = withCollectionChronology(extraOrdinalsSupplyData, artworks).sort(orderBySupply);
     const allOrdinalRows = [...ordnetRows, ...extraRows];
 
     let ordInscribed = 0;

@@ -6,6 +6,7 @@ import { createBlogSectionNode } from './blog.js';
 import { createProjectsSectionNode } from './projects.js';
 
 export function createInternalSections({
+    getArtworks = () => [],
     aboutText,
     careerHighlightsItems,
     ordinalsSupplyData,
@@ -53,6 +54,7 @@ export function createInternalSections({
                 const wrap = document.createElement('div');
                 wrap.appendChild(readingLink('/collecting', 'Viewing & collecting →', 'A guide to exploring, displaying, and inquiring about a work.'));
                 wrap.appendChild(createSupplySectionNode({
+                artworks: getArtworks(),
                 ordinalsSupplyData,
                 extraOrdinalsSupplyData,
                 ethSupplyData,
