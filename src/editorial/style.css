@@ -5,7 +5,7 @@
 .lh-editorial p{margin:0 0 20px;color:#bcbcbc}
 .lh-editorial a{text-decoration:underline;text-underline-offset:5px}
 .lh-editorial a:hover{color:white}
-.lh-editorial a:focus-visible,.lh-editorial button:focus-visible,.lh-editorial summary:focus-visible,.editorial-jumps a:focus-visible{outline:2px solid #ddd;outline-offset:5px}
+.lh-editorial a:focus-visible,.lh-editorial button:focus-visible,.lh-editorial summary:focus-visible,.editorial-jumps a:focus-visible{outline:1px solid #aaa;outline-offset:3px}
 .lh-editorial .eyebrow,.lh-editorial .mono,.lh-editorial .tag{font-family:'Fragment Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#999}
 .lh-editorial .lead{font-size:20px;line-height:1.65;color:#eee}
 .lh-editorial .page-intro{max-width:760px;margin:0 0 35px}
@@ -98,3 +98,6 @@
 }
 @media(max-width:420px){.lh-editorial .work-grid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:767px){#current-view-meta .editorial-jumps a[href$="#artworks"]{display:none}}
+
+/* Anchor navigation moves focus for accessibility without boxing the reading area. */
+.editorial-anchor-target:focus,.editorial-anchor-target:focus-visible{outline:none;box-shadow:none}

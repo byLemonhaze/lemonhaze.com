@@ -21,6 +21,7 @@ function scrollToAnchor(hash) {
     if (!target) return;
     if (target.tagName === 'DETAILS') target.open = true;
     target.scrollIntoView({ block: 'start', behavior: 'instant' });
+    target.classList.add('editorial-anchor-target');
     target.setAttribute('tabindex', '-1');
     target.focus({ preventScroll: true });
 }

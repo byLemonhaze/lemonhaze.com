@@ -405,3 +405,6 @@
  #modal-overlay #modal-close{min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
  #modal-overlay #modal-actions button{min-height:36px;font-size:11px;line-height:1.4}
 }
+
+/* Avoid browser-coloured tap flashes while retaining neutral keyboard focus styles. */
+a,button,summary{-webkit-tap-highlight-color:transparent}

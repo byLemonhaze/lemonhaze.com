@@ -79,3 +79,10 @@
  .market-watch .duplicate-markets a>div{min-width:0;overflow-wrap:anywhere}
  .market-watch .duplicate-markets svg{flex-shrink:0}
 }
+
+/* BTC stays primary; the live conversion is a secondary line in every view. */
+.market-watch .market-price{display:inline-flex;flex-direction:column;gap:3px;max-width:100%;vertical-align:top;font-variant-numeric:tabular-nums}
+.market-watch .market-price .price-btc{font:inherit;color:inherit}
+.market-watch .market-price .price-usd{display:block;font-size:10px;line-height:1.4;font-weight:400;color:rgba(255,255,255,.55);white-space:normal;overflow-wrap:anywhere}
+.market-watch .exchange-rate{font-size:10px;line-height:1.5;color:rgba(255,255,255,.45);margin:6px 0 12px;text-align:right}
+.market-watch .detail-listing>.mono,.market-watch .detail-bid>.mono{text-align:right;flex-shrink:0}
