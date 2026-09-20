@@ -24,7 +24,7 @@ export function updateHeaderView({
         headerElement.classList.add('md:hidden');
         currentViewTitle.innerHTML = '<span class="text-lg font-bold uppercase tracking-[0.22em]">Lemonhaze</span>';
         if (currentViewMeta) {
-            currentViewMeta.innerHTML = '<p class="text-[9px] text-white/40 font-mono tracking-[0.2em] uppercase">&lt;!-- Artist & Coureur de Bois --&gt;</p>';
+            currentViewMeta.innerHTML = '<p class="home-brand-tagline text-[9px] text-white/40 font-mono tracking-[0.2em] uppercase">&lt;!-- Artist & Coureur de Bois --&gt;</p>';
         }
         if (refreshBtn) refreshBtn.classList.add('hidden');
         document.title = 'Lemonhaze';
