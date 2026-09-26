@@ -1,4 +1,4 @@
-import { enhanceAbout, enhanceHighlights, createExplorePractice, createEditorialPage, readingLink } from '../../editorial/index.js';
+import { createArchive, enhanceAbout, enhanceHighlights, createExplorePractice, createEditorialPage, readingLink } from '../../editorial/index.js';
 import { createCareerHighlightsNode } from './highlights.js';
 import { createSupplySectionNode } from './supply.js';
 import { createMediaSectionNode } from './media.js';
@@ -33,7 +33,11 @@ export function createInternalSections({
         },
         explore: {
             label: 'Explore the practice', title: 'Explore the practice',
-            content: () => createExplorePractice(),
+            content: () => createExplorePractice(getArtworks(), toCollectionSlug),
+        },
+        archive: {
+            label: 'Archive', title: 'Archive',
+            content: () => createArchive(getArtworks(), toCollectionSlug),
         },
         practice: {
             label: 'Practice & Process', title: 'Practice & Process',

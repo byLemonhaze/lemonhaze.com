@@ -21,7 +21,7 @@ const server=createServer(async(req,res)=>{
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const origin=`http://127.0.0.1:${server.address().port}`;
 const browser=await chromium.launch({headless:true});
-const selected=process.env.SEO_SAMPLE ? routes.filter(r=>['/','/about','/highlights','/explore','/supply','/gentlemen','/best-before','/manufactured','/montreal'].includes(r.path)||r.kind==='artwork'&&['/gentlemen','/best-before'].includes(r.collectionPath)).slice(0,25) : routes;
+const selected=process.env.SEO_SAMPLE ? routes.filter(r=>['/','/about','/highlights','/explore','/archive','/practice','/supply','/gentlemen','/best-before','/manufactured','/montreal'].includes(r.path)||r.kind==='artwork'&&['/gentlemen','/best-before'].includes(r.collectionPath)).slice(0,25) : routes;
 let count=0;
 async function makeCapturePage() {
  const page=await browser.newPage({viewport:{width:1440,height:1000}});

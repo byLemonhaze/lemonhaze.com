@@ -1,0 +1,2657 @@
+{
+  "entries": [
+    {
+      "slug": "signing-pennsylvania",
+      "title": "Signing Pennsylvania",
+      "kind": "Display",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "A short film shows Lemonhaze signing a physical print of Pennsylvania. Shared in July 2025, it records the artwork at the print table.",
+        "The accompanying description identifies SCR 310gsm paper and a print measuring 76 × 102 cm."
+      ],
+      "sources": [
+        {
+          "id": "1944434474667978923",
+          "date": "2025-07-13",
+          "url": "https://x.com/Ordinals10K/status/1944434474667978923",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Pennsylvania",
+          "href": "/f598c4555863259ba19a29d6c1784303f0bb66f6167e09af898c275029c4db07i0"
+        }
+      ],
+      "event": "Print signing · footage shared July 2025",
+      "reviewRefs": [],
+      "video": {
+        "src": "/editorial/archive/1944434474667978923-WkiO2ZfAyA6Zqv-7.mp4",
+        "poster": "/editorial/archive/pennsylvania-signing.webp",
+        "title": "Lemonhaze signing a physical print of Pennsylvania",
+        "source": "https://x.com/Ordinals10K/status/1944434474667978923",
+        "caption": "Lemonhaze signing Pennsylvania · SCR 310gsm · 76 × 102 cm. Footage shared July 13, 2025."
+      }
+    },
+    {
+      "slug": "good-night-print",
+      "title": "Good Night, off the screen",
+      "kind": "Display",
+      "collections": [
+        "Downtown"
+      ],
+      "paragraphs": [
+        "A large Good Night print is documented at the worktable, giving a sense of its scale and material presence.",
+        "The August 2025 record identifies SCR 310gsm paper, measuring 61 × 108.5 cm. It is an example of a particular physical presentation of the work."
+      ],
+      "sources": [
+        {
+          "id": "1960606032675434976",
+          "date": "2025-08-27",
+          "url": "https://x.com/Ordinals10K/status/1960606032675434976",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m044.webp",
+          "alt": "Good Night at the print table",
+          "caption": "Good Night · SCR 310gsm · 61 × 108.5 cm. Photograph shared by Lemonhaze.",
+          "width": 900,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1960606032675434976"
+        }
+      ],
+      "related": [
+        {
+          "label": "Good Night",
+          "href": "/c84e8d79be8fead1e1a3384a59f34da663363adc67beb46696f3996fd57e78b1i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F77"
+      ]
+    },
+    {
+      "slug": "chanchanoks-temple",
+      "title": "Chanchanok’s Temple: inside the process",
+      "kind": "Process",
+      "collections": [
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "Sketches, collage, testing and generative texture meet in Chanchanok’s Temple. This process film moves through components of the image, experiments with different outputs, blending and the final surface.",
+        "The actual work is less linear than the film: Lemonhaze moves back and forth between tools, adjusting the components until they belong together. AI, Krita and p5.js each play a part."
+      ],
+      "sources": [
+        {
+          "id": "1890473415116509619",
+          "date": "2025-02-14",
+          "url": "https://x.com/Ordinals10K/status/1890473415116509619",
+          "used": false
+        },
+        {
+          "id": "1890137182075248773",
+          "date": "2025-02-13",
+          "url": "https://x.com/Ordinals10K/status/1890137182075248773",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Chanchanok's Temple",
+          "href": "/b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0"
+        }
+      ],
+      "event": "February 2025",
+      "reviewRefs": [
+        "F15"
+      ],
+      "video": {
+        "src": "/editorial/archive/1890473415116509619-Zr0eXzg_iP73E7Vm.mp4",
+        "poster": "/editorial/archive/1890473415116509619-Zr0eXzg_iP73E7Vm-0.jpg",
+        "title": "Chanchanok’s Temple: inside the process",
+        "source": "https://x.com/Ordinals10K/status/1890473415116509619"
+      }
+    },
+    {
+      "slug": "smoke-break",
+      "title": "Smoke Break: a photograph, reworked",
+      "kind": "Process",
+      "collections": [
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "Smoke Break began with a photograph taken on a phone. A chair, a balcony and the landscape beyond became the starting material for a new image.",
+        "The photograph was redrawn with AI, manually modified in Krita, then brought into the artist’s code-based framework with its own set of textures. The place remains recognisable through the transformed colour and surface."
+      ],
+      "sources": [
+        {
+          "id": "1996619809358774456",
+          "date": "2025-12-04",
+          "url": "https://x.com/Ordinals10K/status/1996619809358774456",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m020.webp",
+          "alt": "Smoke Break source photograph",
+          "caption": "The original phone photograph.",
+          "width": 900,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1996619809358774456"
+        },
+        {
+          "src": "/editorial/archive/m023.webp",
+          "alt": "Smoke Break finished work",
+          "caption": "Smoke Break, after drawing, colour and texture work.",
+          "width": 800,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1996619809358774456"
+        }
+      ],
+      "related": [
+        {
+          "label": "Smoke Break",
+          "href": "/27d6da8779b0cbc1ca5fb565ec57a4168c137a99fde572f1f22cf6673f6fc524i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F16"
+      ]
+    },
+    {
+      "slug": "paint-engine-layers",
+      "title": "Building an image in layers",
+      "kind": "Process",
+      "collections": [],
+      "paragraphs": [
+        "Paper and canvas textures, grid-like weaves, backgrounds, black ink and brushes each have a place in the paint engine. In the January 2025 account, the ink is drawn over the background and beneath the textures.",
+        "Small fragments of an output can be extracted, distorted and reapplied. This clipping and sampling brings depth and irregularity, much as a sampled sound can change a piece of music.",
+        "The recurring black marks connect to ballpoint drawings, early spray painting, and personal interpretations of ink wash. The finished image holds the balance between a considered composition and a rough, imperfect surface."
+      ],
+      "sources": [
+        {
+          "id": "1880560813993607358",
+          "date": "2025-01-18",
+          "url": "https://x.com/Ordinals10K/status/1880560813993607358",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m000.webp",
+          "alt": "Paint-engine texture examples",
+          "caption": "A finished composition illustrating the layered approach.",
+          "width": 900,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1880560813993607358"
+        },
+        {
+          "src": "/editorial/archive/m001.webp",
+          "alt": "Paint-engine texture examples",
+          "caption": "Another finished composition from the same process account.",
+          "width": 900,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1880560813993607358"
+        },
+        {
+          "src": "/editorial/archive/m002.webp",
+          "alt": "Paint-engine texture examples",
+          "caption": "Details of the finished surfaces.",
+          "width": 1200,
+          "height": 533,
+          "source": "https://x.com/Ordinals10K/status/1880560813993607358"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F10",
+        "F11",
+        "F12"
+      ]
+    },
+    {
+      "slug": "three-techniques",
+      "title": "Three works, three techniques",
+      "kind": "Process",
+      "collections": [
+        "Berlin",
+        "Untitled",
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "Revaler Straße 99 was digitally hand-drawn in Krita. Avant le Crépuscule combines AI, Krita and p5.js. From Berlin to Saigon is a generative p5.js work.",
+        "Together these separate works show an evolving approach to composition and surface, from small drawn forms to mixed tools and heavily textured code-based work."
+      ],
+      "sources": [
+        {
+          "id": "1859923436493230480",
+          "date": "2024-11-22",
+          "url": "https://x.com/Ordinals10K/status/1859923436493230480",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m004.webp",
+          "alt": "Krita → mixed tools → p5.js",
+          "caption": "Revaler Straße 99 · Krita.",
+          "width": 512,
+          "height": 512,
+          "source": "https://x.com/Ordinals10K/status/1859923436493230480"
+        },
+        {
+          "src": "/editorial/archive/m005.webp",
+          "alt": "Krita → mixed tools → p5.js",
+          "caption": "Avant le Crépuscule · AI, Krita and p5.js.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1859923436493230480"
+        },
+        {
+          "src": "/editorial/archive/m006.webp",
+          "alt": "Krita → mixed tools → p5.js",
+          "caption": "From Berlin to Saigon · p5.js.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1859923436493230480"
+        }
+      ],
+      "related": [
+        {
+          "label": "Revaler Straße 99",
+          "href": "/f81f4f5aaedb7482b6885923c17239b04feb7e3cf6ab17799f1c48dddcfc74ddi0"
+        },
+        {
+          "label": "Avant le Crepuscule",
+          "href": "/cf0bf5d5c1e3aa8ad9ed188764d118116fe3b6fd9b4894b7fe1b4c72f83ca2b6i0"
+        },
+        {
+          "label": "From Berlin to Saigon",
+          "href": "/989242547accbd3df2611aeae8c311e162d4d188f046d8562f18f6684ade4f63i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F14"
+      ]
+    },
+    {
+      "slug": "trilogy",
+      "title": "One starting image, three directions",
+      "kind": "Process",
+      "collections": [
+        "Trilogy (Prints)",
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "Glass Breaker, Off-Kilter and Mending Out began with the same starting image. Colours were mixed separately in Krita, then matched through the WebGL work.",
+        "Their shared beginning makes the differences worth looking at: colour and treatment move each image toward a distinct feeling. Their individual diary entries remain part of the original works."
+      ],
+      "sources": [
+        {
+          "id": "2010863417792344214",
+          "date": "2026-01-12",
+          "url": "https://x.com/Ordinals10K/status/2010863417792344214",
+          "used": false
+        }
+      ],
+      "years": [
+        "2026"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m012.webp",
+          "alt": "Colour continuity across tools",
+          "caption": "Glass Breaker, Off-Kilter and Mending Out.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/2010863417792344214"
+        }
+      ],
+      "related": [
+        {
+          "label": "Glass Breaker",
+          "href": "/58d21c5f1bbc25932fe1cc784ac47baf8b0ed9241ea989ad2a47b41839d132e7i0"
+        },
+        {
+          "label": "Off-Kilter",
+          "href": "/15ed0a345c10cb0b26fad820f364898f355924dbf0ce5527dd5d7237e0a25964i0"
+        },
+        {
+          "label": "Mending Out",
+          "href": "/a75945e142877ade9392a0855ef0fdab215af10a7f3e4381d31697c706836228i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F17"
+      ]
+    },
+    {
+      "slug": "colour-across-tools",
+      "title": "Colour that returns across different tools",
+      "kind": "Connections",
+      "collections": [
+        "1 of 1s (2025)",
+        "Trilogy (Prints)"
+      ],
+      "paragraphs": [
+        "Orange and purple recur across works made in different ways. Flashback and Soleil & Mer use code-defined colours; Debt Sentence and Smoke Break bring photography and manual colour work into coded textures.",
+        "Looking back in January 2026, Lemonhaze noticed this continuity without having planned it. The colour relationship travels further than any single technique."
+      ],
+      "sources": [
+        {
+          "id": "2010863417792344214",
+          "date": "2026-01-12",
+          "url": "https://x.com/Ordinals10K/status/2010863417792344214",
+          "used": false
+        }
+      ],
+      "years": [
+        "2026"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m011.webp",
+          "alt": "Colour continuity across tools",
+          "caption": "Flashback and Soleil & Mer.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/2010863417792344214"
+        },
+        {
+          "src": "/editorial/archive/m013.webp",
+          "alt": "Colour continuity across tools",
+          "caption": "Debt Sentence and Smoke Break.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/2010863417792344214"
+        }
+      ],
+      "related": [
+        {
+          "label": "Flashback",
+          "href": "/b66a29be1861ef12253635e0dff825344dc39c5c44644e3224b7974deac8a092i0"
+        },
+        {
+          "label": "Soleil & Mer",
+          "href": "/28cc6c152b736d59551de08f0d6bd7984a49a0a1f9eca80df62938eaa96ac7e6i0"
+        },
+        {
+          "label": "Debt Sentence",
+          "href": "/c850f4853a469ed0758309006b861e3f6bac830126d25695b744d019fcb903b6i0"
+        },
+        {
+          "label": "Smoke Break",
+          "href": "/27d6da8779b0cbc1ca5fb565ec57a4168c137a99fde572f1f22cf6673f6fc524i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F18"
+      ]
+    },
+    {
+      "slug": "marilyn-four-ways",
+      "title": "Marilyn, through four techniques",
+      "kind": "Connections",
+      "collections": [
+        "Lotus",
+        "Mending Fragments",
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "The recurring Marilyn / Monero subject passes through collage and Photomosh, a digitally hand-drawn fragmented portrait, AI with Krita, and p5.js. Each version asks something different of the available tools.",
+        "The Bootleg Remix originated as a GIF made and minted on Ethereum in 2021. The later versions place the subject within different parts of Lemonhaze’s Bitcoin practice."
+      ],
+      "sources": [
+        {
+          "id": "1859894970637050363",
+          "date": "2024-11-22",
+          "url": "https://x.com/Ordinals10K/status/1859894970637050363",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m014.webp",
+          "alt": "Marilyn / Monero across four techniques",
+          "caption": "Bootleg Remix · collage and Photomosh; based on a Marilyn Monroe portrait.",
+          "width": 399,
+          "height": 399,
+          "source": "https://x.com/Ordinals10K/status/1859894970637050363"
+        },
+        {
+          "src": "/editorial/archive/m015.webp",
+          "alt": "Marilyn / Monero across four techniques",
+          "caption": "Mending Fragments · digitally hand-drawn in Krita.",
+          "width": 1197,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1859894970637050363"
+        },
+        {
+          "src": "/editorial/archive/m016.webp",
+          "alt": "Marilyn / Monero across four techniques",
+          "caption": "Lotus · AI and Krita.",
+          "width": 1080,
+          "height": 1080,
+          "source": "https://x.com/Ordinals10K/status/1859894970637050363"
+        },
+        {
+          "src": "/editorial/archive/m017.webp",
+          "alt": "Marilyn / Monero across four techniques",
+          "caption": "Marilyn · p5.js.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1859894970637050363"
+        }
+      ],
+      "related": [
+        {
+          "label": "Marilyn",
+          "href": "/9cc4a712d5cc4317ef5539230e2f04562d1e3fb14007195abdb8e76b4d3b5dc5i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F19"
+      ]
+    },
+    {
+      "slug": "degeneration",
+      "title": "Three stages of an experiment",
+      "kind": "Process",
+      "collections": [
+        "Generative Composition"
+      ],
+      "paragraphs": [
+        "An August 2023 comparison brings together Untitled, Degeneration #0 and Degeneration #2. Granular surfaces and geometric arrangements show different stages of an experiment with generative composition.",
+        "The comparison preserves a glimpse of the development between works, alongside the finished inscriptions."
+      ],
+      "sources": [
+        {
+          "id": "1688363503411982337",
+          "date": "2023-08-07",
+          "url": "https://x.com/Ordinals10K/status/1688363503411982337",
+          "used": false
+        }
+      ],
+      "years": [
+        "2023"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m060.webp",
+          "alt": "Untitled / Degeneration stages",
+          "caption": "One of the three process examples shared in August 2023.",
+          "width": 960,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1688363503411982337"
+        },
+        {
+          "src": "/editorial/archive/m061.webp",
+          "alt": "Untitled / Degeneration stages",
+          "caption": "A second process example.",
+          "width": 960,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1688363503411982337"
+        },
+        {
+          "src": "/editorial/archive/m062.webp",
+          "alt": "Untitled / Degeneration stages",
+          "caption": "A third process example.",
+          "width": 960,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1688363503411982337"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F20"
+      ]
+    },
+    {
+      "slug": "tad-small",
+      "title": "Three tiny canvases, a change of approach",
+      "kind": "Stories",
+      "collections": [
+        "Tad Small"
+      ],
+      "paragraphs": [
+        "The Void began as a marker-on-paper sketch. Casa Flamingo reworked a recent oil painting. Khaosan was improvised on a fresh 50 × 50 canvas. Their files measured 777, 648 and 558 bytes respectively.",
+        "Larger images had become too expensive to inscribe. Making these small works changed the question: how could the work be created for Bitcoin, with its constraints present from the beginning? A period of small hand-drawn series followed."
+      ],
+      "sources": [
+        {
+          "id": "1768963689669968376",
+          "date": "2024-03-16",
+          "url": "https://x.com/Ordinals10K/status/1768963689669968376",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m056.webp",
+          "alt": "Casa Flamingo: pixels, painting and house",
+          "caption": "Casa Flamingo, one of the three Tad Small works.",
+          "width": 493,
+          "height": 567,
+          "source": "https://x.com/Ordinals10K/status/1665417520403337216"
+        }
+      ],
+      "related": [
+        {
+          "label": "The Void",
+          "href": "/73ac6d559ef233768d5503d82c220c522dce33b2c61ac9f24cc343187e9db698i0"
+        },
+        {
+          "label": "Casa Flamingo",
+          "href": "/8cce7cd9f33a4ac342335c2d6c196236640138030ef198a295ad1061840e5163i0"
+        },
+        {
+          "label": "Khaosan",
+          "href": "/41cd3825f334160f69ca9faae9bb70f6a8ff02530c56ae92fbf2a2062bd1281ai0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F21"
+      ]
+    },
+    {
+      "slug": "sushi",
+      "title": "Sushi: a small memory of Tenerife",
+      "kind": "Stories",
+      "collections": [
+        "Le Bar a Tapas"
+      ],
+      "paragraphs": [
+        "Sushi remembers one of Lemonhaze’s last meals in Tenerife after several weeks with the team from his first official crypto job.",
+        "The small digitally hand-drawn works of Le Bar à Tapas made it possible to keep inscribing during a period of high fees. Ordinary moments became compact mementos."
+      ],
+      "sources": [
+        {
+          "id": "1881019737070870662",
+          "date": "2025-01-19",
+          "url": "https://x.com/Ordinals10K/status/1881019737070870662",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Sushi",
+          "href": "/529a830af3629c1e43331b68573aee6c8c70519228a23e0ff8d8ee6d66626b99i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F24"
+      ]
+    },
+    {
+      "slug": "fragmented-works",
+      "title": "From Polaroid to fragmented works",
+      "kind": "Connections",
+      "collections": [
+        "Polaroid",
+        "Mending Fragments",
+        "Discography",
+        "World Tour"
+      ],
+      "paragraphs": [
+        "Polaroid #5 and #7 sparked the fragmented approach that followed in Mending Fragments, Discography and World Tour during June and July 2023.",
+        "The technique connects them, while the subjects distinguish them: portraits in Mending Fragments, album covers in Discography, and country flags in World Tour. The music and places are part of an unfinished personal record."
+      ],
+      "sources": [
+        {
+          "id": "1821085693663440916",
+          "date": "2024-08-07",
+          "url": "https://x.com/Ordinals10K/status/1821085693663440916",
+          "used": false
+        },
+        {
+          "id": "1678190594504417281",
+          "date": "2023-07-09",
+          "url": "https://x.com/Ordinals10K/status/1678190594504417281",
+          "used": false
+        },
+        {
+          "id": "1837074661903061496",
+          "date": "2024-09-20",
+          "url": "https://x.com/Ordinals10K/status/1837074661903061496",
+          "used": false
+        }
+      ],
+      "years": [
+        "2023",
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m039.webp",
+          "alt": "Polaroid and the start of fragmentation",
+          "caption": "Polaroid example shared alongside the account of the fragmented works.",
+          "width": 350,
+          "height": 420,
+          "source": "https://x.com/Ordinals10K/status/1821085693663440916"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F25",
+        "F26"
+      ]
+    },
+    {
+      "slug": "jardin-secret",
+      "title": "Jardin Secret: beginning with a sketch",
+      "kind": "Process",
+      "collections": [
+        "Jardin Secret"
+      ],
+      "paragraphs": [
+        "In July 2023, Lemonhaze was painting shapes and ideas for Jardin Secret. The photograph of Bonzai preserves a physical sketch from that period.",
+        "The series also includes Haiku, accompanied by the artist’s words: “Behind closed eyelids, / Silent gardens gently grow, / Secrets never known.”"
+      ],
+      "sources": [
+        {
+          "id": "1675242742719365125",
+          "date": "2023-07-01",
+          "url": "https://x.com/Ordinals10K/status/1675242742719365125",
+          "used": false
+        },
+        {
+          "id": "1825142914407858324",
+          "date": "2024-08-18",
+          "url": "https://x.com/Ordinals10K/status/1825142914407858324",
+          "used": false
+        }
+      ],
+      "years": [
+        "2023",
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m049.webp",
+          "alt": "Bonzai sketch for Jardin Secret",
+          "caption": "Bonzai (sketch), shared July 1, 2023.",
+          "width": 1024,
+          "height": 1024,
+          "source": "https://x.com/Ordinals10K/status/1675242742719365125"
+        }
+      ],
+      "related": [
+        {
+          "label": "Haiku",
+          "href": "/c1bf8b7d6a0c57367f3f1f25badac227c67d3a91c8f42c51a8874d84ae55c837i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F27",
+        "F28"
+      ]
+    },
+    {
+      "slug": "early-mini-series",
+      "title": "Small images, spare statements",
+      "kind": "Stories",
+      "collections": [
+        "Framed",
+        "Dark Days",
+        "Fading",
+        "Polaroid"
+      ],
+      "paragraphs": [
+        "Framed returns to being in the wrong place at the wrong time. Dark Days asks about losing control. Fading follows decay and echoes of the past; Polaroid aims to capture a moment simply.",
+        "These short descriptions sit alongside digitally hand-drawn Krita images. Their small scale leaves room for a mood or thought without explaining it away."
+      ],
+      "sources": [
+        {
+          "id": "1774602539205353964",
+          "date": "2024-04-01",
+          "url": "https://x.com/Ordinals10K/status/1774602539205353964",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m040.webp",
+          "alt": "Early mini-series examples",
+          "caption": "Framed.",
+          "width": 1100,
+          "height": 1100,
+          "source": "https://x.com/Ordinals10K/status/1774602539205353964"
+        },
+        {
+          "src": "/editorial/archive/m041.webp",
+          "alt": "Early mini-series examples",
+          "caption": "Dark Days.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1774602539205353964"
+        },
+        {
+          "src": "/editorial/archive/m042.webp",
+          "alt": "Early mini-series examples",
+          "caption": "Fading.",
+          "width": 1195,
+          "height": 1195,
+          "source": "https://x.com/Ordinals10K/status/1774602539205353964"
+        },
+        {
+          "src": "/editorial/archive/m043.webp",
+          "alt": "Early mini-series examples",
+          "caption": "Polaroid.",
+          "width": 350,
+          "height": 420,
+          "source": "https://x.com/Ordinals10K/status/1774602539205353964"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F29"
+      ]
+    },
+    {
+      "slug": "volatility",
+      "title": "Volatility: emotion, code and writing",
+      "kind": "Stories",
+      "collections": [
+        "Volatility"
+      ],
+      "paragraphs": [
+        "Volatility draws a parallel between market fluctuations and the movement of emotional life: euphoria, despair and the search for balance.",
+        "It was Lemonhaze’s first officially released and sold generative collection, and the first where he deliberately explored personal, candid notes in the HTML headers."
+      ],
+      "sources": [
+        {
+          "id": "1774602543290560613",
+          "date": "2024-04-01",
+          "url": "https://x.com/Ordinals10K/status/1774602543290560613",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F30"
+      ]
+    },
+    {
+      "slug": "berlin-composition",
+      "title": "Berlin as a study in balance",
+      "kind": "Process",
+      "collections": [
+        "Berlin",
+        "The Artifacts"
+      ],
+      "paragraphs": [
+        "The Berlin works are memories of the city in 2018, but their small Krita canvases were also a place to study composition and balance.",
+        "Palettes and structural ideas were sampled from AI sketches and experiments, an approach Lemonhaze first explored with Manifesto. The drawing and the reference material developed together."
+      ],
+      "sources": [
+        {
+          "id": "1916522247315198432",
+          "date": "2025-04-27",
+          "url": "https://x.com/Ordinals10K/status/1916522247315198432",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m004.webp",
+          "alt": "Krita → mixed tools → p5.js",
+          "caption": "Revaler Straße 99, from Berlin.",
+          "width": 512,
+          "height": 512,
+          "source": "https://x.com/Ordinals10K/status/1859923436493230480"
+        }
+      ],
+      "related": [
+        {
+          "label": "Manifesto",
+          "href": "/2929458becb86fb22ae12b72408b9a136dd068cd06c422db6d35ac78760e8004i0"
+        },
+        {
+          "label": "Revaler Straße 99",
+          "href": "/f81f4f5aaedb7482b6885923c17239b04feb7e3cf6ab17799f1c48dddcfc74ddi0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F32"
+      ]
+    },
+    {
+      "slug": "downtown",
+      "title": "A wide canvas for the city",
+      "kind": "Stories",
+      "collections": [
+        "Downtown"
+      ],
+      "paragraphs": [
+        "Downtown combines retro-wave references and the energy of urban life in a wide 16:9 format. Minimal textures accompany remembered metropolitan scenes.",
+        "The notes preserve more ordinary moments too: craving a visit to Mexico City, working for several days, and finally remembering to inscribe Good Night."
+      ],
+      "sources": [
+        {
+          "id": "1774602513980764264",
+          "date": "2024-04-01",
+          "url": "https://x.com/Ordinals10K/status/1774602513980764264",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Downtown (Zero)",
+          "href": "/3b77f0775b669431f2a4a9ee09f1f729462b77dda6125ca98007266b2fb851aci0"
+        },
+        {
+          "label": "Good Night",
+          "href": "/c84e8d79be8fead1e1a3384a59f34da663363adc67beb46696f3996fd57e78b1i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F33"
+      ]
+    },
+    {
+      "slug": "bento-box",
+      "title": "Bento Box: a simple visual pleasure",
+      "kind": "Stories",
+      "collections": [
+        "Bento Box"
+      ],
+      "paragraphs": [
+        "Bento Box was described as digital delicacies crafted with code: carefully curated compositions for simplicity and visual pleasure.",
+        "Bento Box Nº1 was also called Los Angeles, in honour of @PARIS_sats."
+      ],
+      "sources": [
+        {
+          "id": "1774602556276199462",
+          "date": "2024-04-01",
+          "url": "https://x.com/Ordinals10K/status/1774602556276199462",
+          "used": false
+        },
+        {
+          "id": "1746245153424048490",
+          "date": "2024-01-13",
+          "url": "https://x.com/Ordinals10K/status/1746245153424048490",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F34",
+        "F35"
+      ]
+    },
+    {
+      "slug": "la-tentation",
+      "title": "La Tentation: indulgence and control",
+      "kind": "Stories",
+      "collections": [
+        "La Tentation"
+      ],
+      "paragraphs": [
+        "An extended grid and vivid palettes give La Tentation its structure. Colour mixing and texture carry a tension between indulgence and restraint.",
+        "The series continues Lemonhaze’s work with code, holding an ordered composition alongside a more restless surface."
+      ],
+      "sources": [
+        {
+          "id": "1748469027855372775",
+          "date": "2024-01-19",
+          "url": "https://x.com/Ordinals10K/status/1748469027855372775",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m027.webp",
+          "alt": "La Tentation overview",
+          "caption": "La Tentation: an overview of the series.",
+          "width": 1200,
+          "height": 541,
+          "source": "https://x.com/Ordinals10K/status/1748469027855372775"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F36"
+      ]
+    },
+    {
+      "slug": "unregulated-minds",
+      "title": "Unregulated Minds: returning to a state of mind",
+      "kind": "Stories",
+      "collections": [
+        "Unregulated Minds"
+      ],
+      "paragraphs": [
+        "Unregulated Minds was inscribed on January 2, 2024. Its cursed inscriptions carry an interest in freedom of thought and the liberty to think beyond what feels comfortable.",
+        "Distribution came around Halloween and Bitcoin Whitepaper day that year. Lemonhaze had waited to return to the optimistic, energetic mindset in which the collection had been made."
+      ],
+      "sources": [
+        {
+          "id": "1851961884372799562",
+          "date": "2024-10-31",
+          "url": "https://x.com/Ordinals10K/status/1851961884372799562",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F37"
+      ]
+    },
+    {
+      "slug": "artifacts",
+      "title": "The Artifacts: individual works and shared memories",
+      "kind": "Connections",
+      "collections": [
+        "The Artifacts"
+      ],
+      "paragraphs": [
+        "The Artifacts is an early grouping of individual 1/1s. Some works share techniques or memories without forming separate official collections.",
+        "Adriatic View, Himarë, Gjipe and Αθήνα return to travels through the Balkans in summer 2022. Blood, Lemon & Tango, Le Dessinateur, Biarritz and Playa Zicatela form another connection through mixed techniques and personal memories."
+      ],
+      "sources": [
+        {
+          "id": "2010090733273858507",
+          "date": "2026-01-10",
+          "url": "https://x.com/Ordinals10K/status/2010090733273858507",
+          "used": false
+        }
+      ],
+      "years": [
+        "2026"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Adriatic View",
+          "href": "/4dabf8c0f1b7c549ae94857e08dc6f0a844b1d09cf970892e29c285466746a81i0"
+        },
+        {
+          "label": "Himarë",
+          "href": "/75174f565a39be5f31a011cce5f969a02ebda7a97467df4031a6eeb7e5c380e0i0"
+        },
+        {
+          "label": "Gjipe",
+          "href": "/0ba218ab502d21cba7a4fcb6c049a590548054089bc6d3ac84eed838fffddc5ai0"
+        },
+        {
+          "label": "Αθήνα",
+          "href": "/22660b93859c508c6b0b680ef606858d3a546868cf0c2be0ebaf72d50d9a9bf6i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F38",
+        "F39"
+      ]
+    },
+    {
+      "slug": "deville",
+      "title": "DeVille: two waves of experimentation",
+      "kind": "Process",
+      "collections": [
+        "DeVille",
+        "Cypherville"
+      ],
+      "paragraphs": [
+        "DeVille #1–11 mainly combine AI images with p5.js texture. In #12–16, more manual modification and generative backgrounds enter the image. The two waves, made about a year apart, record that change in technique.",
+        "Each work also reconnects with its Cypherville ancestor through recursion and the creature’s original written description."
+      ],
+      "sources": [
+        {
+          "id": "1864241166188990694",
+          "date": "2024-12-04",
+          "url": "https://x.com/Ordinals10K/status/1864241166188990694",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F40"
+      ]
+    },
+    {
+      "slug": "portrait-2490",
+      "title": "What might we look like in 2490?",
+      "kind": "Stories",
+      "collections": [
+        "Portrait 2490"
+      ],
+      "paragraphs": [
+        "Portrait 2490 brings together ninety futuristic portraits of robots and humans. Released in March 2023, these early AI experiments ask what people might look like far into the future.",
+        "The portraits preceded Gentlemen. The collection also helped form the early community around the work: one collector encouraged Lemonhaze to set up a Discord server."
+      ],
+      "sources": [
+        {
+          "id": "1958555835178836154",
+          "date": "2025-08-21",
+          "url": "https://x.com/Ordinals10K/status/1958555835178836154",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m009.webp",
+          "alt": "Portrait 2490",
+          "caption": "A Portrait 2490 work.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1958555835178836154"
+        },
+        {
+          "src": "/editorial/archive/m010.webp",
+          "alt": "Portrait 2490",
+          "caption": "The Portrait 2490 collection.",
+          "width": 1200,
+          "height": 1180,
+          "source": "https://x.com/Ordinals10K/status/1958555835178836154"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F41"
+      ]
+    },
+    {
+      "slug": "little-get-away",
+      "title": "A little distance from the work",
+      "kind": "Stories",
+      "collections": [
+        "Little Get Away"
+      ],
+      "paragraphs": [
+        "Little Get Away grew alongside plans for a real break with the artist’s partner. It also meant a break from an intense focus on texture, turning toward minimal code-based landscapes.",
+        "The first getaway did not completely take his mind off work. The desire to step back became part of the work itself."
+      ],
+      "sources": [
+        {
+          "id": "1811050473778205179",
+          "date": "2024-07-10",
+          "url": "https://x.com/Ordinals10K/status/1811050473778205179",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F42"
+      ]
+    },
+    {
+      "slug": "manufactured-notes",
+      "title": "Manufactured: individually written, collectively connected",
+      "kind": "Connections",
+      "collections": [
+        "Manufactured",
+        "Games"
+      ],
+      "paragraphs": [
+        "The 420 Manufactured inscriptions have individually written HTML notes, including small greetings to collectors and builders. Beneath a series concerned with mass production sits a collection of personal writing.",
+        "Its engine also contains an archive of earlier inscription IDs. Those IDs become generative seeds inside the series, carrying earlier works into new outputs. Manufactured and Games share a family of parents, preserving their complementary relationship.",
+        "The 420 works were inscribed together on consecutive sats, then padded and separated. The Hosoi sale helped make that carefully planned process possible."
+      ],
+      "sources": [
+        {
+          "id": "1855101064368078976",
+          "date": "2024-11-09",
+          "url": "https://x.com/Ordinals10K/status/1855101064368078976",
+          "used": false
+        },
+        {
+          "id": "1884465577869373443",
+          "date": "2025-01-29",
+          "url": "https://x.com/Ordinals10K/status/1884465577869373443",
+          "used": false
+        },
+        {
+          "id": "1872693159471489032",
+          "date": "2024-12-27",
+          "url": "https://x.com/Ordinals10K/status/1872693159471489032",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024",
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m069.webp",
+          "alt": "Manufactured examples",
+          "caption": "A Manufactured output.",
+          "width": 675,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1786859238565765234"
+        },
+        {
+          "src": "/editorial/archive/m070.webp",
+          "alt": "Manufactured examples",
+          "caption": "Another output from the series.",
+          "width": 675,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1786859238565765234"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F43",
+        "F44",
+        "F45"
+      ]
+    },
+    {
+      "slug": "la-carte",
+      "title": "La Carte: a remembered time card",
+      "kind": "Stories",
+      "collections": [
+        "Candidly Yours",
+        "Manufactured"
+      ],
+      "paragraphs": [
+        "La Carte abstracts the time cards once used by workers. Its inscription note returns to a piece of advice from Lemonhaze’s father: work hard, then reap the fruits of that labour. The artist adds a question—does that promise really hold for workers?",
+        "The image also became the source of a Manufactured palette. A song by Pagliaro, remembered from childhood, brings another association with work into the story."
+      ],
+      "sources": [
+        {
+          "id": "2010119038186188903",
+          "date": "2026-01-10",
+          "url": "https://x.com/Ordinals10K/status/2010119038186188903",
+          "used": false
+        },
+        {
+          "id": "1783543943054909500",
+          "date": "2024-04-25",
+          "url": "https://x.com/Ordinals10K/status/1783543943054909500",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024",
+        "2026"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m028.webp",
+          "alt": "La Carte",
+          "caption": "La Carte, from Candidly Yours.",
+          "width": 675,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/2010119038186188903"
+        },
+        {
+          "src": "/editorial/archive/m019.webp",
+          "alt": "La Carte: artwork and later palette",
+          "caption": "A later image carrying the La Carte palette.",
+          "width": 675,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1783543943054909500"
+        }
+      ],
+      "related": [
+        {
+          "label": "La Carte",
+          "href": "/6601c667c0874889109645c27447bd3e61644fef75af86a02f6cf63c8b6a2ec5i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F47",
+        "F48"
+      ]
+    },
+    {
+      "slug": "travelling-palettes",
+      "title": "Palettes that travel between collections",
+      "kind": "Connections",
+      "collections": [
+        "Candidly Yours",
+        "Manufactured",
+        "Berlin",
+        "Montreal",
+        "Oaxaca"
+      ],
+      "paragraphs": [
+        "Coral, from Candidly Yours, became the source of a Manufactured palette. La Carte made a similar journey from an earlier artwork into the later collection.",
+        "My Love connects Gentleman Nº1, 99 Francs and Five Roses. Colours were sampled, adjusted and carried into other series, with Deep Pink added for Five Roses in January 2024. The repeated palette holds together places and moments that otherwise look far apart."
+      ],
+      "sources": [
+        {
+          "id": "1803915275001082241",
+          "date": "2024-06-20",
+          "url": "https://x.com/Ordinals10K/status/1803915275001082241",
+          "used": false
+        },
+        {
+          "id": "1833437373990047935",
+          "date": "2024-09-10",
+          "url": "https://x.com/Ordinals10K/status/1833437373990047935",
+          "used": false
+        },
+        {
+          "id": "1954868780510613716",
+          "date": "2025-08-11",
+          "url": "https://x.com/Ordinals10K/status/1954868780510613716",
+          "used": true
+        }
+      ],
+      "years": [
+        "2024",
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m018.webp",
+          "alt": "La Carte: artwork and later palette",
+          "caption": "La Carte.",
+          "width": 675,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1783543943054909500"
+        },
+        {
+          "src": "/editorial/archive/m019.webp",
+          "alt": "La Carte: artwork and later palette",
+          "caption": "The palette carried into a later work.",
+          "width": 675,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1783543943054909500"
+        }
+      ],
+      "related": [
+        {
+          "label": "Coral",
+          "href": "/5e91b3f333da2d17fcd1b2e22be9df0f7f17708f5238d353bb2e35cd81e1a310i0"
+        },
+        {
+          "label": "99 Francs",
+          "href": "/fd188a970767ef5ef2f4bbae2c641b8b314bcf3eb1305fff9f3ebc5ebecfd448i0"
+        },
+        {
+          "label": "Five Roses",
+          "href": "/e8333e96e84d038b2400a2d46853f676660a18adbbf22e8d9c15ca9894235e3bi0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F46",
+        "F49"
+      ]
+    },
+    {
+      "slug": "casa-flamingo",
+      "title": "Casa Flamingo: a place becomes an image",
+      "kind": "Stories",
+      "collections": [
+        "Tad Small"
+      ],
+      "paragraphs": [
+        "A tiny house under construction in Puerto Escondido became both a painted study and a small digital abstraction. The building, the painting and the pixel artwork appear together in the artist’s June 2023 photographs.",
+        "Casa Flamingo belongs to Tad Small, made when inscription costs prompted a different way of working. Lemonhaze returned to an oil painting that was not yet dry and translated it onto a tiny pixel canvas. The resulting file was 648 bytes.",
+        "The later interior photograph, shared in April 2026, shows the place after the early construction period."
+      ],
+      "sources": [
+        {
+          "id": "1665417520403337216",
+          "date": "2023-06-04",
+          "url": "https://x.com/Ordinals10K/status/1665417520403337216",
+          "used": false
+        },
+        {
+          "id": "1768963689669968376",
+          "date": "2024-03-16",
+          "url": "https://x.com/Ordinals10K/status/1768963689669968376",
+          "used": false
+        },
+        {
+          "id": "2042361808090980848",
+          "date": "2026-04-09",
+          "url": "https://x.com/Ordinals10K/status/2042361808090980848",
+          "used": false
+        }
+      ],
+      "years": [
+        "2023",
+        "2024",
+        "2026"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/casa-flamingo-interior.webp",
+          "alt": "Finished interior of Casa Flamingo, photographed from the kitchen toward the terrace",
+          "caption": "Casa Flamingo interior, shared April 9, 2026.",
+          "width": 1200,
+          "height": 507,
+          "source": "https://x.com/Ordinals10K/status/2042361808090980848"
+        },
+        {
+          "src": "/editorial/archive/m057.webp",
+          "alt": "Casa Flamingo: pixels, painting and house",
+          "caption": "The painted study.",
+          "width": 702,
+          "height": 936,
+          "source": "https://x.com/Ordinals10K/status/1665417520403337216"
+        },
+        {
+          "src": "/editorial/archive/m058.webp",
+          "alt": "Casa Flamingo: pixels, painting and house",
+          "caption": "Another view of the painted study.",
+          "width": 702,
+          "height": 936,
+          "source": "https://x.com/Ordinals10K/status/1665417520403337216"
+        },
+        {
+          "src": "/editorial/archive/m056.webp",
+          "alt": "Casa Flamingo: pixels, painting and house",
+          "caption": "Casa Flamingo, the digital abstraction.",
+          "width": 493,
+          "height": 567,
+          "source": "https://x.com/Ordinals10K/status/1665417520403337216"
+        }
+      ],
+      "related": [
+        {
+          "label": "Casa Flamingo",
+          "href": "/8cce7cd9f33a4ac342335c2d6c196236640138030ef198a295ad1061840e5163i0"
+        }
+      ],
+      "event": "Tad Small · 2023",
+      "reviewRefs": [
+        "F22",
+        "F21"
+      ]
+    },
+    {
+      "slug": "hosoi",
+      "title": "Hosoi: texture and a turning point",
+      "kind": "Stories",
+      "collections": [
+        "Orphelinat",
+        "Manufactured"
+      ],
+      "paragraphs": [
+        "Hosoi was the first work Lemonhaze made with the combination of AI, Krita and p5.js. The approach grew from wanting to inscribe higher-resolution work in September 2023. Tiny Bitcoin symbols form part of its texture.",
+        "Its public primary sale for 0.5 BTC in March 2024 became a milestone, and helped support the inscription of Manufactured. The technique continued through later individual works and collections."
+      ],
+      "sources": [
+        {
+          "id": "1899667560754458786",
+          "date": "2025-03-12",
+          "url": "https://x.com/Ordinals10K/status/1899667560754458786",
+          "used": false
+        },
+        {
+          "id": "1872693159471489032",
+          "date": "2024-12-27",
+          "url": "https://x.com/Ordinals10K/status/1872693159471489032",
+          "used": false
+        },
+        {
+          "id": "1765125705250001242",
+          "date": "2024-03-05",
+          "url": "https://x.com/Ordinals10K/status/1765125705250001242",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024",
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Hosoi",
+          "href": "/3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F53"
+      ]
+    },
+    {
+      "slug": "paris",
+      "title": "Paris: a promise of time together",
+      "kind": "Stories",
+      "collections": [
+        "Orphelinat"
+      ],
+      "paragraphs": [
+        "The work holds a promise of going to Paris together, alongside an apology for being present and absent at once. The artist describes staying up working while his partner went to bed, hoping that the work would eventually make room for time away together.",
+        "Paris was included in OCM’s Digital Rosetta Stone."
+      ],
+      "sources": [
+        {
+          "id": "1699853772837531859",
+          "date": "2023-09-07",
+          "url": "https://x.com/Ordinals10K/status/1699853772837531859",
+          "used": false
+        }
+      ],
+      "years": [
+        "2023"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Paris",
+          "href": "/57b75021b68a9cb20c65ab16087acd127daed56642c51a4c70c8194d476281edi0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F54"
+      ]
+    },
+    {
+      "slug": "chamber-of-reflection",
+      "title": "Chamber of Reflection: keeping the rough edges",
+      "kind": "Process",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "AI sketches were compressed, cut and reworked in Krita before being combined with coded texture. Enlarging those fragments introduced blur, pixel scraps and ambiguity.",
+        "That roughness became part of the desired surface: a meeting of old and new, nature and technology, rather than a fault to smooth away."
+      ],
+      "sources": [
+        {
+          "id": "1830101769881321476",
+          "date": "2024-09-01",
+          "url": "https://x.com/Ordinals10K/status/1830101769881321476",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Chamber of Reflection (Sin City)",
+          "href": "/8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F55"
+      ]
+    },
+    {
+      "slug": "the-mask",
+      "title": "The Mask: identity and performance",
+      "kind": "Stories",
+      "collections": [
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "The Mask reaches beyond a reference to the 1994 film. It considers identity and performance, and the moment its character learns that he does not need the mask to be himself.",
+        "Jim Carrey’s energy and his wider reflections on life are also part of the artist’s stated reference."
+      ],
+      "sources": [
+        {
+          "id": "1901670000538374436",
+          "date": "2025-03-17",
+          "url": "https://x.com/Ordinals10K/status/1901670000538374436",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "The Mask",
+          "href": "/aea2a3fcf6fb14be6da45b948e0582f72d02f4f63dcf80c2f93d5c5479e18f5di0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F56"
+      ]
+    },
+    {
+      "slug": "tuna",
+      "title": "Tuna: a scene and a song",
+      "kind": "Stories",
+      "collections": [
+        "Old-Fashioned"
+      ],
+      "paragraphs": [
+        "Tuna’s note points to the arrival in California in the film Blow, accompanied by Link Wray’s Rumble. A remembered scene and its music become a personal reference inside an abstract work."
+      ],
+      "sources": [
+        {
+          "id": "1835623651414274088",
+          "date": "2024-09-16",
+          "url": "https://x.com/Ordinals10K/status/1835623651414274088",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m036.webp",
+          "alt": "Tuna",
+          "caption": "Tuna, from Old-Fashioned.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1835623651414274088"
+        }
+      ],
+      "related": [
+        {
+          "label": "Tuna",
+          "href": "/7ba4226a0db0e8306f1611ea7e35bb5b6d21a6fcd8fe8e0373fa926105c0d8f1i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F57"
+      ]
+    },
+    {
+      "slug": "shelling-out",
+      "title": "Shelling Out: ideas that stayed",
+      "kind": "Stories",
+      "collections": [
+        "Old-Fashioned"
+      ],
+      "paragraphs": [
+        "Shelling Out nods to Nick Szabo’s essay on the origins of money, and to the effect Bitcoin and its early thinkers had on Lemonhaze’s life.",
+        "Its brief, unsigned header belongs to an early stage of writing inside inscriptions, before those notes grew into a regular and more extensive part of the practice."
+      ],
+      "sources": [
+        {
+          "id": "1959525471957475468",
+          "date": "2025-08-24",
+          "url": "https://x.com/Ordinals10K/status/1959525471957475468",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Shelling Out",
+          "href": "/2050a9a9ac21aa0d6e0125a9bf4b74c2a67fd1969fbd564833ccf17b907c6e4fi0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F58"
+      ]
+    },
+    {
+      "slug": "le-hazy-night",
+      "title": "Le Hazy Night: waking with an image in mind",
+      "kind": "Stories",
+      "collections": [
+        "Generative Composition"
+      ],
+      "paragraphs": [
+        "On August 7, 2023, Lemonhaze woke after seeing Japanese art the night before. It brought Van Gogh’s Japonaiserie to mind, followed by an attempt at a simple generative response to The Starry Night.",
+        "The inscription closes with a greeting to a future reader: a moment of recognition across an unknown span of time."
+      ],
+      "sources": [
+        {
+          "id": "1994891467916018100",
+          "date": "2025-11-29",
+          "url": "https://x.com/Ordinals10K/status/1994891467916018100",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Le Hazy Night",
+          "href": "/926cf99c88b3b215d6ccd2aa2bd9766c390d56fc0adbefe841154344c99798b6i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F59"
+      ]
+    },
+    {
+      "slug": "la-pomme-pourrite",
+      "title": "La Pomme Pourrite: the way it is spoken",
+      "kind": "Stories",
+      "collections": [
+        "Untitled"
+      ],
+      "paragraphs": [
+        "The spelling of La Pomme Pourrite is deliberate. It reflects how Lemonhaze says the word in Québécois French, preserving a spoken voice inside the title.",
+        "The existing inscription note ties the image to gratitude toward his partner and the aspiration to become a gentleman."
+      ],
+      "sources": [
+        {
+          "id": "1840087393338306574",
+          "date": "2024-09-28",
+          "url": "https://x.com/Ordinals10K/status/1840087393338306574",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "La Pomme Pourrite",
+          "href": "/18f512ad3aa2df54f0e2a3988dba22464c8a4a985ffde5f56e6af1e13eff5187i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F60"
+      ]
+    },
+    {
+      "slug": "marilyn-privacy",
+      "title": "Marilyn / Monero: exposure and privacy",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "Marilyn plays with the distance between public exposure and deliberate privacy. The Marilyn / Monero wordplay brings a hyper-visible figure alongside a desire for protection and concealment.",
+        "The diary section carries the idea into the writing: that day, the artist chooses to say nothing about his personal life."
+      ],
+      "sources": [
+        {
+          "id": "1857317024260862245",
+          "date": "2024-11-15",
+          "url": "https://x.com/Ordinals10K/status/1857317024260862245",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m017.webp",
+          "alt": "Marilyn / Monero across four techniques",
+          "caption": "Marilyn, 2024.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1859894970637050363"
+        }
+      ],
+      "related": [
+        {
+          "label": "Marilyn",
+          "href": "/9cc4a712d5cc4317ef5539230e2f04562d1e3fb14007195abdb8e76b4d3b5dc5i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F61"
+      ]
+    },
+    {
+      "slug": "dogmatic-structure",
+      "title": "Dogmatic Structure: a lost chain",
+      "kind": "Stories",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "The artist had lost a physical chain and did not know how it had happened. A short diary entry turns that loss into a play on permanence: this one would be put on-chain, so it would not leave him again."
+      ],
+      "sources": [
+        {
+          "id": "1859071716821266495",
+          "date": "2024-11-20",
+          "url": "https://x.com/Ordinals10K/status/1859071716821266495",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Dogmatic Structure",
+          "href": "/bab8c2006cc1976923881ab4ed3871ca150f440d9cd9c698c71a5cc202490393i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F62"
+      ]
+    },
+    {
+      "slug": "peak-audacity",
+      "title": "Peak Audacity: letting the triangle speak",
+      "kind": "Stories",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "Peak Audacity uses the same algorithm as the informal Stress Test group, but abandons the usual rectangular format for a triangle. Its geometry expresses a feeling of audacity that bothered the artist that day.",
+        "The HTML note is deliberately minimal: “LMAO, no comment!” The shape is left to carry what a longer explanation might have settled too quickly."
+      ],
+      "sources": [
+        {
+          "id": "1899807955429773588",
+          "date": "2025-03-12",
+          "url": "https://x.com/Ordinals10K/status/1899807955429773588",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Peak Audacity",
+          "href": "/502429c1e58f36fa7b33ec8414914eddc9128eb78a955ba09344a16944096742i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F63"
+      ]
+    },
+    {
+      "slug": "la-tete-dans-les-etoiles",
+      "title": "La Tête Dans Les Étoiles: from delusion to conviction",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "An April 2023 declaration—“I am delusional”—returns in an October 2024 poem about conviction and possibility. The gap between the two dates is part of the work, recording a thought as it changes over time."
+      ],
+      "sources": [
+        {
+          "id": "1842340364826587498",
+          "date": "2024-10-04",
+          "url": "https://x.com/Ordinals10K/status/1842340364826587498",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "La Tête Dans Les Étoiles",
+          "href": "/6bf4c96647ef39196b01580bc10185b132de496e8d1b9b2bb8cf373eba76eb09i0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F64"
+      ]
+    },
+    {
+      "slug": "seasonal-soundtrack",
+      "title": "Ma ville en quatre temps: a soundtrack for the seasons",
+      "kind": "Connections",
+      "collections": [
+        "Ma ville en quatre temps"
+      ],
+      "paragraphs": [
+        "The four works carry musical references in their HTML writing. Un Été à Montréal brings together songs by Dubmatique, Taktika with Manu Boivin, and Treizième Étage with Rad.",
+        "L’Hiver, la nuit has M83’s Midnight City. Retour en classe has Mac DeMarco’s On the Level. L’Automne s’envole has Washed Out’s Feel It All Around. Music gives another route into the changing atmosphere of the city."
+      ],
+      "sources": [
+        {
+          "id": "1923259834520191350",
+          "date": "2025-05-16",
+          "url": "https://x.com/Ordinals10K/status/1923259834520191350",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F67"
+      ]
+    },
+    {
+      "slug": "minute-papillon",
+      "title": "Minute, papillon!: writing within the editions",
+      "kind": "Writing",
+      "collections": [
+        "Minute, papillon! Edition",
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "The twenty-one editions are individually numbered and signed. Each has its own small note alongside the original poem.",
+        "They were inscribed as children of the original 1/1, which was then burned to OP_RETURN. The visual may be shared, but each inscription has its own place and writing within that structure."
+      ],
+      "sources": [
+        {
+          "id": "1958898290621391184",
+          "date": "2025-08-22",
+          "url": "https://x.com/Ordinals10K/status/1958898290621391184",
+          "used": false
+        },
+        {
+          "id": "1990243502567952608",
+          "date": "2025-11-17",
+          "url": "https://x.com/Ordinals10K/status/1990243502567952608",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Minute, papillon!",
+          "href": "/611fad09e407fe63e70c54ee853e755f92cb4d69049eff21f31d3d414a2db74di0"
+        }
+      ],
+      "event": null,
+      "reviewRefs": [
+        "F68"
+      ]
+    },
+    {
+      "slug": "best-before-making-of",
+      "title": "BEST BEFORE: a summer of revisions",
+      "kind": "Process",
+      "collections": [
+        "BEST BEFORE"
+      ],
+      "paragraphs": [
+        "The April 29 sketch began with an expiry date stamped at the bottom. Through June and August, the visual work moved away from that early proposal as the concept, code and textures developed together.",
+        "The dated comparison offers a view of that movement. The complete diary preserves the conversations and decisions behind it."
+      ],
+      "sources": [
+        {
+          "id": "1966879531622637790",
+          "date": "2025-09-13",
+          "url": "https://x.com/Ordinals10K/status/1966879531622637790",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m003.webp",
+          "alt": "BEST BEFORE visual development",
+          "caption": "April 29, June 19, June 20, June 30 and August 18, 2025.",
+          "width": 1200,
+          "height": 675,
+          "source": "https://x.com/Ordinals10K/status/1966879531622637790"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F69"
+      ]
+    },
+    {
+      "slug": "best-before-performance",
+      "title": "BEST BEFORE: choosing when a work begins",
+      "kind": "Stories",
+      "collections": [
+        "BEST BEFORE"
+      ],
+      "paragraphs": [
+        "A sealed work leaves the decision of when to begin with its collector. Opening can happen quietly, or become a shared event. The lifespan then unfolds in Bitcoin block time.",
+        "The artist imagines an exhibition whose opening is the activation and whose closing follows the work’s expiry. These are possibilities for experiencing the work: a collector’s decision can become part of its story."
+      ],
+      "sources": [
+        {
+          "id": "1966496122593243325",
+          "date": "2025-09-12",
+          "url": "https://x.com/Ordinals10K/status/1966496122593243325",
+          "used": false
+        },
+        {
+          "id": "1973143070683078916",
+          "date": "2025-09-30",
+          "url": "https://x.com/Ordinals10K/status/1973143070683078916",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F70",
+        "F74"
+      ]
+    },
+    {
+      "slug": "best-before-palettes",
+      "title": "Long Canyon and gOat",
+      "kind": "Connections",
+      "collections": [
+        "BEST BEFORE"
+      ],
+      "paragraphs": [
+        "ORDINALLY mixed Long Canyon from one of his own inscribed landscape photographs. His involvement also produced a palette tool that helped the collaboration.",
+        "Lemonhaze later mixed gOat from another photograph ORDINALLY shared. The capital O is a nod to his collaborator. The resulting BB outputs preserve two different responses to that exchange."
+      ],
+      "sources": [
+        {
+          "id": "1972682665271677029",
+          "date": "2025-09-29",
+          "url": "https://x.com/Ordinals10K/status/1972682665271677029",
+          "used": false
+        },
+        {
+          "id": "1990236160568742090",
+          "date": "2025-11-17",
+          "url": "https://x.com/Ordinals10K/status/1990236160568742090",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m052.webp",
+          "alt": "Long Canyon and gOat palettes",
+          "caption": "A BEST BEFORE output in Long Canyon.",
+          "width": 675,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1972682665271677029"
+        },
+        {
+          "src": "/editorial/archive/m053.webp",
+          "alt": "Long Canyon and gOat palettes",
+          "caption": "A BEST BEFORE output in gOat.",
+          "width": 675,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1990236160568742090"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F71"
+      ]
+    },
+    {
+      "slug": "opening-number-33",
+      "title": "Opening BEST BEFORE Nº33",
+      "kind": "Stories",
+      "collections": [
+        "BEST BEFORE"
+      ],
+      "paragraphs": [
+        "On October 5, 2025, Lemonhaze opened his first BEST BEFORE: Nº33, in palette SS, with a lifespan of seventy-one years at activation.",
+        "Its signature carries a line from the collaboration about trusting visual instinct. The artist became a participant in the same decision he had given to collectors."
+      ],
+      "sources": [
+        {
+          "id": "1974957605765239125",
+          "date": "2025-10-05",
+          "url": "https://x.com/Ordinals10K/status/1974957605765239125",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m047.webp",
+          "alt": "BEST BEFORE Nº33 framed scene",
+          "caption": "BEST BEFORE Nº33 · AI-generated framed presentation study, shown on the artist’s website.",
+          "width": 1200,
+          "height": 601,
+          "source": "https://x.com/Ordinals10K/status/2005816621684715975"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F72"
+      ]
+    },
+    {
+      "slug": "montreal-exhibition",
+      "title": "Montreal at Suburbs Gallery",
+      "kind": "Display",
+      "collections": [
+        "Montreal"
+      ],
+      "paragraphs": [
+        "In August 2025, Montreal was presented at Suburbs Gallery in the city that gave the series its memories. The short walkthrough shows the works arranged across screens around the room.",
+        "The exhibition was curated by Gamma. The collection had remained in the artist’s personal vault after its January 2024 inscription, before returning to its subject’s city for this presentation."
+      ],
+      "sources": [
+        {
+          "id": "1953046149683884512",
+          "date": "2025-08-06",
+          "url": "https://x.com/Ordinals10K/status/1953046149683884512",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [],
+      "event": "Montreal · August 2025",
+      "reviewRefs": [
+        "F76"
+      ],
+      "video": {
+        "src": "/editorial/archive/1953046149683884512-QcaOh6v5LG_Pnjjq.mp4",
+        "poster": "/editorial/archive/1953046149683884512-QcaOh6v5LG_Pnjjq-0.jpg",
+        "title": "Montreal at Suburbs Gallery",
+        "source": "https://x.com/Ordinals10K/status/1953046149683884512"
+      }
+    },
+    {
+      "slug": "gentleman-11-print",
+      "title": "Gentleman Nº11: front and reverse",
+      "kind": "Display",
+      "collections": [
+        "Gentlemen"
+      ],
+      "paragraphs": [
+        "The front and annotated reverse document a 40 × 40 cm print of Gentleman Nº11 on Hemp 290gsm paper.",
+        "These photographs record a specific physical object and its presentation, alongside the digital artwork."
+      ],
+      "sources": [
+        {
+          "id": "1960916856199634996",
+          "date": "2025-08-28",
+          "url": "https://x.com/Ordinals10K/status/1960916856199634996",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m046.webp",
+          "alt": "Gentleman Nº11: reverse and front",
+          "caption": "Gentleman Nº11, printed on Hemp 290gsm.",
+          "width": 900,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1960916856199634996"
+        },
+        {
+          "src": "/editorial/archive/m045.webp",
+          "alt": "Gentleman Nº11: reverse and front",
+          "caption": "The annotated reverse of the print.",
+          "width": 900,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/1960916856199634996"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F78"
+      ]
+    },
+    {
+      "slug": "blood-lemon-tango",
+      "title": "Blood, Lemon & Tango in a collector’s home",
+      "kind": "Display",
+      "collections": [
+        "The Artifacts"
+      ],
+      "paragraphs": [
+        "A collector shared this video of a framed Blood, Lemon & Tango print with a SATSCHIP. Moving from the frame to a phone, the video shows the physical presentation alongside its digital record."
+      ],
+      "sources": [
+        {
+          "id": "1687632640290238476",
+          "date": "2023-08-05",
+          "url": "https://x.com/Ordinals10K/status/1687632640290238476",
+          "used": false
+        }
+      ],
+      "years": [
+        "2023"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Blood, Lemon & Tango",
+          "href": "/f790cdc32d86611c82d65d5588feb19e43b6f7c319912af0bfc509027254c28ci0"
+        }
+      ],
+      "event": "Collector-supplied footage · August 2023",
+      "reviewRefs": [
+        "F79"
+      ],
+      "video": {
+        "src": "/editorial/archive/1687632640290238476-Y--OKCEiv85d-ztz.mp4",
+        "poster": "/editorial/archive/1687632640290238476-Y--OKCEiv85d-ztz-0.jpg",
+        "title": "Blood, Lemon & Tango in a collector’s home",
+        "source": "https://x.com/Ordinals10K/status/1687632640290238476"
+      }
+    },
+    {
+      "slug": "presentation-studies",
+      "title": "Curating for a different setting",
+      "kind": "Display",
+      "collections": [],
+      "paragraphs": [
+        "In July 2026, Lemonhaze spent a day curating eighty-nine paint-engine outputs for a physical project and making presentation mockups.",
+        "These studies explore how selected images might sit on a wall. They record a proposed presentation, rather than a completed installation."
+      ],
+      "sources": [
+        {
+          "id": "2074636970056196334",
+          "date": "2026-07-07",
+          "url": "https://x.com/Ordinals10K/status/2074636970056196334",
+          "used": false
+        }
+      ],
+      "years": [
+        "2026"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m073.webp",
+          "alt": "Presentation studies after curating 89 outputs",
+          "caption": "Presentation mockup · July 2026.",
+          "width": 780,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/2074636970056196334"
+        },
+        {
+          "src": "/editorial/archive/m074.webp",
+          "alt": "Presentation studies after curating 89 outputs",
+          "caption": "Presentation mockup · July 2026.",
+          "width": 653,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/2074636970056196334"
+        },
+        {
+          "src": "/editorial/archive/m075.webp",
+          "alt": "Presentation studies after curating 89 outputs",
+          "caption": "Presentation mockup · July 2026.",
+          "width": 781,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/2074636970056196334"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F82"
+      ]
+    },
+    {
+      "slug": "gentlemen-work-in-progress",
+      "title": "When “work in progress” became the idea",
+      "kind": "Writing",
+      "collections": [
+        "Gentlemen"
+      ],
+      "paragraphs": [
+        "On March 31, 2023, Lemonhaze shared a realisation with artist Kenneth Burris: Gentlemen would always remain a work in progress because becoming a gentleman could never be a finished task.",
+        "The message captures the moment a personal aspiration became the continuing structure of the collection. The reflection was shared publicly again in November 2025."
+      ],
+      "sources": [
+        {
+          "id": "1995191420450193738",
+          "date": "2025-11-30",
+          "url": "https://x.com/Ordinals10K/status/1995191420450193738",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m024.webp",
+          "alt": "Gentlemen grid",
+          "caption": "The Gentlemen collection, shown with the later reflection.",
+          "width": 681,
+          "height": 736,
+          "source": "https://x.com/Ordinals10K/status/1995191420450193738"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F85"
+      ]
+    },
+    {
+      "slug": "music-and-images",
+      "title": "Making images with a musician’s approach",
+      "kind": "Process",
+      "collections": [],
+      "paragraphs": [
+        "Lemonhaze’s background moves through guitar, electronic music, drawing and painting. Dr Dre and Daft Punk are references for a way of assembling a work: selecting sounds, tools and layers to reach a particular feeling.",
+        "That approach continues in the visual work. Texture, samples, drawings and code can be combined according to what the image needs. Architecture, interiors, city views and memories also shape the direction."
+      ],
+      "sources": [
+        {
+          "id": "1843648515911888935",
+          "date": "2024-10-08",
+          "url": "https://x.com/Ordinals10K/status/1843648515911888935",
+          "used": false
+        },
+        {
+          "id": "1729180960376152209",
+          "date": "2023-11-27",
+          "url": "https://x.com/Ordinals10K/status/1729180960376152209",
+          "used": false
+        },
+        {
+          "id": "1690912548676370432",
+          "date": "2023-08-14",
+          "url": "https://x.com/Ordinals10K/status/1690912548676370432",
+          "used": false
+        },
+        {
+          "id": "1735110576794177782",
+          "date": "2023-12-14",
+          "url": "https://x.com/Ordinals10K/status/1735110576794177782",
+          "used": false
+        },
+        {
+          "id": "1831419980883358153",
+          "date": "2024-09-04",
+          "url": "https://x.com/Ordinals10K/status/1831419980883358153",
+          "used": false
+        }
+      ],
+      "years": [
+        "2023",
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m002.webp",
+          "alt": "Paint-engine texture examples",
+          "caption": "Layers and sampled forms in a later digital surface.",
+          "width": 1200,
+          "height": 533,
+          "source": "https://x.com/Ordinals10K/status/1880560813993607358"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F01",
+        "F04",
+        "F02",
+        "F03"
+      ]
+    },
+    {
+      "slug": "writing-on-bitcoin",
+      "title": "The writing travels with the image",
+      "kind": "Writing",
+      "collections": [],
+      "paragraphs": [
+        "Early text inscriptions held lyrics, hybrid poems and passing thoughts. The HTML header later gave writing a place inside the artwork itself.",
+        "For Lemonhaze, the image and its words can work like music and lyrics: each carries something the other cannot. Dated notes preserve decisions, small events and addresses to an unknown future reader."
+      ],
+      "sources": [
+        {
+          "id": "1859214741291557059",
+          "date": "2024-11-20",
+          "url": "https://x.com/Ordinals10K/status/1859214741291557059",
+          "used": false
+        },
+        {
+          "id": "1818400190715642243",
+          "date": "2024-07-30",
+          "url": "https://x.com/Ordinals10K/status/1818400190715642243",
+          "used": false
+        },
+        {
+          "id": "1843648515911888935",
+          "date": "2024-10-08",
+          "url": "https://x.com/Ordinals10K/status/1843648515911888935",
+          "used": false
+        }
+      ],
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F05"
+      ]
+    },
+    {
+      "slug": "digital-life",
+      "title": "A digital work for a digital life",
+      "kind": "Display",
+      "collections": [],
+      "paragraphs": [
+        "Much of Lemonhaze’s work is made on a laptop and intended to be experienced on a screen. Its pixel arrangement and textures belong to that setting.",
+        "Physical prints are another possible encounter with particular works, but the original digital viewer remains central—especially when an image responds to interaction, code or time."
+      ],
+      "sources": [
+        {
+          "id": "1993343072831189305",
+          "date": "2025-11-25",
+          "url": "https://x.com/Ordinals10K/status/1993343072831189305",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F06"
+      ]
+    },
+    {
+      "slug": "before-ordinals",
+      "title": "Un Indien dans la ville, before Ordinals",
+      "kind": "Stories",
+      "collections": [],
+      "paragraphs": [
+        "Un Indien dans la ville dates to 2011, before the Bitcoin inscriptions. An older room photograph and a close view preserve part of the artist’s physical work from that period.",
+        "The pictures connect the later digital practice with a longer history of making music, paintings and sketches."
+      ],
+      "sources": [
+        {
+          "id": "1868898687461867675",
+          "date": "2024-12-17",
+          "url": "https://x.com/Ordinals10K/status/1868898687461867675",
+          "used": false
+        },
+        {
+          "id": "1642972102713290753",
+          "date": "2023-04-03",
+          "url": "https://x.com/Ordinals10K/status/1642972102713290753",
+          "used": false
+        }
+      ],
+      "years": [
+        "2023",
+        "2024"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m054.webp",
+          "alt": "Un Indien dans la ville",
+          "caption": "Un Indien dans la ville in an earlier room photograph.",
+          "width": 800,
+          "height": 600,
+          "source": "https://x.com/Ordinals10K/status/1642972102713290753"
+        },
+        {
+          "src": "/editorial/archive/m033.webp",
+          "alt": "Un Indien dans la ville",
+          "caption": "A close view shared in December 2024.",
+          "width": 597,
+          "height": 621,
+          "source": "https://x.com/Ordinals10K/status/1868898687461867675"
+        }
+      ],
+      "related": [],
+      "event": "Work dated 2011",
+      "reviewRefs": [
+        "F08"
+      ]
+    },
+    {
+      "slug": "workspace",
+      "title": "The space around the work",
+      "kind": "Process",
+      "collections": [],
+      "paragraphs": [
+        "The spaces around the work are ordinary and personal: a laptop among chairs, plants, a guitar and a surfboard; later, a compact desk in Vietnam.",
+        "These photographs record places in which the practice continued, with the tools close at hand."
+      ],
+      "sources": [
+        {
+          "id": "1700952639435928030",
+          "date": "2023-09-10",
+          "url": "https://x.com/Ordinals10K/status/1700952639435928030",
+          "used": false
+        },
+        {
+          "id": "1956617550738907384",
+          "date": "2025-08-16",
+          "url": "https://x.com/Ordinals10K/status/1956617550738907384",
+          "used": false
+        }
+      ],
+      "years": [
+        "2023",
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m066.webp",
+          "alt": "Puerto Escondido workspace",
+          "caption": "Workspace photograph shared September 2023.",
+          "width": 1200,
+          "height": 900,
+          "source": "https://x.com/Ordinals10K/status/1700952639435928030"
+        },
+        {
+          "src": "/editorial/archive/m072.webp",
+          "alt": "A compact workspace in Vietnam",
+          "caption": "Desk in Vietnam, shared August 2025.",
+          "width": 1200,
+          "height": 759,
+          "source": "https://x.com/Ordinals10K/status/1956617550738907384"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F09"
+      ]
+    },
+    {
+      "slug": "provenance-time",
+      "title": "A provenance tree shaped by time",
+      "kind": "Connections",
+      "collections": [],
+      "paragraphs": [
+        "Lemonhaze’s provenance follows the chronology of the work: parents for collections and an annual parent for individual pieces. The organisation preserves the path of the practice, with its changes and irregularities.",
+        "An annual parent can be burned to close a year, while the inscribed works remain part of the artistic record. The history of what was made and the number of works circulating answer different questions."
+      ],
+      "sources": [
+        {
+          "id": "1897479329556435159",
+          "date": "2025-03-06",
+          "url": "https://x.com/Ordinals10K/status/1897479329556435159",
+          "used": false
+        },
+        {
+          "id": "1948030950400721154",
+          "date": "2025-07-23",
+          "url": "https://x.com/Ordinals10K/status/1948030950400721154",
+          "used": true
+        },
+        {
+          "id": "2006311036324827644",
+          "date": "2025-12-31",
+          "url": "https://x.com/Ordinals10K/status/2006311036324827644",
+          "used": false
+        }
+      ],
+      "years": [
+        "2025"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/m026.webp",
+          "alt": "Closing the 2025 annual branch",
+          "caption": "Gentleman Special Edition 2025, the annual parent.",
+          "width": 1200,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/2006311036324827644"
+        },
+        {
+          "src": "/editorial/archive/m025.webp",
+          "alt": "Closing the 2025 annual branch",
+          "caption": "The 2025 group, shared with the year-end reflection.",
+          "width": 1200,
+          "height": 680,
+          "source": "https://x.com/Ordinals10K/status/2006311036324827644"
+        }
+      ],
+      "related": [],
+      "event": null,
+      "reviewRefs": [
+        "F07",
+        "F51"
+      ]
+    }
+  ],
+  "reading": [
+    {
+      "title": "Gentleman SE 2025 — the complete writing",
+      "href": "/practice#full-original",
+      "description": "The original statement, process and dated reflections."
+    },
+    {
+      "title": "BEST BEFORE — the complete diary",
+      "href": "/best-before#diary",
+      "description": "Conversations, decisions and the making of the work."
+    },
+    {
+      "title": "Montreal — artist notes",
+      "href": "/montreal#collection-story",
+      "description": "The memories and places within the collection."
+    },
+    {
+      "title": "Lotus — the dedication",
+      "href": "/lotus#collection-story",
+      "description": "Resilience, love and a statement that returns in Flashback."
+    },
+    {
+      "title": "Games — three works become one",
+      "href": "/games#collection-story",
+      "description": "The collector’s part in the work."
+    },
+    {
+      "title": "Viewing & collecting",
+      "href": "/collecting",
+      "description": "Original viewers, high-resolution files and how to approach a work."
+    }
+  ]
+}

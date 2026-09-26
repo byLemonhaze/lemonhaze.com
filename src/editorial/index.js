@@ -1,3 +1,5 @@
+import { createArchivePage, archiveLinksForCollection, archiveEntries } from './archive.js';
+import { getArtworkImageSrc } from '../renderers/gallery.js';
 import { normalizeEditorialHref } from './links.js';
 import {storyKeys, storySections, storyDirectory, artworkFootnotes} from './story-renderer.js';
 import montreal from './content/index.html?raw';
@@ -126,6 +128,15 @@ export function createEditorialPage(key) {
     article.querySelectorAll('[id=""]').forEach(n => n.removeAttribute('id'));
     // Keep original source attribution alongside the collection reading.
     if (collectionKeys.has(key)) article.id = 'collection-story';
+    const archiveLinks = archiveLinksForCollection(key);
+    if (archiveLinks) article.appendChild(archiveLinks);
+    if (key === 'practice') illustratePractice(article);
+    if (key === 'collecting') {
+        const prints = document.createElement('section');
+        prints.className = 'essay-section';
+        prints.innerHTML = `<h2>At the print table</h2><div class="two-up"><figure class="wide-figure"><a href="/archive#good-night-print"><img src="/editorial/archive/m044.webp" alt="Lemonhaze signing Good Night" width="900" height="1200"></a><figcaption>Signing Good Night, from Downtown. <a href="/archive#good-night-print">View the print →</a></figcaption></figure><figure class="wide-figure"><a href="/archive#signing-pennsylvania"><img src="/editorial/archive/pennsylvania-signing.webp" alt="Video frame showing Lemonhaze signing Pennsylvania"></a><figcaption>Signing Pennsylvania · still from the film. <a href="/archive#signing-pennsylvania">Watch the signing →</a></figcaption></figure></div>`;
+        article.appendChild(prints);
+    }
     const back = document.createElement('nav');
     back.className = 'editorial-related';
     back.setAttribute('aria-label', 'Related reading');
@@ -142,6 +153,8 @@ export function appendCollectionStory({ collection, galleryGrid, currentViewMeta
         nav.className = 'editorial-jumps';
         nav.setAttribute('aria-label', 'Related reading');
         nav.innerHTML = '<a href="/explore">Explore the practice →</a>';
+        const first = archiveEntries.find(entry => entry.collections.includes(collection));
+        if (first) nav.innerHTML += `<a href="/archive#${first.slug}">From the archive →</a>`;
         currentViewMeta?.appendChild(wireEditorial(nav));
         return;
     }
@@ -171,7 +184,7 @@ export function enhanceAbout(aboutText) {
     return wrap;
 }
 
-export function createExplorePractice() {
+export function createExplorePractice(artworks = [], toCollectionSlug = () => '') {
     const hub = document.createElement('article');
     hub.className = 'lh-editorial';
     hub.innerHTML = `<p class="lead">Process, tools, and the stories behind the collections.</p>
@@ -186,6 +199,34 @@ export function createExplorePractice() {
         <a class="card-link" href="/liminality#collection-story"><strong>Liminality →</strong><span>The personal transition behind the series.</span></a>
       </section>`;
     hub.appendChild(storyDirectory());
+    const topCards = document.createElement('div'); topCards.className = 'practice-paths';
+    const initial = [...hub.children].filter(child => child.matches('a.card-link'));
+    initial[0].before(topCards); initial.forEach(card => topCards.appendChild(card));
+    const selected = {
+        '/practice': ['/editorial/archive/m002.webp', 'A close view of layered digital textures'],
+        '/paint-engine': ['/editorial/archive/paint-engine-v0-selected.webp', 'Selected Paint Engine v0 output in blue, green, yellow and purple'],
+        '/highlights': ['https://blog.gamma.io/hs-fs/hubfs/LH%20in%20Suburbs.jpeg?width=2412&height=804&name=LH%20in%20Suburbs.jpeg', 'Full panoramic view of Montreal at Suburbs Gallery'],
+        '/collecting': ['/editorial/archive/m044.webp', 'Lemonhaze signing a physical print of Good Night from Downtown'],
+    };
+    hub.querySelectorAll('a.card-link').forEach(card => {
+        const path = card.getAttribute('href').split('#')[0];
+        const work = path === '/montreal'
+            ? artworks.find(work => work.name === 'Five Roses' && work.collection === 'Montreal')
+            : path === '/orphelinat'
+            ? artworks.find(work => work.name === 'Hosoi' && work.collection === 'Orphelinat')
+            : path === '/deprivation-prints'
+            ? artworks.find(work => work.name === 'Deprivation')
+            : artworks.find(work => '/' + toCollectionSlug(work.collection) === path);
+        const image = selected[path] || (work ? [getArtworkImageSrc(work), work.name+' by Lemonhaze'] : null);
+        if (!image) return;
+        const text = document.createElement('div'); text.className = 'practice-card-text';
+        text.append(...card.childNodes);
+        const img = document.createElement('img'); img.src = image[0]; img.alt = image[1];
+        card.classList.add('practice-image-link'); card.append(img, text);
+    });
+    const archive = document.createElement('section'); archive.className = 'essay-section practice-archive-invite practice-archive-text';
+    archive.innerHTML = `<div><p class="eyebrow">Keep exploring</p><h2>From the archive</h2><p>A house becomes a painting. A photograph becomes a textured work. Stories, experiments and images connect the finished works to the life around them.</p><a href="/archive">Explore the archive →</a></div>`;
+    topCards.after(archive);
     return wireEditorial(hub);
 }
 
@@ -209,7 +250,8 @@ export function createArtistNotes(item) {
     const notes = artistNotes[item.id];
     const isSE = item.id === '627d9a054e2db14bc892cec8a747da726dbadc1677079ff49675b17f78e262d8i0';
     const footnotes = artworkFootnotes(item.id);
-    if (!notes && !isSE && !footnotes) return null;
+    const relatedArchive = archiveEntries.filter(entry => entry.related.some(link => link.href === '/' + item.id));
+    if (!notes && !isSE && !footnotes && !relatedArchive.length) return null;
     const node = document.createElement('div');
     node.className = 'lh-editorial artwork-artist-notes';
     for (const text of notes || []) {
@@ -220,8 +262,19 @@ export function createArtistNotes(item) {
         cite.textContent = 'Original artist writing · inscription HTML archive'; node.appendChild(cite);
     }
     if (footnotes) node.appendChild(footnotes);
+    relatedArchive.forEach(entry => { const a = document.createElement('a'); a.href = '/archive#' + entry.slug; a.className = 'reading-link'; a.textContent = entry.title + ' →'; node.appendChild(a); });
     if (isSE) {
         const a = document.createElement('a'); a.href = '/practice'; a.textContent = 'Read the complete statement & process →'; node.appendChild(a);
     }
     return wireEditorial(node);
+}
+
+export function createArchive(artworks, toCollectionSlug) {
+    return wireEditorial(createArchivePage(artworks, toCollectionSlug));
+}
+function illustratePractice(article) {
+    const headings = [...article.querySelectorAll('h2')];
+    headings.find(h => h.textContent === 'Texture')?.insertAdjacentHTML('afterend', `<figure class="wide-figure"><a href="/archive#paint-engine-layers"><img src="/editorial/archive/m002.webp" alt="Close-up of layered ink-like shapes, sampled fragments and woven digital texture" width="1200" height="533"></a><figcaption>Layers, sampled fragments and texture. <a href="/archive#paint-engine-layers">Inside the process →</a></figcaption></figure>`);
+    headings.find(h => h.textContent === 'Selecting the work')?.insertAdjacentHTML('afterend', `<div class="practice-comparison"><figure><img src="/editorial/archive/m004.webp" alt="Revaler Straße 99"><figcaption>Revaler Straße 99 · Krita</figcaption></figure><figure><img src="/editorial/archive/m005.webp" alt="Avant le Crépuscule"><figcaption>Avant le Crépuscule · AI, Krita and p5.js</figcaption></figure><figure><img src="/editorial/archive/m006.webp" alt="From Berlin to Saigon"><figcaption>From Berlin to Saigon · p5.js</figcaption></figure></div><p class="source-line">Three separate works, illustrating an evolving approach. <a href="/archive#three-techniques">Follow the development →</a></p>`);
+    headings.find(h => h.textContent === 'Writing as part of the work')?.insertAdjacentHTML('afterend', `<figure class="wide-figure practice-writing-image"><a href="/archive#gentlemen-work-in-progress"><img src="/editorial/archive/m026.webp" alt="Gentleman Special Edition 2025"></a><figcaption>Gentleman Special Edition 2025 carries the original writing preserved on this page.</figcaption></figure>`);
 }

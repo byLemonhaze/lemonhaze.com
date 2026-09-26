@@ -27,6 +27,15 @@
     "name": "Explore the Practice"
   },
   {
+    "path": "/archive",
+    "title": "Archive | Lemonhaze",
+    "description": "Stories, process photographs, artist writing and exhibition footage from Lemonhaze’s practice. Explore the connections behind the artworks on Bitcoin.",
+    "canonical": "https://lemonhaze.com/archive",
+    "image": null,
+    "kind": "page",
+    "name": "Archive"
+  },
+  {
     "path": "/practice",
     "title": "Practice & Process | Lemonhaze",
     "description": "Lemonhaze on texture, generative painting, selecting an output, and writing inside the artwork. Original reflections from Gentleman SE 2025.",

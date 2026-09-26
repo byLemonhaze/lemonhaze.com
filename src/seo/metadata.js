@@ -3,6 +3,7 @@ export const PAGE_METADATA = {
  '/': {name:'Lemonhaze — Artist & Coureur de Bois',description:'Explore Lemonhaze’s art on Bitcoin: generative painting, collections, artist notes, exhibitions, and the stories behind the work.'},
  '/about': {name:'About Lemonhaze',description:'Meet Lemonhaze, artist and coureur de bois. Discover the practice, background, and writing behind his art inscribed on Bitcoin.'},
  '/explore': {name:'Explore the Practice',description:'Explore Lemonhaze’s collections, generative paint engine, artist notes, exhibitions, and guidance for viewing and collecting art on Bitcoin.'},
+ '/archive': {name:'Archive',description:'Stories, process photographs, artist writing and exhibition footage from Lemonhaze’s practice. Explore the connections behind the artworks on Bitcoin.'},
  '/practice': {name:'Practice & Process',description:'Lemonhaze on texture, generative painting, selecting an output, and writing inside the artwork. Original reflections from Gentleman SE 2025.'},
  '/paint-engine': {name:'Paint Engine',description:'Explore Lemonhaze’s evolving generative paint engine, its textures, inscribed milestones, and an interactive study.'},
  '/collecting': {name:'Viewing & Collecting',description:'How to view, download, display, and collect Lemonhaze’s artworks on Bitcoin, with guidance on original inscription content and high-resolution exports.'},
