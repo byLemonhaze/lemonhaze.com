@@ -2520,7 +2520,8 @@
       "collections": [],
       "paragraphs": [
         "The spaces around the work are ordinary and personal: a laptop among chairs, plants, a guitar and a surfboard; later, a compact desk in Vietnam.",
-        "These photographs record places in which the practice continued, with the tools close at hand."
+        "These photographs record places in which the practice continued, with the tools close at hand.",
+        "By July 2026, the workspace was a standing desk on a Montreal balcony, with the Farine Five Roses sign visible at night."
       ],
       "sources": [
         {
@@ -2534,11 +2535,18 @@
           "date": "2025-08-16",
           "url": "https://x.com/Ordinals10K/status/1956617550738907384",
           "used": false
+        },
+        {
+          "id": "2074689416279310757",
+          "date": "2026-07-08",
+          "url": "https://x.com/Ordinals10K/status/2074689416279310757",
+          "used": false
         }
       ],
       "years": [
         "2023",
-        "2025"
+        "2025",
+        "2026"
       ],
       "images": [
         {
@@ -2556,6 +2564,14 @@
           "width": 1200,
           "height": 759,
           "source": "https://x.com/Ordinals10K/status/1956617550738907384"
+        },
+        {
+          "src": "/editorial/archive/workspace-montreal-july-2026.jpg",
+          "alt": "Laptop on a standing desk on a Montreal balcony at night, with the Farine Five Roses sign in the distance",
+          "caption": "Montreal workspace at night · July 2026.",
+          "width": 900,
+          "height": 1200,
+          "source": "https://x.com/Ordinals10K/status/2074689416279310757"
         }
       ],
       "related": [],
