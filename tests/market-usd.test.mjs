@@ -1,7 +1,8 @@
+import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {build} from 'esbuild';
-const built=await build({entryPoints:[new URL('../src/market-watch/lib/btc-usd.ts',import.meta.url).pathname],bundle:true,format:'esm',platform:'node',write:false});
+const built=await build({entryPoints:[fileURLToPath(new URL('../src/market-watch/lib/btc-usd.ts',import.meta.url))],bundle:true,format:'esm',platform:'node',write:false});
 const {usdFromSats,fetchBtcUsdQuote,RATE_MAX_AGE_MS}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
 const now=1_700_000_000_000;
 const quote={usd:100_000,checkedAt:now};

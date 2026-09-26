@@ -1,7 +1,8 @@
+import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {build} from 'esbuild';
-async function load(file){const r=await build({entryPoints:[new URL(file,import.meta.url).pathname],bundle:true,format:'esm',platform:'node',write:false});return import('data:text/javascript;base64,'+Buffer.from(r.outputFiles[0].text).toString('base64'));}
+async function load(file){const r=await build({entryPoints:[fileURLToPath(new URL(file,import.meta.url))],bundle:true,format:'esm',platform:'node',write:false});return import('data:text/javascript;base64,'+Buffer.from(r.outputFiles[0].text).toString('base64'));}
 const {deduplicate}=await load('../src/market-watch/lib/types.ts');
 const {svelteJSON,canonicalId}=await load('../src/market-watch/lib/parsers.ts');
 const {handleScan}=await load('../src/market-watch/lib/service.ts');

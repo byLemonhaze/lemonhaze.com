@@ -1,3 +1,4 @@
+import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,stat} from 'node:fs/promises';
@@ -5,7 +6,7 @@ import {build} from 'esbuild';
 const read=async file=>JSON.parse(await readFile(new URL(file,import.meta.url),'utf8'));
 const thumbnails=await read('../src/market-watch/lib/collection-thumbnails.json');
 const initial=await read('../src/market-watch/lib/initial.json');
-const built=await build({entryPoints:[new URL('../src/market-watch/lib/collection-thumbnails.ts',import.meta.url).pathname],bundle:true,format:'esm',platform:'node',write:false});
+const built=await build({entryPoints:[fileURLToPath(new URL('../src/market-watch/lib/collection-thumbnails.ts',import.meta.url))],bundle:true,format:'esm',platform:'node',write:false});
 const {collectionThumbnail}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
 test('every market collection has a small local thumbnail with recorded inscription provenance',async()=>{
  for(const c of initial.catalog.filter(c=>c.refs.ord&&!['provenance','colors'].includes(c.key))){

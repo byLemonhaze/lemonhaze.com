@@ -1,8 +1,9 @@
+import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {build} from 'esbuild';
 import {sortedRows} from '../src/utils/sorting.js';
-const result=await build({entryPoints:[new URL('../src/market-watch/lib/sorting.ts',import.meta.url).pathname],bundle:true,format:'esm',platform:'node',write:false});
+const result=await build({entryPoints:[fileURLToPath(new URL('../src/market-watch/lib/sorting.ts',import.meta.url))],bundle:true,format:'esm',platform:'node',write:false});
 const {sortCollections,sortOffers,sortCrossListings}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
 const cols=[{key:'unknown',name:'Unknown',supply:null},{key:'zero',name:'Zero',supply:0},{key:'two',name:'Work 2',supply:2},{key:'ten',name:'Work 10',supply:10}];
 const results={'ord:zero':{key:'zero',market:'ord',listed:0,floor:null,topOffer:null,checkedAt:''},'ord:two':{key:'two',market:'ord',listed:2,floor:100,topOffer:10,checkedAt:'2026-09-18'},'gamma:ten':{key:'ten',market:'gamma',listed:5,floor:300,topOffer:30,checkedAt:'2026-09-19'}};
