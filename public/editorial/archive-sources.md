@@ -26,4 +26,4 @@ Chamber of Reflection (Sin City) was Lot 592 in Sotheby’s Contemporary Discove
 
 ## Paint engine
 
-The illustrated versions are three separate inscriptions documenting the engine’s evolution. The embedded Passe-Partout v1.07 engine generates study outputs; these are not newly inscribed or artist-selected works.
+The illustrated versions are Wild Patch v0.6, Chasing The Dragon v0.9, and Passe-Partout v1.07, inscribed in January 2026. Their images come from Lemonhaze’s CDN. The version selector uses the public engine list from Lab and loads the selected inscription from ordinals.com. Newly generated outputs are not additional inscriptions. The engine description and commission offering come from Lemonhaze’s Lab; Gentleman SE 2025 is a separate text.

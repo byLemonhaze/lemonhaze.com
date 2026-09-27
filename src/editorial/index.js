@@ -1,3 +1,4 @@
+import { initializeEnginePicker } from './engine-picker.js';
 import { createArchivePage, archiveLinksForCollection, archiveEntries } from './archive.js';
 import { getArtworkImageSrc } from '../renderers/gallery.js';
 import { normalizeEditorialHref } from './links.js';
@@ -46,15 +47,6 @@ export function wireEditorial(root) {
             });
             root.querySelectorAll('[data-phase-panel]').forEach(p => p.hidden = p.dataset.phasePanel !== phase.dataset.phase);
         }
-        const launch = event.target.closest('[data-engine]');
-        if (launch) {
-            const frame = document.createElement('iframe');
-            frame.src = '/editorial/assets/paint-engine-v1-07.html';
-            frame.title = 'Paint Engine v1.07 interactive study';
-            frame.className = 'engine-frame';
-            frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-downloads');
-            launch.parentElement.replaceWith(frame);
-        }
         const a = event.target.closest('a');
         if (!a || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         const url = new URL(a.href, location.href);
@@ -98,11 +90,6 @@ export function createEditorialPage(key) {
         main.querySelectorAll('.tag').forEach(n => {
             if (n.textContent.startsWith('This local page') || n.textContent.startsWith('Local source:')) n.remove();
         });
-        if (key === 'paint-engine') {
-            const launch = main.querySelector('[data-engine]');
-            launch.textContent = 'Open the paint engine';
-            launch.closest('section').querySelector('h2').textContent = 'Explore Passe-Partout';
-        }
         if (key === 'BEST BEFORE') main.querySelectorAll('.two-up figcaption').forEach((n, i) => {
             n.textContent = `Framed presentation study ${i + 1} · AI-generated mockup.`;
         });
@@ -129,7 +116,8 @@ export function createEditorialPage(key) {
     // Keep original source attribution alongside the collection reading.
     if (collectionKeys.has(key)) article.id = 'collection-story';
     const archiveLinks = archiveLinksForCollection(key);
-    if (archiveLinks) article.appendChild(archiveLinks);
+    if (archiveLinks && key !== 'Gentlemen') article.appendChild(archiveLinks);
+    if (key === 'paint-engine') initializeEnginePicker(article);
     if (key === 'practice') illustratePractice(article);
     if (key === 'collecting') {
         const prints = document.createElement('section');
@@ -140,7 +128,11 @@ export function createEditorialPage(key) {
     const back = document.createElement('nav');
     back.className = 'editorial-related';
     back.setAttribute('aria-label', 'Related reading');
-    back.innerHTML = collectionKeys.has(key)
+    back.innerHTML = key === 'Gentlemen'
+        ? '<a href="#artworks">↑ Back to the works</a><a href="/explore">Explore the practice →</a>'
+        : key === 'paint-engine'
+        ? '<a href="/explore">← Explore the practice</a><a href="/lab">More tools in the Lab →</a>'
+        : collectionKeys.has(key)
         ? '<a href="#artworks">↑ Back to the works</a><a href="/practice">Practice & process →</a><a href="/collecting">Viewing & collecting →</a>'
         : '<a href="/explore">← Explore the practice</a><a href="/about">About Lemonhaze</a><a href="/paint-engine">Explore the paint engine →</a>';
     article.appendChild(back);
@@ -203,6 +195,8 @@ export function createExplorePractice(artworks = [], toCollectionSlug = () => ''
             : artworks.find(work => '/' + toCollectionSlug(work.collection) === path);
         const image = path === '/paint-engine'
             ? ['/editorial/archive/paint-engine-v0-selected.webp', 'Selected Paint Engine v0 output in blue, green, yellow and purple']
+            : path === '/best-before'
+            ? ['/editorial/assets/bb-lifecycle.webp', 'BEST BEFORE: sealed, opened artwork, and expired states']
             : work ? [getArtworkImageSrc(work), work.name+' by Lemonhaze'] : null;
         if (!image) return;
         const text = document.createElement('div'); text.className = 'practice-card-text';

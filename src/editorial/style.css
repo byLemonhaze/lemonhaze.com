@@ -168,3 +168,14 @@
  .lh-editorial .practice-selection-card strong{font-size:17px}
  .lh-editorial .practice-selection-card span{font-size:13px}
 }
+
+/* One engine runs at a time; version controls remain available above the viewer. */
+.lh-editorial .engine-controls{display:flex;align-items:end;flex-wrap:wrap;gap:16px;margin:24px 0 12px}
+.lh-editorial .engine-controls label{display:flex;flex-direction:column;gap:8px;flex:1 1 260px;font-size:13px;min-width:0}
+.lh-editorial .engine-controls select{width:100%;min-height:46px;padding:10px 12px;border:1px solid #555;border-radius:0;background:#101010;color:#ddd;font:inherit}
+.lh-editorial .engine-controls select:focus-visible{outline:1px solid #aaa;outline-offset:3px}
+.lh-editorial .engine-controls button{min-height:46px;border-radius:0;font-size:14px}
+.lh-editorial .engine-links{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:13px}
+.lh-editorial .engine-links a{display:inline-flex;align-items:center;min-height:44px}
+.lh-editorial .engine-status{font-size:12px;color:#999}
+@media(max-width:767px){.lh-editorial .engine-controls select{font-size:16px}.lh-editorial .engine-controls button{width:100%}}
