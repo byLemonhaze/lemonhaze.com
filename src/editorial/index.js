@@ -1,7 +1,7 @@
 import { createArchivePage, archiveLinksForCollection, archiveEntries } from './archive.js';
 import { getArtworkImageSrc } from '../renderers/gallery.js';
 import { normalizeEditorialHref } from './links.js';
-import {storyKeys, storySections, storyDirectory, artworkFootnotes} from './story-renderer.js';
+import {storyKeys, storySections, artworkFootnotes} from './story-renderer.js';
 import montreal from './content/index.html?raw';
 import gentlemen from './content/gentlemen.html?raw';
 import liminality from './content/liminality.html?raw';
@@ -186,47 +186,31 @@ export function enhanceAbout(aboutText) {
 
 export function createExplorePractice(artworks = [], toCollectionSlug = () => '') {
     const hub = document.createElement('article');
-    hub.className = 'lh-editorial';
+    hub.className = 'lh-editorial practice-overview';
     hub.innerHTML = `<p class="lead">Process, tools, and the stories behind the collections.</p>
-      <a class="card-link" href="/practice"><strong>Practice & process →</strong><span>Texture, selection, and writing in the artist’s own words.</span></a>
-      <a class="card-link" href="/paint-engine"><strong>An evolving paint engine →</strong><span>Inscribed milestones, controls, and an interactive study.</span></a>
-      <a class="card-link" href="/highlights"><strong>Exhibitions & career →</strong><span>Selected documentation and the full career record.</span></a>
-      <a class="card-link" href="/collecting"><strong>Viewing & collecting →</strong><span>How to explore a work, display it, and get in touch.</span></a>
-      <section class="essay-section"><h2>In the collections</h2>
-        <a class="card-link" href="/montreal#collection-story"><strong>Montreal →</strong><span>Memories, textures, and the notes that accompany each work.</span></a>
+      <nav class="practice-selection" aria-label="Explore the practice">
         <a class="card-link" href="/gentlemen#collection-story"><strong>Gentlemen →</strong><span>The original statement and an aspiration that keeps changing.</span></a>
         <a class="card-link" href="/best-before#diary"><strong>BEST BEFORE →</strong><span>Making the work, living with time, and the complete diary.</span></a>
+        <a class="card-link" href="/montreal#collection-story"><strong>Montreal →</strong><span>Memories, textures, and the notes that accompany each work.</span></a>
+        <a class="card-link" href="/paint-engine"><strong>Paint Engine →</strong><span>Inscribed milestones, controls, and an interactive study.</span></a>
         <a class="card-link" href="/liminality#collection-story"><strong>Liminality →</strong><span>The personal transition behind the series.</span></a>
-      </section>`;
-    hub.appendChild(storyDirectory());
-    const topCards = document.createElement('div'); topCards.className = 'practice-paths';
-    const initial = [...hub.children].filter(child => child.matches('a.card-link'));
-    initial[0].before(topCards); initial.forEach(card => topCards.appendChild(card));
-    const selected = {
-        '/practice': ['/editorial/archive/m002.webp', 'A close view of layered digital textures'],
-        '/paint-engine': ['/editorial/archive/paint-engine-v0-selected.webp', 'Selected Paint Engine v0 output in blue, green, yellow and purple'],
-        '/highlights': ['https://blog.gamma.io/hs-fs/hubfs/LH%20in%20Suburbs.jpeg?width=2412&height=804&name=LH%20in%20Suburbs.jpeg', 'Full panoramic view of Montreal at Suburbs Gallery'],
-        '/collecting': ['/editorial/archive/m044.webp', 'Lemonhaze signing a physical print of Good Night from Downtown'],
-    };
-    hub.querySelectorAll('a.card-link').forEach(card => {
+      </nav>
+      <div class="practice-archive-link"><a href="/archive">Explore the archive →</a><p>More collection stories, photographs, experiments, and artist notes.</p></div>`;
+    hub.querySelectorAll('.practice-selection a').forEach(card => {
         const path = card.getAttribute('href').split('#')[0];
         const work = path === '/montreal'
             ? artworks.find(work => work.name === 'Five Roses' && work.collection === 'Montreal')
-            : path === '/orphelinat'
-            ? artworks.find(work => work.name === 'Hosoi' && work.collection === 'Orphelinat')
-            : path === '/deprivation-prints'
-            ? artworks.find(work => work.name === 'Deprivation')
             : artworks.find(work => '/' + toCollectionSlug(work.collection) === path);
-        const image = selected[path] || (work ? [getArtworkImageSrc(work), work.name+' by Lemonhaze'] : null);
+        const image = path === '/paint-engine'
+            ? ['/editorial/archive/paint-engine-v0-selected.webp', 'Selected Paint Engine v0 output in blue, green, yellow and purple']
+            : work ? [getArtworkImageSrc(work), work.name+' by Lemonhaze'] : null;
         if (!image) return;
         const text = document.createElement('div'); text.className = 'practice-card-text';
         text.append(...card.childNodes);
         const img = document.createElement('img'); img.src = image[0]; img.alt = image[1];
-        card.classList.add('practice-image-link'); card.append(img, text);
+        img.width = 160; img.height = 130;
+        card.classList.add('practice-selection-card'); card.append(img, text);
     });
-    const archive = document.createElement('section'); archive.className = 'essay-section practice-archive-invite practice-archive-text';
-    archive.innerHTML = `<div><p class="eyebrow">Keep exploring</p><h2>From the archive</h2><p>A house becomes a painting. A photograph becomes a textured work. Stories, experiments and images connect the finished works to the life around them.</p><a href="/archive">Explore the archive →</a></div>`;
-    topCards.after(archive);
     return wireEditorial(hub);
 }
 

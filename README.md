@@ -75,6 +75,10 @@ Examples:
 
 Legacy query links are still accepted and normalized into path slugs. Supported aliases include `c`, `collection`, `name`, `s`, `section`, `a`, and `id`.
 
+## Practice and Archive
+
+`/explore` is a focused introduction to Gentlemen, BEST BEFORE, Montreal, Paint Engine, and Liminality, with one illustrated link per subject and a link to `/archive`. Archive sits between Media & Press and Lab in the sidebar. The Archive holds the wider collection-story directory and links to the complete writing, exhibitions, and collecting guidance. Collection stories and individual artwork notes remain on their existing pages.
+
 ## Data Sources
 
 | Source | URL | Used For |

@@ -105,7 +105,7 @@ The artwork modal is therefore the main integration point between curated repo d
 
 ## Explore the practice
 
-`/explore` is the reading hub linked directly below Career Highlights in the sidebar, from About and Career Highlights, and from every collection header. It leads to `/practice`, `/paint-engine`, `/collecting`, and the four collection stories. Those reading pages keep Explore the practice active in the sidebar.
+`/explore` is the reading hub linked directly below Career Highlights in the sidebar, from About and Career Highlights, and from every collection header. It presents five illustrated reading links in order: Gentlemen, BEST BEFORE, Montreal, Paint Engine, and Liminality. A single Archive link leads to the broader collection-story directory, complete writing, exhibitions, and collecting guidance. Existing reading routes remain available and keep Explore the practice active in the sidebar.
 
 `src/editorial/` contains scoped styles, reviewed HTML content fragments, original Montreal notes keyed by inscription ID, and DOM navigation helpers. Collection stories are appended beneath the existing gallery cards for Montreal, Gentlemen, Liminality, and BEST BEFORE. Header anchors jump directly to the story or diary. The gallery renderer and collection datasets are unchanged.
 
@@ -115,7 +115,7 @@ The artwork modal receives an optional artist-note renderer from runtime; Montre
 
 ### Collection reading and sorting
 
-Collection narratives in `src/editorial/collection-stories.json` extend the existing gallery with dated source links. `artwork-footnotes.json` attaches reviewed excerpts or summaries to exact inscription IDs. The renderer uses text nodes; original HTML scripts are never executed. The Explore hub links to each story and collection headers retain the works/story navigation. Original descriptions and provenance data are unchanged. The editorial content covers 30 collection readings and 71 artwork IDs. Later reflections are dated to distinguish them from creation history. Hosoi’s sales-source classification was corrected to an artist-confirmed public primary sale; the visible copy omits the marketplace.
+Collection narratives in `src/editorial/collection-stories.json` extend the existing gallery with dated source links. `artwork-footnotes.json` attaches reviewed excerpts or summaries to exact inscription IDs. The renderer uses text nodes; original HTML scripts are never executed. The Archive links to the full collection-story directory, while Explore highlights five selected subjects. Collection headers retain the works/story navigation. Original descriptions and provenance data are unchanged. The editorial content covers 30 collection readings and 71 artwork IDs. Later reflections are dated to distinguish them from creation history. Hosoi’s sales-source classification was corrected to an artist-confirmed public primary sale; the visible copy omits the marketplace.
 
 Supply lists have independent search and name/year/supply/circulation/burn sorts for desktop and mobile, without changing aggregate totals. Ethereum lists expose their supported year/platform/count fields. Market Watch collection, cross-listing and offer tabs each have relevant sort controls. `src/utils/sorting.js` puts missing values last in either direction, preserves known zeros and never mutates source arrays. Market totals, scan behavior and coverage qualifiers are unchanged. Sort state lasts for the mounted page; it is not persisted in the URL.
 

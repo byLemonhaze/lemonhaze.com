@@ -36,9 +36,9 @@ export function renderTopNav(container, {
         [internalSections.about.label, 'about'],
         [internalSections.highlights.label, 'highlights'],
         [internalSections.explore.label, 'explore'],
-        [internalSections.archive.label, 'archive'],
         [internalSections.supply.label, 'supply'],
         [internalSections.media.label, 'media'],
+        [internalSections.archive.label, 'archive'],
         // [internalSections.blog.label, 'blog'], // hidden for now
         [internalSections.lab.label, 'lab'],
     ];
