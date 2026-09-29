@@ -62,7 +62,7 @@ const BUILT = [
         stack: 'TypeScript · React · Vite',
         desc: 'Toy gallery for Bitcoin-inscribed digital trading cards — a nod to the Rare Pepe era of crypto art.',
         live: 'https://counterfeit.gallery',
-        github: 'https://github.com/byLemonhaze/counterfeit.gallery',
+        github: null,
     },
     {
         name: 'CYPHERVILLE',
