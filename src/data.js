@@ -899,8 +899,14 @@ export const MEDIA_ITEMS = [
   {
     title: "Manufactured Collection",
     platform: "Forbes",
-    caption: "Featured in Forbes Digital Assets NFT coverage.",
+    caption: "Market data for the Manufactured collection on Forbes Digital Assets.",
     link: "https://www.forbes.com/digital-assets/nfts/manufactured-by-lemonhaze-manufactured-by-lemonhaze/"
+  },
+  {
+    title: "BEST BEFORE Collection",
+    platform: "Forbes",
+    caption: "Market data for BEST BEFORE by Lemonhaze x ORDINALLY on Forbes Digital Assets.",
+    link: "https://www.forbes.com/digital-assets/nfts/best-before-by-lemonhaze-x-ordinally-best-before-by-lemonhaze-x-ordinally/"
   },
   {
     title: "Blood, Lemon & Tango (Collector Display)",
