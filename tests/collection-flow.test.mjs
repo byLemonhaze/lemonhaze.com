@@ -1,11 +1,27 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 
 import { prependCollectionLeadArtworks } from '../src/app/collection-flow.js';
 
 const BB_PARENT_ID = 'bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0';
 const GRIFFINTOWN_PARENT_ID = '93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0';
 const LIMINALITY_PARENT_ID = 'a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0';
+
+test('Into The Wild opens with Family Portrait once and preserves the remaining published works', () => {
+    const allArtworks = JSON.parse(readFileSync(new URL('../public/data/provenance.json', import.meta.url), 'utf8'));
+    const items = allArtworks.filter((item) => item.collection === 'Into The Wild');
+    const originalIds = items.map((item) => item.id);
+    const parent = items.find((item) => item.name === 'Family Portrait');
+    assert.ok(parent);
+
+    const result = prependCollectionLeadArtworks({ items, collectionName: 'Into The Wild', allArtworks });
+
+    assert.equal(result[0].id, parent.id);
+    assert.equal(result.filter((item) => item.id === parent.id).length, 1);
+    assert.deepEqual(result.slice(1).map((item) => item.id), originalIds.filter((id) => id !== parent.id));
+    assert.deepEqual(items.map((item) => item.id), originalIds);
+});
 
 test('prependCollectionLeadArtworks prepends the configured BEST BEFORE parent', () => {
     const parent = {
