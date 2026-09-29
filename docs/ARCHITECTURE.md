@@ -43,6 +43,7 @@ Legacy query links (`c`, `collection`, `name`, `s`, `section`, `a`, `id`) are st
 ### 3. Views
 
 - Collection browsing is coordinated by `collection-flow.js`.
+- Configured collection lead artworks appear first without duplication. Into The Wild opens with its parent, Family Portrait, followed by the remaining works in their existing order.
 - Internal sections (`about`, `highlights`, `supply`, `media`, `blog`, `lab`) are coordinated by `section-flow.js`.
 - Home, gallery, sidebar, and modal rendering live under `src/renderers/`.
 
