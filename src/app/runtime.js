@@ -24,6 +24,7 @@ import { createRouter } from '../router/index.js';
 import { createCollectionResolver } from '../data/collections.js';
 import {
     loadCollectionFlow,
+    buildGalleryParentIds,
     syncSidebarActiveCollection as syncSidebarActiveCollectionFromNav,
 } from './collection-flow.js';
 import { createSectionFlow } from './section-flow.js';
@@ -176,7 +177,7 @@ function syncSidebarActiveCollection(collectionName) {
 function syncSidebarActiveSection(sectionKey) {
     syncSidebarActiveSectionFromNav({
         topNav: el.topNavSection(),
-        sectionKey: ({ practice: 'explore', 'paint-engine': 'explore', collecting: 'explore' })[sectionKey] || sectionKey || null,
+        sectionKey: ({ practice: 'explore', 'paint-engine': 'explore', supply: 'collecting', media: 'highlights' })[sectionKey] || sectionKey || null,
     });
 }
 
@@ -199,19 +200,6 @@ function renderBootError(message) {
         <p class="text-[11px] font-mono uppercase tracking-[0.14em] text-white/45 text-center">${message}</p>
       </div>
     `;
-}
-
-function buildParentIds(artworks) {
-    const INSCRIPTION_RE = /^[a-f0-9]{64}i\d+$/;
-    const ids = new Set();
-    for (const artwork of artworks) {
-        if (!artwork.provenance || typeof artwork.provenance !== 'string') continue;
-        for (const part of artwork.provenance.split(/[\s,]+/)) {
-            const value = part.trim();
-            if (INSCRIPTION_RE.test(value)) ids.add(value);
-        }
-    }
-    return ids;
 }
 
 // Initialization
@@ -242,7 +230,6 @@ async function init() {
         fetchFeaturedCollections(),
     ]);
     appState.artworks = assembleArtworkCatalog(provenanceData, bbLive, featuredCollections);
-    appState.parentIds = buildParentIds(appState.artworks);
     rebuildCollectionSlugs();
 
     const hasDeepLink = await applyUrlStateFromLocation({ replaceHistory: true });
@@ -345,7 +332,7 @@ function renderGallery(items) {
         galleryGrid,
         contentArea,
         onOpenArtworkById: openArtworkById,
-        parentIds: appState.parentIds,
+        parentIds: buildGalleryParentIds(items),
     });
     appendCollectionStory({ collection: appState.currentFilter, galleryGrid, currentViewMeta });
     contentArea?.scrollTo({ top: 0, behavior: 'instant' });
@@ -429,7 +416,7 @@ function openAboutModal(title, content, options = {}) {
     destroyHomeView();
 
     renderSectionView({
-        fullWidth: appState.activeSectionKey === 'supply',
+        fullWidth: ['supply', 'selected', 'explore'].includes(appState.activeSectionKey),
         title,
         content,
         headerElement: document.querySelector('header'),

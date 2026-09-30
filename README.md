@@ -75,9 +75,13 @@ Examples:
 
 Legacy query links are still accepted and normalized into path slugs. Supported aliases include `c`, `collection`, `name`, `s`, `section`, `a`, and `id`.
 
-## Practice and Archive
+## Selected Work, Practice and Studio Notes
 
-`/explore` is a focused introduction to Gentlemen, BEST BEFORE, Montreal, Paint Engine, and Liminality, with one illustrated link per subject and a link to `/archive`. Archive sits between Media & Press and Lab in the sidebar. The Archive holds the wider collection-story directory and links to the complete writing, exhibitions, and collecting guidance. Collection stories and individual artwork notes remain on their existing pages.
+The landing carousel presents twelve artist-selected works; `/selected` follows the same sequence and adds From Berlin to Saigon and Le Confessionnal, followed by twelve selected series. Porcelain Sunset and Lotus Tigré render their original inscribed animations. `/explore` provides a concise practice overview. All Works in the sidebar retains the expandable, year-by-year collection chronology.
+
+`/archive`, titled Studio Notes, keeps all 58 notes in an editorially ranked reading list, with text-only entries. Original photographs, films and writing remain inside the notes. Search, optional filters and source-date sorting provide access to the full archive. `/practice` preserves the separate Gentleman SE 2025 writing. `/collecting` connects viewing guidance, supply and Market Watch; `/highlights` connects exhibitions and press.
+
+Off-white and charcoal themes share the same navigation and artwork viewer. The viewer groups work details, inscription information, provenance and sales without changing the original artwork content. Existing routes and note anchors remain valid.
 
 ## Data Sources
 

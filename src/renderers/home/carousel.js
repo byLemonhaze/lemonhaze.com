@@ -1,278 +1,100 @@
-import { createHomePreloader } from './preloader.js';
+// These works are animated by their original inscribed HTML, not a recording.
+const LIVE_CAROUSEL_IDS = new Set([
+    '4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0', // Porcelain Sunset
+    '22c45a61ac26e42545e29a1c0af72190134f94f489596619f0b0e023908952e3i0', // Lotus Tigré
+]);
 
-function buildCollectionYearMap(chronologyByYear) {
-    const colToYear = {};
-    Object.entries(chronologyByYear || {}).forEach(([year, collections]) => {
-        (collections || []).forEach((collectionName) => {
-            colToYear[collectionName] = year;
-        });
-    });
-    return colToYear;
-}
-
-export function createHomeCarousel({
-    appState,
-    selection,
-    chronologyByYear,
-    onOpenArtworkById,
-    getCarouselImageSrc,
-}) {
-    const totalItems = selection.length;
-    const loadedImages = new Set();
-    const colToYear = buildCollectionYearMap(chronologyByYear);
-    const preloader = createHomePreloader({ selection, getCarouselImageSrc });
-
+export function createHomeCarousel({ appState, selection, chronologyByYear, onOpenArtworkById, getCarouselImageSrc }) {
     let activeIndex = 0;
-    let dragOffset = 0;
-    let isDragging = false;
-    let startX = 0;
-    let currentX = 0;
-
-    const carouselWrapper = document.createElement('div');
-    carouselWrapper.className = 'home-exhibition relative w-full h-[60vh] md:h-[72vh] flex items-center justify-center overflow-hidden';
-
-    const tracksContainer = document.createElement('div');
-    tracksContainer.className = 'home-carousel-track relative w-full max-w-[1160px] h-[52vh] md:h-[64vh]';
-    carouselWrapper.appendChild(tracksContainer);
-
-    const labelContainer = document.createElement('div');
-    labelContainer.className = 'home-art-caption mt-3 md:mt-6 animate-fade-in delay-500 min-h-[3.5rem] relative z-40';
-
-    const itemEls = selection.map((artwork, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'absolute top-0 w-[88vw] md:w-[760px] h-full cursor-pointer transition-all duration-500 ease-out';
-        itemDiv.style.left = '50%';
-        itemDiv.style.transform = 'translateX(-50%)';
-
-        const src = getCarouselImageSrc(artwork);
-        const isInteractive = artwork.id !== 'SEALED' && artwork.id !== 'EXPIRED';
-
-        itemDiv.innerHTML = `
-            <div class="home-art-item w-full h-full relative group flex items-center justify-center">
-                 <div class="absolute w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                 <img src="${src}"
-                    style="width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated;"
-                    class="w-full h-full object-contain opacity-0 transition-opacity duration-500 relative z-10" draggable="false" />
-            </div>
-        `;
-
-        const img = itemDiv.querySelector('img');
-        if (img) {
-            const handleImageLoad = () => {
-                img.classList.remove('opacity-0');
-                loadedImages.add(index);
-            };
-            img.addEventListener('load', handleImageLoad, { once: true });
-            if (img.complete) handleImageLoad();
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let paused = reducedMotion;
+    let motionEnabled = !reducedMotion;
+    let pointerStart = null;
+    let dragged = false;
+    const root = document.createElement('section');
+    root.className = 'curated-carousel';
+    root.setAttribute('aria-roledescription', 'carousel');
+    root.setAttribute('aria-label', 'Selected artworks');
+    const top = document.createElement('div'); top.className = 'carousel-heading';
+    top.innerHTML = '<span>Selected works</span><a href="/selected">View the selection ↗</a>';
+    const stage = document.createElement('div'); stage.className = 'carousel-stage';
+    const slides = selection.map((work, index) => {
+        const link = document.createElement('a'); link.className = 'carousel-slide';
+        link.href = '/' + work.id;
+        link.setAttribute('aria-label', `View ${work.name}`);
+        const image = document.createElement('img'); image.src = getCarouselImageSrc(work);
+        image.alt = work.name + ' by Lemonhaze'; image.decoding = 'async';
+        image.loading = index < 2 ? 'eager' : 'lazy';
+        image.fetchPriority = index === 0 ? 'high' : 'auto';
+        link.appendChild(image);
+        if (LIVE_CAROUSEL_IDS.has(work.id)) {
+            const frame = document.createElement('iframe');
+            frame.className = 'carousel-live-artwork';
+            frame.title = `${work.name} · live inscription`;
+            frame.dataset.inscriptionSrc = `https://ordinals.com/content/${work.id}`;
+            frame.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+            frame.setAttribute('aria-hidden', 'true');
+            frame.tabIndex = -1;
+            frame.addEventListener('load', () => {
+                if (frame.getAttribute('src') === frame.dataset.inscriptionSrc && link.classList.contains('is-active')) link.classList.add('live-ready');
+            });
+            link.appendChild(frame);
         }
-
-        itemDiv.addEventListener('click', () => {
-            if (isDragging) return;
-            if (index === activeIndex) {
-                if (!isInteractive) return;
-                const idToOpen = artwork.targetId || artwork.id;
-                onOpenArtworkById(idToOpen);
-                return;
-            }
-            setActiveIndex(index);
-        });
-
-        tracksContainer.appendChild(itemDiv);
-        return itemDiv;
+        link.onclick = event => {
+            if (dragged) { event.preventDefault(); return; }
+            if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault(); onOpenArtworkById(work.id);
+        };
+        stage.appendChild(link); return link;
     });
-
-    function updateLabel() {
-        const item = selection[activeIndex];
-        if (!item) {
-            labelContainer.innerHTML = '';
-            return;
-        }
-        labelContainer.innerHTML = `
-            <div>
-                <h4 class="text-sm md:text-base font-bold text-white tracking-widest opacity-90">${item.name || 'Untitled'}</h4>
-            </div>
-        `;
-    }
-
-    function updateCarousel() {
-        itemEls.forEach((element, index) => {
-            let diff = index - activeIndex;
-            if (diff > totalItems / 2) diff -= totalItems;
-            if (diff < -totalItems / 2) diff += totalItems;
-
-            const isActive = diff === 0;
-            const isPrev = diff === -1;
-            const isNext = diff === 1;
-            const img = element.querySelector('img');
-
-            element.style.zIndex = '0';
-            element.style.opacity = '0';
-            element.style.pointerEvents = 'none';
-            element.style.transform = 'translateX(-50%) scale(0.8)';
-            element.style.transition = isDragging
-                ? 'none'
-                : 'all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)';
-
-            if (img) {
-                img.style.filter = 'blur(5px) grayscale(100%)';
-                img.style.animation = 'none';
-                img.style.transitionProperty = 'opacity, transform, filter';
-            }
-
-            if (isActive) {
-                element.style.zIndex = '20';
-                element.style.opacity = '1';
-                element.style.pointerEvents = 'auto';
-                element.style.transform = `translateX(calc(-50% + ${dragOffset}px)) scale(1)`;
-                if (img) {
-                    img.style.filter = 'drop-shadow(0 0 1px rgba(255, 255, 255, 0.85)) drop-shadow(0 0 3px rgba(232, 220, 180, 0.5))';
+    const bottom = document.createElement('div'); bottom.className = 'carousel-bottom';
+    const caption = document.createElement('div'); caption.className = 'carousel-caption';
+    const title = document.createElement('a'); const detail = document.createElement('p');
+    caption.append(title, detail);
+    const controls = document.createElement('div'); controls.className = 'carousel-controls';
+    controls.innerHTML = '<button type="button" aria-label="Previous artwork">←</button><span class="carousel-position"></span><button type="button" aria-label="Next artwork">→</button><button type="button" class="carousel-pause"></button>';
+    const [previous, next, pause] = controls.querySelectorAll('button');
+    const count = controls.querySelector('.carousel-position');
+    bottom.append(caption, controls); root.append(top, stage, bottom);
+    function update() {
+        slides.forEach((slide, index) => {
+            const active = index === activeIndex;
+            slide.classList.toggle('is-active', active);
+            slide.setAttribute('aria-hidden', String(!active));
+            slide.tabIndex = active ? 0 : -1;
+            if (active) slide.querySelector('img').loading = 'eager';
+            const frame = slide.querySelector('iframe');
+            if (frame) {
+                if (active && motionEnabled && !document.hidden) {
+                    if (frame.getAttribute('src') !== frame.dataset.inscriptionSrc) frame.src = frame.dataset.inscriptionSrc;
+                } else if (frame.hasAttribute('src')) {
+                    slide.classList.remove('live-ready');
+                    frame.removeAttribute('src');
                 }
-                return;
-            }
-
-            if (isPrev) {
-                element.style.zIndex = '10';
-                element.style.opacity = '0';
-                element.style.pointerEvents = 'auto';
-                element.style.transform = `translateX(calc(-120% + ${dragOffset}px)) scale(0.85)`;
-                return;
-            }
-
-            if (isNext) {
-                element.style.zIndex = '10';
-                element.style.opacity = '0';
-                element.style.pointerEvents = 'auto';
-                element.style.transform = `translateX(calc(20% + ${dragOffset}px)) scale(0.85)`;
             }
         });
-
-        updateLabel();
+        const work = selection[activeIndex];
+        const year = work.year || Object.entries(chronologyByYear).find(([, collections]) => collections.includes(work.collection))?.[0] || String(work.timestamp || '').slice(0, 4);
+        title.textContent = work.name; title.href = '/' + work.id;
+        detail.textContent = `${work.series || work.collection} · ${year}`;
+        count.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(selection.length).padStart(2, '0')}`;
+        pause.textContent = paused ? 'Play' : 'Pause';
+        pause.setAttribute('aria-label', paused ? 'Play slideshow' : 'Pause slideshow');
     }
-
-    function findNearestLoaded(startIndex, direction) {
-        let target = (startIndex + direction + totalItems) % totalItems;
-        if (loadedImages.has(target)) return target;
-
-        for (let offset = 1; offset < totalItems; offset += 1) {
-            const candidate = (startIndex + (direction * offset) + totalItems) % totalItems;
-            if (candidate === startIndex) continue;
-            if (loadedImages.has(candidate)) return candidate;
-        }
-
-        return target;
-    }
-
-    function setActiveIndex(newIndex) {
-        activeIndex = (newIndex + totalItems) % totalItems;
-        updateCarousel();
-        preloader.preloadNeighbors(activeIndex, 5);
-    }
-
-    function next() {
-        const target = findNearestLoaded(activeIndex, 1);
-        setActiveIndex(target);
-    }
-
-    function prev() {
-        const target = findNearestLoaded(activeIndex, -1);
-        setActiveIndex(target);
-    }
-
-    function stopAutoPlay() {
-        if (appState.homeInterval) {
-            clearInterval(appState.homeInterval);
-            appState.homeInterval = null;
-        }
-    }
-
-    function startAutoPlay() {
-        stopAutoPlay();
-        appState.homeInterval = setInterval(() => {
-            if (!isDragging) next();
-        }, 5000);
-    }
-
-    const onTouchStart = (event) => {
-        isDragging = true;
-        startX = event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-        currentX = startX;
-        dragOffset = 0;
-        stopAutoPlay();
-        updateCarousel();
+    function stop() { if (appState.homeInterval) clearInterval(appState.homeInterval); appState.homeInterval = null; }
+    function play() { stop(); if (!paused) appState.homeInterval = setInterval(() => move(1, false), 7000); }
+    function move(direction, manual = true) { activeIndex = (activeIndex + direction + selection.length) % selection.length; if (manual) { paused = true; stop(); } update(); }
+    previous.onclick = () => move(-1); next.onclick = () => move(1);
+    pause.onclick = () => { paused = !paused; if (!paused) motionEnabled = true; update(); play(); };
+    const onVisibilityChange = () => { update(); if (document.hidden) stop(); else play(); };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    stage.addEventListener('pointerdown', event => { pointerStart = event.clientX; dragged = false; });
+    const onPointerUp = event => { if (pointerStart === null) return; const delta = event.clientX - pointerStart; pointerStart = null; if (Math.abs(delta) > 60) { dragged = true; move(delta > 0 ? -1 : 1); } };
+    window.addEventListener('pointerup', onPointerUp);
+    stage.addEventListener('dragstart', event => event.preventDefault());
+    root.addEventListener('keydown', event => { if (event.target.matches('button')) return; if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); } });
+    return {
+        mount(container) { container.appendChild(root); update(); play(); },
+        cleanup() { stop(); document.removeEventListener('visibilitychange', onVisibilityChange); slides.forEach(slide => slide.querySelector('iframe')?.removeAttribute('src')); window.removeEventListener('pointerup', onPointerUp); root.remove(); },
     };
-
-    const onTouchMove = (event) => {
-        if (!isDragging) return;
-        const x = event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-        currentX = x;
-        dragOffset = currentX - startX;
-        updateCarousel();
-    };
-
-    const onTouchEnd = () => {
-        if (!isDragging) return;
-        isDragging = false;
-
-        const diff = currentX - startX;
-        if (Math.abs(diff) > 75) {
-            dragOffset = 0;
-            if (diff > 0) prev();
-            else next();
-        } else {
-            dragOffset = 0;
-            updateCarousel();
-        }
-
-        startAutoPlay();
-    };
-
-    const onKeyDown = (event) => {
-        if (appState.currentFilter !== 'Home') return;
-        if (event.key === 'ArrowLeft') {
-            stopAutoPlay();
-            prev();
-            startAutoPlay();
-            return;
-        }
-        if (event.key === 'ArrowRight') {
-            stopAutoPlay();
-            next();
-            startAutoPlay();
-        }
-    };
-
-    carouselWrapper.addEventListener('touchstart', onTouchStart, { passive: true });
-    carouselWrapper.addEventListener('touchmove', onTouchMove, { passive: true });
-    carouselWrapper.addEventListener('touchend', onTouchEnd);
-    carouselWrapper.addEventListener('mousedown', onTouchStart);
-    window.addEventListener('mousemove', onTouchMove);
-    window.addEventListener('mouseup', onTouchEnd);
-    window.addEventListener('keydown', onKeyDown);
-
-    function mount(container) {
-        container.appendChild(carouselWrapper);
-        container.appendChild(labelContainer);
-        updateCarousel();
-        preloader.preloadInitialBurst(10);
-        preloader.startBackgroundSync(2000);
-        startAutoPlay();
-    }
-
-    function cleanup() {
-        stopAutoPlay();
-        preloader.stopBackgroundSync();
-
-        carouselWrapper.removeEventListener('touchstart', onTouchStart);
-        carouselWrapper.removeEventListener('touchmove', onTouchMove);
-        carouselWrapper.removeEventListener('touchend', onTouchEnd);
-        carouselWrapper.removeEventListener('mousedown', onTouchStart);
-        window.removeEventListener('mousemove', onTouchMove);
-        window.removeEventListener('mouseup', onTouchEnd);
-        window.removeEventListener('keydown', onKeyDown);
-
-        carouselWrapper.remove();
-        labelContainer.remove();
-    }
-
-    return { mount, cleanup };
 }

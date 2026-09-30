@@ -1,3 +1,4 @@
+import { getArtworkOwnership } from '../../modules/artwork-ownership.js';
 import {
     getPreferredFileExtension,
     isVideoArtwork,
@@ -214,6 +215,8 @@ async function fetchInscriptionMetadata(id) {
 
     return {
         address: owner,
+        charms: ordinalsData?.charms || [],
+        ownerLookupSucceeded: Boolean(ordinalsData),
         number,
         genesis_timestamp: genesisTimestamp,
         sat_rarity: hiroData?.sat_rarity || null,
@@ -257,6 +260,18 @@ export function createArtworkModalController({
     let htmlBlobLoadToken = 0;
     let activeHtmlBlobUrl = null;
     let metadataRenderToken = 0;
+    let returnSection = null;
+    let returnFocus = null;
+
+    function showViewer(overlay) {
+        overlay.classList.remove('hidden');
+        document.querySelector('main')?.setAttribute('inert', '');
+        document.getElementById('sidebar')?.setAttribute('inert', '');
+        requestAnimationFrame(() => {
+            overlay.classList.remove('opacity-0');
+            document.getElementById('modal-close')?.focus({ preventScroll: true });
+        });
+    }
 
     function showBestBeforeSaveGuide() {
         const overlay = document.createElement('div');
@@ -318,16 +333,40 @@ export function createArtworkModalController({
 
     function makeMetaRow(label, valueNode) {
         const row = document.createElement('div');
+        row.dataset.field = label;
         row.className = 'meta-row flex items-start gap-4 py-2 border-b border-white/5 last:border-0';
 
         const lbl = document.createElement('span');
         lbl.className = 'text-[9px] font-mono uppercase tracking-[0.2em] text-white/25 w-20 shrink-0 pt-0.5';
-        lbl.textContent = label;
+        lbl.textContent = ({ 'Timestamp': 'Inscribed', 'Ins. No.': 'Inscription no.', 'Art. Size': 'Artwork size', 'Content Size': 'File size', 'Type': 'Format', 'Content': 'File format', 'Fee': 'Inscription fee', 'Current Owner': 'Current owner', 'Lineage': 'Parent inscriptions', 'Ins. Block': 'Inscribed at block', 'Act. Block': 'Activation block', 'Exp. Block': 'Expiry block' })[label] || label;
 
         valueNode.classList.add('meta-value', 'min-w-0');
         row.appendChild(lbl);
         row.appendChild(valueNode);
         return row;
+    }
+
+    function arrangeMetadata(container) {
+        const rows = [...container.children];
+        const take = fields => fields.flatMap(field => rows.filter(row => row.dataset.field === field || row.id === field));
+        const group = (title, nodes, expandable = false) => {
+            if (!nodes.length) return;
+            const section = document.createElement(expandable ? 'details' : 'section');
+            section.className = 'viewer-metadata-group';
+            const heading = document.createElement(expandable ? 'summary' : 'h4');
+            heading.textContent = title;
+            section.append(heading, ...nodes);
+            container.append(section);
+        };
+        const narrative = take(['About', 'Reflection', 'Artist’s notes', 'Note']);
+        narrative.forEach(row => row.classList.add('viewer-narrative'));
+        // Narrative stays in the open; technical records are available on demand.
+        container.append(...narrative);
+        group('Work details', take(['Artist', 'Collection', 'Series', 'Year', 'Role', 'Tools', 'Type', 'Dimensions', 'Art. Size']));
+        group('Living artwork', take(['meta-bb-live']));
+        group('Inscription details', take(['Inscription ID', 'Timestamp', 'Ins. No.', 'Content', 'Content Size', 'Fee', 'Block', 'Sat', 'meta-rarity-row']), true);
+        group('Provenance', take(['Lineage', 'Current Owner']), true);
+        group('Sales history', take(['Sales']), true);
     }
 
     function makeMetaText(text, className = 'text-[11px] font-mono text-white/70 break-words leading-snug') {
@@ -408,8 +447,13 @@ export function createArtworkModalController({
                         thumb.src = getArtworkImageSrc(extItem);
                         thumb.className = 'max-w-[32px] max-h-[32px] w-auto h-auto object-contain cursor-pointer hover:opacity-80 transition';
                         thumb.loading = 'lazy';
-                        thumb.dataset.openArtwork = pid;
-                        thumbsWrap.appendChild(thumb);
+                        thumb.alt = extItem.name || 'Parent artwork';
+                        const openParent = document.createElement('button');
+                        openParent.type = 'button';
+                        openParent.dataset.openArtwork = pid;
+                        openParent.setAttribute('aria-label', `View ${extItem.name || 'parent artwork'}`);
+                        openParent.appendChild(thumb);
+                        thumbsWrap.appendChild(openParent);
                     } else {
                         const link = document.createElement('a');
                         link.href = `https://ordinals.com/inscription/${pid}`;
@@ -530,7 +574,7 @@ export function createArtworkModalController({
         // 5. Inscription number (animated, filled by Hiro)
         if (!isBB) {
             const inscriptionNumber = Number(item.inscription_number);
-            const hasInscriptionNumber = Number.isFinite(inscriptionNumber);
+            const hasInscriptionNumber = item.inscription_number != null && String(item.inscription_number).trim() !== '' && Number.isFinite(inscriptionNumber);
             const insNoSpan = makeMetaText(
                 hasInscriptionNumber ? `#${inscriptionNumber.toLocaleString()}` : '—',
                 `text-[11px] font-mono text-white/60 leading-snug${hasInscriptionNumber ? '' : ' animate-pulse'}`,
@@ -540,7 +584,7 @@ export function createArtworkModalController({
         }
 
         // 6. Current owner (animated, filled by Hiro)
-        const ownerSpan = makeMetaText('—', 'text-[11px] font-mono text-white/55 break-all leading-snug animate-pulse');
+        const ownerSpan = makeMetaText(getArtworkOwnership(item).status === 'burned' ? 'Burned' : 'Checking…', 'text-[11px] font-mono text-white/55 break-all leading-snug animate-pulse');
         ownerSpan.id = 'meta-owner';
         modalMetadata.appendChild(makeMetaRow('Current Owner', ownerSpan));
 
@@ -558,6 +602,14 @@ export function createArtworkModalController({
         salesWrap.appendChild(salesLoading);
         modalMetadata.appendChild(makeMetaRow('Sales', salesWrap));
 
+        const inscriptionLink = document.createElement('a');
+        inscriptionLink.href = `https://ordinals.com/inscription/${item.id}`;
+        inscriptionLink.target = '_blank';
+        inscriptionLink.rel = 'noopener noreferrer';
+        inscriptionLink.textContent = item.id;
+        modalMetadata.appendChild(makeMetaRow('Inscription ID', inscriptionLink));
+        arrangeMetadata(modalMetadata);
+
         // ── Async: fill live data from Hiro (+ BB live for BB items) ──
         const requestToken = ++metadataRenderToken;
 
@@ -572,13 +624,22 @@ export function createArtworkModalController({
 
             const insNoEl = document.getElementById('meta-inscription-number');
             if (insNoEl) {
-                insNoEl.textContent = metadata?.number != null ? `#${Number(metadata.number).toLocaleString()}` : '—';
+                if (metadata?.number != null) insNoEl.textContent = `#${Number(metadata.number).toLocaleString()}`;
+                else if (insNoEl.textContent === '—') insNoEl.textContent = 'Unavailable';
                 insNoEl.classList.remove('animate-pulse');
             }
 
             const ownerEl = document.getElementById('meta-owner');
             if (ownerEl) {
-                ownerEl.textContent = metadata?.address || '—';
+                const ownership = getArtworkOwnership(item, metadata);
+                ownerEl.textContent = ownership.label;
+                ownerEl.dataset.ownershipStatus = ownership.status;
+                if (ownership.status === 'artist') {
+                    const wallet = document.createElement('span');
+                    wallet.className = 'viewer-owner-address';
+                    wallet.textContent = ownership.address;
+                    ownerEl.appendChild(wallet);
+                }
                 ownerEl.classList.remove('animate-pulse');
             }
 
@@ -788,6 +849,7 @@ export function createArtworkModalController({
             const liveEl = document.getElementById('meta-bb-live');
             if (!liveEl) return;
             liveEl.innerHTML = '';
+            if (!inscriptions?.some(i => i.id === item.id)) liveEl.appendChild(makeMetaText('Live status is currently unavailable.'));
 
             const append = (row) => liveEl.appendChild(row);
             const fmtNum = (n) => typeof n === 'number' ? n.toLocaleString() : '—';
@@ -871,6 +933,8 @@ export function createArtworkModalController({
             btn.className = `inline-flex items-center px-3 py-1.5 border ${opts.active ? 'border-white/50 text-white' : 'border-white/15 text-white/55'} text-[10px] font-mono uppercase tracking-[0.12em] hover:border-white/50 hover:text-white transition-colors duration-200 whitespace-nowrap`;
             btn.textContent = label;
             btn.title = title;
+            btn.type = 'button';
+            btn.setAttribute('aria-label', title);
             btn.onclick = onClick;
             return btn;
         };
@@ -889,7 +953,7 @@ export function createArtworkModalController({
             }));
         }
 
-        modalActions.appendChild(pill('↓ Save', 'Save artwork', () => {
+        modalActions.appendChild(pill('Download', 'Save artwork', () => {
             if (isHtml) {
                 if (item.collection === 'BEST BEFORE') {
                     showBestBeforeSaveGuide();
@@ -956,7 +1020,7 @@ export function createArtworkModalController({
         }));
 
         if (isHtml && rawHtmlContainer && rawHtmlContent) {
-            modalActions.appendChild(pill('HTML', 'View raw HTML source', async () => {
+            modalActions.appendChild(pill('HTML source', 'View raw HTML source', async () => {
                 rawHtmlContainer.classList.remove('hidden');
                 rawHtmlContent.textContent = 'Loading…';
                 try {
@@ -968,13 +1032,13 @@ export function createArtworkModalController({
             }));
         }
 
-        const shareBtn = pill('⎋ Share', 'Copy share link to clipboard', () => {
+        const shareBtn = pill('Copy link', 'Copy share link to clipboard', () => {
             const url = router.buildUrlWithState({
                 artwork: item.id,
             });
             navigator.clipboard.writeText(url.toString()).then(() => {
                 shareBtn.textContent = '✓ Copied';
-                setTimeout(() => { shareBtn.textContent = '⎋ Share'; }, 2000);
+                setTimeout(() => { shareBtn.textContent = 'Copy link'; }, 2000);
             });
         });
         modalActions.appendChild(shareBtn);
@@ -982,7 +1046,7 @@ export function createArtworkModalController({
         // Paint Engine help button — only for inscribed engine versions
         const peHelp = PAINT_ENGINE_HELP[item.id];
         if (peHelp) {
-            const helpBtn = pill('?', 'How to use this engine', () => {
+            const helpBtn = pill('Controls', 'How to use this engine', () => {
                 showPaintEngineHelp(helpBtn, peHelp);
             });
             modalActions.appendChild(helpBtn);
@@ -1015,6 +1079,10 @@ export function createArtworkModalController({
         const isVideo = isVideoArtwork(item);
         const useDirectIframe = shouldUseDirectModalIframe(item, isHtml);
 
+        if (!appState.activeArtworkId) {
+            returnSection = appState.activeSectionKey;
+            returnFocus = document.activeElement;
+        }
         pauseGalleryOnchainPreviews(galleryGrid);
         bindMetadataInteractions();
         closeAboutModal({ updateUrl: false });
@@ -1022,6 +1090,12 @@ export function createArtworkModalController({
         appState.activeArtworkId = item.id;
 
         modalTitle.textContent = item.name;
+        const subtitle = document.getElementById('modal-subtitle');
+        if (subtitle) subtitle.textContent = [item.collection, item.year].filter(Boolean).join(' · ');
+        modalImage.alt = item.name || 'Artwork by Lemonhaze';
+        modalIframe.title = item.name || 'Interactive artwork';
+        modalOverlay.scrollTop = 0;
+        modalOverlay.querySelector('.modal-meta-panel')?.scrollTo(0, 0);
 
         modalImage.classList.add('hidden');
         modalIframe.classList.add('hidden');
@@ -1041,8 +1115,7 @@ export function createArtworkModalController({
                 renderMetadataList(item);
                 renderActionButtons(item, cdnSrc, isHtml);
 
-                modalOverlay.classList.remove('hidden');
-                requestAnimationFrame(() => modalOverlay.classList.remove('opacity-0'));
+                showViewer(modalOverlay);
 
                 if (updateUrl) {
                     router.syncUrlState({
@@ -1080,8 +1153,7 @@ export function createArtworkModalController({
         renderMetadataList(item);
         renderActionButtons(item, cdnSrc, isHtml);
 
-        modalOverlay.classList.remove('hidden');
-        requestAnimationFrame(() => modalOverlay.classList.remove('opacity-0'));
+        showViewer(modalOverlay);
 
         if (updateUrl) {
             router.syncUrlState({
@@ -1096,6 +1168,10 @@ export function createArtworkModalController({
 
         const hadArtwork = Boolean(appState.activeArtworkId);
         appState.activeArtworkId = null;
+        if (hadArtwork && updateUrl) appState.activeSectionKey = returnSection;
+        document.querySelector('main')?.removeAttribute('inert');
+        document.getElementById('sidebar')?.removeAttribute('inert');
+        if (hadArtwork && returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
 
         if (updateUrl && hadArtwork) {
             const activeCollection = resolveCollectionName(appState.currentFilter);
@@ -1113,6 +1189,7 @@ export function createArtworkModalController({
 
         modalOverlay.classList.add('opacity-0');
         setTimeout(() => {
+            if (appState.activeArtworkId) return;
             modalOverlay.classList.add('hidden');
             if (modalImage) { modalImage.src = ''; modalImage.classList.add('hidden'); }
             if (modalIframe) { modalIframe.src = ''; modalIframe.classList.add('hidden'); }

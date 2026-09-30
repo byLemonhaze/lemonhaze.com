@@ -32,50 +32,28 @@ export function renderTopNav(container, {
     onOpenSection,
     onOpenExternal,
 }) {
-    const sectionLinks = [
-        [internalSections.about.label, 'about'],
-        [internalSections.highlights.label, 'highlights'],
-        [internalSections.explore.label, 'explore'],
-        [internalSections.supply.label, 'supply'],
-        [internalSections.media.label, 'media'],
-        [internalSections.archive.label, 'archive'],
-        // [internalSections.blog.label, 'blog'], // hidden for now
-        [internalSections.lab.label, 'lab'],
-    ];
-    const externalLinks = [
-        ['Twitter', () => onOpenExternal('https://x.com/Ordinals10K')],
-        ['Discord', () => onOpenExternal('https://discord.com/invite/4A8jaMqdxs')],
-    ];
-
-    sectionLinks.forEach(([label, sectionKey]) => {
-        const btn = document.createElement('a');
-        btn.href = '/' + sectionKey;
-        btn.className = sectionKey === activeSectionKey ? ACTIVE_TOP_NAV_BUTTON_CLASS : BASE_TOP_NAV_BUTTON_CLASS;
-        btn.dataset.section = sectionKey;
-        btn.textContent = label;
-        btn.onclick = event => {if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();onOpenSection(sectionKey);};
-        container.appendChild(btn);
-    });
-
-    // The document has a global white-link style. Use a button for this
-    // internal navigation so it receives the same muted / active treatment as
-    // every other sidebar item.
-    const visualizerLink = document.createElement('button');
-    visualizerLink.type = 'button';
-    visualizerLink.className = BASE_TOP_NAV_BUTTON_CLASS;
-    visualizerLink.textContent = 'Visualizer';
-    visualizerLink.onclick = () => window.location.assign('/visualizer/');
-    // Keep it immediately beneath About while leaving the rest of the section
-    // navigation in its current order.
-    container.insertBefore(visualizerLink, container.children[1] || null);
-
-    externalLinks.forEach(([label, action]) => {
-        const btn = document.createElement('button');
-        btn.className = BASE_TOP_NAV_BUTTON_CLASS;
-        btn.textContent = label;
-        btn.onclick = action;
-        container.appendChild(btn);
-    });
+    const addSection = (key, secondary = false) => {
+        const link = document.createElement('a');
+        link.href = '/' + key;
+        link.className = key === activeSectionKey ? ACTIVE_TOP_NAV_BUTTON_CLASS : BASE_TOP_NAV_BUTTON_CLASS;
+        if (secondary) link.classList.add('sidebar-secondary');
+        link.dataset.section = key;
+        link.textContent = internalSections[key].label;
+        link.onclick = event => {
+            if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault(); onOpenSection(key);
+        };
+        container.appendChild(link);
+    };
+    ['selected', 'explore', 'about', 'highlights'].forEach(key => addSection(key));
+    const allWorks = document.createElement('details');
+    allWorks.id = 'all-works-nav';
+    allWorks.className = 'all-works-nav';
+    const summary = document.createElement('summary');
+    summary.innerHTML = '<span>All Works</span><span class="all-works-indicator" aria-hidden="true">+</span>';
+    allWorks.appendChild(summary);
+    container.appendChild(allWorks);
+    ['archive', 'collecting', 'lab'].forEach(key => addSection(key, true));
 }
 
 export function renderYearGroups({
@@ -138,11 +116,16 @@ export function renderYearGroups({
             list.appendChild(li);
         });
 
+        yearBtn.dataset.yearToggle = year;
+        yearBtn.setAttribute('aria-expanded', String(!isCollapsed));
+        list.id = 'works-year-' + year;
+        yearBtn.setAttribute('aria-controls', list.id);
         yearBtn.onclick = () => {
             toggleYearCollapse(year);
             const collapsed = getCollapsedYears().has(String(year));
             list.style.display = collapsed ? 'none' : '';
             indicator.textContent = collapsed ? '+' : '−';
+            yearBtn.setAttribute('aria-expanded', String(!collapsed));
         };
 
         yearGroup.appendChild(list);
@@ -183,5 +166,13 @@ export function renderSidebarSections({
             onAfterSelect,
     toCollectionSlug,
         });
+        const allWorks = topNav?.querySelector('#all-works-nav');
+        if (allWorks) {
+            allWorks.appendChild(collectionsNav);
+            const visualizer = document.createElement('a');
+            visualizer.href = '/visualizer/'; visualizer.className = 'chronology-link';
+            visualizer.textContent = 'Visual chronology ↗';
+            allWorks.appendChild(visualizer);
+        }
     }
 }

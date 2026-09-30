@@ -179,3 +179,14 @@
 .lh-editorial .engine-links a{display:inline-flex;align-items:center;min-height:44px}
 .lh-editorial .engine-status{font-size:12px;color:#999}
 @media(max-width:767px){.lh-editorial .engine-controls select{font-size:16px}.lh-editorial .engine-controls button{width:100%}}
+
+/* Four inscribed examples; images retain their original proportions. */
+.lh-editorial .engine-examples{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 24px}
+.lh-editorial .engine-examples>figure{min-width:0;margin:0}
+.lh-editorial .engine-examples .work img{height:280px}
+.lh-editorial .engine-examples figcaption{font-size:12px;line-height:1.6}
+.lh-editorial .engine-select-wrap{position:relative;display:block}
+.lh-editorial .engine-controls select{appearance:none;-webkit-appearance:none;padding:12px 48px 12px 16px;min-height:48px;cursor:pointer}
+.lh-editorial .engine-select-arrow{position:absolute;right:17px;top:50%;transform:translateY(-50%);pointer-events:none}
+@media(max-width:1100px){.lh-editorial .engine-examples{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.lh-editorial .engine-examples{grid-template-columns:1fr}.lh-editorial .engine-examples .work img{height:360px;max-height:65svh}}

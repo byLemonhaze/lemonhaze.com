@@ -9,3 +9,10 @@ export function filterArchiveEntries(entries, { query = '', kind = '', collectio
             && (!year || entry.years.includes(year));
     });
 }
+
+// One destination per note, even when its related link is also its collection.
+export function entryLinks(entry, toCollectionSlug) {
+    const links = [...entry.related.map(link => ({ href: link.href, label: link.label })),
+        ...entry.collections.map(collection => ({ href: '/' + toCollectionSlug(collection), label: collection }))];
+    return [...new Map(links.map(link => [link.href, link])).values()];
+}

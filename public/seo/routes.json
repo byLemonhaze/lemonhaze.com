@@ -9,6 +9,15 @@
     "name": "Lemonhaze — Artist & Coureur de Bois"
   },
   {
+    "path": "/selected",
+    "title": "Selected Work | Lemonhaze",
+    "description": "A selection of works and series by Lemonhaze: black, ink-like forms, digital textures, generative images, and works inscribed on Bitcoin.",
+    "canonical": "https://lemonhaze.com/selected",
+    "image": null,
+    "kind": "page",
+    "name": "Selected Work"
+  },
+  {
     "path": "/about",
     "title": "About Lemonhaze | Lemonhaze",
     "description": "Meet Lemonhaze, artist and coureur de bois. Discover the practice, background, and writing behind his art inscribed on Bitcoin.",
@@ -19,30 +28,30 @@
   },
   {
     "path": "/explore",
-    "title": "Explore the Practice | Lemonhaze",
+    "title": "Practice | Lemonhaze",
     "description": "Explore Lemonhaze’s practice through Gentlemen, BEST BEFORE, Montreal, Paint Engine, and Liminality.",
     "canonical": "https://lemonhaze.com/explore",
     "image": null,
     "kind": "page",
-    "name": "Explore the Practice"
+    "name": "Practice"
   },
   {
     "path": "/archive",
-    "title": "Archive | Lemonhaze",
+    "title": "Studio Notes | Lemonhaze",
     "description": "Stories, process photographs, artist writing and exhibition footage from Lemonhaze’s practice. Explore the connections behind the artworks on Bitcoin.",
     "canonical": "https://lemonhaze.com/archive",
     "image": null,
     "kind": "page",
-    "name": "Archive"
+    "name": "Studio Notes"
   },
   {
     "path": "/practice",
-    "title": "Practice & Process | Lemonhaze",
+    "title": "Gentleman SE 2025 — Studio Writing | Lemonhaze",
     "description": "Lemonhaze on texture, generative painting, selecting an output, and writing inside the artwork. Original reflections from Gentleman SE 2025.",
     "canonical": "https://lemonhaze.com/practice",
     "image": null,
     "kind": "page",
-    "name": "Practice & Process"
+    "name": "Gentleman SE 2025 — Studio Writing"
   },
   {
     "path": "/paint-engine",
@@ -55,21 +64,21 @@
   },
   {
     "path": "/collecting",
-    "title": "Viewing & Collecting | Lemonhaze",
+    "title": "Collecting | Lemonhaze",
     "description": "How to view, download, display, and collect Lemonhaze’s artworks on Bitcoin, with guidance on original inscription content and high-resolution exports.",
     "canonical": "https://lemonhaze.com/collecting",
     "image": null,
     "kind": "page",
-    "name": "Viewing & Collecting"
+    "name": "Collecting"
   },
   {
     "path": "/highlights",
-    "title": "Career Highlights | Lemonhaze",
+    "title": "Exhibitions & Press | Lemonhaze",
     "description": "Lemonhaze’s exhibitions and career: Sotheby’s Contemporary Discoveries, Montreal at Suburbs Gallery, and presentations around the world.",
     "canonical": "https://lemonhaze.com/highlights",
     "image": null,
     "kind": "page",
-    "name": "Career Highlights"
+    "name": "Exhibitions & Press"
   },
   {
     "path": "/supply",

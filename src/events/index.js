@@ -68,12 +68,15 @@ export function setupAppEventListeners({
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
+            // Let the active native dialog close without navigating away beneath it.
+            if (document.querySelector('dialog[open]')) return;
             if (rawHtmlContainer && !rawHtmlContainer.classList.contains('hidden')) {
                 rawHtmlContainer.classList.add('hidden');
             } else if (testerModal && !testerModal.classList.contains('hidden')) {
                 toggleTester();
-            } else {
+            } else if (modalOverlay && !modalOverlay.classList.contains('hidden')) {
                 closeModal();
+            } else {
                 closeAboutModal();
             }
         }

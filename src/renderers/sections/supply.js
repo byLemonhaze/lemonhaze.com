@@ -52,7 +52,7 @@ function createStatCard(
 function createMarketButton(label, href) {
     const link = createNode(
         'a',
-        'px-2 py-0.5 border border-white/10 bg-[#131313] hover:border-white/30 transition-colors text-[10px] font-mono whitespace-nowrap',
+        'supply-market-link px-2 py-0.5 border border-white/10 bg-[#131313] hover:border-white/30 transition-colors text-[10px] font-mono whitespace-nowrap',
         label
     );
     link.href = href;

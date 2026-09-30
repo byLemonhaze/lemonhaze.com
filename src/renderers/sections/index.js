@@ -1,3 +1,4 @@
+import { createSelectedWork, createPracticeOverview } from '../../curation/pages.js';
 import { createArchive, enhanceAbout, enhanceHighlights, createExplorePractice, createEditorialPage, readingLink } from '../../editorial/index.js';
 import { createCareerHighlightsNode } from './highlights.js';
 import { createSupplySectionNode } from './supply.js';
@@ -21,26 +22,34 @@ export function createInternalSections({
     slugifyCollectionName,
 }) {
     return {
+        selected: {
+            label: 'Selected Work', title: 'Selected Work',
+            content: () => createSelectedWork(getArtworks(), toCollectionSlug),
+        },
         about: {
             label: 'About',
             title: 'About',
             content: () => enhanceAbout(aboutText),
         },
         highlights: {
-            label: 'Career Highlights',
-            title: 'Career Highlights',
-            content: () => enhanceHighlights(createCareerHighlightsNode(careerHighlightsItems)),
+            label: 'Exhibitions & Press',
+            title: 'Exhibitions & Press',
+            content: () => {
+                const wrap = document.createElement('div');
+                wrap.append(enhanceHighlights(createCareerHighlightsNode(careerHighlightsItems)), readingLink('/media', 'Media & Press →', 'Interviews, articles, and coverage of the work.'));
+                return wrap;
+            },
         },
         explore: {
-            label: 'Explore the practice', title: 'Explore the practice',
-            content: () => createExplorePractice(getArtworks(), toCollectionSlug),
+            label: 'Practice', title: 'Practice',
+            content: () => createPracticeOverview(getArtworks()),
         },
         archive: {
-            label: 'Archive', title: 'Archive',
+            label: 'Studio Notes', title: 'Studio Notes',
             content: () => createArchive(getArtworks(), toCollectionSlug),
         },
         practice: {
-            label: 'Practice & Process', title: 'Practice & Process',
+            label: 'Gentleman SE 2025 — Studio Writing', title: 'Gentleman SE 2025 — Studio Writing',
             content: () => createEditorialPage('practice'),
         },
         'paint-engine': {
@@ -48,8 +57,12 @@ export function createInternalSections({
             content: () => createEditorialPage('paint-engine'),
         },
         collecting: {
-            label: 'Viewing & Collecting', title: 'Viewing & Collecting',
-            content: () => createEditorialPage('collecting'),
+            label: 'Collecting', title: 'Collecting',
+            content: () => {
+                const wrap = document.createElement('div');
+                wrap.append(readingLink('/supply', 'Supply & Marketplace →', 'Browse the complete supply and marketplace links.'), readingLink('/supply#market-watch', 'Market Watch →', 'Current listings across the tracked marketplaces.'), createEditorialPage('collecting'));
+                return wrap;
+            },
         },
         supply: {
             label: 'Supply & Marketplace',

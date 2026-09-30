@@ -4,7 +4,7 @@ export function initializeEnginePicker(article) {
     article.querySelector('[data-engine-description]').textContent = PAINT_ENGINE_DESCRIPTION;
     const root = article.querySelector('[data-engine-picker]');
     root.className = 'engine-picker';
-    root.innerHTML = `<div class="engine-controls"><label for="paint-engine-version">Version<select id="paint-engine-version"></select></label><button type="button" aria-controls="paint-engine-viewer">Open selected engine</button></div><p class="engine-links"><a data-engine-fullscreen target="_blank" rel="noopener">Open full screen ↗</a><a data-engine-artwork>View artwork and details →</a></p><p class="engine-status" role="status" aria-live="polite">Choose an engine, then open it to begin.</p><div id="paint-engine-viewer"></div>`;
+    root.innerHTML = `<div class="engine-controls"><label for="paint-engine-version">Version<span class="engine-select-wrap"><select id="paint-engine-version"></select><svg class="engine-select-arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span></label><button type="button" aria-controls="paint-engine-viewer">Open selected engine</button></div><p class="engine-links"><a data-engine-fullscreen target="_blank" rel="noopener">Open full screen ↗</a><a data-engine-artwork>View artwork and details →</a></p><p class="engine-status" role="status" aria-live="polite">Choose an engine, then open it to begin.</p><div id="paint-engine-viewer"></div>`;
     const select = root.querySelector('select');
     const launch = root.querySelector('button');
     const viewer = root.querySelector('#paint-engine-viewer');

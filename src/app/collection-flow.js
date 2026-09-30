@@ -29,6 +29,13 @@ export function syncSidebarActiveCollection({ collectionsNav, collectionName }) 
     const allButtons = Array.from(collectionsNav.querySelectorAll('[data-collection]'));
     const activeBtn = allButtons.find((btn) => btn.dataset.collection === collectionName) || null;
     updateSidebarActiveState({ collectionsNav, activeBtn });
+    if (activeBtn) {
+        const allWorks = collectionsNav.closest('details');
+        if (allWorks) allWorks.open = true;
+        const yearList = activeBtn.closest('[data-year-list]');
+        const toggle = collectionsNav.querySelector(`[data-year-toggle="${yearList?.dataset.yearList}"]`);
+        if (toggle?.getAttribute('aria-expanded') === 'false') toggle.click();
+    }
 }
 
 export function prependCollectionLeadArtworks({ items, collectionName, allArtworks }) {
@@ -105,4 +112,17 @@ export function loadCollectionFlow({
     });
 
     renderGallery(filtered);
+}
+
+// Parent badges describe this gallery, not every lineage across the catalogue.
+export function buildGalleryParentIds(items) {
+    const displayed = new Set(items.map(item => item.id));
+    const ids = new Set(items.filter(item => item.role === 'parent').map(item => item.id));
+    for (const item of items) {
+        if (typeof item.provenance !== 'string') continue;
+        for (const id of item.provenance.split(/[\s,]+/)) {
+            if (/^[a-f0-9]{64}i\d+$/.test(id) && displayed.has(id)) ids.add(id);
+        }
+    }
+    return ids;
 }

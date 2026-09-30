@@ -129,12 +129,16 @@ export function createEditorialPage(key) {
     back.className = 'editorial-related';
     back.setAttribute('aria-label', 'Related reading');
     back.innerHTML = key === 'Gentlemen'
-        ? '<a href="#artworks">↑ Back to the works</a><a href="/explore">Explore the practice →</a>'
+        ? '<a href="#artworks">↑ Back to the works</a><a href="/explore">Practice →</a>'
         : key === 'paint-engine'
-        ? '<a href="/explore">← Explore the practice</a><a href="/lab">More tools in the Lab →</a>'
+        ? '<a href="/explore">← Practice</a><a href="/lab">More tools in the Lab →</a>'
         : collectionKeys.has(key)
-        ? '<a href="#artworks">↑ Back to the works</a><a href="/practice">Practice & process →</a><a href="/collecting">Viewing & collecting →</a>'
-        : '<a href="/explore">← Explore the practice</a><a href="/about">About Lemonhaze</a><a href="/paint-engine">Explore the paint engine →</a>';
+        ? '<a href="#artworks">↑ Back to the works</a><a href="/explore">Practice →</a><a href="/collecting">Viewing & collecting →</a>'
+        : key === 'practice'
+        ? '<a href="/archive">← Studio Notes</a><a href="/explore">Practice →</a>'
+        : key === 'collecting'
+        ? '<a href="/selected">Selected Work →</a><a href="/supply#market-watch">Market Watch →</a>'
+        : '<a href="/selected">Selected Work →</a><a href="/about">About Lemonhaze →</a>';
     article.appendChild(back);
     return wireEditorial(article);
 }
@@ -144,9 +148,9 @@ export function appendCollectionStory({ collection, galleryGrid, currentViewMeta
         const nav = document.createElement('nav');
         nav.className = 'editorial-jumps';
         nav.setAttribute('aria-label', 'Related reading');
-        nav.innerHTML = '<a href="/explore">Explore the practice →</a>';
+        nav.innerHTML = '<a href="/explore">Practice →</a>';
         const first = archiveEntries.find(entry => entry.collections.includes(collection));
-        if (first) nav.innerHTML += `<a href="/archive#${first.slug}">From the archive →</a>`;
+        if (first) nav.innerHTML += `<a href="/archive#${first.slug}">Studio Notes →</a>`;
         currentViewMeta?.appendChild(wireEditorial(nav));
         return;
     }
@@ -163,14 +167,14 @@ export function appendCollectionStory({ collection, galleryGrid, currentViewMeta
     nav.innerHTML = '<a href="#artworks">Artworks</a><a href="#collection-story">About this series ↓</a>';
     if (collection === 'BEST BEFORE') nav.innerHTML += '<a href="#diary">Read the diary ↓</a>';
     if (collection === 'Montreal') nav.innerHTML += '<a href="#exhibition">Exhibition ↓</a>';
-    nav.innerHTML += '<a href="/explore">Explore the practice →</a>';
+    nav.innerHTML += '<a href="/explore">Practice →</a>';
     currentViewMeta?.appendChild(wireEditorial(nav));
 }
 
 export function enhanceAbout(aboutText) {
     const wrap = document.createElement('div');
     wrap.innerHTML = aboutText;
-    const entry = readingLink('/explore', 'Explore the practice →', 'Process, tools, and the stories behind the collections.');
+    const entry = readingLink('/explore', 'Practice →', 'Process, tools, and the stories behind the collections.');
     entry.classList.add('editorial-about-links');
     wrap.appendChild(entry);
     return wrap;
@@ -180,14 +184,14 @@ export function createExplorePractice(artworks = [], toCollectionSlug = () => ''
     const hub = document.createElement('article');
     hub.className = 'lh-editorial practice-overview';
     hub.innerHTML = `<p class="lead">Process, tools, and the stories behind the collections.</p>
-      <nav class="practice-selection" aria-label="Explore the practice">
+      <nav class="practice-selection" aria-label="Practice">
         <a class="card-link" href="/gentlemen#collection-story"><strong>Gentlemen →</strong><span>The original statement and an aspiration that keeps changing.</span></a>
         <a class="card-link" href="/best-before#diary"><strong>BEST BEFORE →</strong><span>Making the work, living with time, and the complete diary.</span></a>
         <a class="card-link" href="/montreal#collection-story"><strong>Montreal →</strong><span>Memories, textures, and the notes that accompany each work.</span></a>
         <a class="card-link" href="/paint-engine"><strong>Paint Engine →</strong><span>Inscribed milestones, controls, and an interactive study.</span></a>
         <a class="card-link" href="/liminality#collection-story"><strong>Liminality →</strong><span>The personal transition behind the series.</span></a>
       </nav>
-      <div class="practice-archive-link"><a href="/archive">Explore the archive →</a><p>More collection stories, photographs, experiments, and artist notes.</p></div>`;
+      <div class="practice-archive-link"><a href="/archive">Studio Notes →</a><p>More collection stories, photographs, experiments, and artist notes.</p></div>`;
     hub.querySelectorAll('.practice-selection a').forEach(card => {
         const path = card.getAttribute('href').split('#')[0];
         const work = path === '/montreal'
@@ -210,7 +214,7 @@ export function createExplorePractice(artworks = [], toCollectionSlug = () => ''
 
 export function enhanceHighlights(original) {
     const wrap = document.createElement('div');
-    wrap.append(original, readingLink('/explore', 'Explore the practice →', 'Read about the process and stories behind the works.'), createEditorialPage('exhibitions'));
+    wrap.append(original, readingLink('/explore', 'Practice →', 'Read about the process and stories behind the works.'), createEditorialPage('exhibitions'));
     return wrap;
 }
 

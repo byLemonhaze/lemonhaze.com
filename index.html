@@ -202,9 +202,13 @@
   </main>
 
   <!-- Modal / Showroom Overlay -->
-  <div id="modal-overlay"
+  <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title"
     class="fixed inset-0 z-50 bg-black hidden opacity-0 transition-opacity duration-300 flex flex-col md:flex-row overflow-hidden">
 
+    <div class="artwork-viewer-bar">
+      <span>LEMONHAZE <span class="viewer-bar-divider">/</span> <span class="viewer-bar-label">Artwork</span></span>
+      <button id="modal-close" type="button" aria-label="Close artwork">Close <span aria-hidden="true">×</span></button>
+    </div>
     <!-- Left Panel: Artwork (with breathing room) -->
     <div class="modal-media-panel flex-1 flex items-center justify-center relative bg-[#050505] min-h-[50vw] md:min-h-0">
       <iframe id="modal-iframe"
@@ -232,15 +236,11 @@
 
     <!-- Right Panel: Info -->
     <div class="modal-meta-panel w-full md:w-[340px] shrink-0 flex flex-col bg-black border-t md:border-t-0 md:border-l border-white/8 relative overflow-y-auto">
-      <button id="modal-close" aria-label="Close artwork"
-        class="absolute top-4 right-4 p-1 text-white/25 hover:text-white transition-colors z-[60]">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-          <line x1="2" y1="2" x2="14" y2="14"/><line x1="14" y1="2" x2="2" y2="14"/>
-        </svg>
-      </button>
+
 
       <div class="modal-meta-scroll p-6 md:p-8 pt-10 md:pt-10 flex flex-col gap-0 min-h-full">
 
+        <p id="modal-subtitle" class="viewer-subtitle"></p>
         <h3 id="modal-title" class="text-lg md:text-xl font-mono uppercase tracking-[0.12em] text-white mb-4 pr-6 leading-tight"></h3>
 
         <!-- Action row -->

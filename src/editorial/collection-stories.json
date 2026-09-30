@@ -1075,38 +1075,8 @@
   "1 of 1s (2024)": {
     "slug": "1-of-1s-2024",
     "title": "1 of 1s (2024)",
-    "teaser": "Travel photographs, Montreal memories, and the progression from drawing to code.",
+    "teaser": "Montreal memories, ink-like forms, and writing that moves between confession, daily life, and a caustic view of the art market.",
     "sections": [
-      {
-        "title": "Photographs become a starting point",
-        "paragraphs": [
-          "Saint-Laurent begins with a photograph taken by the artist’s partner during a bike ride from Brossard toward Montreal, around 2014 or 2015. It had already served as the cover of his song of the same name. In 2024, he returned to it as a starting point for combining travel photographs with his p5.js structures.",
-          "Somewhere in Hong Kong also uses a photograph taken by his partner. Its note records a wish to make more art about what surrounds him."
-        ],
-        "sources": [
-          {
-            "label": "Original inscription · Saint-Laurent",
-            "url": "https://ordinals.com/content/8b091f71fa8b4680cbc346581b845168c76e00eb6208f18ab21ee71bd5fe3c06i0"
-          },
-          {
-            "label": "Original inscription · Somewhere in Hong Kong",
-            "url": "https://ordinals.com/content/7cdc7734acf8b33de1e25ad4b23c29900b120b78005e8fb13654a7f756465299i0"
-          }
-        ],
-        "works": [
-          {
-            "title": "Saint-Laurent",
-            "id": "8b091f71fa8b4680cbc346581b845168c76e00eb6208f18ab21ee71bd5fe3c06i0",
-            "href": "/8b091f71fa8b4680cbc346581b845168c76e00eb6208f18ab21ee71bd5fe3c06i0"
-          },
-          {
-            "title": "Somewhere in Hong Kong",
-            "id": "7cdc7734acf8b33de1e25ad4b23c29900b120b78005e8fb13654a7f756465299i0",
-            "href": "/7cdc7734acf8b33de1e25ad4b23c29900b120b78005e8fb13654a7f756465299i0"
-          }
-        ],
-        "quotes": []
-      },
       {
         "title": "Soir d’hiver · Remembering Montreal",
         "paragraphs": [
@@ -1149,6 +1119,68 @@
         "quotes": []
       },
       {
+        "title": "Le Confessionnal · The beginning of a recurring form",
+        "paragraphs": [
+          "Le Confessionnal marks the beginning of the multipart writing that would become a recurring part of Lemonhaze’s work. The text is embedded in the inscription itself, alongside the image.",
+          "Its first part, Redemption Road, moves through three moments of confession: memories that cannot be shared, shame, and the wish to change. The second, A Day in the Life, shifts into the everyday—working on an apartment balcony, the noise of the city at night, missed sleep, and progress on the artwork.",
+          "Dated September 17, 2024, the writing lets the raw and ordinary sit together. The diary does not resolve the confession; it shows the life continuing around it."
+        ],
+        "sources": [
+          {
+            "label": "Original inscription · Le Confessionnal (Sin City)",
+            "url": "https://ordinals.com/content/35b36fdc0f108c535790d86544abd707ed6492925134dbc7ff7785f6cdcd8c42i0"
+          }
+        ],
+        "works": [
+          {
+            "title": "Le Confessionnal (Sin City)",
+            "id": "35b36fdc0f108c535790d86544abd707ed6492925134dbc7ff7785f6cdcd8c42i0",
+            "href": "/35b36fdc0f108c535790d86544abd707ed6492925134dbc7ff7785f6cdcd8c42i0"
+          }
+        ],
+        "quotes": []
+      },
+      {
+        "title": "Cashback, Grifters’ Paradise & Grift Season · Capturing what’s ugly",
+        "paragraphs": [
+          "The writing in these works is angry, cynical, and direct. It confronts the gap between making art and trying to exist in a market shaped by hype, speculation, and empty promises.",
+          "In Cashback, frustration with collectors and the art world turns into a refusal to keep seeking their approval. The title borrows from the 2006 film, but reverses its idea of the painter capturing beauty: “I’m here today capturing what’s ugly.” Written in Vung Tau in December 2024, it holds love for the work alongside growing bitterness toward the space around it.",
+          "Grifters’ Paradise draws a blunt line: “Disrespect intensifies and now goes both ways. I make art for myself and fuck them.” Grift Season directs that same hostility at established artists returning to Ordinals after months of silence around their releases. Reputation offers no exemption from the criticism."
+        ],
+        "sources": [
+          {
+            "label": "Original inscription · Cashback",
+            "url": "https://ordinals.com/content/75c7778d0a8230a262dc58c0c23ca9e4afbb18b1ba7bd4d3e6033063aea375d7i0"
+          },
+          {
+            "label": "Original inscription · Grifters’ Paradise",
+            "url": "https://ordinals.com/content/1400f31ed1b8864e5ad21fd3d953ed87e65198652ad4cbec818f056a9d3cab61i0"
+          },
+          {
+            "label": "Original inscription · Grift Season",
+            "url": "https://ordinals.com/content/f24edbc65d5987af839d22421a5a84b41466a7aacb34bbd256b1b989ceaadc05i0"
+          }
+        ],
+        "works": [
+          {
+            "title": "Cashback",
+            "id": "75c7778d0a8230a262dc58c0c23ca9e4afbb18b1ba7bd4d3e6033063aea375d7i0",
+            "href": "/75c7778d0a8230a262dc58c0c23ca9e4afbb18b1ba7bd4d3e6033063aea375d7i0"
+          },
+          {
+            "title": "Grifters’ Paradise",
+            "id": "1400f31ed1b8864e5ad21fd3d953ed87e65198652ad4cbec818f056a9d3cab61i0",
+            "href": "/1400f31ed1b8864e5ad21fd3d953ed87e65198652ad4cbec818f056a9d3cab61i0"
+          },
+          {
+            "title": "Grift Season",
+            "id": "f24edbc65d5987af839d22421a5a84b41466a7aacb34bbd256b1b989ceaadc05i0",
+            "href": "/f24edbc65d5987af839d22421a5a84b41466a7aacb34bbd256b1b989ceaadc05i0"
+          }
+        ],
+        "quotes": []
+      },
+      {
         "title": "Insaisissable Mirage · Always another horizon",
         "paragraphs": [
           "The work’s writing asks what keeps the artist moving when reaching one goal only leads to another. Its November 2024 diary places that question on the balcony of an apartment in Vung Tau, alongside the quieter daily rhythm of cooking and spending time with his partner."
@@ -1186,6 +1218,20 @@
             "href": "/bf5ec8f7860704716868dd3ca33b9aa2ba49dd3d1564d6e4406e89e49f88a31bi0"
           }
         ],
+        "quotes": []
+      },
+      {
+        "title": "Burned works, an enduring record",
+        "paragraphs": [
+          "Many of the 2024 works have since been burned. They remain part of this body of work and its history, even though they no longer circulate. Their images and inscription texts remain accessible here; the supply page distinguishes the number inscribed from the number still circulating."
+        ],
+        "sources": [
+          {
+            "label": "Supply and circulation",
+            "url": "/supply"
+          }
+        ],
+        "works": [],
         "quotes": []
       }
     ]

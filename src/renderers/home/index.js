@@ -30,6 +30,7 @@ export function renderHomeView({
     }
 
     const getCarouselImageSrc = (artwork) => {
+        if (artwork?.grid_preview) return artwork.grid_preview;
         if (artwork?.id && HOME_ONCHAIN_IMAGE_OVERRIDES.has(artwork.id)) {
             return `https://ordinals.com/content/${artwork.id}`;
         }
