@@ -95,3 +95,10 @@ After bootstrapping, ongoing edits should happen in `public/data/sales-master/hi
 ## Future State
 
 `db/migrations/0001_sales_index.sql` defines a D1/SQLite schema for a future structured sales backend. It is documentation/scaffolding at the moment, not an active production dependency.
+
+
+### Chrysalis (September 2026)
+
+`public/data/collections/chrysalis.json` contains the parent and all seven children, in inscription order. Titles, reflections, collection description, technical facts, and 2304 × 3456 PNG dimensions were checked against the public inscription records and HTML backcards on 2026-09-30. Source: [parent and child roster](https://ordinals.com/inscription/fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0). Each `grid_preview` uses the verified `https://cdn.lemonhaze.com/assets/assets/<inscriptionID>.png`; opening the artwork loads its original on-chain HTML, including the backcard and print export controls.
+
+The burned parent remains in Provenance and leads the Chrysalis gallery. Supply counts it once: eight inscriptions, seven circulating works. The parent timestamp controls collection chronology. Original “A Day in The Life” text stays in the on-chain HTML, accessible through the HTML/source controls; it is not repeated in the modal. About and Reflection remain separate modal fields. The collection is also included in the Visualizer (four columns, two rows), static artwork pages, and sitemap. The artist supplied `https://ord.net/collection/chrysalis-by-lemonhaze` and requested that it appear in Supply & Marketplace ahead of the marketplace launch. Listing availability is not implied.

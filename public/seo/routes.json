@@ -504,6 +504,15 @@
     "name": "1 of 1s (2025)"
   },
   {
+    "path": "/chrysalis",
+    "title": "Chrysalis | Lemonhaze",
+    "description": "Moving inward, into the protected and largely invisible period when transformation is already underway: the remnants of an external world being reorganized from within.",
+    "canonical": "https://lemonhaze.com/chrysalis",
+    "image": null,
+    "kind": "collection",
+    "name": "Chrysalis"
+  },
+  {
     "path": "/tin-box-of-solitude",
     "title": "Tin Box of Solitude | Lemonhaze",
     "description": "Nothing else in the frame.",
@@ -565,6 +574,86 @@
     "image": null,
     "kind": "collection",
     "name": "Colors"
+  },
+  {
+    "path": "/fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0",
+    "title": "Chrysalis | Lemonhaze",
+    "description": "Chrysalis by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0.png",
+    "kind": "artwork",
+    "name": "Chrysalis",
+    "collectionPath": "/provenance"
+  },
+  {
+    "path": "/da1f4317a9ea57ff35c07de6c722d88287a307967cfa0711487afb079f497a1ci0",
+    "title": "Ubuntu | Lemonhaze",
+    "description": "Ubuntu by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/da1f4317a9ea57ff35c07de6c722d88287a307967cfa0711487afb079f497a1ci0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/da1f4317a9ea57ff35c07de6c722d88287a307967cfa0711487afb079f497a1ci0.png",
+    "kind": "artwork",
+    "name": "Ubuntu",
+    "collectionPath": "/chrysalis"
+  },
+  {
+    "path": "/279177f2195d97bd5cc85d8b26b7333fc4c9c830523d0dd6b6a886c3fe2dd877i0",
+    "title": "Sisu | Lemonhaze",
+    "description": "Sisu by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/279177f2195d97bd5cc85d8b26b7333fc4c9c830523d0dd6b6a886c3fe2dd877i0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/279177f2195d97bd5cc85d8b26b7333fc4c9c830523d0dd6b6a886c3fe2dd877i0.png",
+    "kind": "artwork",
+    "name": "Sisu",
+    "collectionPath": "/chrysalis"
+  },
+  {
+    "path": "/3770b4f2f0ea0df9164dd12a4d37150e8e33e1595ddc250f7c4c74423699a848i0",
+    "title": "Lagom | Lemonhaze",
+    "description": "Lagom by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/3770b4f2f0ea0df9164dd12a4d37150e8e33e1595ddc250f7c4c74423699a848i0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/3770b4f2f0ea0df9164dd12a4d37150e8e33e1595ddc250f7c4c74423699a848i0.png",
+    "kind": "artwork",
+    "name": "Lagom",
+    "collectionPath": "/chrysalis"
+  },
+  {
+    "path": "/cf0ddfb5f7fb8818e81109036d0a8d276e301039484f6c234ac62a53903adde9i0",
+    "title": "Ikigai | Lemonhaze",
+    "description": "Ikigai by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/cf0ddfb5f7fb8818e81109036d0a8d276e301039484f6c234ac62a53903adde9i0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/cf0ddfb5f7fb8818e81109036d0a8d276e301039484f6c234ac62a53903adde9i0.png",
+    "kind": "artwork",
+    "name": "Ikigai",
+    "collectionPath": "/chrysalis"
+  },
+  {
+    "path": "/d30ca78b85edfc7dfe914254c28d55a2685cb965c03685f829cbd1cf54378e9ei0",
+    "title": "Wu Wei | Lemonhaze",
+    "description": "Wu Wei by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/d30ca78b85edfc7dfe914254c28d55a2685cb965c03685f829cbd1cf54378e9ei0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/d30ca78b85edfc7dfe914254c28d55a2685cb965c03685f829cbd1cf54378e9ei0.png",
+    "kind": "artwork",
+    "name": "Wu Wei",
+    "collectionPath": "/chrysalis"
+  },
+  {
+    "path": "/f2f18f094cd7f4cfec9f5d63a0942ffa53f3caebefa5b0f30b7c0dfeb24bfcbai0",
+    "title": "Meraki | Lemonhaze",
+    "description": "Meraki by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/f2f18f094cd7f4cfec9f5d63a0942ffa53f3caebefa5b0f30b7c0dfeb24bfcbai0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/f2f18f094cd7f4cfec9f5d63a0942ffa53f3caebefa5b0f30b7c0dfeb24bfcbai0.png",
+    "kind": "artwork",
+    "name": "Meraki",
+    "collectionPath": "/chrysalis"
+  },
+  {
+    "path": "/c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0",
+    "title": "Hózhó | Lemonhaze",
+    "description": "Hózhó by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0.png",
+    "kind": "artwork",
+    "name": "Hózhó",
+    "collectionPath": "/chrysalis"
   },
   {
     "path": "/3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0",

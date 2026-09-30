@@ -25,6 +25,11 @@ try {
 const groups=visualizer.buildGroups(artworks);
 
 test('Visualizer includes current collections, parent roles, and every 2026 one-of-one',async()=>{
+ const chrysalis=groups.find(g=>g.name==='Chrysalis');
+ assert.equal(chrysalis.parents.length,1);assert.equal(chrysalis.works.length,7);
+ assert.equal(visualizer.groupDisplayItems(chrysalis)[0].name,'Chrysalis');
+ assert.equal(visualizer.groupDisplayItems(chrysalis).length,8);
+ assert.deepEqual(visualizer.preferredGridShape(chrysalis),{columns:4,rows:2});
  const tin=groups.find(g=>g.name==='Tin Box of Solitude');
  assert.equal(tin.parents.length,1);assert.equal(tin.works.length,12);
  assert.equal(tin.parents[0].id,'3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0');
@@ -56,10 +61,10 @@ test('Tin Box has a centered parent above exactly three rows of four, within its
  }
 });
 
-test('all five 2026 groups fit without overlapping or dropping a collection',()=>{
+test('all six 2026 groups fit without overlapping or dropping a collection',()=>{
  const bounds={x:6370,y:1870,width:1100,height:2260};
  const layouts=visualizer.layoutGrandPeriod(groups.filter(g=>g.year==='2026'),bounds,'2026');
- assert.equal(layouts.length,5);
+ assert.equal(layouts.length,6);
  layouts.forEach(({rect},index)=>{
   assert.ok(rect.height>200);
   assert.ok(rect.y+rect.height<=bounds.y+bounds.height+0.001);

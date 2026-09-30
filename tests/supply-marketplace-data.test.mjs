@@ -35,8 +35,9 @@ const INTERNAL_COLLECTION_ROUTES = {
     'Dark Days': '/dark-days',
 };
 
-test('Supply uses the complete 48-collection Ord.net roster without a Provenance collection', () => {
-    assert.equal(ORDINALS_SUPPLY_DATA.length, 49);
+test('Supply includes the current collection roster without a Provenance collection', () => {
+    assert.equal(ORDINALS_SUPPLY_DATA.length, 50);
+    assert.deepEqual(ORDINALS_SUPPLY_DATA.find(row => row.name === 'Chrysalis'), { name: 'Chrysalis', year: 2026, inscribed: 8, circulating: 7 });
     assert.deepEqual(ORDINALS_SUPPLY_DATA.find(row => row.name === 'Tin Box of Solitude'), { name: 'Tin Box of Solitude', year: 2026, inscribed: 13, circulating: 12 });
     assert.equal(ORDINALS_SUPPLY_DATA.some((row) => row.name === 'Provenance'), false);
 
@@ -65,8 +66,8 @@ test('Supply uses the complete 48-collection Ord.net roster without a Provenance
             inscribed: sum.inscribed + row.inscribed,
             circulating: sum.circulating + row.circulating,
         }), { inscribed: 0, circulating: 0 });
-    assert.deepEqual(totals, { inscribed: 1646, circulating: 1304 });
-    assert.equal(totals.inscribed - totals.circulating, 342);
+    assert.deepEqual(totals, { inscribed: 1654, circulating: 1311 });
+    assert.equal(totals.inscribed - totals.circulating, 343);
 });
 
 test('keeps non-Ord.net works separate from the indexed collection roster', () => {
@@ -110,7 +111,8 @@ test('Supply collection links use current canonical routes instead of the legacy
 
 test('includes links for indexed collections without inventing a pending listing URL', () => {
     assert.equal(MARKET_LINKS['Tin Box of Solitude']?.ordnet, 'https://ord.net/collection/tin-box-of-solitude-by-lemonhaze');
-    for (const row of ORDINALS_SUPPLY_DATA.filter(row => row.name !== 'Tin Box of Solitude')) {
+    assert.equal(MARKET_LINKS.Chrysalis?.ordnet, 'https://ord.net/collection/chrysalis-by-lemonhaze'); // Artist-provided URL, pending marketplace launch.
+    for (const row of ORDINALS_SUPPLY_DATA) {
         assert.match(
             MARKET_LINKS[row.name]?.ordnet || '',
             /^https:\/\/ord\.net\/collection\/[a-z0-9_-]+$/,

@@ -27,8 +27,8 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const items = await fetchFeaturedCollections();
     const byCollection = Map.groupBy(items, (item) => item.collection);
 
-    assert.equal(items.length, 258);
-    assert.equal(new Set(items.map((item) => item.id)).size, 258);
+    assert.equal(items.length, 266);
+    assert.equal(new Set(items.map((item) => item.id)).size, 266);
     assert.equal(byCollection.get('Satoshi (Original & Editions)').length, 111);
     assert.equal(byCollection.get('Deprivation (Prints)').length, 33);
     assert.equal(byCollection.get('Mirage (Prints)').length, 33);
@@ -37,6 +37,23 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.equal(byCollection.get('Griffintown').length, 3);
     assert.equal(byCollection.get('Liminality').length, 7);
     assert.equal(byCollection.get('Eclosion 1/1 - Amsterdam Blooms').length, 1);
+
+    const chrysalis = prependCollectionLeadArtworks({
+        items: byCollection.get('Chrysalis'),
+        collectionName: 'Chrysalis',
+        allArtworks: items,
+    });
+    assert.deepEqual(chrysalis.map(item => item.name), ['Chrysalis', 'Ubuntu', 'Sisu', 'Lagom', 'Ikigai', 'Wu Wei', 'Meraki', 'Hózhó']);
+    assert.equal(chrysalis[0].id, 'fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0');
+    assert.equal(chrysalis[0].role, 'parent');
+    assert.equal(chrysalis[0].charms, 'burned');
+    assert.ok(chrysalis.slice(1).every(item => item.provenance.split(', ')[0] === chrysalis[0].id));
+    assert.ok(chrysalis.every(item => item.grid_preview === `https://cdn.lemonhaze.com/assets/assets/${item.id}.png`));
+    assert.ok(chrysalis.every(item => !shouldUseDirectOnchainPreview(item) && shouldUseDirectModalIframe(item, true)));
+    assert.ok(chrysalis.every(item => item.reflection && item.about && item.timestamp && item.dimensions === '2304 × 3456 px'));
+    assert.equal(chrysalis[1].reflection, 'I am because we are.');
+    const notes = JSON.parse(readFileSync(new URL('../src/editorial/artist-notes.json', import.meta.url), 'utf8'));
+    assert.ok(chrysalis.every(item => !notes[item.id])); // Diary stays in the original HTML, not the modal.
 
     const tinBox = prependCollectionLeadArtworks({
         items: byCollection.get('Tin Box of Solitude'),
@@ -218,9 +235,10 @@ test('featured collection manifests load complete, ordered galleries', async () 
 
 test('featured collections sit in the intended reverse chronology', () => {
     const year2026 = CHRONOLOGY_BY_YEAR['2026'];
-    assert.equal(year2026[0], 'Tin Box of Solitude');
-    assert.equal(year2026[1], 'Griffintown');
-    assert.equal(year2026[2], 'Liminality');
+    assert.equal(year2026[0], 'Chrysalis');
+    assert.equal(year2026[1], 'Tin Box of Solitude');
+    assert.equal(year2026[2], 'Griffintown');
+    assert.equal(year2026[3], 'Liminality');
     assert.ok(year2026.indexOf('Griffintown') < year2026.indexOf('Liminality'));
     assert.ok(year2026.indexOf('Liminality') < year2026.indexOf('Into The Wild'));
 

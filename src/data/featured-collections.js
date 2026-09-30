@@ -17,6 +17,13 @@ function resolveTrilogyOriginalId(name) {
 
 const SOURCES = [
     {
+        url: '/data/collections/chrysalis.json',
+        collection: 'Chrysalis',
+        resolveLineage: (_name, item) => item?.role === 'parent'
+            ? '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0'
+            : 'fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0, 757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0',
+    },
+    {
         url: '/data/collections/tin-box-of-solitude.json',
         collection: 'Tin Box of Solitude',
         resolveLineage: (_name, item) => item?.role === 'parent'
@@ -94,6 +101,8 @@ function normalizeItem(item, source) {
         series: item?.series || metadata.series,
         year: item?.year || metadata.year,
         about: item?.about || metadata.about,
+        reflection: item?.reflection || metadata.reflection,
+        dimensions: item?.dimensions || metadata.dimensions,
         note: item?.note || metadata.note,
         grid_preview: item?.grid_preview || source.resolveGridPreview?.(name, item, provenance),
         timestamp: item?.timestamp,

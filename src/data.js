@@ -51,6 +51,7 @@ export async function fetchBBCollection() {
 // EXACT CHRONOLOGY AS REQUESTED
 export const CHRONOLOGY_BY_YEAR = {
   "2026": [
+    "Chrysalis",
     "Tin Box of Solitude",
     "Griffintown",
     "Liminality",
@@ -145,6 +146,7 @@ export const CAREER_HIGHLIGHTS_ITEMS = [
 ];
 
 export const COL_DESCRIPTIONS = {
+  "Chrysalis": `Moving inward, into the protected and largely invisible period when transformation is already underway: the remnants of an external world being reorganized from within.`,
   "1/1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
   "1 of 1s (2026)": `1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions`,
   "Tin Box of Solitude": `Nothing else in the frame.`,
@@ -244,6 +246,7 @@ function gigaDetails(_medium, tools) {
 }
 
 export const COLLECTION_DETAILS = {
+  'Chrysalis': { tools: 'Vanilla JavaScript · HTML Canvas' },
   'Tin Box of Solitude': { tools: 'Vanilla JavaScript · HTML Canvas' },
   'Gentlemen': gigaDetails('Mixed media', 'AI · Krita · sampling/collage'),
   'Lotus': gigaDetails('Mixed media', 'AI · Krita · sampling/collage'),
@@ -312,6 +315,8 @@ const ORDNET_COLLECTION_SUPPLY = [
   // applied below so each belongs to the collection it actually supports.
   // Updated 2026-09-07: Đắc-Sơn added; eight BEST BEFORE artworks burned.
   { name: '1 of 1s (2026)', year: 2026, inscribed: 14, circulating: 14 },
+  // Chrysalis: eight inscriptions, including its burned parent (Ordinals, 2026-09-30).
+  { name: 'Chrysalis', year: 2026, inscribed: 8, circulating: 7 },
   { name: 'Tin Box of Solitude', year: 2026, inscribed: 13, circulating: 12 },
   { name: 'Griffintown', year: 2026, inscribed: 3, circulating: 3 },
   { name: 'Liminality', year: 2026, inscribed: 7, circulating: 7 },
@@ -485,6 +490,7 @@ const SATFLOW_LINKS = {
 };
 
 const ORDNET_LINKS = {
+  'Chrysalis': 'https://ord.net/collection/chrysalis-by-lemonhaze',
   'Tin Box of Solitude': 'https://ord.net/collection/tin-box-of-solitude-by-lemonhaze',
   'BEST BEFORE': 'https://ord.net/collection/best-before-by-lemonhaze-x-ordinally',
   'Manufactured': 'https://ord.net/collection/manufactured-by-lemonhaze',

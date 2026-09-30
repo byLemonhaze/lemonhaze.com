@@ -3,6 +3,7 @@ const BASE_COLLECTION_BUTTON_CLASS =
 const ACTIVE_COLLECTION_BUTTON_CLASS =
     'w-full text-left px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors duration-200 text-white font-bold';
 export const COLLECTION_LEAD_ARTWORK_IDS = {
+    Chrysalis: ['fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0'],
     'Into The Wild': ['a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0'],
     'Tin Box of Solitude': ['3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0'],
     'BEST BEFORE': ['bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0'],
