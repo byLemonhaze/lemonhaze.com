@@ -247,6 +247,8 @@ export function createArtworkModalController({
     appState,
     router,
     resolveCollectionName,
+    toCollectionSlug,
+    onOpenCollection,
     getArtworkImageSrc,
     getAllArtworks,
     getMetaOwner,
@@ -369,6 +371,19 @@ export function createArtworkModalController({
         group('Sales history', take(['Sales']), true);
     }
 
+    function collectionLink(name) {
+        const link = document.createElement('a');
+        link.href = '/' + toCollectionSlug(name);
+        link.textContent = name;
+        link.onclick = event => {
+            if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault();
+            closeModal({ updateUrl: false });
+            onOpenCollection(name);
+        };
+        return link;
+    }
+
     function makeMetaText(text, className = 'text-[11px] font-mono text-white/70 break-words leading-snug') {
         const span = document.createElement('span');
         span.className = className;
@@ -470,7 +485,7 @@ export function createArtworkModalController({
 
         // 2. Collection
         if (item.collection) {
-            modalMetadata.appendChild(makeMetaRow('Collection', makeMetaText(item.collection)));
+            modalMetadata.appendChild(makeMetaRow('Collection', collectionLink(item.collection)));
         }
 
         const details = collectionDetails[item.collection];
@@ -1091,7 +1106,11 @@ export function createArtworkModalController({
 
         modalTitle.textContent = item.name;
         const subtitle = document.getElementById('modal-subtitle');
-        if (subtitle) subtitle.textContent = [item.collection, item.year].filter(Boolean).join(' · ');
+        if (subtitle) {
+            subtitle.replaceChildren();
+            if (item.collection) subtitle.appendChild(collectionLink(item.collection));
+            if (item.year) subtitle.append(document.createTextNode((item.collection ? ' · ' : '') + item.year));
+        }
         modalImage.alt = item.name || 'Artwork by Lemonhaze';
         modalIframe.title = item.name || 'Interactive artwork';
         modalOverlay.scrollTop = 0;

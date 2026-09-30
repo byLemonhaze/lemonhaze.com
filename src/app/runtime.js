@@ -363,6 +363,8 @@ const artworkModalController = createArtworkModalController({
     appState,
     router,
     resolveCollectionName,
+    toCollectionSlug,
+    onOpenCollection: name => loadCollection(name),
     getArtworkImageSrc,
     getAllArtworks: () => appState.artworks,
     getMetaOwner: el.metaOwner,

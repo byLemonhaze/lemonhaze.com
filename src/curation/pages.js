@@ -11,12 +11,15 @@ function seriesCover(title, artworks, toCollectionSlug) {
         || artworks.find(work => work.collection === title || toCollectionSlug(work.collection) === SELECTED_SERIES.find(s => s[0] === title)?.[1]);
     return { src: work ? getArtworkImageSrc(work) : '', alt: work?.name || title };
 }
-function seriesCard([title, slug, description], artworks, toCollectionSlug) {
+function seriesCard([title, slug, description, collectionLinks], artworks, toCollectionSlug) {
     const cover = seriesCover(title, artworks, toCollectionSlug);
     const years = title === '1/1s'
         ? `<nav class="selected-series-years" aria-label="1/1 works by year">${[2026, 2025, 2024].map(year => `<a href="/1-of-1s-${year}">${year}</a>`).join('')}</nav>`
         : '';
-    return `<article class="selected-series-card"><div><a href="/${slug}" aria-label="Explore ${escape(title)}"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" loading="lazy"></a></div><h3><a href="/${slug}">${escape(title)} <span aria-hidden="true">↗︎</span></a></h3>${description ? `<p>${escape(description)}</p>` : ''}${years}</article>`;
+    const heading = collectionLinks
+        ? collectionLinks.map(([label, path]) => `<a href="/${path}">${escape(label)}</a>`).join(' / ')
+        : `<a href="/${slug}">${escape(title)} <span aria-hidden="true">↗︎</span></a>`;
+    return `<article class="selected-series-card"><div><a href="/${slug}" aria-label="Explore ${escape(collectionLinks?.[0]?.[0] || title)}"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" loading="lazy"></a></div><h3>${heading}</h3>${description ? `<p>${escape(description)}</p>` : ''}${years}</article>`;
 }
 export function createSelectedWork(artworks, toCollectionSlug) {
     const root = document.createElement('article');

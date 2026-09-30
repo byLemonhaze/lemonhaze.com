@@ -1,5 +1,5 @@
 // Local editorial selections, independent of the complete chronological catalogue.
-// Selected Work follows the landing carousel, with two additional works.
+// Selected Work follows the same twelve works as the landing carousel.
 export const CAROUSEL_WORK_IDS = [
     'c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0', // Hózhó
     '3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0', // Hosoi
@@ -15,12 +15,7 @@ export const CAROUSEL_WORK_IDS = [
     '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0', // Gentleman Nº1
 ];
 
-// Selected Work extends the landing selection, in the same order.
-export const SELECTED_WORK_IDS = [
-    ...CAROUSEL_WORK_IDS,
-    '989242547accbd3df2611aeae8c311e162d4d188f046d8562f18f6684ade4f63i0', // From Berlin to Saigon
-    '35b36fdc0f108c535790d86544abd707ed6492925134dbc7ff7785f6cdcd8c42i0', // Le Confessionnal (Sin City)
-];
+export const SELECTED_WORK_IDS = [...CAROUSEL_WORK_IDS];
 export function selectedWorks(artworks, ids = SELECTED_WORK_IDS) {
     const byId = new Map(artworks.map(work => [work.id, work]));
     return ids.map(id => byId.get(id)).filter(Boolean).map(work =>
@@ -29,23 +24,20 @@ export function selectedWorks(artworks, ids = SELECTED_WORK_IDS) {
             : work);
 }
 export const SELECTED_SERIES = [
-    ['Gentlemen', 'gentlemen', 'An aspiration that keeps changing.'],
-    ['Lotus', 'lotus', 'An early body of work.'],
+    ['Gentlemen / Lotus', 'gentlemen', 'An aspiration that keeps changing.', [['Gentlemen', 'gentlemen'], ['Lotus', 'lotus']]],
     ['Montreal', 'montreal', 'Memories of a city, translated into texture.'],
     ['BEST BEFORE', 'best-before', 'Sealed, revealed, changed by time.'],
     ['Manufactured', 'manufactured', 'Textile influences and the life of an image.'],
     ['Games', 'games', 'Three works become one.'],
-    ['Ma ville en quatre temps', 'ma-ville-en-quatre-temps', 'A city in four parts.'],
-    ['Tōri no Roji', 'tori-no-roji', 'A series in four works.'],
+    ['1/1s', '1-of-1s-2026', 'Individual works, by year.'],
     ['Liminality', 'liminality', 'Between one state and the next.'],
     ['Chrysalis', 'chrysalis', 'Transformation taking shape from within.'],
-    ['La Tentation', 'la-tentation', ''],
-    ['1/1s', '1-of-1s-2026', 'Individual works, by year.'],
+    ['Ma ville en quatre temps', 'ma-ville-en-quatre-temps', 'A city in four parts.'],
 ];
 
 // Artist-selected covers; independent of collection parent and catalogue ordering.
 export const SELECTED_SERIES_COVERS = {
-    'Gentlemen': 'd17d6c2e96c9b129ec1fbb9a21742e06a063976494d306f6b4086a519913cc92i0', // Gentleman Nº3
+    'Gentlemen / Lotus': 'd17d6c2e96c9b129ec1fbb9a21742e06a063976494d306f6b4086a519913cc92i0', // Gentleman Nº3
     'Manufactured': 'fe7de1e35036400088171f4419c9d231b37420d63db6653c6acc4b44bf3885fbi141', // Manufactured Nº143
     'Games': '0a20ef85c7deae03895d6eb3a6fb735a551b56dcc5ec67a619bdfc0c4986b3dbi0', // Game Nº9
     'Lotus': 'a71cf3f3446fad723bb99ba5385bae78cd6a0c55f082ad4c4b487e84b19ac890i0', // Lotus #4
@@ -55,3 +47,8 @@ export const SELECTED_SERIES_COVERS = {
     'La Tentation': 'daf064a28fd61c3f6fdaa223a8f9080c60635c3caf691c3accc6f8f0a8935b93i0', // La Tentation Nº0
     '1/1s': 'a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0', // Family Portrait
 };
+
+const coreSlugs = new Set(SELECTED_SERIES.flatMap(([, slug,, links]) => [slug, ...(links || []).map(([, path]) => path)]));
+export function isCoreCollectionSlug(slug) {
+    return coreSlugs.has(slug) || /^1-of-1s-\d{4}$/.test(slug);
+}

@@ -16,7 +16,7 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
     root.setAttribute('aria-roledescription', 'carousel');
     root.setAttribute('aria-label', 'Selected artworks');
     const top = document.createElement('div'); top.className = 'carousel-heading';
-    top.innerHTML = '<span>Selected works</span><a href="/selected">View the selection ↗︎</a>';
+    top.innerHTML = '<span>Selected works</span><a href="/selected">Explore the works ↗︎</a>';
     const stage = document.createElement('div'); stage.className = 'carousel-stage';
     const slides = selection.map((work, index) => {
         const link = document.createElement('a'); link.className = 'carousel-slide';

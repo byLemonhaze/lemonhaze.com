@@ -79,6 +79,7 @@ html[data-presentation] .curated-page a { color:var(--ink)!important; }
 .selected-series-card>div { height:210px; display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
 .selected-series-card img { max-height:100%; max-width:100%; object-fit:contain; }
 .selected-series-card h3 { font:500 15px/1.5 'Syne',sans-serif; }
+.selected-series-card h3 a { display:inline; }
 .selected-series-card h3 span { float:right; color:var(--muted); }
 .selected-series-card p { font-size:12px; color:var(--muted); margin-top:6px; }
 .curated-closing { margin-top:80px; border-block:1px solid var(--line); padding:38px 0; display:flex; justify-content:space-between; align-items:center; gap:25px; }
@@ -117,7 +118,7 @@ html[data-presentation] .curated-page a { color:var(--ink)!important; }
 }
 @media(prefers-reduced-motion:reduce) { .carousel-slide { transition:none; } }
 
-html[data-presentation] #sidebar a[data-section]:not(.font-bold),html[data-presentation] #sidebar a[data-collection]:not(.font-bold) { color:var(--ink)!important; }
+html[data-presentation] #sidebar a[data-section]:not(.font-bold) { color:var(--ink)!important; }
 html[data-presentation] #sidebar a[data-section].sidebar-secondary:not(.font-bold) { color:var(--muted)!important; }
 html:not([data-presentation="black"])[data-presentation] .market-watch { color-scheme:light; --background:var(--page); --foreground:#282725; --surface:#eae7e0; --border:#2827252b; --line-soft:#28272515; --muted:#69665f; --dim:#69665f; --accent:#282725; color:var(--foreground); }
 html:not([data-presentation="black"])[data-presentation] .market-watch :is(.scan-button,.ui-button:hover,.venue-badge,.source-chip) { background:var(--surface); color:var(--foreground); }
@@ -135,7 +136,7 @@ html[data-presentation] #modal-overlay:not(.hidden) { display:grid; grid-templat
 #modal-overlay .artwork-viewer-bar { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; padding:0 32px; border-bottom:1px solid var(--line); font:11px/1.5 Arial,sans-serif; letter-spacing:.16em; }
 #modal-overlay .viewer-bar-divider { margin:0 20px; color:var(--muted); }
 #modal-overlay .viewer-bar-label { color:var(--muted); letter-spacing:.04em; }
-html[data-presentation] #modal-overlay #modal-close { position:static; display:flex; align-items:center; gap:20px; min-height:44px; padding:8px 0 8px 20px; border:0; border-radius:0; background:none; color:var(--ink); font:12px/1.5 Arial,sans-serif; letter-spacing:0; backdrop-filter:none; }
+html[data-presentation] #modal-overlay #modal-close { position:static; display:flex; align-items:center; gap:20px; min-height:44px; padding:8px 0 8px 20px; border:0; border-radius:0; background:none; color:var(--ink)!important; font:12px/1.5 Arial,sans-serif; letter-spacing:0; backdrop-filter:none; }
 #modal-overlay #modal-close span { font:26px/1 Arial,sans-serif; }
 html[data-presentation] #modal-overlay .modal-media-panel { min-width:0; min-height:0; padding:40px; background:var(--page); border:0; }
 /* Avoid the browser's opaque fallback canvas when a light HTML artwork is
@@ -182,7 +183,6 @@ html[data-presentation] #modal-overlay #raw-html-container :is(span,button,pre) 
  #modal-overlay .artwork-viewer-bar { position:sticky; top:0; z-index:70; flex-shrink:0; min-height:58px; padding:env(safe-area-inset-top,0px) 22px 0; background:var(--page); }
  #modal-overlay .viewer-bar-divider { margin:0 12px; }
  html[data-presentation] #modal-overlay #modal-close { gap:8px; min-width:68px; min-height:44px; justify-content:flex-end; padding:8px 0 8px 8px; font-size:11px; flex-shrink:0; }
- html[data-presentation] #modal-overlay #modal-close:focus-visible { outline:0; text-decoration:underline; text-underline-offset:5px; }
  #modal-overlay #modal-close span { position:relative; width:14px; height:14px; font-size:0; }
  #modal-overlay #modal-close span::before,#modal-overlay #modal-close span::after { content:''; position:absolute; top:6.5px; left:0; width:14px; height:1px; background:currentColor; transform:rotate(45deg); }
  #modal-overlay #modal-close span::after { transform:rotate(-45deg); }
@@ -220,7 +220,7 @@ html[data-presentation] #modal-overlay #modal-metadata .lh-editorial p { font:14
 #modal-overlay .viewer-owner-address { display:block; margin-top:8px; color:var(--muted); font:10px/1.7 'Fragment Mono',monospace; overflow-wrap:anywhere; }
 
 .selected-series-card>div>a { display:flex; width:100%; height:100%; align-items:center; justify-content:center; }
-.selected-series-card h3>a { display:block; }
+.selected-series-card h3>a:only-child { display:block; }
 .selected-series-years { display:flex; flex-wrap:wrap; gap:10px 20px; margin-top:12px; }
 .selected-series-years a { font:12px/1.6 Arial,sans-serif; padding:4px 0; border-bottom:1px solid var(--line); }
 .selected-series-years a:hover { border-color:var(--ink); }
@@ -294,3 +294,12 @@ html[data-presentation] .lh-editorial img { background:transparent; }
 
 html[data-presentation] .carousel-caption p a { font:inherit; color:var(--muted)!important; text-decoration:underline; text-underline-offset:3px; }
 html[data-presentation] .carousel-caption p a:hover { color:var(--ink)!important; }
+
+/* The prerendered Close control is an anchor: override legacy white link colours. */
+html[data-presentation] #modal-overlay #modal-close:focus { outline:0; box-shadow:none; }
+html[data-presentation] #modal-overlay #modal-close:focus-visible { text-decoration:underline; text-underline-offset:5px; }
+html[data-presentation] #modal-overlay .viewer-subtitle a { color:var(--muted)!important; text-decoration:underline; text-underline-offset:4px; }
+html[data-presentation] #modal-overlay #modal-metadata a { color:var(--ink)!important; }
+html[data-presentation] #sidebar a[data-collection-emphasis="core"] { font-size:12px; font-weight:600; color:var(--ink)!important; }
+html[data-presentation] #sidebar a[data-collection-emphasis="archive"] { font-size:10px; font-weight:400; color:var(--muted)!important; padding-block:6px; }
+html[data-presentation] #sidebar a[data-collection-emphasis="archive"].font-bold { color:var(--ink)!important; }

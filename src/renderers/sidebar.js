@@ -1,3 +1,4 @@
+import { isCoreCollectionSlug } from '../curation/selection.js';
 import { initCollapsedYears, toggleYearCollapse, getCollapsedYears } from '../state/store.js';
 
 const BASE_TOP_NAV_BUTTON_CLASS =
@@ -105,6 +106,7 @@ export function renderYearGroups({
                 ? 'block w-full text-left border-l border-white/85 bg-white/[0.07] px-3 py-1.5 text-xs uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white font-bold'
                 : 'block w-full text-left border-l border-transparent px-3 py-1.5 text-xs font-medium uppercase tracking-[0.18em] transition-[color,background-color,border-color] duration-200 text-white/75 hover:border-white/40 hover:bg-white/[0.05] hover:text-white';
             btn.dataset.collection = collectionName;
+            btn.dataset.collectionEmphasis = isCoreCollectionSlug(toCollectionSlug(collectionName)) ? 'core' : 'archive';
             btn.textContent = displayName;
             btn.onclick = event => {
                 if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
