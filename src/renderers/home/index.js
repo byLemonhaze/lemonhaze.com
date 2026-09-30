@@ -7,6 +7,7 @@ export function renderHomeView({
     appState,
     artworks,
     chronologyByYear,
+    toCollectionSlug,
     onOpenArtworkById,
     getArtworkImageSrc,
 }) {
@@ -44,6 +45,7 @@ export function renderHomeView({
         appState,
         selection,
         chronologyByYear,
+        toCollectionSlug,
         onOpenArtworkById,
         getCarouselImageSrc,
     });

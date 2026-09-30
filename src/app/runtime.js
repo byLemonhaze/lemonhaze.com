@@ -323,6 +323,7 @@ function renderHome() {
         appState,
         artworks: appState.artworks,
         chronologyByYear: CHRONOLOGY_BY_YEAR,
+        toCollectionSlug,
         onOpenArtworkById: openArtworkById,
         getArtworkImageSrc,
     });

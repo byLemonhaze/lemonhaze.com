@@ -52,7 +52,7 @@ html[data-presentation] .carousel-heading a { color:var(--muted)!important; }
 .carousel-slide.is-active { opacity:1; visibility:visible; pointer-events:auto; }
 .carousel-slide img { display:block; width:auto; height:auto; max-width:100%; max-height:100%; object-fit:contain; box-shadow:none; }
 .carousel-bottom { display:flex; justify-content:space-between; gap:24px; align-items:end; border-top:1px solid var(--line); padding-top:18px; }
-html[data-presentation] .carousel-caption a { font:500 18px/1.4 'Syne',sans-serif; color:var(--ink)!important; }
+html[data-presentation] .carousel-caption>a { font:500 18px/1.4 'Syne',sans-serif; color:var(--ink)!important; }
 .carousel-caption p { color:var(--muted); font:11px/1.5 Arial,sans-serif; margin-top:5px; }
 .carousel-controls { display:flex; align-items:center; gap:14px; color:var(--muted); font:11px/1 Arial,sans-serif; }
 .carousel-controls button { min-height:40px; min-width:30px; color:var(--ink); }
@@ -100,7 +100,7 @@ html[data-presentation] .curated-page a { color:var(--ink)!important; }
  .carousel-stage { margin:24px 0; }
  .carousel-bottom { flex-wrap:wrap; gap:10px; padding-top:14px; }
  .carousel-caption { flex:1 1 100%; }
- .carousel-caption a { font-size:16px!important; }
+ .carousel-caption>a { font-size:16px!important; }
  .carousel-controls { width:100%; justify-content:end; }
  .selected-work-grid { grid-template-columns:1fr; gap:44px; }
  .selected-image { height:390px; max-height:65svh; }
@@ -181,6 +181,11 @@ html[data-presentation] #modal-overlay #raw-html-container :is(span,button,pre) 
  html[data-presentation] #modal-overlay:not(.hidden) { display:flex; flex-direction:column; overflow-y:auto; }
  #modal-overlay .artwork-viewer-bar { position:sticky; top:0; z-index:70; flex-shrink:0; min-height:58px; padding:env(safe-area-inset-top,0px) 22px 0; background:var(--page); }
  #modal-overlay .viewer-bar-divider { margin:0 12px; }
+ html[data-presentation] #modal-overlay #modal-close { gap:8px; min-width:68px; min-height:44px; justify-content:flex-end; padding:8px 0 8px 8px; font-size:11px; flex-shrink:0; }
+ html[data-presentation] #modal-overlay #modal-close:focus-visible { outline:0; text-decoration:underline; text-underline-offset:5px; }
+ #modal-overlay #modal-close span { position:relative; width:14px; height:14px; font-size:0; }
+ #modal-overlay #modal-close span::before,#modal-overlay #modal-close span::after { content:''; position:absolute; top:6.5px; left:0; width:14px; height:1px; background:currentColor; transform:rotate(45deg); }
+ #modal-overlay #modal-close span::after { transform:rotate(-45deg); }
  html[data-presentation] #modal-overlay .modal-media-panel { flex:0 0 auto; height:60svh; min-height:280px; padding:26px 22px; }
  html[data-presentation] #modal-overlay .modal-meta-panel { flex:0 0 auto; overflow:visible; border:0; border-top:1px solid var(--line); }
  html[data-presentation] #modal-overlay .modal-meta-scroll { padding:28px 24px calc(32px + env(safe-area-inset-bottom,0px)); }
@@ -286,3 +291,6 @@ html[data-presentation="black"] .market-watch {--background:var(--page);--surfac
 
 /* Reading-page artwork sits directly on either presentation background. */
 html[data-presentation] .lh-editorial img { background:transparent; }
+
+html[data-presentation] .carousel-caption p a { font:inherit; color:var(--muted)!important; text-decoration:underline; text-underline-offset:3px; }
+html[data-presentation] .carousel-caption p a:hover { color:var(--ink)!important; }

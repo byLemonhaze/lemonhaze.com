@@ -4,7 +4,7 @@ const LIVE_CAROUSEL_IDS = new Set([
     '22c45a61ac26e42545e29a1c0af72190134f94f489596619f0b0e023908952e3i0', // Lotus Tigré
 ]);
 
-export function createHomeCarousel({ appState, selection, chronologyByYear, onOpenArtworkById, getCarouselImageSrc }) {
+export function createHomeCarousel({ appState, selection, chronologyByYear, toCollectionSlug, onOpenArtworkById, getCarouselImageSrc }) {
     let activeIndex = 0;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let paused = reducedMotion;
@@ -50,6 +50,9 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, onOp
     const bottom = document.createElement('div'); bottom.className = 'carousel-bottom';
     const caption = document.createElement('div'); caption.className = 'carousel-caption';
     const title = document.createElement('a'); const detail = document.createElement('p');
+    const collectionLink = document.createElement('a');
+    const yearLabel = document.createTextNode('');
+    detail.append(collectionLink, yearLabel);
     caption.append(title, detail);
     const controls = document.createElement('div'); controls.className = 'carousel-controls';
     controls.innerHTML = '<button type="button" aria-label="Previous artwork">←</button><span class="carousel-position"></span><button type="button" aria-label="Next artwork">→</button><button type="button" class="carousel-pause"></button>';
@@ -76,7 +79,9 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, onOp
         const work = selection[activeIndex];
         const year = work.year || Object.entries(chronologyByYear).find(([, collections]) => collections.includes(work.collection))?.[0] || String(work.timestamp || '').slice(0, 4);
         title.textContent = work.name; title.href = '/' + work.id;
-        detail.textContent = `${work.series || work.collection} · ${year}`;
+        collectionLink.textContent = work.series || work.collection;
+        collectionLink.href = '/' + toCollectionSlug(work.collection);
+        yearLabel.textContent = ` · ${year}`;
         count.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(selection.length).padStart(2, '0')}`;
         pause.textContent = paused ? 'Play' : 'Pause';
         pause.setAttribute('aria-label', paused ? 'Play slideshow' : 'Pause slideshow');

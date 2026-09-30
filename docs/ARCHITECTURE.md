@@ -158,3 +158,6 @@ Studio Notes now uses a single reading list rather than a uniform thumbnail grid
 Supply marketplace links use a shared theme-aware class on desktop and mobile; their background is transparent and their text follows the active palette. Presentation startup replaces prerendered theme/social controls before binding events, preventing duplicate footer controls after hydration.
 
 Market Watch controls and panels share the presentation palette. Native dialog dismissal handles Escape before global section navigation, so closing a listing panel leaves the visitor in Market Watch. Reading-page images use transparent surrounds in both themes.
+
+Landing captions link the artwork title to its viewer and the collection name to the canonical collection route using the shared collection resolver. Diagonal text arrows request Unicode text presentation to avoid mobile emoji rendering. Chamber of Reflection uses its shortened title across the catalogue and editorial pages.
+The mobile viewer uses a compact Close control with a thin CSS cross, a 44px tap target, and an underline for keyboard focus.
