@@ -813,7 +813,7 @@ export const LINK_OVERRIDES = {
 
 export const MEDIA_ITEMS = [
   {
-    title: "Chamber of Reflection (Sin City) at Sotheby's",
+    title: "Chamber of Reflection at Sotheby's",
     platform: "Sotheby's",
     caption: "Featured in the Contemporary Discoveries auction, showcasing Bitcoin art at a premier auction house.",
     link: "https://www.sothebys.com/en/buy/auction/2025/contemporary-discoveries-2/chamber-of-reflection-sin-city"

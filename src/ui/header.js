@@ -58,7 +58,7 @@ export function updateHeaderView({
 
     if (currentViewMeta) {
         const externalBtn = externalSite
-            ? `<button class="site-overlay-trigger text-white/40 hover:text-white transition-colors" data-site-url="${externalSite}" data-site-label="${title}">↗ Site</button>`
+            ? `<button class="site-overlay-trigger text-white/40 hover:text-white transition-colors" data-site-url="${externalSite}" data-site-label="${title}">↗︎ Site</button>`
             : '';
         currentViewMeta.innerHTML = `
       <div class="mt-1 collection-meta">

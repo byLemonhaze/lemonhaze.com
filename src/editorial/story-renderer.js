@@ -25,10 +25,10 @@ export function storySections(key) {
         });
         if (part.works.length) {
             const works = node('nav', null, 'story-work-links'); works.setAttribute('aria-label', `Works: ${part.title}`);
-            part.works.forEach(w => works.appendChild(link(w.href, w.title+' ↗'))); section.appendChild(works);
+            part.works.forEach(w => works.appendChild(link(w.href, w.title+' ↗︎'))); section.appendChild(works);
         }
         const sources = node('div', null, 'story-sources');
-        part.sources.forEach(s => sources.appendChild(link(s.url, s.label+' ↗'))); section.appendChild(sources);
+        part.sources.forEach(s => sources.appendChild(link(s.url, s.label+' ↗︎'))); section.appendChild(sources);
         wrap.appendChild(section);
     }
     return wrap;
@@ -48,7 +48,7 @@ export function artworkFootnotes(id) {
     const wrap = node('div', null, 'story-footnotes');
     notes.forEach(note => {
         wrap.appendChild(node('p', note.text, note.verbatim ? 'verbatim' : ''));
-        wrap.appendChild(link(note.source.url, note.source.label+' ↗'));
+        wrap.appendChild(link(note.source.url, note.source.label+' ↗︎'));
     });
     return wrap;
 }

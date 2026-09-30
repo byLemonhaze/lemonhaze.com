@@ -939,14 +939,14 @@ export function createArtworkModalController({
             return btn;
         };
 
-        modalActions.appendChild(pill('↗ Ordinals', 'Open on ordinals.com', () =>
+        modalActions.appendChild(pill('↗︎ Ordinals', 'Open on ordinals.com', () =>
             window.open(`https://ordinals.com/inscription/${item.id}`, '_blank')
         ));
 
         if (item.collection === 'BEST BEFORE') {
             const bbNum = getBBNumber(item.id);
             const bbUrl = bbNum ? `https://bestbefore.gallery/${bbNum}` : 'https://bestbefore.gallery';
-            modalActions.appendChild(pill('↗ BB Gallery', 'View on bestbefore.gallery', () => {
+            modalActions.appendChild(pill('↗︎ BB Gallery', 'View on bestbefore.gallery', () => {
                 window.dispatchEvent(new CustomEvent('open-site-overlay', {
                     detail: { url: bbUrl, label: 'Best Before' },
                 }));

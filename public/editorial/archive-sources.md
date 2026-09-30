@@ -20,7 +20,7 @@ The Montreal installation panorama and collection presentation image are publish
 
 [Gamma: Montreal by Lemonhaze](https://blog.gamma.io/ordinals-spotlight-montreal-by-lemonhaze)
 
-Chamber of Reflection (Sin City) was Lot 592 in Sotheby’s Contemporary Discoveries, New York, February 2025. Its image is an artwork preview, not an installation photograph.
+Chamber of Reflection was Lot 592 in Sotheby’s Contemporary Discoveries, New York, February 2025. Its image is an artwork preview, not an installation photograph.
 
 [Sotheby’s catalogue entry](https://www.sothebys.com/en/buy/auction/2025/contemporary-discoveries-2/chamber-of-reflection-sin-city)
 

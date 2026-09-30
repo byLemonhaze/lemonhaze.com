@@ -31,7 +31,7 @@ test('Selected Work follows the twelve landing slides and adds two works', () =>
         assert.ok(selected.some(work => work.name === name));
     }
     const landing = buildHomeSelection({ artworks });
-    assert.deepEqual(landing.map(work => work.name), ['Hózhó', 'Hosoi', "Chanchanok's Temple", 'Porcelain Sunset', 'Chamber of Reflection (Sin City)', 'Paysage', 'Lotus Tigré', 'Gentleman Nº6', 'BEST BEFORE Nº402', "L'Hiver, la nuit", 'Rue Cuvillier', 'Gentleman Nº1']);
+    assert.deepEqual(landing.map(work => work.name), ['Hózhó', 'Hosoi', "Chanchanok's Temple", 'Porcelain Sunset', 'Chamber of Reflection', 'Paysage', 'Lotus Tigré', 'Gentleman Nº6', 'BEST BEFORE Nº402', "L'Hiver, la nuit", 'Rue Cuvillier', 'Gentleman Nº1']);
     assert.ok(!landing.some(work => work.name === 'From Berlin to Saigon'));
     assert.ok(!landing.some(work => work.name === 'Insaisissable Mirage'));
 });

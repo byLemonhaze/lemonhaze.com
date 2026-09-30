@@ -258,7 +258,7 @@ html[data-presentation="black"] .archive-page {--line:#ffffff24;}
 .lh-editorial.archive-page .archive-card>details {grid-column:1;}
 .lh-editorial.archive-page .archive-card h2 {font:400 22px/1.35 'Syne',sans-serif;letter-spacing:-.015em;margin:0 0 12px;max-width:760px;color:var(--ink);}
 .lh-editorial.archive-page .archive-read-label {font-size:11px;color:var(--muted);margin:0;}
-.lh-editorial.archive-page .archive-read-label::after {content:' ↗';}
+.lh-editorial.archive-page .archive-read-label::after {content:' ↗︎';}
 .lh-editorial.archive-page details[open] .archive-read-label::after {content:' −';}
 .archive-card details:not([open]) .when-open,.archive-card details[open] .when-closed {display:none;}
 .lh-editorial.archive-page .archive-media-grid img,.lh-editorial.archive-page .archive-entry-body video {background:transparent;}

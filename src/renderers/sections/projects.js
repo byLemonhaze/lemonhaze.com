@@ -154,7 +154,7 @@ export function createProjectsSectionNode() {
             liveLink.target = '_blank';
             liveLink.rel = 'noopener noreferrer';
             liveLink.className = 'max-w-full text-[9px] font-mono text-white/40 hover:text-white transition-colors tracking-[0.1em] break-all';
-            liveLink.textContent = '↗ ' + project.live.replace(/^https?:\/\//, '');
+            liveLink.textContent = '↗︎ ' + project.live.replace(/^https?:\/\//, '');
             liveLink.onclick = e => e.stopPropagation();
             links.appendChild(liveLink);
         }

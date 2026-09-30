@@ -171,7 +171,7 @@ export function renderSidebarSections({
             allWorks.appendChild(collectionsNav);
             const visualizer = document.createElement('a');
             visualizer.href = '/visualizer/'; visualizer.className = 'chronology-link';
-            visualizer.textContent = 'Visual chronology ↗';
+            visualizer.textContent = 'Visual chronology ↗︎';
             allWorks.appendChild(visualizer);
         }
     }
