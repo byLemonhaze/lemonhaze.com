@@ -337,6 +337,6 @@ html[data-presentation] main .lh-editorial .lifecycle-panel { border-color:var(-
 html[data-presentation] .carousel-caption>button { font:500 18px/1.4 'Syne',sans-serif; color:var(--ink); background:transparent; border:0; padding:0; text-align:left; }
 button.carousel-slide, button.selected-image { background:transparent; border:0; padding:0; width:100%; cursor:pointer; }
 .selected-work-grid figcaption>button { color:inherit; font:inherit; background:transparent; border:0; padding:0; cursor:pointer; }
-.coming-soon-notice { position:fixed; bottom:32px; left:50%; transform:translate(-50%,6px); z-index:10000; padding:12px 22px; background:var(--page); color:var(--ink); border:1px solid var(--line); font:13px/1.5 Arial,sans-serif; letter-spacing:.03em; opacity:0; pointer-events:none; transition:opacity .2s ease,transform .2s ease; }
-.coming-soon-notice.is-visible { opacity:1; transform:translate(-50%,0); }
+.coming-soon-notice { position:fixed; transform:translate(-50%,calc(-50% + 6px)); z-index:10000; padding:12px 22px; background:var(--page); color:var(--ink); border:1px solid var(--line); font:13px/1.5 Arial,sans-serif; letter-spacing:.03em; opacity:0; pointer-events:none; transition:opacity .2s ease,transform .2s ease; }
+.coming-soon-notice.is-visible { opacity:1; transform:translate(-50%,-50%); }
 @media(prefers-reduced-motion:reduce) { .coming-soon-notice { transition:none; } }

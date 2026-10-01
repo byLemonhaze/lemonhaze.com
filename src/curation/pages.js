@@ -38,7 +38,7 @@ export function createSelectedWork(artworks, toCollectionSlug) {
         <div class="selected-engine-grid">${FEATURED_PAINT_ENGINES.map(engine => `<figure><a class="selected-engine-image" href="/${engine.id}" aria-label="Explore ${escape(engine.name)}"><img src="https://cdn.lemonhaze.com/assets/assets/${engine.image || engine.id + '.png'}" alt="${escape(engine.coverName || engine.name)} · Paint Engine output by Lemonhaze" loading="lazy"></a><figcaption><h3><a href="/${engine.id}">${escape(engine.name)} <span aria-hidden="true">↗︎</span></a></h3><p>${escape(engine.caption || `Paint Engine ${engine.version} · 2026`)}</p></figcaption></figure>`).join('')}</div>
       </section>
       <p class="curated-footnote">Every collection remains accessible by year in All Works. <a href="/visualizer/">View the visual chronology ↗︎</a></p>`;
-    root.querySelectorAll("[data-coming-soon]").forEach(button => button.addEventListener("click", showComingSoon));
+    root.querySelectorAll("[data-coming-soon]").forEach(button => button.addEventListener("click", () => showComingSoon(button.closest("figure").querySelector("img"))));
     return wireEditorial(root);
 }
 export function createPracticeOverview(artworks) {

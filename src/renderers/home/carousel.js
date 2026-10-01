@@ -63,7 +63,7 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
         link.onclick = event => {
             if (dragged) { event.preventDefault(); return; }
             if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-            if (work.comingSoon) { event.preventDefault(); showComingSoon(); return; }
+            if (work.comingSoon) { event.preventDefault(); showComingSoon(image); return; }
             if (work.href) return;
             event.preventDefault(); onOpenArtworkById(work.id);
         };
@@ -114,7 +114,7 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
         const year = work.year || Object.entries(chronologyByYear).find(([, collections]) => collections.includes(work.collection))?.[0] || String(work.timestamp || '').slice(0, 4);
         const nextTitle = document.createElement(work.comingSoon ? 'button' : 'a');
         nextTitle.textContent = work.name;
-        if (work.comingSoon) { nextTitle.type = 'button'; nextTitle.onclick = showComingSoon; }
+        if (work.comingSoon) { nextTitle.type = 'button'; nextTitle.onclick = () => showComingSoon(slides[activeIndex].querySelector("img")); }
         else nextTitle.href = work.href || '/' + work.id;
         title.replaceWith(nextTitle); title = nextTitle;
         collectionLink.hidden = !work.collection;
