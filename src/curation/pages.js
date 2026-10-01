@@ -6,7 +6,7 @@ import { FEATURED_PAINT_ENGINES } from '../data/paint-engines.js';
 const escape = value => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 const year = work => work.year || String(work.timestamp || '').slice(0, 4);
 function seriesCover(title, artworks, toCollectionSlug) {
-    if (title === 'BEST BEFORE') return { src: '/editorial/assets/bb-lifecycle.webp', alt: 'BEST BEFORE · SEALED, OPENED, EXPIRED' };
+    if (title === 'BEST BEFORE') return { src: '/editorial/assets/bb-lifecycle.webp', alt: 'BEST BEFORE · Sealed, Opened, Expired' };
     const work = artworks.find(work => work.id === SELECTED_SERIES_COVERS[title])
         || artworks.find(work => work.series === title && work.role === 'parent')
         || artworks.find(work => work.collection === title || toCollectionSlug(work.collection) === SELECTED_SERIES.find(s => s[0] === title)?.[1]);
