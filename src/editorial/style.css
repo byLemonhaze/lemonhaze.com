@@ -204,7 +204,15 @@
 .lh-editorial.artwork-artist-notes .display-mockup { margin:28px 0; }
 @media(max-width:600px) { .lh-editorial .display-mockup-grid { grid-template-columns:1fr; gap:8px; } }
 
-.lh-editorial .print-signing-films { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; margin-top:28px; max-width:860px; }
-.lh-editorial .print-signing-films figure { margin:0; min-width:0; }
-.lh-editorial .print-signing-films video { display:block; width:auto; height:auto; max-width:100%; max-height:min(480px,65svh); background:transparent; }
-@media(max-width:600px) { .lh-editorial .print-signing-films { grid-template-columns:1fr; } }
+/* Compact print documentation, with all four examples aligned on desktop. */
+.lh-editorial .print-signing-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; margin-top:28px; }
+.lh-editorial .print-signing-grid figure { margin:0; min-width:0; }
+.lh-editorial .print-signing-grid img,
+.lh-editorial .print-signing-grid video { display:block; width:100%; height:240px; object-fit:contain; object-position:center bottom; background:transparent; }
+.lh-editorial .print-signing-grid figcaption { margin-top:12px; }
+@media(max-width:1000px) and (min-width:601px) { .lh-editorial .print-signing-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:600px) {
+    .lh-editorial .print-signing-grid { grid-template-columns:1fr; }
+    .lh-editorial .print-signing-grid img,
+    .lh-editorial .print-signing-grid video { height:300px; }
+}

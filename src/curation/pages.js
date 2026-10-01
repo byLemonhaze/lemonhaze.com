@@ -19,7 +19,7 @@ function seriesCard([title, slug, description, collectionLinks], artworks, toCol
     const coverLabel = collectionLinks?.find(([, path]) => path === coverSlug)?.[0] || title;
     const cover = seriesCover(title, artworks, toCollectionSlug);
     const years = title === '1/1s'
-        ? `<nav class="selected-series-years" aria-label="1/1 works by year">${[2026, 2025, 2024].map(year => `<a href="/1-of-1s-${year}">${year}</a>`).join('')}</nav>`
+        ? `<nav class="selected-series-years" aria-label="1/1 works by year">${[2026, 2025, 2024, 2023].map(year => `<a href="${year === 2023 ? '/orphelinat' : `/1-of-1s-${year}`}">${year}</a>`).join('')}</nav>`
         : '';
     const heading = collectionLinks
         ? collectionLinks.map(([label, path]) => `<a class="selected-series-collection-link" href="/${path}">${escape(label)}&nbsp;↗︎</a>`).join(' / ')
@@ -45,7 +45,7 @@ export function createPracticeOverview(artworks) {
     const root = document.createElement('article');
     root.className = 'curated-page practice-page';
     const work = artworks.find(work => work.name === 'Wondrous Place');
-    root.innerHTML = `<div class="curated-intro"><p class="curated-kicker">The practice</p><h1>Image. Texture.<br>Time.</h1><p>The work begins with an image, a mark, a system, or some combination of the three.</p></div>
+    root.innerHTML = `<div class="curated-intro"><p class="curated-kicker">The practice</p><h1>Image. Texture.<br>Time.</h1><p>The work begins with a moment, a mark, a system, or some combination of the three.</p></div>
       ${work ? `<figure class="practice-hero"><a href="${escape(work.href || "/" + work.id)}"><img src="${escape(getArtworkImageSrc(work))}" alt="Wondrous Place" loading="lazy"></a><figcaption>Wondrous Place · ${year(work)}</figcaption></figure>` : ''}
       <div class="practice-chapters"><section><span>01</span><div><h2>The mark and the ground</h2><p>Black, ink-like forms are a recurring thread: a mark against a shifting background, carried across individual works and series.</p><nav><a href="/selected">See the selected works ↗︎</a><a href="/chrysalis">Chrysalis ↗︎</a></nav></div></section>
       <section><span>02</span><div><h2>Place, identity, change</h2><p>Memories become compositions. An aspiration develops over time. A period of transition takes the form of a series. These subjects return through different visual approaches.</p><nav><a href="/gentlemen#collection-story">Gentlemen ↗︎</a><a href="/lotus">Lotus ↗︎</a><a href="/montreal#collection-story">Montreal ↗︎</a><a href="/liminality#collection-story">Liminality ↗︎</a></nav></div></section>

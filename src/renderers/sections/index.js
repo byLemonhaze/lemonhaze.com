@@ -61,7 +61,7 @@ export function createInternalSections({
             label: 'Collecting', title: 'Collecting',
             content: () => {
                 const wrap = document.createElement('div');
-                wrap.append(readingLink('/supply', 'Supply & Marketplace →', 'Browse the complete supply and marketplace links.'), readingLink('/supply#market-watch', 'Market Watch →', 'Current listings across the tracked marketplaces.'), createEditorialPage('collecting'));
+                wrap.append(createEditorialPage('collecting'));
                 return wrap;
             },
         },
