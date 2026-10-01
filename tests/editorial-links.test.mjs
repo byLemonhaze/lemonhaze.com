@@ -19,7 +19,7 @@ test('legacy readings, anchors and presentation images retain their destinations
         'index.html#gallery': '/montreal#artworks',
         'assets/bb-framed-study-1.jpeg': '/editorial/assets/bb-framed-study-1.jpeg',
         '/assets/bb-framed-study-2.jpeg': '/editorial/assets/bb-framed-study-2.jpeg',
-        '#diary': '/best-before#diary',
+        '#diary': '#diary',
         '/best-before?ref=liminality#diary': '/best-before?ref=liminality#diary',
         'sources.md': '/editorial/archive-sources.md',
     };
@@ -49,4 +49,14 @@ test('every relative link in the actual editorial fragments is consistent across
         }
     }
     assert.ok(links > 0, 'The real editorial links must be covered');
+});
+
+// Editorial views are built before the SPA updates the address bar.
+test('in-page anchors never capture the previous route or its query parameters', () => {
+    for (const previous of ['/', '/about?theme=paper', '/chrysalis#collection-story', '/selected']) {
+        for (const hash of ['#selected-artworks', '#selected-series', '#artworks', '#diary']) {
+            assert.equal(normalizeEditorialHref(hash, 'https://lemonhaze.com' + previous), hash);
+        }
+        assert.equal(normalizeEditorialHref('#gallery', 'https://lemonhaze.com' + previous), '#artworks');
+    }
 });

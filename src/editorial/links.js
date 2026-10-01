@@ -5,6 +5,8 @@ const siteHosts = new Set(['lemonhaze.com', 'www.lemonhaze.com']);
 // Relative links have the production hostname too; they must follow the same
 // mapping as local preview links instead of becoming /best-before.html.
 export function normalizeEditorialHref(href, currentUrl) {
+    // Fragments belong to the rendered page, whose route may not be set yet.
+    if (href.startsWith("#")) return href === "#gallery" ? "#artworks" : href;
     const base = new URL(currentUrl);
     const url = new URL(href, base);
     if (url.origin !== base.origin && !siteHosts.has(url.hostname)) return href;

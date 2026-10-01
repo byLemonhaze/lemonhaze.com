@@ -53,12 +53,12 @@ export function wireEditorial(root) {
         if (url.origin !== location.origin || a.target === '_blank' || a.hasAttribute('download')) return;
         if (url.pathname === location.pathname && url.hash) {
             event.preventDefault();
-            history.replaceState({}, '', url.pathname + url.hash);
+            history.replaceState(history.state, '', url.pathname + url.search + url.hash);
             scrollToAnchor(url.hash);
         } else if (!/\.[a-z0-9]+$/i.test(url.pathname) && navigate?.(url.pathname, url.hash)) {
             event.preventDefault();
             if (url.hash) {
-                history.replaceState({}, '', location.pathname + url.hash);
+                history.replaceState(history.state, '', location.pathname + location.search + url.hash);
                 requestAnimationFrame(() => scrollToAnchor(url.hash));
             }
         }

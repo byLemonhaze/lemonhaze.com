@@ -1,8 +1,23 @@
 // These works are animated by their original inscribed HTML, not a recording.
-const LIVE_CAROUSEL_IDS = new Set([
-    '4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0', // Porcelain Sunset
-    '22c45a61ac26e42545e29a1c0af72190134f94f489596619f0b0e023908952e3i0', // Lotus Tigré
-]);
+const PORCELAIN_ID = '4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0';
+const LOTUS_ID = '22c45a61ac26e42545e29a1c0af72190134f94f489596619f0b0e023908952e3i0';
+const LIVE_CAROUSEL_IDS = new Set([PORCELAIN_ID, LOTUS_ID]);
+
+// Match the original inscriptions' display bounds so the poster-to-live handoff
+// does not resize the artwork. The inscription itself remains untouched.
+function liveArtworkBounds(id, width, height) {
+    if (id === PORCELAIN_ID) {
+        const side = Math.min(.92 * Math.min(width, height), 720,
+            width - 2 * Math.max(8, .015 * Math.min(width, height)),
+            height - 2 * Math.max(8, .015 * Math.min(width, height)));
+        return { width: Math.max(0, side), height: Math.max(0, side) };
+    }
+    if (id === LOTUS_ID) {
+        const artworkHeight = Math.min(height, width * 16 / 9) * .9;
+        return { width: artworkHeight * 9 / 16, height: artworkHeight };
+    }
+    return null;
+}
 
 export function createHomeCarousel({ appState, selection, chronologyByYear, toCollectionSlug, onOpenArtworkById, getCarouselImageSrc }) {
     let activeIndex = 0;
@@ -36,7 +51,9 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
             frame.setAttribute('aria-hidden', 'true');
             frame.tabIndex = -1;
             frame.addEventListener('load', () => {
-                if (frame.getAttribute('src') === frame.dataset.inscriptionSrc && link.classList.contains('is-active')) link.classList.add('live-ready');
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    if (frame.isConnected && frame.getAttribute('src') === frame.dataset.inscriptionSrc && link.classList.contains('is-active')) link.classList.add('live-ready');
+                }));
             });
             link.appendChild(frame);
         }
@@ -59,6 +76,18 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
     const [previous, next, pause] = controls.querySelectorAll('button');
     const count = controls.querySelector('.carousel-position');
     bottom.append(caption, controls); root.append(top, stage, bottom);
+    function sizeLivePosters() {
+        const width = stage.clientWidth;
+        const height = stage.clientHeight;
+        slides.forEach((slide, index) => {
+            const bounds = liveArtworkBounds(selection[index].id, width, height);
+            if (!bounds) return;
+            const image = slide.querySelector('img');
+            image.style.width = bounds.width + 'px';
+            image.style.height = bounds.height + 'px';
+        });
+    }
+    const stageObserver = new ResizeObserver(sizeLivePosters);
     function update() {
         slides.forEach((slide, index) => {
             const active = index === activeIndex;
@@ -99,7 +128,7 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
     stage.addEventListener('dragstart', event => event.preventDefault());
     root.addEventListener('keydown', event => { if (event.target.matches('button')) return; if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); } });
     return {
-        mount(container) { container.appendChild(root); update(); play(); },
-        cleanup() { stop(); document.removeEventListener('visibilitychange', onVisibilityChange); slides.forEach(slide => slide.querySelector('iframe')?.removeAttribute('src')); window.removeEventListener('pointerup', onPointerUp); root.remove(); },
+        mount(container) { container.appendChild(root); sizeLivePosters(); stageObserver.observe(stage); update(); play(); },
+        cleanup() { stop(); stageObserver.disconnect(); document.removeEventListener('visibilitychange', onVisibilityChange); slides.forEach(slide => slide.querySelector('iframe')?.removeAttribute('src')); window.removeEventListener('pointerup', onPointerUp); root.remove(); },
     };
 }

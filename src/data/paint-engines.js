@@ -1,5 +1,5 @@
 // Shared public engine catalogue for Lab and the Paint Engine page.
-export const PAINT_ENGINE_DESCRIPTION = 'A generative paint engine that lives in a single self-contained HTML file inscribed on Bitcoin. Seed + tag determinism, no server, no dependencies — runs in any browser as long as Bitcoin runs. Available for commission as bespoke visual environments for hotels, Airbnb properties, and private residences.';
+export const PAINT_ENGINE_DESCRIPTION = 'A generative paint engine that lives in a single self-contained HTML file inscribed on Bitcoin. Seed + tag determinism, no server, no dependencies — runs in any browser as long as Bitcoin runs. Available for commission as bespoke visual environments for hotels, rental properties, and private residences.';
 
 export const PAINT_ENGINE_VERSIONS = [
             {
@@ -68,3 +68,11 @@ export const PAINT_ENGINE_VERSIONS = [
                 help: 'G generate · B undo\nP palette · R ratio\nT texture · F frame · O background\nW or S seed panel · I iterations\nEsc close any modal\n\nSpecialised engine — portrait-format composition with extended modal controls. Seed + palette + iteration system.',
             },
         ];
+
+// The four engine previews featured in Selected Work.
+export const FEATURED_PAINT_ENGINES = [
+    { name: 'Wild Patch', version: 'v0.6', id: '0109e594769bd8c50e1f8fc15e80db0b93188d881bf2a258c7a88dcbe609b391i0' },
+    { name: 'Chasing The Dragon', version: 'v0.9', id: '795a40ea70f17c9de70035395df51dce9510999f0c412bf5068c11115456f1c1i0', image: 'ccc4.png' },
+    { name: 'Paint Engine v0', version: 'v0', id: '0c0ba94df1720c8ed40afbc38f97f806e758de9234f99cbaa060bafd22231efbi0', image: '0fc76657166d0dfab82ff8d5f97a3c785d817055c3a989b8b8b4fcdb0effbee7i0.png', coverName: 'Smooth Sailor', caption: 'The first engine · 2025 · Cover: Smooth Sailor (1/1)' },
+    { name: 'Passe-Partout', version: 'v1.07', id: 'c8d790c42ce1a43c02acf15114d4053c1c9f086dc2856ebd3031ce268f5d58dbi0' },
+];

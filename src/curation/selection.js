@@ -1,16 +1,14 @@
 // Local editorial selections, independent of the complete chronological catalogue.
-// Selected Work follows the same twelve works as the landing carousel.
+// Selected Work follows the same ten works as the landing carousel.
 export const CAROUSEL_WORK_IDS = [
     'c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0', // Hózhó
     '3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0', // Hosoi
     'b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0', // Chanchanok's Temple
     '4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0', // Porcelain Sunset
     '8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0', // Chamber of Reflection
-    'b8e34271e6d76d3d3aeea0756d9ad281132196fc30bb62d35ca8fe9b0fceff97i0', // Paysage
-    '22c45a61ac26e42545e29a1c0af72190134f94f489596619f0b0e023908952e3i0', // Lotus Tigré
     'adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0', // Gentleman Nº6
     'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i401', // BEST BEFORE Nº402
-    '298a55a78a48faafe5ac119cb48dd2235dc9c37210e30c793f39c280b2618f32i0', // L'Hiver, la nuit
+    '33e141b76fba2459796239c0d67ea8bc056ec4abdb7a4f8d22735bb6c6be8ef6i0', // Lost in Bangkok
     '00d08f2e808d325139649b50f77204a71d9624e7fd7e60a28907a4836614c49ei0', // Rue Cuvillier
     '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0', // Gentleman Nº1
 ];
@@ -31,7 +29,7 @@ export const SELECTED_SERIES = [
     ['Games', 'games', 'Three works become one.'],
     ['1/1s', '1-of-1s-2026', 'Individual works, by year.'],
     ['Liminality', 'liminality', 'Between one state and the next.'],
-    ['Chrysalis', 'chrysalis', 'Transformation taking shape from within.'],
+    ['Berlin', 'berlin', 'Memories of a city and the encounters within it.'],
     ['Ma ville en quatre temps', 'ma-ville-en-quatre-temps', 'A city in four parts.'],
 ];
 
@@ -43,7 +41,7 @@ export const SELECTED_SERIES_COVERS = {
     'Lotus': 'a71cf3f3446fad723bb99ba5385bae78cd6a0c55f082ad4c4b487e84b19ac890i0', // Lotus #4
     'Montreal': 'e8333e96e84d038b2400a2d46853f676660a18adbbf22e8d9c15ca9894235e3bi0', // Five Roses
     'Ma ville en quatre temps': '298a55a78a48faafe5ac119cb48dd2235dc9c37210e30c793f39c280b2618f32i0', // L'Hiver, la nuit
-    'Chrysalis': 'da1f4317a9ea57ff35c07de6c722d88287a307967cfa0711487afb079f497a1ci0', // Ubuntu
+    'Berlin': 'fd188a970767ef5ef2f4bbae2c641b8b314bcf3eb1305fff9f3ebc5ebecfd448i0', // 99 Francs
     'La Tentation': 'daf064a28fd61c3f6fdaa223a8f9080c60635c3caf691c3accc6f8f0a8935b93i0', // La Tentation Nº0
     '1/1s': 'a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0', // Family Portrait
 };
