@@ -109,9 +109,11 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
         const work = selection[activeIndex];
         const year = work.year || Object.entries(chronologyByYear).find(([, collections]) => collections.includes(work.collection))?.[0] || String(work.timestamp || '').slice(0, 4);
         title.textContent = work.name; title.href = work.href || '/' + work.id;
-        collectionLink.textContent = work.series || work.collection;
-        collectionLink.href = '/' + toCollectionSlug(work.collection);
-        yearLabel.textContent = ` · ${year}`;
+        collectionLink.hidden = !work.collection;
+        collectionLink.textContent = work.series || work.collection || '';
+        if (work.collection) collectionLink.href = '/' + toCollectionSlug(work.collection);
+        else collectionLink.removeAttribute('href');
+        yearLabel.textContent = work.caption || ` · ${year}`;
         count.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(selection.length).padStart(2, '0')}`;
         pause.textContent = paused ? 'Play' : 'Pause';
         pause.setAttribute('aria-label', paused ? 'Play slideshow' : 'Pause slideshow');
