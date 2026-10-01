@@ -195,3 +195,11 @@
 .lh-editorial .montreal-installation { grid-column:1/-1; margin:0; min-width:0; width:min(100%, 760px, 80svh); justify-self:center; }
 .lh-editorial .montreal-installation img { display:block; width:100%; height:auto; background:transparent; }
 .lh-editorial .montreal-exhibition-reading { grid-column:1/-1; min-width:0; }
+
+/* Framing proposals retain their full composition and a restrained reading size. */
+.lh-editorial .display-mockup-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; max-width:860px; }
+.lh-editorial .display-mockup { margin:28px 0; min-width:0; max-width:860px; }
+.lh-editorial .display-mockup img { display:block; width:auto; max-width:100%; height:auto; max-height:min(560px,65svh); object-fit:contain; background:transparent; }
+.lh-editorial .display-mockup-grid .display-mockup { margin:16px 0; }
+.lh-editorial.artwork-artist-notes .display-mockup { margin:28px 0; }
+@media(max-width:600px) { .lh-editorial .display-mockup-grid { grid-template-columns:1fr; gap:8px; } }

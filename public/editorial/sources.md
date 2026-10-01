@@ -31,3 +31,7 @@ Chamber of Reflection was Lot 592 in Sotheby’s Contemporary Discoveries, New Y
 ## Paint engine
 
 The illustrated versions are three separate inscriptions documenting the engine’s evolution. The embedded Passe-Partout v1.07 engine generates study outputs; these are not newly inscribed or artist-selected works.
+
+## Framing and display mockups — October 2026
+
+The artist supplied nine framing images on October 1, 2026: four BEST BEFORE studies, a Paint Engine triptych, Wild Patch, Chasing The Dragon, Hosoi, and Five Roses. They are stored in `/editorial/framing/` and captioned as framing or display mockups, rather than installation photographs. These are the artist’s supplied generated presentation images; the original artwork previews remain unchanged.

@@ -90,9 +90,6 @@ export function createEditorialPage(key) {
         main.querySelectorAll('.tag').forEach(n => {
             if (n.textContent.startsWith('This local page') || n.textContent.startsWith('Local source:')) n.remove();
         });
-        if (key === 'BEST BEFORE') main.querySelectorAll('.two-up figcaption').forEach((n, i) => {
-            n.textContent = `Framed presentation study ${i + 1} · AI-generated mockup.`;
-        });
         if (collectionKeys.has(key)) {
             main.querySelector('.page-intro')?.remove();
             main.querySelectorAll('.essay-section').forEach(section => {
@@ -244,6 +241,9 @@ export function createArtistNotes(item) {
         cite.textContent = 'Original artist writing · inscription HTML archive'; node.appendChild(cite);
     }
     if (footnotes) node.appendChild(footnotes);
+    if (item.id === '3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0') {
+        node.insertAdjacentHTML('beforeend', `<figure class="display-mockup"><a href="/editorial/framing/hosoi.jpeg"><img src="/editorial/framing/hosoi.jpeg" alt="Hosoi presented in a pale wood frame — mockup" loading="lazy"></a><figcaption>Hosoi · Framing mockup</figcaption></figure>`);
+    }
     relatedArchive.forEach(entry => { const a = document.createElement('a'); a.href = '/archive#' + entry.slug; a.className = 'reading-link'; a.textContent = entry.title + ' →'; node.appendChild(a); });
     if (isSE) {
         const a = document.createElement('a'); a.href = '/gentleman-se-2025'; a.textContent = 'Read the complete statement & process →'; node.appendChild(a);
