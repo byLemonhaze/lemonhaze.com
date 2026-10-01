@@ -1,3 +1,5 @@
+import { showComingSoon } from '../../ui/coming-soon.js';
+
 // These works are animated by their original inscribed HTML, not a recording.
 const PORCELAIN_ID = '4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0';
 const LOTUS_ID = '22c45a61ac26e42545e29a1c0af72190134f94f489596619f0b0e023908952e3i0';
@@ -34,8 +36,9 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
     top.innerHTML = '<span>Selected works</span><a href="/selected">Explore ↗︎</a>';
     const stage = document.createElement('div'); stage.className = 'carousel-stage';
     const slides = selection.map((work, index) => {
-        const link = document.createElement('a'); link.className = 'carousel-slide';
-        link.href = work.href || '/' + work.id;
+        const link = document.createElement(work.comingSoon ? 'button' : 'a'); link.className = 'carousel-slide';
+        if (work.comingSoon) link.type = 'button';
+        else link.href = work.href || '/' + work.id;
         link.setAttribute('aria-label', `View ${work.name}`);
         const image = document.createElement('img'); image.src = getCarouselImageSrc(work);
         image.alt = work.name + ' by Lemonhaze'; image.decoding = 'async';
@@ -60,6 +63,7 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
         link.onclick = event => {
             if (dragged) { event.preventDefault(); return; }
             if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            if (work.comingSoon) { event.preventDefault(); showComingSoon(); return; }
             if (work.href) return;
             event.preventDefault(); onOpenArtworkById(work.id);
         };
@@ -67,7 +71,7 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
     });
     const bottom = document.createElement('div'); bottom.className = 'carousel-bottom';
     const caption = document.createElement('div'); caption.className = 'carousel-caption';
-    const title = document.createElement('a'); const detail = document.createElement('p');
+    let title = document.createElement('a'); const detail = document.createElement('p');
     const collectionLink = document.createElement('a');
     const yearLabel = document.createTextNode('');
     detail.append(collectionLink, yearLabel);
@@ -108,7 +112,11 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
         });
         const work = selection[activeIndex];
         const year = work.year || Object.entries(chronologyByYear).find(([, collections]) => collections.includes(work.collection))?.[0] || String(work.timestamp || '').slice(0, 4);
-        title.textContent = work.name; title.href = work.href || '/' + work.id;
+        const nextTitle = document.createElement(work.comingSoon ? 'button' : 'a');
+        nextTitle.textContent = work.name;
+        if (work.comingSoon) { nextTitle.type = 'button'; nextTitle.onclick = showComingSoon; }
+        else nextTitle.href = work.href || '/' + work.id;
+        title.replaceWith(nextTitle); title = nextTitle;
         collectionLink.hidden = !work.collection;
         collectionLink.textContent = work.series || work.collection || '';
         if (work.collection) collectionLink.href = '/' + toCollectionSlug(work.collection);

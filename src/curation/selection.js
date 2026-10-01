@@ -5,7 +5,7 @@ export const UNTITLED_WORK = {
     name: 'Untitled',
     caption: 'X - 202?',
     year: '202?',
-    href: '/editorial/assets/untitled-suspended-ink.png',
+    comingSoon: true,
     grid_preview: '/editorial/assets/untitled-suspended-ink.jpg',
 };
 export const CAROUSEL_WORK_IDS = [

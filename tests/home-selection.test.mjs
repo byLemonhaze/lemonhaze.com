@@ -31,6 +31,8 @@ test('Selected Work and landing share ten works including Untitled', () => {
     assert.deepEqual(landing[1], UNTITLED_WORK);
     assert.equal(landing[1].caption, "X - 202?");
     assert.equal(landing[1].collection, undefined);
+    assert.equal(landing[1].comingSoon, true);
+    assert.equal(landing[1].href, undefined);
     assert.deepEqual(selected, landing);
     assert.ok(!landing.some(work => ['Lost in Bangkok', 'La Banquise'].includes(work.name)));
     assert.ok(!landing.some(work => work.name === 'From Berlin to Saigon'));
