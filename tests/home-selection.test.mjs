@@ -27,10 +27,10 @@ test('Selected Work and landing share ten works including Untitled', () => {
     assert.deepEqual(selected.map(work => work.id), CAROUSEL_WORK_IDS);
     assert.equal(new Set(selected.map(work => work.id)).size, 10);
     const landing = buildHomeSelection({ artworks });
-    assert.deepEqual(landing.map(work => work.name), ['Hózhó', 'Hosoi', "Chanchanok's Temple", 'Porcelain Sunset', 'Chamber of Reflection', 'Gentleman Nº6', 'BEST BEFORE Nº402', 'Untitled', 'Rue Cuvillier', 'Gentleman Nº1']);
-    assert.deepEqual(landing[7], UNTITLED_WORK);
-    assert.equal(landing[7].caption, "X - 202?");
-    assert.equal(landing[7].collection, undefined);
+    assert.deepEqual(landing.map(work => work.name), ['Hózhó', 'Untitled', "Chanchanok's Temple", 'Porcelain Sunset', 'Chamber of Reflection', 'Gentleman Nº6', 'BEST BEFORE Nº402', 'Hosoi', 'Rue Cuvillier', 'Gentleman Nº1']);
+    assert.deepEqual(landing[1], UNTITLED_WORK);
+    assert.equal(landing[1].caption, "X - 202?");
+    assert.equal(landing[1].collection, undefined);
     assert.deepEqual(selected, landing);
     assert.ok(!landing.some(work => ['Lost in Bangkok', 'La Banquise'].includes(work.name)));
     assert.ok(!landing.some(work => work.name === 'From Berlin to Saigon'));
