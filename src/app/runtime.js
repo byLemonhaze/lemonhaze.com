@@ -177,7 +177,7 @@ function syncSidebarActiveCollection(collectionName) {
 function syncSidebarActiveSection(sectionKey) {
     syncSidebarActiveSectionFromNav({
         topNav: el.topNavSection(),
-        sectionKey: ({ practice: 'explore', 'paint-engine': 'explore', supply: 'collecting', media: 'highlights' })[sectionKey] || sectionKey || null,
+        sectionKey: ({ 'gentleman-se-2025': 'archive', 'paint-engine': 'practice', supply: 'collecting', media: 'highlights' })[sectionKey] || sectionKey || null,
     });
 }
 
@@ -419,7 +419,7 @@ function openAboutModal(title, content, options = {}) {
     destroyHomeView();
 
     renderSectionView({
-        fullWidth: ['supply', 'selected', 'explore'].includes(appState.activeSectionKey),
+        fullWidth: ['supply', 'selected', 'practice'].includes(appState.activeSectionKey),
         title,
         content,
         headerElement: document.querySelector('header'),

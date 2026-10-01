@@ -7,7 +7,7 @@ import montreal from './content/index.html?raw';
 import gentlemen from './content/gentlemen.html?raw';
 import liminality from './content/liminality.html?raw';
 import bestBefore from './content/best-before.html?raw';
-import practice from './content/process.html?raw';
+import studioWriting from './content/process.html?raw';
 import engine from './content/paint-engine.html?raw';
 import exhibitions from './content/exhibitions.html?raw';
 import collecting from './content/collecting.html?raw';
@@ -16,7 +16,7 @@ import './style.css';
 
 let navigate = null;
 export function configureEditorialNavigation(callback) { navigate = callback; }
-const sources = { Montreal: montreal, Gentlemen: gentlemen, Liminality: liminality, 'BEST BEFORE': bestBefore, practice, 'paint-engine': engine, exhibitions, collecting };
+const sources = { Montreal: montreal, Gentlemen: gentlemen, Liminality: liminality, 'BEST BEFORE': bestBefore, 'gentleman-se-2025': studioWriting, 'paint-engine': engine, exhibitions, collecting };
 const collectionKeys = new Set(['Montreal', 'Gentlemen', 'Liminality', 'BEST BEFORE', ...storyKeys]);
 
 function scrollToAnchor(hash) {
@@ -105,10 +105,10 @@ export function createEditorialPage(key) {
                 if (section.querySelector('.timeline')) section.remove();
             });
         }
-        if (key === 'practice') {
+        if (key === 'gentleman-se-2025') {
             main.querySelector('h1')?.remove();
             const intro = main.querySelector('.intro');
-            if (intro) intro.textContent = 'Selected passages from Gentleman SE 2025, with headings for navigation. These are dated reflections from January 2025; the original writing is preserved below.';
+            if (intro) intro.textContent = 'Notes on texture, selecting images, and writing within the artwork, drawn from Gentleman SE 2025. The original January 2025 text is preserved below.';
         }
         article.append(...main.children);
     }
@@ -118,7 +118,7 @@ export function createEditorialPage(key) {
     const archiveLinks = archiveLinksForCollection(key);
     if (archiveLinks && key !== 'Gentlemen') article.appendChild(archiveLinks);
     if (key === 'paint-engine') initializeEnginePicker(article);
-    if (key === 'practice') illustratePractice(article);
+    if (key === 'gentleman-se-2025') illustratePractice(article);
     if (key === 'collecting') {
         const prints = document.createElement('section');
         prints.className = 'essay-section';
@@ -129,13 +129,13 @@ export function createEditorialPage(key) {
     back.className = 'editorial-related';
     back.setAttribute('aria-label', 'Related reading');
     back.innerHTML = key === 'Gentlemen'
-        ? '<a href="#artworks">↑ Back to the works</a><a href="/explore">Practice →</a>'
+        ? '<a href="#artworks">↑ Back to the works</a><a href="/practice">Practice →</a>'
         : key === 'paint-engine'
-        ? '<a href="/explore">← Practice</a><a href="/lab">More tools in the Lab →</a>'
+        ? '<a href="/practice">← Practice</a><a href="/lab">More tools in the Lab →</a>'
         : collectionKeys.has(key)
-        ? '<a href="#artworks">↑ Back to the works</a><a href="/explore">Practice →</a><a href="/collecting">Viewing & collecting →</a>'
-        : key === 'practice'
-        ? '<a href="/archive">← Studio Notes</a><a href="/explore">Practice →</a>'
+        ? '<a href="#artworks">↑ Back to the works</a><a href="/practice">Practice →</a><a href="/collecting">Viewing & collecting →</a>'
+        : key === 'gentleman-se-2025'
+        ? '<a href="/archive">← Studio Notes</a><a href="/practice">Practice →</a>'
         : key === 'collecting'
         ? '<a href="/selected">Selected Work →</a><a href="/supply#market-watch">Market Watch →</a>'
         : '<a href="/selected">Selected Work →</a><a href="/about">About Lemonhaze →</a>';
@@ -148,7 +148,7 @@ export function appendCollectionStory({ collection, galleryGrid, currentViewMeta
         const nav = document.createElement('nav');
         nav.className = 'editorial-jumps';
         nav.setAttribute('aria-label', 'Related reading');
-        nav.innerHTML = '<a href="/explore">Practice →</a>';
+        nav.innerHTML = '<a href="/practice">Practice →</a>';
         const first = archiveEntries.find(entry => entry.collections.includes(collection));
         if (first) nav.innerHTML += `<a href="/archive#${first.slug}">Studio Notes →</a>`;
         currentViewMeta?.appendChild(wireEditorial(nav));
@@ -167,14 +167,14 @@ export function appendCollectionStory({ collection, galleryGrid, currentViewMeta
     nav.innerHTML = '<a href="#artworks">Artworks</a><a href="#collection-story">About this series ↓</a>';
     if (collection === 'BEST BEFORE') nav.innerHTML += '<a href="#diary">Read the diary ↓</a>';
     if (collection === 'Montreal') nav.innerHTML += '<a href="#exhibition">Exhibition ↓</a>';
-    nav.innerHTML += '<a href="/explore">Practice →</a>';
+    nav.innerHTML += '<a href="/practice">Practice →</a>';
     currentViewMeta?.appendChild(wireEditorial(nav));
 }
 
 export function enhanceAbout(aboutText) {
     const wrap = document.createElement('div');
     wrap.innerHTML = aboutText;
-    const entry = readingLink('/explore', 'Practice →', 'Process, tools, and the stories behind the collections.');
+    const entry = readingLink('/practice', 'Practice →', 'Process, tools, and the stories behind the collections.');
     entry.classList.add('editorial-about-links');
     wrap.appendChild(entry);
     return wrap;
@@ -214,7 +214,7 @@ export function createExplorePractice(artworks = [], toCollectionSlug = () => ''
 
 export function enhanceHighlights(original) {
     const wrap = document.createElement('div');
-    wrap.append(original, readingLink('/explore', 'Practice →', 'Read about the process and stories behind the works.'), createEditorialPage('exhibitions'));
+    wrap.append(original, readingLink('/practice', 'Practice →', 'Read about the process and stories behind the works.'), createEditorialPage('exhibitions'));
     return wrap;
 }
 
@@ -246,7 +246,7 @@ export function createArtistNotes(item) {
     if (footnotes) node.appendChild(footnotes);
     relatedArchive.forEach(entry => { const a = document.createElement('a'); a.href = '/archive#' + entry.slug; a.className = 'reading-link'; a.textContent = entry.title + ' →'; node.appendChild(a); });
     if (isSE) {
-        const a = document.createElement('a'); a.href = '/practice'; a.textContent = 'Read the complete statement & process →'; node.appendChild(a);
+        const a = document.createElement('a'); a.href = '/gentleman-se-2025'; a.textContent = 'Read the complete statement & process →'; node.appendChild(a);
     }
     return wireEditorial(node);
 }

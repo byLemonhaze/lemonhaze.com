@@ -32,8 +32,8 @@ test('Selected Work matches the ten landing slides', () => {
     assert.ok(!landing.some(work => work.name === 'Insaisissable Mirage'));
 });
 
-test('nine core series retain both identity collections and rank archival projects quietly', () => {
-    assert.equal(SELECTED_SERIES.length, 9);
-    for (const slug of ['gentlemen', 'lotus', 'montreal', 'berlin', '1-of-1s-2024']) assert.equal(isCoreCollectionSlug(slug), true);
-    for (const slug of ['chrysalis', 'tori-no-roji', 'la-tentation', 'world-tour', 'discography', 'colors']) assert.equal(isCoreCollectionSlug(slug), false);
+test('six core series retain both identity collections and rank archival projects quietly', () => {
+    assert.equal(SELECTED_SERIES.length, 6);
+    for (const slug of ['gentlemen', 'lotus', 'montreal', 'manufactured', 'games', '1-of-1s-2024']) assert.equal(isCoreCollectionSlug(slug), true);
+    for (const slug of ['berlin', 'ma-ville-en-quatre-temps', 'chrysalis', 'tori-no-roji', 'la-tentation', 'world-tour', 'discography', 'colors']) assert.equal(isCoreCollectionSlug(slug), false);
 });

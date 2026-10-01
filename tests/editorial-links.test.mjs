@@ -13,7 +13,7 @@ test('Liminality diary links resolve identically on production and local preview
 });
 test('legacy readings, anchors and presentation images retain their destinations', () => {
     const cases = {
-        'process.html': '/practice',
+        'process.html': '/gentleman-se-2025',
         'liminality.html': '/liminality',
         'index.html#exhibition': '/montreal#exhibition',
         'index.html#gallery': '/montreal#artworks',

@@ -25,18 +25,15 @@ export const SELECTED_SERIES = [
     ['Gentlemen / Lotus', 'gentlemen', 'An aspiration that keeps changing.', [['Gentlemen', 'gentlemen'], ['Lotus', 'lotus']]],
     ['Montreal', 'montreal', 'Memories of a city, translated into texture.'],
     ['BEST BEFORE', 'best-before', 'Sealed, revealed, changed by time.'],
-    ['Manufactured', 'manufactured', 'Textile influences and the life of an image.'],
-    ['Games', 'games', 'Three works become one.'],
+    ['Manufactured / Games', 'manufactured', 'Textile influences, transformation, and three works becoming one.', [['Manufactured', 'manufactured'], ['Games', 'games']]],
     ['1/1s', '1-of-1s-2026', 'Individual works, by year.'],
     ['Liminality', 'liminality', 'Between one state and the next.'],
-    ['Berlin', 'berlin', 'Memories of a city and the encounters within it.'],
-    ['Ma ville en quatre temps', 'ma-ville-en-quatre-temps', 'A city in four parts.'],
 ];
 
 // Artist-selected covers; independent of collection parent and catalogue ordering.
 export const SELECTED_SERIES_COVERS = {
     'Gentlemen / Lotus': 'd17d6c2e96c9b129ec1fbb9a21742e06a063976494d306f6b4086a519913cc92i0', // Gentleman Nº3
-    'Manufactured': 'fe7de1e35036400088171f4419c9d231b37420d63db6653c6acc4b44bf3885fbi141', // Manufactured Nº143
+    'Manufactured / Games': '0a20ef85c7deae03895d6eb3a6fb735a551b56dcc5ec67a619bdfc0c4986b3dbi0', // Game Nº9
     'Games': '0a20ef85c7deae03895d6eb3a6fb735a551b56dcc5ec67a619bdfc0c4986b3dbi0', // Game Nº9
     'Lotus': 'a71cf3f3446fad723bb99ba5385bae78cd6a0c55f082ad4c4b487e84b19ac890i0', // Lotus #4
     'Montreal': 'e8333e96e84d038b2400a2d46853f676660a18adbbf22e8d9c15ca9894235e3bi0', // Five Roses

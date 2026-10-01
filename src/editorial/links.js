@@ -1,4 +1,4 @@
-const routes = { 'index.html': '/montreal', 'process.html': '/practice', 'paint-engine.html': '/paint-engine', 'gentlemen.html': '/gentlemen', 'liminality.html': '/liminality', 'best-before.html': '/best-before', 'exhibitions.html': '/highlights', 'collecting.html': '/collecting', 'review.html': '/about', 'editorial-sources.md': '/editorial/sources.md', 'sources.md': '/editorial/archive-sources.md' };
+const routes = { 'index.html': '/montreal', 'process.html': '/gentleman-se-2025', 'paint-engine.html': '/paint-engine', 'gentlemen.html': '/gentlemen', 'liminality.html': '/liminality', 'best-before.html': '/best-before', 'exhibitions.html': '/highlights', 'collecting.html': '/collecting', 'review.html': '/about', 'editorial-sources.md': '/editorial/sources.md', 'sources.md': '/editorial/archive-sources.md' };
 const siteHosts = new Set(['lemonhaze.com', 'www.lemonhaze.com']);
 
 // Resolve legacy editorial filenames before returning a canonical internal URL.

@@ -5,3 +5,5 @@ export const QUERY_ROUTE_KEYS = {
 };
 
 export const ALL_QUERY_ROUTE_KEYS = Object.values(QUERY_ROUTE_KEYS).flat();
+
+export const SECTION_ALIASES = { explore: 'practice', 'explore.html': 'practice' };

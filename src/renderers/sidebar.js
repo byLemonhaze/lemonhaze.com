@@ -46,7 +46,7 @@ export function renderTopNav(container, {
         };
         container.appendChild(link);
     };
-    ['selected', 'explore', 'about', 'highlights'].forEach(key => addSection(key));
+    ['selected', 'practice', 'about', 'highlights'].forEach(key => addSection(key));
     const allWorks = document.createElement('details');
     allWorks.id = 'all-works-nav';
     allWorks.className = 'all-works-nav';

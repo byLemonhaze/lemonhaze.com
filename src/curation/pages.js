@@ -13,19 +13,22 @@ function seriesCover(title, artworks, toCollectionSlug) {
     return { src: work ? getArtworkImageSrc(work) : '', alt: work?.name || title };
 }
 function seriesCard([title, slug, description, collectionLinks], artworks, toCollectionSlug) {
+    const coverWork = artworks.find(work => work.id === SELECTED_SERIES_COVERS[title]);
+    const coverSlug = collectionLinks && coverWork ? toCollectionSlug(coverWork.collection) : slug;
+    const coverLabel = collectionLinks?.find(([, path]) => path === coverSlug)?.[0] || title;
     const cover = seriesCover(title, artworks, toCollectionSlug);
     const years = title === '1/1s'
         ? `<nav class="selected-series-years" aria-label="1/1 works by year">${[2026, 2025, 2024].map(year => `<a href="/1-of-1s-${year}">${year}</a>`).join('')}</nav>`
         : '';
     const heading = collectionLinks
-        ? collectionLinks.map(([label, path]) => `<a href="/${path}">${escape(label)}</a>`).join(' / ')
+        ? collectionLinks.map(([label, path]) => `<a class="selected-series-collection-link" href="/${path}">${escape(label)}&nbsp;↗︎</a>`).join(' / ')
         : `<a href="/${slug}">${escape(title)} <span aria-hidden="true">↗︎</span></a>`;
-    return `<article class="selected-series-card"><div><a href="/${slug}" aria-label="Explore ${escape(collectionLinks?.[0]?.[0] || title)}"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" loading="lazy"></a></div><h3>${heading}</h3>${description ? `<p>${escape(description)}</p>` : ''}${years}</article>`;
+    return `<article class="selected-series-card"><div><a href="/${coverSlug}" aria-label="Explore ${escape(coverLabel)}"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" loading="lazy"></a></div><h3>${heading}</h3>${description ? `<p>${escape(description)}</p>` : ''}${years}</article>`;
 }
 export function createSelectedWork(artworks, toCollectionSlug) {
     const root = document.createElement('article');
     root.className = 'curated-page';
-    root.innerHTML = `<div class="curated-intro"><p class="curated-kicker">A selection · 2023–2026</p><h1>Marks, textures,<br>changing grounds.</h1><p>Black, ink-like forms run through these works, across different backgrounds, collections, and years.</p><a class="curated-text-link" href="/explore">On the practice ↗︎</a></div>
+    root.innerHTML = `<div class="curated-intro"><p class="curated-kicker">A selection · 2023–2026</p><h1>Marks, textures,<br>changing grounds.</h1><p>Black, ink-like forms run through these works, across different backgrounds, collections, and years.</p><a class="curated-text-link" href="/practice">On the practice ↗︎</a></div>
       <nav class="curated-page-nav" aria-label="Selected Work contents"><a href="#selected-artworks">Individual works ↓</a><a href="#selected-series">Selected series ↓</a><a href="#selected-engines">Paint Engines ↓</a></nav><div class="selected-work-grid" id="selected-artworks">${selectedWorks(artworks).map((work, i) => `<figure><a class="selected-image" href="/${work.id}"><img src="${escape(getArtworkImageSrc(work))}" alt="${escape(work.name)} by Lemonhaze" loading="lazy"></a><figcaption><span class="work-number">${String(i + 1).padStart(2, '0')}</span><a href="/${work.id}">${escape(work.name)}</a><span>${escape(year(work))}</span></figcaption><a class="selected-collection-link" href="/${toCollectionSlug(work.collection)}">${escape(work.series || work.collection)} →</a></figure>`).join('')}</div>
       <section class="curated-series" id="selected-series"><div class="curated-section-heading"><h2>Selected series</h2><p>Distinct bodies of work, each with its own story.</p></div><div class="selected-series-grid">${SELECTED_SERIES.map(series => seriesCard(series, artworks, toCollectionSlug)).join('')}</div></section>
       <section class="selected-engines curated-series" id="selected-engines" aria-labelledby="selected-engines-title">
@@ -39,9 +42,9 @@ export function createSelectedWork(artworks, toCollectionSlug) {
 export function createPracticeOverview(artworks) {
     const root = document.createElement('article');
     root.className = 'curated-page practice-page';
-    const work = artworks.find(work => work.name === 'Insaisissable Mirage');
+    const work = artworks.find(work => work.name === 'Wondrous Place');
     root.innerHTML = `<div class="curated-intro"><p class="curated-kicker">The practice</p><h1>Image. Texture.<br>Time.</h1><p>Generative images, digital texture, and personal writing. A practice shaped by memories of place, questions of identity, and periods of change.</p></div>
-      ${work ? `<figure class="practice-hero"><a href="/${work.id}"><img src="${escape(getArtworkImageSrc(work))}" alt="Insaisissable Mirage" loading="lazy"></a><figcaption>Insaisissable Mirage · ${year(work)}</figcaption></figure>` : ''}
+      ${work ? `<figure class="practice-hero"><a href="/${work.id}"><img src="${escape(getArtworkImageSrc(work))}" alt="Wondrous Place" loading="lazy"></a><figcaption>Wondrous Place · ${year(work)}</figcaption></figure>` : ''}
       <div class="practice-chapters"><section><span>01</span><div><h2>The mark and the ground</h2><p>Black, ink-like forms are a recurring thread: a mark against a shifting background, carried across individual works and series.</p><nav><a href="/selected">See the selected works ↗︎</a><a href="/chrysalis">Chrysalis ↗︎</a></nav></div></section>
       <section><span>02</span><div><h2>Place, identity, change</h2><p>Memories become compositions. An aspiration develops over time. A period of transition takes the form of a series. These subjects return through different visual approaches.</p><nav><a href="/gentlemen#collection-story">Gentlemen ↗︎</a><a href="/lotus">Lotus ↗︎</a><a href="/montreal#collection-story">Montreal ↗︎</a><a href="/liminality#collection-story">Liminality ↗︎</a></nav></div></section>
       <section><span>03</span><div><h2>Working with a system</h2><p>Code is part of making the image. So are iteration, texture, and choosing what to keep. In BEST BEFORE, time becomes part of the work itself.</p><nav><a href="/manufactured#collection-story">Manufactured ↗︎</a><a href="/games#collection-story">Games ↗︎</a><a href="/best-before#diary">BEST BEFORE ↗︎</a></nav></div></section>

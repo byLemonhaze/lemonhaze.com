@@ -1,4 +1,5 @@
 import test from "node:test";
+import { SECTION_ALIASES } from "../src/router/constants.js";
 import assert from "node:assert/strict";
 
 import {
@@ -8,7 +9,7 @@ import {
   stripRouteSearchParams,
 } from "../src/router/path-state.js";
 
-const sectionKeys = new Set(["about", "highlights", "supply", "media", "lab"]);
+const sectionKeys = new Set(["about", "highlights", "supply", "media", "lab", "practice", "gentleman-se-2025"]);
 const collectionSlugToName = new Map([
   ["best-before", "BEST BEFORE"],
   ["portrait-2490", "Portrait 2490"],
@@ -19,7 +20,8 @@ const collectionNameToSlug = new Map(
 
 const helpers = {
   normalizeSectionKey(value) {
-    const key = String(value || "").trim().toLowerCase();
+    const token = String(value || "").trim().toLowerCase();
+    const key = SECTION_ALIASES[token] || token;
     return sectionKeys.has(key) ? key : null;
   },
   resolveCollectionParam(value) {
@@ -125,4 +127,16 @@ test("sanitizePathname keeps root clean and collapses duplicate separators", () 
   assert.equal(sanitizePathname("/"), "/");
   assert.equal(sanitizePathname("about"), "/about");
   assert.equal(sanitizePathname("//about///"), "/about");
+});
+
+
+test("Practice aliases resolve to the overview and studio writing has its own route", () => {
+  for (const path of ['/explore', '/explore/', '/explore.html', '/?section=explore']) {
+    const route = parseRouteUrl(new URL('https://lemonhaze.com' + path), helpers);
+    assert.equal(route.section, 'practice');
+    assert.equal(route.canonicalPath, '/practice');
+  }
+  const writing = parseRouteUrl(new URL('https://lemonhaze.com/gentleman-se-2025#full-original'), helpers);
+  assert.equal(writing.section, 'gentleman-se-2025');
+  assert.equal(writing.canonicalPath, '/gentleman-se-2025');
 });

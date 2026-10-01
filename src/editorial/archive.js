@@ -33,7 +33,7 @@ export function createArchivePage(artworks, toCollectionSlug) {
     directory.appendChild(storyDirectory()); root.appendChild(directory);
     const onward = document.createElement('nav'); onward.className = 'editorial-related';
     onward.setAttribute('aria-label', 'Continue exploring');
-    onward.innerHTML = '<a href="/selected">Selected Work →</a><a href="/explore">Practice →</a>';
+    onward.innerHTML = '<a href="/selected">Selected Work →</a><a href="/practice">Practice →</a>';
     root.appendChild(onward);
     const form = root.querySelector('form');
     const cards = [...root.querySelectorAll('[data-entry]')];

@@ -27,10 +27,10 @@
     "name": "About Lemonhaze"
   },
   {
-    "path": "/explore",
+    "path": "/practice",
     "title": "Practice | Lemonhaze",
     "description": "Explore Lemonhaze’s practice through Gentlemen, BEST BEFORE, Montreal, Paint Engine, and Liminality.",
-    "canonical": "https://lemonhaze.com/explore",
+    "canonical": "https://lemonhaze.com/practice",
     "image": null,
     "kind": "page",
     "name": "Practice"
@@ -45,10 +45,10 @@
     "name": "Studio Notes"
   },
   {
-    "path": "/practice",
+    "path": "/gentleman-se-2025",
     "title": "Gentleman SE 2025 — Studio Writing | Lemonhaze",
     "description": "Lemonhaze on texture, generative painting, selecting an output, and writing inside the artwork. Original reflections from Gentleman SE 2025.",
-    "canonical": "https://lemonhaze.com/practice",
+    "canonical": "https://lemonhaze.com/gentleman-se-2025",
     "image": null,
     "kind": "page",
     "name": "Gentleman SE 2025 — Studio Writing"

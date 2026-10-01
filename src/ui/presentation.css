@@ -325,3 +325,5 @@ html[data-presentation] #sidebar a[data-collection-emphasis="archive"].font-bold
  .selected-engine-grid { gap:30px 18px; }
  .selected-engine-image { height:230px; }
 }
+
+.selected-series-card h3 a.selected-series-collection-link { text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:5px; }

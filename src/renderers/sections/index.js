@@ -1,3 +1,4 @@
+import { SECTION_ALIASES } from '../../router/constants.js';
 import { createSelectedWork, createPracticeOverview } from '../../curation/pages.js';
 import { createArchive, enhanceAbout, enhanceHighlights, createExplorePractice, createEditorialPage, readingLink } from '../../editorial/index.js';
 import { createCareerHighlightsNode } from './highlights.js';
@@ -40,7 +41,7 @@ export function createInternalSections({
                 return wrap;
             },
         },
-        explore: {
+        practice: {
             label: 'Practice', title: 'Practice',
             content: () => createPracticeOverview(getArtworks()),
         },
@@ -48,9 +49,9 @@ export function createInternalSections({
             label: 'Studio Notes', title: 'Studio Notes',
             content: () => createArchive(getArtworks(), toCollectionSlug),
         },
-        practice: {
+        'gentleman-se-2025': {
             label: 'Gentleman SE 2025 — Studio Writing', title: 'Gentleman SE 2025 — Studio Writing',
-            content: () => createEditorialPage('practice'),
+            content: () => createEditorialPage('gentleman-se-2025'),
         },
         'paint-engine': {
             label: 'Paint Engine', title: 'Paint Engine',
@@ -108,6 +109,7 @@ export function createInternalSections({
 
 export function normalizeSectionKey(value, internalSections) {
     if (!value) return null;
-    const key = String(value).trim().toLowerCase();
+    const token = String(value).trim().toLowerCase();
+    const key = SECTION_ALIASES[token] || token;
     return internalSections[key] ? key : null;
 }
