@@ -203,3 +203,8 @@
 .lh-editorial .display-mockup-grid .display-mockup { margin:16px 0; }
 .lh-editorial.artwork-artist-notes .display-mockup { margin:28px 0; }
 @media(max-width:600px) { .lh-editorial .display-mockup-grid { grid-template-columns:1fr; gap:8px; } }
+
+.lh-editorial .print-signing-films { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; margin-top:28px; max-width:860px; }
+.lh-editorial .print-signing-films figure { margin:0; min-width:0; }
+.lh-editorial .print-signing-films video { display:block; width:auto; height:auto; max-width:100%; max-height:min(480px,65svh); background:transparent; }
+@media(max-width:600px) { .lh-editorial .print-signing-films { grid-template-columns:1fr; } }

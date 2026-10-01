@@ -35,3 +35,7 @@ The illustrated versions are three separate inscriptions documenting the engine�
 ## Framing and display mockups — October 2026
 
 The artist supplied nine framing images on October 1, 2026: four BEST BEFORE studies, a Paint Engine triptych, Wild Patch, Chasing The Dragon, Hosoi, and Five Roses. They are stored in `/editorial/framing/` and captioned as framing or display mockups, rather than installation photographs. These are the artist’s supplied generated presentation images; the original artwork previews remain unchanged.
+
+## Print-signing films
+
+The artist supplied two MP4 signing films on October 1, 2026. The visible titles and artworks identify `WhatsApp Video 2026-10-01 at 16.15.04.mp4` as Chamber of Reflection and `WhatsApp Video 2026-10-01 at 16.17.02.mp4` as Hosoi. They play directly under “At the print table” on Viewing & collecting. The files in `/editorial/films/` preserve the original video and audio streams, with the MP4 index moved to the front for playback. Posters are frames from the supplied films. No autoplay or Instagram embed is used.

@@ -16,7 +16,7 @@ export const CAROUSEL_WORK_IDS = [
     '8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0', // Chamber of Reflection
     'adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0', // Gentleman Nº6
     'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i401', // BEST BEFORE Nº402
-    '3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0', // Hosoi
+    'a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0', // Family Portrait
     '00d08f2e808d325139649b50f77204a71d9624e7fd7e60a28907a4836614c49ei0', // Rue Cuvillier
     '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0', // Gentleman Nº1
 ];
@@ -49,7 +49,7 @@ export const SELECTED_SERIES_COVERS = {
     'Ma ville en quatre temps': '298a55a78a48faafe5ac119cb48dd2235dc9c37210e30c793f39c280b2618f32i0', // L'Hiver, la nuit
     'Berlin': 'fd188a970767ef5ef2f4bbae2c641b8b314bcf3eb1305fff9f3ebc5ebecfd448i0', // 99 Francs
     'La Tentation': 'daf064a28fd61c3f6fdaa223a8f9080c60635c3caf691c3accc6f8f0a8935b93i0', // La Tentation Nº0
-    '1/1s': 'a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0', // Family Portrait
+    '1/1s': 'f674a004eeebac907ef2b8a3d0c0f850724153ad15f55ada4b6ec3b0b3cc16bai0', // Saturday Evening
 };
 
 const coreSlugs = new Set(SELECTED_SERIES.flatMap(([, slug,, links]) => [slug, ...(links || []).map(([, path]) => path)]));
