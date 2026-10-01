@@ -340,3 +340,10 @@ button.carousel-slide, button.selected-image { background:transparent; border:0;
 .coming-soon-notice { position:fixed; transform:translate(-50%,calc(-50% + 6px)); z-index:10000; padding:12px 22px; background:var(--page); color:var(--ink); border:1px solid var(--line); font:13px/1.5 Arial,sans-serif; letter-spacing:.03em; opacity:0; pointer-events:none; transition:opacity .2s ease,transform .2s ease; }
 .coming-soon-notice.is-visible { opacity:1; transform:translate(-50%,-50%); }
 @media(prefers-reduced-motion:reduce) { .coming-soon-notice { transition:none; } }
+
+.artwork-loading { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:5; display:flex; align-items:center; gap:12px; padding:13px 18px; background:var(--page); color:var(--ink); font:11px/1.5 sans-serif; letter-spacing:.05em; pointer-events:none; max-width:85%; }
+.artwork-loading[hidden] { display:none; }
+.artwork-loading-square { width:12px; height:12px; flex:none; border:1px solid currentColor; animation:artwork-loading-turn 1.8s ease-in-out infinite; }
+.artwork-loading-error .artwork-loading-square { animation:none; }
+@keyframes artwork-loading-turn { to { transform:rotate(180deg); } }
+@media(prefers-reduced-motion:reduce) { .artwork-loading-square { animation:none; } }

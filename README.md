@@ -156,3 +156,5 @@ npx wrangler pages deploy dist --project-name lemonhaze
 
 - GitHub: [@byLemonhaze](https://github.com/byLemonhaze)
 - Website: [lemonhaze.com](https://lemonhaze.com)
+
+Artwork viewers show a centered loading indicator while the image, video, or embedded document loads. It clears on load or close, supports reloads, and respects reduced-motion preferences.

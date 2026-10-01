@@ -1,3 +1,4 @@
+import { createArtworkLoadingIndicator } from '../../ui/artwork-loading.js';
 import { getArtworkOwnership } from '../../modules/artwork-ownership.js';
 import {
     getPreferredFileExtension,
@@ -264,6 +265,11 @@ export function createArtworkModalController({
     let metadataRenderToken = 0;
     let returnSection = null;
     let returnFocus = null;
+    let loadingIndicator;
+    function viewerLoading() {
+        loadingIndicator ||= createArtworkLoadingIndicator(refs().modalOverlay?.querySelector('.modal-media-panel'));
+        return loadingIndicator;
+    }
 
     function showViewer(overlay) {
         overlay.classList.remove('hidden');
@@ -1068,16 +1074,20 @@ export function createArtworkModalController({
         }
 
         modalActions.appendChild(pill('⟳', 'Reload content', () => {
+            viewerLoading().start();
             if (!modalImage.classList.contains('hidden') && modalImage.src) {
+                viewerLoading().watch(modalImage);
                 const base = modalImage.src.split('?')[0];
                 modalImage.src = `${base}?t=${Date.now()}`;
             }
             if (!modalIframe.classList.contains('hidden') && modalIframe.src) {
+                viewerLoading().watch(modalIframe);
                 const s = modalIframe.src;
                 modalIframe.src = '';
                 modalIframe.src = s;
             }
             if (modalVideo && !modalVideo.classList.contains('hidden') && modalVideo.src) {
+                viewerLoading().watch(modalVideo);
                 const s = modalVideo.src;
                 modalVideo.src = '';
                 modalVideo.src = s;
@@ -1116,6 +1126,7 @@ export function createArtworkModalController({
         modalOverlay.scrollTop = 0;
         modalOverlay.querySelector('.modal-meta-panel')?.scrollTo(0, 0);
 
+        viewerLoading().clear();
         modalImage.classList.add('hidden');
         modalIframe.classList.add('hidden');
         modalVideo.classList.add('hidden');
@@ -1125,11 +1136,13 @@ export function createArtworkModalController({
         modalVideo.src = '';
         clearActiveHtmlBlobUrl();
         htmlBlobLoadToken += 1;
+        viewerLoading().start();
 
         if (isHtml || useDirectIframe) {
             const currentToken = htmlBlobLoadToken;
             modalIframe.classList.remove('hidden');
             if (useDirectIframe) {
+                viewerLoading().watch(modalIframe);
                 modalIframe.src = `https://ordinals.com/content/${item.id}`;
                 renderMetadataList(item);
                 renderActionButtons(item, cdnSrc, isHtml);
@@ -1147,6 +1160,7 @@ export function createArtworkModalController({
             void buildSaveEnabledHtmlBlobUrl(item.id).then((blobUrl) => {
                 if (!blobUrl) {
                     if (appState.activeArtworkId === item.id && currentToken === htmlBlobLoadToken) {
+                        viewerLoading().watch(modalIframe);
                         modalIframe.src = `https://ordinals.com/content/${item.id}`;
                     }
                     return;
@@ -1158,13 +1172,16 @@ export function createArtworkModalController({
                 }
 
                 activeHtmlBlobUrl = blobUrl;
+                viewerLoading().watch(modalIframe);
                 modalIframe.src = blobUrl;
             });
         } else if (isVideo) {
+            viewerLoading().watch(modalVideo);
             modalVideo.src = `https://ordinals.com/content/${item.id}`;
             modalVideo.classList.remove('hidden');
             modalVideo.play().catch(() => {});
         } else {
+            viewerLoading().watch(modalImage);
             modalImage.src = `https://ordinals.com/content/${item.id}`;
             modalImage.classList.remove('hidden');
         }
@@ -1185,6 +1202,7 @@ export function createArtworkModalController({
         const { updateUrl = true, replaceHistory = false } = options;
         const { modalOverlay, modalImage, modalIframe, modalVideo, rawHtmlContainer, galleryGrid } = refs();
 
+        loadingIndicator?.clear();
         const hadArtwork = Boolean(appState.activeArtworkId);
         appState.activeArtworkId = null;
         if (hadArtwork && updateUrl) appState.activeSectionKey = returnSection;
