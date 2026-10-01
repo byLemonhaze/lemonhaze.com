@@ -35,7 +35,7 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
     const stage = document.createElement('div'); stage.className = 'carousel-stage';
     const slides = selection.map((work, index) => {
         const link = document.createElement('a'); link.className = 'carousel-slide';
-        link.href = '/' + work.id;
+        link.href = work.href || '/' + work.id;
         link.setAttribute('aria-label', `View ${work.name}`);
         const image = document.createElement('img'); image.src = getCarouselImageSrc(work);
         image.alt = work.name + ' by Lemonhaze'; image.decoding = 'async';
@@ -60,6 +60,7 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
         link.onclick = event => {
             if (dragged) { event.preventDefault(); return; }
             if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            if (work.href) return;
             event.preventDefault(); onOpenArtworkById(work.id);
         };
         stage.appendChild(link); return link;
@@ -107,7 +108,7 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
         });
         const work = selection[activeIndex];
         const year = work.year || Object.entries(chronologyByYear).find(([, collections]) => collections.includes(work.collection))?.[0] || String(work.timestamp || '').slice(0, 4);
-        title.textContent = work.name; title.href = '/' + work.id;
+        title.textContent = work.name; title.href = work.href || '/' + work.id;
         collectionLink.textContent = work.series || work.collection;
         collectionLink.href = '/' + toCollectionSlug(work.collection);
         yearLabel.textContent = ` · ${year}`;

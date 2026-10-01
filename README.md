@@ -77,7 +77,7 @@ Legacy query links are still accepted and normalized into path slugs. Supported 
 
 ## Selected Work, Practice and Studio Notes
 
-The landing carousel presents ten artist-selected works; `/selected` follows the same ten works, followed by six selected series cards (Gentlemen / Lotus and Manufactured / Games each share a card, with separate collection links). Porcelain Sunset renders its original inscribed animation. Paint Engines has a dedicated chapter with three previews and commission information. `/practice` provides a concise practice overview; `/explore` redirects there. All Works in the sidebar retains the expandable, year-by-year collection chronology.
+The landing carousel presents nine artist-selected works plus an EXPIRED collection-state image at slide 08; `/selected` contains only the nine artworks, followed by six selected series cards (Gentlemen / Lotus and Manufactured / Games each share a card, with separate collection links). Porcelain Sunset renders its original inscribed animation. Paint Engines has a dedicated chapter with three previews and commission information. `/practice` provides a concise practice overview; `/explore` redirects there. All Works in the sidebar retains the expandable, year-by-year collection chronology.
 
 `/archive`, titled Studio Notes, keeps all 58 notes in an editorially ranked reading list, with text-only entries. Original photographs, films and writing remain inside the notes. Search, optional filters and source-date sorting provide access to the full archive. `/gentleman-se-2025` preserves the separate Gentleman SE 2025 writing with short prose summaries above the original text. `/collecting` connects viewing guidance, supply and Market Watch; `/highlights` connects exhibitions and press.
 

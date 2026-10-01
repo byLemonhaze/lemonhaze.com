@@ -190,3 +190,8 @@
 .lh-editorial .engine-select-arrow{position:absolute;right:17px;top:50%;transform:translateY(-50%);pointer-events:none}
 @media(max-width:1100px){.lh-editorial .engine-examples{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.lh-editorial .engine-examples{grid-template-columns:1fr}.lh-editorial .engine-examples .work img{height:360px;max-height:65svh}}
+
+/* Montreal documentation retains the full photographs and their proportions. */
+.lh-editorial .montreal-installation { grid-column:1/-1; margin:0; min-width:0; width:min(100%, 760px, 80svh); justify-self:center; }
+.lh-editorial .montreal-installation img { display:block; width:100%; height:auto; background:transparent; }
+.lh-editorial .montreal-exhibition-reading { grid-column:1/-1; min-width:0; }

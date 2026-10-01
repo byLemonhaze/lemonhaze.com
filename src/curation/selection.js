@@ -1,5 +1,5 @@
 // Local editorial selections, independent of the complete chronological catalogue.
-// Selected Work follows the same ten works as the landing carousel.
+// Nine selected works; the landing adds a collection-state slide separately.
 export const CAROUSEL_WORK_IDS = [
     'c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0', // Hózhó
     '3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0', // Hosoi
@@ -8,8 +8,7 @@ export const CAROUSEL_WORK_IDS = [
     '8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0', // Chamber of Reflection
     'adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0', // Gentleman Nº6
     'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i401', // BEST BEFORE Nº402
-    '33e141b76fba2459796239c0d67ea8bc056ec4abdb7a4f8d22735bb6c6be8ef6i0', // Lost in Bangkok
-    '00d08f2e808d325139649b50f77204a71d9624e7fd7e60a28907a4836614c49ei0', // Rue Cuvillier
+    '93f21c215ccb08a1540bded626670cdc68aa731a0df9427b614d367cad07daaei0', // La Banquise
     '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0', // Gentleman Nº1
 ];
 

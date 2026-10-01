@@ -649,17 +649,12 @@
         "title": "Hosoi · A thin line",
         "paragraphs": [
           "Hosoi explores the thin line between what keeps the artist alive and what harms him. Addiction, losing sight of things and pushing people away sit alongside an unresolved question: is staying an act of selfishness, or an unwillingness to give up?",
-          "Hosoi sold for 0.5 BTC, Lemonhaze’s highest primary sale to date.",
           "Hosoi and Eclosion were Lemonhaze’s first works using this technique of converting images to Base64. They preceded Untitled, his first parent-child collection, in 2023."
         ],
         "sources": [
           {
             "label": "Original inscription · Hosoi",
             "url": "https://ordinals.com/content/3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0"
-          },
-          {
-            "label": "Artist-maintained sales record",
-            "url": "/data/sales-master/historical-sales-sheet.json"
           },
           {
             "label": "Artist’s words · Dec 04, 2025",

@@ -18,6 +18,8 @@ The dated passages and complete diary come from the BEST BEFORE project archive 
 
 The Montreal installation panorama and collection presentation image are published by Gamma in its Montreal spotlight. The August 2025 solo exhibition at Suburbs Gallery was curated by Gamma.
 
+Two additional installation photographs come from [Lemonhaze’s December 24, 2025 photo post](https://x.com/Ordinals10K/status/2003628019655803139). Original JPEGs (`G85QYcJWAAAwlPI` and `G85QYcIXUAACxsN`) are 4032 × 3024 pixels, preserved in `/editorial/montreal/` alongside 1600-pixel display copies. Photographs are uncropped. The collection’s place-and-memory reading follows the artist’s Gamma interview.
+
 [Gamma: Montreal by Lemonhaze](https://blog.gamma.io/ordinals-spotlight-montreal-by-lemonhaze)
 
 Chamber of Reflection was Lot 592 in Sotheby’s Contemporary Discoveries, New York, February 2025. Its image is an artwork preview, not an installation photograph.
