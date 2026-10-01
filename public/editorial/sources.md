@@ -12,6 +12,8 @@ Liminality’s personal statement is based on the artist’s account of the peri
 
 The dated passages and complete diary come from the BEST BEFORE project archive by Lemonhaze and ORDINALLY. Part Two identifies itself as a narrative reconstruction; the other sections preserve their speaker labels and dates. The lifecycle and introductory illustrations come from the project archive. Framed presentation images are AI-generated visual studies, not installation documentation.
 
+The featured diary excerpt is Lemonhaze’s September 20, 2025 entry at 22:22, connecting personal change with the work’s expiry. The complete archived diary remains unchanged.
+
 [BEST BEFORE](https://bestbefore.gallery/)
 
 ## Exhibitions

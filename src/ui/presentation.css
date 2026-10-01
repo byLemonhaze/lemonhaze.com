@@ -327,3 +327,9 @@ html[data-presentation] #sidebar a[data-collection-emphasis="archive"].font-bold
 }
 
 .selected-series-card h3 a.selected-series-collection-link { text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:5px; }
+
+/* BEST BEFORE lifecycle controls follow the active page palette. */
+html[data-presentation] main .lh-editorial .lifecycle-tabs button { background:transparent; color:var(--ink)!important; border:1px solid var(--line); border-radius:0; }
+html[data-presentation] main .lh-editorial .lifecycle-tabs button[aria-selected="true"] { background:var(--surface); border-color:var(--ink); }
+html[data-presentation] main .lh-editorial .lifecycle-tabs button:hover { border-color:var(--ink); }
+html[data-presentation] main .lh-editorial .lifecycle-panel { border-color:var(--line); }
