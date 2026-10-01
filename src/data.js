@@ -113,20 +113,16 @@ export const CHRONOLOGY_BY_YEAR = {
 
 export const ABOUT_LEMONHAZE_TEXT = `
 <p class="mb-4 text-white/90 font-light leading-relaxed">
-  Lemonhaze (b. 1990) is the artistic practice of Frédérick Nathaniel St-Louis (FNST), a self-taught Canadian artist who divides his time between Montreal and Puerto Escondido. Drawing from a background in music, expressive writing, and independent experimentation, he develops an evolving digital art practice rooted in exploration and personal reflection.
+  Lemonhaze is the artistic practice of Frédérick Nathaniel St-Louis (b. 1990), a Montréal-born, self-taught artist working between Montréal and Puerto Escondido.
 </p>
 <p class="mb-4 text-white/90 font-light leading-relaxed">
-  Continually experimenting with the tools of his time — laptops, JavaScript, AI, and digital drawing software — Lemonhaze uses code, algorithms, and digital tools to translate lived experience into evolving visual systems.
+  The work moves through images, textures, and writing. Black, ink-like marks recur across shifting grounds. Place, identity, and time keep returning: a city remembered, a figure changing, a work that ages on block time. Since 2023, Bitcoin has been the primary medium.
 </p>
 <p class="mb-4 text-white/90 font-light leading-relaxed">
-  His practice is iterative, spontaneous, and modular, touching a wide range of interests from journaling to physical mediums, while remaining anchored in the development of his personal code-based paint engine.
-</p>
-<p class="mb-4 text-white/90 font-light leading-relaxed">
-  His art acts both as a means of escape and as a tangible memento, often deeply personal — capturing fragments of lived experience, emotion, and time.
-  With a deep appreciation for the lasting nature of the Bitcoin blockchain, he has chosen it as the foundation for his poetic and visual expressions.
+  He came to this from music and writing, outside art school. Code, drawing, and generative systems became the tools; the Paint Engines extend the same practice.
 </p>
 <p class="mb-0 text-white/90 font-light leading-relaxed">
-  Lemonhaze’s singular and offbeat journey as an artist, shaped outside the constraints of traditional art education or industry expectations, reflects a raw individuality. His work is collected by more than 100 individual collectors and has been showcased internationally, including at the Sotheby’s Contemporary Discoveries auction in New York (2025).
+  The work is held by more than 100 collectors and has been shown internationally, including in Sotheby’s Contemporary Discoveries, New York (2025).
 </p>
 `;
 

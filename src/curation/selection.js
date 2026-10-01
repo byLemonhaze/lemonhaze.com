@@ -24,7 +24,7 @@ export function selectedWorks(artworks, ids = SELECTED_WORK_IDS) {
 export const SELECTED_SERIES = [
     ['Gentlemen / Lotus', 'gentlemen', 'An aspiration that keeps changing.', [['Gentlemen', 'gentlemen'], ['Lotus', 'lotus']]],
     ['Montreal', 'montreal', 'Memories of a city, translated into texture.'],
-    ['BEST BEFORE', 'best-before', 'Sealed, revealed, changed by time.'],
+    ['BEST BEFORE', 'best-before', 'SEALED, OPENED, EXPIRED'],
     ['Manufactured / Games', 'manufactured', 'Textile influences, transformation, and three works becoming one.', [['Manufactured', 'manufactured'], ['Games', 'games']]],
     ['1/1s', '1-of-1s-2026', 'Individual works, by year.'],
     ['Liminality', 'liminality', 'Between one state and the next.'],

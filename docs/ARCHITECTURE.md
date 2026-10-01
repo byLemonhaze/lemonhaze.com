@@ -166,7 +166,7 @@ Selected series has nine cards; Gentlemen and Lotus share Gentleman Nº3 as a co
 
 In-page editorial links keep their fragment-only hrefs until clicked, so building a section before its route update cannot attach anchors to the previous page. Anchor jumps preserve query parameters and history state. The landing carousel sizes the Porcelain Sunset and Lotus Tigré posters to the original inscriptions' display bounds, tracks stage resizing, and reveals each live iframe after its first rendering frames; original inscription content is unchanged.
 
-Selected Work gives Paint Engines its own anchored chapter with four linked output previews, a short introduction to the generative systems and print/interior commissions, and a route to the dedicated engine page. Featured previews are listed in `FEATURED_PAINT_ENGINES`; the artist-selected `ccc4.png` remains the Chasing The Dragon cover.
+Selected Work gives Paint Engines its own anchored chapter with three linked output previews, a short introduction to the generative systems and print/interior commissions, and a route to the dedicated engine page. Featured previews are listed in `FEATURED_PAINT_ENGINES`; the artist-selected `ccc4.png` remains the Chasing The Dragon cover.
 
 The Selected Work engine chapter includes the original v0 with Smooth Sailor as its credited 1/1 cover; clicking it opens v0. Commission wording uses rental properties and describes a single engine generating a customized set of works.
 
