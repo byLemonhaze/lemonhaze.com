@@ -27,8 +27,8 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const items = await fetchFeaturedCollections();
     const byCollection = Map.groupBy(items, (item) => item.collection);
 
-    assert.equal(items.length, 266);
-    assert.equal(new Set(items.map((item) => item.id)).size, 266);
+    assert.equal(items.length, 273);
+    assert.equal(new Set(items.map((item) => item.id)).size, 273);
     assert.equal(byCollection.get('Satoshi (Original & Editions)').length, 111);
     assert.equal(byCollection.get('Deprivation (Prints)').length, 33);
     assert.equal(byCollection.get('Mirage (Prints)').length, 33);
@@ -37,6 +37,17 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.equal(byCollection.get('Griffintown').length, 3);
     assert.equal(byCollection.get('Liminality').length, 7);
     assert.equal(byCollection.get('Eclosion 1/1 - Amsterdam Blooms').length, 1);
+
+    const confabulation = prependCollectionLeadArtworks({
+        items: byCollection.get('Confabulation'), collectionName: 'Confabulation', allArtworks: items,
+    });
+    assert.deepEqual(confabulation.map(item => item.name), ['Confabulation', 'Wernicke', 'Bonnet', 'Ganser', 'Capgras', 'Fregoli', 'Korsakoff']);
+    assert.equal(confabulation[0].role, 'parent');
+    assert.ok(confabulation.slice(1).every(item => item.provenance.split(', ')[0] === confabulation[0].id));
+    assert.ok(confabulation.every(item => item.grid_preview === `https://cdn.lemonhaze.com/assets/assets/${item.id}.png`));
+    assert.ok(confabulation.every(item => !shouldUseDirectOnchainPreview(item) && shouldUseDirectModalIframe(item, true)));
+    assert.equal(confabulation[3].dimensions, '3840 × 2160 px');
+    assert.equal(confabulation[3].reflection, 'Language becomes approximate; the answer arrives almost correctly.');
 
     const chrysalis = prependCollectionLeadArtworks({
         items: byCollection.get('Chrysalis'),
@@ -235,10 +246,11 @@ test('featured collection manifests load complete, ordered galleries', async () 
 
 test('featured collections sit in the intended reverse chronology', () => {
     const year2026 = CHRONOLOGY_BY_YEAR['2026'];
-    assert.equal(year2026[0], 'Chrysalis');
-    assert.equal(year2026[1], 'Tin Box of Solitude');
-    assert.equal(year2026[2], 'Griffintown');
-    assert.equal(year2026[3], 'Liminality');
+    assert.equal(year2026[0], 'Confabulation');
+    assert.equal(year2026[1], 'Chrysalis');
+    assert.equal(year2026[2], 'Tin Box of Solitude');
+    assert.equal(year2026[3], 'Griffintown');
+    assert.equal(year2026[4], 'Liminality');
     assert.ok(year2026.indexOf('Griffintown') < year2026.indexOf('Liminality'));
     assert.ok(year2026.indexOf('Liminality') < year2026.indexOf('Into The Wild'));
 

@@ -2,12 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildHomeSelection } from '../src/renderers/home/selection.js';
-import { UNTITLED_WORK, CAROUSEL_WORK_IDS, selectedWorks, SELECTED_SERIES, isCoreCollectionSlug } from '../src/curation/selection.js';
+import { CAROUSEL_WORK_IDS, selectedWorks, SELECTED_SERIES, isCoreCollectionSlug } from '../src/curation/selection.js';
 
 const provenance = JSON.parse(readFileSync(new URL('../public/data/provenance.json', import.meta.url)));
 const chrysalis = JSON.parse(readFileSync(new URL('../public/data/collections/chrysalis.json', import.meta.url))).map(work => ({...work, name:work.meta.name}));
 const liminality = JSON.parse(readFileSync(new URL('../public/data/collections/liminality.json', import.meta.url))).map(work => ({...work, name:work.meta.name}));
-const artworks = [...provenance, ...chrysalis, ...liminality];
+const confabulation = JSON.parse(readFileSync(new URL('../public/data/collections/confabulation.json', import.meta.url))).map(work => ({...work, name:work.meta.name, collection:work.collection || 'Confabulation'}));
+const artworks = [...provenance, ...chrysalis, ...liminality, ...confabulation];
 test('homepage uses the finite editorial selection in a stable order, regardless of catalogue order', () => {
     const selection = buildHomeSelection({artworks});
     assert.equal(selection.length, 10);
@@ -21,18 +22,17 @@ test('missing selected records are skipped without introducing random archive wo
     assert.deepEqual(selection.map(work => work.id), CAROUSEL_WORK_IDS.slice(1));
 });
 
-test('Selected Work and landing share ten works including Untitled', () => {
+test('Selected Work and landing share ten works with Ganser at 02', () => {
     const selected = selectedWorks(artworks);
     assert.equal(selected.length, 10);
     assert.deepEqual(selected.map(work => work.id), CAROUSEL_WORK_IDS);
     assert.equal(new Set(selected.map(work => work.id)).size, 10);
     const landing = buildHomeSelection({ artworks });
-    assert.deepEqual(landing.map(work => work.name), ['Hózhó', 'Untitled', "Chanchanok's Temple", 'Porcelain Sunset', 'Chamber of Reflection', 'Gentleman Nº6', 'BEST BEFORE Nº402', 'Family Portrait', 'Rue Cuvillier', 'Gentleman Nº1']);
-    assert.deepEqual(landing[1], UNTITLED_WORK);
-    assert.equal(landing[1].caption, "X - 202?");
-    assert.equal(landing[1].collection, undefined);
-    assert.equal(landing[1].comingSoon, true);
-    assert.equal(landing[1].href, undefined);
+    assert.deepEqual(landing.map(work => work.name), ['Hózhó', 'Ganser', "Chanchanok's Temple", 'Porcelain Sunset', 'Chamber of Reflection', 'Gentleman Nº6', 'BEST BEFORE Nº402', 'Family Portrait', 'Rue Cuvillier', 'Gentleman Nº1']);
+    assert.equal(landing[1].id, 'd19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0');
+    assert.equal(landing[1].collection, 'Confabulation');
+    assert.equal(landing[1].comingSoon, undefined);
+    assert.equal(landing[1].grid_preview, `https://cdn.lemonhaze.com/assets/assets/${landing[1].id}.png`);
     assert.deepEqual(selected, landing);
     assert.ok(!landing.some(work => ['Lost in Bangkok', 'La Banquise'].includes(work.name)));
     assert.ok(!landing.some(work => work.name === 'From Berlin to Saigon'));

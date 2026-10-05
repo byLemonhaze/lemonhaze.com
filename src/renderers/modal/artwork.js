@@ -123,6 +123,7 @@ const SAT_RARITY_LABELS = {
 };
 
 const DIRECT_IFRAME_RENDER_COLLECTIONS = new Set([
+    'Confabulation',
     'Chrysalis',
     'Tin Box of Solitude',
     'BEST BEFORE',
@@ -137,6 +138,7 @@ const DIRECT_IFRAME_RENDER_COLLECTIONS = new Set([
 ]);
 
 const DIRECT_IFRAME_RENDER_ARTWORK_IDS = new Set([
+    '788df6ca0f6fc0ddf32b363c4571dd77c42cdf1367365575815452dd050d2b86i0',
     'fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0',
     '3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0',
     'd6b1b35b58d873a81f6b8aea3e02cd5a7177e1d86de9ee66adfe006284897d6bi0', // Đắc-Sơn

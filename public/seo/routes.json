@@ -513,6 +513,15 @@
     "name": "1 of 1s (2025)"
   },
   {
+    "path": "/confabulation",
+    "title": "Confabulation | Lemonhaze",
+    "description": "An unconscious memory error where the brain fills in missing gaps with false information.",
+    "canonical": "https://lemonhaze.com/confabulation",
+    "image": null,
+    "kind": "collection",
+    "name": "Confabulation"
+  },
+  {
     "path": "/chrysalis",
     "title": "Chrysalis | Lemonhaze",
     "description": "Moving inward, into the protected and largely invisible period when transformation is already underway: the remnants of an external world being reorganized from within.",
@@ -583,6 +592,76 @@
     "image": null,
     "kind": "collection",
     "name": "Colors"
+  },
+  {
+    "path": "/788df6ca0f6fc0ddf32b363c4571dd77c42cdf1367365575815452dd050d2b86i0",
+    "title": "Confabulation | Lemonhaze",
+    "description": "Confabulation by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/788df6ca0f6fc0ddf32b363c4571dd77c42cdf1367365575815452dd050d2b86i0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/788df6ca0f6fc0ddf32b363c4571dd77c42cdf1367365575815452dd050d2b86i0.png",
+    "kind": "artwork",
+    "name": "Confabulation",
+    "collectionPath": "/provenance"
+  },
+  {
+    "path": "/862fac8dc9236e8adb4cc7e6127421fe7f3cad8c4b07975b8cf0bdb9bea7c038i0",
+    "title": "Wernicke | Lemonhaze",
+    "description": "Wernicke by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/862fac8dc9236e8adb4cc7e6127421fe7f3cad8c4b07975b8cf0bdb9bea7c038i0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/862fac8dc9236e8adb4cc7e6127421fe7f3cad8c4b07975b8cf0bdb9bea7c038i0.png",
+    "kind": "artwork",
+    "name": "Wernicke",
+    "collectionPath": "/confabulation"
+  },
+  {
+    "path": "/1fc5ef5b3ea7942dcd8942eaeb446c0d781b870d6b018139f4f6876b3e6591f2i0",
+    "title": "Bonnet | Lemonhaze",
+    "description": "Bonnet by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/1fc5ef5b3ea7942dcd8942eaeb446c0d781b870d6b018139f4f6876b3e6591f2i0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/1fc5ef5b3ea7942dcd8942eaeb446c0d781b870d6b018139f4f6876b3e6591f2i0.png",
+    "kind": "artwork",
+    "name": "Bonnet",
+    "collectionPath": "/confabulation"
+  },
+  {
+    "path": "/d19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0",
+    "title": "Ganser | Lemonhaze",
+    "description": "Ganser by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/d19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/d19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0.png",
+    "kind": "artwork",
+    "name": "Ganser",
+    "collectionPath": "/confabulation"
+  },
+  {
+    "path": "/ef9420ade43f55acb2bed74c62626c6e5b1f8b693abd2f5d3ecc6cd109656646i0",
+    "title": "Capgras | Lemonhaze",
+    "description": "Capgras by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/ef9420ade43f55acb2bed74c62626c6e5b1f8b693abd2f5d3ecc6cd109656646i0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/ef9420ade43f55acb2bed74c62626c6e5b1f8b693abd2f5d3ecc6cd109656646i0.png",
+    "kind": "artwork",
+    "name": "Capgras",
+    "collectionPath": "/confabulation"
+  },
+  {
+    "path": "/175f7d2ead9dfe04c769502f613644fb06987357636ac34cbce3526539729e84i0",
+    "title": "Fregoli | Lemonhaze",
+    "description": "Fregoli by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/175f7d2ead9dfe04c769502f613644fb06987357636ac34cbce3526539729e84i0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/175f7d2ead9dfe04c769502f613644fb06987357636ac34cbce3526539729e84i0.png",
+    "kind": "artwork",
+    "name": "Fregoli",
+    "collectionPath": "/confabulation"
+  },
+  {
+    "path": "/f745422c5aefb34954bc83257e959a63adfbcf82ec264b8842b2ea82e94d3c68i0",
+    "title": "Korsakoff | Lemonhaze",
+    "description": "Korsakoff by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/f745422c5aefb34954bc83257e959a63adfbcf82ec264b8842b2ea82e94d3c68i0",
+    "image": "https://cdn.lemonhaze.com/assets/assets/f745422c5aefb34954bc83257e959a63adfbcf82ec264b8842b2ea82e94d3c68i0.png",
+    "kind": "artwork",
+    "name": "Korsakoff",
+    "collectionPath": "/confabulation"
   },
   {
     "path": "/fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0",

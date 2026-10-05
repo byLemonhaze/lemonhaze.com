@@ -25,6 +25,10 @@ try {
 const groups=visualizer.buildGroups(artworks);
 
 test('Visualizer includes current collections, parent roles, and every 2026 one-of-one',async()=>{
+ const confabulation=groups.find(g=>g.name==='Confabulation');
+ assert.equal(confabulation.parents.length,1);assert.equal(confabulation.works.length,6);
+ assert.equal(visualizer.groupDisplayItems(confabulation)[0].name,'Confabulation');
+ assert.deepEqual(visualizer.preferredGridShape(confabulation),{columns:4,rows:2});
  const chrysalis=groups.find(g=>g.name==='Chrysalis');
  assert.equal(chrysalis.parents.length,1);assert.equal(chrysalis.works.length,7);
  assert.equal(visualizer.groupDisplayItems(chrysalis)[0].name,'Chrysalis');
@@ -44,7 +48,7 @@ test('Visualizer includes current collections, parent roles, and every 2026 one-
  assert.equal(expected.size,15);
  assert.equal(new Set(artworks.map(a=>a.id)).size,artworks.length);
  assert.equal(groups.find(g=>g.name==='BEST BEFORE').works.length,420);
- assert.equal(visualizer.latestChronologyDate(groups),'SEPT 2026');
+ assert.equal(visualizer.latestChronologyDate(groups),'OCT 2026');
 });
 
 test('Tin Box has a centered parent above exactly three rows of four, within its card',()=>{
@@ -61,10 +65,10 @@ test('Tin Box has a centered parent above exactly three rows of four, within its
  }
 });
 
-test('all six 2026 groups fit without overlapping or dropping a collection',()=>{
+test('all seven 2026 groups fit without overlapping or dropping a collection',()=>{
  const bounds={x:6370,y:1870,width:1100,height:2260};
  const layouts=visualizer.layoutGrandPeriod(groups.filter(g=>g.year==='2026'),bounds,'2026');
- assert.equal(layouts.length,6);
+ assert.equal(layouts.length,7);
  layouts.forEach(({rect},index)=>{
   assert.ok(rect.height>200);
   assert.ok(rect.y+rect.height<=bounds.y+bounds.height+0.001);

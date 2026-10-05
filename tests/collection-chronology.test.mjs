@@ -16,10 +16,11 @@ test('all Bitcoin collections have a date; newest follows parent chronology with
     const rows=sorted('desc');
     assert.equal(rows.length,ORDINALS_SUPPLY_DATA.length);
     assert.ok(rows.every(row=>Number.isFinite(row.chronology)));
-    assert.deepEqual(rows.slice(0,6).map(r=>r.name),['Chrysalis','Tin Box of Solitude','Griffintown','Liminality','Into The Wild','1 of 1s (2026)']);
-    assert.equal(rows[0].chronology,Date.parse('2026-09-29T23:16:40Z'));
-    assert.equal(rows[1].chronology,Date.parse('2026-09-12T03:44:32Z'));
-    assert.equal(rows[4].chronology,Date.parse('2026-03-14T02:31:22Z'));
+    assert.deepEqual(rows.slice(0,7).map(r=>r.name),['Confabulation','Chrysalis','Tin Box of Solitude','Griffintown','Liminality','Into The Wild','1 of 1s (2026)']);
+    assert.equal(rows[0].chronology,Date.parse('2026-10-05 14:25:16 UTC'));
+    assert.equal(rows[1].chronology,Date.parse('2026-09-29T23:16:40Z'));
+    assert.equal(rows[2].chronology,Date.parse('2026-09-12T03:44:32Z'));
+    assert.equal(rows[5].chronology,Date.parse('2026-03-14T02:31:22Z'));
     assert.deepEqual(sorted('asc').map(r=>r.name),rows.map(r=>r.name).reverse());
 });
 test('annual buckets retain the actual parent date even when its year differs',()=>{

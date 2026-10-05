@@ -36,7 +36,8 @@ const INTERNAL_COLLECTION_ROUTES = {
 };
 
 test('Supply includes the current collection roster without a Provenance collection', () => {
-    assert.equal(ORDINALS_SUPPLY_DATA.length, 50);
+    assert.equal(ORDINALS_SUPPLY_DATA.length, 51);
+    assert.deepEqual(ORDINALS_SUPPLY_DATA.find(row => row.name === 'Confabulation'), { name: 'Confabulation', year: 2026, inscribed: 7, circulating: 7 });
     assert.deepEqual(ORDINALS_SUPPLY_DATA.find(row => row.name === 'Chrysalis'), { name: 'Chrysalis', year: 2026, inscribed: 8, circulating: 7 });
     assert.deepEqual(ORDINALS_SUPPLY_DATA.find(row => row.name === 'Tin Box of Solitude'), { name: 'Tin Box of Solitude', year: 2026, inscribed: 13, circulating: 12 });
     assert.equal(ORDINALS_SUPPLY_DATA.some((row) => row.name === 'Provenance'), false);
@@ -66,7 +67,7 @@ test('Supply includes the current collection roster without a Provenance collect
             inscribed: sum.inscribed + row.inscribed,
             circulating: sum.circulating + row.circulating,
         }), { inscribed: 0, circulating: 0 });
-    assert.deepEqual(totals, { inscribed: 1654, circulating: 1311 });
+    assert.deepEqual(totals, { inscribed: 1661, circulating: 1318 });
     assert.equal(totals.inscribed - totals.circulating, 343);
 });
 
@@ -111,6 +112,7 @@ test('Supply collection links use current canonical routes instead of the legacy
 
 test('includes links for indexed collections without inventing a pending listing URL', () => {
     assert.equal(MARKET_LINKS['Tin Box of Solitude']?.ordnet, 'https://ord.net/collection/tin-box-of-solitude-by-lemonhaze');
+    assert.equal(MARKET_LINKS.Confabulation?.ordnet, 'https://ord.net/collection/confabulation-by-lemonhaze');
     assert.equal(MARKET_LINKS.Chrysalis?.ordnet, 'https://ord.net/collection/chrysalis-by-lemonhaze'); // Artist-provided URL, pending marketplace launch.
     for (const row of ORDINALS_SUPPLY_DATA) {
         assert.match(

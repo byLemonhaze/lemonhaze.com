@@ -207,7 +207,7 @@ const CHRONOLOGY = {
     "Trilogy (Prints)",
     "BEST BEFORE",
   ],
-  "2026": ["1 of 1s (2026)", "Into The Wild", "Liminality", "Griffintown", "Tin Box of Solitude", "Chrysalis"],
+  "2026": ["1 of 1s (2026)", "Into The Wild", "Liminality", "Griffintown", "Tin Box of Solitude", "Chrysalis", "Confabulation"],
 } as const;
 
 const PRE_PARENT_COLLECTIONS = CHRONOLOGY["2023"].slice(0, 26);
@@ -329,6 +329,7 @@ export async function loadCatalogue(): Promise<Artwork[]> {
   const [
     provenanceResult,
     localProvenanceResult,
+    confabulationResult,
     chrysalisResult,
     tinBoxResult,
     griffintownResult,
@@ -342,6 +343,7 @@ export async function loadCatalogue(): Promise<Artwork[]> {
   ] = await Promise.allSettled([
     fetchJson<Artwork[]>(PROVENANCE_URL),
     fetchJson<Artwork[]>("/data/provenance.json"),
+    fetchJson<Array<Artwork & { meta?: { name?: string } }>>("/data/collections/confabulation.json"),
     fetchJson<Array<Artwork & { meta?: { name?: string } }>>("/data/collections/chrysalis.json"),
     fetchJson<Array<Artwork & { meta?: { name?: string } }>>("/data/collections/tin-box-of-solitude.json"),
     fetchJson<Array<Artwork & { meta?: { name?: string } }>>("/data/collections/griffintown.json"),
@@ -398,6 +400,7 @@ export async function loadCatalogue(): Promise<Artwork[]> {
 
   const supplements: Artwork[] = [];
   for (const [name, result] of [
+    ["Confabulation", confabulationResult],
     ["Chrysalis", chrysalisResult],
     ["Tin Box of Solitude", tinBoxResult],
     ["Griffintown", griffintownResult],
@@ -981,6 +984,7 @@ export function preferredGridShape(
     Berlin: [4, 2],
     "Into The Wild": [3, 2],
     Liminality: [4, 2],
+    Confabulation: [4, 2],
     Chrysalis: [4, 2],
     Griffintown: [2, 2],
     "Tin Box of Solitude": [4, 3],
@@ -1092,10 +1096,12 @@ export function layoutGrandPeriod(
   if (year === "2026") {
     const weights: Record<string, number> = {
       "1 of 1s (2026)": 0.28,
-      "Into The Wild": 0.13,
-      "Liminality": 0.13,
+      "Into The Wild": 0.15,
+      "Liminality": 0.15,
       "Griffintown": 0.16,
       "Tin Box of Solitude": 0.30,
+      "Chrysalis": 0.20,
+      "Confabulation": 0.20,
     };
     const usableHeight = rect.height - gap * (groups.length - 1);
     const totalWeight = groups.reduce((sum, group) => sum + (weights[group.name] || 0.2), 0);

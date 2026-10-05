@@ -17,6 +17,13 @@ function resolveTrilogyOriginalId(name) {
 
 const SOURCES = [
     {
+        url: '/data/collections/confabulation.json',
+        collection: 'Confabulation',
+        resolveLineage: (_name, item) => item?.role === 'parent'
+            ? '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0'
+            : '788df6ca0f6fc0ddf32b363c4571dd77c42cdf1367365575815452dd050d2b86i0, 757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0',
+    },
+    {
         url: '/data/collections/chrysalis.json',
         collection: 'Chrysalis',
         resolveLineage: (_name, item) => item?.role === 'parent'

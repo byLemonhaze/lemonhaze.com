@@ -1,16 +1,8 @@
 // Local editorial selections, independent of the complete chronological catalogue.
-// Both surfaces share this order, including the supplied Untitled image.
-export const UNTITLED_WORK = {
-    id: 'untitled-suspended-ink',
-    name: 'Untitled',
-    caption: 'X - 202?',
-    year: '202?',
-    comingSoon: true,
-    grid_preview: '/editorial/assets/untitled-suspended-ink.jpg',
-};
+// Both surfaces share this order.
 export const CAROUSEL_WORK_IDS = [
     'c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0', // Hózhó
-    UNTITLED_WORK.id,
+    'd19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0', // Ganser
     'b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0', // Chanchanok's Temple
     '4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0', // Porcelain Sunset
     '8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0', // Chamber of Reflection
@@ -24,7 +16,6 @@ export const CAROUSEL_WORK_IDS = [
 export const SELECTED_WORK_IDS = [...CAROUSEL_WORK_IDS];
 export function selectedWorks(artworks, ids = SELECTED_WORK_IDS) {
     const byId = new Map(artworks.map(work => [work.id, work]));
-    byId.set(UNTITLED_WORK.id, UNTITLED_WORK);
     return ids.map(id => byId.get(id)).filter(Boolean).map(work =>
         work.id === 'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i401'
             ? { ...work, grid_preview: '/editorial/assets/best-before-402.jpg' }
