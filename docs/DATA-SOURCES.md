@@ -5,13 +5,11 @@
 | Source | Location | Used For |
 |---|---|---|
 | Provenance JSON (primary) | `https://cdn.lemonhaze.com/assets/assets/provenance.json` | Primary artwork metadata feed |
-| Provenance JSON (secondary) | `https://cdn.lemonhaze.com/assets/provenance.json` | Fallback artwork metadata feed |
 | Provenance JSON (local fallback) | `/data/provenance.json` | Local/offline fallback served from this repo |
 | Featured collection manifests | `/data/collections/*.json` | Ordered inscription rosters and curated metadata for Satoshi, Deprivation prints, Mirage prints, the prints trilogy, Griffintown, Liminality, and Eclosion |
 | BEST BEFORE collection feed | `https://bestbefore.space/magic_eden_collection.json` | Live BEST BEFORE roster and high-resolution image URLs |
 | BEST BEFORE live state | `https://bestbefore.space/best-before.json` | Status, phase, lifespan, and palette data per inscription |
-| Hiro inscriptions API | `https://api.hiro.so/ordinals/v1/inscriptions/<id>` | Inscription number, timestamp, sat rarity, owner fallback |
-| Ordinals inscription JSON | `https://ordinals.com/r/inscription/<id>` | Owner/address enrichment for modal metadata |
+| Ordinals inscription JSON | `https://ordinals.com/r/inscription/<id>` | Live owner/address, inscription number, timestamp and charms for modal metadata |
 | Ordinals content | `https://ordinals.com/content/<id>` | Direct rendering of HTML and on-chain media |
 | BTC/USD spot | `https://api.coinbase.com/v2/prices/BTC-USD/spot` | Approximate fiat conversion for displayed sale prices |
 | Ord.net collection pages and insights | `https://ord.net/collection/<slug>` and `https://ord.net/api/collections/<slug>/insights?activityFilter=sale` | Public collection volume, recent sale transaction, indexer-reported BTC price, sale-time USD, and transaction ID |
@@ -88,6 +86,8 @@ After bootstrapping, ongoing edits should happen in `public/data/sales-master/hi
 ## Special Rules
 
 - BEST BEFORE is intentionally live and overrides its corresponding provenance rows at runtime.
+- The artwork modal no longer calls the retired Hiro Ordinals API. The legacy `/api/inscription-metadata` endpoint is not used by the modal and remains outside this change.
+- Prerendered artwork pages describe unavailable live lookups neutrally; build-time network failures are not saved as permanent ownership facts.
 - Some collections are rendered directly from on-chain HTML/media instead of static CDN imagery.
 - Featured manifests render from their official on-chain content and remain available even when the primary CDN provenance feed has not yet been refreshed.
 - Sales data is a curated static ledger for UI context; it should not be treated as a complete chain-indexing backend.
