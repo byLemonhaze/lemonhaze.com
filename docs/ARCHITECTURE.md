@@ -11,7 +11,7 @@ This document is the high-level engineering map for `lemonhaze.com`:
 
 ## System Components
 
-BEST BEFORE's individual artwork modal keeps its original on-chain iframe inside a responsive 9:16 clipping viewport. `src/ui/best-before-frame.js` compensates for the OPEN renderer's 90% inset; SEALED and EXPIRED keep their full frame. A stable 900 × 1600 inner viewport retains native canvas resolution and live WebGL on narrow screens. Modal close or artwork replacement removes both resize observers and restores the shared iframe's original styling, leaving other collections unchanged.
+BEST BEFORE uses a dedicated sandboxed player inside the shared individual artwork modal, with native canvas PNG and MP4 export. See “Best Before player and recording” below.
 
 | Layer | Component | Responsibility |
 |---|---|---|
@@ -177,3 +177,12 @@ The ten-work selection restores BEST BEFORE Nº402 and retains Rue Cuvillier. Lo
 Selected series contains six cards: Gentlemen / Lotus, Montreal, BEST BEFORE, Manufactured / Games, 1/1s, and Liminality. Merged names link individually; the Manufactured / Games cover is Game Nº9 and opens Games. Each merged collection name has its own underlined link and text arrow. Berlin and Ma ville en quatre temps remain in All Works. Server redirects and the client section alias both resolve `/explore` to `/practice`; SEO routes and the sitemap include the overview and studio writing under their distinct canonical paths. The writing page replaces three displayed quotations with short prose summaries while retaining the original text in its reading disclosures.
 
 Montreal’s exhibition section presents two uncropped installation photographs with responsive 1600/4032-pixel sources and full-resolution links, plus the existing panorama and release image in a disclosure. Source credits live in `public/editorial/sources.md`. Hosoi’s primary sale remains in its expandable Sales history; it is no longer used as introductory artist-note or collection-story copy.
+
+
+### Best Before player and recording
+
+The individual viewer fetches the original on-chain HTML and runs it in a `srcdoc` iframe with an opaque origin (`allow-scripts allow-downloads`, without `allow-same-origin`). The adapter preserves the inscription ID and real chain lookups, removes the renderer’s page background and inset, and aligns both canvas layers to a 900 × 1600 display viewport without changing their native 1800 × 3200 resolution. The bounded source adaptation fails visibly if the renderer version changes.
+
+A per-instance token and source-window checks authenticate messages between viewer and frame. PNG uses the renderer’s own save function. MP4 composites the base and WebGL canvases at 30 fps and records 15, 30, or 60 seconds using an available MP4 MediaRecorder codec. Unsupported browsers show an unavailable state rather than downloading a different container with an MP4 extension. Recording is enabled only for fully rendered OPEN works. Cancellation, hidden-tab changes, and modal teardown stop capture; closing the viewer also removes listeners, observers, and the embedded document.
+
+The gallery viewer separates the toolbar, artwork stage, and scrollable details. Export controls live in the right details sidebar alongside the palette on both sites. Solo hides that sidebar against an opaque background, leaving the artwork unobstructed. Lemonhaze retains its existing viewer palette. Deep-link startup adopts any prerendered wrapper and replaces serialized capture controls before initializing a fresh player.
