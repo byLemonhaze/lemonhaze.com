@@ -347,3 +347,7 @@ button.carousel-slide, button.selected-image { background:transparent; border:0;
 .artwork-loading-error .artwork-loading-square { animation:none; }
 @keyframes artwork-loading-turn { to { transform:rotate(180deg); } }
 @media(prefers-reduced-motion:reduce) { .artwork-loading-square { animation:none; } }
+
+html[data-presentation] #modal-overlay :is(button,select,a):focus,
+html[data-presentation] #modal-overlay :is(button,select,a):focus-visible { outline:none; box-shadow:none; }
+html[data-presentation] #modal-overlay :is(button,select,a):focus-visible { text-decoration:underline; text-underline-offset:4px; }

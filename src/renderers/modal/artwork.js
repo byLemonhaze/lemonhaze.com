@@ -1,5 +1,5 @@
 import { createArtworkLoadingIndicator } from '../../ui/artwork-loading.js';
-import { fitBestBeforeFrame } from '../../ui/best-before-frame.js';
+import { createBestBeforePlayer } from '../../ui/best-before-player.js';
 import { getArtworkOwnership } from '../../modules/artwork-ownership.js';
 import {
     getPreferredFileExtension,
@@ -279,11 +279,19 @@ export function createArtworkModalController({
         const panel = existingViewport?.parentElement || frame.parentElement;
         const viewport = existingViewport || document.createElement('div');
         viewport.className = 'best-before-viewport';
-        viewport.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);overflow:hidden;';
+        viewport.style.cssText = 'position:absolute;left:50%;transform:translate(-50%,-50%);overflow:hidden;';
+        const modal = panel.closest('#modal-overlay');
+        modal.querySelectorAll('.bb-capture').forEach(element => element.remove());
+        const controls = document.createElement('div');
+        controls.className = 'bb-capture lemon-bb-capture';
+        modal.querySelector('#modal-actions').after(controls);
         if (existingViewport) {
             // The canonical shared iframe has no inline styles; discard the
             // desktop fitting serialized during prerendering before observing it.
             frame.removeAttribute('style');
+            frame.removeAttribute('srcdoc');
+            frame.src = 'about:blank';
+            frame.removeAttribute('sandbox');
             // Recreate the browsing context before resetting src. Chromium can
             // otherwise retain an about:blank context from the captured document.
             frame.remove();
@@ -294,23 +302,18 @@ export function createArtworkModalController({
         }
         const resize = () => {
             const width = Math.min(panel.clientWidth * 0.9, panel.clientHeight * 0.9 * 9 / 16);
+            viewport.style.top = '50%';
             viewport.style.width = `${width}px`;
             viewport.style.height = `${width * 16 / 9}px`;
         };
         resize();
         const observer = new ResizeObserver(resize);
         observer.observe(panel);
-        const fitted = fitBestBeforeFrame(frame, viewport);
-        let disposed = false;
-        fetchBBLive().then((inscriptions) => {
-            if (disposed) return;
-            const live = inscriptions?.find((entry) => entry.id === item.id);
-            if (live?.phase) fitted.setPhase(live.phase);
-        });
+        const player = createBestBeforePlayer({ frame, viewport, controls, id: item.id, onClose: closeModal });
         clearBestBeforeFrame = () => {
-            disposed = true;
             observer.disconnect();
-            fitted.destroy();
+            player.destroy();
+            controls.remove();
             viewport.replaceWith(frame);
             clearBestBeforeFrame = () => {};
         };
@@ -328,45 +331,6 @@ export function createArtworkModalController({
             overlay.classList.remove('opacity-0');
             document.getElementById('modal-close')?.focus({ preventScroll: true });
         });
-    }
-
-    function showBestBeforeSaveGuide() {
-        const overlay = document.createElement('div');
-        overlay.className = 'fixed inset-0 z-[85] bg-black/80 flex items-center justify-center p-4';
-
-        const panel = document.createElement('div');
-        panel.className = 'w-full max-w-md border border-white/15 bg-[#050505] p-6 md:p-7';
-        panel.innerHTML = `
-            <p class="text-[9px] font-mono uppercase tracking-[0.28em] text-white/35 mb-3">Best Before</p>
-            <h3 class="text-sm md:text-base font-mono uppercase tracking-[0.14em] text-white mb-4">Save Guide</h3>
-            <div class="text-[11px] leading-relaxed text-white/75 space-y-2">
-                <p>1. Click the artwork to view lifespan and status.</p>
-                <p>2. Press <span class="text-white font-mono">S</span> while the artwork is focused to save the static PNG.</p>
-            </div>
-            <div class="mt-5 pt-4 border-t border-white/10 flex justify-end">
-                <button id="bb-save-guide-close" class="px-3 py-1.5 border border-white/20 text-[10px] font-mono uppercase tracking-[0.14em] text-white/75 hover:text-white hover:border-white/45 transition-colors duration-200">Close</button>
-            </div>
-        `;
-
-        const closeGuide = () => {
-            try { document.removeEventListener('keydown', onKeydown); } catch {}
-            overlay.remove();
-        };
-
-        const onKeydown = (event) => {
-            if (event.key === 'Escape') closeGuide();
-        };
-
-        overlay.addEventListener('click', (event) => {
-            if (event.target === overlay) closeGuide();
-        });
-
-        const closeBtn = panel.querySelector('#bb-save-guide-close');
-        if (closeBtn) closeBtn.addEventListener('click', closeGuide);
-
-        document.addEventListener('keydown', onKeydown);
-        overlay.appendChild(panel);
-        document.body.appendChild(overlay);
     }
 
     function clearActiveHtmlBlobUrl() {
@@ -1023,13 +987,8 @@ export function createArtworkModalController({
             }));
         }
 
-        modalActions.appendChild(pill('Download', 'Save artwork', () => {
+        if (item.collection !== 'BEST BEFORE') modalActions.appendChild(pill('Download', 'Save artwork', () => {
             if (isHtml) {
-                if (item.collection === 'BEST BEFORE') {
-                    showBestBeforeSaveGuide();
-                    return;
-                }
-
                 // HTML artworks: emulate exactly one "S" key press in the loaded artwork iframe.
                 if (htmlSaveClickLocked) return;
                 htmlSaveClickLocked = true;
@@ -1123,6 +1082,11 @@ export function createArtworkModalController({
         }
 
         modalActions.appendChild(pill('⟳', 'Reload content', () => {
+            if (item.collection === 'BEST BEFORE') {
+                clearBestBeforeFrame();
+                prepareBestBeforeFrame(modalIframe, item);
+                return;
+            }
             viewerLoading().start();
             if (!modalImage.classList.contains('hidden') && modalImage.src) {
                 viewerLoading().watch(modalImage);
@@ -1192,9 +1156,9 @@ export function createArtworkModalController({
             const currentToken = htmlBlobLoadToken;
             modalIframe.classList.remove('hidden');
             if (useDirectIframe) {
-                if (item.collection === 'BEST BEFORE') prepareBestBeforeFrame(modalIframe, item);
                 viewerLoading().watch(modalIframe);
-                modalIframe.src = `https://ordinals.com/content/${item.id}`;
+                if (item.collection === 'BEST BEFORE') prepareBestBeforeFrame(modalIframe, item);
+                else modalIframe.src = `https://ordinals.com/content/${item.id}`;
                 renderMetadataList(item);
                 renderActionButtons(item, cdnSrc, isHtml);
 

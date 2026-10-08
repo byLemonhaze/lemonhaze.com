@@ -29,7 +29,10 @@ test('Best Before adopts a prerendered viewport and restores the shared iframe o
             if (request.url() === 'https://bestbefore.space/best-before.json') {
                 return route.fulfill({ json: { inscriptions: [{ id, phase: 'OPEN' }] } });
             }
-            if (request.isNavigationRequest()) return route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Artwork fixture</title><div id="artwork-ready">Artwork loaded</div>' });
+            if (request.url() === `https://ordinals.com/content/${id}`) return route.fulfill({
+                contentType: 'text/html', headers: { 'access-control-allow-origin': '*' },
+                body: '<!doctype html><html><head></head><body><div id="artwork-wrapper"><canvas id="artwork-canvas"></canvas><div id="artwork-ready">Artwork loaded</div></div><script>function getSelfId(){return window.location.pathname.split("/").pop();} const localMode = location.protocol === "file:" || location.origin === "null"; const ACTIVE_PHASE="SEALED";</script></body></html>',
+            });
             return route.fulfill({ status: 503, body: '' });
         });
         const response = await page.goto(`${origin}/${id}`);
@@ -43,6 +46,7 @@ test('Best Before adopts a prerendered viewport and restores the shared iframe o
                 if (viewports.length !== 1) return false;
                 const viewport = viewports[0];
                 const panel = viewport.parentElement;
+                if (document.querySelectorAll('.modal-meta-panel .bb-capture').length !== 1) return false;
                 const expected = Math.min(panel.clientWidth * 0.9, panel.clientHeight * 0.9 * 9 / 16);
                 return panel.classList.contains('modal-media-panel') && Math.abs(viewport.clientWidth - expected) < 1;
             }, null, { timeout: 5000 });
@@ -51,6 +55,9 @@ test('Best Before adopts a prerendered viewport and restores the shared iframe o
         }
         await page.locator('#modal-close').click();
         assert.equal(await page.locator('.best-before-viewport').count(), 0);
+        assert.equal(await page.locator('.bb-capture').count(), 0);
+        assert.equal(await page.locator('#modal-iframe').getAttribute('srcdoc'), null);
+        assert.equal(await page.locator('#modal-iframe').getAttribute('sandbox'), null);
         assert.equal(await page.locator('#modal-iframe').evaluate(frame => frame.style.length), 0);
         assert.equal(await page.locator('.modal-media-panel > #modal-iframe').count(), 1);
     } finally {
