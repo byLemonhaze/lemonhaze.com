@@ -272,12 +272,26 @@ export function createArtworkModalController({
     let clearBestBeforeFrame = () => {};
 
     function prepareBestBeforeFrame(frame, item) {
-        const panel = frame.parentElement;
-        const viewport = document.createElement('div');
+        // Artwork deep links arrive with a prerendered viewport already present.
+        // Adopt it instead of nesting another crop when the app starts.
+        const existingViewport = frame.parentElement?.classList.contains('best-before-viewport')
+            ? frame.parentElement : null;
+        const panel = existingViewport?.parentElement || frame.parentElement;
+        const viewport = existingViewport || document.createElement('div');
         viewport.className = 'best-before-viewport';
         viewport.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);overflow:hidden;';
-        panel.insertBefore(viewport, frame);
-        viewport.appendChild(frame);
+        if (existingViewport) {
+            // The canonical shared iframe has no inline styles; discard the
+            // desktop fitting serialized during prerendering before observing it.
+            frame.removeAttribute('style');
+            // Recreate the browsing context before resetting src. Chromium can
+            // otherwise retain an about:blank context from the captured document.
+            frame.remove();
+            viewport.appendChild(frame);
+        } else {
+            panel.insertBefore(viewport, frame);
+            viewport.appendChild(frame);
+        }
         const resize = () => {
             const width = Math.min(panel.clientWidth * 0.9, panel.clientHeight * 0.9 * 9 / 16);
             viewport.style.width = `${width}px`;
