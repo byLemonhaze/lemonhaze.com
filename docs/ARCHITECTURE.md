@@ -11,6 +11,8 @@ This document is the high-level engineering map for `lemonhaze.com`:
 
 ## System Components
 
+BEST BEFORE's individual artwork modal keeps its original on-chain iframe inside a responsive 9:16 clipping viewport. `src/ui/best-before-frame.js` compensates for the OPEN renderer's 90% inset; SEALED and EXPIRED keep their full frame. A stable 900 × 1600 inner viewport retains native canvas resolution and live WebGL on narrow screens. Modal close or artwork replacement removes both resize observers and restores the shared iframe's original styling, leaving other collections unchanged.
+
 | Layer | Component | Responsibility |
 |---|---|---|
 | Frontend | Vite app (`index.html`, `src/`) | Collection browsing, deep links, modals, internal sections, blog, and supply navigation |
