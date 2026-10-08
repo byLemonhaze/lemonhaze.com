@@ -2,7 +2,6 @@
 const PROVENANCE_URLS = [
   "/data/provenance.json",
   "https://cdn.lemonhaze.com/assets/assets/provenance.json",
-  "https://cdn.lemonhaze.com/assets/provenance.json",
 ];
 const BB_COLLECTION_URL = "https://bestbefore.space/magic_eden_collection.json";
 

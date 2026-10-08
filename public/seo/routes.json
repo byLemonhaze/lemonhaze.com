@@ -4,7 +4,7 @@
     "title": "Lemonhaze — Artist & Coureur de Bois",
     "description": "Explore Lemonhaze’s art on Bitcoin: generative painting, collections, artist notes, exhibitions, and the stories behind the work.",
     "canonical": "https://lemonhaze.com/",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Lemonhaze — Artist & Coureur de Bois"
   },
@@ -13,7 +13,7 @@
     "title": "Selected Work | Lemonhaze",
     "description": "A selection of works and series by Lemonhaze: black, ink-like forms, digital textures, generative images, and works inscribed on Bitcoin.",
     "canonical": "https://lemonhaze.com/selected",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Selected Work"
   },
@@ -22,7 +22,7 @@
     "title": "About Lemonhaze | Lemonhaze",
     "description": "Meet Lemonhaze, artist and coureur de bois. Discover the practice, background, and writing behind his art inscribed on Bitcoin.",
     "canonical": "https://lemonhaze.com/about",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "About Lemonhaze"
   },
@@ -31,7 +31,7 @@
     "title": "Practice | Lemonhaze",
     "description": "Explore Lemonhaze’s practice through Gentlemen, BEST BEFORE, Montreal, Paint Engine, and Liminality.",
     "canonical": "https://lemonhaze.com/practice",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Practice"
   },
@@ -40,7 +40,7 @@
     "title": "Studio Notes | Lemonhaze",
     "description": "Stories, process photographs, artist writing and exhibition footage from Lemonhaze’s practice. Explore the connections behind the artworks on Bitcoin.",
     "canonical": "https://lemonhaze.com/archive",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Studio Notes"
   },
@@ -49,7 +49,7 @@
     "title": "Gentleman SE 2025 — Studio Writing | Lemonhaze",
     "description": "Lemonhaze on texture, generative painting, selecting an output, and writing inside the artwork. Original reflections from Gentleman SE 2025.",
     "canonical": "https://lemonhaze.com/gentleman-se-2025",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Gentleman SE 2025 — Studio Writing"
   },
@@ -58,7 +58,7 @@
     "title": "Paint Engine | Lemonhaze",
     "description": "Explore Lemonhaze’s evolving generative paint engine, its textures, inscribed milestones, and an interactive study.",
     "canonical": "https://lemonhaze.com/paint-engine",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Paint Engine"
   },
@@ -67,7 +67,7 @@
     "title": "Collecting | Lemonhaze",
     "description": "How to view, download, display, and collect Lemonhaze’s artworks on Bitcoin, with guidance on original inscription content and high-resolution exports.",
     "canonical": "https://lemonhaze.com/collecting",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Collecting"
   },
@@ -76,7 +76,7 @@
     "title": "Exhibitions & Press | Lemonhaze",
     "description": "Lemonhaze’s exhibitions and career: Sotheby’s Contemporary Discoveries, Montreal at Suburbs Gallery, and presentations around the world.",
     "canonical": "https://lemonhaze.com/highlights",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Exhibitions & Press"
   },
@@ -85,7 +85,7 @@
     "title": "Supply & Marketplace | Lemonhaze",
     "description": "Explore Lemonhaze’s collection supply and Market Watch: public marketplace listings, cross-listed artworks, floors, and offers on Bitcoin.",
     "canonical": "https://lemonhaze.com/supply",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Supply & Marketplace"
   },
@@ -94,7 +94,7 @@
     "title": "Media & Press | Lemonhaze",
     "description": "Interviews, articles, and media coverage of Lemonhaze’s artwork, collections, and practice on Bitcoin.",
     "canonical": "https://lemonhaze.com/media",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Media & Press"
   },
@@ -103,7 +103,7 @@
     "title": "Lab & Projects | Lemonhaze",
     "description": "Explore platforms, experiments, and tools built by Lemonhaze alongside his artistic practice.",
     "canonical": "https://lemonhaze.com/lab",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "page",
     "name": "Lab & Projects"
   },
@@ -112,7 +112,7 @@
     "title": "Bento Box | Lemonhaze",
     "description": "Digital delicacies crafted with code. Each 'Bento Box' is meticulously curated to capture simplicity and artful elegance. Pure aesthetic love, no words.",
     "canonical": "https://lemonhaze.com/bento-box",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Bento Box"
   },
@@ -121,7 +121,7 @@
     "title": "Candidly Yours | Lemonhaze",
     "description": "Digitally hand drawn and processed with p5js texture filters, this series invites you to take a candid glimpse into the artist's inner thoughts. Each piece serves as a unique…",
     "canonical": "https://lemonhaze.com/candidly-yours",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Candidly Yours"
   },
@@ -130,7 +130,7 @@
     "title": "Eclosion 1/1 - Amsterdam Blooms | Lemonhaze",
     "description": "The flourishing future we imagine for ourselves. A 6400 × 3600 artwork rendered fully on-chain through recursion.",
     "canonical": "https://lemonhaze.com/eclosion-1-1-amsterdam-blooms",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Eclosion 1/1 - Amsterdam Blooms"
   },
@@ -139,7 +139,7 @@
     "title": "Untitled | Lemonhaze",
     "description": "My first collection with grand-parent-child provenance.",
     "canonical": "https://lemonhaze.com/untitled",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Untitled"
   },
@@ -148,7 +148,7 @@
     "title": "Downtown | Lemonhaze",
     "description": "Downtown is a pair of generative artworks, melding retro-wave nostalgia with the chaos of urban life on a large 16:9 digital canvas. Crafted with p5js, these two pieces mark a…",
     "canonical": "https://lemonhaze.com/downtown",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Downtown"
   },
@@ -157,7 +157,7 @@
     "title": "Oaxaca | Lemonhaze",
     "description": "In this generative series, I aim to depict a simple life of surf and sun, capturing the essence of Puerto Escondido, Oaxaca. Through geometric micro-textures, I pay homage to a…",
     "canonical": "https://lemonhaze.com/oaxaca",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Oaxaca"
   },
@@ -166,7 +166,7 @@
     "title": "Satoshi (Original & Editions) | Lemonhaze",
     "description": "Counterfeit Cards: Series 00 - Card 08. A gentleman hacking the fiat banking system.",
     "canonical": "https://lemonhaze.com/satoshi-original-and-editions",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Satoshi (Original & Editions)"
   },
@@ -175,7 +175,7 @@
     "title": "Old-Fashioned | Lemonhaze",
     "description": "\"Old-Fashioned\" is a blend of tradition and a grand vision. Inscribed on vintage sats from block 78, this collection pushes the boundaries of on-chain art by presenting…",
     "canonical": "https://lemonhaze.com/old-fashioned",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Old-Fashioned"
   },
@@ -184,7 +184,7 @@
     "title": "Deprivation (Prints) | Lemonhaze",
     "description": "Between passion and obsession lies deprivation, the duality of a soul longing for light amidst the enveloping darkness of sleepless nights.",
     "canonical": "https://lemonhaze.com/deprivation-prints",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Deprivation (Prints)"
   },
@@ -193,7 +193,7 @@
     "title": "Orphelinat | Lemonhaze",
     "description": "Born without parents, these unique and distinct misfits, each a one-on-one piece, were fortunate to find friendship with each other at the orphanage.",
     "canonical": "https://lemonhaze.com/orphelinat",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Orphelinat"
   },
@@ -202,7 +202,7 @@
     "title": "Volatility | Lemonhaze",
     "description": "A generative reflection of life's inherent ups and downs, of the oscillations in mood and spirit that we all endure. Just as markets surge and plummet, so do our emotions, hopes,…",
     "canonical": "https://lemonhaze.com/volatility",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Volatility"
   },
@@ -211,7 +211,7 @@
     "title": "Generative Composition | Lemonhaze",
     "description": "An amalgam of mini-series and 1/1s where I'm learning to make art with code. Each of the works presented in this heterogeneous series was personally curated from my early days of…",
     "canonical": "https://lemonhaze.com/generative-composition",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Generative Composition"
   },
@@ -220,7 +220,7 @@
     "title": "Discography | Lemonhaze",
     "description": "The soundtrack of my life (unfinished).",
     "canonical": "https://lemonhaze.com/discography",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Discography"
   },
@@ -229,7 +229,7 @@
     "title": "World Tour | Lemonhaze",
     "description": "An homage to the countries I've traveled (unfinished).",
     "canonical": "https://lemonhaze.com/world-tour",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "World Tour"
   },
@@ -238,7 +238,7 @@
     "title": "Jardin Secret | Lemonhaze",
     "description": "Things I can't talk about right now.",
     "canonical": "https://lemonhaze.com/jardin-secret",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Jardin Secret"
   },
@@ -247,7 +247,7 @@
     "title": "Lotus | Lemonhaze",
     "description": "Emerging from the depths of murky waters with pristine petals, Lotus is inspired by my other half, who remains pure in spite of it all. The Lotus embodies beauty, strength, and…",
     "canonical": "https://lemonhaze.com/lotus",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Lotus"
   },
@@ -256,7 +256,7 @@
     "title": "Berlin | Lemonhaze",
     "description": "Capturing a tumultuous journey through Berlin's grayish days and pulsating nights. This series is a tribute to rain-soaked revelries, intoxicating encounters, and the liberation…",
     "canonical": "https://lemonhaze.com/berlin",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Berlin"
   },
@@ -265,7 +265,7 @@
     "title": "Fading | Lemonhaze",
     "description": "Delicate threads of decay intertwine, revealing faded echoes of a distant past.",
     "canonical": "https://lemonhaze.com/fading",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Fading"
   },
@@ -274,7 +274,7 @@
     "title": "Dark Days | Lemonhaze",
     "description": "Is it losing control?",
     "canonical": "https://lemonhaze.com/dark-days",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Dark Days"
   },
@@ -283,7 +283,7 @@
     "title": "Mending Fragments | Lemonhaze",
     "description": "A visual journey where fragmented pieces unite, portraying the profound process of healing, resilience, and discovering beauty within imperfection.",
     "canonical": "https://lemonhaze.com/mending-fragments",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Mending Fragments"
   },
@@ -292,7 +292,7 @@
     "title": "Polaroid | Lemonhaze",
     "description": "Capturing the moment in its simplest form.",
     "canonical": "https://lemonhaze.com/polaroid",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Polaroid"
   },
@@ -301,7 +301,7 @@
     "title": "Ordinals Summer | Lemonhaze",
     "description": "It's all about having fun.",
     "canonical": "https://lemonhaze.com/ordinals-summer",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Ordinals Summer"
   },
@@ -310,7 +310,7 @@
     "title": "Framed | Lemonhaze",
     "description": "Being at the wrong place at the wrong time.",
     "canonical": "https://lemonhaze.com/framed",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Framed"
   },
@@ -319,7 +319,7 @@
     "title": "The Artifacts | Lemonhaze",
     "description": "1 of 1s Digital Artifacts",
     "canonical": "https://lemonhaze.com/the-artifacts",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "The Artifacts"
   },
@@ -328,7 +328,7 @@
     "title": "Le Bar a Tapas | Lemonhaze",
     "description": "From minimalist to ordinalist: A glimpse into my days in Tenerife. This series was born during a time of high fees, which led me to explore new ways of creating and adapting to…",
     "canonical": "https://lemonhaze.com/le-bar-a-tapas",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Le Bar a Tapas"
   },
@@ -337,7 +337,7 @@
     "title": "Tad Small | Lemonhaze",
     "description": "Tad Small is a micro-series of 3 pixel artwork to satisfy my urge to inscribe.",
     "canonical": "https://lemonhaze.com/tad-small",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Tad Small"
   },
@@ -346,7 +346,7 @@
     "title": "Gentlemen | Lemonhaze",
     "description": "Gentlemen is a work in progress.The Gentlemen represent the person I want to become for the love of my life. Becoming a gentleman is a lifelong process, a journey that only ends…",
     "canonical": "https://lemonhaze.com/gentlemen",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Gentlemen"
   },
@@ -355,7 +355,7 @@
     "title": "Miscellaneous | Lemonhaze",
     "description": "An amalgam of 1/1 portraits",
     "canonical": "https://lemonhaze.com/miscellaneous",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Miscellaneous"
   },
@@ -364,7 +364,7 @@
     "title": "Portrait 2490 | Lemonhaze",
     "description": "Portrait2490 is a collection of 90 futuristic portrait of robots and/or human living in the year 2490. Asking one not so simple question: What are we gonna look like down the…",
     "canonical": "https://lemonhaze.com/portrait-2490",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Portrait 2490"
   },
@@ -373,7 +373,7 @@
     "title": "Cypherville | Lemonhaze",
     "description": "Welcome to the mysterious world of Cypherville Ordinals. Visit https://cypherville.xyz for more info.",
     "canonical": "https://lemonhaze.com/cypherville",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Cypherville"
   },
@@ -382,7 +382,7 @@
     "title": "Games | Lemonhaze",
     "description": "\"Qui ne risque rien, n'a rien\" - This is where I dare to explore the relationship between scarcity, collector experience and artistic integrity. And there's only one way to play:…",
     "canonical": "https://lemonhaze.com/games",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Games"
   },
@@ -391,7 +391,7 @@
     "title": "Manufactured | Lemonhaze",
     "description": "\"When gravity becomes manufactured, you remember the scent of a lemon.\"",
     "canonical": "https://lemonhaze.com/manufactured",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Manufactured"
   },
@@ -400,7 +400,7 @@
     "title": "Little Get Away | Lemonhaze",
     "description": "Sometimes I need to take a step back and get away from the things that obsess me. And this time, I'm planning a little get away with my love.",
     "canonical": "https://lemonhaze.com/little-get-away",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Little Get Away"
   },
@@ -409,7 +409,7 @@
     "title": "Montreal | Lemonhaze",
     "description": "A generative abstraction of the past. In this series I'm blending physical and digital textures while playing with color palettes that reminds me of my younger days in Montreal.…",
     "canonical": "https://lemonhaze.com/montreal",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Montreal"
   },
@@ -418,7 +418,7 @@
     "title": "La Tentation | Lemonhaze",
     "description": "A seductive paradox, where the allure of temptation meets the purity of restraint. In this curated generative series, I work with a simple extended grid composition and a set of…",
     "canonical": "https://lemonhaze.com/la-tentation",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "La Tentation"
   },
@@ -427,7 +427,7 @@
     "title": "DeVille | Lemonhaze",
     "description": "Descendants of Cypherville.",
     "canonical": "https://lemonhaze.com/deville",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "DeVille"
   },
@@ -436,7 +436,7 @@
     "title": "Mirage (Prints) | Lemonhaze",
     "description": "A vivid interplay between true happiness and misleading hope, where real fulfillment is found in harmonizing dreams with reality.",
     "canonical": "https://lemonhaze.com/mirage-prints",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Mirage (Prints)"
   },
@@ -445,7 +445,7 @@
     "title": "Unregulated Minds | Lemonhaze",
     "description": "A Collection of thoughts and outputs for sovereign individuals, free thinkers, and world builders.",
     "canonical": "https://lemonhaze.com/unregulated-minds",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Unregulated Minds"
   },
@@ -454,7 +454,7 @@
     "title": "1 of 1s (2024) | Lemonhaze",
     "description": "1/1s of 2024 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions",
     "canonical": "https://lemonhaze.com/1-of-1s-2024",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "1 of 1s (2024)"
   },
@@ -463,7 +463,7 @@
     "title": "BEST BEFORE | Lemonhaze",
     "description": "Art with a best-before date: born sealed at inscription, unsealed by its collector, and aging on block time. Many live short lives, some endure, and the rare outlier may never…",
     "canonical": "https://lemonhaze.com/best-before",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "BEST BEFORE"
   },
@@ -472,7 +472,7 @@
     "title": "Minute, papillon! Edition | Lemonhaze",
     "description": "ART BY LEMONHAZE",
     "canonical": "https://lemonhaze.com/minute-papillon-edition",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Minute, papillon! Edition"
   },
@@ -481,7 +481,7 @@
     "title": "Trilogy (Prints) | Lemonhaze",
     "description": "Three works, presented as one set of 33 prints. Glass Breaker: The pulse scatters, the mind fractures and for a moment, everything feels like truth. But it's taking over, turning…",
     "canonical": "https://lemonhaze.com/trilogy-prints",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Trilogy (Prints)"
   },
@@ -490,7 +490,7 @@
     "title": "Ma ville en quatre temps | Lemonhaze",
     "description": "This series is part of 'Continuum, The Forever Calendar' presented by Gamma at Inscribing Vegas 2025 - more details about these works can be found in the HTML header of each…",
     "canonical": "https://lemonhaze.com/ma-ville-en-quatre-temps",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Ma ville en quatre temps"
   },
@@ -499,7 +499,7 @@
     "title": "Tori no Roji | Lemonhaze",
     "description": "Tōri no Roji - 通りの路地 - \"The Alleys of the Streets\": This is where I'm trying to capture the contrast and transition between Osaka's bustling streets and its quiet, hidden, and…",
     "canonical": "https://lemonhaze.com/tori-no-roji",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Tori no Roji"
   },
@@ -508,7 +508,7 @@
     "title": "1 of 1s (2025) | Lemonhaze",
     "description": "1/1s of 2025 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions",
     "canonical": "https://lemonhaze.com/1-of-1s-2025",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "1 of 1s (2025)"
   },
@@ -517,7 +517,7 @@
     "title": "Confabulation | Lemonhaze",
     "description": "An unconscious memory error where the brain fills in missing gaps with false information.",
     "canonical": "https://lemonhaze.com/confabulation",
-    "image": null,
+    "image": "https://lemonhaze.com/social/d19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0-be7c6d8b3a.jpg",
     "kind": "collection",
     "name": "Confabulation"
   },
@@ -526,7 +526,7 @@
     "title": "Chrysalis | Lemonhaze",
     "description": "Moving inward, into the protected and largely invisible period when transformation is already underway: the remnants of an external world being reorganized from within.",
     "canonical": "https://lemonhaze.com/chrysalis",
-    "image": null,
+    "image": "https://lemonhaze.com/social/c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0-1021eb9f15.jpg",
     "kind": "collection",
     "name": "Chrysalis"
   },
@@ -535,7 +535,7 @@
     "title": "Tin Box of Solitude | Lemonhaze",
     "description": "Nothing else in the frame.",
     "canonical": "https://lemonhaze.com/tin-box-of-solitude",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Tin Box of Solitude"
   },
@@ -544,7 +544,7 @@
     "title": "Griffintown | Lemonhaze",
     "description": "Interactive Photo-Chromatic Bas-Relief",
     "canonical": "https://lemonhaze.com/griffintown",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Griffintown"
   },
@@ -553,7 +553,7 @@
     "title": "Liminality | Lemonhaze",
     "description": "In anthropology, liminality (from Latin limen ‘threshold’) is the quality of ambiguity or disorientation that occurs in the middle stage of a rite of passage, when participants…",
     "canonical": "https://lemonhaze.com/liminality",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Liminality"
   },
@@ -562,7 +562,7 @@
     "title": "Into The Wild | Lemonhaze",
     "description": "Mirage outputs and whatnot!",
     "canonical": "https://lemonhaze.com/into-the-wild",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Into The Wild"
   },
@@ -571,7 +571,7 @@
     "title": "1 of 1s (2026) | Lemonhaze",
     "description": "1/1s of 2026 with grand-parent-child provenance - more details about these works can be found in the HTML header of each inscriptions",
     "canonical": "https://lemonhaze.com/1-of-1s-2026",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "1 of 1s (2026)"
   },
@@ -580,7 +580,7 @@
     "title": "Provenance | Lemonhaze",
     "description": "ART BY LEMONHAZE",
     "canonical": "https://lemonhaze.com/provenance",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Provenance"
   },
@@ -589,7 +589,7 @@
     "title": "Colors | Lemonhaze",
     "description": "ART BY LEMONHAZE",
     "canonical": "https://lemonhaze.com/colors",
-    "image": null,
+    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
     "kind": "collection",
     "name": "Colors"
   },
@@ -608,7 +608,7 @@
     "title": "Wernicke | Lemonhaze",
     "description": "Wernicke by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/862fac8dc9236e8adb4cc7e6127421fe7f3cad8c4b07975b8cf0bdb9bea7c038i0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/862fac8dc9236e8adb4cc7e6127421fe7f3cad8c4b07975b8cf0bdb9bea7c038i0.png",
+    "image": "https://lemonhaze.com/social/862fac8dc9236e8adb4cc7e6127421fe7f3cad8c4b07975b8cf0bdb9bea7c038i0-797897bda7.jpg",
     "kind": "artwork",
     "name": "Wernicke",
     "collectionPath": "/confabulation"
@@ -618,7 +618,7 @@
     "title": "Bonnet | Lemonhaze",
     "description": "Bonnet by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/1fc5ef5b3ea7942dcd8942eaeb446c0d781b870d6b018139f4f6876b3e6591f2i0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/1fc5ef5b3ea7942dcd8942eaeb446c0d781b870d6b018139f4f6876b3e6591f2i0.png",
+    "image": "https://lemonhaze.com/social/1fc5ef5b3ea7942dcd8942eaeb446c0d781b870d6b018139f4f6876b3e6591f2i0-588cd22313.jpg",
     "kind": "artwork",
     "name": "Bonnet",
     "collectionPath": "/confabulation"
@@ -628,7 +628,7 @@
     "title": "Ganser | Lemonhaze",
     "description": "Ganser by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/d19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/d19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0.png",
+    "image": "https://lemonhaze.com/social/d19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0-be7c6d8b3a.jpg",
     "kind": "artwork",
     "name": "Ganser",
     "collectionPath": "/confabulation"
@@ -638,7 +638,7 @@
     "title": "Capgras | Lemonhaze",
     "description": "Capgras by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/ef9420ade43f55acb2bed74c62626c6e5b1f8b693abd2f5d3ecc6cd109656646i0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/ef9420ade43f55acb2bed74c62626c6e5b1f8b693abd2f5d3ecc6cd109656646i0.png",
+    "image": "https://lemonhaze.com/social/ef9420ade43f55acb2bed74c62626c6e5b1f8b693abd2f5d3ecc6cd109656646i0-eda7637740.jpg",
     "kind": "artwork",
     "name": "Capgras",
     "collectionPath": "/confabulation"
@@ -648,7 +648,7 @@
     "title": "Fregoli | Lemonhaze",
     "description": "Fregoli by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/175f7d2ead9dfe04c769502f613644fb06987357636ac34cbce3526539729e84i0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/175f7d2ead9dfe04c769502f613644fb06987357636ac34cbce3526539729e84i0.png",
+    "image": "https://lemonhaze.com/social/175f7d2ead9dfe04c769502f613644fb06987357636ac34cbce3526539729e84i0-4e42fe9eb3.jpg",
     "kind": "artwork",
     "name": "Fregoli",
     "collectionPath": "/confabulation"
@@ -658,7 +658,7 @@
     "title": "Korsakoff | Lemonhaze",
     "description": "Korsakoff by Lemonhaze, from Confabulation. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/f745422c5aefb34954bc83257e959a63adfbcf82ec264b8842b2ea82e94d3c68i0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/f745422c5aefb34954bc83257e959a63adfbcf82ec264b8842b2ea82e94d3c68i0.png",
+    "image": "https://lemonhaze.com/social/f745422c5aefb34954bc83257e959a63adfbcf82ec264b8842b2ea82e94d3c68i0-9fd30ce968.jpg",
     "kind": "artwork",
     "name": "Korsakoff",
     "collectionPath": "/confabulation"
@@ -678,7 +678,7 @@
     "title": "Ubuntu | Lemonhaze",
     "description": "Ubuntu by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/da1f4317a9ea57ff35c07de6c722d88287a307967cfa0711487afb079f497a1ci0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/da1f4317a9ea57ff35c07de6c722d88287a307967cfa0711487afb079f497a1ci0.png",
+    "image": "https://lemonhaze.com/social/da1f4317a9ea57ff35c07de6c722d88287a307967cfa0711487afb079f497a1ci0-1d98a64347.jpg",
     "kind": "artwork",
     "name": "Ubuntu",
     "collectionPath": "/chrysalis"
@@ -688,7 +688,7 @@
     "title": "Sisu | Lemonhaze",
     "description": "Sisu by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/279177f2195d97bd5cc85d8b26b7333fc4c9c830523d0dd6b6a886c3fe2dd877i0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/279177f2195d97bd5cc85d8b26b7333fc4c9c830523d0dd6b6a886c3fe2dd877i0.png",
+    "image": "https://lemonhaze.com/social/279177f2195d97bd5cc85d8b26b7333fc4c9c830523d0dd6b6a886c3fe2dd877i0-3ea7524fe5.jpg",
     "kind": "artwork",
     "name": "Sisu",
     "collectionPath": "/chrysalis"
@@ -698,7 +698,7 @@
     "title": "Lagom | Lemonhaze",
     "description": "Lagom by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/3770b4f2f0ea0df9164dd12a4d37150e8e33e1595ddc250f7c4c74423699a848i0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/3770b4f2f0ea0df9164dd12a4d37150e8e33e1595ddc250f7c4c74423699a848i0.png",
+    "image": "https://lemonhaze.com/social/3770b4f2f0ea0df9164dd12a4d37150e8e33e1595ddc250f7c4c74423699a848i0-96e4ef440a.jpg",
     "kind": "artwork",
     "name": "Lagom",
     "collectionPath": "/chrysalis"
@@ -708,7 +708,7 @@
     "title": "Ikigai | Lemonhaze",
     "description": "Ikigai by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/cf0ddfb5f7fb8818e81109036d0a8d276e301039484f6c234ac62a53903adde9i0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/cf0ddfb5f7fb8818e81109036d0a8d276e301039484f6c234ac62a53903adde9i0.png",
+    "image": "https://lemonhaze.com/social/cf0ddfb5f7fb8818e81109036d0a8d276e301039484f6c234ac62a53903adde9i0-97201500a9.jpg",
     "kind": "artwork",
     "name": "Ikigai",
     "collectionPath": "/chrysalis"
@@ -718,7 +718,7 @@
     "title": "Wu Wei | Lemonhaze",
     "description": "Wu Wei by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/d30ca78b85edfc7dfe914254c28d55a2685cb965c03685f829cbd1cf54378e9ei0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/d30ca78b85edfc7dfe914254c28d55a2685cb965c03685f829cbd1cf54378e9ei0.png",
+    "image": "https://lemonhaze.com/social/d30ca78b85edfc7dfe914254c28d55a2685cb965c03685f829cbd1cf54378e9ei0-43f0c9a404.jpg",
     "kind": "artwork",
     "name": "Wu Wei",
     "collectionPath": "/chrysalis"
@@ -728,7 +728,7 @@
     "title": "Meraki | Lemonhaze",
     "description": "Meraki by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/f2f18f094cd7f4cfec9f5d63a0942ffa53f3caebefa5b0f30b7c0dfeb24bfcbai0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/f2f18f094cd7f4cfec9f5d63a0942ffa53f3caebefa5b0f30b7c0dfeb24bfcbai0.png",
+    "image": "https://lemonhaze.com/social/f2f18f094cd7f4cfec9f5d63a0942ffa53f3caebefa5b0f30b7c0dfeb24bfcbai0-91df19fbe8.jpg",
     "kind": "artwork",
     "name": "Meraki",
     "collectionPath": "/chrysalis"
@@ -738,7 +738,7 @@
     "title": "Hózhó | Lemonhaze",
     "description": "Hózhó by Lemonhaze, from Chrysalis. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0.png",
+    "image": "https://lemonhaze.com/social/c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0-1021eb9f15.jpg",
     "kind": "artwork",
     "name": "Hózhó",
     "collectionPath": "/chrysalis"
@@ -3228,7 +3228,7 @@
     "title": "Liminality | Lemonhaze",
     "description": "Liminality by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0",
-    "image": "/images/liminality/a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0-frameless.png",
+    "image": "https://lemonhaze.com/images/liminality/a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0-frameless.png",
     "kind": "artwork",
     "name": "Liminality",
     "collectionPath": "/provenance"
@@ -3238,7 +3238,7 @@
     "title": "Betwixt & Between | Lemonhaze",
     "description": "Betwixt & Between by Lemonhaze, from Liminality. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/b1b64766543cbcb089d252f67f77d0f562ae96bbee28ad4effee25d42b19da04i0",
-    "image": "/images/liminality/b1b64766543cbcb089d252f67f77d0f562ae96bbee28ad4effee25d42b19da04i0-frameless.png",
+    "image": "https://lemonhaze.com/images/liminality/b1b64766543cbcb089d252f67f77d0f562ae96bbee28ad4effee25d42b19da04i0-frameless.png",
     "kind": "artwork",
     "name": "Betwixt & Between",
     "collectionPath": "/liminality"
@@ -3248,7 +3248,7 @@
     "title": "Eerie Night | Lemonhaze",
     "description": "Eerie Night by Lemonhaze, from Liminality. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/7a267ee7dd4c56950d1e4b70c914389793cab7e738ace8b591ec56fec0312674i0",
-    "image": "/images/liminality/7a267ee7dd4c56950d1e4b70c914389793cab7e738ace8b591ec56fec0312674i0-frameless.png",
+    "image": "https://lemonhaze.com/images/liminality/7a267ee7dd4c56950d1e4b70c914389793cab7e738ace8b591ec56fec0312674i0-frameless.png",
     "kind": "artwork",
     "name": "Eerie Night",
     "collectionPath": "/liminality"
@@ -3258,7 +3258,7 @@
     "title": "Non-Place | Lemonhaze",
     "description": "Non-Place by Lemonhaze, from Liminality. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/38368e42ce7817d6994e459f27b85574e9be0eadaee6645af0fba81829ca8102i0",
-    "image": "/images/liminality/38368e42ce7817d6994e459f27b85574e9be0eadaee6645af0fba81829ca8102i0-frameless.png",
+    "image": "https://lemonhaze.com/images/liminality/38368e42ce7817d6994e459f27b85574e9be0eadaee6645af0fba81829ca8102i0-frameless.png",
     "kind": "artwork",
     "name": "Non-Place",
     "collectionPath": "/liminality"
@@ -3268,7 +3268,7 @@
     "title": "Chlorine Dream | Lemonhaze",
     "description": "Chlorine Dream by Lemonhaze, from Liminality. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/30e88e8a5ac33a3607d7b4b35042d48ef3a9a9f1d4af014a4667d6b4e29f04d9i0",
-    "image": "/images/liminality/30e88e8a5ac33a3607d7b4b35042d48ef3a9a9f1d4af014a4667d6b4e29f04d9i0-frameless.png",
+    "image": "https://lemonhaze.com/images/liminality/30e88e8a5ac33a3607d7b4b35042d48ef3a9a9f1d4af014a4667d6b4e29f04d9i0-frameless.png",
     "kind": "artwork",
     "name": "Chlorine Dream",
     "collectionPath": "/liminality"
@@ -3278,7 +3278,7 @@
     "title": "Melon Days | Lemonhaze",
     "description": "Melon Days by Lemonhaze, from Liminality. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/ba1d7eaf918d78821037fc256789f5e070dd7e58fcec6e15cef64a4e51ab7ba3i0",
-    "image": "/images/liminality/ba1d7eaf918d78821037fc256789f5e070dd7e58fcec6e15cef64a4e51ab7ba3i0-frameless.png",
+    "image": "https://lemonhaze.com/images/liminality/ba1d7eaf918d78821037fc256789f5e070dd7e58fcec6e15cef64a4e51ab7ba3i0-frameless.png",
     "kind": "artwork",
     "name": "Melon Days",
     "collectionPath": "/liminality"
@@ -3288,7 +3288,7 @@
     "title": "Porcelain Sunset | Lemonhaze",
     "description": "Porcelain Sunset by Lemonhaze, from Liminality. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0",
-    "image": "/images/liminality/4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0-frameless.png",
+    "image": "https://lemonhaze.com/social/4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0-fa454069c4.jpg",
     "kind": "artwork",
     "name": "Porcelain Sunset",
     "collectionPath": "/liminality"
@@ -3298,7 +3298,7 @@
     "title": "Terminal 36 | Lemonhaze",
     "description": "Terminal 36 by Lemonhaze, from Liminality. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/dfac609d390809809a738b83fbe0dfe70f4811982e20faf7b070011c4dbb3828i0",
-    "image": "/images/liminality/dfac609d390809809a738b83fbe0dfe70f4811982e20faf7b070011c4dbb3828i0-frameless.png",
+    "image": "https://lemonhaze.com/images/liminality/dfac609d390809809a738b83fbe0dfe70f4811982e20faf7b070011c4dbb3828i0-frameless.png",
     "kind": "artwork",
     "name": "Terminal 36",
     "collectionPath": "/liminality"
@@ -3308,7 +3308,7 @@
     "title": "Eclosion 1/1 | Lemonhaze",
     "description": "Eclosion 1/1 by Lemonhaze, from Eclosion 1/1 - Amsterdam Blooms. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/aaf0e314aab67783d7e92b0987b0c34ae610b41f64aa1ff7cae8c4fbeebf9029i0",
-    "image": "/images/eclosion/eclosion-1-by-lemonhaze.jpg",
+    "image": "https://lemonhaze.com/images/eclosion/eclosion-1-by-lemonhaze.jpg",
     "kind": "artwork",
     "name": "Eclosion 1/1",
     "collectionPath": "/eclosion-1-1-amsterdam-blooms"
@@ -6208,7 +6208,7 @@
     "title": "BEST BEFORE Nº290 | Lemonhaze",
     "description": "BEST BEFORE Nº290 by Lemonhaze, from BEST BEFORE. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i289",
-    "image": "https://cdn.lemonhaze.com/assets/assets/c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i289.png",
+    "image": "https://lemonhaze.com/social/c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i289-aa17c3dbf3.jpg",
     "kind": "artwork",
     "name": "BEST BEFORE Nº290",
     "collectionPath": "/best-before"
@@ -7328,7 +7328,7 @@
     "title": "BEST BEFORE Nº402 | Lemonhaze",
     "description": "BEST BEFORE Nº402 by Lemonhaze, from BEST BEFORE. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i401",
-    "image": "https://cdn.lemonhaze.com/assets/assets/c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i401.png",
+    "image": "https://lemonhaze.com/social/c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i401-853c87aacb.jpg",
     "kind": "artwork",
     "name": "BEST BEFORE Nº402",
     "collectionPath": "/best-before"
@@ -8828,7 +8828,7 @@
     "title": "Gentleman Nº1 | Lemonhaze",
     "description": "Gentleman Nº1 by Lemonhaze, from Gentlemen. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0.png",
+    "image": "https://lemonhaze.com/social/757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0-928904e53d.jpg",
     "kind": "artwork",
     "name": "Gentleman Nº1",
     "collectionPath": "/gentlemen"
@@ -8878,7 +8878,7 @@
     "title": "Gentleman Nº6 | Lemonhaze",
     "description": "Gentleman Nº6 by Lemonhaze, from Gentlemen. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0.png",
+    "image": "https://lemonhaze.com/social/adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0-bfeae7fe84.jpg",
     "kind": "artwork",
     "name": "Gentleman Nº6",
     "collectionPath": "/gentlemen"
@@ -10958,7 +10958,7 @@
     "title": "Chamber of Reflection | Lemonhaze",
     "description": "Chamber of Reflection by Lemonhaze, from 1 of 1s (2024). Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0.png",
+    "image": "https://lemonhaze.com/social/8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0-bf26a315ed.jpg",
     "kind": "artwork",
     "name": "Chamber of Reflection",
     "collectionPath": "/1-of-1s-2024"
@@ -11698,7 +11698,7 @@
     "title": "Rue Cuvillier | Lemonhaze",
     "description": "Rue Cuvillier by Lemonhaze, from Montreal. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/00d08f2e808d325139649b50f77204a71d9624e7fd7e60a28907a4836614c49ei0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/00d08f2e808d325139649b50f77204a71d9624e7fd7e60a28907a4836614c49ei0.png",
+    "image": "https://lemonhaze.com/social/00d08f2e808d325139649b50f77204a71d9624e7fd7e60a28907a4836614c49ei0-69eddd2143.jpg",
     "kind": "artwork",
     "name": "Rue Cuvillier",
     "collectionPath": "/montreal"
@@ -16398,7 +16398,7 @@
     "title": "Chanchanok's Temple | Lemonhaze",
     "description": "Chanchanok's Temple by Lemonhaze, from 1 of 1s (2025). Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0.png",
+    "image": "https://lemonhaze.com/social/b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0-fc507b0f20.jpg",
     "kind": "artwork",
     "name": "Chanchanok's Temple",
     "collectionPath": "/1-of-1s-2025"
@@ -16908,7 +16908,7 @@
     "title": "Family Portrait | Lemonhaze",
     "description": "Family Portrait by Lemonhaze, from Into The Wild. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0",
-    "image": "https://cdn.lemonhaze.com/assets/assets/a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0.png",
+    "image": "https://lemonhaze.com/social/a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0-fe4b7d406a.jpg",
     "kind": "artwork",
     "name": "Family Portrait",
     "collectionPath": "/into-the-wild"

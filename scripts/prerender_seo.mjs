@@ -61,6 +61,12 @@ try {
     if(src)el.setAttribute('src',src);else el.removeAttribute('src');delete el.dataset.previewPaused;
    });
    if(entry.kind==='artwork'){
+    // Live lookups are intentionally disabled during capture. Their temporary
+    // failure is not a lasting fact about the artwork or its owner.
+    const owner=clone.querySelector('#meta-owner');
+    if(owner?.dataset.ownershipStatus==='unknown')owner.textContent='Live ownership lookup';
+    const number=clone.querySelector('#meta-inscription-number');
+    if(number && ['Unavailable','—'].includes(number.textContent.trim()))number.textContent='Live inscription lookup';
     const modal=clone.querySelector('#modal-overlay');
     if(modal.classList.contains('hidden'))throw Error('Artwork modal not open '+entry.path);
     modal.classList.remove('opacity-0');

@@ -39,3 +39,12 @@ test('artwork metadata identifies the work and does not include description mark
     assert.equal(result.title,'Test & Title | Lemonhaze');
     assert.equal(result.description,'Artist notes.');
 });
+
+test('ordinary pages have an absolute social image and featured artworks use their own sharing copy', () => {
+    const home=metadataFor({path:'/'});
+    assert.match(home.image,/^https:\/\/lemonhaze.com\/social\/lemonhaze-.*\.jpg$/);
+    const artwork=metadataFor({path:'/8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0',kind:'artwork',image:'https://cdn.lemonhaze.com/original.png'});
+    assert.match(artwork.image,/^https:\/\/lemonhaze.com\/social\/8781.*\.jpg$/);
+    assert.notEqual(artwork.image,home.image);
+    assert.equal(metadataFor({path:'/'+id(1),image:'/editorial/assets/example.jpg'}).image,'https://lemonhaze.com/editorial/assets/example.jpg');
+});

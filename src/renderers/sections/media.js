@@ -10,10 +10,11 @@ export function createMediaSectionNode(items) {
 
     items.forEach((item, idx) => {
         const num = String(idx + 1).padStart(2, '0');
-        const row = document.createElement('button');
-        row.type = 'button';
+        const row = document.createElement('a');
+        row.href = item.link;
+        row.target = '_blank';
+        row.rel = 'noopener noreferrer';
         row.className = 'w-full flex items-start gap-4 py-4 border-b border-white/5 hover:border-white/15 transition-colors cursor-pointer group text-left';
-        row.addEventListener('click', () => window.open(item.link, '_blank'));
 
         const index = createTextNode('span', 'text-[9px] font-mono text-white/15 shrink-0 mt-0.5', num);
 

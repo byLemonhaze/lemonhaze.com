@@ -1,6 +1,7 @@
 import { createArtworkLoadingIndicator } from '../../ui/artwork-loading.js';
 import { createBestBeforePlayer } from '../../ui/best-before-player.js';
 import { getArtworkOwnership } from '../../modules/artwork-ownership.js';
+import { fetchInscriptionMetadata } from '../../modules/inscription-metadata.js';
 import {
     getPreferredFileExtension,
     isVideoArtwork,
@@ -72,8 +73,6 @@ const PAINT_ENGINE_HELP = {
     },
 };
 
-const HIRO_API = 'https://api.hiro.so/ordinals/v1/inscriptions';
-const ORDINALS_INSCRIPTION_API = 'https://ordinals.com/r/inscription';
 const BB_LIVE_URL = 'https://bestbefore.space/best-before.json';
 const COLLECTION_RELEASE_MASTERS = {
     'b40f54c56d0ad7993e59f279d6386c78864f8b8b6cb9a2abc45e5d829ff9de12i0': 'manufactured-by-lemonhaze',
@@ -178,53 +177,6 @@ function simplifyContentType(ct) {
     if (ct === 'image/svg+xml') return 'SVG';
     if (ct.startsWith('text/plain')) return 'TXT';
     return ct.split(';')[0].trim();
-}
-
-async function fetchHiroData(id) {
-    try {
-        const res = await fetch(`${HIRO_API}/${id}`);
-        if (!res.ok) return null;
-        return await res.json();
-    } catch {
-        return null;
-    }
-}
-
-async function fetchOrdinalsData(id) {
-    try {
-        const res = await fetch(`${ORDINALS_INSCRIPTION_API}/${id}`);
-        if (!res.ok) return null;
-        return await res.json();
-    } catch {
-        return null;
-    }
-}
-
-async function fetchInscriptionMetadata(id) {
-    const [hiroData, ordinalsData] = await Promise.all([
-        fetchHiroData(id),
-        fetchOrdinalsData(id),
-    ]);
-
-    const owner = String(ordinalsData?.address || '').trim() || null;
-    const number =
-        Number.isFinite(Number(hiroData?.number)) ? Number(hiroData.number)
-        : (Number.isFinite(Number(ordinalsData?.number)) ? Number(ordinalsData.number) : null);
-
-    const hiroTs = hiroData?.genesis_timestamp ?? hiroData?.timestamp ?? hiroData?.created_at;
-    let genesisTimestamp = hiroTs || null;
-    if (!genesisTimestamp && Number.isFinite(Number(ordinalsData?.timestamp))) {
-        genesisTimestamp = Number(ordinalsData.timestamp) * 1000;
-    }
-
-    return {
-        address: owner,
-        charms: ordinalsData?.charms || [],
-        ownerLookupSucceeded: Boolean(ordinalsData),
-        number,
-        genesis_timestamp: genesisTimestamp,
-        sat_rarity: hiroData?.sat_rarity || null,
-    };
 }
 
 async function buildSaveEnabledHtmlBlobUrl(id) {
@@ -605,7 +557,7 @@ export function createArtworkModalController({
             modalMetadata.appendChild(bbLiveSection);
         }
 
-        // 5. Inscription number (animated, filled by Hiro)
+        // 5. Inscription number (filled from Ordinals.com)
         if (!isBB) {
             const inscriptionNumber = Number(item.inscription_number);
             const hasInscriptionNumber = item.inscription_number != null && String(item.inscription_number).trim() !== '' && Number.isFinite(inscriptionNumber);
@@ -617,12 +569,12 @@ export function createArtworkModalController({
             modalMetadata.appendChild(makeMetaRow('Ins. No.', insNoSpan));
         }
 
-        // 6. Current owner (animated, filled by Hiro)
+        // 6. Current owner (filled from Ordinals.com)
         const ownerSpan = makeMetaText(getArtworkOwnership(item).status === 'burned' ? 'Burned' : 'Checking…', 'text-[11px] font-mono text-white/55 break-all leading-snug animate-pulse');
         ownerSpan.id = 'meta-owner';
         modalMetadata.appendChild(makeMetaRow('Current Owner', ownerSpan));
 
-        // 7. Sat rarity placeholder (filled by Hiro)
+        // 7. Optional sat rarity placeholder
         const satTypeRow = document.createElement('div');
         satTypeRow.id = 'meta-rarity-row';
         modalMetadata.appendChild(satTypeRow);
@@ -644,7 +596,7 @@ export function createArtworkModalController({
         modalMetadata.appendChild(makeMetaRow('Inscription ID', inscriptionLink));
         arrangeMetadata(modalMetadata);
 
-        // ── Async: fill live data from Hiro (+ BB live for BB items) ──
+        // ── Async: fill live data from Ordinals.com (+ BB live for BB items) ──
         const requestToken = ++metadataRenderToken;
 
         const applyMetadataData = (metadata) => {
