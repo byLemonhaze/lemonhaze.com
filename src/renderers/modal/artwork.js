@@ -1,4 +1,5 @@
 import { createArtworkLoadingIndicator } from '../../ui/artwork-loading.js';
+import { fitBestBeforeFrame } from '../../ui/best-before-frame.js';
 import { getArtworkOwnership } from '../../modules/artwork-ownership.js';
 import {
     getPreferredFileExtension,
@@ -268,6 +269,38 @@ export function createArtworkModalController({
     let returnSection = null;
     let returnFocus = null;
     let loadingIndicator;
+    let clearBestBeforeFrame = () => {};
+
+    function prepareBestBeforeFrame(frame, item) {
+        const panel = frame.parentElement;
+        const viewport = document.createElement('div');
+        viewport.className = 'best-before-viewport';
+        viewport.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);overflow:hidden;';
+        panel.insertBefore(viewport, frame);
+        viewport.appendChild(frame);
+        const resize = () => {
+            const width = Math.min(panel.clientWidth * 0.9, panel.clientHeight * 0.9 * 9 / 16);
+            viewport.style.width = `${width}px`;
+            viewport.style.height = `${width * 16 / 9}px`;
+        };
+        resize();
+        const observer = new ResizeObserver(resize);
+        observer.observe(panel);
+        const fitted = fitBestBeforeFrame(frame, viewport);
+        let disposed = false;
+        fetchBBLive().then((inscriptions) => {
+            if (disposed) return;
+            const live = inscriptions?.find((entry) => entry.id === item.id);
+            if (live?.phase) fitted.setPhase(live.phase);
+        });
+        clearBestBeforeFrame = () => {
+            disposed = true;
+            observer.disconnect();
+            fitted.destroy();
+            viewport.replaceWith(frame);
+            clearBestBeforeFrame = () => {};
+        };
+    }
     function viewerLoading() {
         loadingIndicator ||= createArtworkLoadingIndicator(refs().modalOverlay?.querySelector('.modal-media-panel'));
         return loadingIndicator;
@@ -1129,6 +1162,7 @@ export function createArtworkModalController({
         modalOverlay.querySelector('.modal-meta-panel')?.scrollTo(0, 0);
 
         viewerLoading().clear();
+        clearBestBeforeFrame();
         modalImage.classList.add('hidden');
         modalIframe.classList.add('hidden');
         modalVideo.classList.add('hidden');
@@ -1144,6 +1178,7 @@ export function createArtworkModalController({
             const currentToken = htmlBlobLoadToken;
             modalIframe.classList.remove('hidden');
             if (useDirectIframe) {
+                if (item.collection === 'BEST BEFORE') prepareBestBeforeFrame(modalIframe, item);
                 viewerLoading().watch(modalIframe);
                 modalIframe.src = `https://ordinals.com/content/${item.id}`;
                 renderMetadataList(item);
@@ -1205,6 +1240,7 @@ export function createArtworkModalController({
         const { modalOverlay, modalImage, modalIframe, modalVideo, rawHtmlContainer, galleryGrid } = refs();
 
         loadingIndicator?.clear();
+        clearBestBeforeFrame();
         const hadArtwork = Boolean(appState.activeArtworkId);
         appState.activeArtworkId = null;
         if (hadArtwork && updateUrl) appState.activeSectionKey = returnSection;
