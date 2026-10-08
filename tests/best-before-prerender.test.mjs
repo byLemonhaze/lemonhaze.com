@@ -29,12 +29,13 @@ test('Best Before adopts a prerendered viewport and restores the shared iframe o
             if (request.url() === 'https://bestbefore.space/best-before.json') {
                 return route.fulfill({ json: { inscriptions: [{ id, phase: 'OPEN' }] } });
             }
-            if (request.isNavigationRequest()) return route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Artwork fixture</title>' });
+            if (request.isNavigationRequest()) return route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Artwork fixture</title><div id="artwork-ready">Artwork loaded</div>' });
             return route.fulfill({ status: 503, body: '' });
         });
         const response = await page.goto(`${origin}/${id}`);
         assert.equal(response.status(), 200);
         await page.waitForFunction(() => document.documentElement.dataset.appReady === 'true');
+        await page.frameLocator('#modal-iframe').locator('#artwork-ready').waitFor();
         for (const size of [{ width: 1440, height: 1000 }, { width: 390, height: 844 }]) {
             await page.setViewportSize(size);
             await page.waitForFunction(() => {

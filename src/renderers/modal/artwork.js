@@ -284,6 +284,10 @@ export function createArtworkModalController({
             // The canonical shared iframe has no inline styles; discard the
             // desktop fitting serialized during prerendering before observing it.
             frame.removeAttribute('style');
+            // Recreate the browsing context before resetting src. Chromium can
+            // otherwise retain an about:blank context from the captured document.
+            frame.remove();
+            viewport.appendChild(frame);
         } else {
             panel.insertBefore(viewport, frame);
             viewport.appendChild(frame);
