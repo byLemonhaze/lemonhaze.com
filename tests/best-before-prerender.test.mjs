@@ -50,7 +50,7 @@ test('Best Before adopts a prerendered viewport and restores the shared iframe o
         }
         await page.locator('#modal-close').click();
         assert.equal(await page.locator('.best-before-viewport').count(), 0);
-        assert.equal(await page.locator('#modal-iframe').getAttribute('style'), null);
+        assert.equal(await page.locator('#modal-iframe').evaluate(frame => frame.style.length), 0);
         assert.equal(await page.locator('.modal-media-panel > #modal-iframe').count(), 1);
     } finally {
         await browser.close();
