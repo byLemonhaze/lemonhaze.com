@@ -222,19 +222,19 @@ const GRAND_PERIODS = [
     label: "2024",
     year: "2024",
     names: CHRONOLOGY["2024"],
-    rect: { x: 1140, y: 1870, width: 2700, height: 2260 },
+    rect: { x: 1140, y: 1870, width: 2450, height: 2260 },
   },
   {
     label: "2025",
     year: "2025",
     names: CHRONOLOGY["2025"],
-    rect: { x: 3870, y: 1870, width: 2470, height: 2260 },
+    rect: { x: 3620, y: 1870, width: 2370, height: 2260 },
   },
   {
     label: "2026",
     year: "2026",
     names: CHRONOLOGY["2026"],
-    rect: { x: 6370, y: 1870, width: 1100, height: 2260 },
+    rect: { x: 6020, y: 1870, width: 1450, height: 2260 },
   },
 ] as const;
 
@@ -709,7 +709,8 @@ async function loadArtworkImage(
 ): Promise<HTMLImageElement | null> {
   if (ENCRYPTED_ARTWORK_IDS.has(item.id)) return null;
   for (const candidate of getMediaCandidates(item)) {
-    const proxied = resizedPreviewUrl(candidate);
+    // Site-owned previews must load directly, including in a local preview.
+    const proxied = candidate.startsWith("/") ? candidate : resizedPreviewUrl(candidate);
     let promise = promiseCache.get(proxied);
     if (!promise) {
       promise = loadImage(proxied);
@@ -973,6 +974,7 @@ export function preferredGridShape(
   itemCount = groupDisplayItems(group).length,
 ): { columns: number; rows: number } {
   const overrides: Record<string, [number, number]> = {
+    "1 of 1s (2026)": [8, 2],
     Cypherville: [4, 4],
     "Portrait 2490": [10, 9],
     Miscellaneous: [5, 5],
@@ -992,7 +994,7 @@ export function preferredGridShape(
     "Tori no Roji": [3, 2],
   };
   const override = overrides[group.name];
-  if (override) return { columns: override[0], rows: override[1] };
+  if (override) return { columns: override[0], rows: Math.max(override[1], Math.ceil(itemCount / override[0])) };
   if (itemCount === 3) return { columns: 2, rows: 2 };
   if (itemCount === 5) return { columns: 3, rows: 2 };
 
@@ -1094,23 +1096,22 @@ export function layoutGrandPeriod(
 ): GroupLayout[] {
   const gap = 18;
   if (year === "2026") {
-    const weights: Record<string, number> = {
-      "1 of 1s (2026)": 0.28,
-      "Into The Wild": 0.15,
-      "Liminality": 0.15,
-      "Griffintown": 0.16,
-      "Tin Box of Solitude": 0.30,
-      "Chrysalis": 0.20,
-      "Confabulation": 0.20,
-    };
-    const usableHeight = rect.height - gap * (groups.length - 1);
-    const totalWeight = groups.reduce((sum, group) => sum + (weights[group.name] || 0.2), 0);
+    // Keep the 1/1s together across the top, then give each series a real
+    // card in chronological pairs instead of seven shallow horizontal strips.
+    const rows = [groups.slice(0, 1), groups.slice(1, 3), groups.slice(3, 5), groups.slice(5)]
+      .filter(row => row.length);
+    const weights = [0.18, 0.18, 0.29, 0.35];
+    const usableHeight = rect.height - gap * (rows.length - 1);
+    const totalWeight = rows.reduce((sum, _, index) => sum + weights[index], 0);
     let y = rect.y;
-    return groups.map(group => {
-      const height = usableHeight * (weights[group.name] || 0.2) / totalWeight;
-      const layout = { group, rect: { x: rect.x, y, width: rect.width, height } };
+    return rows.flatMap((row, index) => {
+      const height = usableHeight * weights[index] / totalWeight;
+      const width = (rect.width - gap * (row.length - 1)) / row.length;
+      const layouts = row.map((group, column) => ({
+        group, rect: { x: rect.x + column * (width + gap), y, width, height },
+      }));
       y += height + gap;
-      return layout;
+      return layouts;
     });
   }
 

@@ -27,8 +27,8 @@ test('featured collection manifests load complete, ordered galleries', async () 
     const items = await fetchFeaturedCollections();
     const byCollection = Map.groupBy(items, (item) => item.collection);
 
-    assert.equal(items.length, 273);
-    assert.equal(new Set(items.map((item) => item.id)).size, 273);
+    assert.equal(items.length, 274);
+    assert.equal(new Set(items.map((item) => item.id)).size, 274);
     assert.equal(byCollection.get('Satoshi (Original & Editions)').length, 111);
     assert.equal(byCollection.get('Deprivation (Prints)').length, 33);
     assert.equal(byCollection.get('Mirage (Prints)').length, 33);
@@ -85,6 +85,12 @@ test('featured collection manifests load complete, ordered galleries', async () 
     assert.equal(dacSon.provenance, '8364ada14a420eff704c0eeca009c8460769879fdfd70270ff4a3b1c92cbe482i0');
     assert.equal(dacSon.content_size, '22301 bytes');
     assert.equal(dacSon.about, 'Geometric Wordmark - Vanilla JavaScript');
+
+    const gentlemon = byCollection.get('1 of 1s (2026)').find(item => item.name === 'gentlemon');
+    assert.equal(gentlemon.id, '8f2a8706c17a731dd9c7a88e3986e254175773f5bf118a3e8817bf4a4a0435a6i0');
+    assert.equal(gentlemon.inscription_number, 127582804);
+    assert.equal(gentlemon.provenance, dacSon.provenance);
+    assert.equal(gentlemon.grid_preview, '/images/artworks/gentlemon.webp');
 
     const satoshi = byCollection.get('Satoshi (Original & Editions)');
     assert.equal(satoshi[0].name, 'Satoshi (Original)');

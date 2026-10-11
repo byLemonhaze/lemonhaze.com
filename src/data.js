@@ -312,7 +312,8 @@ const ORDNET_COLLECTION_SUPPLY = [
   // Ord.net collection roster, refreshed 2026-07-27. Parent inscriptions are
   // applied below so each belongs to the collection it actually supports.
   // Updated 2026-09-07: Đắc-Sơn added; eight BEST BEFORE artworks burned.
-  { name: '1 of 1s (2026)', year: 2026, inscribed: 14, circulating: 14 },
+  // Updated 2026-10-11: gentlemon added to the 2026 one-of-ones.
+  { name: '1 of 1s (2026)', year: 2026, inscribed: 15, circulating: 15 },
   // Confabulation: parent and six children, none burned (Ordinals, 2026-10-05).
   { name: 'Confabulation', year: 2026, inscribed: 7, circulating: 7 },
   // Chrysalis: eight inscriptions, including its burned parent (Ordinals, 2026-09-30).

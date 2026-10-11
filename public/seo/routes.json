@@ -16952,5 +16952,15 @@
     "kind": "artwork",
     "name": "Đắc-Sơn",
     "collectionPath": "/1-of-1s-2026"
+  },
+  {
+    "path": "/8f2a8706c17a731dd9c7a88e3986e254175773f5bf118a3e8817bf4a4a0435a6i0",
+    "title": "gentlemon | Lemonhaze",
+    "description": "gentlemon by Lemonhaze, from 1 of 1s (2026). Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "canonical": "https://lemonhaze.com/8f2a8706c17a731dd9c7a88e3986e254175773f5bf118a3e8817bf4a4a0435a6i0",
+    "image": "https://lemonhaze.com/images/artworks/gentlemon.webp",
+    "kind": "artwork",
+    "name": "gentlemon",
+    "collectionPath": "/1-of-1s-2026"
   }
 ]

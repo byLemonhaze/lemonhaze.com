@@ -67,7 +67,7 @@ test('Supply includes the current collection roster without a Provenance collect
             inscribed: sum.inscribed + row.inscribed,
             circulating: sum.circulating + row.circulating,
         }), { inscribed: 0, circulating: 0 });
-    assert.deepEqual(totals, { inscribed: 1661, circulating: 1318 });
+    assert.deepEqual(totals, { inscribed: 1662, circulating: 1319 });
     assert.equal(totals.inscribed - totals.circulating, 343);
 });
 
