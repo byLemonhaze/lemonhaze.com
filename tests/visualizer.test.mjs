@@ -45,7 +45,7 @@ test('Visualizer includes current collections, parent roles, and every 2026 one-
  const latest=JSON.parse(await readFile(new URL('../public/data/collections/1-of-1s-2026.json',import.meta.url)));
  const expected=new Set([...provenance.filter(a=>a.collection==='1 of 1s (2026)'),...latest].map(a=>a.id));
  assert.deepEqual(new Set(one.allItems.map(a=>a.id)),expected);
- assert.equal(expected.size,15);
+ assert.equal(expected.size,16);
  assert.equal(new Set(artworks.map(a=>a.id)).size,artworks.length);
  assert.equal(groups.find(g=>g.name==='BEST BEFORE').works.length,420);
  assert.equal(visualizer.latestChronologyDate(groups),'OCT 2026');
@@ -65,13 +65,29 @@ test('Tin Box has a centered parent above exactly three rows of four, within its
  }
 });
 
-test('all seven 2026 groups fit without overlapping or dropping a collection',()=>{
- const bounds={x:6370,y:1870,width:1100,height:2260};
+test('the tree includes every catalogued inscription except the intentionally excluded Colors',()=>{
+ const displayed = new Set(groups.flatMap(visualizer.groupDisplayItems).map(item => item.id));
+ assert.deepEqual(artworks.filter(item => !displayed.has(item.id)).map(item => item.collection), Array(4).fill('Colors'));
+ const one = groups.find(group => group.name === '1 of 1s (2026)');
+ assert.equal(one.parents.length, 1);
+ assert.equal(one.works.length, 15);
+ assert.equal(one.works.at(-1).name, 'gentlemon');
+ assert.deepEqual(visualizer.preferredGridShape(one), {columns:8,rows:2});
+ assert.deepEqual(visualizer.preferredGridShape(one, 17), {columns:8,rows:3});
+});
+
+test('all seven 2026 cards fit without overlap and keep recent series readable',()=>{
+ const bounds={x:6020,y:1870,width:1450,height:2260};
  const layouts=visualizer.layoutGrandPeriod(groups.filter(g=>g.year==='2026'),bounds,'2026');
  assert.equal(layouts.length,7);
+ assert.equal(layouts[0].rect.width,bounds.width);
  layouts.forEach(({rect},index)=>{
-  assert.ok(rect.height>200);
+  assert.ok(rect.height>350);
+  assert.ok(rect.x>=bounds.x && rect.y>=bounds.y);
+  assert.ok(rect.x+rect.width<=bounds.x+bounds.width+0.001);
   assert.ok(rect.y+rect.height<=bounds.y+bounds.height+0.001);
-  if(index)assert.ok(rect.y>layouts[index-1].rect.y+layouts[index-1].rect.height);
+  for (const other of layouts.slice(index+1).map(layout=>layout.rect)) {
+   assert.ok(rect.x+rect.width<=other.x || other.x+other.width<=rect.x || rect.y+rect.height<=other.y || other.y+other.height<=rect.y);
+  }
  });
 });
