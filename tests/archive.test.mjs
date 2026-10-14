@@ -28,6 +28,12 @@ test('archive links refer to real collection and artwork routes and local media'
  for(const link of data.reading) assert.ok(paths.has(link.href.split('#')[0]),link.href);
 });
 
+test('Studio Notes search includes inscribed verse and still applies filters', () => {
+ const query = 'next move is yours';
+ assert.deepEqual(filterArchiveEntries(data.entries, {query, kind:'Writing', year:'2025'}).map(e=>e.slug), ['lost-in-bangkok-poem']);
+ assert.ok(!filterArchiveEntries(data.entries, {query, year:'2024'}).some(e=>e.slug==='lost-in-bangkok-poem'));
+});
+
 test('studio note links keep distinct works and avoid repeating a collection destination', () => {
  const entry = { related: [{href:'/montreal',label:'Montreal exhibition'},{href:'/work-id',label:'Rue Cuvillier'}], collections:['Montreal'] };
  const links = entryLinks(entry, () => 'montreal');

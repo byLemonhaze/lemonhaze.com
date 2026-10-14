@@ -1795,20 +1795,29 @@
     },
     {
       "slug": "dogmatic-structure",
-      "title": "Dogmatic Structure: a lost chain",
-      "kind": "Stories",
+      "title": "Dogmatic Structure: a chain and a lasting story",
+      "kind": "Writing",
       "collections": [
         "1 of 1s (2024)"
       ],
       "paragraphs": [
-        "The artist had lost a physical chain and did not know how it had happened. A short diary entry turns that loss into a play on permanence: this one would be put on-chain, so it would not leave him again."
+        "Dogmatic Structure holds a written interview with Fabled inside its HTML, alongside dated journal entries. The questions open onto the artist’s process, intuition, and wish for the work to outlive him. Images and writing become ways to keep a record that can be revisited.",
+        "The interview describes the artwork as a lasting reminder to oneself, and the writing as messages left for future readers. The hope is that someone will eventually explore the inscriptions, connect their details, and piece together the wider story.",
+        "A later entry gives permanence a smaller, physical starting point. Having lost a chain in Sin City, the artist puts this one “on-chain” so it cannot leave him again. The personal incident and the larger wish to preserve a life meet in the same work."
       ],
       "sources": [
+        {
+          "id": "bab8c2006cc1976923881ab4ed3871ca150f440d9cd9c698c71a5cc202490393i0",
+          "date": "2024-10-23",
+          "url": "https://ordinals.com/content/bab8c2006cc1976923881ab4ed3871ca150f440d9cd9c698c71a5cc202490393i0",
+          "label": "Read inscription"
+        },
         {
           "id": "1859071716821266495",
           "date": "2024-11-20",
           "url": "https://x.com/Ordinals10K/status/1859071716821266495",
-          "used": false
+          "used": false,
+          "label": "Artist post"
         }
       ],
       "years": [
@@ -1821,10 +1830,26 @@
           "href": "/bab8c2006cc1976923881ab4ed3871ca150f440d9cd9c698c71a5cc202490393i0"
         }
       ],
-      "event": null,
+      "event": "Interview & journal · October 2024",
       "reviewRefs": [
-        "F62"
-      ]
+        "F62",
+        "FNST: dogmatic-structure"
+      ],
+      "excerpts": [
+        {
+          "text": "I can count on one hand the people who truly understand what I’m doing here, inscribing my art and my thoughts on Bitcoin. My goal is longevity, not of my body but rather of my story. My journey, the journey of a simple man or not so simple after all. Just a human living life with what nature gave him.",
+          "caption": "Excerpt · The longevity of a story · October 7, 2024"
+        },
+        {
+          "text": "\"I’m here for the things I’m never gonna see. Documenting art, writings, etc. on Bitcoin with the potential to stand the test of time and outlive all of us, is something I find super exciting. Being a part of that in its nascent state is even more special, and as someone who always loved history, background stories, and collecting things - I’m dreaming of a day where digital archeologists get as passionate about my work as I am myself today. That they start digging, connecting dots and forming the puzzle of my works. Dreams aside, inspiring people in any ways would be amazing for sure.\"",
+          "caption": "Interview excerpt · Legacy and future readers · Fabled, October 7, 2024"
+        },
+        {
+          "text": "5:52pm:\nI lost my chain a few weeks back while I was still in Sin City. \nGod knows what happened, even I have no clue how I lost it. \n\n5:55pm:\nI put this one on-chain \nSo it never leaves me again.",
+          "caption": "Excerpt · A lost chain · October 23, 2024"
+        }
+      ],
+      "sourceKind": "inscription"
     },
     {
       "slug": "peak-audacity",
@@ -2407,8 +2432,9 @@
       "kind": "Writing",
       "collections": [],
       "paragraphs": [
-        "Early text inscriptions held lyrics, hybrid poems and passing thoughts. The HTML header later gave writing a place inside the artwork itself.",
-        "For Lemonhaze, the image and its words can work like music and lyrics: each carries something the other cannot. Dated notes preserve decisions, small events and addresses to an unknown future reader."
+        "Early text inscriptions held lyrics, hybrid poems and passing thoughts. The writing now lives mostly in the artworks’ HTML headers, inscribed alongside the images as a digital, immutable journal.",
+        "Poems sit beside dated notes, travel plans, and fragments of daily life. Lost in Bangkok and Chanchanok’s Temple move between verse and “A Day in The Life”; Le Confessionnal records the passing hours. The words preserve a place, a moment, and a state of mind.",
+        "For Lemonhaze, the image and its words can work like music and lyrics: each carries something the other cannot."
       ],
       "sources": [
         {
@@ -2640,6 +2666,1164 @@
       "reviewRefs": [
         "F07",
         "F51"
+      ]
+    },
+    {
+      "slug": "lost-in-bangkok-poem",
+      "title": "Lost in Bangkok: a poem at 1:01 am",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "A walk becomes a poem, moving between getting lost, losing control, and wanting to return to My Love. The words are dated 1:01 am, February 4, 2025, in Bangkok, and live in the artwork’s HTML header.",
+        "The entry has three parts: a poem, a song reference, and “A Day in The Life.” At 1:43 am, the writing turns to the next day’s departure for Ayutthaya. Verse and the ordinary details of a journey share the same inscription."
+      ],
+      "excerpts": [
+        {
+          "text": "Went out for a walk and got lost.\nThat’s when I met Chanchanok.\n\nDid all.\nNot done.\nNow more.\n\nStraying away from My Love.\n\nA Dream, Thank God, the smoke,\nNow I’m back to square one.\n\nHow far\nare you\nwilling\nto go?\n\nBring me back to My Love.\n\nOnly when I lose control.\nNothing worse for my soul.\n\nNext move\nis yours,\nWhere are\nyou now?\n\nI’m lost in Bangkok",
+          "caption": "The complete poem · Lost in Bangkok · February 4, 2025"
+        }
+      ],
+      "sources": [
+        {
+          "id": "33e141b76fba2459796239c0d67ea8bc056ec4abdb7a4f8d22735bb6c6be8ef6i0",
+          "date": "2025-02-04",
+          "url": "https://ordinals.com/content/33e141b76fba2459796239c0d67ea8bc056ec4abdb7a4f8d22735bb6c6be8ef6i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Lost in Bangkok",
+          "href": "/33e141b76fba2459796239c0d67ea8bc056ec4abdb7a4f8d22735bb6c6be8ef6i0"
+        }
+      ],
+      "event": "Bangkok · 2025-02-04",
+      "reviewRefs": [
+        "FNST: lost-in-bangkok"
+      ]
+    },
+    {
+      "slug": "chanchanoks-temple-poem",
+      "title": "Chanchanok’s Temple: a poem and a promise",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "Ten days after Lost in Bangkok, Chanchanok returns in another poem. Time slips by, the temple becomes a place of retreat, and the final lines make a promise to My Love.",
+        "The HTML entry moves from the poem to “Duality,” then to “A Day in The Life.” A 3:00 am Valentine’s Day note switches between French and English, recording sleeplessness, absence, and a work on display in Paris. These fragments remain with the image as a record of that night."
+      ],
+      "excerpts": [
+        {
+          "text": "Losing track of why\nAnd time is passing by\n\nDifferent kind of vibes\nMy temple in the jungle.\n\nDreaming of Chanchanok\nA different kind of high\n\nI promise this is the last time\nI’m soon back to you My Love.",
+          "caption": "The complete poem · Chanchanok’s Temple · February 14, 2025"
+        }
+      ],
+      "sources": [
+        {
+          "id": "b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0",
+          "date": "2025-02-14",
+          "url": "https://ordinals.com/content/b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Chanchanok’s Temple",
+          "href": "/b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0"
+        }
+      ],
+      "event": "Ayutthaya · 2025-02-14",
+      "reviewRefs": [
+        "FNST: chanchanok-s-temple"
+      ]
+    },
+    {
+      "slug": "le-confessionnal-journal",
+      "title": "Le Confessionnal: moments of a day",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "Le Confessionnal moves between “Redemption Road” and “A Day in the Life”: personal reflection alongside the sounds of the city, lost sleep, and progress on the image. The writing shifts between French and English, with times marking its changes of thought.",
+        "At 6:39 pm, uncertainty takes the form of a short passage about exploration. Seven minutes later, the entry returns to the artwork and the hope of finishing it that night. The image holds both the reflection and the day that produced it."
+      ],
+      "excerpts": [
+        {
+          "text": "This is uncharted territory.\nThere are uncertainties, and\nwe never know what’s waiting\nfor us on the other side.\nLike explorers sailing the ocean,\nriding waves to new continents.",
+          "caption": "Excerpt · 6:39 pm · Le Confessionnal (Sin City) · September 17, 2024"
+        }
+      ],
+      "sources": [
+        {
+          "id": "35b36fdc0f108c535790d86544abd707ed6492925134dbc7ff7785f6cdcd8c42i0",
+          "date": "2024-09-17",
+          "url": "https://ordinals.com/content/35b36fdc0f108c535790d86544abd707ed6492925134dbc7ff7785f6cdcd8c42i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Le Confessionnal (Sin City)",
+          "href": "/35b36fdc0f108c535790d86544abd707ed6492925134dbc7ff7785f6cdcd8c42i0"
+        }
+      ],
+      "event": "Sin City · 2024-09-17",
+      "reviewRefs": [
+        "FNST: le-confessionnal-sin-city"
+      ]
+    },
+    {
+      "slug": "cashback-writing",
+      "title": "Cashback: beauty and disillusionment",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "Written in Vung Tau at the end of 2024, Cashback records a moment of disillusionment with the art market. Its reference to the film Cashback turns the idea of a painter capturing beauty toward the ugliness the artist felt around him.",
+        "The entry holds affection for making art alongside frustration with the world around it. Kept inside the work, the writing preserves that state of mind at a particular time."
+      ],
+      "excerpts": [
+        {
+          "text": "I love what I’m doing, don’t get me wrong, but as the days goes by, I’m becoming more and more cynical about this.\n\nIf in the movie Cashback (2006) they say a painter captures beauty, I’m here today capturing what’s ugly.",
+          "caption": "Excerpt · Cashback · December 19, 2024"
+        }
+      ],
+      "sources": [
+        {
+          "id": "75c7778d0a8230a262dc58c0c23ca9e4afbb18b1ba7bd4d3e6033063aea375d7i0",
+          "date": "2024-12-19",
+          "url": "https://ordinals.com/content/75c7778d0a8230a262dc58c0c23ca9e4afbb18b1ba7bd4d3e6033063aea375d7i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Cashback",
+          "href": "/75c7778d0a8230a262dc58c0c23ca9e4afbb18b1ba7bd4d3e6033063aea375d7i0"
+        }
+      ],
+      "event": "Vung Tau · 2024-12-19",
+      "reviewRefs": [
+        "FNST: cashback"
+      ]
+    },
+    {
+      "slug": "duet-tacet-poem",
+      "title": "Duet Tacet: love through the seasons",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "At 3:03 am, somewhere between Saigon and Osaka, a poem returns to the beginning of a relationship on rue St-Charles. Winter gives way to spring, and the idea of love frozen in time gives way to love that keeps changing.",
+        "The passage moves between French and English. It belongs to the artist’s own writing in the first part of the inscription; a separately credited song follows later."
+      ],
+      "excerpts": [
+        {
+          "text": "Ce soir je suis dans les airs, entre Saigon et Osaka,\net encore une fois j’me dit que les amours naissent les soirs d’hivers.\nMais pourtant c’est au printemps que t’es venu me rejoindre sur la rue St-Charles.\nIf I thought love is something that freeze in time,\nmaintenant je sais que ca grandi pour vrai après le gel, au printemps. \n\nT’avais mis une robe pour moi, et je t’aimais déjà.\nSi j’osais pas le dire, et si je gardais mon air désinvolte,\nc’était simplement parce que j’étais jeune et innocent.\nJ’avais peur de toi et de l’effet que tu avais sur moi.\nJe ne voulais pas croire que l’amour est quelque chose qui évolue constamment,\nun peu comme les quatre saisons au Canada. Je sais tu me l'as dit tant de fois.\n\nDès le début, t’as choisis l’amour.\nAlors que moi j’ai pris les pires chemins,\nparsemés de hauts et de bas, de lust et de charmes viscérale.\nMais tranquillement j’te rejoint mon coeur et je m’en vais nul part ailleurs.\n\nYour smile, your kiss\nand your voice whispering soft words.\nI can still feel it in my bones.\nMeaningless and meaningful all at once,\nbut not meaningless dans le mauvais sens.\nI know what I’m saying doesn't sense.\nBut sometimes I miss the old days.",
+          "caption": "Complete opening poem · Duet Tacet · 2025-01-15"
+        }
+      ],
+      "sources": [
+        {
+          "id": "ce4bce489aa8bf4fdd7c2a1dd4f7dcb1c42d4c6007d9557aa41461e62cf2e8c4i0",
+          "date": "2025-01-15",
+          "url": "https://ordinals.com/content/ce4bce489aa8bf4fdd7c2a1dd4f7dcb1c42d4c6007d9557aa41461e62cf2e8c4i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Duet Tacet",
+          "href": "/ce4bce489aa8bf4fdd7c2a1dd4f7dcb1c42d4c6007d9557aa41461e62cf2e8c4i0"
+        }
+      ],
+      "event": "Between Saigon and Osaka",
+      "reviewRefs": [
+        "FNST: duet-tacet"
+      ]
+    },
+    {
+      "slug": "birthday-girl-writing",
+      "title": "Birthday Girl: a card inside the artwork",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "A birthday card with a handmade lotus opens the inscription. Its short dedication places the beauty of a person’s heart above the number of years passing.",
+        "The journal that follows becomes a shared page: Cathy adds her own words directly in the editor. The artwork keeps the card and the conversation together."
+      ],
+      "excerpts": [
+        {
+          "text": "Un an de plus, mais ce n'est qu'un chiffre.\nLa beauté de ton coeur et la générosité de ton âme,\neux restent à jamais les mêmes. Bonne fête, My Love.\nJe t'aime\nFred xxx",
+          "caption": "Complete dedication · Birthday Girl · 2025-05-25"
+        }
+      ],
+      "sources": [
+        {
+          "id": "ada7662763439c6a786c1a06b653efb244b9abd722593c9a97606c7050c931b6i0",
+          "date": "2025-05-25",
+          "url": "https://ordinals.com/content/ada7662763439c6a786c1a06b653efb244b9abd722593c9a97606c7050c931b6i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Birthday Girl",
+          "href": "/ada7662763439c6a786c1a06b653efb244b9abd722593c9a97606c7050c931b6i0"
+        }
+      ],
+      "event": "Hoi An",
+      "reviewRefs": [
+        "FNST: birthday-girl"
+      ]
+    },
+    {
+      "slug": "night-owl-writing",
+      "title": "Night Owl: the stories in ordinary encounters",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "A late meal in Osaka becomes a long journal entry about solitude and the need for company. By the end, the night’s encounters lead to another ambition: writing films.",
+        "This passage turns toward the small details of human interaction and the stories they might hold. Music is already part of the imagined film."
+      ],
+      "excerpts": [
+        {
+          "text": "Off-topic, but thinking about this reminds me how I’d love to be writing movies at some point in my life. As I said before, there’s something beautiful about living life in the wild. The little details and nuances of the many interactions we have as humans are worth exploring beyond the surface - stories and moments that may appear banal at first glance are often the most interesting ones. Oh, and the movies I’ll write will undoubtedly have good soundtrack, it’s a must.",
+          "caption": "Excerpt · Night Owl · 2025-01-20"
+        }
+      ],
+      "sources": [
+        {
+          "id": "3422db0898d84544fe61d1b8bc0528c8634f805ec435c441218bdab776d484edi0",
+          "date": "2025-01-20",
+          "url": "https://ordinals.com/content/3422db0898d84544fe61d1b8bc0528c8634f805ec435c441218bdab776d484edi0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Night Owl",
+          "href": "/3422db0898d84544fe61d1b8bc0528c8634f805ec435c441218bdab776d484edi0"
+        }
+      ],
+      "event": "Osaka",
+      "reviewRefs": [
+        "FNST: night-owl"
+      ]
+    },
+    {
+      "slug": "wilderness-writing",
+      "title": "Wilderness: learning to see the light",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2026)"
+      ],
+      "paragraphs": [
+        "At 8:08 pm, a short passage turns wilderness into a way of finding direction. Moonlight, silence, and instinct guide the movement from uncertainty toward recognition.",
+        "The writing is dated in Puerto Escondido and kept in the same inscription as the image."
+      ],
+      "excerpts": [
+        {
+          "text": "In the wilderness, we are guided by the moon and the stars.\nThe path is never given, it is revealed in fragments of light.\nSilence becomes the compass, instinct the map.\nAnd by morning, we realize we were never truly lost.\nOnly learning to see the light again.",
+          "caption": "Complete 8:08 pm passage · Wilderness · 2026-04-08"
+        }
+      ],
+      "sources": [
+        {
+          "id": "f1f114aee3aabe9539a9d4aff7619b1690e9656f53544c938725fbd4f3db3144i0",
+          "date": "2026-04-08",
+          "url": "https://ordinals.com/content/f1f114aee3aabe9539a9d4aff7619b1690e9656f53544c938725fbd4f3db3144i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2026"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Wilderness",
+          "href": "/f1f114aee3aabe9539a9d4aff7619b1690e9656f53544c938725fbd4f3db3144i0"
+        }
+      ],
+      "event": "Puerto Escondido",
+      "reviewRefs": [
+        "FNST: wilderness"
+      ]
+    },
+    {
+      "slug": "self-portrait-verse",
+      "title": "Self-Portrait: a gift to a future reader",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2026)"
+      ],
+      "paragraphs": [
+        "Three lines imagine the self hidden inside a gift, waiting for someone in the future to open it. The next section answers with a single sentence: “Until then, it's just void.”",
+        "The journal continues across several dates in February, ending with the decision to inscribe more. The verse addresses a future reader while the notes record the days of making."
+      ],
+      "excerpts": [
+        {
+          "text": "i hide inside the quantum gift\nlately the days are silent and swift\na gift to someone in the future who can open it",
+          "caption": "Complete opening verse · Self-Portrait · 2026-02-27"
+        }
+      ],
+      "sources": [
+        {
+          "id": "41bd86ca3414a204bf5bd735f79f57219db5113a4655d46613d27c1218606638i0",
+          "date": "2026-02-27",
+          "url": "https://ordinals.com/content/41bd86ca3414a204bf5bd735f79f57219db5113a4655d46613d27c1218606638i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2026"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Self-Portrait",
+          "href": "/41bd86ca3414a204bf5bd735f79f57219db5113a4655d46613d27c1218606638i0"
+        }
+      ],
+      "event": "Journal · February 5–27, 2026",
+      "reviewRefs": [
+        "FNST: self-portrait"
+      ]
+    },
+    {
+      "slug": "insaisissable-mirage-writing",
+      "title": "Insaisissable Mirage: the next horizon",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "The opening asks what keeps a person going when every reached goal gives way to another. A few short lines turn ambition into a repeating movement.",
+        "The rest of the entry brings that question back to daily life: working on the balcony, cooking, and speaking with My Love. Near the end, another small passage describes a sunset as a mirage."
+      ],
+      "excerpts": [
+        {
+          "text": "What do you tell yourself to carry on?\n\nThe goals I set for myself\nOnce I reached them\nI chase the next\nIt never stops\nIt’s my fuel\nIt’s a vibe",
+          "caption": "Excerpt · Insaisissable Mirage · 2024-11-03"
+        }
+      ],
+      "sources": [
+        {
+          "id": "5fef183d99d18a4a999dd0b92d221b8924ff18fa57a36cab530a59f449ba26cfi0",
+          "date": "2024-11-03",
+          "url": "https://ordinals.com/content/5fef183d99d18a4a999dd0b92d221b8924ff18fa57a36cab530a59f449ba26cfi0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Insaisissable Mirage",
+          "href": "/5fef183d99d18a4a999dd0b92d221b8924ff18fa57a36cab530a59f449ba26cfi0"
+        }
+      ],
+      "event": "Vung Tau · November 2–3, 2024",
+      "reviewRefs": [
+        "FNST: insaisissable-mirage"
+      ]
+    },
+    {
+      "slug": "kowloon-journal",
+      "title": "Kowloon: a sunset in real time",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "A memory of Hong Kong opens the entry, but the journal soon returns to the balcony in front of the artist. At 5:03 pm, the work is ready to inscribe and an orange-peach sun is slipping behind the clouds.",
+        "By 5:09 pm, the sun has disappeared. These few minutes give the writing the immediacy of a journal still being written."
+      ],
+      "excerpts": [
+        {
+          "text": "5:03pm:\nC'est presque le crépuscule, Cathy vient tout just de rentrer d'une seance de yoga et moi de j'ai terminé cette piece que je m'apprete à mettre on-chain.\nOn est sur le balcon, on regarde le soleil orange peach... mais là il commence à etre complement couvert par les nuages.\n\n5:09pm:\nBoom, le soleil est diparus dans les nuages.",
+          "caption": "Excerpt · Kowloon · 2024-11-11"
+        }
+      ],
+      "sources": [
+        {
+          "id": "21897a07f879ba80941e7b60d35dd166b74e143486cb93e8b79c75606d5a3fb2i0",
+          "date": "2024-11-11",
+          "url": "https://ordinals.com/content/21897a07f879ba80941e7b60d35dd166b74e143486cb93e8b79c75606d5a3fb2i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Kowloon",
+          "href": "/21897a07f879ba80941e7b60d35dd166b74e143486cb93e8b79c75606d5a3fb2i0"
+        }
+      ],
+      "event": "Journal · November 11, 2024",
+      "reviewRefs": [
+        "FNST: kowloon"
+      ]
+    },
+    {
+      "slug": "soir-d-hiver-writing",
+      "title": "Soir d’hiver: remembering the air of Montreal",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "Fresh air, moonlight, and rosy cheeks bring Montreal back through the senses. The note moves from the idea of love beginning on winter evenings to the feeling of missing a birthplace.",
+        "The memory remains vivid even after nearly three years away. A brief switch into English marks the passing time."
+      ],
+      "excerpts": [
+        {
+          "text": "J’ai toujours pensé que les amours naissent les soirs d'hiver.  L’air frais, la lune qui éclaire, les joues rosées, “J’erre” et “Je ne sais pas” de Dumas. Quelque part à Montréal... probablement dans le vieux port. Je peux encore sentir l’air de la ville, près du fleuve, et entendre la nuit même si ça fait bientôt 3 ans que je n’y suis pas retourné. Time is passing by. Elle me manque ma terre natale.",
+          "caption": "Complete artist note · Soir d'hiver"
+        }
+      ],
+      "sources": [
+        {
+          "id": "264545ac9af6eb5b8bb0a9e3e582efcbf9acf68e12c55d90d09f86aae6ae3b03i0",
+          "date": "",
+          "url": "https://ordinals.com/content/264545ac9af6eb5b8bb0a9e3e582efcbf9acf68e12c55d90d09f86aae6ae3b03i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [],
+      "images": [],
+      "related": [
+        {
+          "label": "Soir d'hiver",
+          "href": "/264545ac9af6eb5b8bb0a9e3e582efcbf9acf68e12c55d90d09f86aae6ae3b03i0"
+        }
+      ],
+      "event": "Undated writing",
+      "reviewRefs": [
+        "FNST: soir-d-hiver"
+      ]
+    },
+    {
+      "slug": "saint-laurent-writing",
+      "title": "Saint-Laurent: one photograph, two lives",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "Cathy’s photograph began on a bicycle ride from Brossard toward Montreal, along the Saint-Laurent. It became the cover for a song before returning as material for a visual work.",
+        "The note also records an intention: to bring photographs from upcoming travels into the artist’s p5.js structures. A shared memory opens a new direction in the work."
+      ],
+      "excerpts": [
+        {
+          "text": "The original photo was taken by my love, Cathy. We were biking to Montreal from Brossard along the Fleuve Saint-Laurent a morning somewhere in 2014 or 2015, I can't remember exactly. And this photo ended up being the cover photo for one of my song titled 'Saint-Laurent' that I published on Soundcloud at the time. If you're looking you might still be able to find that song.",
+          "caption": "Excerpt · Saint-Laurent"
+        }
+      ],
+      "sources": [
+        {
+          "id": "8b091f71fa8b4680cbc346581b845168c76e00eb6208f18ab21ee71bd5fe3c06i0",
+          "date": "",
+          "url": "https://ordinals.com/content/8b091f71fa8b4680cbc346581b845168c76e00eb6208f18ab21ee71bd5fe3c06i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [],
+      "images": [],
+      "related": [
+        {
+          "label": "Saint-Laurent",
+          "href": "/8b091f71fa8b4680cbc346581b845168c76e00eb6208f18ab21ee71bd5fe3c06i0"
+        }
+      ],
+      "event": "Undated writing",
+      "reviewRefs": [
+        "FNST: saint-laurent"
+      ]
+    },
+    {
+      "slug": "watson-esplanade-writing",
+      "title": "Watson Esplanade: the way home",
+      "kind": "Writing",
+      "collections": [
+        "Generative Composition"
+      ],
+      "paragraphs": [
+        "Without a car in Surfers Paradise, walking and cycling shaped the days. Watson Esplanade was part of the route home, and the writing remembers it through the people and moments along the way.",
+        "The place holds the movement of an earlier life on the Gold Coast: friends, conversation, laughter, and plans."
+      ],
+      "excerpts": [
+        {
+          "text": "Back when we lived in Surfers Paradise we didn't have a car. We were on WHV, it was bicycle or often just walking. We lived both on Sunset and Sunrise boulevard and the Watson Eslanade was on our path home/toAnywhere. Needless to say there was quite a few memorable moments on that esplanade. Walking with friends, drinking, dreaming, smoking, laughing. My time on the Gold Coast was surely some of the best of time of my life so far.",
+          "caption": "Complete artist note · Watson Esplanade"
+        }
+      ],
+      "sources": [
+        {
+          "id": "46d48f4aa1316d05d670ba04b4f79111b20c6faf709e789e2e1eefb5c14841eci0",
+          "date": "",
+          "url": "https://ordinals.com/content/46d48f4aa1316d05d670ba04b4f79111b20c6faf709e789e2e1eefb5c14841eci0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [],
+      "images": [],
+      "related": [
+        {
+          "label": "Watson Esplanade",
+          "href": "/46d48f4aa1316d05d670ba04b4f79111b20c6faf709e789e2e1eefb5c14841eci0"
+        }
+      ],
+      "event": "Undated writing",
+      "reviewRefs": [
+        "FNST: watson-esplanade"
+      ]
+    },
+    {
+      "slug": "orange-why-not-writing",
+      "title": "Orange Why Not: missing a time without returning",
+      "kind": "Writing",
+      "collections": [
+        "Old-Fashioned"
+      ],
+      "paragraphs": [
+        "This note holds two feelings together: missing an earlier life and not wanting to go back to it. Gratitude for the people and experiences remains, even as the artist recognises a change in how he lives.",
+        "The language slips between English and French as nostalgia becomes something more difficult to name."
+      ],
+      "excerpts": [
+        {
+          "text": "I'm feeling nostalgique right now. I miss some period of my life but I don't want to go back there either, weird feeling. The connections made with other humans, the vibrant lifestyle I had, I'm grateful for all of it. Life really is a buffet, how much of it do you want it? My lifestyle is healtier now but I can't help it but feel nostalgique, and perhaps sometimes even melancholic.",
+          "caption": "Complete artist note · Orange Why Not"
+        }
+      ],
+      "sources": [
+        {
+          "id": "66fa607b6edd5c99c95e2bb1894f9b9a85cd95a850a58f568148f3a28618d9c6i0",
+          "date": "",
+          "url": "https://ordinals.com/content/66fa607b6edd5c99c95e2bb1894f9b9a85cd95a850a58f568148f3a28618d9c6i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [],
+      "images": [],
+      "related": [
+        {
+          "label": "Orange Why Not",
+          "href": "/66fa607b6edd5c99c95e2bb1894f9b9a85cd95a850a58f568148f3a28618d9c6i0"
+        }
+      ],
+      "event": "Undated writing",
+      "reviewRefs": [
+        "FNST: orange-why-not"
+      ]
+    },
+    {
+      "slug": "avant-le-crepuscule-writing",
+      "title": "Avant le Crépuscule: the other side of a sunset",
+      "kind": "Writing",
+      "collections": [
+        "Untitled"
+      ],
+      "paragraphs": [
+        "On the eve of a tenth anniversary, a sunset suggests a life still waiting on the other side. The writing holds that uncertainty beside the continuity of a long relationship.",
+        "A dedication to Cathy interrupts the questions. The passage ends by asking whether everything might still be possible."
+      ],
+      "excerpts": [
+        {
+          "text": "I feel like there's this whole other life waiting for me on the other side of that sunset, but I can't tell what it is, and if it's something I want. All I know is that tomorrow is gonna be the 10th Anniversary of my relationship with Cathy. Je t'aime, mon coeur. It's crazy how time is passing by. We're young when we met, and yet despite being salt and pepper I still see us as being young. What if we can have it all?",
+          "caption": "Complete artist note · Avant le Crepuscule"
+        }
+      ],
+      "sources": [
+        {
+          "id": "cf0bf5d5c1e3aa8ad9ed188764d118116fe3b6fd9b4894b7fe1b4c72f83ca2b6i0",
+          "date": "",
+          "url": "https://ordinals.com/content/cf0bf5d5c1e3aa8ad9ed188764d118116fe3b6fd9b4894b7fe1b4c72f83ca2b6i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [],
+      "images": [],
+      "related": [
+        {
+          "label": "Avant le Crepuscule",
+          "href": "/cf0bf5d5c1e3aa8ad9ed188764d118116fe3b6fd9b4894b7fe1b4c72f83ca2b6i0"
+        }
+      ],
+      "event": "Undated writing",
+      "reviewRefs": [
+        "FNST: avant-le-crepuscule"
+      ]
+    },
+    {
+      "slug": "rabbi-writing",
+      "title": "Rabbi: a note of thanks",
+      "kind": "Writing",
+      "collections": [
+        "Old-Fashioned"
+      ],
+      "paragraphs": [
+        "A short acknowledgment records help received while experimenting with generative art. Rabbi offered technical guidance when the artist was struggling.",
+        "The inscription preserves that exchange and the value of strangers sharing what they know."
+      ],
+      "excerpts": [
+        {
+          "text": "Something I always appreciate with the Bitcoin (and broader crypto) community is how knowledge is shared and how strangers are not shy to help. Rabbi came to me and offered his help knowing I was struggling with a few (or many lol) technical stuff regarding the generative art I've been experimenting with lately. Thanks Rabbi",
+          "caption": "Complete artist note · Rabbi"
+        }
+      ],
+      "sources": [
+        {
+          "id": "f2bc4df1ce165ab8dca90eaf4826930a501dcf642f431a1187f0e53842d7e02ei0",
+          "date": "",
+          "url": "https://ordinals.com/content/f2bc4df1ce165ab8dca90eaf4826930a501dcf642f431a1187f0e53842d7e02ei0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [],
+      "images": [],
+      "related": [
+        {
+          "label": "Rabbi",
+          "href": "/f2bc4df1ce165ab8dca90eaf4826930a501dcf642f431a1187f0e53842d7e02ei0"
+        }
+      ],
+      "event": "Undated writing",
+      "reviewRefs": [
+        "FNST: rabbi"
+      ]
+    },
+    {
+      "slug": "smooth-sailor-journal",
+      "title": "Smooth Sailor: before the rain",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "At 10:30 pm, the plan is simple: inscribe the work, then watch a film with My Love. The day has included window-shopping and a walk across the Dragon Bridge.",
+        "As rain begins, the note pauses on the wish to stay in Da Nang. The entry holds the work alongside an ordinary evening."
+      ],
+      "excerpts": [
+        {
+          "text": "I need to put this one on-chain and jump in bed to watch a movie with My Love.\nEarlier today we did some window-shopping and walked the dragon bridge.\nI love Da Nang and Vietnam in general, I kinda wish we could stay.\nIt's starting to rain. May it rain the good thing in a few weeks?",
+          "caption": "Excerpt · Smooth Sailor · 2025-09-05"
+        }
+      ],
+      "sources": [
+        {
+          "id": "0fc76657166d0dfab82ff8d5f97a3c785d817055c3a989b8b8b4fcdb0effbee7i0",
+          "date": "2025-09-05",
+          "url": "https://ordinals.com/content/0fc76657166d0dfab82ff8d5f97a3c785d817055c3a989b8b8b4fcdb0effbee7i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Smooth Sailor",
+          "href": "/0fc76657166d0dfab82ff8d5f97a3c785d817055c3a989b8b8b4fcdb0effbee7i0"
+        }
+      ],
+      "event": "Da Nang",
+      "reviewRefs": [
+        "FNST: smooth-sailor"
+      ]
+    },
+    {
+      "slug": "o-swirl-journal",
+      "title": "O-Swirl: a first night at Casa Flamingo",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2025)"
+      ],
+      "paragraphs": [
+        "The first night at Casa Flamingo brings back childhood weekends in the forest with his father. The house is still unfinished, and its makeshift comforts call up another way of living.",
+        "Later entries address a friend and collaborator, but this passage stays with the first night: a memory of Rawdon, then tea and moonlight on the balcony."
+      ],
+      "excerpts": [
+        {
+          "text": "This brought back old memories of when I was young - the weekends deep in the forest with my father in Rawdon, Québec. \n\nLes coureurs de bois…\n\nSleeping in a wood shack with no proper toilet - setting up snare trap during the day and watching movies at night. But watch out for the deerflies!\n\nNow I’m drinking tea and smoking on the balcony while watching the moon shine - grateful.",
+          "caption": "Excerpt · Paint Engine v0.2 [O-Swirl] · 2025-11-07"
+        }
+      ],
+      "sources": [
+        {
+          "id": "054eb44d57f5bd34a9153c5a605e32710fbc36912945db0fc91693526e7c9201i0",
+          "date": "2025-11-07",
+          "url": "https://ordinals.com/content/054eb44d57f5bd34a9153c5a605e32710fbc36912945db0fc91693526e7c9201i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Paint Engine v0.2 [O-Swirl]",
+          "href": "/054eb44d57f5bd34a9153c5a605e32710fbc36912945db0fc91693526e7c9201i0"
+        }
+      ],
+      "event": "Puerto Escondido · November 7, 2025",
+      "reviewRefs": [
+        "FNST: paint-engine-v0-2-o-swirl"
+      ]
+    },
+    {
+      "slug": "faux-chat-writing",
+      "title": "Faux-Chat: ideas becoming tangible",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2026)"
+      ],
+      "paragraphs": [
+        "This entry records the excitement of finding tools that make more ideas possible. The artist reflects on having once wished to live in another era, then feeling unexpectedly at home in this one.",
+        "The writing becomes impatient with itself: there is more to build. It captures a moment when learning, imagining, and making feel closely connected."
+      ],
+      "excerpts": [
+        {
+          "text": "I think I was born at the right moment in time for who I am.\nYou know, I often said I wished I was born in a past era etc...\nand yet now I realize I'm right where I fit the most.\nThese new tools, what they enable - how things such as ideas, visions and concept\nthat usually either required insane level of coding skills and/or literal human and financial resources\nnow can be done by sharing my mind with a computer.\nWhat we call, artificial intelligence - large language model and agents.\n\nI swear, it's hard to find the word to descript the capacity unlocked.\nI'm making an effort to write my mind so much I just want to keep building more.\nThe possibility of converting my minds into something tangible.\nBuilding. Creating. Full of potential.\nI love this shit right now.",
+          "caption": "Excerpt · Paint Engine v1.03 [Faux-Chat] · 2026-01-23"
+        }
+      ],
+      "sources": [
+        {
+          "id": "7a6d380af9adc2b7b70ac0cea5d054ab8c69a0d7d0f612e66870213276dd4349i0",
+          "date": "2026-01-23",
+          "url": "https://ordinals.com/content/7a6d380af9adc2b7b70ac0cea5d054ab8c69a0d7d0f612e66870213276dd4349i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2026"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Paint Engine v1.03 [Faux-Chat]",
+          "href": "/7a6d380af9adc2b7b70ac0cea5d054ab8c69a0d7d0f612e66870213276dd4349i0"
+        }
+      ],
+      "event": "Journal · January 23, 2026",
+      "reviewRefs": [
+        "FNST: paint-engine-v1-03-faux-chat"
+      ]
+    },
+    {
+      "slug": "gaijin-writing",
+      "title": "Gaijin: two lines about belonging",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2024)"
+      ],
+      "paragraphs": [
+        "Two lines bring together the foreigner and the coureur de bois. The note leaves the question of home open, locating the speaker in movement.",
+        "Its brevity gives the words the weight of a small self-portrait."
+      ],
+      "excerpts": [
+        {
+          "text": "Wherever I go, I’m a foreigner\nI have no home, I’m a coureur de bois",
+          "caption": "Complete artist note · Gaijin"
+        }
+      ],
+      "sources": [
+        {
+          "id": "f16f690fbe406425fa7e031c8234f12206ba17588e4aa2c62527e723ec68f73ei0",
+          "date": "",
+          "url": "https://ordinals.com/content/f16f690fbe406425fa7e031c8234f12206ba17588e4aa2c62527e723ec68f73ei0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [],
+      "images": [],
+      "related": [
+        {
+          "label": "Gaijin",
+          "href": "/f16f690fbe406425fa7e031c8234f12206ba17588e4aa2c62527e723ec68f73ei0"
+        }
+      ],
+      "event": "Undated writing",
+      "reviewRefs": [
+        "FNST: gaijin"
+      ]
+    },
+    {
+      "slug": "tea-pot-writing",
+      "title": "Tea Pot: a memory at first sip",
+      "kind": "Writing",
+      "collections": [
+        "Tin Box of Solitude"
+      ],
+      "paragraphs": [
+        "A cup of bubble tea brings back Taipei in 2024. Four short lines turn taste into a memory of a place and a moment.",
+        "Written in Montreal two years later, the entry also includes a birthday greeting to his father. Travel memory and family life share the page."
+      ],
+      "excerpts": [
+        {
+          "text": "It was love at first sip.\nBubble tea in Taipei.\nWith something to smoke.\nSomewhere in 2024.",
+          "caption": "Complete opening verse · Tea Pot · 2026-09-13"
+        }
+      ],
+      "sources": [
+        {
+          "id": "0c2dea85121eb7b98bb3d7ffe182629ba15513bdbdd4619b4e0c0448bdcf6284i0",
+          "date": "2026-09-13",
+          "url": "https://ordinals.com/content/0c2dea85121eb7b98bb3d7ffe182629ba15513bdbdd4619b4e0c0448bdcf6284i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2026"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Tea Pot",
+          "href": "/0c2dea85121eb7b98bb3d7ffe182629ba15513bdbdd4619b4e0c0448bdcf6284i0"
+        }
+      ],
+      "event": "Griffintown, Montreal",
+      "reviewRefs": [
+        "FNST: tea-pot"
+      ]
+    },
+    {
+      "slug": "dai-rei-writing",
+      "title": "Dai-Rei: walking into a series",
+      "kind": "Writing",
+      "collections": [
+        "Tori no Roji"
+      ],
+      "paragraphs": [
+        "Long walks through Osaka become the starting point for Tōri no Roji. The writing notices the contrast between busy streets and smaller, quieter passages.",
+        "Near the end of the entry, those observations become decisions about the image: neon, restrained pathways, new palettes, and variations in the algorithm. The journal records how looking turns into making."
+      ],
+      "excerpts": [
+        {
+          "text": "All that to say, I ended up being inspired very quickly by what surrounds me. Touches of neon and all the charming alleys and whatnot,\nthat led me to spend time tweaking my algorithm to make something that captures all of this charm I’m seeing around.\nA mix of colorful lights and more sober pathways, all of which I'm constantly exploring when I go out to walk in town.\n\nThese works are what came out of this so far.\nI'll be inscribing more palettes and variations in the coming days/weeks,\nas I find more things to say and share about my stay in Osaka.",
+          "caption": "Excerpt · Dai-Rei · 2025-01-21"
+        }
+      ],
+      "sources": [
+        {
+          "id": "ec65500c8992c50e031acbad8211e1eb06173d1516b18b099c85cfd939ba344ei0",
+          "date": "2025-01-21",
+          "url": "https://ordinals.com/content/ec65500c8992c50e031acbad8211e1eb06173d1516b18b099c85cfd939ba344ei0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Dai-Rei",
+          "href": "/ec65500c8992c50e031acbad8211e1eb06173d1516b18b099c85cfd939ba344ei0"
+        }
+      ],
+      "event": "Osaka",
+      "reviewRefs": [
+        "FNST: dai-rei"
+      ]
+    },
+    {
+      "slug": "fisherman-writing",
+      "title": "Fisherman: someday, a fishing trip",
+      "kind": "Writing",
+      "collections": [
+        "Tin Box of Solitude"
+      ],
+      "paragraphs": [
+        "The opening question is about waiting. The journal answers with a new father still taking in the change, imagining a fishing trip with his child one day.",
+        "Two unpolished lines keep the feeling close to the moment it was written, at 11:29 pm."
+      ],
+      "excerpts": [
+        {
+          "text": "I don't think I realize I'm father yet.\nBut I hope we'll go fishing someday.",
+          "caption": "Complete 11:29 pm passage · Fisherman · 2026-09-11"
+        }
+      ],
+      "sources": [
+        {
+          "id": "bc13c49dd637343e7f91a86175bd800440f5aef118b518a6b35b3a77ea83ee77i0",
+          "date": "2026-09-11",
+          "url": "https://ordinals.com/content/bc13c49dd637343e7f91a86175bd800440f5aef118b518a6b35b3a77ea83ee77i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2026"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Fisherman",
+          "href": "/bc13c49dd637343e7f91a86175bd800440f5aef118b518a6b35b3a77ea83ee77i0"
+        }
+      ],
+      "event": "Griffintown, Montreal",
+      "reviewRefs": [
+        "FNST: fisherman"
+      ]
+    },
+    {
+      "slug": "from-berlin-to-saigon",
+      "title": "From Berlin to Saigon: following the ink",
+      "kind": "Writing",
+      "collections": [
+        "The Artifacts"
+      ],
+      "paragraphs": [
+        "The title traces a developing visual language. The Berlin series, drawn in 2023 from memories of a short stay in 2018, changed the way Lemonhaze thought about composition. Dark, ink-like forms and textured surfaces became an idea to pursue across different tools.",
+        "In Hong Kong in June 2024, a visit to HOKMA brought paper, ink, and brush pens into the story. Unable to read the characters in the artworks he saw, he experienced their shapes as abstraction. That encounter gave the forms he was seeking another point of reference.",
+        "The HTML writing connects these experiences to hand drawing, AI, and experiments with p5.js. It also names earlier works across several collections, leaving a trail through the practice. An output made in Saigon becomes a moment to look back at how the idea arrived there."
+      ],
+      "excerpts": [
+        {
+          "text": "Berlin was really about making mementos of my short stay in Berlin back in 2018.\nEach pieces were digitally hand drawn, and have their own story, but that's for another day.\nI'm talking about it here because it had a direct influence on the way I think about composition ever since.",
+          "caption": "Excerpt · Memories becoming compositions"
+        },
+        {
+          "text": "For quite some time I’ve been interested in these dark/black ink,\nAbstract reflective scenery/structure, half fake-Rorschach things, half-nothing.\nI like how they bring contrast to what I see on my canvas, it's my mirage.\nSuperposed on minimal layout with vintage textures, I like even more.\n\nSo, while it started by digitally hand drawing like in Berlin (or even physically)\nI quickly explored other ways to get things done.\nWith AI, I did a lot of work that reinforced this idea I had/have in mind.\nBut \"code only\" aka p5js, quickly became my goal - part for the challege it showed to be,\nPart to espouse the constraints of Bitcoin by increasing efficiency with code-only.\n\nThings connected even more in Hong-Kong, June 2024, when I visited HOKMA and purchased a few items like papers, ink and brush pen.\nBecause I couldn't read what was writen on most artworks, the black ink characters on silk were abstract to my eyes.\nYet the art, the feel, was speaking to me in so many ways. Part of the vibes I've been chasing ever since.",
+          "caption": "Excerpt · From drawing to code, through Hong Kong"
+        },
+        {
+          "text": "With this piece here today (October 29, 2024 - 6:19pm) I'm taking a moment to show a glimpse into the evolution and progress of this idea,\nby showing you this output that I generated a couple of days ago when I was in Saigon making experimentation within my current working project.\n\nFrom Berlin to Saigon, made with code\n\nCheers to Art on Bitcoin",
+          "caption": "Excerpt · October 29, 2024"
+        }
+      ],
+      "sources": [
+        {
+          "id": "989242547accbd3df2611aeae8c311e162d4d188f046d8562f18f6684ade4f63i0",
+          "date": "2024-10-29",
+          "url": "https://ordinals.com/content/989242547accbd3df2611aeae8c311e162d4d188f046d8562f18f6684ade4f63i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2024"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "From Berlin to Saigon",
+          "href": "/989242547accbd3df2611aeae8c311e162d4d188f046d8562f18f6684ade4f63i0"
+        }
+      ],
+      "event": "Berlin · Hong Kong · Saigon",
+      "reviewRefs": [
+        "FNST: from-berlin-to-saigon"
+      ]
+    },
+    {
+      "slug": "under-construction-journal",
+      "title": "Under Construction: a life taking shape",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2026)"
+      ],
+      "paragraphs": [
+        "The journal begins with reflections on BEST BEFORE and the passing of things: attention, careers, relationships, and time. Working on the Paint Engine offers pleasure, while writing becomes a way of speaking to someone in the future.",
+        "Across several days, the entries move between short poems, questions about permanence, and the ordinary act of showing up to work. Then, on January 8, Cathy tells him she is pregnant. The writing changes direction toward joy, hope, and the wish to tell his mother.",
+        "Read through the journal, “Under Construction” takes on another meaning. An engine is being developed while a new family life begins to take shape."
+      ],
+      "excerpts": [
+        {
+          "text": "There's something unique and hard to describe\nAbout the act of inscribing my works and my words.\n\nOne reason I do it so religiously is perhaps to speak to someone in the future: \nsometimes myself, sometimes others far down the road, long after I'm gone.\n\nThis raises the question:\nwhat are the odds of Bitcoin surviving 50 years, 100 years, or 1,000 years? \nThe format of the work, the language of the code, the language of the words spoke?\n\nSo many questions...",
+          "caption": "Excerpt · Writing to a future reader · January 5, 2026"
+        },
+        {
+          "text": "2:22pm:\nI’m speechless, in the best way possible.\nTwenty-twenty-six is off to a good start\nMy Love just told me she’s pregnant.|\nMay this be the best thus far.\nThank you My Love.\nThank you God.\n\n3:01pm:\nThere are moments that quietly redraw the entire map of your life.\n\n7:27pm:\nSuddenly, all I feel is joy and hope.\nAnd I can't wait to tell my mom.",
+          "caption": "Excerpt · January 8, 2026"
+        }
+      ],
+      "sources": [
+        {
+          "id": "36e74fdb856a69281982f9340739aa10863bbd19da8d7e8fb183b9b9284323f8i0",
+          "date": "2026-01-08",
+          "url": "https://ordinals.com/content/36e74fdb856a69281982f9340739aa10863bbd19da8d7e8fb183b9b9284323f8i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2026"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Paint Engine v0.8 [Under Construction]",
+          "href": "/36e74fdb856a69281982f9340739aa10863bbd19da8d7e8fb183b9b9284323f8i0"
+        }
+      ],
+      "event": "Journal · January 3–8, 2026",
+      "reviewRefs": [
+        "FNST: paint-engine-v0-8-under-construction"
+      ]
+    },
+    {
+      "slug": "flashback-writing",
+      "title": "Flashback: the beginning, found again",
+      "kind": "Writing",
+      "collections": [
+        "Lotus"
+      ],
+      "paragraphs": [
+        "Looking through an old email account brings back songs, screenshots, photographs, and music demos. Flashback gathers these traces into one inscription, placing early writing beside a reflection written years later in Kuala Lumpur.",
+        "The opening returns to “CATHY ATM,” dated October 29, 2013. Its hopes for travel, a shared life, and children sit beside the uncertainty of asking whether she will come along. The inscription also preserves other credited voices and returns to the dedication behind Lotus.",
+        "Near the end, a small discovery connects the periods: the earlier work was signed FNSL, before the FNST signature. The journal closes by naming the act of inscribing these memories as a way of keeping the beginning of their story."
+      ],
+      "excerpts": [
+        {
+          "text": "I wanna take you away\nGo far and start a new life\nMake new friends and never come back\nThat’s how I feel with you baby\n\nI feel that this could have no end\nHaving kids, diner and breakfast\nA middle class work with PRESIDENT LOVE\n\nYou may think I speak too fast, but I’m not.\nIt took me so long to write this down\nAs long as it took me to give you the crown.\n\nI’m not counting the time anymore with you\nMy feelings are strong enough to know what I want\n\nONE LOVE and a STRONG ONE\n\n… Now that it’s all said, I’m scared.\nCan I ever drive you there… will you join me…\nAre we gonna rock this out?\nAre we gonna rock this out?\n\nCathy at the moment",
+          "caption": "Original song text · CATHY ATM · October 29, 2013"
+        },
+        {
+          "text": "8:42pm:\nGoing through these old emails, screenshots, photos and short recordings of music demo on my old email account “Kamlung” (from the Chinese restaurant in Longueuil) reminded me that I used to sign my stuff FNSL instead of FNST as I do nowadays.\n\n9:37pm:\nI’m gonna finish this and inscribe it for eternity - this was the start of our story.\n\nJe t’aime, Cathy.\nMy Little Dragon.\nMy Love. Ma Lotus.",
+          "caption": "Excerpt · Finding the old recordings · May 13, 2025"
+        }
+      ],
+      "sources": [
+        {
+          "id": "b66a29be1861ef12253635e0dff825344dc39c5c44644e3224b7974deac8a092i0",
+          "date": "2025-05-13",
+          "url": "https://ordinals.com/content/b66a29be1861ef12253635e0dff825344dc39c5c44644e3224b7974deac8a092i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2025"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Flashback",
+          "href": "/b66a29be1861ef12253635e0dff825344dc39c5c44644e3224b7974deac8a092i0"
+        }
+      ],
+      "event": "Kuala Lumpur",
+      "reviewRefs": [
+        "FNST: flashback"
+      ]
+    },
+    {
+      "slug": "griffintown-journal",
+      "title": "Griffintown: back in the city",
+      "kind": "Writing",
+      "collections": [
+        "1 of 1s (2026)"
+      ],
+      "paragraphs": [
+        "After nearly five years away, Lemonhaze returns to Montreal. The first entry looks out over the Lachine Canal: people walking, cycling, playing volleyball, and moving through the neighbourhood. Five Roses becomes part of the view from the balcony.",
+        "The next evening brings a short poem about salmon served on a cardboard box in the new living room. Later, the journal watches the city at night: a piano, a reader, someone working at a desk, lights turning on and off. Small domestic scenes give the return its texture.",
+        "Against that continuing life, he notices how much his own days have changed. With a son on the way and less time to make art, the writing records both the pleasure of being home and the wish to keep creating."
+      ],
+      "excerpts": [
+        {
+          "text": "Un saumon romantique.\nSur une boite de carton.\nDans notre nouveau salon.\nUn peu cliché mais pratique.\n\nLa belle étoile dans le vide\nUn ptit piknik, un bixi\nLe temps de dire merci\nMy Love on est d'retour en ville",
+          "caption": "Complete poem · June 3, 2026"
+        },
+        {
+          "text": "At night on my balcony, the view is as good as it is during the day, in fact possibly better.\nThe red flashing Five Roses sign is great but what I like most is the cinematic view of the building on the other side of the street, facing East.\nI can see inside all the apartments, the people living their lives at their own rythmn. The lights from the inside contrasting on the dark sky.\nThe first apartment on the left, around the 14th floor, has an elegant black grand piano in the living room.\nA couple of levels lower on the right, I can see a man absorbed by a book from his cozy reading corner by the large window.\nAnd just abov, someone working on a laptop at their desk in the bedroom. Some lights turning on and others turning off.\nAlways the ticking clock. It's dark but down on the ground people are still playing beach volleyball.",
+          "caption": "Excerpt · The city at night · June 15, 2026"
+        }
+      ],
+      "sources": [
+        {
+          "id": "6f4dee1d7fb56cb3f6655f343d3824e0694f1932d20e41b0abe982cae958ae21i0",
+          "date": "2026-06-17",
+          "url": "https://ordinals.com/content/6f4dee1d7fb56cb3f6655f343d3824e0694f1932d20e41b0abe982cae958ae21i0",
+          "label": "Read inscription"
+        }
+      ],
+      "sourceKind": "inscription",
+      "years": [
+        "2026"
+      ],
+      "images": [],
+      "related": [
+        {
+          "label": "Griffintown",
+          "href": "/6f4dee1d7fb56cb3f6655f343d3824e0694f1932d20e41b0abe982cae958ae21i0"
+        }
+      ],
+      "event": "Montreal · June 2026",
+      "reviewRefs": [
+        "FNST: griffintown"
       ]
     }
   ],

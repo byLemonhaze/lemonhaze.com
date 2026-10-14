@@ -137,6 +137,10 @@
 .lh-editorial .archive-card.is-open h2{font-size:27px}
 .lh-editorial .archive-entry-body{padding:20px 0 24px}
 .lh-editorial .archive-entry-body>p{max-width:760px}
+.lh-editorial .archive-writing{max-width:760px;margin:28px 0}
+.lh-editorial .archive-writing blockquote{margin:0 0 14px}
+.lh-editorial .archive-writing blockquote p{white-space:pre-line;overflow-wrap:anywhere}
+.lh-editorial .archive-writing figcaption{font-size:12px;line-height:1.7}
 .lh-editorial .archive-media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin:30px 0}
 .lh-editorial .archive-media-grid figure{margin:0;min-width:0}
 .lh-editorial .archive-media-grid figure:only-child{grid-column:1/-1;max-width:850px}
