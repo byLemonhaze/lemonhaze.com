@@ -96,3 +96,5 @@ The general writing overview now leads Studio Notes and describes the recurring 
 Mobile timeline captions sit directly below their images, with no intervening rule. A separator appears between complete artwork entries, and image height follows the artwork’s proportions to avoid empty space before the caption.
 
 The final timeline selection uses Gentleman Nº4, replacing Nº10 at the owner’s request.
+
+The 2024 timeline entry is labelled “Manufactured / Games” and uses Game Nº9, linked to the Games collection story.

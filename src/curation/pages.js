@@ -45,11 +45,10 @@ export function createPracticeOverview(artworks) {
     const root = document.createElement('article');
     root.className = 'curated-page practice-page';
     const work = artworks.find(work => work.name === 'Wondrous Place');
-    const collectionWork = name => artworks.find(item => item.collection === name && item.role !== 'parent');
     const sequence = [
         { work: artworks.find(item => item.id === SELECTED_SERIES_COVERS.Berlin), title: 'Berlin · 99 Francs', href: '/berlin', text: 'Hand-drawn forms and textured colour carry the memory of a place.' },
         { work: artworks.find(item => item.id === '5e2aca86c47cf065ff8e2e7c504dd995fd18d362ae0c84dace7f8e949cb08789i0'), title: 'Gentlemen · Nº4', href: '/gentlemen#collection-story', text: 'The portrait becomes an assembled surface, carrying an aspiration that keeps changing.' },
-        { work: collectionWork('Manufactured'), title: 'Manufactured', href: '/manufactured#collection-story', text: 'Repeated forms grow into textured fields, drawing on textiles and the Bauhaus.' },
+        { work: artworks.find(item => item.id === SELECTED_SERIES_COVERS.Games), title: 'Manufactured / Games', href: '/games#collection-story', text: 'Textile patterns become generative fields. Games extends Manufactured into personally dedicated works.' },
         { work: artworks.find(item => item.id === SELECTED_SERIES_COVERS.Montreal), title: 'Montreal', href: '/montreal#collection-story', text: 'A remembered city becomes colour and texture. Place gives the structure a personal history.' },
         { work: artworks.find(item => item.id === '611fad09e407fe63e70c54ee853e755f92cb4d69049eff21f31d3d414a2db74di0'), date: '2025', title: 'Minute, papillon!', href: '/611fad09e407fe63e70c54ee853e755f92cb4d69049eff21f31d3d414a2db74di0', text: 'Made in the same period as Chanchanok’s Temple, as new tools and techniques entered the work.' },
         { image: '/editorial/assets/bb-lifecycle.webp', date: '2025', title: 'BEST BEFORE', href: '/best-before', text: 'Sealed, opened, expired. The collector’s choice and Bitcoin block time shape the work’s life.' },
