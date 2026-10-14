@@ -378,6 +378,9 @@ html[data-presentation] #modal-overlay :is(button,select,a):focus-visible { text
  .practice-year::before { left:44px; }
  .practice-year::after { left:41px; }
  .practice-year-works::before { left:44px; }
- .practice-year-works { grid-template-columns:1fr; gap:28px; padding-top:18px; }
- .practice-sequence-image { height:190px; }
+ .practice-year-works { grid-template-columns:1fr; gap:36px; padding-top:18px; }
+ .practice-year-works figure + figure { border-top:1px solid var(--line); padding-top:28px; }
+ .practice-sequence-image { height:auto; }
+ .practice-sequence-image img { width:auto; max-height:240px; }
+ .practice-year-works figcaption { margin-top:10px; border:0; padding-top:0; }
 }

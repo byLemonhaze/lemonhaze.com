@@ -92,3 +92,5 @@ Practice’s six selected works and series are grouped along a year-by-year line
 The selected chronology now includes Minute, papillon! (2025) and Wernicke from Confabulation (2026), for eight selections and two works per year. Selected Work’s introduction uses the owner’s revised text and “A continuous practice.” About omits “carefully”; the proposed AI sketching sentence was removed at the owner’s request.
 
 The general writing overview now leads Studio Notes and describes the recurring “A Day in the Life” passages without naming individual artworks. Practice section 01 uses the concise “1/1s · 2023” link label.
+
+Mobile timeline captions sit directly below their images, with no intervening rule. A separator appears between complete artwork entries, and image height follows the artwork’s proportions to avoid empty space before the caption.
