@@ -2,7 +2,7 @@ export const archiveSearchText = value => String(value || '').normalize('NFD').r
 export function filterArchiveEntries(entries, { query = '', kind = '', collection = '', year = '' } = {}) {
     const words = archiveSearchText(query).trim().split(/\s+/).filter(Boolean);
     return entries.filter(entry => {
-        const text = archiveSearchText([entry.title, ...entry.paragraphs, ...entry.collections].join(' '));
+        const text = archiveSearchText([entry.title, ...entry.paragraphs, ...(entry.excerpts || []).map(excerpt => excerpt.text), ...entry.collections].join(' '));
         return words.every(word => text.includes(word))
             && (!kind || entry.kind === kind)
             && (!collection || entry.collections.includes(collection))
