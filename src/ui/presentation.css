@@ -352,20 +352,35 @@ html[data-presentation] #modal-overlay :is(button,select,a):focus,
 html[data-presentation] #modal-overlay :is(button,select,a):focus-visible { outline:none; box-shadow:none; }
 html[data-presentation] #modal-overlay :is(button,select,a):focus-visible { text-decoration:underline; text-underline-offset:4px; }
 
-/* A concise visual reading of the practice, followed by its six chapters. */
-.practice-sequence-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:36px 28px; }
-.practice-sequence-grid figure { margin:0; min-width:0; }
-.practice-sequence-image { display:flex; height:190px; align-items:center; justify-content:center; }
+/* Selected works echo the visualizer’s year branches within the Practice page. */
+.practice-timeline { list-style:none; padding:0; margin:0; }
+.practice-year { display:grid; grid-template-columns:84px minmax(0,1fr); gap:28px; position:relative; padding:0 0 48px; }
+.practice-year::before { content:""; position:absolute; top:9px; bottom:-9px; left:65px; width:1px; background:var(--line); }
+.practice-year:last-child::before { bottom:auto; height:1px; }
+.practice-year::after { content:""; position:absolute; top:6px; left:62px; z-index:1; width:7px; height:7px; border:1px solid var(--muted); background:var(--page); }
+.practice-page .practice-year-label { color:var(--muted); font:11px/20px 'Fragment Mono',monospace; margin:0; }
+.practice-year-works { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; padding-top:22px; margin-top:9px; }
+.practice-year-works::before { content:""; position:absolute; top:9px; left:65px; right:0; height:1px; background:var(--line); }
+.practice-year-works figure { margin:0; min-width:0; }
+.practice-sequence-image { display:flex; height:180px; align-items:center; justify-content:center; }
 .practice-sequence-image img { max-width:100%; max-height:100%; object-fit:contain; }
-.practice-sequence-grid figcaption { border-top:1px solid var(--line); margin-top:18px; padding-top:12px; }
-.practice-sequence-grid figcaption>span { color:var(--muted); font:10px/1.5 'Fragment Mono',monospace; }
-.practice-sequence-grid h3 { font:500 16px/1.5 'Syne',sans-serif; margin:6px 0; }
-.practice-sequence-grid p { color:var(--muted); font-size:12px; line-height:1.7; }
-.practice-sequence .curated-section-heading p:not(.curated-kicker) { max-width:540px; margin-top:15px; }
-.practice-sequence .curated-kicker { margin-bottom:12px; }
+.practice-year-works figcaption { margin-top:16px; }
+.practice-year-works h4 { font:500 15px/1.5 'Syne',sans-serif; margin:0 0 6px; }
+.practice-year-works p { color:var(--muted); font-size:12px; line-height:1.7; }
+.practice-sequence .curated-section-heading p { max-width:540px; margin-top:15px; }
+.practice-sequence .curated-footnote { margin-top:0; }
 .practice-sequence .curated-footnote a { margin-left:0; }
 .practice-print { margin:28px 0; max-width:400px; }
 .practice-print img { display:block; width:100%; height:auto; }
 .practice-print figcaption { color:var(--muted); font-size:11px; line-height:1.7; margin-top:12px; }
-@media(max-width:1100px) { .practice-sequence-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-@media(max-width:600px) { .practice-sequence-grid { grid-template-columns:1fr; gap:32px; } .practice-sequence-image { height:230px; } }
+@media(max-width:600px) {
+ .practice-year { grid-template-columns:46px minmax(0,1fr); gap:20px; padding-bottom:36px; }
+ .practice-year::before { left:44px; }
+ .practice-year::after { left:41px; }
+ .practice-year-works::before { left:44px; }
+ .practice-year-works { grid-template-columns:1fr; gap:36px; padding-top:18px; }
+ .practice-year-works figure + figure { border-top:1px solid var(--line); padding-top:28px; }
+ .practice-sequence-image { height:auto; }
+ .practice-sequence-image img { width:auto; max-height:240px; }
+ .practice-year-works figcaption { margin-top:10px; border:0; padding-top:0; }
+}

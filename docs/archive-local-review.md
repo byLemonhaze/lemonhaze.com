@@ -84,3 +84,17 @@ The overview now connects personal material with structure across drawing, colla
 The local follow-up adds a six-image sequence (Berlin’s 99 Francs, Gentleman Nº10, Manufactured, Montreal, BEST BEFORE, Paint Engines), with a link to the existing full visual chronology. “Time as material” remains section 05. Good Night’s documented print photograph appears in section 06, and Practice’s writing shortcut opens Studio Notes with the Writing filter selected (34 of 86 notes). Preview navigation includes section shortcuts. Desktop and 390px mobile checks cover images, filtering, and layout. The owner approved these follow-up changes for commit, push, and deployment on October 14, 2026.
 
 Following the owner’s review, the six numbered chapters lead the page. The visual sequence now follows the Good Night print section under “Across the years,” with 99 Francs and Gentleman Nº10 selected explicitly by the owner.
+
+## About and selected chronology — local follow-up
+
+Practice’s six selected works and series are grouped along a year-by-year line with branch markers, echoing the full visualizer while retaining the six-item selection below the physical-print section. About now describes personal material, drawing/collage/code, poems and journals in HTML headers, the Paint Engines, and BEST BEFORE in the same voice as Practice. Its writing link opens the existing Writing filter. The biography and exhibition facts are retained. The owner approved this follow-up for commit, push, and deployment on October 14, 2026.
+
+The selected chronology now includes Minute, papillon! (2025) and Wernicke from Confabulation (2026), for eight selections and two works per year. Selected Work’s introduction uses the owner’s revised text and “A continuous practice.” About omits “carefully”; the proposed AI sketching sentence was removed at the owner’s request.
+
+The general writing overview now leads Studio Notes and describes the recurring “A Day in the Life” passages without naming individual artworks. Practice section 01 uses the concise “1/1s · 2023” link label.
+
+Mobile timeline captions sit directly below their images, with no intervening rule. A separator appears between complete artwork entries, and image height follows the artwork’s proportions to avoid empty space before the caption.
+
+The final timeline selection uses Gentleman Nº4, replacing Nº10 at the owner’s request.
+
+The 2024 timeline entry is labelled “Manufactured / Games” and uses Game Nº8, linked to the Games collection story.
