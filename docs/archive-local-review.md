@@ -94,3 +94,5 @@ The selected chronology now includes Minute, papillon! (2025) and Wernicke from 
 The general writing overview now leads Studio Notes and describes the recurring “A Day in the Life” passages without naming individual artworks. Practice section 01 uses the concise “1/1s · 2023” link label.
 
 Mobile timeline captions sit directly below their images, with no intervening rule. A separator appears between complete artwork entries, and image height follows the artwork’s proportions to avoid empty space before the caption.
+
+The final timeline selection uses Gentleman Nº4, replacing Nº10 at the owner’s request.
