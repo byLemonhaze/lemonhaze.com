@@ -97,4 +97,4 @@ Mobile timeline captions sit directly below their images, with no intervening ru
 
 The final timeline selection uses Gentleman Nº4, replacing Nº10 at the owner’s request.
 
-The 2024 timeline entry is labelled “Manufactured / Games” and uses Game Nº9, linked to the Games collection story.
+The 2024 timeline entry is labelled “Manufactured / Games” and uses Game Nº8, linked to the Games collection story.
