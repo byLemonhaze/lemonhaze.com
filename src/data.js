@@ -116,10 +116,13 @@ export const ABOUT_LEMONHAZE_TEXT = `
   Lemonhaze is the artistic practice of Frédérick Nathaniel St-Louis (b. 1990), a Montréal-born, self-taught artist working between Montréal and Puerto Escondido.
 </p>
 <p class="mb-4 text-white/90 font-light leading-relaxed">
-  The work moves through images, textures, and writing. Black, ink-like marks recur across shifting grounds. Place, identity, and time keep returning: a city remembered, a figure changing, a work that ages on block time. Since 2023, Bitcoin has been the primary medium.
+  A city, a memory, a changing sense of self: personal material takes form through drawing, collage, and code. Black, ink-like marks recur across built textures. Grids, repeated shapes, and generative rules give the images their structure. Since 2023, Bitcoin has been the primary medium.
 </p>
 <p class="mb-4 text-white/90 font-light leading-relaxed">
-  He came to this from music and writing, outside art school. Code, drawing, and generative systems became the tools; the Paint Engines extend the same practice.
+  He came to this from music and writing, outside art school. Poems, journals, and fragments of daily life remain part of the work, most often held in its HTML headers. Inscribed alongside the image, the words form a digital, immutable journal. Each carries something the other cannot.
+</p>
+<p class="mb-4 text-white/90 font-light leading-relaxed">
+  The systems also become part of the experience. The Paint Engines invite another person to work with colour, texture, and composition. In BEST BEFORE, opening a work begins a life measured in Bitcoin blocks. Time and the collector’s decisions become material, too.
 </p>
 <p class="mb-0 text-white/90 font-light leading-relaxed">
   The work is held by more than 100 collectors and has been shown internationally, including in Sotheby’s Contemporary Discoveries, New York (2025).

@@ -46,7 +46,7 @@ test('selected Studio Notes order preserves every entry and leads with the core 
  const ordered = sortStudioNotes(data.entries);
  assert.equal(new Set(STUDIO_NOTE_ORDER).size, data.entries.length);
  assert.deepEqual([...STUDIO_NOTE_ORDER].sort(), [...before].sort());
- assert.deepEqual(ordered.slice(0,3).map(entry=>entry.slug), ['gentlemen-work-in-progress','hosoi','chamber-of-reflection']);
+ assert.deepEqual(ordered.slice(0,3).map(entry=>entry.slug), ['writing-on-bitcoin','gentlemen-work-in-progress','hosoi']);
  assert.deepEqual(data.entries.map(entry=>entry.slug), before);
  assert.deepEqual(ordered.map(entry=>entry.slug).sort(), [...before].sort());
 });

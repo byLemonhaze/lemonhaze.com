@@ -195,9 +195,10 @@ export function appendCollectionStory({ collection, galleryGrid, currentViewMeta
 export function enhanceAbout(aboutText) {
     const wrap = document.createElement('div');
     wrap.innerHTML = aboutText;
-    const entry = readingLink('/practice', 'Practice →', 'Process, tools, and the stories behind the collections.');
+    const entry = readingLink('/practice', 'Practice →', 'Image, texture, time, and the systems behind the work.');
     entry.classList.add('editorial-about-links');
     wrap.appendChild(entry);
+    wrap.appendChild(readingLink('/archive#writing-notes', 'Read the writing →', 'Poems and journals held inside the artworks.'));
     return wrap;
 }
 
