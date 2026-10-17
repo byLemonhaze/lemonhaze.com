@@ -31,6 +31,7 @@
   "dependencies": {
     "@bitcoin-js/tiny-secp256k1-asmjs": "^2.2.4",
     "bitcoinjs-lib": "^7.0.1",
+    "mediabunny": "1.61.6",
     "nostr-tools": "^2.23.3",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
