@@ -419,7 +419,7 @@ function openAboutModal(title, content, options = {}) {
     destroyHomeView();
 
     renderSectionView({
-        fullWidth: ['supply', 'selected', 'practice'].includes(appState.activeSectionKey),
+        fullWidth: ['supply', 'selected', 'practice', 'shop'].includes(appState.activeSectionKey),
         title,
         content,
         headerElement: document.querySelector('header'),

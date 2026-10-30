@@ -23,3 +23,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Payment credentials and local order databases
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+!.env.example
+.shop-local/
+
+# Local research and generated reports
+temp_search/
+local-reports/
