@@ -1,6 +1,6 @@
 // Local editorial selections, independent of the complete chronological catalogue.
-// Both surfaces share this order.
-export const CAROUSEL_WORK_IDS = [
+// Selected Work keeps its own order; homepage choices can change independently.
+export const SELECTED_WORK_IDS = [
     'c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0', // Hózhó
     'd19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0', // Ganser
     'b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0', // Chanchanok's Temple
@@ -13,7 +13,18 @@ export const CAROUSEL_WORK_IDS = [
     '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0', // Gentleman Nº1
 ];
 
-export const SELECTED_WORK_IDS = [...CAROUSEL_WORK_IDS];
+export const CAROUSEL_WORK_IDS = [
+    'shop-print6',
+    SELECTED_WORK_IDS[0], // Hózhó
+    SELECTED_WORK_IDS[2],
+    SELECTED_WORK_IDS[3],
+    'shop-print3',
+    SELECTED_WORK_IDS[4],
+    SELECTED_WORK_IDS[5],
+    SELECTED_WORK_IDS[7],
+    'shop-print10',
+    SELECTED_WORK_IDS[9],
+];
 export function selectedWorks(artworks, ids = SELECTED_WORK_IDS) {
     const byId = new Map(artworks.map(work => [work.id, work]));
     return ids.map(id => byId.get(id)).filter(Boolean).map(work =>

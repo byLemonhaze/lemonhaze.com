@@ -25,7 +25,7 @@ Existing sales records contain five candidate Split collectible IDs, and the sit
 
 Sources used:
 - Existing `public/data/provenance.json` and featured collection manifests.
-- Artist's local `/Users/lemonhaze/Desktop/claude/COMBU/provenance.json` (only absent valid records copied).
+- Artist's local COMBU provenance archive (only absent valid records copied).
 - https://cdn.lemonhaze.com/assets/assets/provenance.json (read-only confirmation; no uncovered IDs remain in this feed).
 - https://bestbefore.space/magic_eden_collection.json (saved official 420-entry fallback).
 - Existing supply data and historical sales records.

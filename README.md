@@ -160,3 +160,7 @@ npx wrangler pages deploy dist --project-name lemonhaze
 - Website: [lemonhaze.com](https://lemonhaze.com)
 
 Artwork viewers show a centered loading indicator while the image, video, or embedded document loads. It clears on load or close, supports reloads, and respects reduced-motion preferences.
+
+## Shop draft
+
+`/shop` adds nine Symbiosis prints at USD 169 (Normal) and USD 420 (Signed + Certificate, limited to 3 per artwork), on Palo Duro Etching paper, plus nine physical textile works at USD 800 each with a certificate of authenticity, with product galleries and a saved basket. A server-side Stripe Checkout integration, payment verification and atomic signed-edition reservations are implemented. Checkout remains closed until credentials, private storage, shipping and launch policies are configured and an actual Stripe test purchase is verified. Carrier-calculated shipping is not implemented yet; the adapter currently supports configured fixed rates. BTC, USDC and On-chain offers remain unavailable. See [`docs/SHOP.md`](docs/SHOP.md) for setup, security, assets and launch requirements. No real payments or orders are currently accepted.
