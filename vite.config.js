@@ -5,6 +5,7 @@ export default defineConfig({
     // Deep-linked SPA routes are served from nested paths like /supply/,
     // so production assets need root-relative URLs instead of ./assets/...
     base: '/',
+    server: {proxy: {'/api/shop': 'http://127.0.0.1:8788'}},
     build: {
         rollupOptions: {
             input: {

@@ -18,25 +18,23 @@ test('homepage uses the finite editorial selection in a stable order, regardless
     assert.ok(selection.every(work => !['SEALED', 'EXPIRED'].includes(work.id)));
 });
 test('missing selected records are skipped without introducing random archive works', () => {
-    const selection = buildHomeSelection({artworks: artworks.filter(work => work.id !== CAROUSEL_WORK_IDS[0])});
-    assert.deepEqual(selection.map(work => work.id), CAROUSEL_WORK_IDS.slice(1));
+    const selection = buildHomeSelection({artworks: artworks.filter(work => work.id !== CAROUSEL_WORK_IDS[1])});
+    assert.deepEqual(selection.map(work => work.id), CAROUSEL_WORK_IDS.filter((_, index) => index !== 1));
 });
 
-test('Selected Work and landing share ten works with Ganser at 02', () => {
+test('homepage features three Symbiosis palettes at 01, 05 and 09 and Hózhó at 02', () => {
+    const landing = buildHomeSelection({ artworks });
+    assert.equal(landing[1].name, 'Hózhó');
+    assert.deepEqual([landing[0].palette, landing[4].palette, landing[8].palette], ['Gentleman 5', 'Gentleman 15', 'Bauhaus Afterparty']);
+    for (const index of [0, 4, 8]) {
+        assert.equal(landing[index].href, '/shop');
+        assert.ok(landing[index].grid_preview.startsWith('/shop/'));
+    }
+    assert.ok(!landing.some(work => ['Ganser', 'Rue Cuvillier', 'BEST BEFORE Nº402'].includes(work.name)));
     const selected = selectedWorks(artworks);
     assert.equal(selected.length, 10);
-    assert.deepEqual(selected.map(work => work.id), CAROUSEL_WORK_IDS);
-    assert.equal(new Set(selected.map(work => work.id)).size, 10);
-    const landing = buildHomeSelection({ artworks });
-    assert.deepEqual(landing.map(work => work.name), ['Hózhó', 'Ganser', "Chanchanok's Temple", 'Porcelain Sunset', 'Chamber of Reflection', 'Gentleman Nº6', 'BEST BEFORE Nº402', 'Family Portrait', 'Rue Cuvillier', 'Gentleman Nº1']);
-    assert.equal(landing[1].id, 'd19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0');
-    assert.equal(landing[1].collection, 'Confabulation');
-    assert.equal(landing[1].comingSoon, undefined);
-    assert.equal(landing[1].grid_preview, `https://cdn.lemonhaze.com/assets/assets/${landing[1].id}.png`);
-    assert.deepEqual(selected, landing);
-    assert.ok(!landing.some(work => ['Lost in Bangkok', 'La Banquise'].includes(work.name)));
-    assert.ok(!landing.some(work => work.name === 'From Berlin to Saigon'));
-    assert.ok(!landing.some(work => work.name === 'Insaisissable Mirage'));
+    assert.equal(selected[1].name, 'Ganser');
+    assert.ok(selected.some(work => work.name === 'BEST BEFORE Nº402'));
 });
 
 test('six core series retain both identity collections and rank archival projects quietly', () => {

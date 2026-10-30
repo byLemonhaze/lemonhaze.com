@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const ROOT = process.cwd();
 const LEDGER_PATH = path.join(ROOT, 'public/data/sales-master/historical-sales-sheet.json');
-const DEFAULT_OUTPUT = '/Users/lemonhaze/Desktop/Sales Recap.html';
+const DEFAULT_OUTPUT = path.join(ROOT, 'local-reports', 'sales-recap.html');
 
 const COLLECTION_NAMES = {
   'best-before-by-lemonhaze-x-ordinally': 'BEST BEFORE',
