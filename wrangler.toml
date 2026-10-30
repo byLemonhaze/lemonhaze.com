@@ -2,8 +2,23 @@ name = "lemonhaze"
 compatibility_date = "2024-09-23"
 pages_build_output_dir = "dist"
 
+[vars]
+# Keep false for the first public deployment, even after payment setup is ready.
+SHOP_STOREFRONT_OPEN = "false"
+# Public widget identifier; the verification secret is encrypted in Cloudflare.
+TURNSTILE_SITE_KEY = "0x4AAAAAAFrwmqVS59xHgcQG"
+# Keep ordering closed until Stripe, tax registrations and checkout verification are complete.
+SHOP_LIVE_ENABLED = "false"
+SHOP_POLICIES_CONFIRMED = "false"
+
 [[d1_databases]]
 binding = "MARKET_WATCH_DB"
 database_name = "lemonhaze-market-watch"
 database_id = "4bcb59c6-5040-4a46-9dcb-0226d838d541"
 migrations_dir = "db/market-watch-migrations"
+
+[[d1_databases]]
+binding = "SHOP_DB"
+database_name = "lemonhaze-shop"
+database_id = "55e6f575-18a3-4789-bc8a-a655fad59390"
+migrations_dir = "db/shop-migrations"
