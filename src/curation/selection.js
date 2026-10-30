@@ -22,7 +22,7 @@ export const CAROUSEL_WORK_IDS = [
     SELECTED_WORK_IDS[4],
     SELECTED_WORK_IDS[5],
     SELECTED_WORK_IDS[7],
-    'shop-print10',
+    'shop-print11',
     SELECTED_WORK_IDS[9],
 ];
 export function selectedWorks(artworks, ids = SELECTED_WORK_IDS) {
