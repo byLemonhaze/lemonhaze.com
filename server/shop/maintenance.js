@@ -13,5 +13,9 @@ export async function reconcileOutstanding(env,client=stripeClient(env)) {
   }
   const unresolved=await env.SHOP_DB.prepare("SELECT count(*) AS count FROM shop_orders WHERE mode=? AND session_id IS NULL AND status='creating' AND created_at<?").bind(mode,nowSeconds()-3600).first();
   result.needsReview+=unresolved.count;
+  await env.SHOP_DB.prepare("INSERT INTO shop_review_alerts(order_id,reason,created_at) SELECT id,'CHECKOUT_CREATION',? FROM shop_orders WHERE mode=? AND session_id IS NULL AND status='creating' AND created_at<? ON CONFLICT(order_id) DO NOTHING").bind(nowSeconds(),mode,nowSeconds()-3600).run();
+  await env.SHOP_DB.prepare("UPDATE shop_orders SET needs_review=1 WHERE mode=? AND session_id IS NULL AND status='creating' AND created_at<?").bind(mode,nowSeconds()-3600).run();
+  // Retain the network identifier only for the abuse window, plus active holds.
+  await env.SHOP_DB.prepare("UPDATE shop_orders SET ip_hash=NULL WHERE created_at<? AND status NOT IN ('creating','open','processing') AND ip_hash IS NOT NULL").bind(nowSeconds()-30*86400).run();
   return result;
 }

@@ -1,5 +1,5 @@
 import {money} from './catalog.js';
-const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+import {esc} from './html.js';
 export async function shopRequest(path,body) {
   let response,data;
   try{

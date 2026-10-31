@@ -18,7 +18,7 @@ export async function owner(request,local,create=false) {
   let cookie;
   if(!token && create) {
     token=[...crypto.getRandomValues(new Uint8Array(32))].map(b=>b.toString(16).padStart(2,'0')).join('');
-    cookie=`${name}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800${local?'':'; Secure'}`;
+    cookie=`${name}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000${local?'':'; Secure'}`;
   }
   if(!token)throw new ShopError('Please reload the shop before checking out.',401);
   return {hash:await digest(token),cookie};
@@ -36,16 +36,18 @@ export async function readBody(request,max=8192) {
   const bytes=new Uint8Array(length);let offset=0;for(const p of parts){bytes.set(p,offset);offset+=p.length;}
   try{const body=JSON.parse(new TextDecoder().decode(bytes));if(!body||Array.isArray(body)||typeof body!=='object')throw 0;return body;}catch{throw new ShopError('Invalid request.');}
 }
-export async function rateLimit(env,request,category,limit=20) {
-  const now=Math.floor(Date.now()/1000),window=Math.floor(now/600);
-  // Only the edge-provided IP is trusted; forwarded browser headers are ignored.
+export async function networkHash(env,request,scope='shop-reservation') {
   const ip=request.headers.get('cf-connecting-ip')||'local';
   const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(env.SHOP_RATE_SECRET),{name:'HMAC',hash:'SHA-256'},false,['sign']);
-  const signed=await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(`${category}:${window}:${ip}`));
-  const bucket=[...new Uint8Array(signed)].map(b=>b.toString(16).padStart(2,'0')).join('');
+  const signed=await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(`${scope}:${ip}`));
+  return [...new Uint8Array(signed)].map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+export async function rateLimit(env,request,category,limit=20,seconds=600,global=false) {
+  const now=Math.floor(Date.now()/1000),window=Math.floor(now/seconds);
+  const bucket=await networkHash(env,global?new Request('https://internal.invalid'):request,`${category}:${window}`);
   await env.SHOP_DB.prepare('DELETE FROM shop_rate_limits WHERE expires_at < ?').bind(now).run();
-  const row=await env.SHOP_DB.prepare('INSERT INTO shop_rate_limits(bucket,count,expires_at) VALUES(?,1,?) ON CONFLICT(bucket) DO UPDATE SET count=count+1 RETURNING count').bind(bucket,(window+1)*600).first();
-  if(row.count>limit)throw new ShopError('Please wait a few minutes before trying again.',429);
+  const row=await env.SHOP_DB.prepare('INSERT INTO shop_rate_limits(bucket,count,expires_at) VALUES(?,1,?) ON CONFLICT(bucket) DO UPDATE SET count=count+1 RETURNING count').bind(bucket,(window+1)*seconds).first();
+  if(row.count>limit)throw new ShopError('Please wait before trying again.',429);
 }
 export async function verifyHuman(env,config,token,fetcher=fetch) {
   if(config.local)return;

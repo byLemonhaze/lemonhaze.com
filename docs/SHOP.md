@@ -47,7 +47,7 @@ Before accepting orders:
 8. Confirm support mailbox send/receive delivery, policies, packaging and print proof. Packaging must accommodate the full print plus protective backing.
 9. Only on merchant instruction install live credentials, set `SHOP_MODE=live`, `SHOP_LIVE_ENABLED=true`, `SHOP_POLICIES_CONFIRMED=true`, enable both storefront controls, rebuild and deploy. Do not execute paid purchases automatically.
 
-At this release, tax registration entry, Stripe credentials/webhook, the rate-limit secret, scheduled reconciliation deployment, mailbox delivery verification and end-to-end Stripe testing remain outstanding. The public shop therefore stays closed.
+Production inspection on 2026-10-31 found no `STRIPE_SECRET_KEY` or `STRIPE_WEBHOOK_SECRET` in Pages and no deployed `lemonhaze-shop-maintenance` worker. Tax registration, mailbox delivery and end-to-end Stripe checkout must still be verified. The public shop stays closed. See `docs/SHOP-AUDIT.md` for the report resolution and remaining operational work.
 
 ## Security and personal data
 
@@ -72,3 +72,17 @@ Before opening orders, verify these notices against the actual provider configur
 ### Public contact privacy
 
 Public studio contact is `shop@lemonhaze.com` and Montréal, Canada only. Never publish personal phone numbers, residential street addresses or residential postal codes in site content, bundled code, documentation, Git commits or deployment metadata. Any necessary private billing or registration data stays in the relevant provider’s private settings.
+
+## Reservation abuse and payment review
+
+Checkout holds expire after 30 minutes. Atomic database triggers cap a network at two active orders, six active units across baskets, and ten created orders in a rolling 24 hours, independently of browser cookies. The network identifier is an HMAC of the edge-provided IP using `SHOP_RATE_SECRET`; raw IP addresses are not stored. The maintenance job removes terminal-order network hashes after 30 days. Shared networks share these caps; distributed abuse still requires monitoring and potentially edge rules.
+
+Payment verification failures latch `needs_review=1` and create a durable `shop_review_alerts` outbox record. The maintenance worker sends pending alerts to `SHOP_ALERT_URL` with `SHOP_ALERT_TOKEN` as a bearer credential, using HTTPS without redirects. Install both as worker secrets. Payloads contain only an order reference and reason, which remain private operational data. The receiver must deduplicate by order ID. Delivery is retried until an HTTP success response; this requires an actually deployed worker and monitored receiver.
+
+Review orders in the private Stripe Dashboard, reconcile the exact order and payment, and resolve the issue before clearing the review flag. A delivered alert is not a resolved case. Never release a possibly paid allocation or fulfil an unverified payment. Monitor worker errors separately from individual review alerts.
+
+## Other security controls
+
+The shop and policy routes enforce anti-framing, base, object and form restrictions. A stricter script/resource policy is initially report-only for compatibility monitoring; do not describe it as fully enforced XSS protection. App entry pages also prevent framing to cover client-side navigation into the shop. Standalone lab, visualizer and third-party artwork routes remain embeddable. HTTPS responses add HSTS without enabling subdomain or preload commitments.
+
+The content lab requires a private password of at least 32 characters, HMAC verification, ten requests per network per hour, and global limits of 20 generation attempts per day and 200 per fixed 30-day window. These are request budgets, not monetary provider spending limits. Set a separate provider spending limit. Missing protection settings fail closed. Never publish the password or put it in client source.

@@ -14,7 +14,8 @@ export function checkoutParams(config,cart,id,now) {
     phone_number_collection:{enabled:config.phone},
     shipping_options:[{shipping_rate_data:{display_name:config.shipping.label,type:'fixed_amount',fixed_amount:{amount:config.shipping.amount,currency:'usd'},tax_behavior:'exclusive',tax_code:'txcd_92010001'}}],
     automatic_tax:{enabled:config.tax==='automatic'},
-    expires_at:now+3600,
+    expires_at:now+1800,
+    adaptive_pricing:{enabled:false},
     success_url:`${config.origin}/shop?order=${id}`,
     cancel_url:`${config.origin}/shop?order=${id}&cancelled=1`,
     custom_text:{submit:{message:config.mode==='test'?'TEST ONLY — no real payment or shipment.':config.shipping.dispatch}},
@@ -35,6 +36,22 @@ export async function createOrResume(db,stripe,order) {
   return session;
 }
 export async function reconcileSession(db,order,session) {
+  try {
+    const status=await reconcileVerifiedSession(db,order,session);
+    // Review stays latched until a human resolves it; never silently discard an alert.
+    return status;
+  } catch(error) {
+    if(error instanceof ShopError) {
+      await db.batch([
+        db.prepare('UPDATE shop_orders SET needs_review=1 WHERE id=?').bind(order.id),
+        db.prepare('INSERT INTO shop_review_alerts(order_id,reason,created_at) VALUES(?,?,?) ON CONFLICT(order_id) DO NOTHING').bind(order.id,'PAYMENT_VERIFICATION',nowSeconds())
+      ]);
+      throw new ShopError('Your order needs a payment review. Please contact the studio and do not pay again.',409);
+    }
+    throw error;
+  }
+}
+async function reconcileVerifiedSession(db,order,session) {
   const params=JSON.parse(order.params_json);
   if(session.client_reference_id!==order.id || session.metadata?.shop_order_id!==order.id || session.metadata?.shop_mode!==order.mode || session.livemode!==(order.mode==='live') || (order.session_id && order.session_id!==session.id))throw new ShopError('Payment confirmation could not be verified.',409);
   const shipping=params.shipping_options[0].shipping_rate_data.fixed_amount.amount;

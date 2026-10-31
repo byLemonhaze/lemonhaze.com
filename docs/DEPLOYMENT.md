@@ -29,10 +29,11 @@ npm run verify
 
 These values should be configured in Cloudflare Pages project settings, not committed to the repo:
 
-- `PRESS_ENGINE_PASSWORD`
+- `PRESS_ENGINE_PASSWORD` (at least 32 random characters)
 - `CLAUDE_API_KEY`
+- `SHOP_RATE_SECRET` (random private HMAC secret)
 
-They are required only for the private Press Engine function. The rest of the public site remains static-plus-edge.
+The private Press Engine also needs the dedicated `SHOP_DB` binding for rate and generation budgets. See `SHOP.md` for separate payment credentials and the full launch checklist. Missing security configuration fails closed.
 
 ## CI
 
@@ -65,7 +66,7 @@ npx wrangler pages deploy dist --project-name lemonhaze
 
 - HTML routes: `no-cache`
 - root path: `no-cache`
-- built assets under `/assets/*`: long-lived immutable cache
+- built assets under `/assets/*`: revalidate before reuse
 
 ## Operational Notes
 

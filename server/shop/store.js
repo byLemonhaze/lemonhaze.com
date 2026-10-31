@@ -8,7 +8,7 @@ export async function ownedOrder(db,mode,owner,id) {
 export async function reserveOrder(db,order,cart) {
   // One atomic D1 transaction. A trigger rejects the entire basket if any signed edition would exceed its configured stock limit.
   await db.batch([
-    db.prepare("INSERT INTO shop_orders(id,mode,owner_hash,cart_json,subtotal,params_json,status,created_at,updated_at) VALUES(?,?,?,?,?,?,'creating',?,?)").bind(order.id,order.mode,order.owner,JSON.stringify(cart),order.subtotal,JSON.stringify(order.params),order.now,order.now),
+    db.prepare("INSERT INTO shop_orders(id,mode,owner_hash,ip_hash,cart_json,subtotal,params_json,status,created_at,updated_at) VALUES(?,?,?,?,?,?,?,'creating',?,?)").bind(order.id,order.mode,order.owner,order.ipHash??null,JSON.stringify(cart),order.subtotal,JSON.stringify(order.params),order.now,order.now),
     ...cart.map(i=>db.prepare('INSERT INTO shop_items(order_id,product_id,offer_id,quantity) VALUES(?,?,?,?)').bind(order.id,i.productId,i.offerId,i.quantity))
   ]);
 }
