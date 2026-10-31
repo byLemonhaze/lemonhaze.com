@@ -1,3 +1,4 @@
+import { buildSandboxedArtworkHtml, ARTWORK_SANDBOX } from '../../ui/artwork-sandbox.js';
 import { createArtworkLoadingIndicator } from '../../ui/artwork-loading.js';
 import { createBestBeforePlayer } from '../../ui/best-before-player.js';
 import { getArtworkOwnership } from '../../modules/artwork-ownership.js';
@@ -179,7 +180,7 @@ function simplifyContentType(ct) {
     return ct.split(';')[0].trim();
 }
 
-async function buildSaveEnabledHtmlBlobUrl(id) {
+async function buildSaveEnabledHtmlBlobUrl(id, token) {
     try {
         const res = await fetch(`https://ordinals.com/content/${id}`);
         if (!res.ok) return null;
@@ -192,6 +193,7 @@ async function buildSaveEnabledHtmlBlobUrl(id) {
                 html = `${baseTag}${html}`;
             }
         }
+        html = buildSandboxedArtworkHtml(html, token, window.location.origin);
         return URL.createObjectURL(new Blob([html], { type: 'text/html' }));
     } catch {
         return null;
@@ -217,6 +219,7 @@ export function createArtworkModalController({
     let htmlSaveClickLocked = false;
     let htmlBlobLoadToken = 0;
     let activeHtmlBlobUrl = null;
+    let activeHtmlSaveToken = null;
     let metadataRenderToken = 0;
     let returnSection = null;
     let returnFocus = null;
@@ -243,7 +246,7 @@ export function createArtworkModalController({
             frame.removeAttribute('style');
             frame.removeAttribute('srcdoc');
             frame.src = 'about:blank';
-            frame.removeAttribute('sandbox');
+            frame.setAttribute('sandbox', ARTWORK_SANDBOX);
             // Recreate the browsing context before resetting src. Chromium can
             // otherwise retain an about:blank context from the captured document.
             frame.remove();
@@ -287,6 +290,7 @@ export function createArtworkModalController({
 
     function clearActiveHtmlBlobUrl() {
         htmlSaveClickLocked = false;
+        activeHtmlSaveToken = null;
         if (!activeHtmlBlobUrl) return;
         try { URL.revokeObjectURL(activeHtmlBlobUrl); } catch {}
         activeHtmlBlobUrl = null;
@@ -786,7 +790,7 @@ export function createArtworkModalController({
                         const btcNow = usdOriginal / Number(btcUsdSpot);
                         priceLine.textContent = `${usdText} · ${fmtBtcValue(btcNow)} BTC`;
                     } else {
-                        priceLine.textContent = `${usdText} · BTC unavailable`;
+                        priceLine.textContent = usdText;
                     }
                 } else {
                     const priceBTC = Number(event?.priceBTC);
@@ -946,33 +950,13 @@ export function createArtworkModalController({
                 htmlSaveClickLocked = true;
                 setTimeout(() => { htmlSaveClickLocked = false; }, 1000);
 
-                let frameWindow = null;
-                try {
-                    frameWindow = modalIframe?.contentWindow || null;
-                    // Ensure same-origin access exists (blob mode).
-                    void frameWindow?.document;
-                } catch {
-                    frameWindow = null;
+                if (activeHtmlBlobUrl && activeHtmlSaveToken && modalIframe?.contentWindow) {
+                    modalIframe.contentWindow.postMessage({
+                        channel: 'lemonhaze-artwork-save', token: activeHtmlSaveToken, type: 'save',
+                    }, '*'); // Opaque sandbox origins cannot be named as a target origin.
+                } else {
+                    window.open(`https://ordinals.com/content/${item.id}`, '_blank', 'noopener,noreferrer');
                 }
-                if (!frameWindow) {
-                    window.open(`https://ordinals.com/content/${item.id}`, '_blank');
-                    return;
-                }
-
-                try { frameWindow.focus(); } catch {}
-                const target =
-                    frameWindow.document?.activeElement ||
-                    frameWindow.document?.body ||
-                    frameWindow.document;
-                if (!target?.dispatchEvent) return;
-                target.dispatchEvent(new KeyboardEvent('keydown', {
-                    key: 's',
-                    code: 'KeyS',
-                    keyCode: 83,
-                    which: 83,
-                    bubbles: true,
-                    cancelable: true,
-                }));
             } else {
                 // Non-HTML artworks: download the on-chain file from ordinals.com
                 const ext = getPreferredFileExtension(item);
@@ -1048,7 +1032,8 @@ export function createArtworkModalController({
             if (!modalIframe.classList.contains('hidden') && modalIframe.src) {
                 viewerLoading().watch(modalIframe);
                 const s = modalIframe.src;
-                modalIframe.src = '';
+                modalIframe.setAttribute('sandbox', ARTWORK_SANDBOX);
+                modalIframe.src = 'about:blank';
                 modalIframe.src = s;
             }
             if (modalVideo && !modalVideo.classList.contains('hidden') && modalVideo.src) {
@@ -1098,7 +1083,8 @@ export function createArtworkModalController({
         modalVideo.classList.add('hidden');
         rawHtmlContainer.classList.add('hidden');
         modalImage.src = '';
-        modalIframe.src = '';
+        modalIframe.setAttribute('sandbox', ARTWORK_SANDBOX);
+        modalIframe.src = 'about:blank';
         modalVideo.src = '';
         clearActiveHtmlBlobUrl();
         htmlBlobLoadToken += 1;
@@ -1123,8 +1109,9 @@ export function createArtworkModalController({
                 }
                 return;
             }
-            // Render HTML via same-origin blob so Save can dispatch one S key reliably.
-            void buildSaveEnabledHtmlBlobUrl(item.id).then((blobUrl) => {
+            // Isolate inscription code; a scoped bridge handles the Save key inside it.
+            const saveToken = crypto.randomUUID();
+            void buildSaveEnabledHtmlBlobUrl(item.id, saveToken).then((blobUrl) => {
                 if (!blobUrl) {
                     if (appState.activeArtworkId === item.id && currentToken === htmlBlobLoadToken) {
                         viewerLoading().watch(modalIframe);
@@ -1139,6 +1126,7 @@ export function createArtworkModalController({
                 }
 
                 activeHtmlBlobUrl = blobUrl;
+                activeHtmlSaveToken = saveToken;
                 viewerLoading().watch(modalIframe);
                 modalIframe.src = blobUrl;
             });

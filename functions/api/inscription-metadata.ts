@@ -35,6 +35,7 @@ const readString = (record: Record<string, unknown> | null, keys: string[]): str
 const readNumber = (record: Record<string, unknown> | null, keys: string[]): number | null => {
     if (!record) return null;
     for (const key of keys) {
+        if (record[key] == null || record[key] === '') continue;
         const value = Number(record[key]);
         if (Number.isFinite(value)) return value;
     }
@@ -50,6 +51,8 @@ const normalizeAddress = (value: string): string | null => {
 const fetchJsonSafe = async (url: string): Promise<{ ok: boolean; payload: unknown; status: number }> => {
     try {
         const response = await fetch(url, {
+            signal: AbortSignal.timeout(8000),
+            redirect: 'error',
             headers: {
                 Accept: 'application/json',
             },
@@ -93,7 +96,7 @@ const fetchFromHiro = async (inscriptionId: string): Promise<{
     const satRarity = readString(record, ['sat_rarity']) || null;
 
     return {
-        ok: true,
+        ok: !!record,
         address,
         number,
         genesis_timestamp: genesisTimestamp,
@@ -101,14 +104,18 @@ const fetchFromHiro = async (inscriptionId: string): Promise<{
     };
 };
 
-export const onRequestGet: PagesFunction = async ({ request }) => {
+export const onRequestGet: PagesFunction = async ({ request, waitUntil }) => {
     const url = new URL(request.url);
     const inscriptionId = String(url.searchParams.get('inscription_id') || '').trim();
 
-    if (!inscriptionId || !inscriptionId.includes('i')) {
+    if (!/^[a-f0-9]{64}i(?:0|[1-9][0-9]{0,9})$/.test(inscriptionId)) {
         return jsonResponse({ error: 'Missing or invalid inscription_id.' }, 400);
     }
 
+    const cache = (globalThis.caches as CacheStorage & { default?: Cache } | undefined)?.default;
+    const key = new Request(`${url.origin}/api/inscription-metadata?inscription_id=${inscriptionId}`);
+    const cached = await cache?.match(key);
+    if (cached) return cached;
     const hiroData = await fetchFromHiro(inscriptionId);
     const owner = hiroData.address || null;
     const source = hiroData.ok ? 'hiro' : '';
@@ -123,5 +130,10 @@ export const onRequestGet: PagesFunction = async ({ request }) => {
         warning,
     };
 
-    return jsonResponse(payload);
+    const response = jsonResponse(payload);
+    if (hiroData.ok) {
+        response.headers.set('cache-control', 'public, max-age=300');
+        if (cache) waitUntil(cache.put(key, response.clone()));
+    }
+    return response;
 };

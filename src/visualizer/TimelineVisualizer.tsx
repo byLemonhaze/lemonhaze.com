@@ -1,5 +1,7 @@
 "use client";
 
+import { PREVIEW_IMAGES } from "../curation/preview-images.js";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const POSTER_WIDTH = 7680;
@@ -659,6 +661,8 @@ function getPreferredExtension(item: Artwork): string {
 function getMediaCandidates(item: Artwork): string[] {
   const preferred = getPreferredExtension(item);
   const candidates = [
+    PREVIEW_IMAGES[`https://ordinals.com/content/${item.id}`],
+    PREVIEW_IMAGES[`${CDN_BASE}/${item.id}.${preferred}`],
     item.preview,
     item._imgSrc,
     `${CDN_BASE}/${item.id}.${preferred}`,

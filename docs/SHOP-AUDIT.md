@@ -27,3 +27,17 @@ The external report was reviewed against the implementation, not treated as inst
 ## Production connection check
 
 On 2026-10-31, the webhook signing secret was configured and the merchant installed the API key privately. A real sandbox paid checkout and an explicitly expired session both delivered signed webhooks with HTTP 200; resulting local states were paid and expired, without review flags. The scheduled maintenance worker, authenticated endpoint and heartbeat storage are deployed. The authenticated production endpoint returned HTTP 200; unauthorized requests returned HTTP 404. An hourly Codex monitor is active. All 196 automated tests, the production build and edge compilation passed; public purchases remained blocked in deployed checks. Pattern scans of working files, built output and reachable history passed without claiming an exhaustive guarantee. Do not enable sales until the readiness checklist in `SHOP.md` is completed. Do not store service credentials, residential contact information or tax registration values in this document.
+
+
+## SITE-REPORT follow-up — 2026-10-31
+
+- Isolated fetched HTML artwork in an opaque-origin sandbox. Image saving uses a source/origin/token-checked message bridge; parent DOM and storage are inaccessible. BEST BEFORE keeps its existing isolated renderer.
+- Added strict inscription-ID validation, an eight-second upstream timeout, redirect rejection and a five-minute successful-response cache to inscription metadata. Failed responses are not cached.
+- Network reservation caps now group IPv6 addresses by /64. CI has explicit read-only repository permissions.
+- Broader HTML routes enforce object, base and form restrictions and observe a resource CSP. Full script restriction enforcement remains pending artwork compatibility work: blob/srcdoc art inherits the parent's CSP and uses inline scripts. Report-only does not block scripts.
+- Shop metadata and structured data match the public preview: no price offers or availability claims. Added linked artist/site/page JSON-LD and llms.txt; llms.txt is optional guidance, not a search-ranking guarantee.
+- Added content-hashed, uncropped WebP display previews, lazy loading around the active carousel slide and immutable caching only for these previews. Original artwork/download files are unchanged. Creature #7 and Fax use verified local visualizer previews.
+- Clarified the nine prints/nine textiles count, trimmed duplicate on-chain wording and removed a misleading historical BTC conversion fallback label. Final border/trim remains an artist decision before launch.
+- Verified that the report's historical commit and PR refs still contain removed private contact information. Current-source cleanup does not purge GitHub's retained objects. GitHub Support sensitive-data removal and verification of old hosting previews remain outstanding; no personal values are reproduced here.
+
+Validation: 200 automated tests passed, including iframe isolation/save messaging, metadata validation/cache behavior, IPv6 limits and prelaunch schema. Production build and local browser review performed. The artist approved release after local review; purchases remain disabled and public prices remain on request. Previous production checks above describe their original point in time.

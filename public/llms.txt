@@ -1,0 +1,20 @@
+# Lemonhaze
+
+> Artist working with generative images, texture, and original digital artworks inscribed on Bitcoin. Digital inscriptions are a central medium of the practice.
+
+## Art and collecting
+- [Selected Work](https://lemonhaze.com/selected): Selected artworks and series.
+- [Collecting](https://lemonhaze.com/collecting): An introduction to original Bitcoin inscriptions, provenance, and inscription-aware custody.
+- [Practice](https://lemonhaze.com/practice): Materials, systems, place, and time in the work.
+- [About](https://lemonhaze.com/about): Artist background.
+
+## Physical works — preview
+- [Print Shop](https://lemonhaze.com/shop): Nine signed Symbiosis prints, limited to three per artwork, and nine original marker-on-textile works. Certificates of authenticity accompany the works. Prices are on request and online purchasing is coming soon. On-chain shop editions are unavailable. Physical purchases are distinct from collecting the original digital inscriptions.
+- Frames and room scenes are presentation examples; refer to the product description for what is included.
+- Public enquiries: collect@lemonhaze.com.
+
+## Policies
+- [Privacy](https://lemonhaze.com/privacy.html)
+- [Order terms](https://lemonhaze.com/terms.html)
+
+This file describes the public website. It does not grant additional rights to reproduce artworks or override the site's terms.

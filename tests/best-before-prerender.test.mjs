@@ -57,7 +57,7 @@ test('Best Before adopts a prerendered viewport and restores the shared iframe o
         assert.equal(await page.locator('.best-before-viewport').count(), 0);
         assert.equal(await page.locator('.bb-capture').count(), 0);
         assert.equal(await page.locator('#modal-iframe').getAttribute('srcdoc'), null);
-        assert.equal(await page.locator('#modal-iframe').getAttribute('sandbox'), null);
+        assert.equal(await page.locator('#modal-iframe').getAttribute('sandbox'), 'allow-scripts allow-downloads allow-pointer-lock');
         assert.equal(await page.locator('#modal-iframe').evaluate(frame => frame.style.length), 0);
         assert.equal(await page.locator('.modal-media-panel > #modal-iframe').count(), 1);
     } finally {

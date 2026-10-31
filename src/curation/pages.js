@@ -1,6 +1,8 @@
 import { showComingSoon } from '../ui/coming-soon.js';
 import { selectedWorks, SELECTED_SERIES, SELECTED_SERIES_COVERS } from './selection.js';
-import { getArtworkImageSrc } from '../renderers/gallery.js';
+import { getArtworkImageSrc as originalImageSrc } from '../renderers/gallery.js';
+import { displayPreview } from './preview-images.js';
+const getArtworkImageSrc = work => displayPreview(originalImageSrc(work));
 import { wireEditorial } from '../editorial/index.js';
 import { FEATURED_PAINT_ENGINES } from '../data/paint-engines.js';
 
@@ -35,7 +37,7 @@ export function createSelectedWork(artworks, toCollectionSlug) {
       <section class="selected-engines curated-series" id="selected-engines" aria-labelledby="selected-engines-title">
         <div class="curated-section-heading"><div><p class="curated-kicker">Generative painting · Prints · Interiors</p><h2 id="selected-engines-title">Paint Engines</h2></div><a class="curated-text-link" href="/paint-engine">Explore the engines ↗︎</a></div>
         <div class="selected-engines-intro"><p>The engines are part of the practice itself: self-contained generative painting systems, inscribed on Bitcoin. Each version offers a different way to work with colour, texture, and composition.</p><p>They also extend the work into physical spaces, through prints and bespoke commissions for hotels, rental properties, and private residences. A single engine can generate an entire set of works, customized to a space, a palette, or personal preferences.</p></div>
-        <div class="selected-engine-grid">${FEATURED_PAINT_ENGINES.map(engine => `<figure><a class="selected-engine-image" href="/${engine.id}" aria-label="Explore ${escape(engine.name)}"><img src="https://cdn.lemonhaze.com/assets/assets/${engine.image || engine.id + '.png'}" alt="${escape(engine.coverName || engine.name)} · Paint Engine output by Lemonhaze" loading="lazy"></a><figcaption><h3><a href="/${engine.id}">${escape(engine.name)} <span aria-hidden="true">↗︎</span></a></h3><p>${escape(engine.caption || `Paint Engine ${engine.version} · 2026`)}</p></figcaption></figure>`).join('')}</div>
+        <div class="selected-engine-grid">${FEATURED_PAINT_ENGINES.map(engine => `<figure><a class="selected-engine-image" href="/${engine.id}" aria-label="Explore ${escape(engine.name)}"><img src="${escape(displayPreview(`https://cdn.lemonhaze.com/assets/assets/${engine.image || engine.id + '.png'}`))}" alt="${escape(engine.coverName || engine.name)} · Paint Engine output by Lemonhaze" loading="lazy"></a><figcaption><h3><a href="/${engine.id}">${escape(engine.name)} <span aria-hidden="true">↗︎</span></a></h3><p>${escape(engine.caption || `Paint Engine ${engine.version} · 2026`)}</p></figcaption></figure>`).join('')}</div>
       </section>
       <p class="curated-footnote">Every collection remains accessible by year in All Works. <a href="/visualizer/">View the visual chronology ↗︎</a></p>`;
     root.querySelectorAll("[data-coming-soon]").forEach(button => button.addEventListener("click", () => showComingSoon(button.closest("figure").querySelector("img"))));

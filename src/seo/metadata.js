@@ -1,3 +1,4 @@
+import { structuredDataFor } from './structured-data.js';
 import { SOCIAL_IMAGES } from './social-images.js';
 export const SITE_ORIGIN = 'https://lemonhaze.com';
 const COLLECTION_SOCIAL_IMAGES = {
@@ -6,7 +7,7 @@ const COLLECTION_SOCIAL_IMAGES = {
 };
 export const PAGE_METADATA = {
  '/': {name:'Lemonhaze — Artist & Coureur de Bois',description:'Explore Lemonhaze’s art on Bitcoin: generative painting, collections, artist notes, exhibitions, and the stories behind the work.'},
- '/shop': {name:'Print Shop — Prints & Textile Art',description:'Nine signed Symbiosis prints at US$500, limited to three each, and nine textile works at US$800 with a certificate of authenticity. Shop preview; ordering opens soon.'},
+ '/shop': {name:'Print Shop — Prints & Textile Art',description:'Signed Symbiosis prints, limited to three per artwork, and original textile works with certificates of authenticity. Price on request. Online ordering coming soon.'},
  '/selected': {name:'Selected Work',description:'A selection of works and series by Lemonhaze: black, ink-like forms, digital textures, generative images, and works inscribed on Bitcoin.'},
  '/about': {name:'About Lemonhaze',description:'Meet Lemonhaze, artist and coureur de bois. Discover the practice, background, and writing behind his art inscribed on Bitcoin.'},
  '/practice': {name:'Practice',description:'Explore Lemonhaze’s practice through Gentlemen, BEST BEFORE, Montreal, Paint Engine, and Liminality.'},
@@ -52,5 +53,8 @@ export function applyMetadata(document,metadata) {
  }else document.head.querySelectorAll('meta[property="og:image:width"],meta[property="og:image:height"],meta[property="og:image:type"]').forEach(el=>el.remove());
  if(metadata.image){set('meta[property="og:image"]','meta',{property:'og:image',content:metadata.image});set('meta[property="og:image:alt"]','meta',{property:'og:image:alt',content:metadata.name+' by Lemonhaze'});}
  else document.head.querySelectorAll('meta[property="og:image"],meta[property="og:image:alt"]').forEach(el=>el.remove());
+ let schema=document.head.querySelector('script[data-site-schema]');
+ if(!schema){schema=document.createElement('script');schema.type='application/ld+json';schema.setAttribute('data-site-schema','');document.head.append(schema);}
+ schema.textContent=JSON.stringify(structuredDataFor(metadata)).replaceAll('<','\\u003c');
  document.documentElement.dataset.seoPath=metadata.path;
 }

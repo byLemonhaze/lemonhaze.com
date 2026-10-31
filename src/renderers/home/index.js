@@ -1,3 +1,4 @@
+import { displayPreview } from '../../curation/preview-images.js';
 import { HOME_ONCHAIN_IMAGE_OVERRIDES } from '../../data/featured.js';
 import { createHomeCarousel } from './carousel.js';
 import { buildHomeSelection } from './selection.js';
@@ -30,7 +31,7 @@ export function renderHomeView({
         return () => {};
     }
 
-    const getCarouselImageSrc = (artwork) => {
+    const originalCarouselImageSrc = (artwork) => {
         if (artwork?.grid_preview) return artwork.grid_preview;
         if (artwork?.id && HOME_ONCHAIN_IMAGE_OVERRIDES.has(artwork.id)) {
             return `https://ordinals.com/content/${artwork.id}`;
@@ -47,7 +48,7 @@ export function renderHomeView({
         chronologyByYear,
         toCollectionSlug,
         onOpenArtworkById,
-        getCarouselImageSrc,
+        getCarouselImageSrc: artwork => displayPreview(originalCarouselImageSrc(artwork)),
     });
 
     carousel.mount(galleryGrid);

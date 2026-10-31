@@ -47,7 +47,8 @@ test("wrangler config exists for deployability", () => {
 test("asset fallbacks cannot be cached as immutable JavaScript", () => {
   const headers = readFileSync(new URL("../public/_headers", import.meta.url), "utf8");
   assert.match(headers, /\/assets\/\*[\s\S]*max-age=0, must-revalidate/);
-  assert.doesNotMatch(headers, /\/assets\/\*[\s\S]*max-age=31536000, immutable/);
+  const assetBlock = headers.split('\n\n').find(block => block.startsWith('/assets/*'));
+  assert.doesNotMatch(assetBlock, /immutable/);
 });
 
 test("core source layout is present", () => {
