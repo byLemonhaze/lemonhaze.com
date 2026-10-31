@@ -5,7 +5,7 @@ export async function deliverReviewAlerts(env,fetcher=fetch) {
   if(!env.SHOP_ALERT_URL || !env.SHOP_ALERT_TOKEN)return {delivered:0,configured:false};
   const url=new URL(env.SHOP_ALERT_URL);
   if(url.protocol!=='https:' || url.username || url.password)throw new Error('Invalid alert endpoint');
-  const rows=await env.SHOP_DB.prepare('SELECT order_id,reason FROM shop_review_alerts WHERE delivered_at IS NULL ORDER BY created_at LIMIT 50').all();
+  const rows=await env.SHOP_DB.prepare("SELECT a.order_id,a.reason FROM shop_review_alerts a JOIN shop_orders o ON o.id=a.order_id WHERE a.delivered_at IS NULL AND o.mode=? ORDER BY a.created_at LIMIT 5").bind(env.SHOP_MODE==='live'?'live':'test').all();
   let delivered=0;
   for(const row of rows.results) {
     try {

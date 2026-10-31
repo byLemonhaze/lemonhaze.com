@@ -1,12 +1,12 @@
 import Stripe from 'stripe';
 import {CATALOG,ShopError} from './catalog.js';
 import {recordSession,nowSeconds} from './store.js';
-export function stripeClient(env) {
-  return new Stripe(env.STRIPE_SECRET_KEY,{httpClient:Stripe.createFetchHttpClient(),maxNetworkRetries:2,timeout:15000});
+export function stripeClient(env,options={}) {
+  return new Stripe(env.STRIPE_SECRET_KEY,{apiVersion:'2026-09-30.endive',httpClient:Stripe.createFetchHttpClient(),maxNetworkRetries:2,timeout:15000,...options});
 }
 export function checkoutParams(config,cart,id,now) {
   return {
-    mode:'payment',payment_method_types:['card'],client_reference_id:id,
+    mode:'payment',allowed_payment_method_types:['card'],client_reference_id:id,
     metadata:{shop_order_id:id,shop_mode:config.mode},
     payment_intent_data:{metadata:{shop_order_id:id,shop_mode:config.mode}},
     line_items:cart.map(i=>({quantity:i.quantity,price_data:{currency:'usd',unit_amount:CATALOG[i.productId][i.offerId],tax_behavior:CATALOG[i.productId].type==='print'?'inclusive':'exclusive',product_data:{name:`${CATALOG[i.productId].name} · ${CATALOG[i.productId].type==='textile'?'Textile + Certificate':'Signed + Certificate — edition of 3'}`,description:CATALOG[i.productId].type==='textile'?`Physical textile artwork · ${CATALOG[i.productId].sizeCm.join(' × ')} cm (W × H) · Certificate of authenticity included`:'Unframed physical print · 13 × 23.11 in · Palo Duro Etching cotton paper'}}})),
