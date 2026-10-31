@@ -354,7 +354,7 @@ test('alert delivery retries failures, isolates modes and omits customer details
   const h=harness(t);await h.checkout(await h.visitor());h.sessions.clear();await reconcileOutstanding(h.env,h.stripe);
   Object.assign(h.env,{SHOP_ALERT_URL:'https://alerts.example.test/shop',SHOP_ALERT_TOKEN:'testing-only'});
   let attempts=0;
-  const fetcher=async(url,init)=>{attempts++;assert.equal(init.redirect,'error');assert.equal(init.headers.Authorization,'Bearer testing-only');assert.deepEqual(Object.keys(JSON.parse(init.body)).sort(),['orderId','reason','type']);return new Response('',{status:attempts===1?503:200});};
+  const fetcher=async(url,init)=>{attempts++;assert.equal(init.redirect,'manual');assert.equal(init.headers.Authorization,'Bearer testing-only');assert.deepEqual(Object.keys(JSON.parse(init.body)).sort(),['orderId','reason','type']);return new Response('',{status:attempts===1?503:200});};
   assert.equal((await deliverReviewAlerts({...h.env,SHOP_MODE:'live'},fetcher)).delivered,0);assert.equal(attempts,0);
   assert.equal((await deliverReviewAlerts(h.env,fetcher)).delivered,0);
   assert.equal((await h.db.prepare('SELECT delivered_at FROM shop_review_alerts').first()).delivered_at,null);
@@ -383,4 +383,17 @@ test('unpaid complete session cannot be fulfilled and retains its allocation',as
   const h=harness(t);await h.checkout(await h.visitor());Object.assign([...h.sessions.values()][0],{status:'complete',payment_status:'unpaid'});
   await runMaintenance(h.env,{stripe:h.stripe});
   assert.equal((await h.db.prepare('SELECT status FROM shop_orders').first()).status,'processing');assert.equal(await h.allocated(),1);
+});
+
+// Cloudflare accepts manual/follow only. Never forward the trigger credential.
+test('scheduled trigger rejects redirects and failed responses',async t=>{
+ const worker=(await import('../workers/shop-maintenance.js')).default;
+ let calls=0;
+ t.mock.method(globalThis,'fetch',async(url,init)=>{
+  calls++;assert.equal(url,'https://lemonhaze.com/api/shop/maintenance');
+  assert.equal(init.redirect,'manual');
+  return new Response('',{status:302,headers:{location:'https://other.example.test'}});
+ });
+ await assert.rejects(worker.scheduled({}, {SHOP_MAINTENANCE_TOKEN:'test-trigger-token'}),/request failed/);
+ assert.equal(calls,1);
 });

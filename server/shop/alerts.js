@@ -9,7 +9,7 @@ export async function deliverReviewAlerts(env,fetcher=fetch) {
   let delivered=0;
   for(const row of rows.results) {
     try {
-      const response=await fetcher(url.href,{method:'POST',redirect:'error',headers:{'Content-Type':'application/json',Authorization:`Bearer ${env.SHOP_ALERT_TOKEN}`},body:JSON.stringify({type:'shop.review',orderId:row.order_id,reason:row.reason}),signal:AbortSignal.timeout(8000)});
+      const response=await fetcher(url.href,{method:'POST',redirect:'manual',headers:{'Content-Type':'application/json',Authorization:`Bearer ${env.SHOP_ALERT_TOKEN}`},body:JSON.stringify({type:'shop.review',orderId:row.order_id,reason:row.reason}),signal:AbortSignal.timeout(8000)});
       if(!response.ok)continue;
       await env.SHOP_DB.prepare('UPDATE shop_review_alerts SET delivered_at=? WHERE order_id=? AND delivered_at IS NULL').bind(nowSeconds(),row.order_id).run();
       delivered++;

@@ -3,7 +3,7 @@ export default {
   async scheduled(_event,env){
     if(!env.SHOP_MAINTENANCE_TOKEN)throw new Error('Shop monitoring is not configured.');
     const response=await fetch('https://lemonhaze.com/api/shop/maintenance',{
-      method:'POST',redirect:'error',
+      method:'POST',redirect:'manual',
       headers:{Authorization:`Bearer ${env.SHOP_MAINTENANCE_TOKEN}`},
       signal:AbortSignal.timeout(180000)
     });
