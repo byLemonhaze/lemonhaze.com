@@ -1,11 +1,16 @@
-import {deliverReviewAlerts} from '../server/shop/alerts.js';
-import {reconcileOutstanding} from '../server/shop/maintenance.js';
+// The scheduler holds only a narrow trigger token, never a Stripe credential.
 export default {
   async scheduled(_event,env){
-    const result=await reconcileOutstanding(env);
-    await deliverReviewAlerts(env);
-    // Counts only; do not log orders, addresses, Stripe objects, or secrets.
-    if(result.needsReview)console.warn(`Shop reconciliation: ${result.needsReview} orders need review.`);
+    if(!env.SHOP_MAINTENANCE_TOKEN)throw new Error('Shop monitoring is not configured.');
+    const response=await fetch('https://lemonhaze.com/api/shop/maintenance',{
+      method:'POST',redirect:'manual',
+      headers:{Authorization:`Bearer ${env.SHOP_MAINTENANCE_TOKEN}`},
+      signal:AbortSignal.timeout(180000)
+    });
+    if(!response.ok)throw new Error('Shop monitoring request failed.');
+    const result=await response.json();
+    // Counts only; never log upstream bodies, order IDs, or secrets.
+    console.log(JSON.stringify({checked:result.checked||0,needsReview:result.needsReview||0,alertsConfigured:result.configured===true,skipped:result.skipped===true}));
   },
   fetch(){return new Response('Not found',{status:404});}
 };

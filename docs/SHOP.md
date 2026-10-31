@@ -31,7 +31,7 @@ The local API listens on loopback, refuses live Stripe keys and uses an in-memor
 - `npm run verify`: full site build and tests.
 - `npx wrangler pages functions build functions --outdir /tmp/lemonhaze-shop-functions`: compile the edge backend.
 
-Tests use mocked Stripe responses and real SQLite transactions; passing tests alone does not establish live account readiness.
+Automated tests use mocked Stripe responses and real SQLite transactions. On 2026-10-31, a real Stripe sandbox Checkout accepted the official test card at USD 500 and its signed completed webhook returned HTTP 200, producing a paid order with no review flag. A second real session was expired through Stripe; its signed webhook returned HTTP 200 and the local order became expired. These used fictional customer data, a loopback backend and the official Stripe CLI forwarding service. Automatic tax was disabled in this sandbox exercise: this does not verify live tax, receipt delivery or production account permissions. Checkout pins API 2026-09-30.endive and uses allowed_payment_method_types, as required by that version.
 
 ## Production readiness
 
@@ -42,12 +42,12 @@ Before accepting orders:
 3. Register `/api/shop/webhook` over HTTPS for `checkout.session.completed`, `checkout.session.expired`, `checkout.session.async_payment_succeeded` and `checkout.session.async_payment_failed`. Verify delivery and signature handling.
 4. Configure the canonical HTTPS `SHOP_ORIGIN`, permitted destinations, shipping, contact and returns settings. Automatic tax needs the merchant's actual GST/HST and QST registrations in Stripe; account verification alone does not complete this. Do not bypass tax setup to open orders.
 5. Verify Turnstile in the deployed browser, including hostname and action validation.
-6. Configure and deploy the scheduled reconciliation worker using `wrangler.shop-maintenance.example.toml`, the same dedicated database and matching Stripe mode/key. Monitor failures and review-required orders. Pages deployment does not deploy this worker.
+6. Configure and deploy the scheduled reconciliation worker using `wrangler.shop-maintenance.toml` and a random `SHOP_MAINTENANCE_TOKEN` shared with Pages. The worker triggers the authenticated Pages endpoint; it holds no Stripe credential or database binding. Monitor failures and review-required orders. Pages deployment does not deploy this worker.
 7. Complete a Stripe test-mode checkout, receipt delivery, shipping/tax checks, cancellation, expiry, retry and last-copy contention checks. Inspect delivery details in Stripe. Fulfil only verified paid orders.
 8. Confirm support mailbox send/receive delivery, policies, packaging and print proof. Packaging must accommodate the full print plus protective backing.
 9. Live credentials may be installed privately while the storefront stays closed. Only on explicit launch instruction set `SHOP_MODE=live`, `SHOP_LIVE_ENABLED=true`, `SHOP_POLICIES_CONFIRMED=true`, enable both storefront controls, rebuild and deploy. Do not execute paid purchases automatically.
 
-On 2026-10-31 the live webhook endpoint was registered for the four Checkout events above and its signing secret installed privately in Pages. `STRIPE_SECRET_KEY` and the deployed `lemonhaze-shop-maintenance` worker are still missing. Tax registration, mailbox delivery and end-to-end Stripe checkout must still be verified. The public shop stays closed. See `docs/SHOP-AUDIT.md` for the report resolution and remaining operational work.
+On 2026-10-31 the live webhook endpoint was registered for the four Checkout events above and its signing secret installed privately in Pages. The merchant subsequently installed `STRIPE_SECRET_KEY` privately. Sandbox payment and expiry have now passed. Pages and the ten-minute maintenance worker were deployed, migration 0006 was applied, and the private authenticated maintenance endpoint and monitoring snapshot were verified. An hourly Codex heartbeat monitor is active; its local availability dependency is described below. Tax registration, production permission checks, mailbox and receipt delivery still require verification. The public shop stays closed. See `docs/SHOP-AUDIT.md` for the report resolution and remaining operational work.
 
 ## Security and personal data
 
@@ -77,7 +77,7 @@ Public studio contact is `collect@lemonhaze.com` and Montréal, Canada only. Nev
 
 Checkout holds expire after 30 minutes. Atomic database triggers cap a network at two active orders, six active units across baskets, and ten created orders in a rolling 24 hours, independently of browser cookies. The network identifier is an HMAC of the edge-provided IP using `SHOP_RATE_SECRET`; raw IP addresses are not stored. The maintenance job removes terminal-order network hashes after 30 days. Shared networks share these caps; distributed abuse still requires monitoring and potentially edge rules.
 
-Payment verification failures latch `needs_review=1` and create a durable `shop_review_alerts` outbox record. The maintenance worker sends pending alerts to `SHOP_ALERT_URL` with `SHOP_ALERT_TOKEN` as a bearer credential, using HTTPS without redirects. Install both as worker secrets. Payloads contain only an order reference and reason, which remain private operational data. The receiver must deduplicate by order ID. Delivery is retried until an HTTP success response; this requires an actually deployed worker and monitored receiver.
+Payment verification failures latch `needs_review=1` and create a durable `shop_review_alerts` outbox record. The maintenance worker sends pending alerts to `SHOP_ALERT_URL` with `SHOP_ALERT_TOKEN` as a bearer credential, using HTTPS without redirects. Install both as Pages secrets. An external alert receiver is optional and is not currently configured; do not claim email alerts are active. Payloads contain only an order reference and reason, which remain private operational data. The receiver must deduplicate by order ID. Delivery is retried until an HTTP success response; this requires an actually deployed worker and monitored receiver.
 
 Review orders in the private Stripe Dashboard, reconcile the exact order and payment, and resolve the issue before clearing the review flag. A delivered alert is not a resolved case. Never release a possibly paid allocation or fulfil an unverified payment. Monitor worker errors separately from individual review alerts.
 
@@ -86,3 +86,11 @@ Review orders in the private Stripe Dashboard, reconcile the exact order and pay
 The shop and policy routes enforce anti-framing, base, object and form restrictions. A stricter script/resource policy is initially report-only for compatibility monitoring; do not describe it as fully enforced XSS protection. App entry pages also prevent framing to cover client-side navigation into the shop. Standalone lab, visualizer and third-party artwork routes remain embeddable. HTTPS responses add HSTS without enabling subdomain or preload commitments.
 
 The content lab requires a private password of at least 32 characters, HMAC verification, ten requests per network per hour, and global limits of 20 generation attempts per day and 200 per fixed 30-day window. These are request budgets, not monetary provider spending limits. Set a separate provider spending limit. Missing protection settings fail closed. Never publish the password or put it in client source.
+
+## Order monitoring
+
+The maintenance worker runs every ten minutes, including while sales are closed. Its authenticated endpoint checks up to ten outstanding sessions per run against Stripe, retains uncertain inventory, retries a configured review-alert receiver, and records a private `shop_monitor` heartbeat. A database lease prevents overlapping invocations. Failed calls and stale heartbeats require investigation. Review flags remain latched until a human resolves them.
+
+`node scripts/shop-monitor.mjs` reads a minimal production snapshot through authenticated Cloudflare access: paid/review order references, unresolved count and heartbeat only. It never fetches customer names, addresses, emails or card data. The Codex hourly follow-up checks for newly paid orders, new review cases and a failed/stale heartbeat (30-minute threshold). It relies on the local Codex application, computer availability and Cloudflare login; it is not an always-on email delivery service. The cloud reconciliation job runs independently.
+
+For a new paid order, open Stripe privately, locate its `shop_order_id`, confirm payment and review status, then prepare the correct edition and certificate. Delivery information stays in Stripe. Record fulfilment and tracking through the chosen private workflow; this monitor does not buy labels, send shipping emails or mark orders shipped. Never fulfil a review-required order until resolved.

@@ -1,4 +1,5 @@
 import Stripe from 'stripe';
+import {runMaintenance} from './maintenance.js';
 import {CATALOG,ShopError,validateCart} from './catalog.js';
 import {settings,shippingAmount} from './config.js';
 import {json,owner,checkOrigin,readBody,rateLimit,networkHash,verifyHuman} from './http.js';
@@ -12,6 +13,21 @@ export async function handleShop(request,env,dependencies={}) {
   const path=new URL(request.url).pathname.replace(/\/$/,'').split('/').pop();
   const stripe=()=>dependencies.stripe||stripeClient(env);
   try {
+    // Private cron trigger: no order details, credentials, or customer data in
+    // the response. A separate token grants no checkout or Stripe API access.
+    if(path==='maintenance') {
+      const token=env.SHOP_MAINTENANCE_TOKEN;
+      const supplied=request.headers.get('authorization')||'';
+      const expected=`Bearer ${token||''}`;
+      let diff=supplied.length^expected.length;
+      for(let i=0;i<expected.length;i++)diff|=expected.charCodeAt(i)^(supplied.charCodeAt(i)||0);
+      if(!token||token.length<32||diff)return json({error:'Not found.'},404);
+      if(request.method!=='POST')return json({error:'Method not allowed.'},405);
+      // Monitoring follows the installed key independently of the closed shop's
+      // checkout mode; a live key can never inspect test orders or vice versa.
+      const mode=/^(sk|rk)_live_/.test(env.STRIPE_SECRET_KEY||'')?'live':'test';
+      return json(await runMaintenance({...env,SHOP_MODE:mode},dependencies));
+    }
     // Independent launch gate: credentials/readiness never imply permission to sell.
     // Leave confirmations and existing-order support operational while closed.
     if(env.SHOP_STOREFRONT_OPEN!=='true') {

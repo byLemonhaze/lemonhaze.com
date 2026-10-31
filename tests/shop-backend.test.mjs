@@ -8,7 +8,8 @@ import {reserveOrder,ownedOrder} from '../server/shop/store.js';
 import {settings} from '../server/shop/config.js';
 import {checkoutParams,reconcileSession} from '../server/shop/stripe.js';
 import {verifyHuman} from '../server/shop/http.js';
-import {reconcileOutstanding} from '../server/shop/maintenance.js';
+import {deliverReviewAlerts} from '../server/shop/alerts.js';
+import {reconcileOutstanding,runMaintenance} from '../server/shop/maintenance.js';
 
 const cart=[{productId:'print1',offerId:'signed',quantity:1}];
 function harness(t){
@@ -69,6 +70,7 @@ test('repeated checkout reuses session and reservation without doubling signed s
 test('country is locked; phone is omitted domestically and required internationally',async t=>{
   const h=harness(t);await h.checkout(await h.visitor(),cart,'CA');await h.checkout(await h.visitor(),cart,'US');
   const rows=(await h.db.prepare('SELECT params_json FROM shop_orders ORDER BY rowid').all()).results.map(x=>JSON.parse(x.params_json));
+  for(const params of rows){assert.deepEqual(params.allowed_payment_method_types,['card']);assert.equal(Object.hasOwn(params,'payment_method_types'),false);}
   assert.deepEqual(rows[0].shipping_address_collection.allowed_countries,['CA']);assert.equal(rows[0].phone_number_collection.enabled,false);
   assert.deepEqual(rows[1].shipping_address_collection.allowed_countries,['US']);assert.equal(rows[1].phone_number_collection.enabled,true);
   assert.equal((await h.checkout(await h.visitor(),cart,'ZZ')).status,400);
@@ -325,4 +327,73 @@ test('a single basket cannot reserve the entire catalogue and rejection rolls ba
  assert.equal(h.creates,0);
  for(const item of items)assert.equal(await h.allocated(item.productId),0);
  assert.equal((await h.db.prepare('SELECT count(*) n FROM shop_orders').first()).n,0);
+});
+
+test('monitor repairs a missed paid webhook and persists a private heartbeat',async t=>{
+  const h=harness(t);await h.checkout(await h.visitor());
+  Object.assign([...h.sessions.values()][0],{status:'complete',payment_status:'paid'});
+  const result=await runMaintenance(h.env,{stripe:h.stripe});
+  assert.deepEqual(result,{checked:1,needsReview:0,delivered:0,configured:false});
+  assert.equal((await h.db.prepare('SELECT status FROM shop_orders').first()).status,'paid');
+  assert.equal(await h.allocated(),1);
+  const heartbeat=await h.db.prepare('SELECT * FROM shop_monitor').first();
+  assert.equal(heartbeat.status,'ok');assert.ok(heartbeat.finished_at>=heartbeat.started_at);
+  assert.equal(heartbeat.alerts_configured,0);
+  assert.deepEqual(await runMaintenance(h.env,{stripe:h.stripe}),{skipped:true});
+});
+test('Stripe outage creates a durable review alert without releasing inventory',async t=>{
+  const h=harness(t);await h.checkout(await h.visitor());h.sessions.clear();
+  assert.deepEqual(await reconcileOutstanding(h.env,h.stripe),{checked:0,needsReview:1});
+  await reconcileOutstanding(h.env,h.stripe);
+  assert.equal(await h.allocated(),1);
+  assert.equal((await h.db.prepare('SELECT needs_review FROM shop_orders').first()).needs_review,1);
+  const alerts=(await h.db.prepare('SELECT * FROM shop_review_alerts').all()).results;
+  assert.equal(alerts.length,1);assert.equal(alerts[0].reason,'STRIPE_RECONCILIATION');
+});
+test('alert delivery retries failures, isolates modes and omits customer details',async t=>{
+  const h=harness(t);await h.checkout(await h.visitor());h.sessions.clear();await reconcileOutstanding(h.env,h.stripe);
+  Object.assign(h.env,{SHOP_ALERT_URL:'https://alerts.example.test/shop',SHOP_ALERT_TOKEN:'testing-only'});
+  let attempts=0;
+  const fetcher=async(url,init)=>{attempts++;assert.equal(init.redirect,'manual');assert.equal(init.headers.Authorization,'Bearer testing-only');assert.deepEqual(Object.keys(JSON.parse(init.body)).sort(),['orderId','reason','type']);return new Response('',{status:attempts===1?503:200});};
+  assert.equal((await deliverReviewAlerts({...h.env,SHOP_MODE:'live'},fetcher)).delivered,0);assert.equal(attempts,0);
+  assert.equal((await deliverReviewAlerts(h.env,fetcher)).delivered,0);
+  assert.equal((await h.db.prepare('SELECT delivered_at FROM shop_review_alerts').first()).delivered_at,null);
+  assert.equal((await deliverReviewAlerts(h.env,fetcher)).delivered,1);
+  assert.equal((await deliverReviewAlerts(h.env,fetcher)).delivered,0);assert.equal(attempts,2);
+  assert.equal((await h.db.prepare('SELECT needs_review FROM shop_orders').first()).needs_review,1);
+});
+test('failed monitor invocation records failure and permits a later retry',async t=>{
+  const h=harness(t);h.env.STRIPE_SECRET_KEY='sk_live_wrong_mode';
+  await assert.rejects(runMaintenance(h.env,{stripe:h.stripe}),/Shop monitoring failed/);
+  assert.equal((await h.db.prepare('SELECT status FROM shop_monitor').first()).status,'failed');
+  await h.db.prepare('UPDATE shop_monitor SET started_at=0').run();h.env.STRIPE_SECRET_KEY='sk_test_mock';
+  assert.equal((await runMaintenance(h.env,{stripe:h.stripe})).checked,0);
+  assert.equal((await h.db.prepare('SELECT status FROM shop_monitor').first()).status,'ok');
+});
+test('maintenance requires its private token while the public shop remains closed',async t=>{
+  const h=harness(t);h.env.SHOP_STOREFRONT_OPEN='false';h.env.SHOP_MAINTENANCE_TOKEN='private-test-token-'.repeat(3);
+  for(const headers of [{},{authorization:'Bearer wrong'}])assert.equal((await h.request('maintenance',{method:'POST',headers})).status,404);
+  const headers={authorization:`Bearer ${h.env.SHOP_MAINTENANCE_TOKEN}`};
+  assert.equal((await h.request('maintenance',{headers})).status,405);
+  assert.equal((await h.request('maintenance',{method:'POST',headers})).status,200);
+  assert.equal((await h.checkout(null)).status,503);
+  assert.equal((await (await h.request('config')).json()).comingSoon,true);
+});
+test('unpaid complete session cannot be fulfilled and retains its allocation',async t=>{
+  const h=harness(t);await h.checkout(await h.visitor());Object.assign([...h.sessions.values()][0],{status:'complete',payment_status:'unpaid'});
+  await runMaintenance(h.env,{stripe:h.stripe});
+  assert.equal((await h.db.prepare('SELECT status FROM shop_orders').first()).status,'processing');assert.equal(await h.allocated(),1);
+});
+
+// Cloudflare accepts manual/follow only. Never forward the trigger credential.
+test('scheduled trigger rejects redirects and failed responses',async t=>{
+ const worker=(await import('../workers/shop-maintenance.js')).default;
+ let calls=0;
+ t.mock.method(globalThis,'fetch',async(url,init)=>{
+  calls++;assert.equal(url,'https://lemonhaze.com/api/shop/maintenance');
+  assert.equal(init.redirect,'manual');
+  return new Response('',{status:302,headers:{location:'https://other.example.test'}});
+ });
+ await assert.rejects(worker.scheduled({}, {SHOP_MAINTENANCE_TOKEN:'test-trigger-token'}),/request failed/);
+ assert.equal(calls,1);
 });

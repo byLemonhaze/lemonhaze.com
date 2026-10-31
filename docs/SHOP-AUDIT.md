@@ -4,15 +4,15 @@ The external report was reviewed against the implementation, not treated as inst
 
 | Finding | Resolution | Remaining verification or limitation |
 | --- | --- | --- |
-| SHOP-01 — inventory hoarding | 30-minute sessions; atomic database caps of two active orders, six active units and ten orders per network per rolling day | Real Stripe expiry check; shared networks share limits; distributed attacks remain possible |
+| SHOP-01 — inventory hoarding | 30-minute sessions; atomic database caps of two active orders, six active units and ten orders per network per rolling day | Real Stripe sandbox expiry passed; shared networks share limits; distributed attacks remain possible |
 | SHOP-02 — headers | Enforced anti-framing, base, object and form controls on shop/policy routes; HSTS and permissions headers; stricter resource policy in report-only | Monitor real browser compatibility before enforcing the full resource policy |
 | SHOP-03 — press tool | Minimum 32-character secret, HMAC comparison, network/global request caps, bounded body and upstream timeout | Strong private credential and provider monetary spending cap must be verified; Cloudflare Access is not configured |
 | SHOP-04 — HTML interpolation | Escape catalogue text and attributes; permit only HTTPS asset URLs without embedded credentials | Tests cover hostile markup and URL schemes |
-| SHOP-05 — payment mismatch | Durable review flag and retryable notification outbox; worker delivery implementation | Worker, private alert destination/token and delivery monitoring still need activation |
+| SHOP-05 — payment mismatch | Durable review flag and retryable notification outbox; worker delivery implementation | Scheduled reconciliation and private heartbeat added; local Codex monitoring supplements it. External email alert receiver is not configured |
 | SHOP-06 — owner cookie | Extended to 30 days; privacy copy updated | Different browsers/devices still require studio support |
 | SHOP-07 — crypto | Remains unavailable | Separate verified payment integration required before offering it |
-| SHOP-08 — restricted key | Existing restricted-key compatibility retained | Install and test least-privilege credentials privately in Pages and worker |
-| SHOP-09 — currency | Adaptive Pricing disabled explicitly on created Checkout Sessions | Real test-mode checkout and currency verification still required |
+| SHOP-08 — restricted key | Existing restricted-key compatibility retained | Merchant installed the private Pages key; worker uses only a narrow trigger token. Production Stripe permission verification remains separate from sandbox tests |
+| SHOP-09 — currency | Adaptive Pricing disabled explicitly on created Checkout Sessions | Real sandbox Checkout completed at USD 500; live tax and receipt delivery remain unverified |
 | SHOP-10 — scanner findings | Report's inscription-ID false positives do not justify credential rotation | Do not claim an exhaustive guarantee based on a pattern scan |
 
 ## Corrections to the report
@@ -26,4 +26,4 @@ The external report was reviewed against the implementation, not treated as inst
 
 ## Production connection check
 
-On 2026-10-31, Pages secret-name inspection showed no Stripe API or webhook signing secrets, and the maintenance worker did not exist. Do not enable sales until the readiness checklist in `SHOP.md` is completed. Do not store service credentials, residential contact information or tax registration values in this document.
+On 2026-10-31, the webhook signing secret was configured and the merchant installed the API key privately. A real sandbox paid checkout and an explicitly expired session both delivered signed webhooks with HTTP 200; resulting local states were paid and expired, without review flags. The scheduled maintenance worker, authenticated endpoint and heartbeat storage are deployed. The authenticated production endpoint returned HTTP 200; unauthorized requests returned HTTP 404. An hourly Codex monitor is active. All 196 automated tests, the production build and edge compilation passed; public purchases remained blocked in deployed checks. Pattern scans of working files, built output and reachable history passed without claiming an exhaustive guarantee. Do not enable sales until the readiness checklist in `SHOP.md` is completed. Do not store service credentials, residential contact information or tax registration values in this document.

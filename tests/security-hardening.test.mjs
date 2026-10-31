@@ -46,7 +46,7 @@ test('review outbox retries failures and sends no customer data',async t=>{
  env.SHOP_ALERT_URL='https://alerts.example/review';env.SHOP_ALERT_TOKEN='test-only';
  assert.equal((await deliverReviewAlerts(env,async()=>new Response('',{status:503}))).delivered,0);
  let calls=0;
- const deliver=async(url,options)=>{calls++;assert.equal(url,env.SHOP_ALERT_URL);assert.deepEqual(JSON.parse(options.body),{type:'shop.review',orderId:'test-order',reason:'PAYMENT_VERIFICATION'});assert.equal(options.redirect,'error');return new Response('ok');};
+ const deliver=async(url,options)=>{calls++;assert.equal(url,env.SHOP_ALERT_URL);assert.deepEqual(JSON.parse(options.body),{type:'shop.review',orderId:'test-order',reason:'PAYMENT_VERIFICATION'});assert.equal(options.redirect,'manual');return new Response('ok');};
  assert.equal((await deliverReviewAlerts(env,deliver)).delivered,1);
  assert.equal((await deliverReviewAlerts(env,deliver)).delivered,0);assert.equal(calls,1);
 });

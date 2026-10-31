@@ -1,7 +1,3 @@
-# Template only. Replace the database ID before deployment. Use the same private
-# SHOP_DB as Pages. Install STRIPE_SECRET_KEY with `wrangler secret put`.
-# Also install SHOP_ALERT_URL and SHOP_ALERT_TOKEN for review notifications.
-# Use a monitored HTTPS receiver that deduplicates by orderId; never commit secrets.
 name = "lemonhaze-shop-maintenance"
 main = "workers/shop-maintenance.js"
 compatibility_date = "2026-10-28"
@@ -11,11 +7,5 @@ preview_urls = false
 [triggers]
 crons = ["*/10 * * * *"]
 
-[vars]
-SHOP_MODE = "test"
-
-[[d1_databases]]
-binding = "SHOP_DB"
-database_name = "lemonhaze-shop"
-database_id = "REPLACE_WITH_SHOP_DATABASE_ID"
-migrations_dir = "db/shop-migrations"
+[observability]
+enabled = true
