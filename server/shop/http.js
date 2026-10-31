@@ -36,8 +36,23 @@ export async function readBody(request,max=8192) {
   const bytes=new Uint8Array(length);let offset=0;for(const p of parts){bytes.set(p,offset);offset+=p.length;}
   try{const body=JSON.parse(new TextDecoder().decode(bytes));if(!body||Array.isArray(body)||typeof body!=='object')throw 0;return body;}catch{throw new ShopError('Invalid request.');}
 }
+// Group IPv6 privacy addresses by /64 so rotating host addresses cannot reset a limit.
+export function rateNetwork(ip) {
+  if (!ip?.includes(':')) return ip || 'local';
+  try {
+    const canonical=new URL(`http://[${ip}]/`).hostname.slice(1,-1);
+    const [left,right]=canonical.split('::');
+    const a=left ? left.split(':') : [], b=right ? right.split(':') : [];
+    const groups=right===undefined ? a : [...a,...Array(8-a.length-b.length).fill('0'),...b];
+    const words=groups.map(v=>parseInt(v,16));
+    if(words.length!==8 || words.some(v=>!Number.isInteger(v)))return 'invalid';
+    if(words.slice(0,5).every(v=>v===0) && words[5]===65535)
+      return [words[6]>>8,words[6]&255,words[7]>>8,words[7]&255].join('.');
+    return words.slice(0,4).map(v=>v.toString(16)).join(':')+'::/64';
+  } catch { return 'invalid'; }
+}
 export async function networkHash(env,request,scope='shop-reservation') {
-  const ip=request.headers.get('cf-connecting-ip')||'local';
+  const ip=rateNetwork(request.headers.get('cf-connecting-ip'));
   const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(env.SHOP_RATE_SECRET),{name:'HMAC',hash:'SHA-256'},false,['sign']);
   const signed=await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(`${scope}:${ip}`));
   return [...new Uint8Array(signed)].map(b=>b.toString(16).padStart(2,'0')).join('');

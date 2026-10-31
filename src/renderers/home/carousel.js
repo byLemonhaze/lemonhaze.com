@@ -40,7 +40,7 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
         if (work.comingSoon) link.type = 'button';
         else link.href = work.href || '/' + work.id;
         link.setAttribute('aria-label', `View ${work.name}`);
-        const image = document.createElement('img'); image.src = getCarouselImageSrc(work);
+        const image = document.createElement('img'); image.dataset.previewSrc = getCarouselImageSrc(work);
         image.alt = work.name + ' by Lemonhaze'; image.decoding = 'async';
         image.loading = index < 2 ? 'eager' : 'lazy';
         image.fetchPriority = index === 0 ? 'high' : 'auto';
@@ -99,7 +99,10 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
             slide.classList.toggle('is-active', active);
             slide.setAttribute('aria-hidden', String(!active));
             slide.tabIndex = active ? 0 : -1;
-            if (active) slide.querySelector('img').loading = 'eager';
+            const distance = Math.min(Math.abs(index - activeIndex), slides.length - Math.abs(index - activeIndex));
+            const image = slide.querySelector('img');
+            if (distance <= 1 && !image.hasAttribute('src')) image.src = image.dataset.previewSrc;
+            if (active) image.loading = 'eager';
             const frame = slide.querySelector('iframe');
             if (frame) {
                 if (active && motionEnabled && !document.hidden) {
