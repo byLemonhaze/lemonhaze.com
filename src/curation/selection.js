@@ -1,32 +1,23 @@
-// Local editorial selections, independent of the complete chronological catalogue.
-// Selected Work keeps its own order; homepage choices can change independently.
+import { ARTWORKS } from '../../shared/shop-artworks.js';
+
+// One editorial sequence shared by the homepage and Selected Work.
 export const SELECTED_WORK_IDS = [
+    'shop-print6', // Symbiosis — 01
     'c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0', // Hózhó
-    'd19688af2a36c04add06dc767117365f0f9c75b67be6170dbdfd76152b069b1ei0', // Ganser
     'b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0', // Chanchanok's Temple
     '4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0', // Porcelain Sunset
     '8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0', // Chamber of Reflection
     'adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0', // Gentleman Nº6
-    'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i401', // BEST BEFORE Nº402
     'a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0', // Family Portrait
-    '00d08f2e808d325139649b50f77204a71d9624e7fd7e60a28907a4836614c49ei0', // Rue Cuvillier
     '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0', // Gentleman Nº1
 ];
-
-export const CAROUSEL_WORK_IDS = [
-    'shop-print6',
-    SELECTED_WORK_IDS[0], // Hózhó
-    SELECTED_WORK_IDS[2],
-    SELECTED_WORK_IDS[3],
-    'shop-print3',
-    SELECTED_WORK_IDS[4],
-    SELECTED_WORK_IDS[5],
-    SELECTED_WORK_IDS[7],
-    'shop-print11',
-    SELECTED_WORK_IDS[9],
-];
+export const CAROUSEL_WORK_IDS = SELECTED_WORK_IDS;
+const printPreviews = ARTWORKS.map(work => ({
+    id: `shop-${work.id}`, name: work.title, grid_preview: work.preview,
+    href: '/shop', palette: work.series, caption: 'Symbiosis · Print selection',
+}));
 export function selectedWorks(artworks, ids = SELECTED_WORK_IDS) {
-    const byId = new Map(artworks.map(work => [work.id, work]));
+    const byId = new Map([...artworks, ...printPreviews].map(work => [work.id, work]));
     return ids.map(id => byId.get(id)).filter(Boolean).map(work =>
         work.id === 'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i401'
             ? { ...work, grid_preview: '/editorial/assets/best-before-402.jpg' }

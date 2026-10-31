@@ -54,7 +54,7 @@ export function renderTopNav(container, {
     summary.innerHTML = '<span>All Works</span><span class="all-works-indicator" aria-hidden="true">+</span>';
     allWorks.appendChild(summary);
     container.appendChild(allWorks);
-    ['archive', 'shop', 'collecting', 'lab'].forEach(key => addSection(key, true));
+    ['archive', 'collecting', 'shop', 'lab'].forEach(key => addSection(key, true));
 }
 
 export function renderYearGroups({

@@ -38,6 +38,34 @@ export function createShop() {
    <details><summary>Returns & delivery issues</summary><p>All sales are final for change-of-mind purchases. This does not limit any mandatory rights for defective, damaged, misdescribed or undelivered goods. Contact collect@lemonhaze.com with your order reference for delivery problems; keep the packaging and photographs of any damage.</p></details>
   </div></section>
   <section class="shop-info"><div><p class="shop-eyebrow">06 / Your privacy</p><h2>Care for your information.</h2></div><div><p>When ordering opens, Stripe will collect payment and delivery details at checkout. The studio uses the information needed to prepare your artwork, arrange delivery and provide support.</p><p>The basket saves artwork selections in your browser. The shop’s order database keeps order references and payment status without duplicating your address or card details.</p><p><a href="/privacy.html">Privacy policy →</a></p><p><a href="/terms.html">Order terms, delivery & returns →</a></p><p>Questions? <a href="mailto:collect@lemonhaze.com">collect@lemonhaze.com</a></p></div></section>
+  <section class="shop-print-archive" aria-labelledby="shop-print-archive-title">
+   <p class="shop-eyebrow">07 / From the archive</p><h2 id="shop-print-archive-title">At the print table.</h2>
+   <p>Photographs and films of earlier prints, signed in the studio. A look at the physical work behind the images; these archive pieces are separate from the current selection.</p>
+            <div class="shop-signing-grid" aria-label="Print signing">
+                <figure>
+                    <a href="/archive#good-night-print"><img src="/editorial/archive/m044.webp" alt="Lemonhaze signing Good Night" width="900" height="1200" loading="lazy"></a>
+                    <figcaption><a href="/archive#good-night-print">Signing Good Night, from Downtown.</a></figcaption>
+                </figure>
+                <figure>
+                    <a href="/archive#signing-pennsylvania"><img src="/editorial/archive/pennsylvania-signing.webp" alt="Video frame showing Lemonhaze signing Pennsylvania" loading="lazy"></a>
+                    <figcaption><a href="/archive#signing-pennsylvania">Signing Pennsylvania.</a></figcaption>
+                </figure>
+                <figure>
+                    <video controls playsinline preload="none" poster="/editorial/films/hosoi-signing.jpg" width="480" height="848" aria-label="Signing Hosoi">
+                        <source src="/editorial/films/hosoi-signing.mp4" type="video/mp4">
+                        <a href="/editorial/films/hosoi-signing.mp4">Watch the signing film</a>
+                    </video>
+                    <figcaption><a href="/3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0">Signing Hosoi</a></figcaption>
+                </figure>
+                <figure>
+                    <video controls playsinline preload="none" poster="/editorial/films/chamber-of-reflection-signing.jpg" width="480" height="848" aria-label="Signing Chamber of Reflection">
+                        <source src="/editorial/films/chamber-of-reflection-signing.mp4" type="video/mp4">
+                        <a href="/editorial/films/chamber-of-reflection-signing.mp4">Watch the signing film</a>
+                    </video>
+                    <figcaption><a href="/8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0">Signing Chamber of Reflection</a></figcaption>
+                </figure>
+            </div>
+  </section>
   <footer class="shop-footer"><span>Lemonhaze / Print Shop</span><span>${storefrontOpen?'Card via Stripe <small>BTC & USDC planned</small>':'Price on request <small>Online ordering coming soon</small>'}</span></footer>
   <div class="shop-toast" role="status" aria-live="polite"></div>
   <dialog class="shop-dialog" aria-labelledby="shop-dialog-title"><div class="shop-dialog-head"><span class="shop-eyebrow">Lemonhaze / Shop preview</span><button data-action="close" aria-label="Close shop dialog">Close ×</button></div><div class="shop-dialog-content"></div></dialog>`;

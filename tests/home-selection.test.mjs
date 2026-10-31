@@ -11,7 +11,7 @@ const confabulation = JSON.parse(readFileSync(new URL('../public/data/collection
 const artworks = [...provenance, ...chrysalis, ...liminality, ...confabulation];
 test('homepage uses the finite editorial selection in a stable order, regardless of catalogue order', () => {
     const selection = buildHomeSelection({artworks});
-    assert.equal(selection.length, 10);
+    assert.equal(selection.length, 8);
     assert.deepEqual(selection.map(work => work.id), CAROUSEL_WORK_IDS);
     assert.deepEqual(buildHomeSelection({artworks: [...artworks].reverse()}).map(work => work.id), selection.map(work => work.id));
     assert.equal(new Set(selection.map(work => work.id)).size, selection.length);
@@ -22,19 +22,14 @@ test('missing selected records are skipped without introducing random archive wo
     assert.deepEqual(selection.map(work => work.id), CAROUSEL_WORK_IDS.filter((_, index) => index !== 1));
 });
 
-test('homepage features three Symbiosis palettes at 01, 05 and 09 and Hózhó at 02', () => {
+test('homepage and Selected Work share eight works with Symbiosis 01 first and Hózhó second', () => {
     const landing = buildHomeSelection({ artworks });
+    assert.equal(landing[0].name, 'Symbiosis — 01');
     assert.equal(landing[1].name, 'Hózhó');
-    assert.deepEqual([landing[0].palette, landing[4].palette, landing[8].palette], ['Gentleman 5', 'Gentleman 15', 'Bauhaus Afterparty']);
-    for (const index of [0, 4, 8]) {
-        assert.equal(landing[index].href, '/shop');
-        assert.ok(landing[index].grid_preview.startsWith('/shop/'));
-    }
-    assert.ok(!landing.some(work => ['Ganser', 'Rue Cuvillier', 'BEST BEFORE Nº402'].includes(work.name)));
-    const selected = selectedWorks(artworks);
-    assert.equal(selected.length, 10);
-    assert.equal(selected[1].name, 'Ganser');
-    assert.ok(selected.some(work => work.name === 'BEST BEFORE Nº402'));
+    assert.equal(landing[0].href, '/shop');
+    assert.ok(landing[0].grid_preview.startsWith('/shop/'));
+    assert.ok(!landing.some(work => ['Symbiosis — 04', 'Symbiosis — 08', 'Ganser', 'Rue Cuvillier', 'BEST BEFORE Nº402'].includes(work.name)));
+    assert.deepEqual(selectedWorks(artworks), landing);
 });
 
 test('six core series retain both identity collections and rank archival projects quietly', () => {

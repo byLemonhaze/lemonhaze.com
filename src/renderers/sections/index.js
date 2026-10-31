@@ -72,7 +72,7 @@ export function createInternalSections({
             title: 'Supply & Marketplace',
             content: () => {
                 const wrap = document.createElement('div');
-                wrap.appendChild(readingLink('/collecting', 'Viewing & collecting →', 'A guide to exploring, displaying, and inquiring about a work.'));
+                wrap.appendChild(readingLink('/collecting', 'Collecting inscriptions →', 'Original works on Bitcoin: what you collect, how to begin, and how to live with the work.'));
                 wrap.appendChild(createSupplySectionNode({
                 artworks: getArtworks(),
                 ordinalsSupplyData,
