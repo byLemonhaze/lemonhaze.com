@@ -13,7 +13,7 @@ export const PAGE_METADATA = {
  '/archive': {name:'Studio Notes',description:'Stories, process photographs, artist writing and exhibition footage from Lemonhaze’s practice. Explore the connections behind the artworks on Bitcoin.'},
  '/gentleman-se-2025': {name:'Gentleman SE 2025 — Studio Writing',description:'Lemonhaze on texture, generative painting, selecting an output, and writing inside the artwork. Original reflections from Gentleman SE 2025.'},
  '/paint-engine': {name:'Paint Engine',description:'Explore Lemonhaze’s evolving generative paint engine, its textures, inscribed milestones, and an interactive study.'},
- '/collecting': {name:'Collecting',description:'How to view, download, display, and collect Lemonhaze’s artworks on Bitcoin, with guidance on original inscription content and high-resolution exports.'},
+ '/collecting': {name:'Collecting',description:'Collect Lemonhaze’s original Bitcoin inscriptions. A guide to the works, their provenance, inscription-aware wallets, and living with digital art.'},
  '/highlights': {name:'Exhibitions & Press',description:'Lemonhaze’s exhibitions and career: Sotheby’s Contemporary Discoveries, Montreal at Suburbs Gallery, and presentations around the world.'},
  '/supply': {name:'Supply & Marketplace',description:'Explore Lemonhaze’s collection supply and Market Watch: public marketplace listings, cross-listed artworks, floors, and offers on Bitcoin.'},
  '/media': {name:'Media & Press',description:'Interviews, articles, and media coverage of Lemonhaze’s artwork, collections, and practice on Bitcoin.'},

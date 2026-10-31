@@ -1,32 +1,52 @@
 <main class="editorial">
   <div class="page-intro">
-    <p class="eyebrow">A guide to approaching the work</p>
+    <p class="eyebrow">Original works on Bitcoin</p>
     <h1>Collecting</h1>
-    <div class="lead"><p>A little context for moving from an image on a screen to the artwork, its writing, and its provenance.</p></div>
+    <div class="lead"><p>Bitcoin inscriptions are my primary medium. This is where the fullest expression of my practice lives, and where I place its greatest artistic value.</p></div>
+    <p>Some works are still images. Others unfold through code, interaction, or time. Collecting begins with the work itself: its image, its behaviour, and the record that identifies it.</p>
+    <nav class="editorial-jumps" aria-label="Collecting guide">
+      <a href="#the-inscription">What you collect</a>
+      <a href="#how-to-collect">Getting started</a>
+      <a href="#living-with-the-work">Viewing the work</a>
+      <a href="#collecting-resources">Resources</a>
+    </nav>
   </div>
-  <section class="essay-section">
-    <h2>A work, then its record:</h2>
-    <p>Open the artwork and stay with the image. Read the note attached to it. A gallery thumbnail is a preview. The work is a Bitcoin inscription. It sits on a sat, and that sat is held in a UTXO. To hold the work is to hold that output.</p>
+  <section class="essay-section" id="the-inscription">
+    <h2>What you collect</h2>
+    <p>An inscription records digital content on Bitcoin. It has a specific inscription ID: the reference that lets you distinguish that work from another inscription or a saved copy of its image.</p>
+    <p>You can enjoy an image, save it, or display it without holding its inscription. Collecting the inscription means acquiring the particular digital artifact and its traceable history on Bitcoin. A screenshot or print does not transfer it.</p>
+    <p class="source-line">Technical background: <a href="https://docs.ordinals.com/inscriptions.html" target="_blank" rel="noopener noreferrer">Inscriptions, Ordinal Theory Handbook ↗</a></p>
+    <details>
+      <summary>The satoshi, the UTXO, and your wallet</summary>
+      <p>A <strong>satoshi</strong>, or sat, is the smallest unit of bitcoin. Ordinal theory tracks individual sats as they move through transactions; an inscription is associated with a particular sat.</p>
+      <p>A <strong>UTXO</strong> means “unspent transaction output.” Think of it as a parcel of bitcoin that has not yet been spent. The inscribed sat is held within one of these outputs. Your wallet manages the keys that let you control and transfer it.</p>
+      <p>When you transfer the inscription, a Bitcoin transaction spends the old output and creates new ones. An inscription-aware wallet arranges that transaction to send the inscribed sat to the intended recipient. The UTXO changes; the inscription ID remains its reference.</p>
+      <p>Use a wallet that explicitly supports inscriptions and keeps them separate from bitcoin used for everyday payments. An ordinary payment can accidentally spend an inscribed sat, including as a transaction fee.</p>
+    </details>
   </section>
-  <section class="essay-section">
-    <h2>What you are collecting</h2>
-    <p><strong>Static images.</strong> Use the work's own image, and keep its proportions.</p>
-    <p><strong>HTML and generative works.</strong> Open the original content viewer on Bitcoin. Press ‘S’ to save the high-resolution PNG. Controls differ by work. Dynamic works can export a WEBM from that viewer. Convert it to MP4 if you need to. The export is for display. The inscription remains the work.</p>
-    <p><strong>Paint Engines.</strong> An output is an interaction with the engine. It does not create a new inscription.</p>
-    <p><strong>BEST BEFORE.</strong> It is alive. Its visible state depends on activation and block time, and it has to be watched from the chain to be seen fully. No native WEBM export was a deliberate choice. Only pictures can remain of those who expired.</p>
+  <section class="essay-section" id="how-to-collect">
+    <h2>A first collection, one work at a time</h2>
+    <p><strong>1. Find the work.</strong> Start with <a href="/selected">Selected Work</a> or explore All Works in the navigation. Open the artwork, spend time with it, and read its notes.</p>
+    <p><strong>2. Check its identity.</strong> Follow the inscription link from this site. Compare the exact inscription ID with the listing you are considering. Check the series, edition size, and any parent inscription that establishes the collection relationship. A matching image or title alone is not enough.</p>
+    <p><strong>3. Find availability.</strong> <a href="/supply">Supply &amp; Marketplace</a> brings together the collection record and marketplace links. <a href="/supply#market-watch">Market Watch</a> shows tracked secondary listings; availability and prices can change. For a direct inquiry, email <a href="mailto:collect@lemonhaze.com">collect@lemonhaze.com</a> with the title or inscription link.</p>
+    <p><strong>4. Receive and verify.</strong> Use your wallet’s inscription receiving instructions. Review the work, destination, price, and network fee before confirming. After confirmation, check that the inscription appears in your wallet. Keep your recovery phrase private; it is never needed for a collecting inquiry.</p>
   </section>
-  <section class="essay-section">
-    <h2>Originals, editions, parents</h2>
-    <p>Read the work's own details. Edition size and format change by series. A collection parent links a family of inscriptions. It is not a substitute for the individual work.</p>
+  <section class="essay-section" id="living-with-the-work">
+    <h2>Live with the work</h2>
+    <p>Open the original inscription viewer linked from the artwork page. For a still image, preserve its proportions. For a coded work, allow it to run: a thumbnail may show only one moment of it.</p>
+    <p>Controls and exports vary by artwork. Follow the instructions in its viewer. A saved image or recording is a way to display a moment; it does not create another inscription. Similarly, an output made with a Paint Engine does not automatically become a newly inscribed work.</p>
+    <p>In <a href="/best-before">BEST BEFORE</a>, activation and Bitcoin block time are part of the work’s behaviour. A recording preserves a particular experience, while the inscription continues according to its rules.</p>
+    <p>For an exhibition, a display, or help approaching a first acquisition, <a href="mailto:collect@lemonhaze.com">get in touch</a>.</p>
   </section>
-  <section class="essay-section">
-    <h2>Inquire</h2>
-    <p>Send the title or the inscription link, and a short note on what you have in mind: collecting, a display, or an exhibition.</p>
-    <a href="https://x.com/Ordinals10K" target="_blank" rel="noopener">Find Lemonhaze on X</a>
+  <section class="essay-section" id="collecting-resources">
+    <h2>A little further reading</h2>
+    <p><a href="https://docs.ordinals.com/faq.html" target="_blank" rel="noopener noreferrer">Ordinal Theory FAQ ↗</a><br>How sats are tracked, and how inscriptions move.</p>
+    <p><a href="https://docs.ordinals.com/inscriptions/provenance.html" target="_blank" rel="noopener noreferrer">Parents and provenance ↗</a><br>How a parent inscription can establish a verifiable relationship between works.</p>
+    <p><a href="https://developer.bitcoin.org/devguide/transactions.html" target="_blank" rel="noopener noreferrer">Bitcoin transactions ↗</a><br>A more technical explanation of outputs and UTXOs, if you want to understand what your wallet is doing.</p>
   </section>
-  <section class="essay-section">
-    <h2>Supply</h2>
-    <p><a href="/supply">Supply &amp; Marketplace.</a> The full record and where works are listed.</p>
-    <p><a href="/supply#market-watch">Market Watch.</a> Works currently listed on secondary markets.</p>
+  <section class="essay-section" id="physical-works">
+    <h2>Another way to live with the practice</h2>
+    <p>Signed prints and small original marker works on textile extend the practice into physical spaces. They have their own material presence, while inscriptions remain the centre of my work.</p>
+    <p>A physical purchase is separate from collecting a Bitcoin inscription. Explore the <a href="/shop">Print Shop</a> for the physical works and their details.</p>
   </section>
 </main>

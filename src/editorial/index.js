@@ -116,36 +116,6 @@ export function createEditorialPage(key) {
     if (archiveLinks && key !== 'Gentlemen') article.appendChild(archiveLinks);
     if (key === 'paint-engine') initializeEnginePicker(article);
     if (key === 'gentleman-se-2025') illustratePractice(article);
-    if (key === 'collecting') {
-        const prints = document.createElement('section');
-        prints.className = 'essay-section';
-        prints.innerHTML = `<h2>At the print table</h2>
-            <div class="print-signing-grid" aria-label="Print signing">
-                <figure>
-                    <a href="/archive#good-night-print"><img src="/editorial/archive/m044.webp" alt="Lemonhaze signing Good Night" width="900" height="1200" loading="lazy"></a>
-                    <figcaption><a href="/archive#good-night-print">Signing Good Night, from Downtown.</a></figcaption>
-                </figure>
-                <figure>
-                    <a href="/archive#signing-pennsylvania"><img src="/editorial/archive/pennsylvania-signing.webp" alt="Video frame showing Lemonhaze signing Pennsylvania" loading="lazy"></a>
-                    <figcaption><a href="/archive#signing-pennsylvania">Signing Pennsylvania.</a></figcaption>
-                </figure>
-                <figure>
-                    <video controls playsinline preload="none" poster="/editorial/films/hosoi-signing.jpg" width="480" height="848" aria-label="Signing Hosoi">
-                        <source src="/editorial/films/hosoi-signing.mp4" type="video/mp4">
-                        <a href="/editorial/films/hosoi-signing.mp4">Watch the signing film</a>
-                    </video>
-                    <figcaption><a href="/3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0">Signing Hosoi</a></figcaption>
-                </figure>
-                <figure>
-                    <video controls playsinline preload="none" poster="/editorial/films/chamber-of-reflection-signing.jpg" width="480" height="848" aria-label="Signing Chamber of Reflection">
-                        <source src="/editorial/films/chamber-of-reflection-signing.mp4" type="video/mp4">
-                        <a href="/editorial/films/chamber-of-reflection-signing.mp4">Watch the signing film</a>
-                    </video>
-                    <figcaption><a href="/8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0">Signing Chamber of Reflection</a></figcaption>
-                </figure>
-            </div>`;
-        article.appendChild(prints);
-    }
     const back = document.createElement('nav');
     back.className = 'editorial-related';
     back.setAttribute('aria-label', 'Related reading');
