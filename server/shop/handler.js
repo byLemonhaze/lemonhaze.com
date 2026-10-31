@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
 import {CATALOG,ShopError,validateCart} from './catalog.js';
 import {settings,shippingAmount} from './config.js';
-import {json,owner,checkOrigin,readBody,rateLimit,verifyHuman} from './http.js';
+import {json,owner,checkOrigin,readBody,rateLimit,networkHash,verifyHuman} from './http.js';
 import {activeOrder,ownedOrder,reserveOrder,publicOrder,nowSeconds} from './store.js';
 import {SESSION_EXPANSION,stripeClient,checkoutParams,createOrResume,reconcileSession} from './stripe.js';
 
@@ -73,8 +73,9 @@ export async function handleShop(request,env,dependencies={}) {
         // Lock this session to the selected country. International carrier labels
         // need a delivery phone; ordinary Canada Post domestic delivery does not.
         const checkoutConfig={...config,phone:config.phone||body.country!=='CA',shipping:{...config.shipping,amount:cart.every(i=>CATALOG[i.productId].type==='print')?0:shippingAmount(config.shipping,body.country),countries:[body.country]}};
-        const candidate={id,mode:config.mode,owner:visitor.hash,subtotal,now,params:checkoutParams(checkoutConfig,cart,id,now)};
+        const candidate={id,mode:config.mode,owner:visitor.hash,ipHash:await networkHash(env,request),subtotal,now,params:checkoutParams(checkoutConfig,cart,id,now)};
         try{await reserveOrder(env.SHOP_DB,candidate,cart);}catch(error){
+          if(String(error.message).includes('NETWORK_RESERVATION_LIMIT'))throw new ShopError('Too many reserved checkouts from this connection. Finish or cancel an existing checkout, or try later.',429);
           if(String(error.message).includes('SIGNED_EDITION_UNAVAILABLE'))throw new ShopError('This artwork is no longer available in the selected quantity. Please update your basket.',409);
           if(String(error.message).includes('UNIQUE'))throw new ShopError('A checkout is already starting. Please try again.',409);
           throw error;

@@ -1,3 +1,6 @@
+import {authorizePress} from '../../server/press-security.js';
+import {json} from '../../server/shop/http.js';
+import {ShopError} from '../../server/shop/catalog.js';
 /**
  * POST /api/press-engine
  * Personal content lab for lemonhaze.com.
@@ -6,6 +9,8 @@
  */
 
 interface Env {
+    SHOP_DB: D1Database;
+    SHOP_RATE_SECRET: string;
     PRESS_ENGINE_PASSWORD: string;
     CLAUDE_API_KEY: string;
 }
@@ -230,25 +235,14 @@ CRITICAL WRITING RULES:
 // ── Handler ────────────────────────────────────────────────────────────────
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-    const password = request.headers.get('x-press-password') ?? '';
-    if (!env.PRESS_ENGINE_PASSWORD || password !== env.PRESS_ENGINE_PASSWORD) {
-        return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
-    }
-
-    if (!env.CLAUDE_API_KEY) {
-        return new Response(JSON.stringify({ error: 'CLAUDE_API_KEY not configured' }), { status: 500 });
-    }
-
-    const body = await request.json().catch(() => ({})) as {
-        action?: string;
-        type?: string;
-        collection?: string | null;
-        context?: string | null;
-    };
+    let body;
+    try {body=await authorizePress(request,env);}
+    catch(error){return json({error:error instanceof ShopError?error.message:'Content lab is unavailable.'},error instanceof ShopError?error.status:503);}
+    if(!env.CLAUDE_API_KEY)return json({error:'Content lab is unavailable.'},503);
 
     // Auth-only ping
     if (body.action === 'auth') {
-        return new Response(JSON.stringify({ ok: true }), { headers: { 'content-type': 'application/json' } });
+        return json({ok:true});
     }
 
     const { system, user } = buildPrompt(
@@ -260,6 +254,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     // Stream from Anthropic
     const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
+        signal: AbortSignal.timeout(60000),
         headers: {
             'x-api-key': env.CLAUDE_API_KEY,
             'anthropic-version': '2023-06-01',
@@ -272,12 +267,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
             system,
             messages: [{ role: 'user', content: user }],
         }),
-    });
+    }).catch(()=>null);
 
-    if (!anthropicRes.ok) {
-        const err = await anthropicRes.text();
-        console.error('[press-engine] Anthropic error:', err.slice(0, 400));
-        return new Response(JSON.stringify({ error: 'Generation failed' }), { status: 502 });
+    if (!anthropicRes?.ok) {
+        await anthropicRes?.body?.cancel();
+        return json({error:'Generation failed'},502);
     }
 
     // Transform SSE stream → plain text stream
@@ -309,7 +303,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
                     } catch { /* skip bad JSON */ }
                 }
             }
+        } catch {
+            await writer.abort(new Error('Content generation interrupted.')).catch(() => {});
         } finally {
+            await reader.cancel().catch(() => {});
             await writer.close().catch(() => {});
         }
     })();
@@ -318,7 +315,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         headers: {
             'content-type': 'text/plain; charset=utf-8',
             'transfer-encoding': 'chunked',
-            'cache-control': 'no-cache',
+            'cache-control': 'no-store, private',
         },
     });
 };

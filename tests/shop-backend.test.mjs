@@ -28,7 +28,7 @@ function harness(t){
     async retrieve(id){if(!sessions.has(id))throw new Error('Unknown session');return sessions.get(id);},
     async expire(id){if(expirationFailure)throw new Error('Simulated timeout');const s=sessions.get(id);if(s.status!=='open')throw new Error('Already complete');s.status='expired';return s;}
   }}};
-  const request=async(path,{body,cookie,origin='http://127.0.0.1:5173',method=body?'POST':'GET',headers={}}={})=>handleShop(new Request(`http://127.0.0.1:5173/api/shop/${path}`,{method,headers:{...(cookie?{cookie}:{}),...(body?{'Content-Type':'application/json',origin}:{}),...headers},body:body?JSON.stringify(body):undefined}),env,{stripe});
+  const request=async(path,{body,cookie,origin='http://127.0.0.1:5173',method=body?'POST':'GET',headers={}}={})=>handleShop(new Request(`http://127.0.0.1:5173/api/shop/${path}`,{method,headers:{'cf-connecting-ip':cookie||'test-config',...(cookie?{cookie}:{}),...(body?{'Content-Type':'application/json',origin}:{}),...headers},body:body?JSON.stringify(body):undefined}),env,{stripe});
   const visitor=async()=>{const r=await request('config');return r.headers.get('set-cookie').split(';')[0];};
   const checkout=async(cookie,items=cart,country='CA')=>request('checkout',{cookie,body:{items,country}});
   const allocated=async(product='print1',mode='test')=>(await db.prepare('SELECT allocated FROM shop_inventory WHERE mode=? AND product_id=?').bind(mode,product).first()).allocated;
@@ -190,9 +190,9 @@ test('new print editions and mixed textile baskets reserve independently with co
 test('all nine textile inventory rows reserve exactly one and reject a second buyer',async t=>{
  const h=harness(t);
  const items=Array.from({length:9},(_,i)=>({productId:`textile${i+1}`,offerId:'signed',quantity:1}));
- assert.equal((await h.checkout(await h.visitor(),items)).status,200);
+ for(const item of items)assert.equal((await h.checkout(await h.visitor(),[item])).status,200);
  for(const item of items)assert.equal(await h.allocated(item.productId),1);
- assert.equal((await h.checkout(await h.visitor(),items)).status,409);
+ for(const item of items)assert.equal((await h.checkout(await h.visitor(),[item])).status,409);
  for(const item of items)assert.equal(await h.allocated(item.productId),1);
 });
 
@@ -238,9 +238,9 @@ test('inclusive print tax stays inside $500; mixed baskets add only exclusive te
   Object.assign(session,{status:'complete',payment_status:'paid',automatic_tax:{status:'complete'},amount_total:order.subtotal+(mixed?4000:0),total_details:{amount_discount:0,amount_shipping:0,amount_tax:2381+(mixed?4000:0),breakdown:{taxes:[{amount:2381,rate:{inclusive:true}},...(mixed?[{amount:4000,rate:{inclusive:false}}]:[])]}}});
   assert.equal(await reconcileSession(h.db,order,session),'paid');
   session.amount_total+=2381;
-  await assert.rejects(reconcileSession(h.db,order,session),/totals/);
+  await assert.rejects(reconcileSession(h.db,order,session),/payment review/);
   delete session.total_details.breakdown;
-  await assert.rejects(reconcileSession(h.db,order,session),/tax details/);
+  await assert.rejects(reconcileSession(h.db,order,session),/payment review/);
  }
 });
 test('textile and mixed baskets keep the specified destination shipping rates',async t=>{
@@ -287,4 +287,42 @@ test('closing sales preserves existing order status, cancellation and signed pay
  assert.equal(result.status,200);
  assert.equal((await h.db.prepare("SELECT count(*) n FROM shop_orders WHERE status='paid'").first()).n,1);
  assert.equal(await h.allocated(),1);
+});
+
+test('fresh cookies cannot bypass atomic network reservation caps',async t=>{
+ const h=harness(t);
+ const attempt=async()=>h.request('checkout',{cookie:await h.visitor(),body:{items:cart,country:'CA'},headers:{'cf-connecting-ip':'192.0.2.10'}});
+ const responses=await Promise.all([attempt(),attempt(),attempt()]);
+ assert.deepEqual(responses.map(r=>r.status).sort(),[200,200,429]);
+ assert.equal(await h.allocated(),2);assert.equal(h.creates,2);
+ const rows=await h.db.prepare('SELECT ip_hash,params_json FROM shop_orders').all();
+ for(const row of rows.results){assert.match(row.ip_hash,/^[a-f0-9]{64}$/);assert.equal(JSON.parse(row.params_json).adaptive_pricing.enabled,false);}
+ assert.doesNotMatch(JSON.stringify(rows),/192\.0\.2\.10/);
+});
+test('daily network limit survives cancelled checkouts',async t=>{
+ const h=harness(t);
+ for(let i=0;i<11;i++){
+  const cookie=await h.visitor();
+  const response=await h.request('checkout',{cookie,body:{items:cart,country:'CA'},headers:{'cf-connecting-ip':'192.0.2.20'}});
+  assert.equal(response.status,i<10?200:429);
+  if(i<10){const {orderId}=await response.json();assert.equal((await h.request('cancel',{cookie,body:{orderId}})).status,200);}
+ }
+ assert.equal(await h.allocated(),0);
+});
+test('one-cent paid mismatch persists one review alert without releasing stock',async t=>{
+ const h=harness(t),cookie=await h.visitor();const {orderId}=await (await h.checkout(cookie)).json();
+ const session=[...h.sessions.values()][0];session.status='complete';session.payment_status='paid';session.amount_total++;
+ for(let i=0;i<2;i++)assert.equal((await h.request(`order?id=${orderId}`,{cookie})).status,409);
+ assert.equal((await h.db.prepare('SELECT needs_review FROM shop_orders WHERE id=?').bind(orderId).first()).needs_review,1);
+ assert.equal((await h.db.prepare('SELECT count(*) AS n FROM shop_review_alerts').first()).n,1);
+ assert.equal(await h.allocated(),1);
+});
+
+test('a single basket cannot reserve the entire catalogue and rejection rolls back',async t=>{
+ const h=harness(t),cookie=await h.visitor();
+ const items=Array.from({length:7},(_,i)=>({productId:`textile${i+1}`,offerId:'signed',quantity:1}));
+ assert.equal((await h.checkout(cookie,items)).status,429);
+ assert.equal(h.creates,0);
+ for(const item of items)assert.equal(await h.allocated(item.productId),0);
+ assert.equal((await h.db.prepare('SELECT count(*) n FROM shop_orders').first()).n,0);
 });
