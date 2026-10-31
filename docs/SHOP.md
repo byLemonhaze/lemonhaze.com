@@ -45,9 +45,9 @@ Before accepting orders:
 6. Configure and deploy the scheduled reconciliation worker using `wrangler.shop-maintenance.example.toml`, the same dedicated database and matching Stripe mode/key. Monitor failures and review-required orders. Pages deployment does not deploy this worker.
 7. Complete a Stripe test-mode checkout, receipt delivery, shipping/tax checks, cancellation, expiry, retry and last-copy contention checks. Inspect delivery details in Stripe. Fulfil only verified paid orders.
 8. Confirm support mailbox send/receive delivery, policies, packaging and print proof. Packaging must accommodate the full print plus protective backing.
-9. Only on merchant instruction install live credentials, set `SHOP_MODE=live`, `SHOP_LIVE_ENABLED=true`, `SHOP_POLICIES_CONFIRMED=true`, enable both storefront controls, rebuild and deploy. Do not execute paid purchases automatically.
+9. Live credentials may be installed privately while the storefront stays closed. Only on explicit launch instruction set `SHOP_MODE=live`, `SHOP_LIVE_ENABLED=true`, `SHOP_POLICIES_CONFIRMED=true`, enable both storefront controls, rebuild and deploy. Do not execute paid purchases automatically.
 
-Production inspection on 2026-10-31 found no `STRIPE_SECRET_KEY` or `STRIPE_WEBHOOK_SECRET` in Pages and no deployed `lemonhaze-shop-maintenance` worker. Tax registration, mailbox delivery and end-to-end Stripe checkout must still be verified. The public shop stays closed. See `docs/SHOP-AUDIT.md` for the report resolution and remaining operational work.
+On 2026-10-31 the live webhook endpoint was registered for the four Checkout events above and its signing secret installed privately in Pages. `STRIPE_SECRET_KEY` and the deployed `lemonhaze-shop-maintenance` worker are still missing. Tax registration, mailbox delivery and end-to-end Stripe checkout must still be verified. The public shop stays closed. See `docs/SHOP-AUDIT.md` for the report resolution and remaining operational work.
 
 ## Security and personal data
 
@@ -71,7 +71,7 @@ Before opening orders, verify these notices against the actual provider configur
 
 ### Public contact privacy
 
-Public studio contact is `shop@lemonhaze.com` and Montréal, Canada only. Never publish personal phone numbers, residential street addresses or residential postal codes in site content, bundled code, documentation, Git commits or deployment metadata. Any necessary private billing or registration data stays in the relevant provider’s private settings.
+Public studio contact is `collect@lemonhaze.com` and Montréal, Canada only. Never publish personal phone numbers, residential street addresses or residential postal codes in site content, bundled code, documentation, Git commits or deployment metadata. Any necessary private billing or registration data stays in the relevant provider’s private settings.
 
 ## Reservation abuse and payment review
 
