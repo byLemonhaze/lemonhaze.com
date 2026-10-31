@@ -8,7 +8,7 @@ export const shopHeaders={
  'X-Frame-Options':'DENY',
  'Content-Security-Policy':"frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self' https://checkout.stripe.com",
  // Observe script restrictions before enforcing them on interactive artwork.
- 'Content-Security-Policy-Report-Only':"default-src 'self'; script-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self'; img-src 'self' data: https:; media-src 'self' blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com"
+ 'Content-Security-Policy-Report-Only':"default-src 'self'; script-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self'; img-src 'self' data: https:; media-src 'self' blob: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com"
 };
 export function secureResponse(request,response){
  const url=new URL(request.url),headers=new Headers(response.headers);
