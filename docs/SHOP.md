@@ -62,3 +62,13 @@ Ambiguous Stripe creation failures retain reservations. Retries use stable idemp
 ## Crypto
 
 BTC, USDC and on-chain editions remain unavailable. A receiving wallet alone does not provide checkout verification. Any future provider must integrate with the same inventory reservations, validate network/token and payment state, and define invoice expiry and exchange rules before becoming available.
+
+## Public policies
+
+Standalone `/privacy.html` and `/terms.html` pages are linked from the site sidebar, shop and checkout. They include merchant contact details, data handling and browser storage, privacy requests, delivery timing, and final-sale terms subject to mandatory consumer rights. No specific packaging format is promised publicly.
+
+Before opening orders, verify these notices against the actual provider configuration and fulfilment process; establish retention/deletion and privacy incident procedures, review transfers outside Québec, confirm delivery estimates, and ensure the customer receives a durable copy of the complete order contract within the applicable deadline (Québec distance contracts: 15 days). A Stripe payment receipt alone may not contain all required contract information. Public policy text does not establish that these operational steps are complete.
+
+### Public contact privacy
+
+Public studio contact is `shop@lemonhaze.com` and Montréal, Canada only. Never publish personal phone numbers, residential street addresses or residential postal codes in site content, bundled code, documentation, Git commits or deployment metadata. Any necessary private billing or registration data stays in the relevant provider’s private settings.

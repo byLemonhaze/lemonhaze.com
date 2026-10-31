@@ -384,3 +384,7 @@ html[data-presentation] #modal-overlay :is(button,select,a):focus-visible { text
  .practice-sequence-image img { width:auto; max-height:240px; }
  .practice-year-works figcaption { margin-top:10px; border:0; padding-top:0; }
 }
+
+.site-legal-links { display:flex; flex-wrap:wrap; gap:16px; margin:0 0 16px; font:11px/1.5 Arial,sans-serif; }
+html[data-presentation] #sidebar nav.site-legal-links { padding:0; }
+.site-legal-links a:hover { text-decoration:underline; }
