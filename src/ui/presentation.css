@@ -8,7 +8,6 @@ html[data-presentation] #sidebar { --lh-ink:var(--ink); --lh-muted:var(--muted);
 html[data-presentation] #sidebar>.sidebar-expand-content { background:none; border-color:var(--line); }
 html[data-presentation] #sidebar :is(h1,p,a,summary,button) { color:var(--ink)!important; text-shadow:none; }
 html[data-presentation] #sidebar :is(p,.sidebar-secondary,.sidebar-socials,.presentation-options) { color:var(--muted)!important; }
-html[data-presentation] #sidebar > nav { padding:30px 20px; scrollbar-color:var(--line) transparent; }
 html[data-presentation] #sidebar a[data-section] { font:500 13px/1.5 Arial,sans-serif; letter-spacing:.01em; text-transform:none; padding:10px 10px; border:0; background:transparent; }
 html[data-presentation] #sidebar a[data-section].font-bold { font-weight:600; background:var(--surface); }
 html[data-presentation] #sidebar a[data-section]:hover { background:var(--surface); color:var(--ink)!important; }
@@ -28,7 +27,6 @@ html[data-presentation] #sidebar .chronology-link { display:block; color:var(--m
 #sidebar .sidebar-socials { display:flex; gap:18px; font:11px/1.5 Arial,sans-serif; margin-bottom:18px; }
 .presentation-options { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font:10px/1.5 Arial,sans-serif; margin-bottom:22px; }
 .presentation-options>span { flex-basis:100%; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
-.presentation-options button { padding:2px 0 4px; border-bottom:1px solid transparent; }
 .presentation-options button[aria-pressed=true] { border-color:var(--ink); }
 html[data-presentation] :is(a,button,summary):focus-visible { outline:1px solid var(--ink); outline-offset:3px; }
 @media(min-width:768px) {
@@ -196,7 +194,7 @@ html[data-presentation] #modal-overlay #raw-html-container :is(span,button,pre) 
 }
 
 /* Navigation owns the available height; utility links stay quiet and compact. */
-html[data-presentation] #sidebar > nav { min-height:0; display:flex; flex-direction:column; padding:16px 20px; }
+html[data-presentation] #sidebar > nav { min-height:0; display:flex; flex-direction:column; padding:16px 20px; scrollbar-color:var(--line) transparent; }
 html[data-presentation] #sidebar #top-nav-section { flex:1 0 auto; min-height:min-content; }
 html[data-presentation] #sidebar #top-nav-section>a { flex-shrink:0; padding-block:8px; margin-block:0; }
 html[data-presentation] #sidebar .all-works-nav { flex:0 0 auto; min-height:44px; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; padding:0; margin:8px 0; }
@@ -215,7 +213,7 @@ html[data-presentation] #sidebar .presentation-options { margin:0; gap:2px; flex
 .theme-swatch-paper { background:#f2f0eb; }
 .theme-swatch-black { background:#1c1c1b; }
 .presentation-options button[aria-pressed=true] .theme-swatch { outline:1px solid var(--muted); outline-offset:3px; }
-html[data-presentation] #sidebar nav.site-legal-links { margin:2px 0 8px; gap:14px; font-size:10px; }
+html[data-presentation] #sidebar nav.site-legal-links { padding:0; margin:2px 0 8px; gap:14px; font-size:10px; }
 @media(max-height:620px) {
  html[data-presentation] #sidebar .all-works-nav[open] { flex-basis:180px; }
  html[data-presentation] #sidebar>a.sidebar-expand-content { padding-block:16px; }
@@ -395,5 +393,4 @@ html[data-presentation] #modal-overlay :is(button,select,a):focus-visible { text
 }
 
 .site-legal-links { display:flex; flex-wrap:wrap; gap:16px; margin:0 0 16px; font:11px/1.5 Arial,sans-serif; }
-html[data-presentation] #sidebar nav.site-legal-links { padding:0; }
 .site-legal-links a:hover { text-decoration:underline; }
