@@ -1,6 +1,10 @@
 // Loading feedback follows the active media request, including reloads.
 export function createArtworkLoadingIndicator(panel) {
     if (!panel) return { start() {}, watch() {}, clear() {} };
+    // Older prerendered pages can contain a frozen indicator with no listeners.
+    // Only this runtime instance should own loading feedback.
+    panel.querySelectorAll('.artwork-loading').forEach(element => element.remove());
+    panel.removeAttribute('aria-busy');
     const status = document.createElement('div');
     status.className = 'artwork-loading';
     status.hidden = true;
