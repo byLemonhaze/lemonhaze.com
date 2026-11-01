@@ -78,6 +78,10 @@ try {
     link.href=entry.collectionPath;link.innerHTML=close.innerHTML;close.replaceWith(link);
    }
    clone.querySelector('#loading-indicator')?.classList.add('hidden');
+   // Loading/error feedback belongs to the browser's current media request,
+   // never to the static snapshot (where live artwork requests are stubbed).
+   clone.querySelectorAll('.artwork-loading').forEach(el=>el.remove());
+   clone.querySelector('.modal-media-panel')?.removeAttribute('aria-busy');
    clone.querySelectorAll('.exchange-rate').forEach(el=>{el.textContent='';el.removeAttribute('title');});
    clone.querySelectorAll('script[src*="/press-engine"],script[data-build-only]').forEach(el=>el.remove());
    // Keep each page metadata exactly aligned with the recorded route.
