@@ -142,7 +142,15 @@ export function createHomeCarousel({ appState, selection, chronologyByYear, toCo
     stage.addEventListener('dragstart', event => event.preventDefault());
     root.addEventListener('keydown', event => { if (event.target.matches('button')) return; if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); } });
     return {
-        mount(container) { container.appendChild(root); sizeLivePosters(); stageObserver.observe(stage); update(); play(); },
+        mount(container) {
+            // Establish the active slide before layout: otherwise measuring the stage
+            // commits opacity: 0 and fades out the already-visible prerendered artwork.
+            update();
+            container.appendChild(root);
+            sizeLivePosters();
+            stageObserver.observe(stage);
+            play();
+        },
         cleanup() { stop(); stageObserver.disconnect(); document.removeEventListener('visibilitychange', onVisibilityChange); slides.forEach(slide => slide.querySelector('iframe')?.removeAttribute('src')); window.removeEventListener('pointerup', onPointerUp); root.remove(); },
     };
 }
