@@ -2,7 +2,7 @@ import { ARTWORKS } from '../../shared/shop-artworks.js';
 
 // One editorial sequence shared by the homepage and Selected Work.
 export const SELECTED_WORK_IDS = [
-    'shop-print6', // Symbiosis — 01
+    'shop-print6', // Impossible Folds — 01
     'c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0', // Hózhó
     'b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0', // Chanchanok's Temple
     '4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0', // Porcelain Sunset
@@ -14,7 +14,7 @@ export const SELECTED_WORK_IDS = [
 export const CAROUSEL_WORK_IDS = SELECTED_WORK_IDS;
 const printPreviews = ARTWORKS.map(work => ({
     id: `shop-${work.id}`, name: work.title, grid_preview: work.preview,
-    href: '/shop', palette: work.series, caption: 'Symbiosis · Print selection',
+    href: '/shop', palette: work.series, caption: 'Impossible Folds · Print selection',
 }));
 export function selectedWorks(artworks, ids = SELECTED_WORK_IDS) {
     const byId = new Map([...artworks, ...printPreviews].map(work => [work.id, work]));

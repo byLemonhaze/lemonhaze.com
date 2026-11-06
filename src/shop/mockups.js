@@ -1,166 +1,261 @@
-// Artist-supplied scenes matched by composition seed, independent of display numbering.
+// Illustrative scenes matched by composition seed, independent of display numbering.
 export const mockups = {
-  textile3: [{file: "textiles/framed/textile3-framed.webp", label: "Framed view"}],
-  textile5: [{file: "textiles/framed/textile5-framed.webp", label: "Framed view"}],
-  textile4: [{file: "textiles/framed/textile4-framed.webp", label: "Framed view"}],
-  textile6: [{file: "textiles/framed/textile6-framed.webp", label: "Framed view"}],
-  textile7: [{file: "textiles/framed/textile7-framed.webp", label: "Framed view"}],
-  textile8: [{file: "textiles/framed/textile8-framed.webp", label: "Framed view"}],
-  textile1: [{file: "textiles/framed/textile1-framed.webp", label: "Framed view"}],
-  textile2: [{file: "textiles/framed/textile2-framed.webp", label: "Framed view"}],
-  textile9: [{file: "textiles/framed/textile9-framed.webp", label: "Framed view"}],
-
+  "textile3": [
+    {
+      "file": "textiles/framed/textile3-framed.webp",
+      "label": "Framed view"
+    }
+  ],
+  "textile5": [
+    {
+      "file": "textiles/framed/textile5-framed.webp",
+      "label": "Framed view"
+    }
+  ],
+  "textile4": [
+    {
+      "file": "textiles/framed/textile4-framed.webp",
+      "label": "Framed view"
+    }
+  ],
+  "textile6": [
+    {
+      "file": "textiles/framed/textile6-framed.webp",
+      "label": "Framed view"
+    }
+  ],
+  "textile7": [
+    {
+      "file": "textiles/framed/textile7-framed.webp",
+      "label": "Framed view"
+    }
+  ],
+  "textile8": [
+    {
+      "file": "textiles/framed/textile8-framed.webp",
+      "label": "Framed view"
+    }
+  ],
+  "textile1": [
+    {
+      "file": "textiles/framed/textile1-framed.webp",
+      "label": "Framed view"
+    }
+  ],
+  "textile2": [
+    {
+      "file": "textiles/framed/textile2-framed.webp",
+      "label": "Framed view"
+    }
+  ],
+  "textile9": [
+    {
+      "file": "textiles/framed/textile9-framed.webp",
+      "label": "Framed view"
+    }
+  ],
   "print10": [
     {
-      "file": "2026-10-29-scenes/artwork-01-breakfast-alcove.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-07-breakfast-alcove.webp",
       "label": "Breakfast Alcove",
       "seed": "LH-1VQ1RR1·053"
     },
     {
-      "file": "2026-10-29-scenes/artwork-01-repair-workshop.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-07-repair-workshop.webp",
       "label": "Repair Workshop",
       "seed": "LH-1VQ1RR1·053"
     },
     {
-      "file": "2026-10-29-scenes/artwork-01-linen-bedroom-white-mat.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-07-linen-bedroom.webp",
       "label": "Linen Bedroom",
       "seed": "LH-1VQ1RR1·053"
     }
   ],
   "print11": [
     {
-      "file": "2026-10-29-scenes/artwork-02-listening-nook.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-08-listening-nook.webp",
       "label": "Listening Nook",
       "seed": "LH-17KHJL1·004·055·031·007·018·019·027·056·036·041"
     },
     {
-      "file": "2026-10-29-scenes/artwork-02-greenhouse-potting-room.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-08-greenhouse-potting-room.webp",
       "label": "Greenhouse Potting Room",
       "seed": "LH-17KHJL1·004·055·031·007·018·019·027·056·036·041"
     },
     {
-      "file": "2026-10-29-scenes/artwork-02-laundry-landing-white-mat.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-08-laundry-landing.webp",
       "label": "Laundry Landing",
       "seed": "LH-17KHJL1·004·055·031·007·018·019·027·056·036·041"
     }
   ],
   "print12": [
     {
-      "file": "2026-10-29-scenes/artwork-03-tailor-studio.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-09-tailor-studio.webp",
       "label": "Tailor Studio",
       "seed": "LH-1X8U0B3·053·001·035"
     },
     {
-      "file": "2026-10-29-scenes/artwork-03-stair-half-landing.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-09-stair-half-landing.webp",
       "label": "Stair Half Landing",
       "seed": "LH-1X8U0B3·053·001·035"
     },
     {
-      "file": "2026-10-29-scenes/artwork-03-covered-courtyard-white-mat.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-09-covered-courtyard.webp",
       "label": "Covered Courtyard",
       "seed": "LH-1X8U0B3·053·001·035"
     }
   ],
   "print6": [
     {
-      "file": "2026-10-29-scenes/artwork-04-kitchen-shelf.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-01-kitchen-shelf.webp",
       "label": "Kitchen Shelf",
       "seed": "LH-1F86FSR·009"
     },
     {
-      "file": "2026-10-29-scenes/artwork-04-architect-desk.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-01-architect-desk.webp",
       "label": "Architect Desk",
       "seed": "LH-1F86FSR·009"
     },
     {
-      "file": "2026-10-29-scenes/artwork-04-music-practice-room-white-mat.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-01-music-practice-room.webp",
       "label": "Music Practice Room",
       "seed": "LH-1F86FSR·009"
     }
   ],
   "print5": [
     {
-      "file": "2026-10-29-scenes/artwork-05-entryway-radiator.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-02-entryway-radiator.webp",
       "label": "Entryway Radiator",
       "seed": "LH-1F86FSR·009·007·008·066·012·050·011"
     },
     {
-      "file": "2026-10-29-scenes/artwork-05-bookshop-counter.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-02-bookshop-counter.webp",
       "label": "Bookshop Counter",
       "seed": "LH-1F86FSR·009·007·008·066·012·050·011"
     },
     {
-      "file": "2026-10-29-scenes/artwork-05-attic-window-white-mat.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-02-attic-window.webp",
       "label": "Attic Window",
       "seed": "LH-1F86FSR·009·007·008·066·012·050·011"
     }
   ],
   "print4": [
     {
-      "file": "2026-10-29-scenes/artwork-06-ceramics-studio.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-03-ceramics-studio.webp",
       "label": "Ceramics Studio",
       "seed": "LH-1F86FSR·009·007·008·066·012·050·011·002·013·078"
     },
     {
-      "file": "2026-10-29-scenes/artwork-06-bathroom-dry-wall.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-03-bathroom-dry-wall.webp",
       "label": "Bathroom Dry Wall",
       "seed": "LH-1F86FSR·009·007·008·066·012·050·011·002·013·078"
     },
     {
-      "file": "2026-10-29-scenes/artwork-06-cabin-bunk-white-mat.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-03-cabin-bunk.webp",
       "label": "Cabin Bunk",
       "seed": "LH-1F86FSR·009·007·008·066·012·050·011·002·013·078"
     }
   ],
   "print3": [
     {
-      "file": "2026-10-29-scenes/artwork-07-dining-banquette.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-04-dining-banquette.webp",
       "label": "Dining Banquette",
       "seed": "LH-17OTGFE·072·045·060·021·062·074·028·039"
     },
     {
-      "file": "2026-10-29-scenes/artwork-07-photography-darkroom-entry.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-04-photography-darkroom-entry.webp",
       "label": "Photography Darkroom Entry",
       "seed": "LH-17OTGFE·072·045·060·021·062·074·028·039"
     },
     {
-      "file": "2026-10-29-scenes/artwork-07-sunroom-cane-chair-white-mat.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-04-sunroom-cane-chair.webp",
       "label": "Sunroom Cane Chair",
       "seed": "LH-17OTGFE·072·045·060·021·062·074·028·039"
     }
   ],
   "print2": [
     {
-      "file": "2026-10-29-scenes/artwork-08-small-office.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-05-small-office.webp",
       "label": "Small Office",
       "seed": "LH-CFRGBK·033·019·012·025·066·023·008"
     },
     {
-      "file": "2026-10-29-scenes/artwork-08-bakery-back-room.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-05-bakery-back-room.webp",
       "label": "Bakery Back Room",
       "seed": "LH-CFRGBK·033·019·012·025·066·023·008"
     },
     {
-      "file": "2026-10-29-scenes/artwork-08-window-seat-white-mat.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-05-window-seat.webp",
       "label": "Window Seat",
       "seed": "LH-CFRGBK·033·019·012·025·066·023·008"
     }
   ],
   "print1": [
     {
-      "file": "2026-10-29-scenes/artwork-09-recording-booth-corner.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-06-recording-booth-corner.webp",
       "label": "Recording Booth Corner",
       "seed": "LH-CPMWMS·026·001·024·036"
     },
     {
-      "file": "2026-10-29-scenes/artwork-09-utility-mudroom.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-06-utility-mudroom.webp",
       "label": "Utility Mudroom",
       "seed": "LH-CPMWMS·026·001·024·036"
     },
     {
-      "file": "2026-10-29-scenes/artwork-09-chess-corner-white-mat.jpg",
+      "file": "impossible-folds-scenes/impossible-folds-06-chess-corner.webp",
       "label": "Chess Corner",
       "seed": "LH-CPMWMS·026·001·024·036"
+    }
+  ],
+  "print13": [
+    {
+      "file": "impossible-folds-scenes/impossible-folds-10-reading-desk.webp",
+      "label": "Reading Desk",
+      "seed": "LH-XXK7X4·038·014·044·013·089·014·075·033·011·012·084·008·073·029·013·088·090·05·061"
+    },
+    {
+      "file": "impossible-folds-scenes/impossible-folds-10-library.webp",
+      "label": "Library",
+      "seed": "LH-XXK7X4·038·014·044·013·089·014·075·033·011·012·084·008·073·029·013·088·090·05·061"
+    },
+    {
+      "file": "impossible-folds-scenes/impossible-folds-10-entryway.webp",
+      "label": "Entryway",
+      "seed": "LH-XXK7X4·038·014·044·013·089·014·075·033·011·012·084·008·073·029·013·088·090·05·061"
+    }
+  ],
+  "print14": [
+    {
+      "file": "impossible-folds-scenes/impossible-folds-11-ceramics-studio.webp",
+      "label": "Ceramics Studio",
+      "seed": "LH-1DLP0UP·031·058"
+    },
+    {
+      "file": "impossible-folds-scenes/impossible-folds-11-listening-room.webp",
+      "label": "Listening Room",
+      "seed": "LH-1DLP0UP·031·058"
+    },
+    {
+      "file": "impossible-folds-scenes/impossible-folds-11-breakfast-corner.webp",
+      "label": "Breakfast Corner",
+      "seed": "LH-1DLP0UP·031·058"
+    }
+  ],
+  "print15": [
+    {
+      "file": "impossible-folds-scenes/impossible-folds-12-stair-landing.webp",
+      "label": "Stair Landing",
+      "seed": "LH-XXK7X4-038-014-044-013-089-014-075-033-011-012-084-008-073-029-013-088-090-05-061"
+    },
+    {
+      "file": "impossible-folds-scenes/impossible-folds-12-bedroom.webp",
+      "label": "Bedroom",
+      "seed": "LH-XXK7X4-038-014-044-013-089-014-075-033-011-012-084-008-073-029-013-088-090-05-061"
+    },
+    {
+      "file": "impossible-folds-scenes/impossible-folds-12-reading-nook.webp",
+      "label": "Reading Nook",
+      "seed": "LH-XXK7X4-038-014-044-013-089-014-075-033-011-012-084-008-073-029-013-088-090-05-061"
     }
   ]
 };

@@ -1,120 +1,159 @@
-// Artist-supplied curated selection, 2026-10-29. IDs remain attached to compositions, not display order.
+// Curated selection with Impossible Folds 3 exports, 2026-11-05. IDs stay attached to compositions.
 export const ARTWORKS = [
   {
     "id": "print6",
     "number": "01",
-    "title": "Symbiosis — 01",
+    "title": "Impossible Folds — 01",
     "series": "Gentleman 5",
     "seed": "LH-1F86FSR·009",
     "attribution": "by lemonhaze",
     "dated": "2026-10-25 · 11:27:15 UTC−04:00",
     "location": "Griffintown, Montreal, Quebec, Canada",
     "description": "A constellation of folded surfaces, stepped mosaics and threads, held in a delicate vertical balance.",
-    "preview": "/shop/2026-10-29-curated/print4-preview.jpg",
-    "original": "/shop/2026-10-29-curated/print4.png"
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-01.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-01.png"
   },
   {
     "id": "print5",
     "number": "02",
-    "title": "Symbiosis — 02",
+    "title": "Impossible Folds — 02",
     "series": "Gentleman 5",
     "seed": "LH-1F86FSR·009·007·008·066·012·050·011",
     "attribution": "by lemonhaze",
     "dated": "2026-10-25 · 11:29:00 UTC−04:00",
     "location": "Griffintown, Montreal, Quebec, Canada",
     "description": "An upright band of colour anchors a quieter composition of sweeping curves and rounded inlays.",
-    "preview": "/shop/2026-10-29-curated/print5-preview.jpg",
-    "original": "/shop/2026-10-29-curated/print5.png"
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-02.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-02.png"
   },
   {
     "id": "print4",
     "number": "03",
-    "title": "Symbiosis — 03",
+    "title": "Impossible Folds — 03",
     "series": "Gentleman 5",
     "seed": "LH-1F86FSR·009·007·008·066·012·050·011·002·013·078",
     "attribution": "by lemonhaze",
     "dated": "2026-10-25 · 11:30:54 UTC−04:00",
     "location": "Griffintown, Montreal, Quebec, Canada",
     "description": "Electric green, blue and magenta trace a canopy of tiles and the slender ribbons beneath it.",
-    "preview": "/shop/2026-10-29-curated/print6-preview.jpg",
-    "original": "/shop/2026-10-29-curated/print6.png"
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-03.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-03.png"
   },
   {
     "id": "print3",
     "number": "04",
-    "title": "Symbiosis — 04",
+    "title": "Impossible Folds — 04",
     "series": "Gentleman 15",
     "seed": "LH-17OTGFE·072·045·060·021·062·074·028·039",
     "attribution": "by lemonhaze",
     "dated": "2026-10-25 · 22:46:24 UTC−04:00",
     "location": "Griffintown, Montreal, Quebec, Canada",
     "description": "Glyph-like fragments and checkerboard textures connect across a long, unfolding silhouette.",
-    "preview": "/shop/2026-10-29-curated/print7-preview.jpg",
-    "original": "/shop/2026-10-29-curated/print7.png"
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-04.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-04.png"
   },
   {
     "id": "print2",
     "number": "05",
-    "title": "Symbiosis — 05",
+    "title": "Impossible Folds — 05",
     "series": "Gentleman 15",
     "seed": "LH-CFRGBK·033·019·012·025·066·023·008",
     "attribution": "by lemonhaze",
     "dated": "2026-10-25 · 22:50:45 UTC−04:00",
     "location": "Griffintown, Montreal, Quebec, Canada",
     "description": "A single folded ribbon. Red, blue, green and yellow bands follow the curve of a woven surface.",
-    "preview": "/shop/2026-10-29-curated/print8-preview.jpg",
-    "original": "/shop/2026-10-29-curated/print8.png"
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-05.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-05.png"
   },
   {
     "id": "print1",
     "number": "06",
-    "title": "Symbiosis — 06",
+    "title": "Impossible Folds — 06",
     "series": "Gentleman 15",
     "seed": "LH-CPMWMS·026·001·024·036",
     "attribution": "by lemonhaze",
     "dated": "2026-10-25 · 23:38:39 UTC−04:00",
     "location": "Griffintown, Montreal, Quebec, Canada",
     "description": "An assembly of woven surfaces: inlaid blocks, twill tiles and worn bands suspended in a single open form.",
-    "preview": "/shop/2026-10-29-curated/print9-preview.jpg",
-    "original": "/shop/2026-10-29-curated/print9.png"
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-06.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-06.png"
   },
   {
     "id": "print10",
     "number": "07",
-    "title": "Symbiosis — 07",
+    "title": "Impossible Folds — 07",
     "series": "Bauhaus Afterparty",
     "seed": "LH-1VQ1RR1·053",
     "attribution": "by lemonhaze",
     "dated": "2026-10-26 · 21:49:33 UTC−04:00",
     "location": "Griffintown, Montreal, Quebec, Canada",
     "description": "Primary colours and teal wind through separated fans, woven bands and suspended geometric fragments.",
-    "preview": "/shop/2026-10-29-curated/print1-preview.jpg",
-    "original": "/shop/2026-10-29-curated/print1.png"
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-07.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-07.png"
   },
   {
     "id": "print11",
     "number": "08",
-    "title": "Symbiosis — 08",
+    "title": "Impossible Folds — 08",
     "series": "Bauhaus Afterparty",
     "seed": "LH-17KHJL1·004·055·031·007·018·019·027·056·036·041",
     "attribution": "by lemonhaze",
     "dated": "2026-10-26 · 20:38:10 UTC−04:00",
     "location": "Griffintown, Montreal, Quebec, Canada",
     "description": "A broad segmented fan unfolds above a slender ribbon of red, blue, yellow and black.",
-    "preview": "/shop/2026-10-29-curated/print2-preview.jpg",
-    "original": "/shop/2026-10-29-curated/print2.png"
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-08.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-08.png"
   },
   {
     "id": "print12",
     "number": "09",
-    "title": "Symbiosis — 09",
+    "title": "Impossible Folds — 09",
     "series": "Bauhaus Afterparty",
     "seed": "LH-1X8U0B3·053·001·035",
     "attribution": "by lemonhaze",
     "dated": "2026-10-26 · 22:21:29 UTC−04:00",
     "location": "Griffintown, Montreal, Quebec, Canada",
     "description": "A sweeping checkerboard form meets striped branches and small glyph-like fragments in primary colours.",
-    "preview": "/shop/2026-10-29-curated/print3-preview.jpg",
-    "original": "/shop/2026-10-29-curated/print3.png"
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-09.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-09.png"
+  },
+  {
+    "id": "print13",
+    "number": "10",
+    "title": "Impossible Folds — 10",
+    "series": "Balance",
+    "seed": "LH-XXK7X4·038·014·044·013·089·014·075·033·011·012·084·008·073·029·013·088·090·05·061",
+    "attribution": "by lemonhaze",
+    "dated": "2026-11-04 · 21:27:31 UTC−05:00",
+    "location": "Griffintown, Montreal, Quebec, Canada",
+    "description": "Folded monochrome surfaces, glyphs and woven bands unfold in a vertical composition.",
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-10.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-10.png"
+  },
+  {
+    "id": "print14",
+    "number": "11",
+    "title": "Impossible Folds — 11",
+    "series": "Balance",
+    "seed": "LH-1DLP0UP·031·058",
+    "attribution": "by lemonhaze",
+    "dated": "2026-11-04 · 21:30:45 UTC−05:00",
+    "location": "Griffintown, Montreal, Quebec, Canada",
+    "description": "An upright basket-relief form, built from alternating dark and ivory woven panels.",
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-11.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-11.png"
+  },
+  {
+    "id": "print15",
+    "number": "12",
+    "title": "Impossible Folds — 12",
+    "series": "Balance",
+    "seed": "LH-XXK7X4-038-014-044-013-089-014-075-033-011-012-084-008-073-029-013-088-090-05-061",
+    "attribution": "by lemonhaze",
+    "dated": "2026-11-04 · 21:40:25 UTC−05:00",
+    "location": "Griffintown, Montreal, Quebec, Canada",
+    "description": "Curved monochrome marquetry opens into a branching arrangement of striped surfaces.",
+    "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-12.webp",
+    "original": "/shop/impossible-folds-2026-11-04/impossible-folds-12.png"
   }
 ];
