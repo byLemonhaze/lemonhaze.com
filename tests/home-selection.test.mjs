@@ -22,13 +22,13 @@ test('missing selected records are skipped without introducing random archive wo
     assert.deepEqual(selection.map(work => work.id), CAROUSEL_WORK_IDS.filter((_, index) => index !== 1));
 });
 
-test('homepage and Selected Work share eight works with Symbiosis 01 first and Hózhó second', () => {
+test('homepage and Selected Work share eight works with Impossible Folds 01 first and Hózhó second', () => {
     const landing = buildHomeSelection({ artworks });
-    assert.equal(landing[0].name, 'Symbiosis — 01');
+    assert.equal(landing[0].name, 'Impossible Folds — 01');
     assert.equal(landing[1].name, 'Hózhó');
     assert.equal(landing[0].href, '/shop');
     assert.ok(landing[0].grid_preview.startsWith('/shop/'));
-    assert.ok(!landing.some(work => ['Symbiosis — 04', 'Symbiosis — 08', 'Ganser', 'Rue Cuvillier', 'BEST BEFORE Nº402'].includes(work.name)));
+    assert.ok(!landing.some(work => ['Impossible Folds — 04', 'Impossible Folds — 08', 'Ganser', 'Rue Cuvillier', 'BEST BEFORE Nº402'].includes(work.name)));
     assert.deepEqual(selectedWorks(artworks), landing);
 });
 

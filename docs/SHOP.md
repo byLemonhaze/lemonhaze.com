@@ -1,10 +1,10 @@
 # Print Shop
 
-The `/shop` route presents signed Symbiosis prints and physical marker-on-textile works in separate sections. The first public release is a browsing-only catalogue: **Price on request**, disabled **Coming Soon** buttons, and no new checkout sessions.
+The `/shop` route presents signed Impossible Folds prints and physical marker-on-textile works in separate sections. The first public release is a browsing-only catalogue: **Price on request**, disabled **Coming Soon** buttons, and no new checkout sessions.
 
 ## Catalogue
 
-- Nine signed paper prints, USD 500 including tax and shipping, limited to three per artwork. Certificate included; on-chain offers unavailable.
+- Twelve signed paper prints, USD 500 including tax and shipping, limited to three per artwork. Certificate included; on-chain offers unavailable.
 - Nine textile works, USD 800 each plus applicable tax, one available per work, with certificate. Dimensions are width × height in centimetres; the group dates to 2023–2025.
 - Prints: unframed, approximately 13 × 23.11 inches / 33.02 × 58.70 cm, 9:16, Palo Duro Etching 315 gsm cotton rag. Proof the supplied 2250 × 4000 originals at the intended size before fulfilment.
 - Preparation and dispatch within five business days, Monday–Friday. Textile shipping: Canada free, USA USD 15, other supported destinations USD 30. Mixed baskets use textile shipping. These are fixed rates, not carrier quotes.
@@ -47,7 +47,7 @@ Before accepting orders:
 8. Confirm support mailbox send/receive delivery, policies, packaging and print proof. Packaging must accommodate the full print plus protective backing.
 9. Live credentials may be installed privately while the storefront stays closed. Only on explicit launch instruction set `SHOP_MODE=live`, `SHOP_LIVE_ENABLED=true`, `SHOP_POLICIES_CONFIRMED=true`, enable both storefront controls, rebuild and deploy. Do not execute paid purchases automatically.
 
-On 2026-10-31 the live webhook endpoint was registered for the four Checkout events above and its signing secret installed privately in Pages. The merchant subsequently installed `STRIPE_SECRET_KEY` privately. Sandbox payment and expiry have now passed. Pages and the ten-minute maintenance worker were deployed, migration 0006 was applied, and the private authenticated maintenance endpoint and monitoring snapshot were verified. An hourly Codex heartbeat monitor is active; its local availability dependency is described below. Tax registration, production permission checks, mailbox and receipt delivery still require verification. The public shop stays closed. See `docs/SHOP-AUDIT.md` for the report resolution and remaining operational work.
+On 2026-10-31 the live webhook endpoint was registered for the four Checkout events above and its signing secret installed privately in Pages. The merchant subsequently installed `STRIPE_SECRET_KEY` privately. Sandbox payment and expiry have now passed. Pages and the ten-minute maintenance worker were deployed, migration 0006 was applied, and the private authenticated maintenance endpoint and monitoring snapshot were verified. The optional hourly Codex monitor was canceled at the merchant’s request; cloud reconciliation runs independently. Tax registration, production permission checks, mailbox and receipt delivery still require verification. The public shop stays closed. See `docs/SHOP-AUDIT.md` for the report resolution and remaining operational work.
 
 ## Security and personal data
 
@@ -91,8 +91,12 @@ The content lab requires a private password of at least 32 characters, HMAC veri
 
 The maintenance worker runs every ten minutes, including while sales are closed. Its authenticated endpoint checks up to ten outstanding sessions per run against Stripe, retains uncertain inventory, retries a configured review-alert receiver, and records a private `shop_monitor` heartbeat. A database lease prevents overlapping invocations. Failed calls and stale heartbeats require investigation. Review flags remain latched until a human resolves them.
 
-`node scripts/shop-monitor.mjs` reads a minimal production snapshot through authenticated Cloudflare access: paid/review order references, unresolved count and heartbeat only. It never fetches customer names, addresses, emails or card data. The Codex hourly follow-up checks for newly paid orders, new review cases and a failed/stale heartbeat (30-minute threshold). It relies on the local Codex application, computer availability and Cloudflare login; it is not an always-on email delivery service. The cloud reconciliation job runs independently.
+`node scripts/shop-monitor.mjs` reads a minimal production snapshot through authenticated Cloudflare access: paid/review order references, unresolved count and heartbeat only. It never fetches customer names, addresses, emails or card data. This script is available for manual checks; the hourly Codex follow-up was canceled at the merchant’s request. Manual checks depend on computer availability and Cloudflare login; this is not an always-on email delivery service. The cloud reconciliation job runs independently.
 
 For a new paid order, open Stripe privately, locate its `shop_order_id`, confirm payment and review status, then prepare the correct edition and certificate. Delivery information stays in Stripe. Record fulfilment and tracking through the chosen private workflow; this monitor does not buy labels, send shipping emails or mark orders shipped. Never fulfil a review-required order until resolved.
 
 Display hardening follow-up: IPv6 reservation limits use a /64 network bucket before HMAC hashing. See `SHOP-AUDIT.md` for local report fixes and remaining retained-history cleanup.
+
+## November 4 curated exports
+
+The twelve print compositions use exports from the Desktop Impossible Folds 3 engine in `public/shop/impossible-folds-2026-11-04/`: 2250 × 4000 PNG originals and 900 × 1600 WebP display previews. Display numbers 10–12 use stable IDs print13–print15, avoiding withdrawn IDs. All twelve have three newly generated illustrative room scenes in `public/shop/impossible-folds-scenes/`, portrait 3:4 (1086 × 1448). Frames are not included. Migration 0007 adds three-copy inventory for the new compositions in test and live modes; apply before opening their checkout. This local update does not enable purchasing or publish prices.

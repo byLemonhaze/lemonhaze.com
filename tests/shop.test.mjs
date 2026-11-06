@@ -6,7 +6,7 @@ test('stored baskets reject unknown products and invalid quantities', () => {
  for (const value of [null, [], 'bad']) assert.deepEqual(normalizeCart(value), {});
 });
 test('totals come from catalogue prices and include quantities', () => {
- assert.equal(PRODUCTS.length, 18);
+ assert.equal(PRODUCTS.length, 21);
  const summary = cartSummary({ 'print1:signed': 2, 'print6:signed': 1, bogus: 10 });
  assert.equal(summary.count, 3);
  assert.equal(summary.subtotal, 150000);
@@ -32,7 +32,7 @@ test('withdrawn unsigned baskets are discarded without upgrading the price', () 
  assert.deepEqual(summary.items.map(p => [p.offerId,p.priceCents]), [['signed',50000]]);
  assert.throws(()=>prepareCheckout({'print1:normal':1,print2:1},'stripe'),/empty/);
 });
-test('all nine print on-chain offers are unavailable even in a tampered stored basket', () => {
+test('all twelve print on-chain offers are unavailable even in a tampered stored basket', () => {
  assert.equal(OFFERS.find(o=>o.id==='onchain').available,false);
  for (const p of PRODUCTS) {
   assert.deepEqual(normalizeCart({[`${p.id}:onchain`]:1}),{});
@@ -47,7 +47,7 @@ test('legacy unsigned selections are removed and signed quantities remain capped
 });
 
 test('withdrawn prints are removed from legacy and variant baskets', () => {
- assert.deepEqual(PRODUCTS.map(p=>p.id), ['print6','print5','print4','print3','print2','print1','print10','print11','print12','textile1','textile2','textile3','textile4','textile5','textile6','textile7','textile8','textile9']);
+ assert.deepEqual(PRODUCTS.map(p=>p.id), ['print6','print5','print4','print3','print2','print1','print10','print11','print12','print13','print14','print15','textile1','textile2','textile3','textile4','textile5','textile6','textile7','textile8','textile9']);
  assert.deepEqual(normalizeCart({print7:1, 'print8:normal':2, 'print9:signed':1, 'print6:signed':1}), {'print6:signed':1});
 });
 test('signed editions are limited to three per artwork with unsigned prints unavailable', () => {
@@ -85,7 +85,7 @@ test('every curated print has three bundled scenes matched to its composition',a
  const {mockups}=await import('../src/shop/mockups.js');
  const {existsSync}=await import('node:fs');
  const prints=PRODUCTS.filter(p=>p.type==='print');
- assert.equal(Object.keys(mockups).length,18);
+ assert.equal(Object.keys(mockups).length,21);
  for(const p of prints){
   assert.equal(mockups[p.id].length,3,p.id);
   for(const scene of mockups[p.id]){

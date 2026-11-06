@@ -8,7 +8,7 @@ export const SHOP = Object.freeze({
 });
 export const OFFERS = Object.freeze([
   { id: 'signed', name: 'Signed + Certificate', priceCents: 50000, available: true, editionLimit: 3, description: 'Limited edition of 3 per artwork. A signed physical print, accompanied by a certificate of authenticity. Taxes and shipping included.' },
-  { id: 'onchain', name: 'On-chain', priceCents: null, available: false, description: 'Unavailable for all nine prints.' },
+  { id: 'onchain', name: 'On-chain', priceCents: null, available: false, description: 'Unavailable for all twelve prints.' },
 ]);
 const TEXTILE_OFFERS = Object.freeze([
   {id: 'signed', name: 'Textile + Certificate', priceCents: 80000, available: true, stockLimit: 1, description: 'The physical textile artwork shown, accompanied by a certificate of authenticity. One available.'},
