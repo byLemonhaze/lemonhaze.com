@@ -1,0 +1,24 @@
+#view-switch{position:fixed;z-index:160;top:max(20px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);display:flex;gap:2px;padding:4px;border:1px solid #27292330;background:#f3f2eced;backdrop-filter:blur(18px);border-radius:4px;color:#252722;box-shadow:0 2px 16px #00000003;font:11px/1.2 Arial,sans-serif;letter-spacing:.01em}
+#view-switch a{display:grid;place-items:center;min-height:34px;padding:0 16px;border-radius:2px;text-decoration:none;color:inherit;transition:background .2s,color .2s}
+#view-switch a[aria-current=page]{background:#292d27;color:#f7f7f0}
+#view-switch a:hover:not([aria-current]){background:#2527220c}
+#view-switch a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+html[data-view=website] #view-switch{top:max(10px,env(safe-area-inset-top));}
+html[data-view=website] .carousel-heading{padding-top:42px}
+html[data-view=website] #current-view-title{padding-top:42px}
+html[data-presentation=black] #view-switch{background:#20211eec;color:#e9e9df;border-color:#ffffff30}
+html[data-presentation=black] #view-switch a[aria-current=page]{background:#e8e9e0;color:#21251f}
+html[data-view=explore] body,html[data-view=gallery] body{overflow:hidden}
+html[data-view=explore] body>aside,html[data-view=gallery] body>aside,
+html[data-view=explore] body>#content-area,html[data-view=gallery] body>#content-area{display:none!important}
+.experience-error{position:fixed;z-index:170;bottom:24px;left:50%;transform:translateX(-50%);padding:14px 20px;background:#f0eee7;color:#222;font-size:13px;border:1px solid #aaa}
+@media(max-width:700px){#view-switch{top:max(16px,env(safe-area-inset-top));}#view-switch a{min-height:38px;padding:0 14px}html[data-view=website] #view-switch{top:max(8px,env(safe-area-inset-top));left:auto;right:12px;transform:none}html[data-view=website] #view-switch a{padding:0 10px;font-size:10px}html[data-view=website] .carousel-heading{padding-top:24px}}
+html[data-view=explore] body>main:not(#immersive-experience),html[data-view=gallery] body>main:not(#immersive-experience){display:none!important}
+html[data-presentation] #view-switch a{color:#252722!important}
+html[data-presentation] #view-switch a[aria-current=page]{color:#f7f7f0!important}
+html[data-presentation=black] #view-switch a{color:#e9e9df!important}
+html[data-presentation=black] #view-switch a[aria-current=page]{color:#21251f!important}
+@media(max-width:767px){
+ html[data-view=website] #view-switch{left:50%;right:auto;transform:translateX(-50%)}
+ html[data-view=website] #modal-overlay .artwork-viewer-bar{padding-top:calc(54px + env(safe-area-inset-top,0px));min-height:112px}
+}

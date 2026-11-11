@@ -138,6 +138,12 @@ export function createShop() {
   }
  });
  renderGrid();persist();
+ const immersiveWork=new URLSearchParams(window.location.search).get('work');
+ if(immersiveWork?.startsWith('shop-'))queueMicrotask(()=>{
+  const product=root.querySelector(`[data-product="${CSS.escape(immersiveWork.slice(5))}"]`);
+  product?.closest('.shop-card')?.scrollIntoView({block:'center',behavior:'instant'});
+  product?.focus({preventScroll:true});
+ });
  if(storefrontOpen)checkoutConfig().then(config=>{if(config.available)root.querySelector('.shop-draft').textContent=config.mode==='test'?'Stripe test checkout · No real payment or shipment.':'Physical artworks · Secure card checkout with Stripe.';});
  const returnId=new URLSearchParams(window.location.search).get('order');
  if(returnId&&/^[a-f0-9-]{36}$/.test(returnId))queueMicrotask(()=>orderView({id:returnId,content,show,onBasket:basketView}));

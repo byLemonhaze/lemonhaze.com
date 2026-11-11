@@ -45,6 +45,7 @@ import {
 } from '../renderers/sections/index.js';
 import { renderHomeView } from '../renderers/home.js';
 import { setupSiteOverlay } from '../ui/site-overlay.js';
+import { createViewingModes } from '../immersive/modes.js';
 
 // DOM Elements (fetched on demand or in init)
 let sidebar, collectionsNav, contentArea, galleryGrid, currentViewTitle, currentViewMeta, loadingIndicator, menuToggle;
@@ -154,6 +155,7 @@ const sectionFlow = createSectionFlow({
 let hasStarted = false;
 let sectionReturnState = null;
 let cleanupHomeView = null;
+let viewingModes = null;
 const homeLayoutController = createHomeLayoutController({
     getSidebar: () => sidebar,
     getToggleButton: el.sidebarRailToggle,
@@ -190,6 +192,7 @@ function openSection(sectionKey, options = {}) {
 }
 
 async function applyUrlStateFromLocation(options = {}) {
+    if (viewingModes && await viewingModes.applyLocation(options)) return true;
     return sectionFlow.applyUrlStateFromLocation(options);
 }
 
@@ -231,6 +234,11 @@ async function init() {
     ]);
     appState.artworks = assembleArtworkCatalog(provenanceData, bbLive, featuredCollections);
     rebuildCollectionSlugs();
+
+    viewingModes = createViewingModes({
+        appState, router, destroyHome: destroyHomeView, closeModal,
+        applyWebsite: (options = {}) => sectionFlow.applyUrlStateFromLocation(options),
+    });
 
     const hasDeepLink = await applyUrlStateFromLocation({ replaceHistory: true });
     if (!hasDeepLink) {

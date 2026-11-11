@@ -60,6 +60,16 @@ npm run verify
 npx wrangler pages deploy dist --project-name lemonhaze
 ```
 
+## Immersive review preview
+
+The immersive revamp is reviewed on `feat/immersive-experience` before replacing production. After `npm run verify`, deploy explicitly to a preview branch:
+
+```bash
+npx wrangler pages deploy dist --project-name lemonhaze --branch immersive-review
+```
+
+The Pages project's production branch is `main`. Do not omit `--branch` for this review workflow. See `docs/immersive/VERIFICATION.md` for evidence and the deployed review URL.
+
 ## Caching
 
 `public/_headers` defines the current cache policy:
