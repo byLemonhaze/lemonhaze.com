@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-12 — Miami Paint Engine studio note
+
+Content commit: [`06424d3`](https://github.com/byLemonhaze/lemonhaze.com/commit/06424d3) · [Integration PR #63](https://github.com/byLemonhaze/lemonhaze.com/pull/63).
+
+Added two artist-supplied, uncropped photographs of the Coral print for a Miami hotel project, with the November 4 source post and factual dimensions. The new Studio Note appears near the top of the selected notes and is linked from Paint Engine’s Prints and commissions section. Existing writing and artwork listings remain intact.
+
 ## 2026-11-11 — Immersive site revamp
 
 Released application: [`041ea75`](https://github.com/byLemonhaze/lemonhaze.com/commit/041ea75). [Work report](docs/reports/2026-11-11.md) · [Verification](docs/immersive/VERIFICATION.md).

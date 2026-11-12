@@ -39,3 +39,9 @@ The artist supplied nine framing images on October 1, 2026: four BEST BEFORE stu
 ## Print-signing films
 
 The artist supplied two MP4 signing films on October 1, 2026. The visible titles and artworks identify `WhatsApp Video 2026-10-01 at 16.15.04.mp4` as Chamber of Reflection and `WhatsApp Video 2026-10-01 at 16.17.02.mp4` as Hosoi. They play directly under “At the print table” on Viewing & collecting. The files in `/editorial/films/` preserve the original video and audio streams, with the MP4 index moved to the front for playback. Posters are frames from the supplied films. No autoplay or Instagram embed is used.
+
+## Miami Paint Engine prints — November 2026
+
+The artist supplied the uncropped JPEGs `HWTcNATXkAAzVPP` (1185 × 1580) and `HWTcNA9XkAA3nos` (1332 × 1777), preserved as `miami-coral-print.jpeg` and `miami-coral-detail.jpeg` in `/editorial/archive/`. The November 4 post identifies the Coral palette, 26 × 74-inch format, and eighty-nine works heading to Miami. The hotel context was supplied directly by Lemonhaze; no hotel name or completed installation is asserted.
+
+[Original artist post](https://x.com/Ordinals10K/status/2118059985074803112). Post text/date retrieved through the public FxTwitter mirror after X was unavailable; both photographs were supplied directly by the artist.
