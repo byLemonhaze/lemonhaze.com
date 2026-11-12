@@ -41,7 +41,9 @@ Approved adjustments place Gentleman Nº1 above Impossible Folds 01 with breathi
 | Desktop solo | The existing detail media enlarged in place, preserving aspect and mat |
 | Native pixel art | Unchanged small PNG originals with nearest-neighbor rendering |
 
-`media.js` limits upgrades to two concurrent decodes per active view, checks stale source/selection state, and cancels departed work. A blocked static chain image tries the artist CDN. No full-frame stretching or duplicated low/high layers is intentional. Thumbnails are static; live frames belong to detail, not the rail.
+`media.js` limits upgrades to two concurrent decodes/reveals per active view, checks stale source/selection state, and cancels departed work. A blocked static chain image tries the artist CDN. A decoded still overlay resolves from a mild 1.2px blur and 94% contrast to full clarity in 360ms. It covers the opaque preview early in the animation, so the remaining movement is a focus pull rather than a prolonged dissolve. Fractional CSS dimensions avoid alignment seams; the temporary layer is removed after the original image element can paint the new source. Native pixel originals and reduced motion use a direct decoded swap. The effect applies only to still-to-still upgrades, including posters for live works; HTML/video playback is not blurred or animated by this mechanism. Thumbnails remain static; live frames belong to detail, not the rail.
+
+The live-document bridge scales the artwork's tight wrapper rather than its body or viewport. This avoids a resize feedback loop in works such as Griffintown, which measure their stage every animation frame. Original interactive transforms remain independent of the fitting scale.
 
 `preview-manifest.json` and `public/previews/immersive/` contain lightweight field thumbnails. The 2000 × 1990 overview uses about 636 KiB transfer and 15.9 MB decoded RGBA at the recorded release; it avoids decoding hundreds of individual images at mobile startup. Its geometry fingerprint requires regeneration after relevant layout/preview changes using `node scripts/build_explore_overview.mjs`.
 
@@ -57,7 +59,7 @@ When the full field fits, `field-physics.js` contains it inside the available vi
 
 ## Gallery input and collection chooser
 
-The room stays stationary while nearby artwork mounts travel through circular slots. Buttons, keyboard arrows, wheel and drag wrap at both ends. Pointer dragging follows the hand, locks its axis, and projects a short release tail before a critically damped centre snap. Home/End jump rather than travelling through hundreds of items. Cancelled drags do not open works.
+The room stays stationary while nearby artwork mounts travel through circular slots. Buttons, keyboard arrows, wheel and drag wrap at both ends. Pointer dragging follows the hand, locks its axis, and projects a short release tail before a critically damped centre snap (rate 15). Centre-weighted soft shadows follow the continuous slot distance; collection changes reveal from 94% to full opacity over 220ms, without scaling or moving the room. Reduced motion skips the reveal and settling. Home/End jump rather than travelling through hundreds of items. Finished or cancelled drags suppress delayed clicks until a fresh pointer-down or keyboard activation.
 
 Chooser order: Selected works, Gentlemen, Impossible Folds, Montreal, BEST BEFORE, then other groups newest-first. Provenance and Colors are excluded. This pinning is separate from All Works’ fully chronological order. The native top-layer collection dialog has its own scrolling, visual-viewport sizing and explicit close; opening it does not summon the mobile keyboard automatically.
 

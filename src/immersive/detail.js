@@ -88,7 +88,9 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         const node=document.createElement(isHtml?'iframe':'video');node.className='detail-original';
         if(isHtml){node.title=`${work.name} — original animated artwork`;node.setAttribute('sandbox','allow-scripts allow-same-origin allow-downloads');node.setAttribute('scrolling','no');}
         else {node.controls=true;node.muted=true;node.loop=true;node.playsInline=true;node.autoplay=true;}
-        const ready=()=>{if(node===live){clearTimeout(liveTimeout);media.classList.add('live-ready');node.classList.add('is-ready');}};
+        const ready=()=>{if(node===live&&!node.classList.contains('is-ready')){
+            clearTimeout(liveTimeout);node.classList.add('is-ready');media.classList.add('live-ready');
+        }};
         const fail=()=>{if(node!==live)return;stopLive();};
         node.addEventListener('error',fail,{once:true});
         media.append(node);live=node;
@@ -145,8 +147,8 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         }else{
             poster.style.opacity='1';
         }
-        // Decode offscreen, then replace the poster in one paint. A stale load
-        // cannot overwrite a new selection or a recycled thumbnail.
+        // Decode offscreen, then gently resolve the sharper image into focus.
+        // A stale load cannot overwrite a new selection or recycled thumbnail.
         // Resolve the sharp still before starting live playback. Both use the
         // same fitted stage, so late still loads cannot resize a live surface.
         cancelPoster=upgradePoster(work,poster,{onSettled:()=>{

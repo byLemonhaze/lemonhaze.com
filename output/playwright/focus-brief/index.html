@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Focus and Gallery refinement — November 12</title>
+<style>body{margin:40px auto;padding:0 24px;max-width:1100px;background:#f2f0e9;color:#272727;font:16px/1.65 Arial,sans-serif}h1,h2{font-weight:400}h1{font-size:28px}h2{font-size:20px;margin-top:36px}img,video{max-width:100%;height:auto}figure{margin:28px 0}figcaption{color:#666;font-size:13px}</style>
+<h1>Focus and Gallery refinement</h1>
+<p>November 12, 2026 · Local review, not deployed.</p>
+<p>The still-to-still focus pull now lasts 360ms. A mild 1.2px blur and 94% contrast resolve to full clarity after the temporary sharp layer takes over early in the animation. Live HTML/video playback is excluded. Native pixel originals and reduced motion use a direct decoded swap.</p>
+<video controls playsinline preload="metadata" src="artwork-focus.webm"></video>
+<figure><img src="gallery-focus.png" alt="Gallery focus transition at 130 milliseconds"><figcaption>The 360ms transition paused at 130ms. Frame and layout stay still.</figcaption></figure>
+<h2>Gallery feel</h2>
+<p>Slightly slower critically damped settling, centre-weighted soft shadows, and a 220ms collection reveal from 94% to full opacity. No new controls, scale changes, room redesign or Explore changes. Cancelled drags suppress delayed clicks while fresh pointer and keyboard intents remain usable.</p>
+<h2>Verification</h2>
+<p>The full build generated 1,704 pages and passed 250 tests. Browser checks covered arrow and keyboard navigation, collection changes, cancelled-pointer delayed clicks, keyboard activation afterwards, overlay alignment and cleanup, mobile detail, reduced motion and native 24px pixel art. Reduced motion produced zero overlays and zero animations; pixel art retained nearest-neighbour rendering. The earlier Griffintown fitting fix remains included.</p>
+<figure><img src="mobile-detail.png" alt="Impossible Folds mobile detail with reduced motion"><figcaption>Mobile detail fits the screen; reduced motion upgrades directly.</figcaption></figure>
+</html>
