@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased — Artwork focus transitions
+## 2026-11-12 — Artwork focus transitions and Gallery refinement
+
+Application changes: [`986055e`](https://github.com/byLemonhaze/lemonhaze.com/commit/986055e) and [`a23552a`](https://github.com/byLemonhaze/lemonhaze.com/commit/a23552a). Verification: 250 tests and 1,704 generated pages. [Review evidence](output/playwright/focus-brief/index.html). Deployment identity and live checks are recorded in the integration pull request.
 
 Gallery and split-view still upgrades resolve through a 360ms focus pull (mild blur and contrast recovery), with a temporary decoded layer over an opaque preview. Pixel originals and reduced motion swap directly; HTML/video playback skips the effect. Stale reveals are cancelled on navigation and fractional layer sizing avoids alignment seams. Live artwork fitting scales the artwork wrapper rather than its viewport, fixing Griffintown's continuous resize oscillation; embedded surfaces have an explicit transparent background and neutral color scheme.
 
