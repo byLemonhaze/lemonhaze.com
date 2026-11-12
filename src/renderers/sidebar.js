@@ -170,6 +170,7 @@ export function renderSidebarSections({
         });
         const allWorks = topNav?.querySelector('#all-works-nav');
         if (allWorks) {
+            allWorks.style.setProperty('--year-count',Object.keys(chronologyByYear).length);
             allWorks.appendChild(collectionsNav);
             const visualizer = document.createElement('a');
             visualizer.href = '/visualizer/';

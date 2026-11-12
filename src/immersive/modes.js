@@ -51,7 +51,8 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
     function onClose() {
         if(mode==='website'){
             save();selected=null;write(websiteReturn.url);
-            applyLocation().then(()=>applyWebsite()).then(()=>document.querySelector('#content-area')?.scrollTo({top:websiteReturn.scroll,behavior:'instant'}));return;
+            const pending=applyLocation(),token=generation;
+            pending.then(async()=>{if(token!==generation)return;await applyWebsite();if(token===generation)document.querySelector('#content-area')?.scrollTo({top:websiteReturn.scroll,behavior:'instant'});});return;
         }
         save();selected=null;write(modeUrl(mode)+(mode==='gallery'&&current?'&at='+encodeURIComponent(current.id):''));experience.close();
     }
@@ -61,7 +62,10 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
         save();write(typeof work==='string'?work:websiteDestination(work));applyLocation().catch(fallback);return true;
     }
     async function toWebsite(work = null) {
-        save();write(typeof work==='string'?work:websiteDestination(work));await applyLocation();await applyWebsite();
+        save();write(typeof work==='string'?work:websiteDestination(work));
+        const pending=applyLocation(),token=generation;await pending;
+        if(token!==generation)return;
+        await applyWebsite();if(token!==generation)return;
         if(!work)document.querySelector('#content-area')?.scrollTo({top:0,behavior:'instant'});
         if(location.hash){
             const target=document.getElementById(decodeURIComponent(location.hash.slice(1)));
@@ -77,7 +81,7 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
     async function switchMode(next) {
         // The Website tab always means its home, even when a detail is already open there.
         if(next==='website'){await toWebsite();return;}
-        if(next===mode&&!selected)return;
+        if(next===mode&&next===viewingMode(new URL(location.href))&&!selected)return;
         save();
         let work=mode==='website'?context():selected||(mode==='gallery'&&next==='explore'?current:null);
         // Leaving a detail for Gallery means entering its collection at the
@@ -89,8 +93,8 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
             await applyLocation();return;
         }
         if(mode==='website'){websiteContext=work;current=work;}
-        write(modeUrl(next,work));await applyLocation();
-        if(!work&&current)experience?.focusWork(current,true);
+        write(modeUrl(next,work));const pending=applyLocation(),token=generation;await pending;
+        if(token===generation&&!work&&current)experience?.focusWork(current,true);
     }
     nav.addEventListener('click',event=>{
         const link=event.target.closest('a');if(!link||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
@@ -107,12 +111,13 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
         const {createExperience}=await import('./experience.js');if(token!==generation)return false;
         experience=createExperience({catalog,saved,mountMetadata,onOpen,onClose,onWebsite:toWebsite,onCollectionChange,onCurrent:work=>{
             current=work;
-            if(mode==='gallery'&&!selected){const u=new URL(location.href);u.searchParams.set('at',work.id);history.replaceState(history.state,'',u);}
+            if(mode==='gallery'&&viewingMode(new URL(location.href))==='gallery'&&!selected){const u=new URL(location.href);u.searchParams.set('at',work.id);history.replaceState(history.state,'',u);}
         }});
         return true;
     }
     async function applyLocation() {
         const token=++generation,url=new URL(location.href),next=viewingMode(url);
+        websiteAnimation?.cancel();websiteAnimation=null;
         saved={...saved,...history.state?.experience};
         if(next==='website') {
             const route=router.getRouteStateFromUrl(),work=catalog.byId.get(route.artwork||url.searchParams.get('work'));
@@ -132,7 +137,7 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
         const explicit=url.searchParams.get('work');
         const route=router.getRouteStateFromUrl();
         const work=catalog.byId.get(explicit||route.artwork)||(!['/','/index.html'].includes(url.pathname)?catalog.all.find(w=>w.collection===route.collection):null)||null;
-        try{if(!await ensureExperience(token))return true;}catch(error){fallback(error);return true;}
+        try{if(!await ensureExperience(token))return true;}catch(error){if(token===generation)fallback(error);return true;}
         if(token!==generation)return true;
         mode=next;selected=work;current=work||current||websiteContext;setModeUi(next);
         if(next==='gallery'){

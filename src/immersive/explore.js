@@ -104,6 +104,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         }
         world.style.transform = `translate3d(${camera.x}px,${camera.y}px,0) scale(${camera.zoom*limits.sx},${camera.zoom*limits.sy})`;
         refreshImages();
+        fit.setAttribute('aria-label',viewport.clientWidth<700&&target.zoom<.075?'Focus Impossible Folds 01':'Show all Explore works');
         const deformation=drag?Math.abs((reduce?0:pressure.squash)-squash)*100:Math.abs(vx)+Math.abs(vy)+Math.abs(squash)*100+Math.abs(squashVelocity)*10;
         return Math.abs(target.x-camera.x)+Math.abs(target.y-camera.y)+Math.abs(target.zoom-camera.zoom)*100+deformation > .08;
     });
@@ -136,6 +137,8 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         const pressure=moved?fieldPressure(drag.desired,fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,target.zoom)):null;
         if (event.type === 'pointercancel' || performance.now() - drag.at > 90) vx = vy = 0;
         if(event.type!=='pointercancel'&&!reducedMotion()&&pressure?.axis){
+            // Release from the visible contact point, never from the overshot grab target.
+            target.x=camera.x;target.y=camera.y;
             const rebound=-pressure.side*Math.max(6,Math.abs(squash)*90);
             if(pressure.axis==='x')vx=rebound;else vy=rebound;
         }
@@ -167,9 +170,19 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     toolbar.innerHTML = '<span>Drag to explore</span><button aria-label="Zoom out">−</button><button aria-label="Show all Explore works"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg></button><button aria-label="Zoom in">+</button>';
     const [out, fit, into] = toolbar.querySelectorAll('button');
     out.onclick = () => zoom(1/1.2); into.onclick = () => zoom(1.2);
+    function focusPlacement(work,immediate=false) {
+        const p=placements.get(work.id);if(!p)return;
+        const width=viewport.clientWidth,height=viewport.clientHeight,small=width<700;
+        const top=small?136:90,bottom=height-(small?80:90);
+        target.zoom=Math.min(small?.9:1,(width-(small?64:80))/p[2],(bottom-top)/p[3]);
+        target.x=width/2-p[0]*target.zoom;
+        target.y=(top+bottom)/2-p[1]*target.zoom;
+        vx=vy=0;if(immediate)Object.assign(camera,target);loop.wake();
+    }
     fit.onclick = () => {
-        Object.assign(target,overviewCamera(bounds(),viewport.clientWidth,viewport.clientHeight));
-        vx=vy=0;loop.wake();
+        const hero=workIndex.get('shop-print6');
+        if(viewport.clientWidth<700&&target.zoom<.075&&hero)focusPlacement(hero);
+        else {Object.assign(target,overviewCamera(bounds(),viewport.clientWidth,viewport.clientHeight));vx=vy=0;loop.wake();}
     };
     container.append(toolbar);
     let oldWidth=viewport.clientWidth,oldHeight=viewport.clientHeight;
@@ -195,11 +208,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         },
         focusWork(work,immediate=false) {
             this.ensureWork(work);
-            const p=placements.get(work.id);if(!p)return;
-            target.zoom=Math.min(viewport.clientWidth<700?.66:1,(viewport.clientWidth-80)/p[2],(viewport.clientHeight-180)/p[3]);
-            target.x=viewport.clientWidth/2-p[0]*target.zoom;
-            target.y=viewport.clientHeight/2-p[1]*target.zoom;
-            vx=vy=0;if(immediate)Object.assign(camera,target);loop.wake();
+            focusPlacement(work,immediate);
         },
         snapshot: () => ({ ...target }),
         restore(state) { Object.assign(target,state);Object.assign(camera,state);vx=vy=0;loop.wake(); },

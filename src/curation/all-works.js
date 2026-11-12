@@ -6,6 +6,31 @@ import { COLLECTION_LEAD_ARTWORK_IDS } from '../app/collection-flow.js';
 import ethereumWorks from '../data/ethereum-works.json' with {type:'json'};
 
 const COLLECTION_COVERS = {
+    'BEST BEFORE': [
+        'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i0',
+        'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i132',
+        'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i20',
+    ],
+    'Montreal': [
+        '08b0fe910d795ffcc2bfc25f42d9dbe2262ad2456271e4a93ba6eb969e9bc285i0',
+        'e8333e96e84d038b2400a2d46853f676660a18adbbf22e8d9c15ca9894235e3bi0',
+        '00d08f2e808d325139649b50f77204a71d9624e7fd7e60a28907a4836614c49ei0',
+    ],
+    'Liminality': [
+        '38368e42ce7817d6994e459f27b85574e9be0eadaee6645af0fba81829ca8102i0',
+        '7a267ee7dd4c56950d1e4b70c914389793cab7e738ace8b591ec56fec0312674i0',
+        'dfac609d390809809a738b83fbe0dfe70f4811982e20faf7b070011c4dbb3828i0',
+    ],
+    'DeVille': [
+        '8d1143aa48e0fc53236d59389ec6c360922084adfa6b6060a8c73ab742866013i0',
+        '69c6bdb987ef8bd30d5a5bfa8a92d3cce3c98d8ea0ba5c171be14cf719672297i0',
+        'e3d40b429c27ef09abdfeb8f9cae7be3680d909856105f5fb56998e16f6aa4f7i0',
+    ],
+    'Orphelinat': [
+        '57b75021b68a9cb20c65ab16087acd127daed56642c51a4c70c8194d476281edi0',
+        '3966f90bf371dbc520bfebed868fd30adc574f60e900118308587001cb27514bi0',
+        '9a4f72cb41ca2c4d5c591224bf02fe1fc3b977e4231042ccb45b9026c814b475i0',
+    ],
     'Games': [
         'a8a5a579fca077d96d76068a55be8466041935c31cf11b7d697098f962574edai0',
         '0a20ef85c7deae03895d6eb3a6fb735a551b56dcc5ec67a619bdfc0c4986b3dbi0',

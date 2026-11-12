@@ -70,14 +70,14 @@
 .detail-live-controls{position:absolute;right:40px;bottom:93px;font-size:10px}
 .detail-live-controls button{padding:8px 0;border-bottom:1px solid var(--line)}
 .artwork-flight{position:fixed;z-index:155;pointer-events:none;object-fit:contain;transform-origin:0 0;will-change:transform}
-html[data-presentation=black] .immersive-experience{--paper:#1d211d;--ink:#e2e5d8;--line:#d1d8c938}
-html[data-presentation=black] .experience-note,html[data-presentation=black] .detail-caption p,html[data-presentation=black] .explore-tools span{color:#a8b09e}
-html[data-presentation=black] .room-viewport{background:#32382f;color:#e2e5d8}
-html[data-presentation=black] .room-back-wall{background:linear-gradient(#3c4438,#30392d)}
-html[data-presentation=black] .room-floor{background:linear-gradient(#232c21,#343c30)}
-html[data-presentation=black] .room-ceiling{background:#4a5144}
-html[data-presentation=black] .room-end-wall{background:linear-gradient(90deg,#252f23,#394332)}
-html[data-presentation=black] .room-caption p{color:#b7bfae}
+html[data-presentation=black] .immersive-experience{--paper:#1c1c1b;--ink:#e9e7e2;--line:#ffffff24}
+html[data-presentation=black] .experience-note,html[data-presentation=black] .detail-caption p,html[data-presentation=black] .explore-tools span{color:#a6a4a0}
+html[data-presentation=black] .room-viewport{background:#303030;color:#e9e7e2}
+html[data-presentation=black] .room-back-wall{background:linear-gradient(#383838,#2e2e2e)}
+html[data-presentation=black] .room-floor{background:linear-gradient(#232323,#333333)}
+html[data-presentation=black] .room-ceiling{background:#454545}
+html[data-presentation=black] .room-end-wall{background:linear-gradient(90deg,#252525,#363636)}
+html[data-presentation=black] .room-caption p{color:#b7b5b1}
 @media(min-width:1600px){.detail-stage{left:140px;right:80px;top:110px;bottom:130px}.detail-caption{left:140px}.detail-rail{width:88px;left:24px}.detail-thumbnail{width:80px;height:80px;min-height:80px}}
 @media(max-width:900px){.detail-stage{left:94px;right:32px}.detail-caption{left:94px;right:30px;display:block}.detail-more{display:inline-block;margin-top:12px}.detail-rail{left:12px;width:64px}.detail-thumbnail{width:58px;height:58px;min-height:58px}.room-footer{width:76%}}
 @media(max-width:700px){
@@ -232,7 +232,7 @@ html[data-motion=reduced] .immersive-experience *,html[data-motion=reduced] .art
  .room-art{width:78vw;height:max(80px,calc(100dvh - 324px));max-height:none}
  .room-environment{display:none}
  .room-viewport{background:linear-gradient(180deg,#eeeee7,#e3e3da)}
- html[data-presentation=black] .room-viewport{background:linear-gradient(#272d26,#1d231c)}
+ html[data-presentation=black] .room-viewport{background:linear-gradient(#292929,#1e1e1e)}
  .room-art-shadow,.room-grain{display:none}
  .room-footer{left:22px;right:22px;bottom:max(16px,env(safe-area-inset-bottom));display:block;width:auto;padding-top:12px;border-top:1px solid var(--line)}
  .room-footer .room-caption{max-width:none;width:100%}

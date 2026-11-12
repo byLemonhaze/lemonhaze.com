@@ -194,6 +194,7 @@ function openSection(sectionKey, options = {}) {
 
 async function applyUrlStateFromLocation(options = {}) {
     if (viewingModes && await viewingModes.applyLocation(options)) return true;
+    if (viewingModes && document.documentElement.dataset.view !== 'website') return true;
     return sectionFlow.applyUrlStateFromLocation(options);
 }
 

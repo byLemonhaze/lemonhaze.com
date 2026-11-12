@@ -48,6 +48,11 @@ test('edition covers use distinct originals and collections follow newest-first 
     assert.deepEqual(index.find(g=>g.name==='La Tentation').covers.map(w=>w.name),['La Tentation Nº 1','La Tentation Nº 8','La Tentation Nº0']);
     assert.deepEqual(index.find(g=>g.name==='Manufactured').covers.map(w=>w.name),['Manufactured Nº77','Manufactured Nº7','Manufactured Nº107']);
     assert.deepEqual(index.find(g=>g.name==='1 of 1s (2025)').covers.map(w=>w.name),['Gentleman SE25',"Chanchanok's Temple",'Minute, papillon!']);
+    assert.deepEqual(index.find(g=>g.name==='Montreal').covers.map(w=>w.name),['De Sève','Five Roses','Rue Cuvillier']);
+    assert.deepEqual(index.find(g=>g.name==='Liminality').covers.map(w=>w.name),['Non-Place','Eerie Night','Terminal 36']);
+    assert.deepEqual(index.find(g=>g.name==='DeVille').covers.map(w=>w.name),['DeVille Nº 9','DeVille Nº 8','DeVille Nº 16']);
+    assert.deepEqual(index.find(g=>g.name==='Orphelinat').covers.map(w=>w.name),['Paris','Hosoi','Deprivation']);
+    assert.deepEqual(index.find(g=>g.name==='BEST BEFORE').covers.map(w=>w.name),['BEST BEFORE Nº1','BEST BEFORE Nº133','BEST BEFORE Nº21']);
     const trilogy=index.find(g=>g.name==='Trilogy (Prints)').covers;
     assert.equal(trilogy.length,3);assert.equal(new Set(trilogy.map(w=>w.id)).size,3);
     assert.deepEqual(new Set(trilogy.map(w=>w.name)),new Set(['Off-Kilter','Glass Breaker','Mending Out']));

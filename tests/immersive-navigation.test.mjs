@@ -35,7 +35,7 @@ test('Gallery carries the split artwork and its collection through switches, col
             try{await page.waitForFunction(name=>{
                 const button=document.querySelector('.explore-world button[title="'+name+'"]');
                 if(!button)return false;const r=button.getBoundingClientRect();
-                return Math.abs(r.x+r.width/2-innerWidth/2)<5&&Math.abs(r.y+r.height/2-innerHeight/2)<5;
+                return Math.abs(r.x+r.width/2-innerWidth/2)<5&&Math.abs(r.y+r.height/2-(innerWidth<700?(136+innerHeight-80)/2:innerHeight/2))<5;
             },title);}catch(error){console.log('Explore centring diagnostic',await page.evaluate(()=>({url:location.href,world:document.querySelector('.explore-world')?.style.transform,scene:getComputedStyle(document.querySelector('.experience-scene')).transform,box:document.querySelector('.explore-world button[title="Porcelain Sunset"]')?.getBoundingClientRect().toJSON()})));throw error;}
         }
         for(const mode of ['explore','gallery','website']){
