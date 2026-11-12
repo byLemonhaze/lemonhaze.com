@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — Artwork focus transitions
+
+Gallery and split-view quality upgrades now resolve gently from soft to sharp while retaining an opaque preview beneath them. Pixel art stays crisp, reduced motion skips the effect, and stale reveals are cancelled on navigation. Fractional layer sizing avoids alignment seams. Live artwork fitting now scales the artwork wrapper rather than its viewport, fixing Griffintown's continuous resize oscillation; embedded surfaces have an explicit transparent background and neutral color scheme.
+
 ## 2026-11-12 — Visual chronology
 
 Added all twelve Impossible Folds prints to the 2026 chronology with an explicit uninscribed label and no invented lineage. Updated its wordmark, mode navigation, responsive controls and paper/charcoal presentation. Theme changes redraw the interface without recoloring artwork or reloading thumbnails; 8K PNG export remains available.

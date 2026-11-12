@@ -6,16 +6,25 @@ function paintBridge(token, sourceUrl) {
     window.fetch=(input,init)=>originalFetch(typeof input==='string'?new URL(input,sourceUrl).href:input,init);
     let painted=false,finished=false,resizeObserver=null,fitFrame=0;
     function fitSurface(surface) {
-        const body=document.body,original=body.style.transform;
-        const baseTransform=getComputedStyle(body).transform;
-        if(baseTransform!=='none')return;
+        // Fit the artwork's own tight wrapper, never its viewport. Some works
+        // (Griffintown) size their canvas from that viewport on every frame;
+        // scaling body feeds our scale back into their renderer indefinitely.
+        let mount=surface;
+        const bounds=surface.getBoundingClientRect();
+        for(let parent=surface.parentElement;parent&&parent!==document.body;parent=parent.parentElement){
+            const r=parent.getBoundingClientRect();
+            if(Math.abs(r.width-bounds.width)>1||Math.abs(r.height-bounds.height)>1)break;
+            mount=parent;
+        }
+        const originalScale=mount.style.scale,originalTranslate=mount.style.translate;
         const fit=()=>{
-            body.style.transform=original;
-            const r=surface.getBoundingClientRect(),w=document.documentElement.clientWidth,h=document.documentElement.clientHeight;
+            mount.style.scale=originalScale;mount.style.translate=originalTranslate;
+            const r=mount.getBoundingClientRect(),w=document.documentElement.clientWidth,h=document.documentElement.clientHeight;
             if(r.width<16||r.height<16)return;
             const scale=Math.min(w/r.width,h/r.height);
-            body.style.transformOrigin='0 0';
-            body.style.transform=`translate(${(w-r.width*scale)/2-r.left*scale}px,${(h-r.height*scale)/2-r.top*scale}px) scale(${scale})`;
+            mount.style.transformOrigin='0 0';
+            mount.style.translate=`${(w-r.width*scale)/2-r.left}px ${(h-r.height*scale)/2-r.top}px`;
+            mount.style.scale=String(scale);
         };
         const schedule=()=>{cancelAnimationFrame(fitFrame);fitFrame=requestAnimationFrame(fit);};
         fit();resizeObserver=new ResizeObserver(schedule);resizeObserver.observe(surface);

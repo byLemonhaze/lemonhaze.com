@@ -41,7 +41,9 @@ Approved adjustments place Gentleman Nº1 above Impossible Folds 01 with breathi
 | Desktop solo | The existing detail media enlarged in place, preserving aspect and mat |
 | Native pixel art | Unchanged small PNG originals with nearest-neighbor rendering |
 
-`media.js` limits upgrades to two concurrent decodes per active view, checks stale source/selection state, and cancels departed work. A blocked static chain image tries the artist CDN. No full-frame stretching or duplicated low/high layers is intentional. Thumbnails are static; live frames belong to detail, not the rail.
+`media.js` limits upgrades to two concurrent decodes/reveals per active view, checks stale source/selection state, and cancels departed work. A blocked static chain image tries the artist CDN. A decoded overlay gently resolves from soft to sharp over an opaque preview in about one second, using fractional CSS dimensions to avoid alignment seams; it is removed after the original image element can paint the new source. Live surfaces use the same reveal before hiding the still. Pixel originals use a short dissolve without blur; reduced motion skips the effect. Thumbnails remain static; live frames belong to detail, not the rail.
+
+The live-document bridge scales the artwork's tight wrapper rather than its body or viewport. This avoids a resize feedback loop in works such as Griffintown, which measure their stage every animation frame. Original interactive transforms remain independent of the fitting scale.
 
 `preview-manifest.json` and `public/previews/immersive/` contain lightweight field thumbnails. The 2000 × 1990 overview uses about 636 KiB transfer and 15.9 MB decoded RGBA at the recorded release; it avoids decoding hundreds of individual images at mobile startup. Its geometry fingerprint requires regeneration after relevant layout/preview changes using `node scripts/build_explore_overview.mjs`.
 
