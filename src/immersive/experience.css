@@ -37,7 +37,7 @@
 .room-art{width:min(48vw,650px);height:65vh;max-height:650px;transform:translate(-50%,-50%);transform-style:preserve-3d}
 .room-art img{transform:skewY(var(--art-bend,0deg));filter:drop-shadow(12px 20px 18px #37412c19)}
 .room-art:hover img{scale:1.012}
-.room-art-shadow{position:absolute;top:310px;left:-240px;width:480px;height:60px;background:#58604b18;border-radius:50%;filter:blur(22px);transform:rotateX(65deg) translateZ(-20px);pointer-events:none}
+.room-art-shadow{opacity:calc(.4 + var(--art-presence,0)*.6);position:absolute;top:310px;left:-240px;width:480px;height:60px;background:#58604b18;border-radius:50%;filter:blur(22px);transform:rotateX(65deg) translateZ(-20px);pointer-events:none}
 .room-grain{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 120px #4e583b06}
 .room-footer{position:absolute;bottom:max(30px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(600px,70%);display:flex;align-items:flex-end;justify-content:space-between;gap:32px;font-size:12px}
 .room-caption .room-title{text-align:left;font-size:15px;margin-bottom:7px}
@@ -50,7 +50,7 @@
 .detail-stage{position:absolute;left:120px;right:58px;top:100px;bottom:116px;display:grid;place-items:center}
 .detail-media{position:relative;width:100%;height:100%;display:grid;place-items:center}
 .detail-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;}
-.detail-original{position:absolute;width:var(--original-width,100%);height:var(--original-height,100%);max-width:100%;max-height:100%;border:0;opacity:0;transition:opacity .35s;}
+.detail-original{position:absolute;width:var(--original-width,100%);height:var(--original-height,100%);max-width:100%;max-height:100%;border:0;opacity:0;left:50%;top:50%;transform:translate(-50%,-50%);transition:none;background:transparent;color-scheme:normal}
 .detail-original.is-ready{opacity:1}
 .detail-caption{position:absolute;bottom:34px;left:120px;right:38px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
 .detail-caption h1{font:400 15px/1.4 Arial,sans-serif;letter-spacing:0;margin:0 0 6px}
@@ -165,7 +165,6 @@ html[data-motion=reduced] .immersive-experience *,html[data-motion=reduced] .art
 .immersive-experience:has(.collection-menu:not([hidden])) .experience-note{visibility:hidden}
 @media(max-width:700px){.collection-menu input{font-size:16px}}
 /* Keep the poster until the live surface reports its first actual paint. */
-.detail-original{left:50%;top:50%;transform:translate(-50%,-50%);transition:none;background:transparent;color-scheme:normal}
 .detail-media.live-ready>.detail-poster{opacity:0!important}
 .artwork-focus-layer{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;overflow:clip}
 .immersive-experience .artwork-focus-layer>img{display:block;width:100%;height:100%;max-width:none;max-height:none;object-fit:contain;outline:0;box-shadow:none;filter:none;transform:none;transition:none}
@@ -217,7 +216,6 @@ html[data-motion=reduced] .immersive-experience *,html[data-motion=reduced] .art
 
 .room-art:hover img{scale:1}
 .room-art>img,.room-art:hover>img{filter:drop-shadow(0 14px 20px rgb(0 0 0 / calc(.045 + var(--art-presence,0)*.045)))}
-.room-art-shadow{opacity:calc(.4 + var(--art-presence,0)*.6)}
 /* A held artwork follows the hand; the room itself remains stationary. */
 .room-viewport{cursor:grab}
 .room-viewport.is-grabbing,.room-viewport.is-grabbing *{cursor:grabbing!important}
