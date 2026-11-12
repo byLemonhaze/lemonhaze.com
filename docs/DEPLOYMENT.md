@@ -1,6 +1,6 @@
 # Deployment runbook
 
-Current application release: `041ea75`, published November 11, 2026 to [lemonhaze.com](https://lemonhaze.com) and [immutable deployment 3d9290e8](https://3d9290e8.lemonhaze.pages.dev). See the [work report](reports/2026-11-11.md) for source history and evidence.
+November 11 immersive release: `041ea75`, published November 11, 2026 to [lemonhaze.com](https://lemonhaze.com) and [immutable deployment 3d9290e8](https://3d9290e8.lemonhaze.pages.dev). See the [work report](reports/2026-11-11.md) for source history and evidence.
 
 ## Targets and local setup
 

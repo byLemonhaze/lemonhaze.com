@@ -1,6 +1,6 @@
 # Documentation index
 
-Reviewed November 11, 2026 against application release `041ea75`. This index separates the current operating guides from point-in-time implementation records.
+Reviewed against the November 11 immersive release `041ea75`, with the November 12 Miami editorial addition recorded in the changelog. This index separates the current operating guides from point-in-time implementation records.
 
 ## Current guides
 

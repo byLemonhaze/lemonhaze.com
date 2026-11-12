@@ -2,9 +2,11 @@
 
 Lemonhaze’s artist website, artwork archive and connected Explore / Gallery / Website experience.
 
-**Current production release:** [041ea75](https://github.com/byLemonhaze/lemonhaze.com/commit/041ea75), published November 11, 2026. [Live site](https://lemonhaze.com) · [Immutable deployment](https://3d9290e8.lemonhaze.pages.dev) · [Today’s work report](docs/reports/2026-11-11.md) · [Changelog](CHANGELOG.md).
+**November 11 immersive release:** [041ea75](https://github.com/byLemonhaze/lemonhaze.com/commit/041ea75), published November 11, 2026. [Live site](https://lemonhaze.com) · [Immutable deployment](https://3d9290e8.lemonhaze.pages.dev) · [Today’s work report](docs/reports/2026-11-11.md) · [Changelog](CHANGELOG.md).
 
 `main` is the integration branch. The November 11 application was originally published from `feat/immersive-experience`; the accompanying documentation and [pull request #62](https://github.com/byLemonhaze/lemonhaze.com/pull/62) preserve that release history. Cloudflare’s `main` deployment label is separate from Git source integration.
+
+The [changelog](CHANGELOG.md) records subsequent content updates, including the Miami Paint Engine photographs.
 
 ## Site experience
 
