@@ -9,12 +9,23 @@ export function setupPresentation() {
     try { initial = localStorage.getItem('lh-presentation') || initial; } catch {}
     const requested = new URLSearchParams(location.search).get('theme');
     if (themes.includes(requested)) initial = requested;
+    document.querySelector('#appearance-toggle')?.remove();
+    const appearance=document.createElement('button');appearance.id='appearance-toggle';appearance.type='button';
+    document.body.append(appearance);
     const setTheme = theme => {
         document.documentElement.dataset.presentation = themes.includes(theme) ? theme : 'paper';
         try { localStorage.setItem('lh-presentation', document.documentElement.dataset.presentation); } catch {}
+        const dark=document.documentElement.dataset.presentation==='black';
+        appearance.setAttribute('aria-label',dark?'Switch to day mode':'Switch to night mode');
+        appearance.setAttribute('aria-pressed',String(dark));
+        appearance.innerHTML=dark?'<span aria-hidden="true">☀</span> Day':'<span aria-hidden="true">☾</span> Night';
         document.querySelectorAll('[data-presentation-choice]').forEach(button => {
             button.setAttribute('aria-pressed', String(button.dataset.presentationChoice === document.documentElement.dataset.presentation));
         });
+    };
+    appearance.onclick=()=>{
+        const next=document.documentElement.dataset.presentation==='black'?'paper':'black';setTheme(next);
+        const url=new URL(location.href);if(url.searchParams.has('theme')){url.searchParams.set('theme',next);history.replaceState(history.state,'',url);}
     };
     setTheme(initial);
     const controls = document.createElement('div');

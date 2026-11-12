@@ -77,7 +77,7 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
     controls[0].onclick = () => navigate(Math.round(target)-1); controls[1].onclick = () => navigate(Math.round(target)+1);
     title.onclick = () => onOpen(items[current], buttons.get(items[current].id));
     const keydown=event => {
-        if(viewport.hidden||viewport.inert||!picker.element.querySelector('.collection-menu').hidden||event.target.closest('input,textarea,select,[contenteditable=true]'))return;
+        if(viewport.hidden||viewport.inert||picker.isOpen()||event.target.closest('input,textarea,select,[contenteditable=true]'))return;
         if (event.ctrlKey || event.metaKey || event.altKey) return;
         if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); navigate(Math.round(target)+(event.key === 'ArrowRight'?1:-1)); }
         if (event.key === 'Home' || event.key === 'End') {

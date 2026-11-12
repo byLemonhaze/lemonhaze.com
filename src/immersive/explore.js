@@ -1,3 +1,4 @@
+import overviewTexture from './overview.json' with {type:'json'};
 import { thumbnailSource, browsingSource } from './model.js';
 import { artworkButton, clamp, motionLoop, reducedMotion } from './motion.js';
 
@@ -16,6 +17,8 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     let target = { ...camera }, vx = 0, vy = 0, drag = null, moved = false, alive = true;
     const buttons = new Map(), loaded=new Set(), sources=new Map(),workIndex=new Map(works.map(work=>[work.id,work]));
     const layout=buildExploreLayout(works), placements=layout.placements;
+    const overview=new Image();overview.className='explore-overview';overview.alt='';overview.decoding='async';overview.hidden=true;overview.onload=()=>document.querySelector('#mobile-explore-preview')?.remove();
+    const b=layout.bounds;overview.style.cssText=`position:absolute;left:${b.left}px;top:${b.top}px;width:${b.right-b.left}px;height:${b.bottom-b.top}px;pointer-events:none`;world.prepend(overview);
     let lastLoad={x:Infinity,y:Infinity,zoom:0}, squash=0,squashVelocity=0;
     const fieldIds=new Set(works.map(work=>work.id));
     const previews=createPreviewQueue();
@@ -42,6 +45,15 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     function refreshImages(force=false) {
         if(!force && Math.hypot(camera.x-lastLoad.x,camera.y-lastLoad.y)<100 && Math.abs(camera.zoom-lastLoad.zoom)<Math.min(.025,lastLoad.zoom*.08))return;
         lastLoad={...camera};
+        const distant=camera.zoom<.075;
+        viewport.classList.toggle('is-overview',distant);overview.hidden=!distant;
+        if(distant){
+            if(!overview.hasAttribute('src'))overview.src='/previews/explore-overview.webp?v='+overviewTexture.version;
+            previews.clear();
+            for(const id of loaded){const img=buttons.get(id).querySelector('img');img.removeAttribute('src');delete img.dataset.quality;}
+            loaded.clear();return;
+        }
+        document.querySelector('#mobile-explore-preview')?.remove();
         const width=viewport.clientWidth,height=viewport.clientHeight;
         const visible=[...placements].filter(([,p])=>{const x=camera.x+p[0]*camera.zoom,y=camera.y+p[1]*camera.zoom;return x+p[2]*camera.zoom/2>-250&&x-p[2]*camera.zoom/2<width+250&&y+p[3]*camera.zoom/2>-250&&y-p[3]*camera.zoom/2<height+250;})
             .sort(([,a],[,b])=>Math.hypot(camera.x+a[0]*camera.zoom-width/2,camera.y+a[1]*camera.zoom-height/2)-Math.hypot(camera.x+b[0]*camera.zoom-width/2,camera.y+b[1]*camera.zoom-height/2));
@@ -98,9 +110,8 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     works.forEach(add); container.append(viewport);
     if (!Object.hasOwn(saved, 'zoom')) {
         const small = viewport.clientWidth < 700;
-        camera.zoom = target.zoom = small ? .66 : 1;
-        camera.x = target.x = viewport.clientWidth / 2 + (small ? 190 : 0);
-        camera.y = target.y = viewport.clientHeight / 2 - (small ? 80 : 0);
+        const initial=small?overviewCamera(bounds(),viewport.clientWidth,viewport.clientHeight):{zoom:1,x:viewport.clientWidth/2,y:viewport.clientHeight/2};
+        Object.assign(camera,initial);Object.assign(target,initial);
     }
     loop.wake();
     viewport.addEventListener('dragstart', event => event.preventDefault());
@@ -166,9 +177,11 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         if (!alive || !viewport.clientWidth) return;
         const width=viewport.clientWidth,height=viewport.clientHeight;
         if(width!==oldWidth||height!==oldHeight){
+            const wasOverview=fieldLimits(bounds(),oldWidth,oldHeight,target.zoom).fits;
             const ratio=(width<700)===(oldWidth<700)?1:width<700?.66:1/.66;
             target.x=width/2+(target.x-oldWidth/2)*ratio;
             target.y=height/2+(target.y-oldHeight/2)*ratio;target.zoom*=ratio;
+            if(wasOverview)Object.assign(target,overviewCamera(bounds(),width,height));
             Object.assign(camera,target);oldWidth=width;oldHeight=height;
         }
         bound();lastLoad.x=Infinity;loop.wake();

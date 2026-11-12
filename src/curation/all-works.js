@@ -6,6 +6,11 @@ import { COLLECTION_LEAD_ARTWORK_IDS } from '../app/collection-flow.js';
 import ethereumWorks from '../data/ethereum-works.json' with {type:'json'};
 
 const COLLECTION_COVERS = {
+    'Games': [
+        'a8a5a579fca077d96d76068a55be8466041935c31cf11b7d697098f962574edai0',
+        '0a20ef85c7deae03895d6eb3a6fb735a551b56dcc5ec67a619bdfc0c4986b3dbi0',
+        '013199880d4ff9cb26d0414f894178f776ddfc59858c15bc4aca993b44c8b523i0',
+    ],
     'Tin Box of Solitude': [
         'bc13c49dd637343e7f91a86175bd800440f5aef118b518a6b35b3a77ea83ee77i0',
         '0c2dea85121eb7b98bb3d7ffe182629ba15513bdbdd4619b4e0c0448bdcf6284i0',

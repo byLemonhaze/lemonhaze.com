@@ -65,3 +65,9 @@ Gallery → Explore centers the current Gallery work in the field at a readable 
 Artist-requested composition refinements move Gentleman Nº1 above Impossible Folds 01 at 440 pixels square, with its two upper diagonal neighbours shifted outward for clearance. Hillside Desolate and Low Cognition Requirements fill its former lower-right gap. The moved archive neighbour uses the vacated right-hand slot. Remaining fixed placements stay unchanged.
 
 Feedback 15: All Works has explicit artist-selected covers and five independently sourced Ethereum entries, kept outside the inscription/Explore roster. Old-Fashioned uses CDN-derived static media only. Manufactured uses local 1600px display derivatives while the overview uses tiny thumbnails. Fixed immersive camera surfaces use `overflow: clip` to prevent native scroll offsets. Gallery pointer release projects a short velocity tail and snaps to a whole artwork; all Explore mode-switch handoffs focus the current artwork in the field. See `FEEDBACK-15.md` for data provenance and review scope.
+
+### Mobile overview and shared appearance
+
+Phone entry uses the complete lemon camera. Below zoom 0.075, a cache-versioned, transparent overview texture replaces individual image decoding while artwork hit targets retain their field coordinates. Larger views keep the existing preview and sharp-image queue. The root prerender includes a responsive mobile preview instead of serializing a desktop camera and eager artwork images. Regenerate the texture with `node scripts/build_explore_overview.mjs` after layout or preview changes; its fingerprint is checked in tests.
+
+The collection picker is a native top-layer dialog with a definite flex height and visual-viewport bounds, avoiding Safari’s collapsed-results layout and automatic keyboard opening. Shared appearance is persisted by the existing presentation system and exposed through the Day/Night control.

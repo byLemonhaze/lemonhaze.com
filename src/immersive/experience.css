@@ -220,3 +220,49 @@ html[data-motion=reduced] .immersive-experience *,html[data-motion=reduced] .art
 @media(max-width:700px){
  html[data-view=website] #immersive-experience>.detail-close{left:calc(50% - 22px);right:auto;top:82px;width:44px;height:44px}
 }
+
+/* The distant field paints once, rather than decoding every work on a phone. */
+.explore-overview{display:block;max-width:none;user-select:none;-webkit-user-drag:none}
+.explore-viewport.is-overview .experience-art img,.explore-viewport.is-overview .experience-art::before,.explore-viewport.is-overview .experience-art::after{display:none!important}
+
+/* Mobile art has a reserved stage between the persistent header and caption. */
+@media(max-width:700px){
+ .room-perspective{inset:124px 0 164px;perspective-origin:50% 50%}
+ .room-camera,.room-environment{top:50%}
+ .room-art{width:78vw;height:max(80px,calc(100dvh - 324px));max-height:none}
+ .room-environment{display:none}
+ .room-viewport{background:linear-gradient(180deg,#eeeee7,#e3e3da)}
+ html[data-presentation=black] .room-viewport{background:linear-gradient(#272d26,#1d231c)}
+ .room-art-shadow,.room-grain{display:none}
+ .room-footer{left:22px;right:22px;bottom:max(16px,env(safe-area-inset-bottom));display:block;width:auto;padding-top:12px;border-top:1px solid var(--line)}
+ .room-footer .room-caption{max-width:none;width:100%}
+ .room-caption .room-title{display:block;font-size:16px;line-height:1.3;padding-right:96px;margin:8px 0;overflow-wrap:anywhere}
+ .room-caption p{padding-right:96px;font-size:11px;line-height:1.4}
+ .room-collection{margin-bottom:4px;max-width:100%}
+ .collection-trigger{font-size:12px!important;min-height:38px;max-width:calc(100vw - 60px)}
+ .collection-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .room-navigation{position:absolute;right:-6px;bottom:0;gap:4px}
+ .room-navigation button{width:44px;height:44px}
+}
+@media(max-height:500px) and (min-width:701px){
+ .room-perspective{inset:80px 0 110px}.room-camera,.room-environment{top:50%}
+ .room-art{height:calc(100dvh - 218px)}.room-environment{display:none}
+}
+/* Native dialog sits in the top layer, above the mode switch and wordmark. */
+dialog.collection-menu{position:fixed;inset:auto;margin:0;left:50%;top:calc(var(--picker-top,0px) + 20px);transform:translateX(-50%);width:min(440px,calc(100vw - 32px));max-width:none;max-height:calc(var(--picker-height,100dvh) - 40px);padding:22px;background:var(--page,#f3f3ed);color:var(--ink,#292d27);border:1px solid var(--line,#373c3438);box-shadow:0 20px 70px #0003;font:14px/1.4 Arial,sans-serif;overflow:hidden;border-radius:6px;box-sizing:border-box}
+dialog.collection-menu:not([open]){display:none}
+dialog.collection-menu[open]{display:flex;flex-direction:column}
+dialog.collection-menu::backdrop{background:#10150e66;backdrop-filter:blur(5px)}
+dialog.collection-menu header{display:flex;justify-content:space-between;align-items:center;flex:none;gap:16px}
+dialog.collection-menu h2{font:400 18px/1.4 Arial,sans-serif;margin:0}
+dialog.collection-menu .collection-close{width:44px;height:44px;border:0;background:transparent;color:inherit;font:28px/1 Arial,sans-serif;cursor:pointer}
+dialog.collection-menu input{font-size:16px;margin:8px 0 16px;min-height:44px;box-sizing:border-box;flex:none}
+dialog.collection-menu .collection-options{max-height:none;min-height:0;flex:1;overflow:auto;touch-action:pan-y;overscroll-behavior:contain}
+dialog.collection-menu .collection-option{font:14px/1.4 Arial,sans-serif!important;min-height:48px;border:0;color:inherit;cursor:pointer;background:transparent;box-sizing:border-box}
+dialog.collection-menu .collection-option[hidden]{display:none}
+dialog.collection-menu .collection-option[aria-pressed=true],dialog.collection-menu .collection-option:hover{background:color-mix(in srgb,var(--ink) 8%,transparent)}
+dialog.collection-menu .collection-option>span:last-child{font-size:11px}
+dialog.collection-menu header{background:transparent!important;padding:0!important;border:0!important;height:auto!important;min-height:44px}
+/* Give Safari a definite flex height; an auto-height dialog can collapse the list. */
+dialog.collection-menu{height:min(640px,calc(var(--picker-height,100dvh) - 40px))}
+dialog.collection-menu>label{flex:none}

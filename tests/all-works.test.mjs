@@ -33,6 +33,7 @@ test('1 of 1s 2026 uses the artist-selected parent, Passe-Partout and Wilderness
 test('artist-selected Gentlemen and Miscellaneous covers retain their exact order',async()=>{
     const works=JSON.parse(await readFile(new URL('../public/data/provenance.json',import.meta.url)));
     const index=collectionIndex(works,()=> 'collection');
+    assert.deepEqual(index.find(g=>g.name==='Games').covers.map(w=>w.name),['Game Nº8','Game Nº9','Game Nº26']);
     assert.deepEqual(index.find(g=>g.name==='Gentlemen').covers.map(w=>w.name),['Gentleman Nº1','Gentleman Nº3','Gentleman Nº5']);
     assert.deepEqual(index.find(g=>g.name==='Miscellaneous').covers.map(w=>w.name),['Saint-Tropez','C mon ❤️','Kahnawake']);
 });

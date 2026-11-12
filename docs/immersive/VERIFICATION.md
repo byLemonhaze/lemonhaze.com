@@ -1,6 +1,6 @@
 # Immersive review verification
 
-The release changes are documented in [Feedback pass 15](FEEDBACK-15.md), following the preceding feedback passes. Production deployment was authorized on November 11, 2026. Current screenshots are in [the review folder](../../output/playwright/feedback-15/index.html).
+The current mobile refinement is documented in [Feedback pass 16](FEEDBACK-16.md): 1,705 prerendered routes and 241 tests pass, with additional WebKit mobile coverage. Current mobile screenshots are in [the mobile review folder](../../output/playwright/feedback-16/index.html). The preceding release changes are documented in [Feedback pass 15](FEEDBACK-15.md), following the preceding feedback passes. Production deployment was authorized on November 11, 2026. Current screenshots are in [the review folder](../../output/playwright/feedback-15/index.html).
 
 ## Release verification · November 11, 2026
 

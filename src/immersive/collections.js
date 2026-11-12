@@ -2,10 +2,17 @@ export const collectionEntry = (name,items) => name==='Selected works'?0:Math.fl
 
 export function createCollectionPicker(collections,initial,onChange) {
     const root=document.createElement('div');root.className='room-collection';
-    root.innerHTML='<button class="collection-trigger" type="button" aria-haspopup="dialog" aria-expanded="false"><span class="collection-name"></span><span class="collection-chevron" aria-hidden="true"></span></button><section class="collection-menu" role="dialog" aria-label="Choose a collection" hidden><label>Collections<input type="search" aria-label="Find a collection" placeholder="Find a collection" autocomplete="off"></label><div class="collection-options"></div><p class="collection-empty" hidden>No matching collections</p></section>';
-    const trigger=root.querySelector('button'),name=root.querySelector('.collection-name'),menu=root.querySelector('section'),search=root.querySelector('input'),list=root.querySelector('.collection-options'),empty=root.querySelector('.collection-empty');
+    root.innerHTML='<button class="collection-trigger" type="button" aria-haspopup="dialog" aria-expanded="false"><span class="collection-name"></span><span class="collection-chevron" aria-hidden="true"></span></button>';
+    // A native top-layer dialog stays above shared navigation, contains focus,
+    // and isolates scrolling from the artwork carousel behind it.
+    const menu=document.createElement('dialog');menu.className='collection-menu';menu.setAttribute('aria-label','Choose a collection');
+    menu.innerHTML='<header><h2>Collections</h2><button type="button" class="collection-close" aria-label="Close collections">×</button></header><label><span class="sr-only">Find a collection</span><input type="search" aria-label="Find a collection" placeholder="Find a collection" autocomplete="off"></label><div class="collection-options"></div><p class="collection-empty" hidden>No matching collections</p>';
+    document.body.append(menu);
+    const trigger=root.querySelector('button'),name=root.querySelector('.collection-name'),search=menu.querySelector('input'),list=menu.querySelector('.collection-options'),empty=menu.querySelector('.collection-empty');
     const choices=new Map();let selected=initial;
-    function close(focus=false){menu.hidden=true;trigger.setAttribute('aria-expanded','false');if(focus)trigger.focus();}
+    const viewport=window.visualViewport;
+    function fit(){menu.style.setProperty('--picker-height',`${viewport?.height||innerHeight}px`);menu.style.setProperty('--picker-top',`${viewport?.offsetTop||0}px`);}
+    function close(focus=false){menu.close();trigger.setAttribute('aria-expanded','false');if(focus)trigger.focus({preventScroll:true});}
     function filter(){const query=search.value.trim().toLocaleLowerCase();let count=0;for(const [label,button] of choices){button.hidden=!label.toLocaleLowerCase().includes(query);if(!button.hidden)count++;}empty.hidden=count>0;}
     function set(value){selected=value;name.textContent=value;trigger.setAttribute('aria-label',`Collection: ${value}`);for(const [label,button] of choices)button.setAttribute('aria-pressed',String(label===value));}
     for(const [label,works] of collections){
@@ -13,16 +20,26 @@ export function createCollectionPicker(collections,initial,onChange) {
         const title=document.createElement('span'),count=document.createElement('span');title.textContent=label;count.textContent=works.length;button.append(title,count);
         button.onclick=()=>{close(true);if(label!==selected)onChange(label);};list.append(button);choices.set(label,button);
     }
-    trigger.onclick=()=>{if(!menu.hidden){close();return;}menu.hidden=false;trigger.setAttribute('aria-expanded','true');search.value='';filter();search.focus();};
+    trigger.onclick=()=>{
+        if(menu.open){close();return;}
+        search.value='';filter();fit();
+        // Autofocus the close control, never the search field: iOS must not open
+        // its keyboard just because the collector wants to browse the list.
+        menu.querySelector('.collection-close').autofocus=true;
+        menu.showModal();trigger.setAttribute('aria-expanded','true');
+        choices.get(selected)?.focus({preventScroll:true});choices.get(selected)?.scrollIntoView({block:'nearest'});
+    };
+    menu.querySelector('.collection-close').onclick=()=>close(true);
+    menu.addEventListener('cancel',event=>{event.preventDefault();close(true);});
+    menu.addEventListener('click',event=>{if(event.target===menu){const b=menu.getBoundingClientRect();if(event.clientX<b.left||event.clientX>b.right||event.clientY<b.top||event.clientY>b.bottom)close(true);}});
     search.oninput=filter;
     menu.addEventListener('keydown',event=>{
-        if(event.key==='Escape'){event.preventDefault();event.stopPropagation();close(true);}
         if(event.key==='ArrowDown'||event.key==='ArrowUp'){
             event.preventDefault();const visible=[...choices.values()].filter(button=>!button.hidden),index=visible.indexOf(document.activeElement),step=event.key==='ArrowDown'?1:-1;
             visible[(index+step+visible.length)%visible.length]?.focus();
         }
     });
-    const outside=event=>{if(!root.contains(event.target))close();};document.addEventListener('pointerdown',outside);
+    viewport?.addEventListener('resize',fit);viewport?.addEventListener('scroll',fit);
     set(initial);
-    return {element:root,set,close,destroy(){document.removeEventListener('pointerdown',outside);root.remove();}};
+    return {element:root,set,close,isOpen:()=>menu.open,destroy(){viewport?.removeEventListener('resize',fit);viewport?.removeEventListener('scroll',fit);menu.close();menu.remove();root.remove();}};
 }

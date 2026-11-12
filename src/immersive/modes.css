@@ -157,3 +157,10 @@ html[data-view=website] #sidebar .all-works-nav[open]{height:auto;max-height:400
 
 .catalogue-cover-group[data-cover-count="1"] img{max-width:100%}
 .catalogue-cover-group[data-cover-count="2"] img{max-width:calc((100% - 12px)/2)}
+
+/* One appearance switch shared by all modes and retained on navigation. */
+#appearance-toggle{position:fixed;z-index:162;right:96px;top:22px;min-height:44px;padding:8px;border:0;background:var(--page,#f3f3ed);color:var(--ink,#292d27);font:12px/1 Arial,sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;border-radius:3px}
+#appearance-toggle span{font-size:19px;line-height:1}
+#appearance-toggle:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+@media(max-width:767px){#appearance-toggle{top:72px;right:74px;font-size:11px}}
+#appearance-toggle{background:transparent}
