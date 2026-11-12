@@ -87,6 +87,8 @@ test('first paint, native pixels and mobile pinch-to-detail remain stable',async
   await page.screenshot({scale:'css',path:'output/playwright/feedback-18/pixel-art-solo.png'});
   await page.keyboard.press('Escape');await enter.waitFor();
   assert.equal(await page.locator('.detail-info').isVisible(),true);assert.equal(page.url(),url);
+  // ResizeObserver applies the restored frame after the solo class changes.
+  await page.waitForFunction(width=>Math.abs(document.querySelector('.detail-poster').getBoundingClientRect().width-width)<1,split.width);
   const restored=await page.locator('.detail-poster').boundingBox();assert.ok(Math.abs(restored.width-split.width)<1);
   await enter.click();await page.getByRole('button',{name:'Return to artwork details',exact:true}).click();await enter.waitFor();
   assert.equal(await page.locator('.detail-info h1').textContent(),'Khaosan');
