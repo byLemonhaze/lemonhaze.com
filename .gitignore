@@ -36,3 +36,6 @@ dist-ssr
 temp_search/
 local-reports/
 output/playwright/motion-frames/
+
+# Local browser automation sessions
+.playwright-cli/

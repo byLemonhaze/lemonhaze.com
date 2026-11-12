@@ -1,32 +1,65 @@
-import { previewSource, workYear } from './model.js';
+import { thumbnailSource, workYear } from './model.js';
 import { isHtmlArtwork, isVideoArtwork, shouldUseDirectOnchainMedia, getCdnMediaSrc } from '../modules/artwork-media.js';
 import { ease, reducedMotion } from './motion.js';
+import { artworkMetadata } from './metadata.js';
+import { upgradePoster } from './media.js';
+import { loadLiveDocument } from './live-document.js';
+import { fitArtwork } from './presentation.js';
 
-export function createDetail({ root, catalog, onSelect, onClose, onWebsite }) {
+export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCollection, mountMetadata }) {
     const panel = document.createElement('section'); panel.className = 'experience-detail'; panel.hidden = true;
-    panel.setAttribute('role','dialog'); panel.setAttribute('aria-label','Artwork and collection');
+    panel.setAttribute('role','dialog'); panel.setAttribute('aria-label','Artwork details');
     panel.innerHTML = `<div class="detail-rail" role="group" aria-label="Collection artworks"></div>
         <div class="detail-stage"><div class="detail-media"></div></div>
-        <div class="detail-caption"><div><h1></h1><p></p></div><a class="detail-more" href="/?view=website">Full artwork details <span aria-hidden="true">↗</span></a></div>
+        <div class="detail-caption"><p></p></div>
+        <aside class="detail-info"><div class="detail-info-content"><p class="detail-eyebrow"></p><h1></h1><p class="detail-description"></p><dl class="detail-facts"></dl><details class="detail-expanded"><summary>Full details &amp; sales</summary><div class="detail-full-meta"></div></details><div class="detail-links"><button class="detail-collection-link">View collection in Gallery</button><a class="detail-inscription" target="_blank" rel="noopener">View inscription</a><a class="detail-more" href="/shop">Print details</a></div></div></aside>
         <button class="detail-close" aria-label="Close artwork"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
-        <div class="detail-live-controls"></div>`;
+`;
     root.append(panel);
+    const info=panel.querySelector('.detail-info'),facts=panel.querySelector('.detail-facts');
+    const expanded=panel.querySelector('.detail-expanded'),fullMeta=panel.querySelector('.detail-full-meta');
+    let releaseMetadata=null,metadataWork=null;
+    function loadMetadata(){
+        if(!expanded.open||!metadataWork||releaseMetadata)return;
+        releaseMetadata=mountMetadata?.(metadataWork,fullMeta,{onSelect:id=>{const work=catalog.byId.get(id);if(work)onSelect(work);},onCollection});
+    }
+    expanded.addEventListener('toggle',()=>{if(expanded.open)loadMetadata();});
+    fullMeta.addEventListener('click',event=>{
+        const anchor=event.target.closest('a[href]');if(!anchor||anchor.dataset.collectionLink||anchor.target==='_blank'||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+        const url=new URL(anchor.href,location.href);if(url.origin!==location.origin)return;
+        event.preventDefault();event.stopPropagation();onWebsite(url.pathname+url.search+url.hash);
+    },true);
+    const collectionLink=panel.querySelector('.detail-collection-link'),inscription=panel.querySelector('.detail-inscription');
+    function showInfo(work) {
+        releaseMetadata?.();releaseMetadata=null;metadataWork=work;
+        expanded.hidden=Boolean(work.href);if(work.href)expanded.open=false;
+        loadMetadata();
+        const data=artworkMetadata(work);
+        panel.querySelector('.detail-eyebrow').textContent=work.collection;
+        const description=panel.querySelector('.detail-description');description.textContent=data.description;description.hidden=!data.description;
+        facts.replaceChildren();
+        for(const [label,value] of data.fields){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;facts.append(dt,dd);}
+        inscription.hidden=!data.original;if(data.original)inscription.href=data.original;
+        collectionLink.onclick=()=>onCollection(work.collection);collectionLink.hidden=!catalog.galleryCollections.has(work.collection);
+        more.hidden=!work.href;
+        info.scrollTop=0;
+    }
     const rail = panel.querySelector('.detail-rail'), media = panel.querySelector('.detail-media');
-    const title = panel.querySelector('h1'), meta = panel.querySelector('p'), more = panel.querySelector('.detail-more');
-    const close = panel.querySelector('.detail-close'), liveControls = panel.querySelector('.detail-live-controls');
-    let selected = null, currentCollection = null, opener = null, animation = null, ghost = null, version = 0, live = null, hidden = false;
+    const title = panel.querySelector('h1'), meta = panel.querySelector('.detail-caption p'), more = panel.querySelector('.detail-more');
+    const close = panel.querySelector('.detail-close');
+    root.append(close);close.hidden=true;
+    let selected = null, currentCollection = null, opener = null, animation = null, ghost = null, version = 0, live = null, hidden = false,liveTimeout=0,releaseLiveDocument=null,cancelPoster=null;
     const thumbs = new Map();
     close.onclick = onClose;
-    more.onclick = event => { if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();onWebsite(selected); };
     function stopAnimation() { animation?.cancel(); animation=null; ghost?.remove(); ghost=null; }
-    function stopLive() { if(live){ if(live.tagName==='VIDEO')live.pause();live.remove();live=null; } }
+    function stopLive() { clearTimeout(liveTimeout);releaseLiveDocument?.();releaseLiveDocument=null;media.classList.remove('live-ready');if(live){ if(live.tagName==='VIDEO')live.pause();live.remove();live=null; } }
     function buildRail(work) {
         if(currentCollection===work.collection) return;
         currentCollection=work.collection;rail.replaceChildren();thumbs.clear();
         for(const item of catalog.collection(work)) {
             const button=document.createElement('button');button.type='button';button.className='detail-thumbnail';
             button.setAttribute('aria-label',item.name);button.title=item.name;
-            const image=new Image();image.src=previewSource(item);image.alt='';image.loading='lazy';image.decoding='async';
+            const image=new Image();image.src=thumbnailSource(item);image.alt='';image.loading='lazy';image.decoding='async';
             image.onerror=()=>{image.hidden=true;button.textContent=item.name;button.classList.add('thumbnail-unavailable');};
             button.append(image);button.onclick=()=>onSelect(item);rail.append(button);thumbs.set(item.id,button);
         }
@@ -38,11 +71,16 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite }) {
         const isHtml=isHtmlArtwork(work), isVideo=isVideoArtwork(work);
         if(!isHtml&&!isVideo) return;
         const node=document.createElement(isHtml?'iframe':'video');node.className='detail-original';
-        if(isHtml){node.title=`${work.name} — original animated artwork`;node.setAttribute('sandbox','allow-scripts allow-same-origin');node.setAttribute('scrolling','no');}
+        if(isHtml){node.title=`${work.name} — original animated artwork`;node.setAttribute('sandbox','allow-scripts allow-same-origin allow-downloads');node.setAttribute('scrolling','no');}
         else {node.controls=true;node.muted=true;node.loop=true;node.playsInline=true;node.autoplay=true;}
-        node.addEventListener(isHtml?'load':'loadeddata',()=>{if(node===live)node.classList.add('is-ready');},{once:true});
-        node.src=isHtml||shouldUseDirectOnchainMedia(work)?`https://ordinals.com/content/${work.id}`:getCdnMediaSrc(work);
+        const ready=()=>{if(node===live){clearTimeout(liveTimeout);media.classList.add('live-ready');node.classList.add('is-ready');}};
+        const fail=()=>{if(node!==live)return;stopLive();};
+        node.addEventListener('error',fail,{once:true});
         media.append(node);live=node;
+        const url=isHtml||shouldUseDirectOnchainMedia(work)?`https://ordinals.com/content/${work.id}`:getCdnMediaSrc(work);
+        if(isHtml)releaseLiveDocument=loadLiveDocument(node,url,work.id,{onReady:ready,onFailure:fail});
+        else {node.addEventListener('loadeddata',ready,{once:true});node.src=url;}
+        liveTimeout=setTimeout(fail,12000);
     }
     function flight(from, to, src, reverse=false) {
         if(!from||!to||reducedMotion()) return Promise.resolve();
@@ -61,43 +99,47 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite }) {
         return {left:r.left+(r.width-width)/2,top:r.top+(r.height-height)/2,width,height};
     }
     async function show(work, source, initial=false) {
-        const token=++version;stopAnimation();stopLive();hidden=false;
+        const token=++version;cancelPoster?.();cancelPoster=null;stopAnimation();stopLive();hidden=false;
         const opening=panel.hidden||!root.classList.contains('detail-open');
+        const originImage=source?.querySelector('img'),originRect=originImage?.naturalWidth?imageRect(originImage):null;
         selected=work;if(opening)opener=source||document.activeElement;
-        buildRail(work);title.textContent=work.name;meta.textContent=`${work.collection} · ${workYear(work)}`;
-        more.href=work.href?`${work.href}?view=website&work=${encodeURIComponent(work.id)}`:`/${work.id}?view=website`;
+        showInfo(work);buildRail(work);title.textContent=work.name;meta.textContent=`${work.collection} · ${workYear(work)}`;
+        more.href=work.href||'/?view=website';
         for(const [id,button] of thumbs)button.setAttribute('aria-pressed',String(id===work.id));
-        panel.hidden=false;root.classList.add('detail-open');
+        panel.hidden=false;close.hidden=false;root.classList.add('detail-open');
         panel.setAttribute('aria-labelledby','experience-artwork-title');title.id='experience-artwork-title';
-        const previous=media.querySelector('.detail-poster');
-        const poster=new Image();poster.className='detail-poster';poster.alt=work.name;poster.src=previewSource(work);poster.decoding='async';
+        const existing=[...media.querySelectorAll('.detail-poster')],previous=existing.pop();existing.forEach(image=>image.remove());
+        const poster=new Image();poster.className='detail-poster';poster.alt=work.name;poster.src=thumbnailSource(work);poster.decoding='async';
+        poster.onload=()=>{if(token===version&&poster.naturalWidth&&poster.dataset.presented)sizePoster(poster);};
         poster.onerror=()=>{poster.alt=`Preview unavailable for ${work.name}. Full artwork details remain available.`;};
         poster.style.opacity='0';media.append(poster);
-        liveControls.replaceChildren();
         const animated=isHtmlArtwork(work)||isVideoArtwork(work);
-        if(animated){const play=document.createElement('button');play.textContent=reducedMotion()?'Play original':'Pause artwork';play.onclick=()=>{const playing=play.textContent==='Play original';if(playing)startLive(work,token);else stopLive();play.textContent=playing?'Pause artwork':'Play original';};liveControls.append(play);}
         if(opening)close.focus({preventScroll:true});
-        requestAnimationFrame(()=>thumbs.get(work.id)?.scrollIntoView({block:'nearest',inline:'nearest',behavior:reducedMotion()?'instant':'smooth'}));
+        requestAnimationFrame(()=>token===version&&thumbs.get(work.id)?.scrollIntoView({block:'nearest',inline:'nearest',behavior:reducedMotion()?'instant':'smooth'}));
         await poster.decode().catch(()=>{});
         if(token!==version){poster.remove();return;}
-        const r=imageRect(poster);media.style.setProperty('--original-width',`${r.width}px`);media.style.setProperty('--original-height',`${r.height}px`);
+        previous?.remove();poster.dataset.presented='true';sizePoster(poster);const r=imageRect(poster);
         const from=source?.querySelector('img');
-        if(opening&&from&&!initial){
-            previous?.remove();from.style.visibility='hidden';await flight(imageRect(from),r,poster.src);from.style.visibility='';
+        if(initial){previous?.remove();poster.style.opacity='1';}
+        else if(opening&&from&&originRect){
+            previous?.remove();from.style.visibility='hidden';await flight(originRect,r,poster.src);from.style.visibility='';
             if(token!==version)return;
             poster.style.opacity='1';
         }else{
-            poster.animate([{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'none'}],{duration:reducedMotion()?0:420,easing:ease});poster.style.opacity='1';
-            if(previous){const out=previous.animate([{opacity:1},{opacity:0}],{duration:reducedMotion()?0:300,fill:'forwards'});out.finished.catch(()=>{}).then(()=>previous.remove());}
+            poster.style.opacity='1';
         }
-        // Full-resolution stills load only after the preview is on screen.
-        if(!animated){const high=new Image();high.src=work.original||(shouldUseDirectOnchainMedia(work)?`https://ordinals.com/content/${work.id}`:getCdnMediaSrc(work));high.onload=()=>{if(token===version)poster.src=high.src;};}
-        else if(!reducedMotion())startLive(work,token);
+        // Decode offscreen, then replace the poster in one paint. A stale load
+        // cannot overwrite a new selection or a recycled thumbnail.
+        // Resolve the sharp still before starting live playback. Both use the
+        // same fitted stage, so late still loads cannot resize a live surface.
+        cancelPoster=upgradePoster(work,poster,{onSettled:()=>{
+            if(token===version&&animated&&!reducedMotion())startLive(work,token);
+        }});
     }
     function hide(destination, immediate=false) {
-        const token=++version;stopLive();stopAnimation();hidden=true;
-        const poster=media.querySelector('.detail-poster'), source=destination?.querySelector('img');
-        root.classList.remove('detail-open');
+        const token=++version;cancelPoster?.();cancelPoster=null;stopLive();stopAnimation();hidden=true;releaseMetadata?.();releaseMetadata=null;metadataWork=null;
+        const poster=[...media.querySelectorAll('.detail-poster')].at(-1), source=destination?.querySelector('img');
+        root.classList.remove('detail-open');close.hidden=true;
         if(immediate||!poster||!source||reducedMotion()){panel.hidden=true;media.replaceChildren();}
         else {
             poster.style.opacity='0';
@@ -121,25 +163,29 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite }) {
         }
         if(event.key==='Tab'){
             // Keep keyboard focus within detail and the persistent mode switch.
-            const focusable=[...document.querySelectorAll('#view-switch a'),...panel.querySelectorAll('button:not([hidden]),a,iframe')].filter(el=>el.getClientRects().length);
+            const focusable=[...document.querySelectorAll('#view-switch a,#site-wordmark'),close,...panel.querySelectorAll('button:not([hidden]),a,iframe,summary')].filter(el=>el.getClientRects().length);
             const first=focusable[0],last=focusable.at(-1);
             if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
             else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
         }
     }
     document.addEventListener('keydown',keydown,true);
-    const visibility=()=>{if(document.hidden)stopLive();else if(selected&&!reducedMotion()&&liveControls.querySelector('button')?.textContent==='Pause artwork')startLive(selected,version);};
+    const visibility=()=>{if(document.hidden)stopLive();else if(selected&&!reducedMotion())startLive(selected,version);};
     document.addEventListener('visibilitychange',visibility);
     const motionChanged=()=>{
         if(!reducedMotion())return;
         stopLive();stopAnimation();
         const posters=[...media.querySelectorAll('.detail-poster')];posters.slice(0,-1).forEach(p=>p.remove());if(posters.at(-1))posters.at(-1).style.opacity='1';
         if(hidden)panel.hidden=true;
-        const play=liveControls.querySelector('button');if(play)play.textContent='Play original';
     };
     window.addEventListener('lemonhaze:motion-change',motionChanged);
-    const resize=new ResizeObserver(()=>{const poster=media.querySelector('.detail-poster');if(poster?.naturalWidth){const r=imageRect(poster);media.style.setProperty('--original-width',`${r.width}px`);media.style.setProperty('--original-height',`${r.height}px`);}});resize.observe(media);
+    function sizePoster(poster) {
+        if(!poster.naturalWidth||!poster.naturalHeight)return;
+        const fitted=fitArtwork(media.clientWidth,media.clientHeight,poster.naturalWidth/poster.naturalHeight);
+        for(const [key,value] of Object.entries(fitted))media.style.setProperty(`--${key==='width'||key==='height'?'original-'+key:key==='frameWidth'?'frame-width':key==='frameHeight'?'frame-height':key}`,`${value}px`);
+    }
+    const resize=new ResizeObserver(()=>{const poster=[...media.querySelectorAll('.detail-poster')].at(-1);if(poster?.naturalWidth)sizePoster(poster);});resize.observe(media);
     return {show,hide,element:panel,selected:()=>selected,
-        destroy(){++version;stopLive();stopAnimation();resize.disconnect();window.removeEventListener('lemonhaze:motion-change',motionChanged);document.removeEventListener('keydown',keydown,true);document.removeEventListener('visibilitychange',visibility);panel.remove();},
+        destroy(){++version;cancelPoster?.();releaseMetadata?.();releaseMetadata=null;stopLive();stopAnimation();resize.disconnect();window.removeEventListener('lemonhaze:motion-change',motionChanged);document.removeEventListener('keydown',keydown,true);document.removeEventListener('visibilitychange',visibility);panel.remove();close.remove();},
     };
 }

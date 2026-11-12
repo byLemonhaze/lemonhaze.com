@@ -26,7 +26,7 @@ export function setupPresentation() {
     const utilities = document.createElement('div');
     utilities.className = 'sidebar-utilities';
     const socials = document.createElement('div'); socials.className = 'sidebar-socials';
-    socials.innerHTML = '<a href="https://x.com/Ordinals10K" target="_blank" rel="noopener noreferrer">X ↗︎</a><a href="https://discord.com/invite/4A8jaMqdxs" target="_blank" rel="noopener noreferrer">Discord ↗︎</a>';
+    socials.innerHTML = '<a href="https://x.com/Ordinals10K" target="_blank" rel="noopener noreferrer">X</a><a href="https://discord.com/invite/4A8jaMqdxs" target="_blank" rel="noopener noreferrer">Discord</a>';
     utilities.append(socials, controls);
     document.querySelector('#sidebar > div:last-child')?.prepend(utilities);
     setTheme(initial);

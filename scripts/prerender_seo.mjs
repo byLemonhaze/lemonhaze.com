@@ -60,7 +60,17 @@ try {
     const src=el.dataset.onchainPreviewSrc||(entry.kind==='artwork'?'https://ordinals.com/content'+entry.path:null);
     if(src)el.setAttribute('src',src);else el.removeAttribute('src');delete el.dataset.previewPaused;
    });
-   if(entry.kind==='artwork'){
+   if(entry.kind==='artwork'&&clone.querySelector('.experience-detail:not([hidden])')){
+    // The metadata split is the current artwork page. Keep its static poster;
+    // chain scripts are never part of the search-engine snapshot.
+    clone.querySelectorAll('.detail-original,.live-artwork,.artwork-flight').forEach(el=>el.remove());
+    clone.querySelector('.experience-scene')?.remove();
+    const detail=clone.querySelector('.experience-detail');
+    const close=clone.querySelector('#immersive-experience > .detail-close'),link=document.createElement('a');
+    for(const a of close.attributes)link.setAttribute(a.name,a.value);
+    link.href=entry.collectionPath;link.innerHTML=close.innerHTML;close.replaceWith(link);
+    const poster=detail.querySelector('.detail-poster');if(poster)poster.style.opacity='1';
+   }else if(entry.kind==='artwork'){
     // Live lookups are intentionally disabled during capture. Their temporary
     // failure is not a lasting fact about the artwork or its owner.
     const owner=clone.querySelector('#meta-owner');
@@ -84,6 +94,11 @@ try {
    clone.querySelector('.modal-media-panel')?.removeAttribute('aria-busy');
    clone.querySelectorAll('.exchange-rate').forEach(el=>{el.textContent='';el.removeAttribute('title');});
    clone.querySelectorAll('script[src*="/press-engine"],script[data-build-only]').forEach(el=>el.remove());
+   // Image upgrades use resolved URLs in the browser. Persist local resources
+   // as origin-independent paths rather than the temporary build-server URL.
+   clone.querySelectorAll('[href],[src]').forEach(el=>{
+    for(const attr of ['href','src']){const value=el.getAttribute(attr);if(value?.startsWith(location.origin+'/'))el.setAttribute(attr,value.slice(location.origin.length));}
+   });
    // Keep each page metadata exactly aligned with the recorded route.
    const title=head.querySelector('title');title.textContent=entry.title;
    head.querySelector('meta[name="description"]').setAttribute('content',entry.description);

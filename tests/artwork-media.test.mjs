@@ -196,3 +196,36 @@ test('Đắc-Sơn uses its live on-chain content for the gallery preview', () =>
     const item = { id: 'd6b1b35b58d873a81f6b8aea3e02cd5a7177e1d86de9ee66adfe006284897d6bi0', collection: '1 of 1s (2026)', content_type: 'text/html' };
     assert.equal(getDirectOnchainPreviewSrc(item), `https://ordinals.com/content/${item.id}`);
 });
+
+test('Old-Fashioned only uses CDN-derived local images, including original display',async()=>{
+    const {readFile,access}=await import('node:fs/promises');
+    const {isHtmlArtwork,isVideoArtwork,shouldUseDirectOnchainMedia}=await import('../src/modules/artwork-media.js');
+    const {getArtworkImageSrc}=await import('../src/renderers/gallery.js');
+    const {originalSource,isLiveWork}=await import('../src/immersive/media.js');
+    const works=JSON.parse(await readFile(new URL('../public/data/provenance.json',import.meta.url))).filter(w=>w.collection==='Old-Fashioned');
+    assert.equal(works.length,16);
+    for(const w of works){
+        const src=`/images/old-fashioned/${w.id}.jpg`;
+        assert.equal(getArtworkImageSrc(w),src);assert.equal(originalSource(w),src);
+        assert.equal(isHtmlArtwork(w),false);assert.equal(isVideoArtwork(w),false);assert.equal(isLiveWork(w),false);
+        assert.equal(shouldUseDirectOnchainMedia(w),false);assert.equal(shouldUseDirectOnchainPreview(w),false);
+        await access(new URL('../public'+src,import.meta.url));
+    }
+});
+
+test('Manufactured display assets cover the complete collection with smaller sharp derivatives',async()=>{
+    const {readFile,stat}=await import('node:fs/promises');
+    const {getArtworkImageSrc}=await import('../src/renderers/gallery.js');
+    const works=JSON.parse(await readFile(new URL('../public/data/provenance.json',import.meta.url))).filter(w=>w.collection==='Manufactured');
+    const {audit,errors}=JSON.parse(await readFile(new URL('../docs/immersive/manufactured-images.json',import.meta.url)));
+    assert.equal(works.length,422);assert.deepEqual(errors,[]);
+    assert.deepEqual(new Set(audit.map(w=>w.id)),new Set(works.map(w=>w.id)));
+    for(const work of works){
+        const source=getArtworkImageSrc(work);
+        assert.equal(source,`/images/manufactured/${work.id}.webp`);
+        const entry=audit.find(w=>w.id===work.id);
+        assert.equal((await stat(new URL('../public'+source,import.meta.url))).size,entry.bytes);
+        assert.ok(entry.bytes<entry.inputBytes);
+        assert.ok(Math.max(entry.width,entry.height)<=1600);
+    }
+});

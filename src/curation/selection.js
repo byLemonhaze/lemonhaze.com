@@ -16,7 +16,7 @@ export const printPreviews = ARTWORKS.map(work => ({
     id: `shop-${work.id}`, name: work.title, grid_preview: work.preview,
     href: '/shop', palette: work.series, caption: 'Impossible Folds · Print selection',
     collection: 'Impossible Folds', year: Number(work.dated.slice(0, 4)),
-    original: work.original, artwork_type: 'PNG',
+    original: work.original, description: work.description, artwork_type: 'PNG',
 }));
 export function selectedWorks(artworks, ids = SELECTED_WORK_IDS) {
     const byId = new Map([...artworks, ...printPreviews].map(work => [work.id, work]));

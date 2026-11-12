@@ -1,5 +1,19 @@
 # Immersive review verification
 
+The release changes are documented in [Feedback pass 15](FEEDBACK-15.md), following the preceding feedback passes. Production deployment was authorized on November 11, 2026. Current screenshots are in [the review folder](../../output/playwright/feedback-15/index.html).
+
+## Release verification · November 11, 2026
+
+`npm run verify` passed on Node 22: 1,705 prerendered routes, 239 tests passing, zero failed or skipped. Coverage includes exact collection covers, edition deduplication, original aspect ratios, image fallbacks, cross-mode artwork focus, circular carousel navigation, drag/release snapping, mobile detail controls, and Catalogue iframe permissions.
+
+Additional browser checks covered desktop and mobile Studio Notes/Collecting, note opening and search, decoded print imagery, Hosoi placement, and the sharp Griffintown fallback. Collecting’s visible words were compared with the previous content and are unchanged.
+
+Physical-device testing and exhaustive live-chain playback remain outside this verification. Static artwork fallbacks remain available when an external original cannot load.
+
+## Initial preview record (historical)
+
+The observations and limitations below describe the initial preview deployment. Later feedback passes replace its navigation, media presentation, motion controls, gallery movement and Website layout.
+
 Review date: 2026-11-11. Branch: `feat/immersive-experience`.
 
 ## Review destinations

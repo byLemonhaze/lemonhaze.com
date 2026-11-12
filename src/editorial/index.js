@@ -115,6 +115,7 @@ export function createEditorialPage(key) {
     const archiveLinks = archiveLinksForCollection(key);
     if (archiveLinks && key !== 'Gentlemen') article.appendChild(archiveLinks);
     if (key === 'paint-engine') initializeEnginePicker(article);
+    if (key === 'collecting') article.classList.add('collecting-guide');
     if (key === 'gentleman-se-2025') illustratePractice(article);
     const back = document.createElement('nav');
     back.className = 'editorial-related';

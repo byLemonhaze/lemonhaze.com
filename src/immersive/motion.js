@@ -1,3 +1,4 @@
+import {isStaticOnlyMedia} from '../data/static-only-media.js';
 export const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 export const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
 export const ease = 'cubic-bezier(.22,1,.36,1)';
@@ -20,8 +21,13 @@ export function artworkButton(work, imageSource, onOpen) {
     button.type = 'button'; button.className = 'experience-art'; button.dataset.work = work.id;
     button.setAttribute('aria-label', `Open ${work.name}`);
     const img = new Image(); img.alt = work.name; img.draggable = false; img.decoding = 'async';
-    img.src = imageSource; button.append(img);
-    img.onerror = () => { button.classList.add('media-unavailable'); button.dataset.fallback = work.name; };
+    if(imageSource)img.src = imageSource; button.append(img);
+    img.addEventListener('load',()=>{button.classList.remove('media-unavailable','art-pending');button.style.setProperty('--image-ratio',img.naturalWidth/img.naturalHeight);});
+    img.onerror = () => {
+        const fallback=!isStaticOnlyMedia(work)&&/^[a-f0-9]{64}i\d+$/.test(work.id)?`https://render.ord.net/v9/snapshots/${work.id}/512.webp`:null;
+        if(fallback&&img.getAttribute('src')!==fallback){img.src=fallback;return;}
+        button.classList.add('media-unavailable');button.classList.remove('art-pending');button.dataset.fallback=work.name;
+    };
     button.addEventListener('click', () => onOpen(work, button));
     return button;
 }

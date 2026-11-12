@@ -57,7 +57,7 @@ Then deploy:
 
 ```bash
 npm run verify
-npx wrangler pages deploy dist --project-name lemonhaze
+npx wrangler pages deploy dist --project-name lemonhaze --branch main
 ```
 
 ## Immersive review preview

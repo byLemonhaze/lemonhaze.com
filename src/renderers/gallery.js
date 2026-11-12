@@ -1,5 +1,6 @@
 import {
     getCdnFallbackImageSrc,
+    isStaticOnlyMedia,
     getCdnMediaSrc,
     getDirectOnchainPreviewSrc,
     getLocalGridPreviewSrc,
@@ -21,6 +22,7 @@ const ENCRYPTED_ARTWORKS = new Set([
 ]);
 
 export function getArtworkImageSrc(item) {
+    if(isStaticOnlyMedia(item))return getLocalGridPreviewSrc(item);
     if (item?._imgSrc) return item._imgSrc;
     if (item?.grid_preview) return item.grid_preview;
     const localGridPreview = getLocalGridPreviewSrc(item);

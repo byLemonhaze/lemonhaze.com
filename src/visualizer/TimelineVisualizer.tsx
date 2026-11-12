@@ -1,3 +1,4 @@
+import {isStaticOnlyMedia} from '../data/static-only-media.js';
 "use client";
 
 import { PREVIEW_IMAGES } from "../curation/preview-images.js";
@@ -659,6 +660,7 @@ function getPreferredExtension(item: Artwork): string {
 }
 
 function getMediaCandidates(item: Artwork): string[] {
+  if(isStaticOnlyMedia(item))return [`/images/old-fashioned/${item.id}.jpg`,`${CDN_BASE}/${item.id}.png`];
   const preferred = getPreferredExtension(item);
   const candidates = [
     PREVIEW_IMAGES[`https://ordinals.com/content/${item.id}`],

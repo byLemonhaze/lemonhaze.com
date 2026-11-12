@@ -31,7 +31,7 @@ import { createSectionFlow } from './section-flow.js';
 import { el, refreshElements as refreshDomElements } from '../ui/elements.js';
 import { setLoadingIndicator } from '../ui/loading.js';
 import { updateHeaderView } from '../ui/header.js';
-import { closeMobileSidebar, toggleMobileSidebar } from '../ui/menu.js';
+import { closeMobileSidebar, toggleMobileSidebar, prepareWebsiteMenu } from '../ui/menu.js';
 import { createHomeLayoutController } from '../ui/home-layout.js';
 import { createTesterController } from '../ui/tester.js';
 import { getArtworkImageSrc, renderGalleryGrid } from '../renderers/gallery.js';
@@ -179,11 +179,12 @@ function syncSidebarActiveCollection(collectionName) {
 function syncSidebarActiveSection(sectionKey) {
     syncSidebarActiveSectionFromNav({
         topNav: el.topNavSection(),
-        sectionKey: ({ 'gentleman-se-2025': 'archive', 'paint-engine': 'practice', supply: 'collecting', media: 'highlights' })[sectionKey] || sectionKey || null,
+        sectionKey: ({ 'gentleman-se-2025': 'archive', 'paint-engine': 'practice', supply: 'collecting', media: 'highlights' })[sectionKey] || sectionKey || (appState.currentFilter && appState.currentFilter !== 'Home' ? 'all-works' : null),
     });
 }
 
 function openArtworkById(id, options = {}) {
+    if(viewingModes?.openWebsiteArtwork(id))return true;
     return sectionFlow.openArtworkById(id, options);
 }
 
@@ -237,6 +238,7 @@ async function init() {
 
     viewingModes = createViewingModes({
         appState, router, destroyHome: destroyHomeView, closeModal,
+        mountMetadata: (work,container,options) => artworkModalController.mountMetadata(work,container,options),
         applyWebsite: (options = {}) => sectionFlow.applyUrlStateFromLocation(options),
     });
 
@@ -276,17 +278,21 @@ function renderSidebar() {
         currentFilter: appState.currentFilter,
         activeSectionKey: appState.activeSectionKey,
         onOpenSection: (sectionKey) => {
-            if (openSection(sectionKey)) closeMobileMenu();
+            if(viewingModes){viewingModes.openWebsitePage('/'+sectionKey);closeMobileMenu();}
+            else if (openSection(sectionKey)) closeMobileMenu();
         },
         onOpenExternal: (url) => window.open(url, '_blank'),
-        onLoadCollection: (collectionName) => loadCollection(collectionName),
+        onLoadCollection: (collectionName) => {
+            if(viewingModes)viewingModes.openWebsitePage('/'+toCollectionSlug(collectionName));
+            else loadCollection(collectionName);
+        },
         onAfterSelect: closeMobileMenu,
     });
 }
 
 function loadCollection(name, options = {}) {
     const resolvedName = resolveCollectionName(name) || 'Home';
-    homeLayoutController.setHomeMode(resolvedName === 'Home');
+    homeLayoutController.setHomeMode(false);
     if (resolvedName !== 'Home') {
         destroyHomeView();
     }
@@ -328,6 +334,7 @@ function renderHome() {
     destroyHomeView();
     cleanupHomeView = renderHomeView({
         galleryGrid,
+        onNavigate: url => viewingModes?.openWebsitePage(url),
         appState,
         artworks: appState.artworks,
         chronologyByYear: CHRONOLOGY_BY_YEAR,
@@ -427,7 +434,7 @@ function openAboutModal(title, content, options = {}) {
     destroyHomeView();
 
     renderSectionView({
-        fullWidth: ['supply', 'selected', 'practice', 'shop'].includes(appState.activeSectionKey),
+        fullWidth: ['supply', 'selected', 'practice', 'shop', 'all-works'].includes(appState.activeSectionKey),
         title,
         content,
         headerElement: document.querySelector('header'),
@@ -495,7 +502,7 @@ function toggleMobileMenu() {
 }
 
 function closeMobileMenu() {
-    if (window.innerWidth >= 768 || !appState.isMobileMenuOpen) return;
+    if (!appState.isMobileMenuOpen) return;
 
     closeMobileSidebar({
         appState,
@@ -505,6 +512,7 @@ function closeMobileMenu() {
 }
 
 function setupEventListeners() {
+    prepareWebsiteMenu({sidebar,menuButton:menuToggle,closeMenu:closeMobileMenu,isOpen:()=>appState.isMobileMenuOpen});
     setupAppEventListeners({
         menuToggle,
         toggleMobileMenu,

@@ -4,6 +4,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (() => {
+      const url = new URL(location.href), explicit = url.searchParams.get('view');
+      const legacy = ['c','collection','name','s','section','a','id'].some(key => url.searchParams.has(key));
+      document.documentElement.dataset.view = ['explore','gallery','website'].includes(explicit) ? explicit : ['/', '/index.html'].includes(url.pathname) && !legacy ? 'explore' : 'website';
+    })();
+  </script>
+  <style>
+    html[data-view=explore] body,html[data-view=gallery] body{background:#f3f3ed!important}
+    html[data-view=explore] body>aside,html[data-view=gallery] body>aside,
+    html[data-view=explore] body>main:not(#immersive-experience),html[data-view=gallery] body>main:not(#immersive-experience){display:none!important}
+  </style>
   <title>Lemonhaze</title>
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -286,7 +298,7 @@
     <iframe id="site-overlay-iframe" class="flex-1 w-full" frameborder="0"></iframe>
   </div>
 
-  <noscript><style>html[data-view=explore] .no-script-browse,html[data-view=gallery] .no-script-browse{display:block!important}</style><div class="no-script-browse" style="display:none;position:fixed;inset:0;z-index:200;background:#f3f3ed;color:#292d27;padding:12vh 8vw;font:16px/1.6 Arial,sans-serif"><p>LEMONHAZE</p><p>Browse the artwork without the interactive view.</p><a href="/selected" style="color:#292d27!important;text-decoration:underline">Selected works →</a></div></noscript>
+  <noscript><style>html[data-view=explore] .no-script-browse,html[data-view=gallery] .no-script-browse{display:block!important}</style><div class="no-script-browse" style="display:none;position:fixed;inset:0;z-index:200;background:#f3f3ed;color:#292d27;padding:12vh 8vw;font:16px/1.6 Arial,sans-serif"><p>LEMONHAZE</p><p>Browse the artwork without the interactive view.</p><a href="/selected" style="color:#292d27!important;text-decoration:underline">Selected works</a></div></noscript>
   <script type="module" src="/src/main.js"></script>
 </body>
 
