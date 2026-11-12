@@ -53,6 +53,8 @@ test('edition covers use distinct originals and collections follow newest-first 
     assert.deepEqual(index.find(g=>g.name==='DeVille').covers.map(w=>w.name),['DeVille Nº 9','DeVille Nº 8','DeVille Nº 16']);
     assert.deepEqual(index.find(g=>g.name==='Orphelinat').covers.map(w=>w.name),['Paris','Hosoi','Deprivation']);
     assert.deepEqual(index.find(g=>g.name==='BEST BEFORE').covers.map(w=>w.name),['BEST BEFORE Nº1','BEST BEFORE Nº133','BEST BEFORE Nº21']);
+    assert.equal(index.some(g=>g.name==='Provenance'),false);
+    assert.equal(index.find(g=>g.name==='Ma ville en quatre temps').covers[0].name,"L'Hiver, la nuit");
     const trilogy=index.find(g=>g.name==='Trilogy (Prints)').covers;
     assert.equal(trilogy.length,3);assert.equal(new Set(trilogy.map(w=>w.id)).size,3);
     assert.deepEqual(new Set(trilogy.map(w=>w.name)),new Set(['Off-Kilter','Glass Breaker','Mending Out']));

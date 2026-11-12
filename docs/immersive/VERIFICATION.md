@@ -1,6 +1,6 @@
 # Immersive review verification
 
-The current refinement is documented in [Feedback pass 17](FEEDBACK-17.md): 1,705 prerendered routes and 241 passing tests, plus a separate WebKit mobile regression against the production build. Rapid switching, mobile safe focus, fixed-height menu expansion, collection image fallbacks, theme switching, note media and updated covers are covered. Current screenshots are in [the review folder](../../output/playwright/feedback-17/index.html). Production deployment remains authorized by the November 11 instruction. Earlier behavior is recorded in [Feedback pass 16](FEEDBACK-16.md) and preceding passes.
+The current refinement is documented in [Feedback pass 18](FEEDBACK-18.md): 1,704 prerendered routes and 246 passing tests, plus a separate WebKit mobile regression against the final production build. Native pixel rendering, first-paint themes, mobile pinch isolation, master-parent metadata, solo detail, collection removal and smoother field contact are covered. Current screenshots are in [the review folder](../../output/playwright/feedback-18/index.html). Production deployment remains authorized by the November 11 instruction. Earlier behavior is recorded in [Feedback pass 17](FEEDBACK-17.md) and preceding passes.
 
 ## Release verification · November 11, 2026
 

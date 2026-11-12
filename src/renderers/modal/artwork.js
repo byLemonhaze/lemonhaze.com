@@ -1,3 +1,4 @@
+import {coreWorkNote} from '../../data/artwork-notes.js';
 import { buildSandboxedArtworkHtml, ARTWORK_SANDBOX } from '../../ui/artwork-sandbox.js';
 import { createArtworkLoadingIndicator } from '../../ui/artwork-loading.js';
 import { createBestBeforePlayer } from '../../ui/best-before-player.js';
@@ -463,7 +464,7 @@ export function createArtworkModalController({
         }
 
         // 2. Collection
-        if (item.collection) {
+        if (item.collection && item.collection!=='Provenance') {
             modalMetadata.appendChild(makeMetaRow('Collection', collectionLink(item.collection,options.onCollection)));
         }
 
@@ -492,6 +493,7 @@ export function createArtworkModalController({
         }
         const artistNotes = createArtistNotes(item);
         if (artistNotes) modalMetadata.appendChild(makeMetaRow('Artist’s notes', artistNotes));
+        if(coreWorkNote(item))modalMetadata.appendChild(makeMetaRow('Note',makeMetaText(coreWorkNote(item))));
         if (item.note) {
             modalMetadata.appendChild(makeMetaRow('Note', makeMetaText(item.note)));
         }

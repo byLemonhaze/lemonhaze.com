@@ -197,7 +197,6 @@ I inscribe them as I see fit, as my soul asks for it. Money alone can't buy it.`
   "Old Fashioned": `"Old-Fashioned" is a blend of tradition and a grand vision. Inscribed on vintage sats from block 78, this collection pushes the boundaries of on-chain art by presenting ultra-high resolution (20K) artworks on Bitcoin. Each pieces use a combination of randomness in layout and texture design, coupled with a probability-based color selection that adds a layer of intrigue into the creation process. Additionally, viewers can find intriguing notes embedded within the HTML header of each artwork, offering a deeper glimpse into the narrative behind the tradition.`,
   "Old-Fashioned": `"Old-Fashioned" is a blend of tradition and a grand vision. Inscribed on vintage sats from block 78, this collection pushes the boundaries of on-chain art by presenting ultra-high resolution (20K) artworks on Bitcoin. Each pieces use a combination of randomness in layout and texture design, coupled with a probability-based color selection that adds a layer of intrigue into the creation process. Additionally, viewers can find intriguing notes embedded within the HTML header of each artwork, offering a deeper glimpse into the narrative behind the tradition.`,
   "Volatility": `A generative reflection of life's inherent ups and downs, of the oscillations in mood and spirit that we all endure. Just as markets surge and plummet, so do our emotions, hopes, and dreams. Volatility is a representation of the peaks of euphoria and the troughs of despair. It's personal, yet universal - a testimony to the wild ride that is life and the quest for balance in the midst of chaos. Note: Go to the official ordinals content link and press 'S' to download the high resolution PNG.`,
-  "Provenance": "ART BY LEMONHAZE",
   "La Tentation": `A seductive paradox, where the allure of temptation meets the purity of restraint. In this curated generative series, I work with a simple extended grid composition and a set of vivid color palettes, exploring the fine line between indulgence and control. This is a continuation of my work with code, where I put a lot of emphasis on textures and mixing colors.`,
   "Deville": `Descendants of Cypherville.`,
   "DeVille": `Descendants of Cypherville.`,
@@ -664,9 +663,6 @@ const RAW_MARKET_LINKS = {
   },
   'Volatility': {
     gamma: 'https://gamma.io/ordinals/collections/volatility-by-lemonhaze/items'
-  },
-  'Provenance': {
-    gamma: 'https://gamma.io/ordinals/collections/provenance/items'
   },
   'La Tentation': {
     gamma: 'https://gamma.io/ordinals/collections/la-tentation-by-lemonhaze/items'

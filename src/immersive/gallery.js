@@ -1,3 +1,4 @@
+import {coreWorkNote} from '../data/artwork-notes.js';
 import { browsingSource, workYear } from './model.js';
 import { artworkButton, clamp, motionLoop, reducedMotion } from './motion.js';
 import { createCollectionPicker, collectionEntry } from './collections.js';
@@ -28,7 +29,7 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
     function updateCurrent(index) {
         if (current === index) return;
         current = index; const work = items[index];
-        title.textContent = work.name; meta.textContent = `${work.collection} · ${workYear(work)}`;
+        title.textContent = work.name; meta.textContent = coreWorkNote(work)?'Master parent · Root of the on-chain tree':`${work.collection} · ${workYear(work)}`;
         counter.textContent = `${String(index+1).padStart(2,'0')} / ${String(items.length).padStart(2,'0')}`;
         for(const control of controls)control.disabled=items.length<2;
         onCurrent(work);

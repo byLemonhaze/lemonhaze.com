@@ -1,3 +1,4 @@
+import {pixelDimensions} from '../data/pixel-art.js';
 import {isStaticOnlyMedia} from '../data/static-only-media.js';
 export const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 export const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
@@ -18,7 +19,7 @@ export function motionLoop(step) {
 }
 export function artworkButton(work, imageSource, onOpen) {
     const button = document.createElement('button');
-    button.type = 'button'; button.className = 'experience-art'; button.dataset.work = work.id;
+    button.type = 'button'; button.className = 'experience-art'; button.dataset.work = work.id;button.classList.toggle('pixel-art',Boolean(pixelDimensions(work)));
     button.setAttribute('aria-label', `Open ${work.name}`);
     const img = new Image(); img.alt = work.name; img.draggable = false; img.decoding = 'async';
     if(imageSource)img.src = imageSource; button.append(img);

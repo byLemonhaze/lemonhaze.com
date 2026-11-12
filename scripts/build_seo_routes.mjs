@@ -18,13 +18,13 @@ const artworks=assembleArtworkCatalog(provenance,bb,featured);
 const resolver=createCollectionResolver({chronologyByYear:CHRONOLOGY_BY_YEAR,getArtworks:()=>artworks});resolver.rebuildCollectionSlugs();
 const routes=Object.keys(PAGE_METADATA).map(path=>metadataFor({path}));
 for(const name of new Set([...Object.values(CHRONOLOGY_BY_YEAR).flat(),...artworks.map(a=>a.collection)])){
- if(!name||name==='Home')continue;
+ if(!name||name==='Home'||name==='Provenance')continue;
  const path='/'+resolver.toCollectionSlug(name);
  routes.push(metadataFor({path,name,description:COL_DESCRIPTIONS[name],kind:'collection'}));
 }
 for(const a of artworks){
  if(!/^[a-f0-9]{64}i\d+$/.test(a.id))continue; // Viewer state examples are not inscriptions.
- routes.push({...metadataFor({path:'/'+a.id,name:a.name,kind:'artwork',collection:a.collection,image:a.grid_preview||`https://cdn.lemonhaze.com/assets/assets/${a.id}.png`}),collectionPath:'/'+resolver.toCollectionSlug(a.collection)});
+ routes.push({...metadataFor({path:'/'+a.id,name:a.name,kind:'artwork',collection:a.collection==='Provenance'?null:a.collection,image:a.grid_preview||`https://cdn.lemonhaze.com/assets/assets/${a.id}.png`}),collectionPath:a.collection==='Provenance'?'/all-works':'/'+resolver.toCollectionSlug(a.collection)});
 }
 if(new Set(routes.map(r=>r.path)).size!==routes.length)throw Error('Duplicate SEO routes');
 await mkdir(new URL('public/seo/',root),{recursive:true});

@@ -594,15 +594,6 @@
     "name": "1 of 1s (2026)"
   },
   {
-    "path": "/provenance",
-    "title": "Provenance | Lemonhaze",
-    "description": "ART BY LEMONHAZE",
-    "canonical": "https://lemonhaze.com/provenance",
-    "image": "https://lemonhaze.com/social/lemonhaze-2d55ab2b07.jpg",
-    "kind": "collection",
-    "name": "Provenance"
-  },
-  {
     "path": "/colors",
     "title": "Colors | Lemonhaze",
     "description": "ART BY LEMONHAZE",
@@ -614,12 +605,12 @@
   {
     "path": "/788df6ca0f6fc0ddf32b363c4571dd77c42cdf1367365575815452dd050d2b86i0",
     "title": "Confabulation | Lemonhaze",
-    "description": "Confabulation by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "description": "Confabulation by Lemonhaze. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/788df6ca0f6fc0ddf32b363c4571dd77c42cdf1367365575815452dd050d2b86i0",
     "image": "https://cdn.lemonhaze.com/assets/assets/788df6ca0f6fc0ddf32b363c4571dd77c42cdf1367365575815452dd050d2b86i0.png",
     "kind": "artwork",
     "name": "Confabulation",
-    "collectionPath": "/provenance"
+    "collectionPath": "/all-works"
   },
   {
     "path": "/862fac8dc9236e8adb4cc7e6127421fe7f3cad8c4b07975b8cf0bdb9bea7c038i0",
@@ -684,12 +675,12 @@
   {
     "path": "/fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0",
     "title": "Chrysalis | Lemonhaze",
-    "description": "Chrysalis by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "description": "Chrysalis by Lemonhaze. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0",
     "image": "https://cdn.lemonhaze.com/assets/assets/fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0.png",
     "kind": "artwork",
     "name": "Chrysalis",
-    "collectionPath": "/provenance"
+    "collectionPath": "/all-works"
   },
   {
     "path": "/da1f4317a9ea57ff35c07de6c722d88287a307967cfa0711487afb079f497a1ci0",
@@ -764,12 +755,12 @@
   {
     "path": "/3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0",
     "title": "Tin Box of Solitude | Lemonhaze",
-    "description": "Tin Box of Solitude by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "description": "Tin Box of Solitude by Lemonhaze. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0",
     "image": "https://cdn.lemonhaze.com/assets/assets/3664bb4f033e06f53dff3a42952311b20a7622023bbc77ef0954d8dde6463460i0.png",
     "kind": "artwork",
     "name": "Tin Box of Solitude",
-    "collectionPath": "/provenance"
+    "collectionPath": "/all-works"
   },
   {
     "path": "/dbdb7aec6731f505c699bfa5f2cac8021356cf4db8082285f343c12bad9742fbi0",
@@ -3204,12 +3195,12 @@
   {
     "path": "/93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0",
     "title": "Griffintown | Lemonhaze",
-    "description": "Griffintown by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "description": "Griffintown by Lemonhaze. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0",
     "image": "https://cdn.lemonhaze.com/assets/assets/93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0.png",
     "kind": "artwork",
     "name": "Griffintown",
-    "collectionPath": "/provenance"
+    "collectionPath": "/all-works"
   },
   {
     "path": "/313e86271590527ad6ac0b1b850190f4fe891b9783a6855cf1374b1db29517cai0",
@@ -3244,12 +3235,12 @@
   {
     "path": "/a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0",
     "title": "Liminality | Lemonhaze",
-    "description": "Liminality by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "description": "Liminality by Lemonhaze. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0",
     "image": "https://lemonhaze.com/images/liminality/a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0-frameless.png",
     "kind": "artwork",
     "name": "Liminality",
-    "collectionPath": "/provenance"
+    "collectionPath": "/all-works"
   },
   {
     "path": "/b1b64766543cbcb089d252f67f77d0f562ae96bbee28ad4effee25d42b19da04i0",
@@ -16744,32 +16735,32 @@
   {
     "path": "/05c2bd3924695dde46d417cdbe30aad5980cefdbf587e2d7a1f93b017a9284abi0",
     "title": "Stuntman | Lemonhaze",
-    "description": "Stuntman by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "description": "Stuntman by Lemonhaze. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/05c2bd3924695dde46d417cdbe30aad5980cefdbf587e2d7a1f93b017a9284abi0",
     "image": "https://cdn.lemonhaze.com/assets/assets/05c2bd3924695dde46d417cdbe30aad5980cefdbf587e2d7a1f93b017a9284abi0.png",
     "kind": "artwork",
     "name": "Stuntman",
-    "collectionPath": "/provenance"
+    "collectionPath": "/all-works"
   },
   {
     "path": "/bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0",
     "title": "BEST BEFORE (Engine and Diary) | Lemonhaze",
-    "description": "BEST BEFORE (Engine and Diary) by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "description": "BEST BEFORE (Engine and Diary) by Lemonhaze. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0",
     "image": "https://cdn.lemonhaze.com/assets/assets/bcf16735647186ef853dedd820c9319e9895f99bfddedcfb782ace38093bb8fbi0.png",
     "kind": "artwork",
     "name": "BEST BEFORE (Engine and Diary)",
-    "collectionPath": "/provenance"
+    "collectionPath": "/all-works"
   },
   {
     "path": "/a19e210c94fe5716b2877ca3d5afee9ed248b6a8ed549ff2186dd3170f191961i0",
     "title": "Collabs Punch Card (ORDINALLY) | Lemonhaze",
-    "description": "Collabs Punch Card (ORDINALLY) by Lemonhaze, from Provenance. Explore the artwork, inscription details, and artist notes on Bitcoin.",
+    "description": "Collabs Punch Card (ORDINALLY) by Lemonhaze. Explore the artwork, inscription details, and artist notes on Bitcoin.",
     "canonical": "https://lemonhaze.com/a19e210c94fe5716b2877ca3d5afee9ed248b6a8ed549ff2186dd3170f191961i0",
     "image": "https://cdn.lemonhaze.com/assets/assets/a19e210c94fe5716b2877ca3d5afee9ed248b6a8ed549ff2186dd3170f191961i0.png",
     "kind": "artwork",
     "name": "Collabs Punch Card (ORDINALLY)",
-    "collectionPath": "/provenance"
+    "collectionPath": "/all-works"
   },
   {
     "path": "/8364ada14a420eff704c0eeca009c8460769879fdfd70270ff4a3b1c92cbe482i0",

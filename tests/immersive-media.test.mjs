@@ -49,3 +49,15 @@ test('sharp previews load in bounded priority order and cancel when their view l
         assert.equal(requests.length,3,'cancellation must not start the remaining neighbours');
     }finally{queue.clear();globalThis.Image=previous;}
 });
+
+
+test('a blocked chain image falls back to the artist CDN before giving up',async()=>{
+ const previous=globalThis.Image,images=[];
+ globalThis.Image=class{constructor(){images.push(this);}decode(){return Promise.resolve();}};
+ try{
+  const work={id:'example',collection:'Gentlemen',artwork_type:'JPEG'},img={src:'low',isConnected:true,dataset:{},getAttribute(){return this.src;}};
+  let settled=0;upgradePoster(work,img,{onSettled:()=>settled++});const high=images.at(-1);
+  assert.match(high.src,/ordinals.com/);high.onerror();assert.match(high.src,/cdn.lemonhaze.com/);assert.equal(settled,0);
+  await high.onload();assert.equal(img.src,high.src);assert.equal(settled,1);
+ }finally{globalThis.Image=previous;}
+});

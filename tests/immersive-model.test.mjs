@@ -32,6 +32,8 @@ test('verified landing works resolve to their complete, ordered collections',asy
     const catalog=createExperienceCatalog(assembleArtworkCatalog(provenance,normalizeBBCollection(JSON.parse(await readFile(new URL('../public/data/collections/best-before.json',import.meta.url)))),featured));
     assert.deepEqual(catalog.selected.map(w=>w.id),SELECTED_WORK_IDS);
     assert.equal(catalog.selected.length,8);
+    assert.equal(catalog.galleryCollections.has('Provenance'),false);
+    assert.ok(catalog.all.some(work=>work.name==='Stuntman'),'root infrastructure records stay available');
     assert.equal(catalog.explore.length,1414);
     assert.equal(new Set(catalog.explore.map(work=>work.id)).size,1414);
     assert.deepEqual(catalog.explore.slice(0,8).map(work=>work.id),SELECTED_WORK_IDS);

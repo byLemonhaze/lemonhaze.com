@@ -9,7 +9,7 @@
 .experience-note span{margin:0 8px}
 .experience-scene{position:absolute;inset:0;transition:transform .68s cubic-bezier(.22,1,.36,1);will-change:transform}
 .detail-open .experience-scene{transform:translateX(30%)}
-.explore-viewport{position:absolute;inset:0;overflow:clip;cursor:grab;touch-action:pinch-zoom;user-select:none}
+.explore-viewport{position:absolute;inset:0;overflow:clip;cursor:grab;touch-action:none;user-select:none}
 .explore-viewport.is-dragging{cursor:grabbing}
 .explore-world{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
 .experience-art{display:block;position:absolute;transform:translate(-50%,-50%);}
@@ -187,7 +187,7 @@ html[data-motion=reduced] .immersive-experience *,html[data-motion=reduced] .art
 .detail-full-meta [data-field="Sales history"]{font-variant-numeric:tabular-nums}
 .detail-expanded summary:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
 @media(max-width:700px){
- .detail-close{top:94px;right:14px;width:44px;height:44px;border:0!important;background:transparent!important}
+ .detail-close{top:72px;right:64px;width:44px;height:44px;border:0!important;background:transparent!important}
  .detail-close:before{content:'';position:absolute;inset:8px;border:1px solid var(--line);background:var(--paper);z-index:-1}
  .detail-close svg{width:14px;height:14px;stroke-width:1.5}
 }
@@ -266,3 +266,17 @@ dialog.collection-menu header{background:transparent!important;padding:0!importa
 /* Give Safari a definite flex height; an auto-height dialog can collapse the list. */
 dialog.collection-menu{height:min(640px,calc(var(--picker-height,100dvh) - 40px))}
 dialog.collection-menu>label{flex:none}
+
+.pixel-art img,img.pixel-art{image-rendering:pixelated!important}
+.detail-core-note{font-size:14px;line-height:1.65;border-left:1px solid var(--line);padding-left:16px;margin:22px 0;color:var(--ink)}
+
+/* A second click on desktop gives the selected artwork the whole stage. */
+.detail-solo-enter{display:none}
+@media(min-width:701px){
+ .detail-solo-enter{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--original-width,100%);height:var(--original-height,100%);z-index:4;border:0;background:transparent;cursor:zoom-in}
+ .detail-solo-enter:focus-visible{outline:2px solid var(--ink);outline-offset:8px}
+ .detail-solo .detail-solo-enter,.detail-solo :is(.detail-rail,.detail-info,.detail-caption){display:none}
+ .detail-solo .detail-stage{left:48px;right:48px;top:90px;bottom:30px}
+ .detail-solo>.detail-close{left:auto;right:22px;top:84px;transform:none;width:36px;height:36px;border:0!important;background:transparent!important}
+ .detail-solo>.detail-close svg{width:18px;height:18px}
+}

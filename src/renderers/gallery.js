@@ -1,3 +1,5 @@
+import {pixelOriginalSource} from '../data/pixel-art.js';
+import {coreWorkNote} from '../data/artwork-notes.js';
 import {displayPreview} from '../curation/preview-images.js';
 import previewManifest from '../immersive/preview-manifest.json' with {type:'json'};
 import {
@@ -24,6 +26,7 @@ const ENCRYPTED_ARTWORKS = new Set([
 ]);
 
 export function getArtworkImageSrc(item) {
+    if(pixelOriginalSource(item))return pixelOriginalSource(item);
     if(isStaticOnlyMedia(item))return getLocalGridPreviewSrc(item);
     if (item?._imgSrc) return item._imgSrc;
     if (item?.grid_preview) return item.grid_preview;
@@ -101,7 +104,7 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
         ${parentLabel}
       </div>
       <div class="pt-2 pb-1">
-        <p class="text-[10px] font-bold uppercase tracking-widest text-white text-center truncate">${item.name || 'Untitled'}</p>
+        <p class="text-[10px] font-bold uppercase tracking-widest text-white text-center truncate">${item.name || 'Untitled'}</p>${coreWorkNote(item)?'<p class="core-work-label">Master parent · Root of the on-chain tree</p>':''}
       </div>
     `;
 

@@ -1,7 +1,7 @@
 /* Local presentation study. Artwork pixels and embedded artworks are never recolored. */
-:root { --page:#1c1c1b; --surface:#252524; --ink:#e9e7e2; --muted:#96948f; --line:#ffffff24; }
+:root { --page:#f2f0eb; --surface:#eae7e0; --ink:#282725; --muted:#69665f; --line:#2827252b; color-scheme:light; }
 :root[data-presentation="paper"] { --page:#f2f0eb; --surface:#eae7e0; --ink:#282725; --muted:#69665f; --line:#2827252b; color-scheme:light; }
-:root[data-presentation="black"] { color-scheme:dark; }
+:root[data-presentation="black"] { --page:#1c1c1b; --surface:#252524; --ink:#e9e7e2; --muted:#96948f; --line:#ffffff24; color-scheme:dark; }
 html[data-presentation] body { background:var(--page)!important; color:var(--ink)!important; }
 html[data-presentation] :is(main,#sidebar) { background:var(--page)!important; color:var(--ink); box-shadow:none!important; border-color:var(--line); }
 html[data-presentation] #sidebar { --lh-ink:var(--ink); --lh-muted:var(--muted); --lh-line:var(--line); }
@@ -421,3 +421,5 @@ html[data-presentation] #modal-overlay :is(button,select,a):focus-visible { text
 .archive-card details[open] > summary > .studio-note-preview{display:none}
 .lh-editorial.archive-page .has-preview details[open] > summary{grid-template-columns:minmax(0,1fr)}
 .lh-editorial.archive-page .has-preview details[open] > summary :is(h2,.archive-read-label){grid-column:1}
+
+.core-work-label{font:11px/1.5 Arial,sans-serif;text-align:center;color:var(--muted);margin-top:6px}

@@ -1,9 +1,11 @@
+import {pixelOriginalSource} from '../data/pixel-art.js';
 import { isStaticOnlyMedia, getLocalGridPreviewSrc, isHtmlArtwork, isVideoArtwork, getCdnMediaSrc, shouldUseDirectOnchainMedia } from '../modules/artwork-media.js';
 import { previewSource } from './model.js';
 
 export const isLiveWork = work => isHtmlArtwork(work) || isVideoArtwork(work);
 const staticPreviewSource=work=>isVideoArtwork(work)?getCdnMediaSrc(work,'png'):previewSource(work);
 export function originalSource(work) {
+    if(pixelOriginalSource(work))return pixelOriginalSource(work);
     if(isStaticOnlyMedia(work))return getLocalGridPreviewSrc(work);
     return work.original || (isHtmlArtwork(work)||shouldUseDirectOnchainMedia(work) ? `https://ordinals.com/content/${work.id}` : getCdnMediaSrc(work));
 }
@@ -19,7 +21,15 @@ export function upgradePoster(work,img,{source,onSettled=()=>{}}={}) {
         img.src=high.src;
         finish();
     };
-    high.onerror=finish;
+    let triedCdn=false;
+    high.onerror=()=>{
+        // A gateway may reject cross-origin images even when the inscription
+        // exists. Keep the still sharp using the artist-owned mirror.
+        if(!cancelled&&!triedCdn&&/^https:\/\/ordinals\.com\/(content|preview)\//.test(high.src)){
+            triedCdn=true;high.src=getCdnMediaSrc(work,isLiveWork(work)?'png':null);return;
+        }
+        finish();
+    };
     high.src=source||(isLiveWork(work)?staticPreviewSource(work):originalSource(work));
     return ()=>{cancelled=true;high.onload=high.onerror=null;high.src='';finish();};
 }

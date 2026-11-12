@@ -27,3 +27,14 @@ test('both browser pinch event paths share zoom and release every listener',()=>
     handlers.get('gestureend')(event({}));handlers.get('wheel')(event({}));assert.equal(calls.length,before+1);
     dispose();assert.equal(handlers.size,0);
 });
+
+test('two-touch pinch changes only the field camera and prevents native page zoom',()=>{
+ const handlers=new Map(),calls=[],states=[];
+ const viewport={getBoundingClientRect:()=>({left:0,top:0}),addEventListener:(type,fn)=>handlers.set(type,fn),removeEventListener:type=>handlers.delete(type)};
+ const dispose=bindPinchZoom(viewport,(factor,anchor)=>calls.push({factor,anchor}),active=>states.push(active));
+ const event=points=>({touches:points.map(([clientX,clientY])=>({clientX,clientY})),preventDefault(){this.prevented=true;}});
+ const start=event([[100,300],[200,300]]);handlers.get('touchstart')(start);assert.ok(start.prevented);
+ const into=event([[50,300],[250,300]]);handlers.get('touchmove')(into);assert.ok(into.prevented);assert.equal(calls.at(-1).factor,2);
+ const out=event([[100,300],[200,300]]);handlers.get('touchmove')(out);assert.equal(calls.at(-1).factor,.5);assert.deepEqual(calls.at(-1).anchor,{x:150,y:300});
+ handlers.get('touchend')(event([]));assert.deepEqual(states,[true,false]);dispose();assert.equal(handlers.size,0);
+});

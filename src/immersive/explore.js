@@ -14,7 +14,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     viewport.setAttribute('aria-label', 'Explore artworks. Drag or scroll to pan. Arrow keys move the canvas; plus and minus zoom. Tab to select a work.');
     const world = document.createElement('div'); world.className = 'explore-world'; viewport.append(world);
     const camera = { x: 0, y: 0, zoom: 1, ...saved };
-    let target = { ...camera }, vx = 0, vy = 0, drag = null, moved = false, alive = true;
+    let target = { ...camera }, vx = 0, vy = 0, drag = null, moved = false, alive = true, pinching=false;
     const buttons = new Map(), loaded=new Set(), sources=new Map(),workIndex=new Map(works.map(work=>[work.id,work]));
     const layout=buildExploreLayout(works), placements=layout.placements;
     const overview=new Image();overview.className='explore-overview';overview.alt='';overview.decoding='async';overview.hidden=true;overview.onload=()=>document.querySelector('#mobile-explore-preview')?.remove();
@@ -71,7 +71,9 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         previews.update(visible.filter(([,p])=>camera.zoom*Math.max(p[2],p[3])>180).map(([id])=>({work:workIndex.get(id),img:buttons.get(id).querySelector('img')})));
     }
     function bound() {
-        const limits=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,target.zoom,squash);
+        // Collide against stable walls. The animated outline must never feed
+        // its changing bounds back into the next frame's velocity.
+        const limits=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,target.zoom,drag?squash:0);
         if(drag){containField(target,{x:0,y:0},limits,false);return;}
         const velocity={x:vx,y:vy};
         const impact=containField(target,velocity,limits,!reducedMotion());
@@ -90,17 +92,18 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         }else{
             const spring=settleFieldSquash(squash,squashVelocity,dt/1000);squash=spring.value;squashVelocity=spring.velocity;
         }
-        const damping=restingLimits.fits?.955:.88;
+        const damping=restingLimits.fits?.925:.88;
         if (!drag && !reduce) { target.x += vx * dt / 16.67; target.y += vy * dt / 16.67; vx *= Math.pow(damping, dt / 16.67); vy *= Math.pow(damping, dt / 16.67); }
         bound();
+        if(drag&&pressure.axis){
+            const contact=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,target.zoom,squash);
+            target[pressure.axis]=contact[(pressure.side<0?'min':'max')+(pressure.axis==='x'?'X':'Y')];
+        }
         const a = reduce ? 1 : 1 - Math.exp(-dt / (drag ? 32 : 72));
         for (const key of ['x', 'y', 'zoom']) camera[key] += (target[key] - camera[key]) * a;
         const limits=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,camera.zoom,squash);
         if(limits.fits){
             containField(camera,{x:0,y:0},limits,false);
-            // The contact edge stays against the wall while the opposite edge
-            // gives way under the pointer's sustained pressure.
-            if(pressure.axis){const axis=pressure.axis;camera[axis]=limits[(pressure.side<0?'min':'max')+(axis==='x'?'X':'Y')];}
         }
         world.style.transform = `translate3d(${camera.x}px,${camera.y}px,0) scale(${camera.zoom*limits.sx},${camera.zoom*limits.sy})`;
         refreshImages();
@@ -117,8 +120,10 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     loop.wake();
     viewport.addEventListener('dragstart', event => event.preventDefault());
     viewport.addEventListener('pointerdown', event => {
-        if (event.button !== 0 || !event.isPrimary) { drag = null; return; }
+        if (pinching || event.button !== 0 || !event.isPrimary) { drag = null; return; }
         moved = false; vx = vy = 0;
+        // Catch the visible field, not the destination of its previous throw.
+        target={...camera};
         drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY, at: performance.now(), sx: target.x, sy: target.y, desired:{x:target.x,y:target.y} };
     });
     viewport.addEventListener('pointermove', event => {
@@ -127,8 +132,9 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         if (!moved && Math.hypot(dx, dy) < 7) return;
         moved = true; viewport.setPointerCapture(event.pointerId); viewport.classList.add('is-dragging');
         const now = performance.now(), dt = Math.max(8, now - drag.at);
-        vx = clamp((event.clientX - drag.lastX) / dt * 16.67, -25, 25);
-        vy = clamp((event.clientY - drag.lastY) / dt * 16.67, -25, 25);
+        const blend=1-Math.exp(-dt/55);
+        vx += (clamp((event.clientX-drag.lastX)/dt*16.67,-22,22)-vx)*blend;
+        vy += (clamp((event.clientY-drag.lastY)/dt*16.67,-22,22)-vy)*blend;
         drag.lastX = event.clientX; drag.lastY = event.clientY; drag.at = now;
         drag.desired={x:drag.sx+dx,y:drag.sy+dy};target.x=drag.desired.x;target.y=drag.desired.y;loop.wake();
     });
@@ -139,7 +145,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         if(event.type!=='pointercancel'&&!reducedMotion()&&pressure?.axis){
             // Release from the visible contact point, never from the overshot grab target.
             target.x=camera.x;target.y=camera.y;
-            const rebound=-pressure.side*Math.max(6,Math.abs(squash)*90);
+            const rebound=-pressure.side*Math.max(3,Math.abs(squash)*45);
             if(pressure.axis==='x')vx=rebound;else vy=rebound;
         }
         drag = null; viewport.classList.remove('is-dragging'); loop.wake();
@@ -158,7 +164,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         const minZoom=Math.min(.025,overviewCamera(bounds(),viewport.clientWidth,viewport.clientHeight).zoom*.65);
         Object.assign(target,zoomCamera(target,factor,anchor,minZoom));vx=vy=0;loop.wake();
     }
-    const unbindPinch=bindPinchZoom(viewport,zoom);
+    const unbindPinch=bindPinchZoom(viewport,zoom,active=>{pinching=active;drag=null;moved=true;vx=vy=0;viewport.classList.remove('is-dragging');});
     viewport.addEventListener('keydown', event => {
         if (event.ctrlKey || event.metaKey || event.altKey) return;
         const move = { ArrowLeft:[110,0], ArrowRight:[-110,0], ArrowUp:[0,110], ArrowDown:[0,-110] }[event.key];

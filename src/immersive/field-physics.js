@@ -32,7 +32,7 @@ export function overviewCamera(bounds,width,height) {
 
 // An underdamped spring lets an impact squash, rebound, then gently wobble to rest.
 export function settleFieldSquash(value,velocity,seconds) {
-    const damping=6,frequency=13,decay=Math.exp(-damping*seconds);
+    const damping=8,frequency=11,decay=Math.exp(-damping*seconds);
     const a=value,b=(velocity+damping*value)/frequency,c=Math.cos(frequency*seconds),s=Math.sin(frequency*seconds);
     return {value:decay*(a*c+b*s),velocity:decay*((b*frequency-damping*a)*c-(a*frequency+damping*b)*s)};
 }
@@ -45,5 +45,7 @@ export function fieldPressure(desired,limits) {
     const y=desired.y-Math.max(limits.minY,Math.min(limits.maxY,desired.y));
     const axis=Math.abs(x)>=Math.abs(y)?'x':'y',distance=axis==='x'?x:y;
     if(!distance)return {squash:0,axis:null,side:0};
-    return {squash:(axis==='x'?1:-1)*Math.min(.3,Math.abs(distance)*.0015),axis,side:Math.sign(distance)};
+    const total=Math.abs(x)+Math.abs(y);
+    const balance=(Math.abs(x)-Math.abs(y))/total;
+    return {squash:balance*Math.min(.3,Math.abs(distance)*.0015),axis,side:Math.sign(distance)};
 }

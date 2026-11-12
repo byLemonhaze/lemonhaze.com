@@ -1,3 +1,4 @@
+import {pixelDimensions} from '../data/pixel-art.js';
 import {uniqueOriginals} from '../immersive/roster.js';
 import {collectionChronology} from '../utils/collection-chronology.js';
 import { CHRONOLOGY_BY_YEAR } from '../data.js';
@@ -6,6 +7,11 @@ import { COLLECTION_LEAD_ARTWORK_IDS } from '../app/collection-flow.js';
 import ethereumWorks from '../data/ethereum-works.json' with {type:'json'};
 
 const COLLECTION_COVERS = {
+    'Ma ville en quatre temps': [
+        '298a55a78a48faafe5ac119cb48dd2235dc9c37210e30c793f39c280b2618f32i0',
+        '14bc4ad6dde2cb2440b5edb59ae56fc75b6b4783776af54b0e04f53a6629427ci0',
+        '8d3ac38068f242faeccadba00ec1525e22c2340dbcdb6ce1fe034b55d6610602i0',
+    ],
     'BEST BEFORE': [
         'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i0',
         'c8192d6e0d90877d0ecb5d25151ea6dfe8964b7f96d5aaeffb0013c78cf3b322i132',
@@ -81,7 +87,7 @@ export function representativeWorks(works,leadIds=[]) {
 export function collectionIndex(artworks,toCollectionSlug) {
     const groups=new Map(),byId=new Map(artworks.map(work=>[work.id,work]));
     for(const work of artworks){
-        if(!work.collection||work.collection==='Home'||work.collection==='Colors')continue;
+        if(!work.collection||work.collection==='Home'||work.collection==='Colors'||work.collection==='Provenance')continue;
         if(!groups.has(work.collection))groups.set(work.collection,[]);
         groups.get(work.collection).push(work);
     }
@@ -144,7 +150,7 @@ export function createAllWorks(artworks,toCollectionSlug) {
                 }else{
                     const frame=document.createElement('span');frame.className='catalogue-cover catalogue-cover-group';frame.dataset.coverCount=group.covers.length;
                     for(const work of group.covers){
-                        const img=new Image();img.src=work.preview||thumbnailSource(work);img.alt='';img.loading='lazy';img.decoding='async';img.onerror=()=>img.remove();frame.append(img);
+                        const img=new Image();if(pixelDimensions(work))img.className='pixelated';img.src=work.preview||thumbnailSource(work);img.alt='';img.loading='lazy';img.decoding='async';img.onerror=()=>img.remove();frame.append(img);
                     }
                     link.append(frame,label);card.append(link);
                     const count=document.createElement('p');count.className='catalogue-work-count';count.textContent=group.ethereum

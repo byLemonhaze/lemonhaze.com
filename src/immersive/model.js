@@ -1,3 +1,4 @@
+import {pixelOriginalSource} from '../data/pixel-art.js';
 import { selectedWorks, printPreviews } from '../curation/selection.js';
 import { displayPreview } from '../curation/preview-images.js';
 import { getArtworkImageSrc } from '../renderers/gallery.js';
@@ -19,6 +20,7 @@ export function createExperienceCatalog(artworks) {
         all, byId, selected,
         original:work=>originalFor(work,byId)||work,
         collection(work) {
+            if(work?.collection==='Provenance')return [work];
             if (!work?.collection) return work ? [work] : [];
             return prependCollectionLeadArtworks({
                 items: all.filter(item => item.collection === work.collection),
@@ -42,7 +44,7 @@ export function createExperienceCatalog(artworks) {
             ||collectionDates.get(b).date-collectionDates.get(a).date||a.localeCompare(b);
     };
     catalog.galleryCollections = new Map([['Selected works',selected], ...[...new Set(all.map(work=>work.collection))]
-        .filter(name=>name!=='Colors').sort(compareCollections)
+        .filter(name=>name!=='Colors'&&name!=='Provenance').sort(compareCollections)
         .map(name=>[name,uniqueOriginals(catalog.collection(all.find(work=>work.collection===name)),byId)])
         .filter(([,items])=>items.length)]);
     return catalog;
@@ -51,10 +53,10 @@ export function websiteDestination(work = null) {
     if (!work) return '/?view=website';
     return work.href ? `${work.href}?view=website&work=${encodeURIComponent(work.id)}` : `/${work.id}?view=website`;
 }
-export const previewSource = work => work.id==='d6b1b35b58d873a81f6b8aea3e02cd5a7177e1d86de9ee66adfe006284897d6bi0'
+export const previewSource = work => pixelOriginalSource(work) || (work.id==='d6b1b35b58d873a81f6b8aea3e02cd5a7177e1d86de9ee66adfe006284897d6bi0'
     ? `https://render.ord.net/v9/snapshots/${work.id}/512.webp`
-    : displayPreview(getArtworkImageSrc(work));
-export const thumbnailSource = work => previewManifest[work.id] ? `/previews/immersive/${work.id}.webp` : previewSource(work);
+    : displayPreview(getArtworkImageSrc(work)));
+export const thumbnailSource = work => pixelOriginalSource(work) || (previewManifest[work.id] ? `/previews/immersive/${work.id}.webp` : previewSource(work));
 // Use existing sharp display derivatives where the field is large enough to
 // show them. Tiny overview items keep the lightweight archive thumbnails.
 export function browsingSource(work,zoom=1,longSide=600) {
