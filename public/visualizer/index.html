@@ -1,14 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-presentation="paper">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta
       name="description"
-      content="Complete, live and exportable 8K provenance tree of Lemonhaze artworks, editions and collection parents."
+      content="Visual chronology of Lemonhaze artworks, editions, collection parents and uninscribed Impossible Folds prints."
     />
-    <title>Provenance Tree | Lemonhaze</title>
+    <title>Visual Chronology | Lemonhaze</title>
+    <style>html,body{margin:0;background:#f2f0e9}html[data-presentation=black],html[data-presentation=black] body{background:#242424}</style>
+    <script>try{const requested=new URLSearchParams(location.search).get("theme");const saved=localStorage.getItem("lh-presentation");document.documentElement.dataset.presentation=["paper","black"].includes(requested)?requested:saved==="black"?"black":"paper"}catch{}</script>
     <script type="module" src="/visualizer/assets/complete-chronology.js"></script>
     <link rel="stylesheet" href="/visualizer/assets/complete-chronology.css">
   </head>

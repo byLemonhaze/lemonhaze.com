@@ -48,7 +48,7 @@ test('Visualizer includes current collections, parent roles, and every 2026 one-
  assert.equal(expected.size,16);
  assert.equal(new Set(artworks.map(a=>a.id)).size,artworks.length);
  assert.equal(groups.find(g=>g.name==='BEST BEFORE').works.length,420);
- assert.equal(visualizer.latestChronologyDate(groups),'OCT 2026');
+ assert.equal(visualizer.latestChronologyDate(groups),'NOV 2026');
 });
 
 test('Tin Box has a centered parent above exactly three rows of four, within its card',()=>{
@@ -76,13 +76,13 @@ test('the tree includes every catalogued inscription except the intentionally ex
  assert.deepEqual(visualizer.preferredGridShape(one, 17), {columns:8,rows:3});
 });
 
-test('all seven 2026 cards fit without overlap and keep recent series readable',()=>{
+test('all eight 2026 cards fit without overlap and keep recent series readable',()=>{
  const bounds={x:6020,y:1870,width:1450,height:2260};
  const layouts=visualizer.layoutGrandPeriod(groups.filter(g=>g.year==='2026'),bounds,'2026');
- assert.equal(layouts.length,7);
+ assert.equal(layouts.length,8);
  assert.equal(layouts[0].rect.width,bounds.width);
  layouts.forEach(({rect},index)=>{
-  assert.ok(rect.height>350);
+  assert.ok(rect.height>300);
   assert.ok(rect.x>=bounds.x && rect.y>=bounds.y);
   assert.ok(rect.x+rect.width<=bounds.x+bounds.width+0.001);
   assert.ok(rect.y+rect.height<=bounds.y+bounds.height+0.001);
@@ -90,4 +90,30 @@ test('all seven 2026 cards fit without overlap and keep recent series readable',
    assert.ok(rect.x+rect.width<=other.x || other.x+other.width<=rect.x || rect.y+rect.height<=other.y || other.y+other.height<=rect.y);
   }
  });
+});
+
+
+test('Impossible Folds prints are complete, ordered and explicitly outside inscription lineage', async()=>{
+ const {ARTWORKS}=await import('../shared/shop-artworks.js');
+ const group=groups.find(g=>g.name==='Impossible Folds');
+ assert.equal(group.year,'2026');assert.equal(group.relationship,'uninscribed');
+ assert.equal(group.parents.length,0);assert.equal(group.works.length,12);
+ assert.deepEqual(group.works.map(w=>w.id),ARTWORKS.map(w=>'shop-'+w.id));
+ assert.ok(group.works.every(w=>w.inscribed===false&&!w.provenance));
+ assert.match(visualizer.collectionCountLabel(group),/12 PRINTS.*UNINSCRIBED/);
+ for(const work of group.works){
+  const candidates=visualizer.getMediaCandidates(work);
+  assert.ok(candidates.every(url=>url.startsWith('/')),'uninscribed prints never request chain content');
+  for(const url of candidates) await readFile(new URL('../public'+url,import.meta.url));
+ }
+});
+
+test('chronology themes change interface paint without filtering artwork pixels',async()=>{
+ const {posterPaint}=await import('../src/visualizer/presentation.js');
+ const paper={canvas:{dataset:{presentation:'paper'}}},black={canvas:{dataset:{presentation:'black'}}};
+ assert.equal(posterPaint(paper,'#070707'),'#f2f0e9');
+ assert.equal(posterPaint(black,'#070707'),'#242424');
+ assert.equal(posterPaint(paper,'#f1f1ed'),'#292d27');
+ assert.equal(posterPaint(paper,'rgba(0,0,0,0.72)'),'rgba(0,0,0,0.72)');
+ assert.equal(posterPaint(paper,'#e9e9e2'),'#e9e9e2');
 });
