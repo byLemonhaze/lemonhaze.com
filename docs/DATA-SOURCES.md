@@ -6,7 +6,7 @@
 |---|---|---|
 | Provenance JSON (primary) | `https://cdn.lemonhaze.com/assets/assets/provenance.json` | Primary artwork metadata feed |
 | Provenance JSON (local fallback) | `/data/provenance.json` | Local/offline fallback served from this repo |
-| Featured collection manifests | `/data/collections/*.json` | Ordered inscription rosters and curated metadata for Satoshi, Deprivation prints, Mirage prints, the prints trilogy, Griffintown, Liminality, and Eclosion |
+| Featured collection manifests | `/data/collections/*.json` | Ordered inscription rosters and curated metadata for featured collections, including prints and newer HTML series |
 | BEST BEFORE collection feed | `https://bestbefore.space/magic_eden_collection.json` | Live BEST BEFORE roster and high-resolution image URLs |
 | BEST BEFORE live state | `https://bestbefore.space/best-before.json` | Status, phase, lifespan, and palette data per inscription |
 | Ordinals inscription JSON | `https://ordinals.com/r/inscription/<id>` | Live owner/address, inscription number, timestamp and charms for modal metadata |
@@ -39,6 +39,23 @@
 These files are editorial source code, not mirrored external data.
 
 `src/data/featured-collections.js` normalizes the repo-managed collection manifests into the same artwork shape as provenance data. Their array order is intentional: it preserves official inscription-number order. Satoshi includes its WebP original followed by 110 recursive SVG editions; the three print manifests contain editions only. Griffintown renders its interactive HTML directly from the chain; Liminality and Eclosion include curated metadata and local grid previews while their HTML remains live on-chain. Lineage links connect recursive editions back to their source inscription.
+
+### Current curation and display media
+
+Reviewed against application release `041ea75` on November 11, 2026. `src/curation/selection.js` defines the selected eight works and selected series. `src/curation/all-works.js` owns the artist's explicit cover choices and collection-first search. All Works is newest-first; Gallery's separately pinned groups do not override that chronology. Use exact artwork IDs, not ambiguous titles or a generic parent image, when changing covers.
+
+`src/data/ethereum-works.json` holds five Ethereum releases identified from lemonhaze.eth and verified token references. These appear in All Works, outside the approved Ordinals Explore composition. Provenance remains a metadata source/internal grouping; it is not a public collection. Gentleman Nº1's master-parent note lives in `src/data/artwork-notes.js`.
+
+| Asset / record | Purpose |
+| --- | --- |
+| `src/immersive/preview-manifest.json`, `public/previews/immersive/` | Small static field thumbnails |
+| `src/immersive/overview.json`, `public/previews/explore-overview.webp` | Distant/mobile overview, rebuilt by `scripts/build_explore_overview.mjs` after geometry changes |
+| `docs/immersive/manufactured-images.json` | Source evidence for 422 local Manufactured display derivatives |
+| `docs/immersive/old-fashioned-images.json` | Source evidence for 16 artist-CDN-derived stills; never load these works from chain/render services |
+| `docs/immersive/griffintown-images.json` | Sharp static fallbacks for live Griffintown works |
+| `src/data/pixel-originals.json`, `public/images/pixel-originals/` | 26 native pixel PNG originals, preserved without resampling |
+
+Large Gallery/detail presentations use sharp static sources rather than enlarged field thumbnails. The collection rail stays static; supported live works activate in detail with a fallback. [Immersive architecture](immersive/ARCHITECTURE.md) documents the loading and edition rules. [Feedback history](immersive/README.md) records the artist's exact cover selections and subsequent corrections.
 
 ### Sales Working Data
 
@@ -101,12 +118,12 @@ After bootstrapping, ongoing edits should happen in `public/data/sales-master/hi
 
 `public/data/collections/chrysalis.json` contains the parent and all seven children, in inscription order. Titles, reflections, collection description, technical facts, and 2304 × 3456 PNG dimensions were checked against the public inscription records and HTML backcards on 2026-09-30. Source: [parent and child roster](https://ordinals.com/inscription/fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0). Each `grid_preview` uses the verified `https://cdn.lemonhaze.com/assets/assets/<inscriptionID>.png`; opening the artwork loads its original on-chain HTML, including the backcard and print export controls.
 
-The burned parent remains in Provenance and leads the Chrysalis gallery. Supply counts it once: eight inscriptions, seven circulating works. The parent timestamp controls collection chronology. Original “A Day in The Life” text stays in the on-chain HTML, accessible through the HTML/source controls; it is not repeated in the modal. About and Reflection remain separate modal fields. The collection is also included in the Visualizer (four columns, two rows), static artwork pages, and sitemap. The artist supplied `https://ord.net/collection/chrysalis-by-lemonhaze` and requested that it appear in Supply & Marketplace ahead of the marketplace launch. Listing availability is not implied.
+The burned parent remains in the internal provenance records and leads the Chrysalis gallery. Supply counts it once: eight inscriptions, seven circulating works. The parent timestamp controls collection chronology. Original “A Day in The Life” text stays in the on-chain HTML, accessible through the HTML/source controls; it is not repeated in the modal. About and Reflection remain separate modal fields. The collection is also included in the Visualizer (four columns, two rows), static artwork pages, and sitemap. The artist supplied `https://ord.net/collection/chrysalis-by-lemonhaze` and requested that it appear in Supply & Marketplace ahead of the marketplace launch. Listing availability is not implied.
 
 ### Confabulation (October 2026)
 
 `public/data/collections/confabulation.json` contains the parent and all six children in inscription order: Wernicke, Bonnet, Ganser, Capgras, Fregoli, and Korsakoff. Titles, definitions/reflections, technical facts, and parent links were checked against the [original parent](https://ordinals.com/inscription/788df6ca0f6fc0ddf32b363c4571dd77c42cdf1367365575815452dd050d2b86i0), its child roster, and each inscription's HTML on 2026-10-05. The collection description is the parent's own definition, without added editorial copy. Original diary writing remains in the inscription HTML.
 
-Every preview uses the artist's `https://cdn.lemonhaze.com/assets/assets/<inscriptionID>.png`; PNG headers were checked for availability and dimensions. Ganser's preview is 3840 × 2160 and replaces the Untitled placeholder at position 02 in both landing and Selected Work. Artwork modals open the original HTML with its backcard and export controls.
+Every preview uses the artist's `https://cdn.lemonhaze.com/assets/assets/<inscriptionID>.png`; PNG headers were checked for availability and dimensions. Ganser's preview is 3840 × 2160. Current Selected Work choices are defined by `src/curation/selection.js`; the former homepage carousel is retired. Artwork modals open the original HTML with its backcard and export controls.
 
-The parent descends from Gentleman Nº1, stays in Provenance, and leads the Confabulation gallery. At verification, none of the seven inscriptions were burned; supply is seven inscribed and seven circulating. All Works, chronology, Visualizer, artwork routes, sitemap, and Market Watch titles include the collection. The Ord.net submission uses the requested slug `confabulation-by-lemonhaze`: [issue #1002](https://github.com/TheWizardsOfOrd/ordinals-collections/issues/1002). The submission contains only the collection name, type, parent, and slug; the marketplace link does not imply acceptance or listing availability.
+The parent descends from Gentleman Nº1, stays in the internal provenance records, and leads the Confabulation gallery. At verification, none of the seven inscriptions were burned; supply is seven inscribed and seven circulating. All Works, chronology, Visualizer, artwork routes, sitemap, and Market Watch titles include the collection. The Ord.net submission uses the requested slug `confabulation-by-lemonhaze`: [issue #1002](https://github.com/TheWizardsOfOrd/ordinals-collections/issues/1002). The submission contains only the collection name, type, parent, and slug; the marketplace link does not imply acceptance or listing availability.

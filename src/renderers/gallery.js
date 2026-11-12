@@ -1,5 +1,10 @@
+import {pixelOriginalSource} from '../data/pixel-art.js';
+import {coreWorkNote} from '../data/artwork-notes.js';
+import {displayPreview} from '../curation/preview-images.js';
+import previewManifest from '../immersive/preview-manifest.json' with {type:'json'};
 import {
     getCdnFallbackImageSrc,
+    isStaticOnlyMedia,
     getCdnMediaSrc,
     getDirectOnchainPreviewSrc,
     getLocalGridPreviewSrc,
@@ -21,6 +26,8 @@ const ENCRYPTED_ARTWORKS = new Set([
 ]);
 
 export function getArtworkImageSrc(item) {
+    if(pixelOriginalSource(item))return pixelOriginalSource(item);
+    if(isStaticOnlyMedia(item))return getLocalGridPreviewSrc(item);
     if (item?._imgSrc) return item._imgSrc;
     if (item?.grid_preview) return item.grid_preview;
     const localGridPreview = getLocalGridPreviewSrc(item);
@@ -66,7 +73,8 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
 
         const isEncrypted = ENCRYPTED_ARTWORKS.has(item.id);
         const isParent = parentIds?.has(item.id) ?? false;
-        const mediaSrc = getArtworkImageSrc(item);
+        const originalSrc = getArtworkImageSrc(item);
+        const mediaSrc = displayPreview(originalSrc);
         const previewSrc = getDirectOnchainPreviewSrc(item);
         const shouldUsePreview = shouldUseDirectOnchainPreview(item);
         const isVideo = isVideoArtwork(item);
@@ -96,12 +104,18 @@ export function renderGalleryGrid(items, { galleryGrid, contentArea, onOpenArtwo
         ${parentLabel}
       </div>
       <div class="pt-2 pb-1">
-        <p class="text-[10px] font-bold uppercase tracking-widest text-white text-center truncate">${item.name || 'Untitled'}</p>
+        <p class="text-[10px] font-bold uppercase tracking-widest text-white text-center truncate">${item.name || 'Untitled'}</p>${coreWorkNote(item)?'<p class="core-work-label">Master parent · Root of the on-chain tree</p>':''}
       </div>
     `;
 
         const image = card.querySelector('img');
-        if (image) image.alt = `${item.name || 'Untitled'} by Lemonhaze`;
+        if (image) {
+            image.alt = `${item.name || 'Untitled'} by Lemonhaze`;image.decoding='async';
+            // Some chain endpoints forbid embedding images. Try the owned CDN,
+            // then the local still, so a blocked source never leaves an empty card.
+            const fallbacks=[getCdnMediaSrc(item),previewManifest[item.id]?`/previews/immersive/${item.id}.webp`:null].filter(src=>src&&src!==mediaSrc);
+            image.onerror=()=>{const next=fallbacks.shift();if(next)image.src=next;else image.onerror=null;};
+        }
         card.onclick = event => {if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();onOpenArtworkById(item.id);};
 
         if (isVideo && fallbackImageSrc) {

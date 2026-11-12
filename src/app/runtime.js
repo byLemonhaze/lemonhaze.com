@@ -31,7 +31,7 @@ import { createSectionFlow } from './section-flow.js';
 import { el, refreshElements as refreshDomElements } from '../ui/elements.js';
 import { setLoadingIndicator } from '../ui/loading.js';
 import { updateHeaderView } from '../ui/header.js';
-import { closeMobileSidebar, toggleMobileSidebar } from '../ui/menu.js';
+import { closeMobileSidebar, toggleMobileSidebar, prepareWebsiteMenu } from '../ui/menu.js';
 import { createHomeLayoutController } from '../ui/home-layout.js';
 import { createTesterController } from '../ui/tester.js';
 import { getArtworkImageSrc, renderGalleryGrid } from '../renderers/gallery.js';
@@ -45,6 +45,7 @@ import {
 } from '../renderers/sections/index.js';
 import { renderHomeView } from '../renderers/home.js';
 import { setupSiteOverlay } from '../ui/site-overlay.js';
+import { createViewingModes } from '../immersive/modes.js';
 
 // DOM Elements (fetched on demand or in init)
 let sidebar, collectionsNav, contentArea, galleryGrid, currentViewTitle, currentViewMeta, loadingIndicator, menuToggle;
@@ -154,6 +155,7 @@ const sectionFlow = createSectionFlow({
 let hasStarted = false;
 let sectionReturnState = null;
 let cleanupHomeView = null;
+let viewingModes = null;
 const homeLayoutController = createHomeLayoutController({
     getSidebar: () => sidebar,
     getToggleButton: el.sidebarRailToggle,
@@ -177,11 +179,12 @@ function syncSidebarActiveCollection(collectionName) {
 function syncSidebarActiveSection(sectionKey) {
     syncSidebarActiveSectionFromNav({
         topNav: el.topNavSection(),
-        sectionKey: ({ 'gentleman-se-2025': 'archive', 'paint-engine': 'practice', supply: 'collecting', media: 'highlights' })[sectionKey] || sectionKey || null,
+        sectionKey: ({ 'gentleman-se-2025': 'archive', 'paint-engine': 'practice', supply: 'collecting', media: 'highlights' })[sectionKey] || sectionKey || (appState.currentFilter && appState.currentFilter !== 'Home' ? 'all-works' : null),
     });
 }
 
 function openArtworkById(id, options = {}) {
+    if(viewingModes?.openWebsiteArtwork(id))return true;
     return sectionFlow.openArtworkById(id, options);
 }
 
@@ -190,6 +193,8 @@ function openSection(sectionKey, options = {}) {
 }
 
 async function applyUrlStateFromLocation(options = {}) {
+    if (viewingModes && await viewingModes.applyLocation(options)) return true;
+    if (viewingModes && document.documentElement.dataset.view !== 'website') return true;
     return sectionFlow.applyUrlStateFromLocation(options);
 }
 
@@ -232,6 +237,12 @@ async function init() {
     appState.artworks = assembleArtworkCatalog(provenanceData, bbLive, featuredCollections);
     rebuildCollectionSlugs();
 
+    viewingModes = createViewingModes({
+        appState, router, destroyHome: destroyHomeView, closeModal,
+        mountMetadata: (work,container,options) => artworkModalController.mountMetadata(work,container,options),
+        applyWebsite: (options = {}) => sectionFlow.applyUrlStateFromLocation(options),
+    });
+
     const hasDeepLink = await applyUrlStateFromLocation({ replaceHistory: true });
     if (!hasDeepLink) {
         if (appState.artworks.length > 0) {
@@ -268,17 +279,21 @@ function renderSidebar() {
         currentFilter: appState.currentFilter,
         activeSectionKey: appState.activeSectionKey,
         onOpenSection: (sectionKey) => {
-            if (openSection(sectionKey)) closeMobileMenu();
+            if(viewingModes){viewingModes.openWebsitePage('/'+sectionKey);closeMobileMenu();}
+            else if (openSection(sectionKey)) closeMobileMenu();
         },
         onOpenExternal: (url) => window.open(url, '_blank'),
-        onLoadCollection: (collectionName) => loadCollection(collectionName),
+        onLoadCollection: (collectionName) => {
+            if(viewingModes)viewingModes.openWebsitePage('/'+toCollectionSlug(collectionName));
+            else loadCollection(collectionName);
+        },
         onAfterSelect: closeMobileMenu,
     });
 }
 
 function loadCollection(name, options = {}) {
     const resolvedName = resolveCollectionName(name) || 'Home';
-    homeLayoutController.setHomeMode(resolvedName === 'Home');
+    homeLayoutController.setHomeMode(false);
     if (resolvedName !== 'Home') {
         destroyHomeView();
     }
@@ -320,6 +335,7 @@ function renderHome() {
     destroyHomeView();
     cleanupHomeView = renderHomeView({
         galleryGrid,
+        onNavigate: url => viewingModes?.openWebsitePage(url),
         appState,
         artworks: appState.artworks,
         chronologyByYear: CHRONOLOGY_BY_YEAR,
@@ -419,7 +435,7 @@ function openAboutModal(title, content, options = {}) {
     destroyHomeView();
 
     renderSectionView({
-        fullWidth: ['supply', 'selected', 'practice', 'shop'].includes(appState.activeSectionKey),
+        fullWidth: ['supply', 'selected', 'practice', 'shop', 'all-works'].includes(appState.activeSectionKey),
         title,
         content,
         headerElement: document.querySelector('header'),
@@ -487,7 +503,7 @@ function toggleMobileMenu() {
 }
 
 function closeMobileMenu() {
-    if (window.innerWidth >= 768 || !appState.isMobileMenuOpen) return;
+    if (!appState.isMobileMenuOpen) return;
 
     closeMobileSidebar({
         appState,
@@ -497,6 +513,7 @@ function closeMobileMenu() {
 }
 
 function setupEventListeners() {
+    prepareWebsiteMenu({sidebar,menuButton:menuToggle,closeMenu:closeMobileMenu,isOpen:()=>appState.isMobileMenuOpen});
     setupAppEventListeners({
         menuToggle,
         toggleMobileMenu,

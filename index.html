@@ -1,9 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-presentation="paper">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (() => {
+      const url = new URL(location.href), explicit = url.searchParams.get('view');
+      document.documentElement.dataset.presentation='paper';
+      try { const theme=url.searchParams.get('theme')||localStorage.getItem('lh-presentation');document.documentElement.dataset.presentation=theme==='black'?'black':'paper'; } catch {}
+      const legacy = ['c','collection','name','s','section','a','id'].some(key => url.searchParams.has(key));
+      document.documentElement.dataset.view = ['explore','gallery','website'].includes(explicit) ? explicit : ['/', '/index.html'].includes(url.pathname) && !legacy ? 'explore' : 'website';
+    })();
+  </script>
+  <style>
+    :root{--page:#f2f0eb;--ink:#282725;background:#f2f0eb;color-scheme:light}
+    :root[data-presentation=black]{--page:#1c1c1b;--ink:#e9e7e2;background:#1c1c1b;color-scheme:dark}
+    #mobile-explore-preview{display:none}
+    @media(max-width:700px){html[data-view=explore] #mobile-explore-preview{display:block;position:fixed;inset:120px 32px 80px;z-index:101;pointer-events:none}#mobile-explore-preview img{width:100%;height:100%;object-fit:contain;transform:scale(.9756)}}
+    html[data-view=explore] body,html[data-view=gallery] body{background:#f3f3ed!important}
+    html[data-presentation=black][data-view] body{background:#1c1c1b!important}
+    html[data-view=explore] body>aside,html[data-view=gallery] body>aside,
+    html[data-view=explore] body>main:not(#immersive-experience),html[data-view=gallery] body>main:not(#immersive-experience){display:none!important}
+  </style>
   <title>Lemonhaze</title>
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,8 +31,8 @@
     rel="stylesheet" />
   <style>
     body {
-      background-color: #000 !important;
-      color: white !important;
+      background-color: var(--page,#f2f0eb) !important;
+      color: var(--ink,#282725) !important;
       display: flex;
       height: 100vh;
       margin: 0;
@@ -115,7 +134,7 @@
 </head>
 
 <body class="bg-black text-white h-screen overflow-hidden flex selection:bg-white/20"
-  style="background-color: #000 !important;">
+  style="background-color: var(--page,#f2f0eb) !important;">
 
   <!-- Mobile Menu Backdrop -->
   <div id="mobile-backdrop" class="fixed inset-0 bg-black/80 z-10 hidden md:hidden"></div>
@@ -286,6 +305,7 @@
     <iframe id="site-overlay-iframe" class="flex-1 w-full" frameborder="0"></iframe>
   </div>
 
+  <noscript><style>html[data-view=explore] .no-script-browse,html[data-view=gallery] .no-script-browse{display:block!important}</style><div class="no-script-browse" style="display:none;position:fixed;inset:0;z-index:200;background:#f3f3ed;color:#292d27;padding:12vh 8vw;font:16px/1.6 Arial,sans-serif"><p>LEMONHAZE</p><p>Browse the artwork without the interactive view.</p><a href="/selected" style="color:#292d27!important;text-decoration:underline">Selected works</a></div></noscript>
   <script type="module" src="/src/main.js"></script>
 </body>
 

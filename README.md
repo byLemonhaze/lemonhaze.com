@@ -1,166 +1,86 @@
 # lemonhaze.com
 
-Personal website and on-chain art catalogue for Lemonhaze.
+Lemonhaze’s artist website, artwork archive and connected Explore / Gallery / Website experience.
 
-This project is a vanilla JS + Vite + Tailwind app focused on:
+**Current production release:** [041ea75](https://github.com/byLemonhaze/lemonhaze.com/commit/041ea75), published November 11, 2026. [Live site](https://lemonhaze.com) · [Immutable deployment](https://3d9290e8.lemonhaze.pages.dev) · [Today’s work report](docs/reports/2026-11-11.md) · [Changelog](CHANGELOG.md).
 
-- Collection browsing by year
-- Artwork modal deep links
-- Section views (About, Highlights, Supply, Media, Lab)
-- Ordinals-native context (inscriptions, provenance, on-chain fallback)
+`main` is the integration branch. The November 11 application was originally published from `feat/immersive-experience`; the accompanying documentation and [pull request #62](https://github.com/byLemonhaze/lemonhaze.com/pull/62) preserve that release history. Cloudflare’s `main` deployment label is separate from Git source integration.
 
-## Stack
+## Site experience
 
-- Vite 6
-- Tailwind CSS 3
-- Vanilla JavaScript (modular architecture, no framework runtime)
-- Cloudflare Pages (production hosting/deploy)
+- **Explore:** 1,414 original works in a draggable, zoomable lemon-shaped field. Desktop retains the approved close-up composition; phones start with the full lemon. Wall pressure and rebound move the whole field as one group.
+- **Gallery:** an infinite carousel with native artwork proportions, drag/swipe, trackpad movement and centre snapping. One collection chooser includes the selected eight works and complete collection groups.
+- **Website:** an editorial landing and a right-hand Menu. Selected Work, Practice, About, Exhibitions, All Works, Studio Notes, Collecting, Print Shop and Lab retain their destination pages. The former homepage carousel is retired.
+- **Artwork details:** one artwork beside metadata, a collection rail and expandable full details/sales. Desktop artwork clicks open a near-full-screen solo view; × or Escape restores the same split. Mobile detail fits the viewport independently of Explore zoom.
+- **Shared presentation:** one stable wordmark, mode switch and persistent Day/Night control. Artwork colors and aspect ratios are preserved. System reduced-motion preferences remain supported.
+
+All Works stays collection-first, with title search returning actual matching artworks and artist-selected covers. It includes five verified Ethereum releases. “Provenance” is not a public collection; parent inscriptions and lineage records remain available. Gentleman Nº1 is identified as the master parent of the on-chain tree.
 
 ## Documentation
 
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
-- [`docs/API.md`](docs/API.md)
-- [`docs/DATA-SOURCES.md`](docs/DATA-SOURCES.md)
-- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
+Start with the [documentation index](docs/README.md). Current guides:
 
-## Project Structure
+| Guide | Purpose |
+| --- | --- |
+| [Architecture](docs/ARCHITECTURE.md) | Application, routing, services and source map |
+| [Immersive architecture](docs/immersive/ARCHITECTURE.md) | Navigation contracts, composition, media and motion |
+| [Data sources](docs/DATA-SOURCES.md) | Catalogue, curation, image derivatives and sales data |
+| [API](docs/API.md) | Public, private and shop endpoints |
+| [Deployment](docs/DEPLOYMENT.md) | Verification, preview/production targets and live checks |
+| [Verification](docs/immersive/VERIFICATION.md) | Latest test evidence and limits |
+| [Print Shop](docs/SHOP.md) | Closed storefront, payment readiness and operations |
+| [Follow-up tracker](docs/TRACKING.md) | Outstanding checks and maintenance rules |
 
-```text
-src/
-  main.js                     # bootstrap
-  app/
-    runtime.js                # app orchestration + init
-    section-flow.js           # section/artwork route flow
-    collection-flow.js        # collection loading + active state
-  router/
-    index.js                  # URL state parser/sync/apply
-    path-state.js             # canonical path helpers + legacy query parsing
-    constants.js              # accepted legacy query aliases
-  state/
-    store.js                  # shared app state
-  renderers/
-    home.js
-    gallery.js
-    sidebar.js
-    modal/
-      artwork.js
-      section.js
-    sections/
-      index.js
-      view.js
-      about/highlights/supply/media/lab renderers
-  ui/
-    elements.js
-    header.js
-    loading.js
-    menu.js
-  events/
-    index.js
-  data.js                     # content, chronology, supply tables, links
-```
+[Feedback passes](docs/immersive/README.md) and earlier audits are dated history, not competing current specifications.
 
-## URL State and Deep Links
+## Development
 
-The app now uses canonical path-based routes:
-
-- `/<collection-slug>`
-- `/<section-name>`
-- `/<inscription-id>`
-
-Examples:
-
-- `/best-before`
-- `/about`
-- `/0c57ce6325d8da6242488d453c13bac0e1e1eaca6a5b3bf4078a6bdd6768d49di0`
-
-Legacy query links are still accepted and normalized into path slugs. Supported aliases include `c`, `collection`, `name`, `s`, `section`, `a`, and `id`.
-
-## Selected Work, Practice and Studio Notes
-
-The landing carousel and `/selected` share ten artist-selected images in the same order, including Untitled at position 02, followed by six selected series cards (Gentlemen / Lotus and Manufactured / Games each share a card, with separate collection links). Porcelain Sunset renders its original inscribed animation. Paint Engines has a dedicated chapter with three previews and commission information. `/practice` leads with six chapters, including inscribed writing and time as material, followed by a physical-print photograph and eight selected works and series grouped by year; `/explore` redirects there. All Works in the sidebar retains the expandable, year-by-year collection chronology.
-
-The `/visualizer/` tree includes all catalogued inscriptions except Colors, which is intentionally excluded. Its 2026 section places the 1/1s across the top and the six series in chronological pairs. Add new 2026 1/1s to `public/data/collections/1-of-1s-2026.json` with their parent provenance and preview; the gallery, tree, artwork routes and title index consume that manifest. Press S in the visualizer to export the 7680 × 4320 PNG.
-
-`/archive`, titled Studio Notes, keeps all 86 notes in an editorially ranked reading list, with text-only entries. “The writing travels with the image” leads the selected order and introduces the recurring “A Day in the Life” passages. Original photographs, films and writing remain inside the notes. Search includes the quoted writing; optional filters and source-date sorting provide access to the full archive. HTML writing notes preserve poem line breaks, distinguish excerpts from complete passages, and link to the original inscriptions. The Practice overview introduces this writing as a digital, immutable journal and links to `/archive#writing-notes`, which opens the Writing subject filter. `/gentleman-se-2025` preserves the separate Gentleman SE 2025 writing with short prose summaries above the original text. `/collecting` introduces the work and its inscription, explains viewing and export formats, and places Supply and Market Watch links once near the end. Its four print-signing examples share one compact desktop row and stack on mobile; `/highlights` connects exhibitions and press.
-
-Off-white and charcoal themes share the same navigation and artwork viewer. The viewer groups work details, inscription information, provenance and sales without changing the original artwork content. Existing routes and note anchors remain valid.
-
-## Data Sources
-
-| Source | URL | Used For |
-|--------|-----|----------|
-| Provenance JSON | `https://cdn.lemonhaze.com/assets/assets/provenance.json` | All collection/artwork metadata |
-| On-chain content | `https://ordinals.com/content/<id>` | Artwork rendering in modal (image + HTML), plus direct grid previews for selected HTML works |
-| Hiro API | `https://api.hiro.so/ordinals/v1/inscriptions/<id>` | Live inscription data: number, owner, sat rarity, genesis timestamp |
-| BB Collection | `https://bestbefore.space/magic_eden_collection.json` | Replaces provenance.json entries for BEST BEFORE — provides live roster + high-res images |
-| BB Live | `https://bestbefore.space/best-before.json` | BEST BEFORE phase, palette, block countdown, lifespan per inscription |
-
-One inscription is intentionally forced to on-chain content instead of CDN:
-
-- `0c57ce6325d8da6242488d453c13bac0e1e1eaca6a5b3bf4078a6bdd6768d49di0`
-
-Only these `1 of 1s (2025)` HTML entries are rendered directly from on-chain content in the collection grid: Off-Kilter, Glass Breaker, Mending Out, Necronies, Flashback, Soleil & Mer, Birthday Girl, and Loft Gallery Prototype. Other HTML works keep their normal CDN thumbnail path.
-
-The BEST BEFORE collection is treated as a special case throughout: its entries in `provenance.json` are replaced at runtime by `magic_eden_collection.json` data (which carries live high-res images), and the artwork modal fetches `best-before.json` to display phase status, palette swatches, and block-time lifespan for each piece.
-
-## Local Development
+Node 22 is pinned in `.nvmrc`. The main site uses modular vanilla JavaScript, Vite 6 and Tailwind CSS 3. Market Watch is a lazily loaded React module. Cloudflare Pages serves static/prerendered routes and Functions.
 
 ```bash
 nvm use
 npm ci
+npx playwright install chromium
 npm run dev
 ```
 
-Build production bundle:
-
 ```bash
-npm run build
+npm run build       # data/title generation, Vite, then route prerendering
+npm run preview     # preview dist; does not emulate Pages Functions
+npm run verify      # production build and the complete test suite
 ```
 
-Preview local production build:
+The November 11 application release passed **246 tests** and generated **1,704 routes**. Separate Chromium/WebKit checks and live-domain verification are recorded in [Verification](docs/immersive/VERIFICATION.md). These are dated results, not permanent expected counts.
 
-```bash
-npm run preview
-```
+## Routes
 
-Run the standard verification gate:
+| Address | Behavior |
+| --- | --- |
+| `/` or `/?view=explore` | Explore landing |
+| `/?view=explore&at=<id>` | Explore field focused on a work, without detail |
+| `/?view=explore&work=<id>` | Explore artwork detail |
+| `/?view=gallery&series=<name>&at=<id>` | Gallery collection centred on a work |
+| `/?view=website` | Website home, with no inherited artwork modal |
+| `/<collection-slug>` / `/<inscription-id>` | Existing collection / artwork deep links |
+| `/selected`, `/practice`, `/archive`, `/collecting`, `/all-works` | Editorial and catalogue destinations |
+| `/visualizer/` | Full visual chronology; distinct from Explore’s original-only field |
 
-```bash
-npm run verify
-```
+Legacy query aliases remain supported. `/explore` is the historical editorial alias for `/practice`, **not** the immersive Explore route. `/provenance` redirects to `/all-works`.
 
-## Deploy (Cloudflare Pages)
+## Publishing
 
-Authenticate first:
+Only publish when authorized; see the [deployment runbook](docs/DEPLOYMENT.md).
 
 ```bash
 npx wrangler whoami
-```
-
-Deploy to production project:
-
-```bash
 npm run verify
-npx wrangler pages deploy dist --project-name lemonhaze
+npx wrangler pages deploy dist --project-name lemonhaze --branch main
 ```
 
-## Notes
+Use `--branch immersive-review` for a preview. Always specify the target explicitly.
 
-- Main site entry is `index.html` (bootstraps `src/main.js`).
-- `src/data.js` is the canonical source for supply rows, marketplace links, and supply-page link overrides.
-- `src/renderers/sections/supply.js` is the shared supply renderer used by the in-app `/supply` section, including the Bitcoin, Ethereum, and physical-work listings.
-- `public/_redirects` carries legacy redirects so `/marketplace`, `/supplyCAP.html`, and `/supply.html` normalize to `/supply`.
-- `functions/[[path]].ts` serves the SPA shell for clean direct-path visits and old app entry pages like `/modal.html`.
-- Some older files remain for historical/backup context (for example `src/main.js.bak`).
-- `public/_headers` controls the current cache policy for HTML and built assets.
+## Shop and privacy
 
-## Maintainer
+The public shop is **browsing-only: Price on request / Coming soon**. Its Stripe and inventory backend exists, but this site release does not authorize or enable purchases. Follow [SHOP.md](docs/SHOP.md) before changing launch gates. Public contact remains `collect@lemonhaze.com`, Montréal, Canada. Never commit private contact details, credentials or customer data.
 
-- GitHub: [@byLemonhaze](https://github.com/byLemonhaze)
-- Website: [lemonhaze.com](https://lemonhaze.com)
-
-Artwork viewers show a centered loading indicator while the image, video, or embedded document loads. It clears on load or close, supports reloads, and respects reduced-motion preferences.
-
-## Shop draft
-
-`/shop` presents twelve Impossible Folds prints as signed editions with a certificate (limited to 3 per artwork, configured at USD 500 including tax and shipping), on Palo Duro Etching paper, plus nine physical textile works at USD 800 each with a certificate of authenticity, with product galleries and a saved basket. A server-side Stripe Checkout integration, payment verification and atomic signed-edition reservations are implemented. Checkout remains closed until credentials, private storage, shipping and launch policies are configured and an actual Stripe test purchase is verified. Carrier-calculated shipping is not implemented yet; the adapter currently supports configured fixed rates. BTC, USDC and On-chain offers remain unavailable. See [`docs/SHOP.md`](docs/SHOP.md) for setup, security, assets and launch requirements. Public prices remain on request and purchases are disabled. No real payments or orders are currently accepted.
+Maintainer: [@byLemonhaze](https://github.com/byLemonhaze).

@@ -1,3 +1,4 @@
+import {coreWorkNote} from '../../data/artwork-notes.js';
 import { buildSandboxedArtworkHtml, ARTWORK_SANDBOX } from '../../ui/artwork-sandbox.js';
 import { createArtworkLoadingIndicator } from '../../ui/artwork-loading.js';
 import { createBestBeforePlayer } from '../../ui/best-before-player.js';
@@ -5,6 +6,8 @@ import { getArtworkOwnership } from '../../modules/artwork-ownership.js';
 import { fetchInscriptionMetadata } from '../../modules/inscription-metadata.js';
 import {
     getPreferredFileExtension,
+    isStaticOnlyMedia,
+    getLocalGridPreviewSrc,
     isVideoArtwork,
 } from '../../modules/artwork-media.js';
 import {
@@ -148,6 +151,7 @@ const DIRECT_IFRAME_RENDER_ARTWORK_IDS = new Set([
 ]);
 
 export function shouldUseDirectModalIframe(item, isHtml) {
+    if(isStaticOnlyMedia(item))return false;
     const collection = String(item?.collection || '').trim();
     if (!DIRECT_IFRAME_RENDER_COLLECTIONS.has(collection) && !DIRECT_IFRAME_RENDER_ARTWORK_IDS.has(item?.id)) return false;
     if (isHtml) return true;
@@ -346,13 +350,15 @@ export function createArtworkModalController({
         group('Sales history', take(['Sales']), true);
     }
 
-    function collectionLink(name) {
+    function collectionLink(name, onNavigate = null) {
         const link = document.createElement('a');
         link.href = '/' + toCollectionSlug(name);
+        if(onNavigate)link.dataset.collectionLink='true';
         link.textContent = name;
         link.onclick = event => {
             if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
             event.preventDefault();
+            if(onNavigate){onNavigate(name);return;}
             closeModal({ updateUrl: false });
             onOpenCollection(name);
         };
@@ -417,8 +423,7 @@ export function createArtworkModalController({
 
     // ── Shared helper: renders provenance thumbnails, static facts, and live-data
     //    placeholders. Works for both standard inscriptions and BEST BEFORE.
-    function renderMetadataList(item) {
-        const { modalMetadata } = refs();
+    function renderMetadataList(item, modalMetadata = refs().modalMetadata, options = {}) {
         if (!modalMetadata) return;
         modalMetadata.innerHTML = '';
 
@@ -459,8 +464,8 @@ export function createArtworkModalController({
         }
 
         // 2. Collection
-        if (item.collection) {
-            modalMetadata.appendChild(makeMetaRow('Collection', collectionLink(item.collection)));
+        if (item.collection && item.collection!=='Provenance') {
+            modalMetadata.appendChild(makeMetaRow('Collection', collectionLink(item.collection,options.onCollection)));
         }
 
         const details = collectionDetails[item.collection];
@@ -488,6 +493,7 @@ export function createArtworkModalController({
         }
         const artistNotes = createArtistNotes(item);
         if (artistNotes) modalMetadata.appendChild(makeMetaRow('Artist’s notes', artistNotes));
+        if(coreWorkNote(item))modalMetadata.appendChild(makeMetaRow('Note',makeMetaText(coreWorkNote(item))));
         if (item.note) {
             modalMetadata.appendChild(makeMetaRow('Note', makeMetaText(item.note)));
         }
@@ -604,22 +610,22 @@ export function createArtworkModalController({
         const requestToken = ++metadataRenderToken;
 
         const applyMetadataData = (metadata) => {
-            if (requestToken !== metadataRenderToken || appState.activeArtworkId !== item.id) return;
+            if (requestToken !== metadataRenderToken) return;
 
-            const tsEl = document.getElementById('meta-timestamp');
+            const tsEl = modalMetadata.querySelector('#meta-timestamp');
             if (tsEl && metadata?.genesis_timestamp) {
                 const full = fmtFullTimestamp(metadata.genesis_timestamp);
                 if (full) tsEl.textContent = full;
             }
 
-            const insNoEl = document.getElementById('meta-inscription-number');
+            const insNoEl = modalMetadata.querySelector('#meta-inscription-number');
             if (insNoEl) {
                 if (metadata?.number != null) insNoEl.textContent = `#${Number(metadata.number).toLocaleString()}`;
                 else if (insNoEl.textContent === '—') insNoEl.textContent = 'Unavailable';
                 insNoEl.classList.remove('animate-pulse');
             }
 
-            const ownerEl = document.getElementById('meta-owner');
+            const ownerEl = modalMetadata.querySelector('#meta-owner');
             if (ownerEl) {
                 const ownership = getArtworkOwnership(item, metadata);
                 ownerEl.textContent = ownership.label;
@@ -634,7 +640,7 @@ export function createArtworkModalController({
             }
 
             const rarityLabel = metadata?.sat_rarity ? SAT_RARITY_LABELS[metadata.sat_rarity] : null;
-            const rarityEl = document.getElementById('meta-rarity-row');
+            const rarityEl = modalMetadata.querySelector('#meta-rarity-row');
             if (rarityEl && rarityLabel) {
                 rarityEl.replaceWith(makeMetaRow('Sat Type', makeMetaText(rarityLabel, 'text-[11px] font-mono text-white/55 leading-snug')));
             } else if (rarityEl) {
@@ -643,9 +649,9 @@ export function createArtworkModalController({
         };
 
         const applySalesData = (events, btcUsdSpot) => {
-            if (requestToken !== metadataRenderToken || appState.activeArtworkId !== item.id) return;
+            if (requestToken !== metadataRenderToken) return;
 
-            const salesEl = document.getElementById('meta-sales');
+            const salesEl = modalMetadata.querySelector('#meta-sales');
             if (!salesEl) return;
             salesEl.innerHTML = '';
 
@@ -834,9 +840,9 @@ export function createArtworkModalController({
         // BB: fetch live data + Hiro in parallel
         Promise.all([fetchBBLive(), fetchInscriptionMetadata(item.id)]).then(([inscriptions, metadata]) => {
             applyMetadataData(metadata);
-            if (requestToken !== metadataRenderToken || appState.activeArtworkId !== item.id) return;
+            if (requestToken !== metadataRenderToken) return;
 
-            const liveEl = document.getElementById('meta-bb-live');
+            const liveEl = modalMetadata.querySelector('#meta-bb-live');
             if (!liveEl) return;
             liveEl.innerHTML = '';
             if (!inscriptions?.some(i => i.id === item.id)) liveEl.appendChild(makeMetaText('Live status is currently unavailable.'));
@@ -916,7 +922,7 @@ export function createArtworkModalController({
 
         modalActions.innerHTML = '';
 
-        const onChainSrc = `https://ordinals.com/content/${item.id}`;
+        const onChainSrc = isStaticOnlyMedia(item) ? getLocalGridPreviewSrc(item) : `https://ordinals.com/content/${item.id}`;
 
         const pill = (label, title, onClick, opts = {}) => {
             const btn = document.createElement('button');
@@ -959,7 +965,7 @@ export function createArtworkModalController({
                 }
             } else {
                 // Non-HTML artworks: download the on-chain file from ordinals.com
-                const ext = getPreferredFileExtension(item);
+                const ext = isStaticOnlyMedia(item) ? 'jpg' : getPreferredFileExtension(item);
                 const filename = `${item.name || item.id}.${ext}`;
                 fetch(onChainSrc)
                     .then((r) => r.blob())
@@ -1048,6 +1054,7 @@ export function createArtworkModalController({
     }
 
     function openMetacard(item, cdnSrc, isHtml, options = {}) {
+        if(isStaticOnlyMedia(item))isHtml=false;
         const { updateUrl = true, replaceHistory = false } = options;
         const { modalTitle, modalImage, modalIframe, modalVideo, rawHtmlContainer, modalOverlay, galleryGrid } = refs();
         if (!modalTitle || !modalImage || !modalIframe || !modalVideo || !rawHtmlContainer || !modalOverlay) return;
@@ -1137,7 +1144,7 @@ export function createArtworkModalController({
             modalVideo.play().catch(() => {});
         } else {
             viewerLoading().watch(modalImage);
-            modalImage.src = `https://ordinals.com/content/${item.id}`;
+            modalImage.src = isStaticOnlyMedia(item) ? getLocalGridPreviewSrc(item) : `https://ordinals.com/content/${item.id}`;
             modalImage.classList.remove('hidden');
         }
 
@@ -1195,7 +1202,17 @@ export function createArtworkModalController({
         }, 300);
     }
 
-    return { openMetacard, closeModal };
+    function mountMetadata(item,container,{onSelect,onCollection}={}) {
+        renderMetadataList(item,container,{onCollection});
+        for(const link of container.querySelectorAll('a'))for(const node of link.childNodes){
+            if(node.nodeType===Node.TEXT_NODE)node.textContent=node.textContent.replace(/\s*[↗→]\ufe0e?\s*$/u,'');
+        }
+        const token=metadataRenderToken;
+        const click=event=>{const button=event.target.closest('[data-open-artwork]');if(button){event.preventDefault();onSelect?.(button.dataset.openArtwork);}};
+        container.addEventListener('click',click);
+        return ()=>{if(token===metadataRenderToken)metadataRenderToken++;container.removeEventListener('click',click);container.replaceChildren();};
+    }
+    return { openMetacard, closeModal, mountMetadata };
 }
 
 // ── Paint Engine help popover ─────────────────────────────────────────────

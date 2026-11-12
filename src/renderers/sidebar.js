@@ -17,12 +17,14 @@ export function syncSidebarActiveSection({ topNav, sectionKey }) {
     const allSectionButtons = Array.from(topNav.querySelectorAll('[data-section]'));
     allSectionButtons.forEach((button) => {
         button.className = BASE_TOP_NAV_BUTTON_CLASS;
+        button.removeAttribute('aria-current');
     });
 
     if (!sectionKey) return;
     const activeBtn = allSectionButtons.find((btn) => btn.dataset.section === sectionKey) || null;
     if (activeBtn) {
         activeBtn.className = ACTIVE_TOP_NAV_BUTTON_CLASS;
+        activeBtn.setAttribute('aria-current','page');
     }
 }
 
@@ -39,6 +41,7 @@ export function renderTopNav(container, {
         link.className = key === activeSectionKey ? ACTIVE_TOP_NAV_BUTTON_CLASS : BASE_TOP_NAV_BUTTON_CLASS;
         if (secondary) link.classList.add('sidebar-secondary');
         link.dataset.section = key;
+        if(key===activeSectionKey)link.setAttribute('aria-current','page');
         link.textContent = internalSections[key].label;
         link.onclick = event => {
             if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -160,20 +163,19 @@ export function renderSidebarSections({
 
     if (collectionsNav) {
         collectionsNav.innerHTML = '';
+        collectionsNav.hidden = false;
         renderYearGroups({
-            collectionsNav,
-            chronologyByYear,
-            currentFilter,
-            onLoadCollection,
-            onAfterSelect,
-    toCollectionSlug,
+            collectionsNav, chronologyByYear, currentFilter,
+            onLoadCollection, onAfterSelect, toCollectionSlug,
         });
         const allWorks = topNav?.querySelector('#all-works-nav');
         if (allWorks) {
+            allWorks.style.setProperty('--year-count',Object.keys(chronologyByYear).length);
             allWorks.appendChild(collectionsNav);
             const visualizer = document.createElement('a');
-            visualizer.href = '/visualizer/'; visualizer.className = 'chronology-link';
-            visualizer.textContent = 'Visual chronology ↗︎';
+            visualizer.href = '/visualizer/';
+            visualizer.className = 'chronology-link';
+            visualizer.textContent = 'Visual chronology';
             allWorks.appendChild(visualizer);
         }
     }

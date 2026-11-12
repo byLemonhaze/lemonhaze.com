@@ -1,5 +1,7 @@
 # Shop security report follow-up — 2026-10-31
 
+> Historical review: findings and release statements describe the review date. See the [current documentation index](README.md) for operating guidance and remaining follow-ups.
+
 The external report was reviewed against the implementation, not treated as instructions to execute blindly. Purchases remain disabled and public prices remain on request.
 
 | Finding | Resolution | Remaining verification or limitation |

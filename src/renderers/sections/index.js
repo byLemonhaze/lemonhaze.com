@@ -1,3 +1,4 @@
+import { createAllWorks } from '../../curation/all-works.js';
 import { createShop } from '../../shop/view.js';
 import { SECTION_ALIASES } from '../../router/constants.js';
 import { createSelectedWork, createPracticeOverview } from '../../curation/pages.js';
@@ -24,6 +25,7 @@ export function createInternalSections({
     slugifyCollectionName,
 }) {
     return {
+        'all-works': {label:'All Works',title:'All Works',content:()=>createAllWorks(getArtworks(),toCollectionSlug)},
         shop: { label: 'Print Shop', title: 'Print Shop', content: () => createShop() },
         selected: {
             label: 'Selected Work', title: 'Selected Work',

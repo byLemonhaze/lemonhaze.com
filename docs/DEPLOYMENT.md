@@ -1,81 +1,63 @@
-# lemonhaze.com Deployment
+# Deployment runbook
 
-## Production Target
+Current application release: `041ea75`, published November 11, 2026 to [lemonhaze.com](https://lemonhaze.com) and [immutable deployment 3d9290e8](https://3d9290e8.lemonhaze.pages.dev). See the [work report](reports/2026-11-11.md) for source history and evidence.
 
-- Platform: Cloudflare Pages
-- Config: `wrangler.toml`
-- Build output: `dist`
-- Compatibility date: `2024-09-23`
+## Targets and local setup
 
-## Local Development
+Cloudflare Pages project `lemonhaze` uses `wrangler.toml`, compatibility date `2024-09-23`, and output directory `dist`. Its production deployment branch is `main`. A Cloudflare branch label is a hosting target, not a Git merge: the November 11 application was originally published from `feat/immersive-experience` before source integration.
 
-Use the pinned Node version from `.nvmrc`:
+Use Node 22 from `.nvmrc`:
 
 ```bash
 nvm use
 npm ci
+npx playwright install chromium
 npm run dev
 ```
 
-Useful local commands:
+`npm run preview` serves the built application but does not emulate Pages Functions. CI runs `npm run verify` on pushes and pull requests. GitHub main requires the `verify` check; merge through a pull request after it passes.
 
-```bash
-npm run build
-npm run preview
-npm run verify
-```
-
-## Required Production Secrets
-
-These values should be configured in Cloudflare Pages project settings, not committed to the repo:
-
-- `PRESS_ENGINE_PASSWORD` (at least 32 random characters)
-- `CLAUDE_API_KEY`
-- `SHOP_RATE_SECRET` (random private HMAC secret)
-
-The private Press Engine also needs the dedicated `SHOP_DB` binding for rate and generation budgets. See `SHOP.md` for separate payment credentials and the full launch checklist. Missing security configuration fails closed.
-
-## CI
-
-GitHub Actions verifies the repo on pushes and pull requests by:
-
-1. installing dependencies with `npm ci`
-2. building the site
-3. running repo standards tests
-
-CI uses the same Node major version pinned in `.nvmrc`.
-
-## Production Deploy
-
-Authenticate first:
+## Publish an authorized application change
 
 ```bash
 npx wrangler whoami
+npm run verify
 ```
 
-Then deploy:
+Choose the target explicitly:
 
 ```bash
-npm run verify
-npx wrangler pages deploy dist --project-name lemonhaze
+# Review deployment
+npx wrangler pages deploy dist --project-name lemonhaze --branch immersive-review
+
+# Authorized production deployment
+npx wrangler pages deploy dist --project-name lemonhaze --branch main
 ```
 
-## Caching
+Do not omit `--branch`. Record the source commit, actual build/test result, immutable URL and production URL. Check the live bundle, affected routes, redirects, response headers and representative interactions. A successful upload alone does not verify the live UI. Never reuse stale build output after changing application files.
 
-`public/_headers` defines the current cache policy:
+Documentation-only commits need link/path and whitespace checks; they do not need an application redeployment. Keep historical release evidence distinct from checks run for the documentation change.
 
-- HTML routes: `no-cache`
-- root path: `no-cache`
-- built assets under `/assets/*`: revalidate before reuse
+## Routing, caching and embedding
 
-## Operational Notes
+Known clean routes are prerendered HTML. `functions/[[path]].ts` handles selected legacy redirects and app-entry aliases; it is not an unrestricted SPA fallback. Unknown routes retain real 404s. Pages deploys `functions/` with the site bundle.
 
-- Cloudflare Pages Functions under `functions/` are deployed automatically with the site bundle.
-- `functions/[[path]].ts` is required for SPA deep links so direct visits to `/about`, `/best-before`, and `/<inscription-id>` resolve to the app shell instead of a 404.
-- `MARKET_WATCH_DB` stores public Market Watch snapshots and refresh leases. Apply `db/market-watch-migrations/` with `npx wrangler d1 migrations apply MARKET_WATCH_DB --remote` before the first deployment. The separate legacy `db/migrations/` sales schema remains inactive.
-- If data scripts are used to refresh sales indices, regenerate the browser-facing outputs before deploy so `public/data/sales-master/` stays in sync.
+`public/_headers` makes HTML and the root `no-cache`; built `/assets/*` revalidate before reuse. Versioned preview assets use immutable caching. Do not serve fallback HTML as cached JavaScript.
+
+Public HTML allows same-origin, `https://catalogue.gallery` and `https://www.catalogue.gallery` parents. Direct shop/privacy/terms responses deny framing. Lab, visualizer and third-party exceptions are separate. See `server/security-headers.js` and [Security](../SECURITY.md); some resource restrictions remain report-only.
+
+## Service configuration
+
+Configure credentials privately in Cloudflare, never in committed files. Private Press Engine generation requires `PRESS_ENGINE_PASSWORD` (at least 32 random characters), `CLAUDE_API_KEY`, `SHOP_RATE_SECRET`, and `SHOP_DB` for budgets. Missing security configuration fails closed. See [API](API.md) and [SHOP.md](SHOP.md) for credentials, gates and payment readiness.
+
+- `MARKET_WATCH_DB` holds public snapshots and refresh leases. Apply `db/market-watch-migrations/` with `npx wrangler d1 migrations apply MARKET_WATCH_DB --remote` before first use.
+- `SHOP_DB` has separate migrations under `db/shop-migrations/`; follow the shop runbook before changes.
+- The old `db/migrations/` sales schema is inactive scaffolding.
+- Regenerate browser-facing sales outputs when their authoritative inputs change; see [Data sources](DATA-SOURCES.md).
+- `SHOP_STOREFRONT_OPEN`, `SHOP_LIVE_ENABLED` and `SHOP_POLICIES_CONFIRMED` remain false. This release does not open purchases.
 
 ## Market Watch
+
 
 `/supply#market-watch` embeds Market Watch below the Ordinals supply tables. The old `/market-watch/` route redirects there. Its React bundle loads only when Supply is opened, and navigation cancels in-flight client scans. It uses the same public site origin and requires no login, wallet connection, or marketplace API key.
 

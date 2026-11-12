@@ -1,0 +1,738 @@
+{
+  "verified": "2026-11-11",
+  "source": "Live lemonhaze.com carousel, checked against src/curation/selection.js",
+  "selected": [
+    {
+      "id": "shop-print6",
+      "name": "Impossible Folds — 01",
+      "collection": "Impossible Folds",
+      "year": 2026,
+      "preview": "/shop/impossible-folds-2026-11-04/impossible-folds-01.webp",
+      "collectionOrder": [
+        {
+          "id": "shop-print6",
+          "name": "Impossible Folds — 01"
+        },
+        {
+          "id": "shop-print5",
+          "name": "Impossible Folds — 02"
+        },
+        {
+          "id": "shop-print4",
+          "name": "Impossible Folds — 03"
+        },
+        {
+          "id": "shop-print3",
+          "name": "Impossible Folds — 04"
+        },
+        {
+          "id": "shop-print2",
+          "name": "Impossible Folds — 05"
+        },
+        {
+          "id": "shop-print1",
+          "name": "Impossible Folds — 06"
+        },
+        {
+          "id": "shop-print10",
+          "name": "Impossible Folds — 07"
+        },
+        {
+          "id": "shop-print11",
+          "name": "Impossible Folds — 08"
+        },
+        {
+          "id": "shop-print12",
+          "name": "Impossible Folds — 09"
+        },
+        {
+          "id": "shop-print13",
+          "name": "Impossible Folds — 10"
+        },
+        {
+          "id": "shop-print14",
+          "name": "Impossible Folds — 11"
+        },
+        {
+          "id": "shop-print15",
+          "name": "Impossible Folds — 12"
+        }
+      ]
+    },
+    {
+      "id": "c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0",
+      "name": "Hózhó",
+      "collection": "Chrysalis",
+      "year": 2026,
+      "preview": "/previews/dc16204ef6d55d80.webp",
+      "collectionOrder": [
+        {
+          "id": "fad67cc80b7b3560c0cc2c783d914ded158fcbda10ebba4fdee89b85ab4e290ci0",
+          "name": "Chrysalis"
+        },
+        {
+          "id": "da1f4317a9ea57ff35c07de6c722d88287a307967cfa0711487afb079f497a1ci0",
+          "name": "Ubuntu"
+        },
+        {
+          "id": "279177f2195d97bd5cc85d8b26b7333fc4c9c830523d0dd6b6a886c3fe2dd877i0",
+          "name": "Sisu"
+        },
+        {
+          "id": "3770b4f2f0ea0df9164dd12a4d37150e8e33e1595ddc250f7c4c74423699a848i0",
+          "name": "Lagom"
+        },
+        {
+          "id": "cf0ddfb5f7fb8818e81109036d0a8d276e301039484f6c234ac62a53903adde9i0",
+          "name": "Ikigai"
+        },
+        {
+          "id": "d30ca78b85edfc7dfe914254c28d55a2685cb965c03685f829cbd1cf54378e9ei0",
+          "name": "Wu Wei"
+        },
+        {
+          "id": "f2f18f094cd7f4cfec9f5d63a0942ffa53f3caebefa5b0f30b7c0dfeb24bfcbai0",
+          "name": "Meraki"
+        },
+        {
+          "id": "c6a7aa6853e257c11fed5faa51d33772a11142425d0275075312f8c3e205668fi0",
+          "name": "Hózhó"
+        }
+      ]
+    },
+    {
+      "id": "b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0",
+      "name": "Chanchanok's Temple",
+      "collection": "1 of 1s (2025)",
+      "year": "2025",
+      "preview": "/previews/4d93296b82e335c7.webp",
+      "collectionOrder": [
+        {
+          "id": "627d9a054e2db14bc892cec8a747da726dbadc1677079ff49675b17f78e262d8i0",
+          "name": "Gentleman SE25"
+        },
+        {
+          "id": "72204021e3a21e326bcdc7bfaa2b2bf185f8169da9f13dfa7c76408535472842i0",
+          "name": "I'll Come Your Way"
+        },
+        {
+          "id": "ce4bce489aa8bf4fdd7c2a1dd4f7dcb1c42d4c6007d9557aa41461e62cf2e8c4i0",
+          "name": "Duet Tacet"
+        },
+        {
+          "id": "a5d17ba73f9d46d15e59288e1073f37b5a187bdaa189a712c1a26d63dd1c7c1ai0",
+          "name": "Synesthésie"
+        },
+        {
+          "id": "3422db0898d84544fe61d1b8bc0528c8634f805ec435c441218bdab776d484edi0",
+          "name": "Night Owl"
+        },
+        {
+          "id": "5986b9ca6677ac0661473eeca5b596d826f0f184790f079c5818b85740d8c09di0",
+          "name": "ROSS IS FREE"
+        },
+        {
+          "id": "b90ac734f0e468f86afb81b773559c02270f19d4698b51320e899e1b37ba66ffi0",
+          "name": "Voyager"
+        },
+        {
+          "id": "b8e34271e6d76d3d3aeea0756d9ad281132196fc30bb62d35ca8fe9b0fceff97i0",
+          "name": "Paysage"
+        },
+        {
+          "id": "33e141b76fba2459796239c0d67ea8bc056ec4abdb7a4f8d22735bb6c6be8ef6i0",
+          "name": "Lost in Bangkok"
+        },
+        {
+          "id": "b32cc2fbacb3aa3b83408a8426873a3a649291da44538a462d76b3a84699f1e9i0",
+          "name": "Chanchanok's Temple"
+        },
+        {
+          "id": "611fad09e407fe63e70c54ee853e755f92cb4d69049eff21f31d3d414a2db74di0",
+          "name": "Minute, papillon!"
+        },
+        {
+          "id": "ed138325c4d10a62859dc1a00deb1e2174099fb2d09baf817a5d5d74eecc4290i0",
+          "name": "Le Marchand de Rêves"
+        },
+        {
+          "id": "4e052f799f999138edb4d9df420ed1fd1590508aa3e702f65c231204b40c3d00i0",
+          "name": "Last Call"
+        },
+        {
+          "id": "15ed0a345c10cb0b26fad820f364898f355924dbf0ce5527dd5d7237e0a25964i0",
+          "name": "Off-Kilter"
+        },
+        {
+          "id": "58d21c5f1bbc25932fe1cc784ac47baf8b0ed9241ea989ad2a47b41839d132e7i0",
+          "name": "Glass Breaker"
+        },
+        {
+          "id": "a75945e142877ade9392a0855ef0fdab215af10a7f3e4381d31697c706836228i0",
+          "name": "Mending Out"
+        },
+        {
+          "id": "e363af225398924fbc52df5fe605a6b1e1290ed464ded09dba82516154913be5i0",
+          "name": "Necronies"
+        },
+        {
+          "id": "b66a29be1861ef12253635e0dff825344dc39c5c44644e3224b7974deac8a092i0",
+          "name": "Flashback"
+        },
+        {
+          "id": "28cc6c152b736d59551de08f0d6bd7984a49a0a1f9eca80df62938eaa96ac7e6i0",
+          "name": "Soleil & Mer"
+        },
+        {
+          "id": "ada7662763439c6a786c1a06b653efb244b9abd722593c9a97606c7050c931b6i0",
+          "name": "Birthday Girl"
+        },
+        {
+          "id": "3103fcd71deeacd50251d7d6c14778ff74fd26c6ee9b46ec24341aac9bc874fdi0",
+          "name": "Loft Gallery Prototype"
+        },
+        {
+          "id": "cc06be3ea69b948c580e67e27d24f889a1bed0c0fa6acf12187e94ac5c041ac1i0",
+          "name": "Dark Horse"
+        },
+        {
+          "id": "3ab2302560a09b30e35b9311bff5554e4d0f055a2ca3eb7dd969f868281b29f9i0",
+          "name": "On Paper"
+        },
+        {
+          "id": "5ae16faba93684887efc960f26d865265b2669e389fd6552e3399f74fa61042bi0",
+          "name": "Mostly Art"
+        },
+        {
+          "id": "0fc76657166d0dfab82ff8d5f97a3c785d817055c3a989b8b8b4fcdb0effbee7i0",
+          "name": "Smooth Sailor"
+        },
+        {
+          "id": "0c0ba94df1720c8ed40afbc38f97f806e758de9234f99cbaa060bafd22231efbi0",
+          "name": "Paint Engine v0"
+        },
+        {
+          "id": "f93a9e3655a0d9531871248b9a3e6b78c1aaee24c76265247a3172b16bdbc15di0",
+          "name": "Paint Engine v0.1 [Grossier]"
+        },
+        {
+          "id": "054eb44d57f5bd34a9153c5a605e32710fbc36912945db0fc91693526e7c9201i0",
+          "name": "Paint Engine v0.2 [O-Swirl]"
+        },
+        {
+          "id": "c850f4853a469ed0758309006b861e3f6bac830126d25695b744d019fcb903b6i0",
+          "name": "Debt Sentence"
+        },
+        {
+          "id": "27d6da8779b0cbc1ca5fb565ec57a4168c137a99fde572f1f22cf6673f6fc524i0",
+          "name": "Smoke Break"
+        },
+        {
+          "id": "0b1c283e4fe2637a881639a2a715348c56759840f06f7e1142652da60a4a2d4ei0",
+          "name": "Paint Engine v0.3 [Jackie's Sample]"
+        },
+        {
+          "id": "723f548d5a05ff53075cfc3be76587040bef3cc129e95b423f01611c21d8122di0",
+          "name": "Paint Engine v0.3.1 [Max Colors]"
+        }
+      ]
+    },
+    {
+      "id": "4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0",
+      "name": "Porcelain Sunset",
+      "collection": "Liminality",
+      "year": 2026,
+      "preview": "/previews/3c9388472a741ca7.webp",
+      "collectionOrder": [
+        {
+          "id": "a29f08996ef9c1a6d284d520de89abece14ce5e7d01fbf3fa7def17312202332i0",
+          "name": "Liminality"
+        },
+        {
+          "id": "b1b64766543cbcb089d252f67f77d0f562ae96bbee28ad4effee25d42b19da04i0",
+          "name": "Betwixt & Between"
+        },
+        {
+          "id": "7a267ee7dd4c56950d1e4b70c914389793cab7e738ace8b591ec56fec0312674i0",
+          "name": "Eerie Night"
+        },
+        {
+          "id": "38368e42ce7817d6994e459f27b85574e9be0eadaee6645af0fba81829ca8102i0",
+          "name": "Non-Place"
+        },
+        {
+          "id": "30e88e8a5ac33a3607d7b4b35042d48ef3a9a9f1d4af014a4667d6b4e29f04d9i0",
+          "name": "Chlorine Dream"
+        },
+        {
+          "id": "ba1d7eaf918d78821037fc256789f5e070dd7e58fcec6e15cef64a4e51ab7ba3i0",
+          "name": "Melon Days"
+        },
+        {
+          "id": "4be08b20f356a79d03871943c1e80d1123ce4047f3256f10113212596c8bb021i0",
+          "name": "Porcelain Sunset"
+        },
+        {
+          "id": "dfac609d390809809a738b83fbe0dfe70f4811982e20faf7b070011c4dbb3828i0",
+          "name": "Terminal 36"
+        }
+      ]
+    },
+    {
+      "id": "8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0",
+      "name": "Chamber of Reflection",
+      "collection": "1 of 1s (2024)",
+      "year": "2024",
+      "preview": "/previews/309f131829fdcff6.webp",
+      "collectionOrder": [
+        {
+          "id": "9c639452f65e0bd348085d04a5f41cffba18e502814bea834e7251280ee4e2efi0",
+          "name": "Uncut Gem (Miami Edition - 1/1s)"
+        },
+        {
+          "id": "18328c7aeb829846f0c20d5786a2a383b1b546c985681382cd5f073cfa4e3e15i0",
+          "name": "Mirage"
+        },
+        {
+          "id": "264545ac9af6eb5b8bb0a9e3e582efcbf9acf68e12c55d90d09f86aae6ae3b03i0",
+          "name": "Soir d'hiver"
+        },
+        {
+          "id": "278cc07e51e5c7455bcaa17b90558f6d9a9e41fea5ec79b5cac82f8eb06830adi0",
+          "name": "Fuck You"
+        },
+        {
+          "id": "ae55da51f8248e8f1c70ac4e1022c4ba363c324a403d060142ecf135e853f4fei0",
+          "name": "Relapse"
+        },
+        {
+          "id": "c551aeb04e04d3aea30a4a268e745b1d0be27fd49c8533984d92bcef6afb5c52i0",
+          "name": "Birthday Gift To My Mom"
+        },
+        {
+          "id": "6a29f146bb8d25b4fa09ea1da92c9178a3bc30e8223045be5fa581049365f4c6i0",
+          "name": "Bitcoin Executive Order"
+        },
+        {
+          "id": "8b091f71fa8b4680cbc346581b845168c76e00eb6208f18ab21ee71bd5fe3c06i0",
+          "name": "Saint-Laurent"
+        },
+        {
+          "id": "96bfed068b05dbf880312d3b9600d9951cf81d4088383fc722d5d24b94955048i0",
+          "name": "Untitled"
+        },
+        {
+          "id": "953aaf212e5674c6b14f845a80e077547b1cea362dcfa51f5aa91d797da3cec7i0",
+          "name": "Nothing Serious"
+        },
+        {
+          "id": "c40049d5a73c7d310cce6dae212763f296e63f1dfee3dc5043d77b6a1e5ad0fci0",
+          "name": "Encore Moins Sérieux"
+        },
+        {
+          "id": "0765b0c6ec2ca2ef1a46a88cbaa642e832aaf2e3d4da93a7f700f41efb22da91i0",
+          "name": "My Little Dragon"
+        },
+        {
+          "id": "281ea59ab176353c854f8d7d2f77bb96bffa845f99d9814952e14d48cfdea99ai0",
+          "name": "Ink Running Low"
+        },
+        {
+          "id": "1400f31ed1b8864e5ad21fd3d953ed87e65198652ad4cbec818f056a9d3cab61i0",
+          "name": "Grifters' Paradise"
+        },
+        {
+          "id": "68d4eb366f3f923e1a7ea64db8008c6f41b2511187b869b1a8cc914f4477dcc0i0",
+          "name": "Already Cancelled"
+        },
+        {
+          "id": "f598c4555863259ba19a29d6c1784303f0bb66f6167e09af898c275029c4db07i0",
+          "name": "Pennsylvania"
+        },
+        {
+          "id": "04d21b89f1bc8d88733803a39d8e17768706bf0e63119db2dc5af0c731ef67f3i0",
+          "name": "The Men Who Wanted To Be Left Alone"
+        },
+        {
+          "id": "bf5ec8f7860704716868dd3ca33b9aa2ba49dd3d1564d6e4406e89e49f88a31bi0",
+          "name": "Wondrous Place"
+        },
+        {
+          "id": "6685107d0c0c5fb4f27599ece4fe204d41e99adf4d4fb139af9be37c44711461i0",
+          "name": "Trainspotting Dreams"
+        },
+        {
+          "id": "7cdc7734acf8b33de1e25ad4b23c29900b120b78005e8fb13654a7f756465299i0",
+          "name": "Somewhere in Hong Kong"
+        },
+        {
+          "id": "087a531ccffe50e0b5d81cb8864120520db800e52970ddad4422a7d019a1c36ci0",
+          "name": "Reckless"
+        },
+        {
+          "id": "8781dfea6d8f4db71df9c3674c2a555ae1815bdb627685bd1b6ab2a028678c42i0",
+          "name": "Chamber of Reflection"
+        },
+        {
+          "id": "0120fedb8b07d8bc3d8e4123a6f36a802b587275e540605dd7b1984eb84e236ci0",
+          "name": "Wonderful Night"
+        },
+        {
+          "id": "7dfbe24786a7c42d3be6937619b1917408e4265421377f119cd4040a9d25dd9ci0",
+          "name": "Black Sheep"
+        },
+        {
+          "id": "35b36fdc0f108c535790d86544abd707ed6492925134dbc7ff7785f6cdcd8c42i0",
+          "name": "Le Confessionnal (Sin City)"
+        },
+        {
+          "id": "6bf4c96647ef39196b01580bc10185b132de496e8d1b9b2bb8cf373eba76eb09i0",
+          "name": "La Tête Dans Les Étoiles"
+        },
+        {
+          "id": "af7153cb6bc25fc2f18a6630c55d36577ae33107080e87ec6ffbcde384588bcei0",
+          "name": "La Fin D'un Chapitre"
+        },
+        {
+          "id": "bab8c2006cc1976923881ab4ed3871ca150f440d9cd9c698c71a5cc202490393i0",
+          "name": "Dogmatic Structure"
+        },
+        {
+          "id": "989242547accbd3df2611aeae8c311e162d4d188f046d8562f18f6684ade4f63i0",
+          "name": "From Berlin to Saigon"
+        },
+        {
+          "id": "5fef183d99d18a4a999dd0b92d221b8924ff18fa57a36cab530a59f449ba26cfi0",
+          "name": "Insaisissable Mirage"
+        },
+        {
+          "id": "8be1d588309c92b734d72596d5083dc82a877cfe7e9e99585c0c3cf4b6be6ab1i0",
+          "name": "Block 869420"
+        },
+        {
+          "id": "c5d041d6e880bf789c43735725f821560bdf1bda0c42f78c5a659dec51667c1bi0",
+          "name": "Maslow"
+        },
+        {
+          "id": "21897a07f879ba80941e7b60d35dd166b74e143486cb93e8b79c75606d5a3fb2i0",
+          "name": "Kowloon"
+        },
+        {
+          "id": "9cc4a712d5cc4317ef5539230e2f04562d1e3fb14007195abdb8e76b4d3b5dc5i0",
+          "name": "Marilyn"
+        },
+        {
+          "id": "31c73d03adc65c4e6d7c760de6407d58453ef223b228c262f4b049c8d11e31b1i0",
+          "name": "Solitude is Bliss"
+        },
+        {
+          "id": "bfd70364d26ce428304350548c217b0d666e81834395d50a5ca6f6d2373d9789i0",
+          "name": "Thankful for Today"
+        },
+        {
+          "id": "9682250766b5ccaabc3996bcbc9e3f59c3fd39ae89a8994b11caa8be2b18b312i0",
+          "name": "Level Two (Stress Test)"
+        },
+        {
+          "id": "85880ffe12694871b94000ea0448c91cbb710dec9e3f1746631a61ea92b6fb88i0",
+          "name": "Saturday Afternoon"
+        },
+        {
+          "id": "f674a004eeebac907ef2b8a3d0c0f850724153ad15f55ada4b6ec3b0b3cc16bai0",
+          "name": "Saturday Evening"
+        },
+        {
+          "id": "8e6548f13b4365f456f2afd4605444f2476fadfd896e1635f1a07d476ccf370ai0",
+          "name": "Leftover Sunset"
+        },
+        {
+          "id": "345cf61d49201d0d991527fa1d26a16e0d39d291a723beebecc00579b72e65d1i0",
+          "name": "Dit Franco"
+        },
+        {
+          "id": "f16f690fbe406425fa7e031c8234f12206ba17588e4aa2c62527e723ec68f73ei0",
+          "name": "Gaijin"
+        },
+        {
+          "id": "52fb39a350caea1183d3ec4acf5774d0099ff0621ce0c37c3b6170aff14e3bdei0",
+          "name": "BP2"
+        },
+        {
+          "id": "cf563f3a443d8f681dcfb1a4129ed99e17d7f70d8186f7e7d23bf94a553f5699i0",
+          "name": "Freezing"
+        },
+        {
+          "id": "502429c1e58f36fa7b33ec8414914eddc9128eb78a955ba09344a16944096742i0",
+          "name": "Peak Audacity"
+        },
+        {
+          "id": "75c7778d0a8230a262dc58c0c23ca9e4afbb18b1ba7bd4d3e6033063aea375d7i0",
+          "name": "Cashback"
+        },
+        {
+          "id": "a0ef20597dde830f8d7d56bf0ed56fd0d412b5dd979ba22f884db7da0bdcfb93i0",
+          "name": "Noir Désir"
+        },
+        {
+          "id": "f24edbc65d5987af839d22421a5a84b41466a7aacb34bbd256b1b989ceaadc05i0",
+          "name": "Grift Season"
+        },
+        {
+          "id": "73d980cea10c4fa22c0f279a8b5e78aca474a2e08db634b6b6139e31768f09c5i0",
+          "name": "Larp Town"
+        },
+        {
+          "id": "5ac6d52f0af32b480efa3027bc44bfde4167d3273ed4f98713a782537153e7d3i0",
+          "name": "Stress Test"
+        }
+      ]
+    },
+    {
+      "id": "adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0",
+      "name": "Gentleman Nº6",
+      "collection": "Gentlemen",
+      "year": "2023",
+      "preview": "/previews/adb030e8396fdba2.webp",
+      "collectionOrder": [
+        {
+          "id": "757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0",
+          "name": "Gentleman Nº1"
+        },
+        {
+          "id": "d79da404fdb54920a2b5f4abf36927f12bb32db2fe65a2d745f6272f61c37bc2i0",
+          "name": "Gentleman Nº2"
+        },
+        {
+          "id": "d17d6c2e96c9b129ec1fbb9a21742e06a063976494d306f6b4086a519913cc92i0",
+          "name": "Gentleman Nº3"
+        },
+        {
+          "id": "5e2aca86c47cf065ff8e2e7c504dd995fd18d362ae0c84dace7f8e949cb08789i0",
+          "name": "Gentleman Nº4"
+        },
+        {
+          "id": "85ced879b0ea14b10e82b55242b415c66b942c0ffc7248c3621ed6de3f21ac20i0",
+          "name": "Gentleman Nº5"
+        },
+        {
+          "id": "adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0",
+          "name": "Gentleman Nº6"
+        },
+        {
+          "id": "8c0e4189127c293ea65f948f691ac2075581c6aba5a80efb988de472300928b9i0",
+          "name": "Gentleman Nº7"
+        },
+        {
+          "id": "a5773f41e19253d134e7ee3da3c10f0ab7514fa411eb394eac23b0e5d7b0ca0bi0",
+          "name": "Gentleman Nº8"
+        },
+        {
+          "id": "63ed9211757080b3d55f25c986b6b278b7b49b1f1a13bfdb4768859653288a95i0",
+          "name": "Gentleman Nº9"
+        },
+        {
+          "id": "c85a9875a869086ecfddc68717016d0430514750d29c3aeda19a5e76bb4e7f09i0",
+          "name": "Gentleman Nº10"
+        },
+        {
+          "id": "496c6a2527d78b8babac12dd508e0acdf7a189d6925bd1f21042f9c7b57ed051i0",
+          "name": "Gentleman Nº11"
+        },
+        {
+          "id": "d573dcd9b704a0fa1792e11e931a1ba135cc5d0d12e4f1b3cd99e475b4ee9104i0",
+          "name": "Gentleman Nº12"
+        },
+        {
+          "id": "018a61a1fe792c3b88f78eec676284d248134af97b8ac92441f84528f6af493fi0",
+          "name": "Gentleman Nº13"
+        },
+        {
+          "id": "c4b6451e169799c321d4f1d9d66c49ebc2c768d8f5d605433112b66c3287be04i0",
+          "name": "Gentleman Nº14"
+        },
+        {
+          "id": "7502486cda49a44cbbe5ef73f7555da07ab706e6a1474359821e932f91b476f6i0",
+          "name": "Gentleman Nº15"
+        },
+        {
+          "id": "7c6c7110558f90cb8e995d3d9d80ccc451255402d44935dc8070fe8ea435fc3ci0",
+          "name": "Gentleman Nº16"
+        },
+        {
+          "id": "24ebc878297f6814093e8b77d5cb624fcf976a8ef3b6cbc8a5b7bff42ce5e900i0",
+          "name": "Gentleman Nº17"
+        },
+        {
+          "id": "afd6064d31cdf3f540ccb958df4c9c74d90e12d0e999f879756f523de7e9ed5di0",
+          "name": "Gentleman Nº18"
+        },
+        {
+          "id": "7ba7fc89c1f0a62fc378d1b04c1e98180c1cf25baed2788a08a0998594b58596i0",
+          "name": "Gentleman Nº19"
+        },
+        {
+          "id": "459b2473398d868c9ca74856fc48c58a51eb2cbb9cc9036ac6cdb70da598b796i0",
+          "name": "Gentleman Nº20"
+        },
+        {
+          "id": "7d63e37e4006e93d816beadd5396ea4e904d932854c54986a99363baced1cee3i0",
+          "name": "Gentleman Nº21"
+        },
+        {
+          "id": "7d9194149d4067f30457c8f9dee19ee36f9834566118ca16091ba3e2bc6124c5i0",
+          "name": "Gentleman Nº22"
+        },
+        {
+          "id": "a3e67b4423e90e0ab0246cb4e1dd0e7029aade2803afe80c23a3d0da67507098i0",
+          "name": "Gentleman Nº23"
+        },
+        {
+          "id": "fda60c5f61aaf687a37e297b2d57dc7e1bd87fc2e4d2a5f51a9ece3c511f4f4ai0",
+          "name": "Gentleman Nº24"
+        },
+        {
+          "id": "472c57208d1b9d0e9f264ee50406e2eb360a956bdcf85a7c833a17280fcd9df7i0",
+          "name": "Gentleman Nº25"
+        }
+      ]
+    },
+    {
+      "id": "a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0",
+      "name": "Family Portrait",
+      "collection": "Into The Wild",
+      "year": "2026",
+      "preview": "/previews/37e54e65592ee435.webp",
+      "collectionOrder": [
+        {
+          "id": "a7a29fda9317c0689b6cebba74ef9381e46fc783f073619643a0ec6f28edd49bi0",
+          "name": "Family Portrait"
+        },
+        {
+          "id": "485c7289e76ca5344305e72e7baea3bf7ae088356df504c923765758aca0c2a2i0",
+          "name": "Broke Beach"
+        },
+        {
+          "id": "1f2c9b22698eab4928386ef1d5121d2c01a19ab9d6fc850bb898ed57c197dbdai0",
+          "name": "Poomba"
+        },
+        {
+          "id": "c1fcb922ec430cb0b3e2c538efa8eb8431557cccf0f01cee20580d559e48ba7di0",
+          "name": "Lucky Belly"
+        },
+        {
+          "id": "ca7dc546f1d7c70a809b4cc7d812ce1745011b727e4929ab642015d463000e9bi0",
+          "name": "Hillside Desolate"
+        }
+      ]
+    },
+    {
+      "id": "757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0",
+      "name": "Gentleman Nº1",
+      "collection": "Gentlemen",
+      "year": "2023",
+      "preview": "/previews/19218cfbefa55c75.webp",
+      "collectionOrder": [
+        {
+          "id": "757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0",
+          "name": "Gentleman Nº1"
+        },
+        {
+          "id": "d79da404fdb54920a2b5f4abf36927f12bb32db2fe65a2d745f6272f61c37bc2i0",
+          "name": "Gentleman Nº2"
+        },
+        {
+          "id": "d17d6c2e96c9b129ec1fbb9a21742e06a063976494d306f6b4086a519913cc92i0",
+          "name": "Gentleman Nº3"
+        },
+        {
+          "id": "5e2aca86c47cf065ff8e2e7c504dd995fd18d362ae0c84dace7f8e949cb08789i0",
+          "name": "Gentleman Nº4"
+        },
+        {
+          "id": "85ced879b0ea14b10e82b55242b415c66b942c0ffc7248c3621ed6de3f21ac20i0",
+          "name": "Gentleman Nº5"
+        },
+        {
+          "id": "adfb187edd46c3125d74e91ee32817aa23b41fbc93982c137d7f83bed6cf3f3ci0",
+          "name": "Gentleman Nº6"
+        },
+        {
+          "id": "8c0e4189127c293ea65f948f691ac2075581c6aba5a80efb988de472300928b9i0",
+          "name": "Gentleman Nº7"
+        },
+        {
+          "id": "a5773f41e19253d134e7ee3da3c10f0ab7514fa411eb394eac23b0e5d7b0ca0bi0",
+          "name": "Gentleman Nº8"
+        },
+        {
+          "id": "63ed9211757080b3d55f25c986b6b278b7b49b1f1a13bfdb4768859653288a95i0",
+          "name": "Gentleman Nº9"
+        },
+        {
+          "id": "c85a9875a869086ecfddc68717016d0430514750d29c3aeda19a5e76bb4e7f09i0",
+          "name": "Gentleman Nº10"
+        },
+        {
+          "id": "496c6a2527d78b8babac12dd508e0acdf7a189d6925bd1f21042f9c7b57ed051i0",
+          "name": "Gentleman Nº11"
+        },
+        {
+          "id": "d573dcd9b704a0fa1792e11e931a1ba135cc5d0d12e4f1b3cd99e475b4ee9104i0",
+          "name": "Gentleman Nº12"
+        },
+        {
+          "id": "018a61a1fe792c3b88f78eec676284d248134af97b8ac92441f84528f6af493fi0",
+          "name": "Gentleman Nº13"
+        },
+        {
+          "id": "c4b6451e169799c321d4f1d9d66c49ebc2c768d8f5d605433112b66c3287be04i0",
+          "name": "Gentleman Nº14"
+        },
+        {
+          "id": "7502486cda49a44cbbe5ef73f7555da07ab706e6a1474359821e932f91b476f6i0",
+          "name": "Gentleman Nº15"
+        },
+        {
+          "id": "7c6c7110558f90cb8e995d3d9d80ccc451255402d44935dc8070fe8ea435fc3ci0",
+          "name": "Gentleman Nº16"
+        },
+        {
+          "id": "24ebc878297f6814093e8b77d5cb624fcf976a8ef3b6cbc8a5b7bff42ce5e900i0",
+          "name": "Gentleman Nº17"
+        },
+        {
+          "id": "afd6064d31cdf3f540ccb958df4c9c74d90e12d0e999f879756f523de7e9ed5di0",
+          "name": "Gentleman Nº18"
+        },
+        {
+          "id": "7ba7fc89c1f0a62fc378d1b04c1e98180c1cf25baed2788a08a0998594b58596i0",
+          "name": "Gentleman Nº19"
+        },
+        {
+          "id": "459b2473398d868c9ca74856fc48c58a51eb2cbb9cc9036ac6cdb70da598b796i0",
+          "name": "Gentleman Nº20"
+        },
+        {
+          "id": "7d63e37e4006e93d816beadd5396ea4e904d932854c54986a99363baced1cee3i0",
+          "name": "Gentleman Nº21"
+        },
+        {
+          "id": "7d9194149d4067f30457c8f9dee19ee36f9834566118ca16091ba3e2bc6124c5i0",
+          "name": "Gentleman Nº22"
+        },
+        {
+          "id": "a3e67b4423e90e0ab0246cb4e1dd0e7029aade2803afe80c23a3d0da67507098i0",
+          "name": "Gentleman Nº23"
+        },
+        {
+          "id": "fda60c5f61aaf687a37e297b2d57dc7e1bd87fc2e4d2a5f51a9ece3c511f4f4ai0",
+          "name": "Gentleman Nº24"
+        },
+        {
+          "id": "472c57208d1b9d0e9f264ee50406e2eb360a956bdcf85a7c833a17280fcd9df7i0",
+          "name": "Gentleman Nº25"
+        }
+      ]
+    }
+  ]
+}

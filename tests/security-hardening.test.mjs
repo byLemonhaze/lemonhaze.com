@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {authorizePress} from '../server/press-security.js';
 import {localDatabase} from '../server/shop/local-db.js';
-import {secureResponse,commonHeaders,shopHeaders} from '../server/security-headers.js';
+import {secureResponse,commonHeaders,shopHeaders,siteFramePolicy} from '../server/security-headers.js';
 import {esc,assetUrl} from '../src/shop/html.js';
 import {deliverReviewAlerts} from '../server/shop/alerts.js';
 import {readFileSync} from 'node:fs';
@@ -28,7 +28,12 @@ test('shop framing protection is enforced and artwork embedding stays possible',
  assert.match(response.headers.get('content-security-policy'),/frame-ancestors 'none'/);
  assert.equal(response.headers.get('x-frame-options'),'DENY');
  assert.ok(response.headers.get('strict-transport-security'));
- for(const path of ['/', '/about', '/collection.html'])assert.equal(secureResponse(new Request('https://lemonhaze.com'+path),new Response('shell',{headers:{'Content-Type':'text/html'}})).headers.get('x-frame-options'),'DENY');
+ for(const path of ['/', '/about', '/collection.html']){
+  const embedded=secureResponse(new Request('https://lemonhaze.com'+path),new Response('shell',{headers:{'Content-Type':'text/html','X-Frame-Options':'DENY'}}));
+  assert.equal(embedded.headers.get('x-frame-options'),null);
+  assert.equal(embedded.headers.get('content-security-policy'),siteFramePolicy);
+ }
+ for(const path of ['/shop','/shop/checkout','/privacy.html','/terms.html'])assert.equal(secureResponse(new Request('https://lemonhaze.com'+path),new Response('shell',{headers:{'Content-Type':'text/html'}})).headers.get('x-frame-options'),'DENY');
  assert.equal(secureResponse(new Request('https://lemonhaze.com/lab/art.html'),new Response()).headers.get('x-frame-options'),null);
  const staticHeaders=readFileSync(new URL('../public/_headers',import.meta.url),'utf8');
  for(const [k,v] of Object.entries({...commonHeaders,...shopHeaders}))assert.ok(staticHeaders.includes(`${k}: ${v}`));

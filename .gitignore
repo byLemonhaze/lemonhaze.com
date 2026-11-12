@@ -35,3 +35,7 @@ dist-ssr
 # Local research and generated reports
 temp_search/
 local-reports/
+output/playwright/motion-frames/
+
+# Local browser automation sessions
+.playwright-cli/

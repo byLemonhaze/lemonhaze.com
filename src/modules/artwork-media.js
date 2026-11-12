@@ -1,3 +1,5 @@
+import {isStaticOnlyMedia} from '../data/static-only-media.js';
+export {isStaticOnlyMedia} from '../data/static-only-media.js';
 const DIRECT_ONCHAIN_COLLECTIONS = new Set([
     'Cypherville',
     'Portrait 2490',
@@ -71,6 +73,7 @@ function normalize(value) {
 }
 
 export function isHtmlArtwork(item) {
+    if(isStaticOnlyMedia(item))return false;
     const id = normalize(item?.id);
     const contentType = normalize(item?.content_type);
     const artworkType = normalize(item?.artwork_type);
@@ -83,6 +86,7 @@ export function isHtmlArtwork(item) {
 }
 
 export function isVideoArtwork(item) {
+    if(isStaticOnlyMedia(item))return false;
     const contentType = normalize(item?.content_type);
     const artworkType = normalize(item?.artwork_type);
     return (
@@ -93,11 +97,13 @@ export function isVideoArtwork(item) {
 }
 
 export function shouldUseDirectOnchainMedia(item) {
+    if(isStaticOnlyMedia(item))return false;
     const collection = String(item?.collection || '').trim();
     return collection.length > 0 && DIRECT_ONCHAIN_COLLECTIONS.has(collection);
 }
 
 export function shouldUseDirectOnchainPreview(item) {
+    if(isStaticOnlyMedia(item))return false;
     const id = normalize(item?.id);
     if (!id) return false;
     if (String(item?.grid_preview || '').trim()) return false;
@@ -134,7 +140,10 @@ export function getCdnFallbackImageSrc(item) {
 }
 
 export function getLocalGridPreviewSrc(item) {
+    if(item?.collection==='Manufactured')return `/images/manufactured/${item.id}.webp`;
+    if(item?.collection==='Griffintown'||item?.id==='93bb1c5eb9e48f2efdd200d35339f0a8ad2c261bcf784f40ea83d165b90cfbbci0')return `/images/griffintown/${item.id}.webp`;
     const id = String(item?.id || '').trim();
+    if(isStaticOnlyMedia(item))return `/images/old-fashioned/${id}.jpg`;
     const collection = String(item?.collection || '').trim();
     const collectionSlug = LOCAL_GRID_PREVIEW_COLLECTIONS.get(collection);
     if (!id || !collectionSlug) return null;

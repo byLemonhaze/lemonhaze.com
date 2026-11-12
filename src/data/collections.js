@@ -13,7 +13,7 @@ export function createCollectionResolver({ chronologyByYear, getArtworks }) {
 
     const findKnownCollectionName = (value) => {
         const rawValue = String(value || '').trim();
-        if (!rawValue) return null;
+        if (!rawValue || rawValue.toLowerCase()==='provenance') return null;
 
         const chronologyCollections = Object.values(chronologyByYear).flat();
         const chronologyMatch = chronologyCollections.find((col) => col.toLowerCase() === rawValue.toLowerCase());
@@ -30,7 +30,7 @@ export function createCollectionResolver({ chronologyByYear, getArtworks }) {
         if (!name) return null;
 
         const rawName = String(name).trim();
-        if (!rawName) return null;
+        if (!rawName || rawName.toLowerCase()==='provenance') return null;
         if (rawName.toLowerCase() === 'home') return 'Home';
 
         const knownCollection = findKnownCollectionName(rawName);
@@ -48,7 +48,7 @@ export function createCollectionResolver({ chronologyByYear, getArtworks }) {
         const addName = (name) => {
             if (!name) return;
             const normalized = String(name).trim();
-            if (!normalized || normalized.toLowerCase() === 'home' || seenNames.has(normalized)) return;
+            if (!normalized || ['home','provenance'].includes(normalized.toLowerCase()) || seenNames.has(normalized)) return;
             seenNames.add(normalized);
             orderedNames.push(normalized);
         };
@@ -76,7 +76,7 @@ export function createCollectionResolver({ chronologyByYear, getArtworks }) {
         if (!value) return null;
 
         const rawValue = String(value).trim();
-        if (!rawValue) return null;
+        if (!rawValue || rawValue.toLowerCase()==='provenance') return null;
 
         const slugMatch = collectionSlugToName.get(rawValue.toLowerCase());
         if (slugMatch) return slugMatch;
@@ -87,7 +87,7 @@ export function createCollectionResolver({ chronologyByYear, getArtworks }) {
     const resolveCollectionPathToken = (value) => {
         if (!value) return null;
         const rawValue = String(value).trim().toLowerCase();
-        if (!rawValue) return null;
+        if (!rawValue || rawValue.toLowerCase()==='provenance') return null;
         return collectionSlugToName.get(rawValue) || null;
     };
 

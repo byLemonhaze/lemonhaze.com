@@ -83,7 +83,7 @@ Review orders in the private Stripe Dashboard, reconcile the exact order and pay
 
 ## Other security controls
 
-The shop and policy routes enforce anti-framing, base, object and form restrictions. A stricter script/resource policy is initially report-only for compatibility monitoring; do not describe it as fully enforced XSS protection. App entry pages also prevent framing to cover client-side navigation into the shop. Standalone lab, visualizer and third-party artwork routes remain embeddable. HTTPS responses add HSTS without enabling subdomain or preload commitments.
+The shop and policy routes enforce anti-framing, base, object and form restrictions. A stricter script/resource policy is initially report-only for compatibility monitoring; do not describe it as fully enforced XSS protection. Public app entry pages allow same-origin and the approved catalogue.gallery/www.catalogue.gallery parents. Direct shop and policy responses retain their framing restrictions; do not treat this response policy as a separate restriction on client-side navigation inside an already embedded public page. Standalone lab, visualizer and third-party artwork routes remain embeddable. HTTPS responses add HSTS without enabling subdomain or preload commitments.
 
 The content lab requires a private password of at least 32 characters, HMAC verification, ten requests per network per hour, and global limits of 20 generation attempts per day and 200 per fixed 30-day window. These are request budgets, not monetary provider spending limits. Set a separate provider spending limit. Missing protection settings fail closed. Never publish the password or put it in client source.
 

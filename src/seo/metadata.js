@@ -8,6 +8,7 @@ const COLLECTION_SOCIAL_IMAGES = {
 export const PAGE_METADATA = {
  '/': {name:'Lemonhaze — Artist & Coureur de Bois',description:'Explore Lemonhaze’s art on Bitcoin: generative painting, collections, artist notes, exhibitions, and the stories behind the work.'},
  '/shop': {name:'Print Shop — Prints & Textile Art',description:'Signed Impossible Folds prints, limited to three per artwork, and original textile works with certificates of authenticity. Price on request. Online ordering coming soon.'},
+ '/all-works': {name:'All Works',description:'Browse Lemonhaze’s complete collection directory by year, or search for an artwork or collection.'},
  '/selected': {name:'Selected Work',description:'A selection of works and series by Lemonhaze: black, ink-like forms, digital textures, generative images, and works inscribed on Bitcoin.'},
  '/about': {name:'About Lemonhaze',description:'Meet Lemonhaze, artist and coureur de bois. Discover the practice, background, and writing behind his art inscribed on Bitcoin.'},
  '/practice': {name:'Practice',description:'Explore Lemonhaze’s practice through Gentlemen, BEST BEFORE, Montreal, Paint Engine, and Liminality.'},

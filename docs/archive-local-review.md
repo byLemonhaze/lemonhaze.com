@@ -1,5 +1,7 @@
 # Archive and illustrated practice — local review
 
+> Historical review: findings and release statements describe the review date. See the [current documentation index](README.md) for operating guidance and remaining follow-ups.
+
 58 public-facing entries assembled from the source review. Original collection stories and practice text are preserved. Every entry retains source-post dates, reviewed media captions and links.
 
 ## Content still held in the research review

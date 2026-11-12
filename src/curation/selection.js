@@ -12,9 +12,11 @@ export const SELECTED_WORK_IDS = [
     '757c7d19f53501b9f1e11f49f1731622d5d257eed99c721b32af0438d0d1f9cfi0', // Gentleman Nº1
 ];
 export const CAROUSEL_WORK_IDS = SELECTED_WORK_IDS;
-const printPreviews = ARTWORKS.map(work => ({
+export const printPreviews = ARTWORKS.map(work => ({
     id: `shop-${work.id}`, name: work.title, grid_preview: work.preview,
     href: '/shop', palette: work.series, caption: 'Impossible Folds · Print selection',
+    collection: 'Impossible Folds', year: Number(work.dated.slice(0, 4)),
+    original: work.original, description: work.description, artwork_type: 'PNG',
 }));
 export function selectedWorks(artworks, ids = SELECTED_WORK_IDS) {
     const byId = new Map([...artworks, ...printPreviews].map(work => [work.id, work]));

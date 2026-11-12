@@ -27,7 +27,7 @@ export function createRouter({
             artwork: nextRouteState.artwork,
             toCollectionSlug,
         });
-        if (url.pathname !== window.location.pathname) url.hash = '';
+        if (url.pathname !== window.location.pathname) { url.hash = ''; params.delete('work'); params.delete('at'); }
         url.search = params.toString();
         return url;
     };

@@ -1,190 +1,67 @@
-# lemonhaze.com Architecture
+# Site architecture
 
-## Purpose
+Current application baseline: `041ea75`, November 11, 2026. [Documentation index](README.md) · [Immersive details](immersive/ARCHITECTURE.md).
 
-This document is the high-level engineering map for `lemonhaze.com`:
+## Runtime and source map
 
-- how the public site boots and routes
-- where collection and inscription data comes from
-- how artwork metadata and sales enrichment are assembled
-- what runs in the browser versus Cloudflare Pages Functions
+The primary application is modular vanilla JavaScript with Vite and Tailwind. Market Watch is a separately loaded React module, so the repository is not entirely framework-free. Static/prerendered pages and Cloudflare Pages Functions share the production origin.
 
-## System Components
+| Area | Source | Responsibility |
+| --- | --- | --- |
+| Entry | `index.html`, `src/main.js`, `src/app/runtime.js` | First-paint theme/mode, bootstrap, catalogue assembly and shared controllers |
+| Website routing | `src/router/`, `src/app/section-flow.js`, `src/app/collection-flow.js` | Canonical paths, legacy aliases, sections and collections |
+| Viewing modes | `src/immersive/modes.js`, `experience.js` | Mode intent, artwork context, history, stale-transition cancellation |
+| Explore | `src/immersive/explore.js`, `layout.js`, `field-physics.js`, `zoom.js` | Field geometry, camera, touch/wheel input, containment and bounce |
+| Gallery | `src/immersive/gallery.js`, `gallery-motion.js`, `collections.js` | Infinite slots, gestures, snap, collection chooser and remembered positions |
+| Shared detail | `src/immersive/detail.js`, `presentation.js`, `media.js`, `live-document.js` | Artwork/metadata split, desktop solo, image fitting and live-media lifetime |
+| Full metadata | `src/renderers/modal/artwork.js`, `src/modules/` | Inscription context, ownership, notes, sales, specialised viewer/export support |
+| Curation | `src/curation/`, `src/data/`, `src/data.js` | Selected works, covers, collection records, Ethereum entries and editorial metadata |
+| Editorial | `src/editorial/`, `src/renderers/sections/` | Existing writing, Studio Notes, collecting, exhibitions and supply |
+| Presentation | `src/ui/presentation.*`, `src/immersive/modes.css`, `experience.css` | Shared paper/charcoal theme, stable chrome and responsive layouts |
+| Services | `functions/`, `server/` | Metadata compatibility endpoint, Market Watch, private Press Engine, shop and response headers |
+| Build | `scripts/build_*`, `scripts/prerender_seo.mjs` | Manifests, title index, visualizer, bundled application and generated route HTML |
 
-BEST BEFORE uses a dedicated sandboxed player inside the shared individual artwork modal, with native canvas PNG and MP4 export. See “Best Before player and recording” below.
+## Boot and routing
 
-| Layer | Component | Responsibility |
-|---|---|---|
-| Frontend | Vite app (`index.html`, `src/`) | Collection browsing, deep links, modals, internal sections, blog, and supply navigation |
-| Legacy alias | `public/_redirects` | Redirect rules preserving `/marketplace`, `/supplyCAP.html`, and `/supply.html` as aliases to `/supply` |
-| Static data | `src/data.js`, `src/data/*`, `public/data/*` | Curated copy, chronology, supply tables, blog posts, fallback provenance, generated sales indices |
-| Edge runtime | Cloudflare Pages Functions (`functions/`) | SPA shell fallback, inscription metadata proxying, and password-protected Press Engine generation |
-| Sales pipeline | `scripts/` + `data/sales-master/` | Marketplace scraping, manual private-sale merge, inscription-level sales index generation |
-| Hosting | Cloudflare Pages (`wrangler.toml`) | Production build/deploy target for static assets and Functions |
+The initial HTML selects paper by default, reads a saved/explicit theme before first paint, and resolves the requested view before the app loads. Storage failure keeps the paper default. The mobile root includes a lightweight lemon preview, not a serialized desktop camera with eager large images.
 
-## Public App Flow
+Runtime assembles provenance, BEST BEFORE and repo-managed featured manifests. Local fallbacks preserve browsing when remote data is unavailable. The immersive catalogue adds the existing Impossible Folds print records. Its original-only Explore roster is separate from the complete inscription catalogue and the visualizer.
 
-### 1. Boot
+The root opens Explore; explicit `view=explore|gallery|website` selects a mode. `work=<id>` opens detail; `at=<id>` focuses the field or carousel without detail. Gallery also uses `series=<name>`. Existing collection, section and inscription paths retain Website behavior unless a view is explicitly requested. Legacy `c`, `collection`, `name`, `s`, `section`, `a`, and `id` aliases remain accepted. `/explore` redirects to `/practice`; `/provenance` redirects to `/all-works`.
 
-1. The browser loads `index.html`, which bootstraps `src/main.js`.
-2. `startApp()` in `src/app/runtime.js` fetches provenance data, the live BEST BEFORE collection, and the repo-managed featured collection manifests.
-3. BEST BEFORE rows from provenance are replaced at runtime with the live collection payload when available.
-4. Satoshi, Deprivation prints, Mirage prints, the prints trilogy, Griffintown, Liminality, and Eclosion are merged from their repo-managed local manifests, taking precedence over matching provenance IDs.
-5. Sidebar navigation, section definitions, and collection slug maps are built from the resolved artwork set.
+Mode switches preserve the wordmark and switch position. Website always opens its editorial home rather than an inherited artwork page. Gallery/detail → Explore focuses the same work in the field; detail → Gallery retains that work’s collection. Navigation generations discard stale asynchronous continuations and obsolete fades. See the [navigation contract](immersive/ARCHITECTURE.md#navigation-contract).
 
-### 2. Routing
+## Website and editorial content
 
-The router in `src/router/index.js` owns canonical path-based state:
+The Website landing introduces the destinations without repeating Selected Work’s artwork grid or “A continuous practice” introduction. One right-hand Menu serves desktop/mobile. All Works expands into years and a final visual chronology link within a bounded scroll area; expanding a year cannot move Studio Notes, Collecting, Print Shop or Lab out of view.
 
-- `/<collection-slug>` for collection browsing
-- `/<section-name>` for internal sections (`about`, `highlights`, `explore`, `practice`, `paint-engine`, `collecting`, `supply`, `media`, `lab`)
-- `/<inscription-id>` for artwork modal deep links
+`/selected` retains eight individual works, six selected-series cards and the Paint Engines chapter. `/practice` contains the existing practice chapters and physical-work context, including the uncropped Hosoi signing film segment. `/archive` contains 86 Studio Notes with search, subject/collection/year filters, editorial/date ordering and preserved note anchors. A note’s summary image disappears when its full content opens. `/collecting` includes contextual art/print imagery while preserving the existing prose. `/gentleman-se-2025` remains a separate writing destination. Source credits remain in `public/editorial/sources.md`.
 
-Legacy query links (`c`, `collection`, `name`, `s`, `section`, `a`, `id`) are still accepted and normalized. Invalid or conflicting combinations are rewritten to the canonical path shape.
+Reviewed collection narratives and exact-ID footnotes remain in `src/editorial/collection-stories.json` and `artwork-footnotes.json`. Original writing is not replaced by new summaries during UI work. The previous homepage carousel remains historical code, not the active landing experience.
 
-### 3. Views
+## Artwork and data boundaries
 
-- Collection browsing is coordinated by `collection-flow.js`.
-- Configured collection lead artworks appear first without duplication. Into The Wild opens with its parent, Family Portrait, followed by the remaining works in their existing order.
-- Internal sections (`about`, `highlights`, `supply`, `media`, `blog`, `lab`) are coordinated by `section-flow.js`.
-- Home, gallery, sidebar, and modal rendering live under `src/renderers/`.
+The shared detail shows one artwork and metadata; complete records/sales mount on expansion. Large stills decode before replacing previews. Live documents wait for actual paint and fall back to static imagery when unavailable. The desktop solo state enlarges the existing media without changing the selected work, URL or live instance. Native proportions and the shared mat apply throughout.
 
-The app is intentionally framework-free: state is kept in a small shared store and DOM rendering is explicit.
+Live ownership comes from Ordinals through the current client metadata module. The legacy Hiro-based API remains a compatibility endpoint; it is not the viewer’s live metadata source. Burn status requires explicit evidence, not an absent address. Sales use the curated historical ledger, and current BTC/USD is only approximate present-day context when appropriate. See [Data sources](DATA-SOURCES.md).
 
-## Artwork Detail Flow
+“Provenance” is an internal grouping in source records, not a public collection. Those records must not be deleted merely to remove a UI group. Parent-child records, edition provenance, collection leads and the original-only Explore policy have distinct purposes. Five Ethereum works live in their own verified manifest and All Works; they are not added to the approved inscription field.
 
-When an artwork opens:
+## Server and build boundaries
 
-1. The modal controller in `src/renderers/modal/artwork.js` selects a media strategy.
-2. Media may come from:
-   - curated CDN/fallback image URLs
-   - direct on-chain HTML/media for selected collections
-   - BEST BEFORE live HTML and status data
-3. Metadata is enriched from Hiro and Ordinals endpoints.
-4. Collection medium, creation tools, source links, and documented launch prices are read from `COLLECTION_DETAILS` in `src/data.js`.
-5. Sales history is loaded from the canonical ledger in `public/data/sales-master/`.
-6. BTC/USD spot is fetched client-side to add approximate current fiat context when sale-time USD is unavailable.
+`npm run build` generates SEO routes, the market title index, the visualizer and the Vite bundle, then prerenders known routes. Release `041ea75` generated 1,704 routes. `functions/[[path]].ts` handles selected legacy redirects and app-entry aliases; known clean routes are generated HTML. Unknown routes retain genuine 404s rather than receiving an arbitrary SPA shell.
 
-The artwork modal is therefore the main integration point between curated repo data, live Ordinals metadata, and generated market history.
+`functions/_middleware.ts` applies `server/security-headers.js`. Public site HTML permits same-origin, catalogue.gallery and www.catalogue.gallery parents. Direct shop/privacy/terms responses deny framing. Lab, visualizer and third-party content exceptions remain separate. Some resource restrictions are report-only and must not be described as fully enforced policy.
 
-## Edge Services
+Market Watch persists shared observations and scan leases in `MARKET_WATCH_DB`. The closed shop uses separate `SHOP_DB` inventory/order infrastructure, also used by private Press Engine budgets. The old `db/migrations/` sales schema remains scaffolding; it is not the active Market Watch or shop database. [API inventory](API.md) · [Deployment](DEPLOYMENT.md) · [Shop operations](SHOP.md).
 
-### `functions/[[path]].ts`
+## BEST BEFORE specialised player and recording
 
-- Serves `index.html` for clean direct-path visits like `/about`, `/best-before`, and `/<inscription-id>`
-- Rewrites legacy app entry pages such as `/collection.html` and `/modal.html` to the SPA shell so old shared links can normalize forward
-- Redirects legacy `/marketplace` requests to the canonical `/supply` route
-- Leaves asset and API requests alone
+The existing specialised viewer/export implementation remains distinct from the immersive first-paint bridge. The toolbar and export support below refer to that player, not to extra controls added to the new immersive solo view.
 
-### `GET /api/inscription-metadata`
-
-- Validates `inscription_id`
-- Queries Hiro
-- Returns a normalized JSON payload for address, inscription number, timestamp, sat rarity, and source/warning flags
-
-### `POST /api/press-engine`
-
-- Requires `x-press-password`
-- Uses `PRESS_ENGINE_PASSWORD` and `CLAUDE_API_KEY`
-- Streams generated text from Anthropic back to the browser
-- Powers the private Press Engine UI opened from the site
-
-## Data Boundaries
-
-- `src/data.js` and `src/data/*` contain editorially curated site copy and chronology.
-- Supply rows, marketplace links, and supply-page collection overrides are centralized in `src/data.js`.
-- The supply summary separates manually documented primary volume from indexed resale volume. It never infers primary sales from transfer history, includes documented launch bundles, and excludes secondary aggregate roll-ups that would duplicate inscription-level trades.
-- `src/renderers/sections/supply.js` contains the shared supply UI for the canonical `/supply` section, including Bitcoin collections, Ethereum works, and physical works.
-- Provenance is expected primarily from Lemonhaze CDN, with `/public/data/provenance.json` as a local fallback.
-- BEST BEFORE is intentionally treated as a live external integration rather than static repo data.
-- `data/sales-master/` is working data for scripts; `public/data/sales-master/` is the browser-served output.
-- `db/migrations/` currently documents a future D1-backed sales schema and is not part of the production runtime path yet.
-
-## Operational Notes
-
-- The public app should fail soft when external data is unavailable: provenance falls back across multiple sources, BEST BEFORE data degrades gracefully, and missing metadata/sales data should not block browsing.
-- `public/_headers` controls cache behavior for HTML and immutable built assets.
-- Clean path routing depends on the Cloudflare Pages fallback function in `functions/[[path]].ts`; local `vite preview` exercises the built client app but not that edge fallback layer.
-
-## Explore the practice
-
-`/practice` is the practice overview, linked from the sidebar, Selected Work, collections and reading pages. `/explore` permanently redirects to `/practice`. The separate Gentleman SE writing is at `/gentleman-se-2025`, linked from Studio Notes and the artwork viewer.
-
-`src/editorial/` contains scoped styles, reviewed HTML content fragments, original Montreal notes keyed by inscription ID, and DOM navigation helpers. Collection stories are appended beneath the existing gallery cards for Montreal, Gentlemen, Liminality, and BEST BEFORE. Header anchors jump directly to the story or diary. The gallery renderer and collection datasets are unchanged.
-
-The artwork modal receives an optional artist-note renderer from runtime; Montreal notes and the Gentleman SE 2025 reading link appear alongside existing metadata. Original biography, collection descriptions, and career entries are retained. BEST BEFORE includes dated excerpts, a complete expandable diary, lifecycle explanation, and clearly labeled AI framing studies. The composite nature of diary Part Two is explicitly attributed.
-
-`public/editorial/` holds image assets, public source credits, and the saved Passe-Partout engine. The Paint Engine page shares its version list and description with Lab via `src/data/paint-engines.js`. A dropdown loads one inscription in a sandboxed iframe on request; switching versions replaces it. This page covers prints and commissioned interiors independently of the Gentleman SE 2025 writing. The Gentlemen collection story contains only its original collection statement; the full SE 2025 essay remains at `/gentleman-se-2025` and in Archive. Original artist writing remains unchanged; local-review labels and document shells are excluded from production fragments. New reading routes use the existing Pages SPA fallback. Route changes clear obsolete collection anchors, while direct reading anchors are restored after initial rendering.
-
-### Collection reading and sorting
-
-Collection narratives in `src/editorial/collection-stories.json` extend the existing gallery with dated source links. `artwork-footnotes.json` attaches reviewed excerpts or summaries to exact inscription IDs. The renderer uses text nodes; original HTML scripts are never executed. The Archive links to the full collection-story directory, while Explore highlights five selected subjects. Collection headers retain the works/story navigation. Original descriptions and provenance data are unchanged. The editorial content covers 30 collection readings and 71 artwork IDs. Later reflections are dated to distinguish them from creation history. Hosoi’s sales-source classification was corrected to an artist-confirmed public primary sale; the visible copy omits the marketplace.
-
-Supply lists have independent search and name/year/supply/circulation/burn sorts for desktop and mobile, without changing aggregate totals. Ethereum lists expose their supported year/platform/count fields. Market Watch collection, cross-listing and offer tabs each have relevant sort controls. `src/utils/sorting.js` puts missing values last in either direction, preserves known zeros and never mutates source arrays. Market totals, scan behavior and coverage qualifiers are unchanged. Sort state lasts for the mounted page; it is not persisted in the URL.
-
-Editorial links are normalized by `src/editorial/links.js` before click handling. Legacy reading filenames and presentation assets resolve to canonical internal routes on both production hosts and local preview, preserving query strings and section anchors. Tests cover the links extracted from every editorial HTML fragment.
-
-
-### Collection chronology and mobile Market Watch
-
-Supply’s newest/oldest controls use collection parent timestamps rather than year labels. Pre-parent collections use their first documented inscription; missing dates remain last. `src/utils/collection-chronology.js` resolves the chronology from artwork lineage, with verified dates for missing parent records in `src/data/collection-parent-dates.js`.
-
-Market Watch uses explicit parent/first-artwork choices from `src/market-watch/lib/collection-thumbnails.json`. Optimized assets in `public/images/market-watch/` retain source URLs and inscription IDs in that manifest, so marketplace refreshes cannot replace them with gallery covers. Forty-two derive from CDN images and seven from previews of the same inscription where the CDN image is absent. The palette is neutral white/grey.
-
-At phone/tablet widths, collection and offer table rows become labelled cards. Every marketplace count, floor, offer field, coverage marker and details link remains available without horizontal table scrolling. Cross-listed marketplace observations stack vertically. Desktop tables retain their original layout. Table roles and column headers remain available to assistive technology.
-
-Mobile collection headers wrap metadata and keep the external-site control separate from the description toggle. Story and diary body text uses a readable 16px size; form controls use 16px to avoid focus zoom on iOS. The redundant mobile header Artworks link is hidden while the story’s return-to-works link remains. Games displays only “Three works become one” on its collection story; original artwork notes remain with each inscription.
-
-Market Watch keeps BTC as the primary price and shows a smaller USD estimate for floors, offers, bids, cross-listings, and individual listings. `use-btc-usd.ts` fetches the public Coinbase BTC/USD spot endpoint (the same provider as the sales ledger) on mount, every minute while visible, and when the visitor returns. Requests time out after 10 seconds and abort on unmount. Failed refreshes and rates older than 90 seconds hide the estimate; conversions never alter saved marketplace prices or sorting. `lib/btc-usd.ts` validates the response currency and converts satoshis without treating missing prices as zero.
-
-Supply & Marketplace uses the available content width; reading sections keep their narrower shell. The collection return-to-works anchor is positioned at the top of its own relative gallery grid, so both story-footer links and direct #artworks URLs return to the artwork instead of focusing a stationary anchor.
-
-### Curated presentation (September 2026)
-
-The curated navigation introduces `/selected`, uses `/practice` for Practice and `/archive` as Studio Notes, and groups all chronological collection links inside an All Works disclosure. Existing routes remain available. Collection navigation opens the active collection's year; Visualizer is reachable as Visual chronology inside All Works. Collecting links to the unchanged supply and Market Watch routes, and Exhibitions & Press includes the existing Media & Press page.
-
-`src/curation/selection.js` defines ten `CAROUSEL_WORK_IDS`. `SELECTED_WORK_IDS` follows those same ten in order. Both pages include an Untitled image at position 02 with the caption `X - 202?`, showing a brief “Coming soon” notice centered over the artwork on click without opening an image or creating a synthetic artwork route. Missing records are skipped without introducing random works. These editorial choices are separate from the complete catalogue. `src/curation/pages.js` provides the curated portfolio and practice overview. Carousel controls support previous/next, pause/play, keyboard navigation, and swiping; reduced-motion preferences start with autoplay paused.
-
-`src/ui/presentation.js` and its scoped stylesheet provide off-white and charcoal page-background comparisons. The choice persists locally and can be opened with `?theme=paper` or `?theme=black`. Artwork content remains unchanged. The viewer shares the page palette and groups existing metadata into readable work details and expandable inscription, provenance, and sales sections. Artist text and BEST BEFORE live status remain visible. Source, download, and engine controls retain their existing behavior. The artist approved this presentation for production on September 30, 2026.
-
-Artwork ownership labels use an explicit burned charm, never a missing address or collection-level burn count. The artist-confirmed wallet in `src/modules/artwork-ownership.js` is labeled Lemonhaze · Artist’s collection with the full address retained. Lookup failures and unreported addresses remain distinct.
-
-Gallery parent labels are derived from the artworks in the current collection view, not references across the entire catalogue. Being referenced by an edition series does not label an original as the parent of its own gallery (for example, Deprivation in Orphelinat).
-
-Porcelain Sunset and Lotus Tigré in the landing carousel render their original ordinals.com/content HTML in sandboxed iframes. Only the visible slide is loaded; leaving it or hiding the tab unloads the iframe. Static posters remain for reduced-motion users until they choose Play. No X video files are copied or required.
-
-The landing carousel activates its initial slide before mounting and measuring the stage. This preserves the visible prerendered poster through startup without fading it out and back in; subsequent slide changes retain their normal transitions. Desktop and mobile regression tests cover this handoff and next-slide navigation.
-
-The navigation cleanup uses Studio Notes consistently for `/archive`, with separate expandable lists for longer reading and collection stories. All entries, source links and existing hashes remain available. Selected Work links each artwork to its collection and separates individual works from selected series with in-page navigation. General Practice links go to `/practice`; `/gentleman-se-2025` is explicitly titled Gentleman SE 2025 — Studio Writing. Related links within a note are deduplicated by destination. Gentleman Nº6 occupies the earlier Gentlemen slot in the carousel and Gentleman Nº1 closes it.
-
-Studio Notes now uses a single reading list rather than a uniform thumbnail grid. `src/editorial/archive-curation.js` ranks all 58 entries by relevance to the current practice with text-only note links; photographs and films remain inside their original notes. Visitors can switch to latest-source-date order, with subject, collection and year filters under one disclosure. Sorting and filtering preserve note IDs, original text, media and source links. The generic signing feature is removed in favour of the ranked index. Collection-side Studio Notes links share the editorial order. The artwork viewer sets its iframe colour scheme to light so transparent HTML inscription margins inherit the surrounding page instead of receiving a browser-generated white canvas in dark mode; embedded artwork pixels are unchanged.
-
-Supply marketplace links use a shared theme-aware class on desktop and mobile; their background is transparent and their text follows the active palette. Presentation startup replaces prerendered theme/social controls before binding events, preventing duplicate footer controls after hydration.
-
-Market Watch controls and panels share the presentation palette. Native dialog dismissal handles Escape before global section navigation, so closing a listing panel leaves the visitor in Market Watch. Reading-page images use transparent surrounds in both themes.
-
-Landing captions link the artwork title to its viewer and the collection name to the canonical collection route using the shared collection resolver. Diagonal text arrows request Unicode text presentation to avoid mobile emoji rendering. Chamber of Reflection uses its shortened title across the catalogue and editorial pages.
-The mobile viewer uses a compact Close control with a thin CSS cross, a 44px tap target, and an underline for keyboard focus.
-
-Selected series has nine cards; Gentlemen and Lotus share Gentleman Nº3 as a cover and keep separate collection links. Tōri no Roji and La Tentation remain in All Works. Sidebar chronology order is unchanged, with core series given greater typographic emphasis and other projects quieter but readable. Both the viewer subtitle and Collection metadata link to the collection. The Close control uses theme-aware text and an underline rather than a square keyboard-focus outline, including the anchor rendered for direct artwork URLs.
-
-In-page editorial links keep their fragment-only hrefs until clicked, so building a section before its route update cannot attach anchors to the previous page. Anchor jumps preserve query parameters and history state. The landing carousel sizes the Porcelain Sunset and Lotus Tigré posters to the original inscriptions' display bounds, tracks stage resizing, and reveals each live iframe after its first rendering frames; original inscription content is unchanged.
-
-Selected Work gives Paint Engines its own anchored chapter with three linked output previews, a short introduction to the generative systems and print/interior commissions, and a route to the dedicated engine page. Featured previews are listed in `FEATURED_PAINT_ENGINES`; the artist-selected `ccc4.png` remains the Chasing The Dragon cover.
-
-The Selected Work engine chapter includes the original v0 with Smooth Sailor as its credited 1/1 cover; clicking it opens v0. Commission wording uses rental properties and describes a single engine generating a customized set of works.
-
-The ten-work selection restores BEST BEFORE Nº402 and retains Rue Cuvillier. Lost in Bangkok and La Banquise remain in the full catalogue alongside Paysage, L’Hiver la nuit, and Lotus Tigré. Chamber of Reflection’s viewer includes its Sotheby’s Contemporary Discoveries auction context and official catalogue link.
-
-Selected series contains six cards: Gentlemen / Lotus, Montreal, BEST BEFORE, Manufactured / Games, 1/1s, and Liminality. Merged names link individually; the Manufactured / Games cover is Game Nº9 and opens Games. Each merged collection name has its own underlined link and text arrow. Berlin and Ma ville en quatre temps remain in All Works. Server redirects and the client section alias both resolve `/explore` to `/practice`; SEO routes and the sitemap include the overview and studio writing under their distinct canonical paths. The writing page replaces three displayed quotations with short prose summaries while retaining the original text in its reading disclosures.
-
-Montreal’s exhibition section presents two uncropped installation photographs with responsive 1600/4032-pixel sources and full-resolution links, plus the existing panorama and release image in a disclosure. Source credits live in `public/editorial/sources.md`. Hosoi’s primary sale remains in its expandable Sales history; it is no longer used as introductory artist-note or collection-story copy.
-
-
-### Best Before player and recording
 
 The individual viewer fetches the original on-chain HTML and runs it in a `srcdoc` iframe with an opaque origin (`allow-scripts allow-downloads`, without `allow-same-origin`). The adapter preserves the inscription ID and real chain lookups, removes the renderer’s page background and inset, and aligns both canvas layers to a 900 × 1600 display viewport without changing their native 1800 × 3200 resolution. The bounded source adaptation fails visibly if the renderer version changes.
 
-A per-instance token and source-window checks authenticate messages between viewer and frame. PNG uses the renderer’s own save function. MP4 capture scales both canvas layers to fit 1080 × 1920 (1920 × 1080 for landscape), with even dimensions and no upscaling. The authenticated bridge transfers one ImageBitmap at a time to the parent. The lazily loaded `best-before-mp4.js` uses WebCodecs through Mediabunny to encode H.264 High (up to Level 4.1) at a 6 Mbps constant bitrate target, with exactly 30 explicitly timestamped frames per second and a generated stereo 48 kHz AAC-LC silent access unit repeated to the selected duration, avoiding browser audio-encoder priming padding. The 15/30/60-second exports are finalized as non-fragmented MP4s with front-loaded metadata. No microphone, AudioContext, external conversion service, or cross-origin isolation is needed. The encoder checks actual codec support, frame count, and an 8 Mbps average video bitrate ceiling before download. Unsupported browsers fail clearly without downloading a raw fallback. The recorder modules are identical across the two sites. The unmodified Mediabunny dependency is pinned; its license and source links are published at `/third-party/mediabunny.txt`. Recording is enabled only for fully rendered OPEN works. Cancellation, hidden-tab changes, and modal teardown stop capture; closing the viewer also removes listeners, observers, and the embedded document.
+A per-instance token and source-window checks authenticate messages between viewer and frame. PNG uses the renderer’s own save function. MP4 capture scales both canvas layers to fit 1080 × 1920 (1920 × 1080 for landscape), with even dimensions and no upscaling. The authenticated bridge transfers one ImageBitmap at a time to the parent. The lazily loaded `best-before-mp4.js` uses WebCodecs through Mediabunny to encode H.264 High (up to Level 4.1) at a 6 Mbps constant bitrate target, with exactly 30 explicitly timestamped frames per second and a generated stereo 48 kHz AAC-LC silent access unit repeated to the selected duration, avoiding browser audio-encoder priming padding. The 15/30/60-second exports are finalized as non-fragmented MP4s with front-loaded metadata. No microphone, AudioContext, external conversion service, or cross-origin isolation is needed. The encoder checks actual codec support, frame count, and an 8 Mbps average video bitrate ceiling before download. Unsupported browsers fail clearly without downloading a raw fallback. The unmodified Mediabunny dependency is pinned; its license and source links are published at `/third-party/mediabunny.txt`. Recording is enabled only for fully rendered OPEN works. Cancellation, hidden-tab changes, and modal teardown stop capture; closing the viewer also removes listeners, observers, and the embedded document.
 
-The gallery viewer separates the toolbar, artwork stage, and scrollable details. Export controls live in the right details sidebar alongside the palette on both sites. Solo hides that sidebar against an opaque background, leaving the artwork unobstructed. Lemonhaze retains its existing viewer palette. Deep-link startup adopts any prerendered wrapper and replaces serialized capture controls before initializing a fresh player.
+The gallery viewer separates the toolbar, artwork stage, and scrollable details. Export controls live in the right details sidebar alongside the palette. Solo hides that sidebar against an opaque background, leaving the artwork unobstructed. Lemonhaze retains its existing viewer palette. Deep-link startup adopts any prerendered wrapper and replaces serialized capture controls before initializing a fresh player.

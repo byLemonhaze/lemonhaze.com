@@ -35,6 +35,25 @@ export function createArchivePage(artworks, toCollectionSlug) {
     onward.setAttribute('aria-label', 'Continue exploring');
     onward.innerHTML = '<a href="/selected">Selected Work →</a><a href="/practice">Practice →</a>';
     root.appendChild(onward);
+    const studio = archive.entries.find(entry => entry.slug === 'workspace');
+    const opening = document.createElement('figure');
+    opening.className = 'studio-opening-image';
+    opening.innerHTML = `<a href="/archive#workspace">${imageTag(studio.images[0])}</a><figcaption>${escape(studio.images[0].caption)}</figcaption>`;
+    const intro = root.querySelector('.page-intro');
+    const text = document.createElement('div');
+    text.append(...intro.childNodes); intro.append(text, opening);
+    intro.classList.add('editorial-illustrated-intro');
+    // Existing photographs and film stills introduce their own notes, without
+    // loading video or inventing a cover for a text-only entry.
+    root.querySelectorAll('[data-entry]').forEach(card => {
+        const entry = archive.entries.find(entry => entry.slug === card.dataset.entry);
+        const cover = entry.images[0] || (entry.video?.poster ? {src: entry.video.poster, alt: entry.video.title} : null);
+        if (!cover) return;
+        const summary = card.querySelector('summary');
+        const preview = document.createElement('span'); preview.className = 'studio-note-preview';
+        preview.innerHTML = imageTag(cover);
+        summary.prepend(preview); card.classList.add('has-preview');
+    });
     const form = root.querySelector('form');
     const cards = [...root.querySelectorAll('[data-entry]')];
     const grid = root.querySelector('.archive-grid');

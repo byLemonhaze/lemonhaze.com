@@ -1,3 +1,4 @@
+import overviewTexture from '../src/immersive/overview.json' with {type:'json'};
 import {createServer} from 'node:http';
 import {readFile,writeFile,mkdir,stat} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
@@ -47,11 +48,20 @@ try {
   await page.waitForFunction(path=>document.documentElement.dataset.seoPath===path,entry.path,{timeout:10000});
   // Settle the site's close/open transitions before recording a route.
   if(entry.kind!=='artwork')await page.waitForTimeout(320);
-  const html=await page.evaluate(async entry=>{
+  const html=await page.evaluate(async ({entry,overviewVersion})=>{
    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
    const clone=document.documentElement.cloneNode(true);
    clone.dataset.prerendered='true';delete clone.dataset.appReady;
    const head=clone.querySelector('head');
+   if(entry.path==='/'){
+    // Never serialize a desktop camera and its eager full-size image requests
+    // into the phone landing. Hydration builds the actual interactive field.
+    clone.querySelector('#immersive-experience')?.remove();
+    clone.querySelectorAll('dialog.collection-menu').forEach(el=>el.remove());
+    const preview=document.createElement('picture');preview.id='mobile-explore-preview';preview.setAttribute('aria-hidden','true');
+    preview.innerHTML='<source media="(max-width: 700px)" srcset="/previews/explore-overview.webp?v='+overviewVersion+'"><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="2000" height="1990">';
+    clone.querySelector('body').append(preview);
+   }
    const canonical=head.querySelector('link[rel="canonical"]');
    if(canonical?.getAttribute('href')!==entry.canonical)throw Error('Wrong canonical '+entry.path);
    clone.querySelectorAll('.animate-fade-in').forEach(el=>{el.classList.remove('animate-fade-in');el.style.removeProperty('animation-delay');});
@@ -60,7 +70,17 @@ try {
     const src=el.dataset.onchainPreviewSrc||(entry.kind==='artwork'?'https://ordinals.com/content'+entry.path:null);
     if(src)el.setAttribute('src',src);else el.removeAttribute('src');delete el.dataset.previewPaused;
    });
-   if(entry.kind==='artwork'){
+   if(entry.kind==='artwork'&&clone.querySelector('.experience-detail:not([hidden])')){
+    // The metadata split is the current artwork page. Keep its static poster;
+    // chain scripts are never part of the search-engine snapshot.
+    clone.querySelectorAll('.detail-original,.live-artwork,.artwork-flight').forEach(el=>el.remove());
+    clone.querySelector('.experience-scene')?.remove();
+    const detail=clone.querySelector('.experience-detail');
+    const close=clone.querySelector('#immersive-experience > .detail-close'),link=document.createElement('a');
+    for(const a of close.attributes)link.setAttribute(a.name,a.value);
+    link.href=entry.collectionPath;link.innerHTML=close.innerHTML;close.replaceWith(link);
+    const poster=detail.querySelector('.detail-poster');if(poster)poster.style.opacity='1';
+   }else if(entry.kind==='artwork'){
     // Live lookups are intentionally disabled during capture. Their temporary
     // failure is not a lasting fact about the artwork or its owner.
     const owner=clone.querySelector('#meta-owner');
@@ -84,13 +104,18 @@ try {
    clone.querySelector('.modal-media-panel')?.removeAttribute('aria-busy');
    clone.querySelectorAll('.exchange-rate').forEach(el=>{el.textContent='';el.removeAttribute('title');});
    clone.querySelectorAll('script[src*="/press-engine"],script[data-build-only]').forEach(el=>el.remove());
+   // Image upgrades use resolved URLs in the browser. Persist local resources
+   // as origin-independent paths rather than the temporary build-server URL.
+   clone.querySelectorAll('[href],[src]').forEach(el=>{
+    for(const attr of ['href','src']){const value=el.getAttribute(attr);if(value?.startsWith(location.origin+'/'))el.setAttribute(attr,value.slice(location.origin.length));}
+   });
    // Keep each page metadata exactly aligned with the recorded route.
    const title=head.querySelector('title');title.textContent=entry.title;
    head.querySelector('meta[name="description"]').setAttribute('content',entry.description);
    head.querySelector('meta[property="og:title"]').setAttribute('content',entry.title);
    head.querySelector('meta[property="og:description"]').setAttribute('content',entry.description);
    return '<!DOCTYPE html>\n'+clone.outerHTML;
-  },entry);
+  },{entry,overviewVersion:overviewTexture.version});
   if(/(?:href|src)=["'](?:blob:|http:\/\/127\.0\.0\.1)/.test(html))throw Error('Local URL leaked into '+entry.path);
   const output=entry.path==='/'?resolve(dist,'index.html'):resolve(dist,entry.path.slice(1)+'.html');
   await mkdir(resolve(output,'..'),{recursive:true});await writeFile(output,html);
