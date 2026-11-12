@@ -57,6 +57,8 @@ Reviewed against application release `041ea75` on November 11, 2026. `src/curati
 
 Large Gallery/detail presentations use sharp static sources rather than enlarged field thumbnails. The collection rail stays static; supported live works activate in detail with a fallback. [Immersive architecture](immersive/ARCHITECTURE.md) documents the loading and edition rules. [Feedback history](immersive/README.md) records the artist's exact cover selections and subsequent corrections.
 
+The visual chronology reads `shared/shop-artworks.js` for all twelve Impossible Folds prints, preserving their composition IDs, creation dates and numbered order. Local `shop-` IDs are UI identities, not inscription IDs. The group is marked uninscribed and uses only local print previews.
+
 ### Sales Working Data
 
 `data/sales-master/` is the script-side workspace for market-history generation:

@@ -1,6 +1,10 @@
 import {isStaticOnlyMedia} from '../data/static-only-media.js';
 "use client";
 
+import { ARTWORKS as IMPOSSIBLE_FOLDS } from "../../shared/shop-artworks.js";
+import localPreviews from "../immersive/preview-manifest.json";
+import { posterPaint } from "./presentation.js";
+
 import { PREVIEW_IMAGES } from "../curation/preview-images.js";
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -134,6 +138,7 @@ type Artwork = {
   grid_preview?: string;
   preview?: string;
   _imgSrc?: string;
+  inscribed?: boolean;
 };
 
 type CollectionGroup = {
@@ -142,7 +147,7 @@ type CollectionGroup = {
   allItems: Artwork[];
   parents: Artwork[];
   works: Artwork[];
-  relationship: "direct" | "parent-child" | "recursive-edition";
+  relationship: "direct" | "parent-child" | "recursive-edition" | "uninscribed";
   referenceLabel?: string;
 };
 
@@ -210,7 +215,7 @@ const CHRONOLOGY = {
     "Trilogy (Prints)",
     "BEST BEFORE",
   ],
-  "2026": ["1 of 1s (2026)", "Into The Wild", "Liminality", "Griffintown", "Tin Box of Solitude", "Chrysalis", "Confabulation"],
+  "2026": ["1 of 1s (2026)", "Into The Wild", "Liminality", "Griffintown", "Tin Box of Solitude", "Chrysalis", "Confabulation", "Impossible Folds"],
 } as const;
 
 const PRE_PARENT_COLLECTIONS = CHRONOLOGY["2023"].slice(0, 26);
@@ -528,10 +533,16 @@ export async function loadCatalogue(): Promise<Artwork[]> {
     ),
   );
 
+  // Physical prints belong in the chronology without fabricated inscription IDs or lineage.
+  const prints: Artwork[] = IMPOSSIBLE_FOLDS.map(work => ({
+    id: `shop-${work.id}`, name: work.title, collection: "Impossible Folds",
+    artwork_type: "Print", timestamp: work.dated.slice(0, 10),
+    preview: work.preview, inscribed: false,
+  }));
   // Deduplicate shared parents and prefer the current collection manifests.
   return [...new Map([...provenance, ...supplements]
     .filter(item => /^[a-f0-9]{64}i\d+$/.test(item.id))
-    .map(item => [item.id, item])).values()];
+    .map(item => [item.id, item])).values(), ...prints];
 }
 
 function provenanceIds(item: Artwork): string[] {
@@ -547,6 +558,9 @@ function splitLineage(
   items: Artwork[],
   catalogueById: Map<string, Artwork>,
 ): CollectionGroup {
+  if (name === "Impossible Folds") return {
+    year, name, allItems: items, parents: [], works: items, relationship: "uninscribed",
+  };
   if (RECURSIVE_COLLECTIONS.has(name)) {
     return {
       year,
@@ -659,10 +673,12 @@ function getPreferredExtension(item: Artwork): string {
   return "png";
 }
 
-function getMediaCandidates(item: Artwork): string[] {
+export function getMediaCandidates(item: Artwork): string[] {
+  if (item.inscribed === false) return [`/previews/immersive/${item.id}.webp`, item.preview].filter(Boolean) as string[];
   if(isStaticOnlyMedia(item))return [`/images/old-fashioned/${item.id}.jpg`,`${CDN_BASE}/${item.id}.png`];
   const preferred = getPreferredExtension(item);
   const candidates = [
+    (localPreviews as Record<string, unknown>)[item.id] ? `/previews/immersive/${item.id}.webp` : undefined,
     PREVIEW_IMAGES[`https://ordinals.com/content/${item.id}`],
     PREVIEW_IMAGES[`${CDN_BASE}/${item.id}.${preferred}`],
     item.preview,
@@ -780,11 +796,11 @@ function drawFallback(
   label: string,
 ) {
   const hue = hashNumber(label) % 360;
-  context.fillStyle = `hsl(${hue} 30% 13%)`;
+  context.fillStyle = posterPaint(context, `hsl(${hue} 30% 13%)`);
   context.fillRect(x, y, width, height);
   context.save();
   context.globalAlpha = 0.34;
-  context.strokeStyle = `hsl(${(hue + 52) % 360} 70% 58%)`;
+  context.strokeStyle = posterPaint(context, `hsl(${(hue + 52) % 360} 70% 58%)`);
   context.lineWidth = Math.max(1, width * 0.02);
   const stripe = Math.max(8, width / 6);
   for (let offset = -height; offset < width + height; offset += stripe) {
@@ -795,7 +811,7 @@ function drawFallback(
   }
   context.restore();
   if (width > 24 && height > 24) {
-    context.fillStyle = "rgba(255,255,255,0.74)";
+    context.fillStyle = posterPaint(context, "rgba(255,255,255,0.74)");
     context.textAlign = "center";
     context.textBaseline = "middle";
     context.font = `700 ${Math.max(8, Math.min(18, width * 0.13))}px Arial`;
@@ -915,7 +931,7 @@ function drawArtworkImage(
     width,
     height,
   );
-  context.fillStyle = "#070707";
+  context.fillStyle = posterPaint(context, "#070707");
   context.fillRect(
     destination.x,
     destination.y,
@@ -981,6 +997,7 @@ export function preferredGridShape(
 ): { columns: number; rows: number } {
   const overrides: Record<string, [number, number]> = {
     "1 of 1s (2026)": [8, 2],
+    "Impossible Folds": [6, 2],
     Cypherville: [4, 4],
     "Portrait 2490": [10, 9],
     Miscellaneous: [5, 5],
@@ -1104,9 +1121,9 @@ export function layoutGrandPeriod(
   if (year === "2026") {
     // Keep the 1/1s together across the top, then give each series a real
     // card in chronological pairs instead of seven shallow horizontal strips.
-    const rows = [groups.slice(0, 1), groups.slice(1, 3), groups.slice(3, 5), groups.slice(5)]
+    const rows = [groups.slice(0, 1), groups.slice(1, 3), groups.slice(3, 5), groups.slice(5, 7), groups.slice(7)]
       .filter(row => row.length);
-    const weights = [0.18, 0.18, 0.29, 0.35];
+    const weights = [0.15, 0.15, 0.24, 0.24, 0.22];
     const usableHeight = rect.height - gap * (rows.length - 1);
     const totalWeight = rows.reduce((sum, _, index) => sum + weights[index], 0);
     let y = rect.y;
@@ -1231,7 +1248,8 @@ function editionNumberFor(
   return editionNumber;
 }
 
-function collectionCountLabel(group: CollectionGroup): string {
+export function collectionCountLabel(group: CollectionGroup): string {
+  if (group.relationship === "uninscribed") return `${group.works.length} PRINTS · UNINSCRIBED`;
   if (TIERED_PARENT_COLLECTIONS.has(group.name)) {
     return `${group.works.length.toLocaleString()} WORKS · ${
       group.parents.length
@@ -1264,7 +1282,7 @@ function drawArrowHead(
   color: string,
   size = 8,
 ) {
-  context.fillStyle = color;
+  context.fillStyle = posterPaint(context, color);
   context.beginPath();
   if (direction === "down") {
     context.moveTo(x, y + size);
@@ -1307,7 +1325,7 @@ function drawTimelineBranch(
   const startX = layouts[0].rect.x;
   const endX = layouts[layouts.length - 1].rect.x +
     layouts[layouts.length - 1].rect.width;
-  context.strokeStyle = color;
+  context.strokeStyle = posterPaint(context, color);
   context.lineWidth = CHRONOLOGY_LINE_WIDTH;
   context.beginPath();
   context.moveTo(startX, y);
@@ -1334,7 +1352,7 @@ function drawGridFrame(
   label: string,
 ) {
   context.save();
-  context.strokeStyle = "#a8a89f";
+  context.strokeStyle = posterPaint(context, "#a8a89f");
   context.lineWidth = Math.max(1.5, Math.min(3, width * 0.025));
   context.strokeRect(x + 1.5, y + 1.5, width - 3, height - 3);
 
@@ -1353,9 +1371,9 @@ function drawGridFrame(
   const labelHeight = fontSize + 9;
   const labelX = x + (width - labelWidth) / 2;
   const labelY = y + height - labelHeight - 4;
-  context.fillStyle = "rgba(7,7,7,0.92)";
+  context.fillStyle = posterPaint(context, "rgba(7,7,7,0.92)");
   context.fillRect(labelX, labelY, labelWidth, labelHeight);
-  context.fillStyle = "#e9e9e2";
+  context.fillStyle = posterPaint(context, "#e9e9e2");
   context.textAlign = "center";
   context.textBaseline = "top";
   context.fillText(
@@ -1374,17 +1392,17 @@ function drawEncryptedArtwork(
   width: number,
   height: number,
 ) {
-  context.fillStyle = "#090909";
+  context.fillStyle = posterPaint(context, "#090909");
   context.fillRect(x, y, width, height);
-  context.strokeStyle = "#30302d";
+  context.strokeStyle = posterPaint(context, "#30302d");
   context.lineWidth = Math.max(1, Math.min(2, width * 0.018));
   context.strokeRect(x + 4, y + 4, width - 8, height - 8);
-  context.fillStyle = "#777770";
+  context.fillStyle = posterPaint(context, "#777770");
   context.textAlign = "center";
   context.textBaseline = "middle";
   context.font = `700 ${Math.max(8, Math.min(14, width * 0.1))}px "Courier New", monospace`;
   context.fillText("ARTWORK", x + width / 2, y + height / 2 - 8, width - 12);
-  context.fillStyle = "#454540";
+  context.fillStyle = posterPaint(context, "#454540");
   context.font = `500 ${Math.max(7, Math.min(11, width * 0.075))}px "Courier New", monospace`;
   context.fillText("ENCRYPTED", x + width / 2, y + height / 2 + 12, width - 12);
 }
@@ -1399,9 +1417,9 @@ function drawArtworkNumber(
 ) {
   const label = String(editionNumber).padStart(2, "0");
   const labelWidth = Math.min(width, Math.max(20, label.length * 8 + 8));
-  context.fillStyle = "rgba(0,0,0,0.72)";
+  context.fillStyle = posterPaint(context, "rgba(0,0,0,0.72)");
   context.fillRect(x + width - labelWidth, y + height - 18, labelWidth, 18);
-  context.fillStyle = "rgba(255,255,255,0.78)";
+  context.fillStyle = posterPaint(context, "rgba(255,255,255,0.78)");
   context.textAlign = "right";
   context.textBaseline = "bottom";
   context.font = '700 10px "Courier New", monospace';
@@ -1422,7 +1440,7 @@ function drawPeriodBranch(
 ) {
   const anchorX = period.rect.x + period.rect.width / 2;
   const branchY = period.rect.y - 34;
-  context.strokeStyle = CHRONOLOGY_STROKE;
+  context.strokeStyle = posterPaint(context, CHRONOLOGY_STROKE);
   context.lineWidth = CHRONOLOGY_LINE_WIDTH;
   context.beginPath();
   context.moveTo(anchorX, trunkY);
@@ -1494,14 +1512,14 @@ function drawCardBackground(
   rect: Rect,
   headerHeight: number,
 ) {
-  context.fillStyle = "#0c0c0b";
+  context.fillStyle = posterPaint(context, "#0c0c0b");
   context.fillRect(rect.x, rect.y, rect.width, rect.height);
-  context.fillStyle = "#121210";
+  context.fillStyle = posterPaint(context, "#121210");
   context.fillRect(rect.x, rect.y, rect.width, headerHeight);
 }
 
 function drawCardBorder(context: CanvasRenderingContext2D, rect: Rect) {
-  context.strokeStyle = "#242420";
+  context.strokeStyle = posterPaint(context, "#242420");
   context.lineWidth = 2;
   context.strokeRect(rect.x, rect.y, rect.width, rect.height);
 }
@@ -1517,7 +1535,7 @@ function drawCardHeader(
       ? "ECLOSION (AMSTERDAM BLOOMS)"
       : group.name.toUpperCase();
   const innerWidth = Math.max(24, rect.width - 22);
-  context.fillStyle = "#f0f0eb";
+  context.fillStyle = posterPaint(context, "#f0f0eb");
   context.textAlign = "left";
   context.textBaseline = "middle";
   const titleSize = fitFont(
@@ -1532,7 +1550,7 @@ function drawCardHeader(
 
   const date = groupDateLabel(group);
   const count = collectionCountLabel(group);
-  const dateWidth = Math.max(20, innerWidth * 0.58);
+  const dateWidth = Math.max(20, innerWidth * (group.relationship === "uninscribed" ? 0.38 : 0.58));
   const countWidth = Math.max(20, innerWidth - dateWidth - 8);
   const dateSize = fitFont(
     context,
@@ -1542,7 +1560,7 @@ function drawCardHeader(
     7,
     '"Courier New", monospace',
   );
-  context.fillStyle = "#f0f0eb";
+  context.fillStyle = posterPaint(context, "#f0f0eb");
   context.font = `700 ${dateSize}px "Courier New", monospace`;
   context.fillText(date, rect.x + 11, rect.y + headerHeight * 0.72);
 
@@ -1554,7 +1572,7 @@ function drawCardHeader(
     6,
     '"Courier New", monospace',
   );
-  context.fillStyle = "#94948d";
+  context.fillStyle = posterPaint(context, "#94948d");
   context.font = `700 ${countSize}px "Courier New", monospace`;
   context.textAlign = "right";
   context.fillText(
@@ -1580,9 +1598,9 @@ function drawGrandPeriodLabel(
   width: number,
 ) {
   const boxWidth = Math.min(width - 40, Math.max(240, label.length * 33));
-  context.fillStyle = "#090b08";
+  context.fillStyle = posterPaint(context, "#090b08");
   context.fillRect(centerX - boxWidth / 2, 1690, boxWidth, 98);
-  context.fillStyle = CHRONOLOGY_TEXT;
+  context.fillStyle = posterPaint(context, CHRONOLOGY_TEXT);
   context.textAlign = "center";
   context.textBaseline = "middle";
   context.font = `700 ${TIMELINE_DATE_FONT_SIZE}px "Courier New", monospace`;
@@ -1602,7 +1620,7 @@ function drawRootFrame(
   y: number,
   size: number,
 ) {
-  context.strokeStyle = "#a8a89f";
+  context.strokeStyle = posterPaint(context, "#a8a89f");
   context.lineWidth = 3;
   context.strokeRect(x, y, size, size);
 }
@@ -1615,9 +1633,9 @@ function drawPreBranchLabel(
 ) {
   context.font = `700 ${TIMELINE_DATE_FONT_SIZE}px "Courier New", monospace`;
   const labelWidth = context.measureText(label).width + 24;
-  context.fillStyle = "#090a0b";
+  context.fillStyle = posterPaint(context, "#090a0b");
   context.fillRect(x, y - 29, labelWidth, 58);
-  context.fillStyle = CHRONOLOGY_TEXT;
+  context.fillStyle = posterPaint(context, CHRONOLOGY_TEXT);
   context.textAlign = "left";
   context.textBaseline = "middle";
   context.fillText(label, x + 10, y);
@@ -1631,7 +1649,7 @@ function drawRootConnection(
   trunkY: number,
 ) {
   const centerX = rootX + rootSize / 2;
-  context.strokeStyle = ROOT_CHRONOLOGY_STROKE;
+  context.strokeStyle = posterPaint(context, ROOT_CHRONOLOGY_STROKE);
   context.lineWidth = ROOT_CHRONOLOGY_LINE_WIDTH;
   context.beginPath();
   context.moveTo(centerX, rootY + rootSize);
@@ -1661,7 +1679,7 @@ function drawRootImage(
   rootY: number,
   rootSize: number,
 ) {
-  context.fillStyle = "#0e0e0d";
+  context.fillStyle = posterPaint(context, "#0e0e0d");
   context.fillRect(rootX, rootY, rootSize, rootSize);
   if (gentleman) {
     const rootImage = images.get(itemKey(gentleman));
@@ -1672,12 +1690,12 @@ function drawRootImage(
     }
   }
   drawRootFrame(context, rootX, rootY, rootSize);
-  context.fillStyle = "#f1f1ed";
+  context.fillStyle = posterPaint(context, "#f1f1ed");
   context.textAlign = "left";
   context.textBaseline = "alphabetic";
   context.font = '700 36px "Courier New", monospace';
   context.fillText("GENTLEMAN Nº1", 520, 310);
-  context.fillStyle = "#94948d";
+  context.fillStyle = posterPaint(context, "#94948d");
   context.font = '700 24px "Courier New", monospace';
   context.fillText("INSCRIPTION #329,714", 520, 354);
 }
@@ -1690,7 +1708,7 @@ function drawCollectionGrid(
 ) {
   const items = groupDisplayItems(group);
   if (items.length === 0) {
-    context.fillStyle = "#080808";
+    context.fillStyle = posterPaint(context, "#080808");
     context.fillRect(rect.x, rect.y, rect.width, rect.height);
     return;
   }
@@ -2149,7 +2167,7 @@ function drawOrphelinatGrid(
     );
   }
   context.save();
-  context.strokeStyle = "rgba(208,208,202,0.58)";
+  context.strokeStyle = posterPaint(context, "rgba(208,208,202,0.58)");
   context.lineWidth = 2;
   context.strokeRect(
     heroSlot.x - 5,
@@ -2252,7 +2270,7 @@ function drawEraHeader(
   x = 210,
   fontSize = 46,
 ) {
-  context.fillStyle = accent;
+  context.fillStyle = posterPaint(context, accent);
   context.textAlign = "left";
   context.textBaseline = "alphabetic";
   context.font = `700 ${fontSize}px "Courier New", monospace`;
@@ -2274,7 +2292,7 @@ function drawPreParentEra(
     58,
   );
 
-  context.fillStyle = "#090a0b";
+  context.fillStyle = posterPaint(context, "#090a0b");
   context.fillRect(180, 480, 7320, 950);
   drawEraHeader(
     context,
@@ -2310,7 +2328,7 @@ function drawGrandParentEra(
   groups: CollectionGroup[],
   images: Map<string, HTMLImageElement>,
 ) {
-  context.fillStyle = "#090b08";
+  context.fillStyle = posterPaint(context, "#090b08");
   context.fillRect(180, 1460, 7320, 2700);
 
   drawEraHeader(
@@ -2357,13 +2375,15 @@ function drawPoster(
   canvas: HTMLCanvasElement,
   groups: CollectionGroup[],
   images: Map<string, HTMLImageElement>,
+  theme: string,
 ) {
+  canvas.dataset.presentation = theme;
   canvas.width = POSTER_WIDTH;
   canvas.height = POSTER_HEIGHT;
   const context = canvas.getContext("2d", { alpha: false });
   if (!context) return;
 
-  context.fillStyle = "#070707";
+  context.fillStyle = posterPaint(context, "#070707");
   context.fillRect(0, 0, POSTER_WIDTH, POSTER_HEIGHT);
   context.save();
   context.translate(POSTER_CONTENT_OFFSET_X, POSTER_CONTENT_OFFSET_Y);
@@ -2371,7 +2391,7 @@ function drawPoster(
 
   context.save();
   context.globalAlpha = 0.2;
-  context.strokeStyle = "#20201d";
+  context.strokeStyle = posterPaint(context, "#20201d");
   context.lineWidth = 1;
   for (let x = 210; x <= POSTER_WIDTH - 210; x += 210) {
     context.beginPath();
@@ -2381,15 +2401,17 @@ function drawPoster(
   }
   context.restore();
 
-  context.fillStyle = "#f1f1ed";
+  context.fillStyle = posterPaint(context, "#f1f1ed");
   context.textAlign = "left";
   context.textBaseline = "alphabetic";
-  context.font = "800 84px Arial";
-  context.fillText("LEMONHAZE.com", 520, 120);
-  context.fillStyle = "#92928b";
+  context.font = "600 64px Arial";
+  context.letterSpacing = "13px";
+  context.fillText("LEMONHAZE", 520, 120);
+  context.letterSpacing = "0px";
+  context.fillStyle = posterPaint(context, "#92928b");
   context.font = '500 25px "Courier New", monospace';
   context.fillText(
-    `COMPLETE ORDINALS CHRONOLOGY · FEB 2023 → ${latestChronologyDate(groups)}`,
+    `ARTWORK CHRONOLOGY · FEB 2023 → ${latestChronologyDate(groups)}`,
     524,
     171,
   );
@@ -2406,6 +2428,17 @@ function drawPoster(
 
 export default function TimelineVisualizer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const scene = useRef<{groups: CollectionGroup[]; images: Map<string, HTMLImageElement>} | null>(null);
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.presentation === 'black' ? 'black' : 'paper');
+  const themeRef = useRef(theme);
+  useEffect(() => {
+    themeRef.current = theme;
+    document.documentElement.dataset.presentation = theme;
+    try { localStorage.setItem('lh-presentation', theme); } catch {}
+    const url = new URL(location.href);
+    if (url.searchParams.has('theme')) { url.searchParams.set('theme',theme); history.replaceState(history.state,'',url); }
+    if (scene.current && canvasRef.current) drawPoster(canvasRef.current, scene.current.groups, scene.current.images, theme);
+  }, [theme]);
   const [status, setStatus] = useState("Reading the live chronology…");
   const [ready, setReady] = useState(false);
   const [revision, setRevision] = useState(0);
@@ -2445,7 +2478,8 @@ export default function TimelineVisualizer() {
         );
         if (cancelled || !canvasRef.current) return;
 
-        drawPoster(canvasRef.current, groups, images);
+        scene.current = {groups, images};
+        drawPoster(canvasRef.current, groups, images, themeRef.current);
         setStatus(`Ready · ${displayCellCount(groups).toLocaleString()} cells`);
         setReady(true);
       } catch (error) {
@@ -2519,31 +2553,33 @@ export default function TimelineVisualizer() {
 
   return (
     <main className="visualizer-shell">
-      <button
-        type="button"
-        className="visualizer-close"
-        aria-label="Close visualizer and return to Lemonhaze"
-        onClick={() => window.location.assign("/")}
-      >
-        ×
+      <a id="site-wordmark" href="/?view=explore" aria-label="Lemonhaze — Explore">LEMONHAZE</a>
+      <nav id="view-switch" aria-label="Viewing mode">
+        <a href="/?view=explore">Explore</a><a href="/?view=gallery">Gallery</a><a href="/?view=website" aria-current="page">Website</a>
+      </nav>
+      <button id="appearance-toggle" type="button" onClick={() => setTheme(theme === 'black' ? 'paper' : 'black')} aria-label={theme === 'black' ? 'Switch to day mode' : 'Switch to night mode'} aria-pressed={theme === 'black'}>
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round">{theme === 'black' ? <><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></> : <path d="M20 15.2A8.5 8.5 0 0 1 8.8 4a8.5 8.5 0 1 0 11.2 11.2Z"/>}</svg>
+        <span>{theme === 'black' ? 'Day' : 'Night'}</span>
       </button>
+      <header className="chronology-heading"><div><h1>Visual chronology</h1><p>Artworks, collection parents and editions · 2023–2026</p></div><a href="/all-works?view=website">All Works</a></header>
       <section className="poster-stage" aria-busy={!ready}>
         <div className="poster-frame">
           <canvas
             ref={canvasRef}
             width={POSTER_WIDTH}
             height={POSTER_HEIGHT}
-            aria-label="Complete Lemonhaze provenance tree showing every work from 2023 through 2026"
+            aria-label="Lemonhaze artwork chronology from 2023 through 2026, including twelve uninscribed Impossible Folds prints"
           />
           {!ready && (
             <div className="loading-panel" role="status">
               <span className="loading-pulse" />
-              <strong>Building the complete 8K tree</strong>
+              <strong>Loading the visual chronology</strong>
               <small>{status}</small>
             </div>
           )}
         </div>
       </section>
+      <footer className="chronology-footer"><p>Impossible Folds · 12 prints · Not yet inscribed</p><div><button type="button" onClick={() => setRevision(value => value + 1)} disabled={!ready}>Refresh</button><button type="button" onClick={exportPoster} disabled={!ready || exporting}>{exporting ? 'Saving…' : 'Save 8K image'}</button></div></footer>
       <span className="sr-only" role="status" aria-live="polite">
         {status}
       </span>

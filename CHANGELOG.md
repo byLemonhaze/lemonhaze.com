@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-12 — Visual chronology
+
+Added all twelve Impossible Folds prints to the 2026 chronology with an explicit uninscribed label and no invented lineage. Updated its wordmark, mode navigation, responsive controls and paper/charcoal presentation. Theme changes redraw the interface without recoloring artwork or reloading thumbnails; 8K PNG export remains available.
+
 ## 2026-11-12 — Miami Paint Engine studio note
 
 Content commit: [`06424d3`](https://github.com/byLemonhaze/lemonhaze.com/commit/06424d3) · [Integration PR #63](https://github.com/byLemonhaze/lemonhaze.com/pull/63).
