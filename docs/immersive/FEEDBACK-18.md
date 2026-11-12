@@ -1,5 +1,7 @@
 # Native pixels, mobile camera isolation and quieter field physics
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 Twenty-six native pixel PNGs are served unchanged from a small local cache of the artist's CDN originals. Tad Small and the other native pixel works use nearest-neighbor presentation in Explore, Gallery, detail and collection covers. Their large presentation no longer enlarges a blurred derivative. Blocked static chain images also fall back to the artist-owned CDN before retaining a small poster. Original PNG dimensions are recorded and verified; the distant Explore atlas is unchanged.
 
 Provenance is no longer a collection in All Works, the Gallery picker, collection resolution or the sitemap. Its old public collection paths redirect to All Works. Parent inscriptions and lineage records remain intact, with standalone parent details labeled “Parent inscription.” Ma ville en quatre temps now leads with L’Hiver, la nuit, retaining Un Été à Montréal and L’Automne s’envole as its other covers.

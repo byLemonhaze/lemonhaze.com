@@ -1,5 +1,7 @@
 # Website navigation and All Works — 11 November 2026
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 Implemented the approved Website strategy locally:
 
 - Replaced the permanent sidebar with one Menu drawer on desktop and mobile. The shared Lemonhaze wordmark and viewing-mode control retain their positions. Menu remains accessible from Website artwork details.

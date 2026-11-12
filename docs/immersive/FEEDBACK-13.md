@@ -1,5 +1,7 @@
 # Restore the in-menu collection chronology — 11 November 2026
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 The right-hand Menu now uses the original All Works + disclosure after Exhibitions & Press. It expands to collapsible year groups, collection links and the Visual chronology link at the end. The searchable All Works landing destination remains available. Collection selection uses the shared Website route transition so an open artwork detail is dismissed correctly.
 
 Validation: app build passed; desktop/mobile Website navigation and menu state tests passed (3 tests). Browser coverage expands All Works and 2026, checks year order and the final visualizer link, selects a collection and confirms the drawer closes. Review screenshots are in `output/playwright/feedback-13/`. No deployment.

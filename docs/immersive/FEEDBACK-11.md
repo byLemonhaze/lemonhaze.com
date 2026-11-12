@@ -1,5 +1,7 @@
 # Thumbnail proportions and progressive quality — 11 November 2026
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 - Refreshed all five Into The Wild thumbnails from the static artwork sources. Lucky Belly is now 360 × 120 rather than a square screenshot containing black bars.
 - Rail selection outlines now follow the image's native proportions. The transparent button retains its larger interaction area; landscape works do not receive a square visible selection frame.
 - Gallery upgrades visible static images in current-work-first order, with at most two simultaneous decodes. Explore uses the same queue for works displayed larger than 180 pixels, restoring small derivatives for the overview. Leaving the view or removing a work cancels its pending upgrade. A failed load retains the existing preview, and stale decodes cannot replace another source. Live content remains confined to the detail view.

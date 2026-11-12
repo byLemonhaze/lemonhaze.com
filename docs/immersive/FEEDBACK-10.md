@@ -1,5 +1,7 @@
 # Spacing, thumbnails and navigation — 11 November 2026
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 - Shifted the two upper diagonal neighbours of Gentleman Nº1 outward. The nearest horizontal clearances are approximately 62 and 78 pixels, while the 175-pixel vertical separation from Impossible Folds 01 stays intact. This avoids both touching corners and a large new hole.
 - Rebuilt Paint Engine thumbnails from the existing static images. The small vertical rail now shows the artwork alone, without the on-chain page background or controls. Originals and live solo rendering are unchanged. The preview builder now prefers static images for HTML works and supports targeted refreshes.
 - Gallery → Explore lands on the current artwork in the field, centered at a readable scale. It does not open the split. Re-selecting Explore while its split is open still closes the split and retains the field position.

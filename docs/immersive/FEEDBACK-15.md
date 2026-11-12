@@ -1,5 +1,7 @@
 # Collection covers, media and gesture refinement — 11 November 2026
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 Production deployment authorized by the artist after the local review. No catalogue.gallery files changed.
 
 ## All Works

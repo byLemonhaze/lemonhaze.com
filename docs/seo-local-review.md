@@ -1,5 +1,7 @@
 # Local SEO review — 20 September 2026
 
+> Historical review: findings and release statements describe the review date. See the [current documentation index](README.md) for operating guidance and remaining follow-ups.
+
 Prepared and reviewed in an isolated local preview before the requested release. The original black visual design and editorial content are preserved.
 
 ## Archive coverage

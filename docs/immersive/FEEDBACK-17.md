@@ -1,5 +1,7 @@
 # Mobile navigation and presentation refinements
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 Rapid mode switching now discards stale Website continuations, cancels obsolete page fades, and honors the most recent requested mode even while the previous view is still initializing. Gallery callbacks cannot add artwork parameters to a newer Website/Explore route. Existing artwork/collection handoffs remain intact.
 
 Mobile Explore starts with the full lemon. The fit control alternates between the overview and Impossible Folds 01, with the artwork fitted between a 136px header clearance and the bottom toolbar. Other mobile artwork handoffs use the same safe area. Desktop focus keeps its previous center. Wall-pressure release starts from the rendered contact position rather than the overshot pointer target, avoiding a release jump while retaining rebound and squash.

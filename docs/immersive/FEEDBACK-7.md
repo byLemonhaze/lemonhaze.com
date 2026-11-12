@@ -1,5 +1,7 @@
 # Feedback pass 7 — squeeze, emoji outline and round trips
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 November 11, 2026. Local review only; no deployment.
 
 - Wall pressure persists independently of movement. The raw grab position stays beyond the resting wall while the visible field remains contained. Holding keeps the squeeze; pushing farther increases it, up to 30%. The contact edge stays pinned to the wall. Release turns stored pressure into an inward rebound and a settling wobble. Reduced motion disables deformation and rebound.

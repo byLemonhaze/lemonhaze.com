@@ -1,5 +1,7 @@
 # Feedback pass 4 — local review
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 November 11, 2026. No deployment. This supersedes the live-preview behavior recorded in pass 3.
 
 ## Changes

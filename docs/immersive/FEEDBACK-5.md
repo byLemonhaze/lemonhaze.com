@@ -1,5 +1,7 @@
 # Feedback pass 5 — local review
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 November 11, 2026. No deployment. Builds on pass 4.
 
 ## Presentation and interaction

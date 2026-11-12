@@ -1,5 +1,7 @@
 # Reference inspection — 11 November 2026
 
+> Historical review: findings and release statements describe the review date. See the [current documentation index](../README.md) for operating guidance and remaining follow-ups.
+
 These are direct browser observations, separate from the implementation decisions below. Desktop Chrome was inspected at its 1512px viewport; mobile observations use a 390 × 844 responsive viewport, reloaded at that size. This is not physical-device testing.
 
 ## Palmer — https://www.palmer-dinnerware.com/

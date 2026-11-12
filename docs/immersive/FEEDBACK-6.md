@@ -1,5 +1,7 @@
 # Feedback pass 6 — contextual Gallery navigation
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 November 11, 2026. Local only; no deployment.
 
 The Gallery mode tab now closes an open artwork split and enters the carousel at that work in its own collection. It does not reuse an unrelated collection or reopen the artwork modal. This also works when Gallery is already the active mode.

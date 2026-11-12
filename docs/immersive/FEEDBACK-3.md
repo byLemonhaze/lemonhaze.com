@@ -1,5 +1,7 @@
 # Feedback passes 2–3 — local review
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 Date: 2026-11-11. Branch: `feat/immersive-experience`. Local preview: http://127.0.0.1:5173/?view=explore.
 
 These changes are local only. Neither the earlier Cloudflare review nor production has been redeployed. No catalogue.gallery files or deployment were touched.

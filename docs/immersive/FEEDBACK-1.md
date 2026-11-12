@@ -1,5 +1,7 @@
 # Feedback pass 1 — 11 November 2026
 
+> Historical pass record. For current behavior and deployment status, see [Architecture](ARCHITECTURE.md) and [Verification](VERIFICATION.md).
+
 Status: local review only. Neither the Cloudflare review deployment nor production was updated. No changes were made to catalogue.gallery.
 
 ## Changes
