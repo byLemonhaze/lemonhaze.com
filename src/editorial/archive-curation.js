@@ -1,7 +1,7 @@
 // Editorial relevance to the current practice, independent of posting dates.
 // Keep all notes; this sequence controls emphasis rather than availability.
 export const STUDIO_NOTE_ORDER = [
-    'writing-on-bitcoin', 'gentlemen-work-in-progress', 'hosoi', 'chamber-of-reflection',
+    'writing-on-bitcoin', 'gentlemen-work-in-progress', 'hosoi', 'paint-engine-miami', 'chamber-of-reflection',
     'montreal-exhibition', 'best-before-performance', 'best-before-making-of',
     'chanchanoks-temple', 'paint-engine-layers',
     'from-berlin-to-saigon', 'under-construction-journal', 'flashback-writing', 'griffintown-journal',

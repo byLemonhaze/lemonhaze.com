@@ -1,6 +1,54 @@
 {
   "entries": [
     {
+      "slug": "paint-engine-miami",
+      "title": "Paint Engine, heading to Miami",
+      "kind": "Display",
+      "collections": [],
+      "paragraphs": [
+        "A Paint Engine project for a hotel in Miami moves from code into physical prints. These two photographs show a print at the worktable and a closer view of its surface.",
+        "In the November 4, 2026 post, Lemonhaze marks a little over a year of development, with eighty-nine works heading to Miami. This print uses the Coral palette and measures 26 × 74 inches."
+      ],
+      "sources": [
+        {
+          "id": "2118059985074803112",
+          "date": "2026-11-04",
+          "url": "https://x.com/Ordinals10K/status/2118059985074803112",
+          "label": "Lemonhaze on X",
+          "used": true
+        }
+      ],
+      "years": [
+        "2026"
+      ],
+      "images": [
+        {
+          "src": "/editorial/archive/miami-coral-print.jpeg",
+          "alt": "Coral-palette Paint Engine print on the worktable, with salmon, cream, teal and dark brown forms",
+          "caption": "Paint Engine · Coral palette · 26 × 74 inches. At the worktable.",
+          "width": 1185,
+          "height": 1580,
+          "source": "https://x.com/Ordinals10K/status/2118059985074803112"
+        },
+        {
+          "src": "/editorial/archive/miami-coral-detail.jpeg",
+          "alt": "Close view of the Coral Paint Engine print showing fine curved lines and layered texture",
+          "caption": "Coral · Detail of the printed surface.",
+          "width": 1332,
+          "height": 1777,
+          "source": "https://x.com/Ordinals10K/status/2118059985074803112"
+        }
+      ],
+      "related": [
+        {
+          "label": "Paint Engine",
+          "href": "/paint-engine"
+        }
+      ],
+      "event": "Miami hotel project",
+      "reviewRefs": []
+    },
+    {
       "slug": "signing-pennsylvania",
       "title": "Signing Pennsylvania",
       "kind": "Display",
