@@ -147,6 +147,18 @@ test('Gallery carries the split artwork and its collection through switches, col
         assert.equal(await page.locator('.experience-detail').isVisible(),false,'releasing a drag must not open the artwork');
         await mkdir('output/playwright/feedback-15',{recursive:true});
         await page.screenshot({path:'output/playwright/feedback-15/gallery-snap.png'});
+        // Browsers can dispatch a delayed click after cancelling a pointer.
+        // Keep it suppressed, while the next keyboard intent still opens art.
+        const viewport=page.locator('.room-viewport');
+        await viewport.dispatchEvent('pointerdown',{pointerId:77,isPrimary:true,button:0,clientX:720,clientY:300});
+        await viewport.dispatchEvent('pointercancel',{pointerId:77,isPrimary:true,button:0,clientX:720,clientY:300});
+        await page.waitForTimeout(120);
+        await page.locator('.room-art[tabindex="0"]').dispatchEvent('click',{detail:1});
+        assert.equal(await page.locator('.experience-detail').isVisible(),false,'cancelled pointer cannot open a work through a delayed click');
+        await page.locator('.room-art[tabindex="0"]').focus();await page.keyboard.press('Enter');
+        await page.locator('.experience-detail').waitFor({state:'visible'});
+        await page.getByRole('button',{name:'Close artwork',exact:true}).click();
+        await page.locator('.experience-detail').waitFor({state:'hidden'});
         await page.locator('#view-switch').getByRole('link',{name:'Explore',exact:true}).click();
         await page.locator('.explore-viewport').waitFor();
         assert.equal(await page.locator('.experience-note').isVisible(),false);

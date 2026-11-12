@@ -164,7 +164,7 @@ html[data-motion=reduced] .immersive-experience *,html[data-motion=reduced] .art
 .detail-open .experience-note{display:none}
 .immersive-experience:has(.collection-menu:not([hidden])) .experience-note{visibility:hidden}
 @media(max-width:700px){.collection-menu input{font-size:16px}}
-/* Poster stays opaque beneath the incoming live surface until focus settles. */
+/* Keep the poster until the live surface reports its first actual paint. */
 .detail-original{left:50%;top:50%;transform:translate(-50%,-50%);transition:none;background:transparent;color-scheme:normal}
 .detail-media.live-ready>.detail-poster{opacity:0!important}
 .artwork-focus-layer{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;overflow:clip}
@@ -216,6 +216,8 @@ html[data-motion=reduced] .immersive-experience *,html[data-motion=reduced] .art
 @media(max-width:700px){.room-environment{top:46%}}
 
 .room-art:hover img{scale:1}
+.room-art>img,.room-art:hover>img{filter:drop-shadow(0 14px 20px rgb(0 0 0 / calc(.045 + var(--art-presence,0)*.045)))}
+.room-art-shadow{opacity:calc(.4 + var(--art-presence,0)*.6)}
 /* A held artwork follows the hand; the room itself remains stationary. */
 .room-viewport{cursor:grab}
 .room-viewport.is-grabbing,.room-viewport.is-grabbing *{cursor:grabbing!important}

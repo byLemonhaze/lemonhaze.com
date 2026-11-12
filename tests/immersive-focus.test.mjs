@@ -11,13 +11,14 @@ test('focus reveal completes once, cancels departed work and respects reduced mo
     const node={animate(f,o){frames=f;options=o;return {finished:new Promise(resolve=>{complete=resolve;}),cancel(){cancelled++;}};}};
     try{
         revealInFocus(node,{onFinish:()=>finished++});
-        assert.equal(options.duration,1000);assert.equal(frames.at(-1).filter,'blur(0px)');
+        assert.ok(options.duration>=280&&options.duration<=450);assert.equal(frames.at(-1).filter,'blur(0px) contrast(1)');
+        assert.equal(frames[0].filter,'blur(1.2px) contrast(.94)');
         assert.equal(frames[1].opacity,1,'the preview is covered before the sharpening finishes');
         complete();await Promise.resolve();assert.equal(finished,1);assert.equal(cancelled,1);
         const cancel=revealInFocus(node,{onFinish:()=>finished++});cancel();complete();await Promise.resolve();assert.equal(finished,1);
-        revealInFocus(node,{pixel:true});assert.ok(frames.every(f=>f.filter==='none'));complete();await Promise.resolve();
+        revealInFocus({animate(){throw Error('native pixels must not animate');}},{pixel:true,onFinish:()=>finished++});assert.equal(finished,2);
         globalThis.matchMedia=()=>({matches:true});
-        revealInFocus({animate(){throw Error('reduced motion must not animate');}},{onFinish:()=>finished++});assert.equal(finished,2);
+        revealInFocus({animate(){throw Error('reduced motion must not animate');}},{onFinish:()=>finished++});assert.equal(finished,3);
     }finally{globalThis.matchMedia=oldMatch;globalThis.document=oldDocument;}
 });
 

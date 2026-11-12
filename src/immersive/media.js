@@ -2,6 +2,7 @@ import {pixelOriginalSource} from '../data/pixel-art.js';
 import { isStaticOnlyMedia, getLocalGridPreviewSrc, isHtmlArtwork, isVideoArtwork, getCdnMediaSrc, shouldUseDirectOnchainMedia } from '../modules/artwork-media.js';
 import { previewSource } from './model.js';
 import { revealInFocus } from './focus.js';
+import { reducedMotion } from './motion.js';
 
 export const isLiveWork = work => isHtmlArtwork(work) || isVideoArtwork(work);
 const staticPreviewSource=work=>isVideoArtwork(work)?getCdnMediaSrc(work,'png'):previewSource(work);
@@ -28,7 +29,7 @@ export function upgradePoster(work,img,{source,onSettled=()=>{}}={}) {
             // Keep the decoded overlay until the underlying element can paint.
             Promise.resolve(img.decode?.()).catch(()=>{}).then(()=>{cleanFocus();finish();});
         };
-        if(!img.parentElement||img.src===high.src){commit();return;}
+        if(!img.parentElement||img.src===high.src||pixelOriginalSource(work)||reducedMotion()){commit();return;}
         layer=document.createElement('div');layer.className='artwork-focus-layer';layer.setAttribute('aria-hidden','true');
         high.alt='';layer.append(high);img.after(layer);
         // clientWidth rounds to whole pixels and leaves visible seams at DPR 2.

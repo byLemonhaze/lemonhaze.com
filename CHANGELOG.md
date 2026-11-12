@@ -2,7 +2,9 @@
 
 ## Unreleased — Artwork focus transitions
 
-Gallery and split-view quality upgrades now resolve gently from soft to sharp while retaining an opaque preview beneath them. Pixel art stays crisp, reduced motion skips the effect, and stale reveals are cancelled on navigation. Fractional layer sizing avoids alignment seams. Live artwork fitting now scales the artwork wrapper rather than its viewport, fixing Griffintown's continuous resize oscillation; embedded surfaces have an explicit transparent background and neutral color scheme.
+Gallery and split-view still upgrades resolve through a 360ms focus pull (mild blur and contrast recovery), with a temporary decoded layer over an opaque preview. Pixel originals and reduced motion swap directly; HTML/video playback skips the effect. Stale reveals are cancelled on navigation and fractional layer sizing avoids alignment seams. Live artwork fitting scales the artwork wrapper rather than its viewport, fixing Griffintown's continuous resize oscillation; embedded surfaces have an explicit transparent background and neutral color scheme.
+
+Gallery settling is slightly slower and critically damped, with centre-weighted soft shadows and a restrained 220ms collection reveal. Cancelled drags suppress delayed clicks without blocking fresh pointer or keyboard activation. The room layout, native proportions, mats, mode navigation, Explore physics and shop gates remain unchanged.
 
 ## 2026-11-12 — Visual chronology
 

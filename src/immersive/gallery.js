@@ -2,7 +2,7 @@ import {coreWorkNote} from '../data/artwork-notes.js';
 import { browsingSource, workYear } from './model.js';
 import { artworkButton, clamp, motionLoop, reducedMotion } from './motion.js';
 import { createCollectionPicker, collectionEntry } from './collections.js';
-import { settleGallery, galleryIndex, nearestGallerySlot, galleryNeighbors, releaseGallery } from './gallery-motion.js';
+import { GALLERY_SETTLE_RATE, settleGallery, galleryIndex, nearestGallerySlot, galleryNeighbors, releaseGallery } from './gallery-motion.js';
 import { createPreviewQueue } from './media.js';
 
 export function createGallery({ container, works, onOpen, onCurrent, collections, onCollectionChange, saved = {} }) {
@@ -19,6 +19,11 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
         </div><div class="room-camera">
         <div class="room-works"></div></div></div><div class="room-grain"></div>`;
     const camera = viewport.querySelector('.room-camera'), world = viewport.querySelector('.room-works');
+    let collectionReveal=null;
+    function revealCollection(){
+        collectionReveal?.cancel();collectionReveal=null;
+        if(!reducedMotion())collectionReveal=viewport.querySelector('.room-perspective').animate([{opacity:.94},{opacity:1}],{duration:220,easing:'ease-out'});
+    }
     let position = saved.positions?.[collection] ?? (saved.collection===collection?saved.position:undefined) ?? collectionEntry(collection,items), target = position, current = -1, drag = null, moved = false, settle = 0;
     const footer = document.createElement('div'); footer.className = 'room-footer';
     footer.innerHTML = '<div class="room-caption"><button class="room-title"></button><p></p></div><div class="room-navigation"><button aria-label="Previous artwork"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h15"/></svg></button><span></span><button aria-label="Next artwork"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5 7 7-7 7M19 12H4"/></svg></button></div>';
@@ -49,7 +54,7 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
     items.forEach(add); container.append(viewport, footer);
     const loop = motionLoop(dt => {
         if(reducedMotion()||drag){position=target;velocity=0;}
-        else {const next=settleGallery(position,velocity,target,dt/1000,18);position=next.position;velocity=next.velocity;}
+        else {const next=settleGallery(position,velocity,target,dt/1000);position=next.position;velocity=next.velocity;}
         if(Math.abs(target-position)<.0003&&Math.abs(velocity)<.005){position=target;velocity=0;}
         const compact = viewport.clientWidth < 700, step = compact ? 430 : Math.min(1000, viewport.clientWidth * .7);
         // The room stays still while the artworks follow the drag and settle.
@@ -65,6 +70,7 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
             mount.hidden=false;const img=button.querySelector('img');if(!img.hasAttribute('src'))img.src=browsingSource(work);
             const depth = -Math.min(330,Math.abs(distance)*180);
             mount.style.transform = `translate3d(${slot*step}px,0,${depth}px) rotateY(${clamp(-distance*16,-32,32)}deg)`;
+            mount.style.setProperty('--art-presence',String(Math.exp(-distance*distance*2)));
             mount.style.visibility = Math.abs(distance) > 2.4 ? 'hidden' : 'visible';
             button.tabIndex = Math.abs(distance) < .5 ? 0 : -1;
 
@@ -80,6 +86,7 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
     const keydown=event => {
         if(viewport.hidden||viewport.inert||picker.isOpen()||event.target.closest('input,textarea,select,[contenteditable=true]'))return;
         if (event.ctrlKey || event.metaKey || event.altKey) return;
+        if(event.key==='Enter'||event.key===' ')moved=false;
         if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); navigate(Math.round(target)+(event.key === 'ArrowRight'?1:-1)); }
         if (event.key === 'Home' || event.key === 'End') {
             event.preventDefault(); clearTimeout(settle);
@@ -130,10 +137,12 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
         const delta=drag.axis==='x'?drag.dx:drag.dy;
         const speed=event.timeStamp-drag.time>100?0:clamp(drag.velocity,-5,5);
         const destination=releaseGallery(target,drag.start,speed,delta,event.type==='pointercancel');
-        velocity=reducedMotion()?0:Math.sign(destination-position)*Math.min(Math.abs(speed),Math.abs(destination-position)*18);
+        velocity=reducedMotion()?0:Math.sign(destination-position)*Math.min(Math.abs(speed),Math.abs(destination-position)*GALLERY_SETTLE_RATE);
+        if(event.type==='pointercancel')moved=true;
         drag=null;viewport.classList.remove('is-grabbing');move(destination);
         if(viewport.hasPointerCapture(event.pointerId))viewport.releasePointerCapture(event.pointerId);
-        setTimeout(()=>{moved=false;},0);
+        // Suppress even a delayed click after a cancelled/finished drag. A new
+        // pointer-down or keyboard activation explicitly starts a fresh intent.
     }
     viewport.addEventListener('pointerup',end); viewport.addEventListener('pointercancel',end);
     viewport.addEventListener('click',event=>{if(moved){event.preventDefault();event.stopPropagation();}},true);
@@ -156,11 +165,12 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
                 positions[collection]=galleryIndex(target,items.length);collection=next;pool=collections.get(collection);items=[...pool];
                 previews.clear();world.replaceChildren();buttons.clear();rendered.clear();items.forEach(add);picker.set(collection);
                 position=target=galleryIndex(positions[collection]??collectionEntry(collection,items),items.length);
+                revealCollection();
             }else position=target=galleryIndex(state.position??positions[collection]??collectionEntry(collection,items),items.length);
             velocity=0;current=-1;updateCurrent(galleryIndex(Math.round(position),items.length));loop.wake();
         },
         setDetailOpen(open){if(!open)loop.wake();},
-        setActive(active){viewport.hidden=footer.hidden=!active;clearTimeout(settle);wheeling=false;wheelAxis=null;drag=null;viewport.classList.remove('is-grabbing');velocity=0;target=Math.round(target);if(!active){picker.close();previews.clear();}active?loop.resume():loop.pause();},
-        destroy(){document.removeEventListener('keydown',keydown);previews.clear();picker.destroy();loop.destroy();clearTimeout(settle);observer.disconnect();viewport.remove();footer.remove();},
+        setActive(active){viewport.hidden=footer.hidden=!active;clearTimeout(settle);wheeling=false;wheelAxis=null;drag=null;viewport.classList.remove('is-grabbing');velocity=0;target=Math.round(target);if(!active){collectionReveal?.cancel();picker.close();previews.clear();}active?loop.resume():loop.pause();},
+        destroy(){collectionReveal?.cancel();document.removeEventListener('keydown',keydown);previews.clear();picker.destroy();loop.destroy();clearTimeout(settle);observer.disconnect();viewport.remove();footer.remove();},
     };
 }
