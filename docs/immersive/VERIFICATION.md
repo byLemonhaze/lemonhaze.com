@@ -1,8 +1,21 @@
 # Release verification
 
+## Current application release — November 12, 2026
+
+Merged to `main` as [f73ae62](https://github.com/byLemonhaze/lemonhaze.com/commit/f73ae62b7a65be97fd63c0b91625f3af7b04154a), with verification and publication recorded in [PR #65](https://github.com/byLemonhaze/lemonhaze.com/pull/65).
+
+- Full production build: **1,704 prerendered routes; 250 tests passed**. Both required GitHub verification runs and CodeFactor passed.
+- Production: [lemonhaze.com](https://lemonhaze.com). Immutable deployment: [ff70bf7f.lemonhaze.pages.dev](https://ff70bf7f.lemonhaze.pages.dev).
+- The live experience bundle matched the checked build. Live browser checks observed the 360ms static focus animation, zero temporary layers after completion, and Gallery navigation settling within one CSS pixel of center.
+- Alfred Café’s visible live canvas stayed at 493 CSS pixels across 24 sampled frames, with a constant 862-pixel render buffer. Local checks also covered the other Griffintown works, pixel-art and reduced-motion paths, cancellation and fractional sizing.
+- Resize and Gallery regression checks wait for the new rendered geometry and actual center position, rather than accepting an old frame or relying on a fixed delay.
+- [Visual portfolio tour](../presentation/README.md): current production screenshots and an optional motion preview. These illustrate the interface; they do not replace the automated checks.
+
+## Historical baseline — November 11, 2026
+
 Application baseline: [041ea75](https://github.com/byLemonhaze/lemonhaze.com/commit/041ea75), November 11, 2026. [Work report](../reports/2026-11-11.md) · [Feedback pass 18](FEEDBACK-18.md).
 
-## Final application checks
+### Baseline application checks
 
 - `npm run verify` on Node 22: **1,704 prerendered routes; 246 tests passed**.
 - Separate final-build WebKit mobile regression passed; desktop solo entry/return was checked in Chromium and WebKit.
@@ -10,7 +23,7 @@ Application baseline: [041ea75](https://github.com/byLemonhaze/lemonhaze.com/com
 - Earlier coverage retained by the full suite includes original aspect ratios, edition deduplication, exact covers, media fallbacks, cross-mode focus, circular carousel/centre snapping, Website navigation, bounded menu chronology and Catalogue embedding.
 - Screenshot evidence: [review folder](../../output/playwright/feedback-18/) and [local HTML index](../../output/playwright/feedback-18/index.html). GitHub displays HTML source; open individual images there or use the index locally.
 
-## Deployment evidence
+### Baseline deployment evidence
 
 - Production: [lemonhaze.com](https://lemonhaze.com).
 - Immutable release: [3d9290e8.lemonhaze.pages.dev](https://3d9290e8.lemonhaze.pages.dev).
