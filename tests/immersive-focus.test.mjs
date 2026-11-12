@@ -42,7 +42,14 @@ test('live fitting never feeds its scale into a canvas measuring its viewport ea
         });
         for(const width of [493.5,350.25]){
             await page.locator('iframe').evaluate((f,width)=>{f.style.width=width+'px';},width);
-            await frame.waitForFunction(()=>{const r=document.querySelector('canvas').getBoundingClientRect(),d=document.documentElement;return Math.min(Math.abs(r.width-d.clientWidth),Math.abs(r.height-d.clientHeight))<.05;});
+            // Wait for both the iframe viewport and its renderer to accept this resize.
+            // The previous fitted frame can still satisfy the contain check alone.
+            await frame.waitForFunction(expectedWidth=>{
+                const c=document.querySelector('canvas'),r=c.getBoundingClientRect(),d=document.documentElement;
+                const stage=document.querySelector('#stage').getBoundingClientRect();
+                return Math.abs(stage.width-expectedWidth)<=.5&&c.width===Math.round(stage.width*.9)
+                    &&Math.min(Math.abs(r.width-d.clientWidth),Math.abs(r.height-d.clientHeight))<.05;
+            },width);
             const {sizes,body,viewport}=await measure();
             assert.equal(body,'','viewport must remain untransformed');
             assert.ok(Math.max(...sizes.map(s=>s.width))-Math.min(...sizes.map(s=>s.width))<.05,'no width oscillation');

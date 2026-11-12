@@ -93,7 +93,10 @@ test('Gallery carries the split artwork and its collection through switches, col
         await page.getByRole('button',{name:'Previous artwork',exact:true}).click();
         await galleryAt('Porcelain Sunset','07 / 08');
         await page.waitForFunction(()=>[...document.querySelectorAll('.room-art img[src]')].every(img=>img.complete&&img.naturalWidth>0));
-        await page.waitForTimeout(500);
+        await page.waitForFunction(()=>{
+            const b=document.querySelector('.room-art[tabindex="0"]')?.getBoundingClientRect();
+            return b&&Math.abs(b.x+b.width/2-innerWidth/2)<1;
+        });
         const box=await page.getByRole('button',{name:'Open Porcelain Sunset',exact:true}).boundingBox();
         assert.ok(Math.abs(box.x+box.width/2-720)<5,'the selected work is centered in Gallery');
         await mkdir('output/playwright/feedback-6',{recursive:true});
