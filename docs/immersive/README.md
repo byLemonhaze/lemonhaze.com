@@ -1,5 +1,7 @@
 # Immersive feedback history
 
+For a visual introduction, start with the [portfolio tour](../presentation/README.md), including current screenshots and a Gallery motion preview.
+
 Current behavior is documented in [Architecture](ARCHITECTURE.md); current release evidence is in [Verification](VERIFICATION.md). These pass notes preserve the evolving November 11 review. Later passes supersede earlier decisions and deployment statements. Passes 2–3 share one document.
 
 - [Initial preview record](INITIAL-REVIEW.md)

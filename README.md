@@ -1,12 +1,36 @@
 # lemonhaze.com
 
-Lemonhaze’s artist website, artwork archive and connected Explore / Gallery / Website experience.
+An artist portfolio where the archive is also an interface: a draggable field of original works, an immersive collection carousel, and an editorial website connected by one continuous navigation system.
 
-**November 11 immersive release:** [041ea75](https://github.com/byLemonhaze/lemonhaze.com/commit/041ea75), published November 11, 2026. [Live site](https://lemonhaze.com) · [Immutable deployment](https://3d9290e8.lemonhaze.pages.dev) · [Today’s work report](docs/reports/2026-11-11.md) · [Changelog](CHANGELOG.md).
+[Explore the live site](https://lemonhaze.com) · [Visual tour](docs/presentation/README.md) · [Architecture](docs/ARCHITECTURE.md) · [Documentation](docs/README.md)
 
-`main` is the integration branch. The November 11 application was originally published from `feat/immersive-experience`; the accompanying documentation and [pull request #62](https://github.com/byLemonhaze/lemonhaze.com/pull/62) preserve that release history. Cloudflare’s `main` deployment label is separate from Git source integration.
+![Explore on desktop: original artworks arranged in an open field, preserving their individual proportions](docs/presentation/assets/explore-desktop.jpg)
 
-The [changelog](CHANGELOG.md) records subsequent content updates, including the Miami Paint Engine photographs.
+*Explore up close. Zoom out to reveal the entire archive as a lemon-shaped field.*
+
+| Gallery | Artwork detail |
+| --- | --- |
+| ![Gallery with Gentleman Nº6 centered and adjacent works visible](docs/presentation/assets/gallery-desktop.jpg) | ![Porcelain Sunset beside its collection rail and metadata](docs/presentation/assets/artwork-detail.jpg) |
+| A circular exhibition with drag, swipe and center snapping. | Native proportions, quiet framing, live artwork and expandable context. |
+
+## Portfolio presentation
+
+The visual system keeps the artwork in charge: a restrained palette, consistent wordmark, generous framing and a shared Explore / Gallery / Website switch. Custom interaction work connects those views without losing the selected artwork or collection.
+
+The engineering supports that presentation: bounded image loading, cancellable quality upgrades, stable live-canvas fitting, native pixel rendering, URL-backed navigation and reduced-motion paths. The [visual tour](docs/presentation/README.md) pairs desktop and mobile screenshots with implementation and regression-test references.
+
+<details>
+<summary>Watch the Gallery move — short animated preview</summary>
+
+![Gallery moves from Gentleman Nº6 through Family Portrait and Gentleman Nº1, then returns](docs/presentation/assets/gallery-motion.gif)
+
+*Real browser capture at normal speed; the GIF is reduced in resolution and frame rate for GitHub. The [live Gallery](https://lemonhaze.com/?view=gallery) is the reference for motion and artwork quality.*
+
+</details>
+
+**Latest application release:** November 12, 2026, merged as [f73ae62](https://github.com/byLemonhaze/lemonhaze.com/commit/f73ae62b7a65be97fd63c0b91625f3af7b04154a). [Release and live-check record](https://github.com/byLemonhaze/lemonhaze.com/pull/65) · [Immutable deployment](https://ff70bf7f.lemonhaze.pages.dev) · [Changelog](CHANGELOG.md).
+
+`main` is the integration branch. The [November 11 work report](docs/reports/2026-11-11.md) preserves the initial immersive release history; the changelog records later refinements and content additions.
 
 ## Site experience
 
@@ -52,7 +76,7 @@ npm run preview     # preview dist; does not emulate Pages Functions
 npm run verify      # production build and the complete test suite
 ```
 
-The November 11 application release passed **246 tests** and generated **1,704 routes**. Separate Chromium/WebKit checks and live-domain verification are recorded in [Verification](docs/immersive/VERIFICATION.md). These are dated results, not permanent expected counts.
+The November 12 application release passed **250 tests** and generated **1,704 routes**. [Verification](docs/immersive/VERIFICATION.md) records the exact release, live checks, earlier Chromium/WebKit evidence and testing limits. These are dated results, not a code-coverage percentage or permanent expected counts.
 
 ## Routes
 
