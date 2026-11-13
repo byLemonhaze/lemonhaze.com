@@ -27,6 +27,47 @@ test('mobile overview limits decoded media, Gallery clears shared chrome, and co
   assert.equal(await page.locator('.explore-world img[src]').count(),1,'overview decodes one texture, not all 1414 works');
   const field=await page.locator('.explore-overview').boundingBox();
   assert.ok(field.x>=23&&field.x+field.width<=367&&field.y>=119&&field.y+field.height<=571,'whole lemon fits between chrome and toolbar');
+  if(process.env.MOBILE_TEST_BROWSER!=='webkit'){
+   const cdp=await page.context().newCDPSession(page);
+   const touch=(type,x=160,y=300)=>cdp.send('Input.dispatchTouchEvent',{type,touchPoints:type==='touchEnd'?[]:[{x,y,id:1}]});
+   for(const width of [320,390]){
+    await page.setViewportSize({width,height:568});await page.reload();
+    await page.locator('.explore-overview[src]').evaluate(i=>i.decode());
+    const initial=await page.locator('.explore-overview').boundingBox();
+    const work=await page.locator('.explore-world [data-work="shop-print6"]').boundingBox();
+    const startX=work.x+work.width/2,startY=work.y+work.height/2;
+    await touch('touchStart',startX,startY);
+    for(let step=1;step<=6;step++){await touch('touchMove',startX+step*12,startY);await page.waitForTimeout(18);}
+    await page.waitForTimeout(200);
+    assert.equal(await page.locator('.explore-viewport').evaluate(n=>n.classList.contains('is-dragging')),true,'implicit capture handoff from artwork must not cancel touch drag');
+    const pressed=await page.locator('.explore-overview').boundingBox();
+    assert.ok(pressed.width<initial.width*.85,'short touch press visibly compresses lemon');
+    assert.ok(Math.abs(pressed.x+pressed.width-(width-14))<1,'squeeze stays against touched wall');
+    // Observe inside the page at release; starting after a protocol round trip
+    // can miss several animation frames on a busy CI/browser process.
+    await page.evaluate(()=>{
+     window.bounceFrames=new Promise(resolve=>document.querySelector('.explore-viewport').addEventListener('pointerup',()=>{
+      const frames=[],start=performance.now();
+      function sample(t){const b=document.querySelector('.explore-overview').getBoundingClientRect();frames.push({x:b.x,y:b.y,width:b.width,height:b.height});if(t-start<1200)requestAnimationFrame(sample);else resolve(frames);}
+      requestAnimationFrame(sample);
+     },{once:true}));
+    });
+    await touch('touchEnd');
+    const frames=await page.evaluate(()=>window.bounceFrames);
+    assert.ok(Math.abs(frames[0].x-pressed.x)<12,'lifting the finger preserves the visible squeeze position');
+    assert.ok(frames.every(b=>b.x>=13&&b.x+b.width<=width-13&&b.y>=119&&b.y+b.height<=489),'touch rebound stays within all walls');
+    assert.ok(frames.some(b=>b.x+b.width<width-30),'release travels away from pressed wall');
+    assert.equal(await page.locator('.experience-detail').isVisible(),false,'throw never opens an artwork');
+    // Let the spring settle, catch the field, then simulate browser chrome collapsing.
+    await page.waitForTimeout(1500);await touch('touchStart',20,140);await touch('touchEnd');await page.waitForTimeout(700);
+    const beforeResize=await page.locator('.explore-overview').boundingBox();
+    await page.setViewportSize({width,height:608});await page.waitForTimeout(100);
+    const afterResize=await page.locator('.explore-overview').boundingBox();
+    assert.ok(Math.abs(beforeResize.x-afterResize.x)<1&&Math.abs(beforeResize.y-afterResize.y)<1,'height-only resize does not reset field position');
+   }
+   await cdp.detach();await page.setViewportSize({width:390,height:650});await page.reload();
+   await page.locator('.explore-viewport.is-overview').waitFor();
+  }
   await page.getByRole('button',{name:'Focus Impossible Folds 01',exact:true}).click();
   await page.waitForFunction(()=>{const b=document.querySelector('.explore-world [data-work="shop-print6"]')?.getBoundingClientRect();return b&&b.top>=135&&Math.abs(b.x+b.width/2-innerWidth/2)<1&&b.bottom<=innerHeight-79;});
   await page.getByRole('button',{name:'Show all Explore works',exact:true}).click();

@@ -31,12 +31,47 @@ test('the overview remains fully contained at every edge, including soft deforma
             assert.ok(limits.fits);
             containField(camera,velocity,limits);
             assert.equal(Math.sign(velocity.x),-direction);assert.equal(Math.sign(velocity.y),-direction);
-            assert.ok(camera.x+bounds.left*camera.zoom*limits.sx>=24-1e-8);
-            assert.ok(camera.x+bounds.right*camera.zoom*limits.sx<=width-24+1e-8);
+            const margin=width<700?14:24;
+            assert.ok(camera.x+bounds.left*camera.zoom*limits.sx>=margin-1e-8);
+            assert.ok(camera.x+bounds.right*camera.zoom*limits.sx<=width-margin+1e-8);
             assert.ok(camera.y+bounds.top*camera.zoom*limits.sy>=(width<700?120:90)-1e-8);
             assert.ok(camera.y+bounds.bottom*camera.zoom*limits.sy<=height-80+1e-8);
         }
     }
+});
+
+test('phone throws have readable rebounds and visible squash in a narrow travel area',()=>{
+    for(const [width,height] of [[320,568],[375,667],[390,650],[430,932]]){
+        const camera=overviewCamera(bounds,width,height),limits=fieldLimits(bounds,width,height,camera.zoom);
+        const simulate=rate=>{
+            const state={...camera,vx:4000,vy:0,squash:0,squashVelocity:0};
+            let bounces=0,peak=0,lastSign=1;
+            for(let i=0;i<rate*3;i++){
+                stepJuicyField(state,limits,1/rate);
+                const sign=Math.sign(state.vx);
+                if(sign&&sign!==lastSign){bounces++;lastSign=sign;}
+                peak=Math.max(peak,Math.abs(state.squash));
+                assert.ok(state.x>=limits.minX&&state.x<=limits.maxX);
+                assert.ok(state.y>=limits.minY&&state.y<=limits.maxY);
+            }
+            assert.ok(bounces>=2&&bounces<=6,`${width}px: ${bounces} readable rebounds, not rapid ricochets`);
+            assert.ok(peak>.1,`${width}px: small travel must still produce a visible squeeze`);
+            return state;
+        };
+        const slow=simulate(30),fast=simulate(120);
+        assert.ok(Math.abs(slow.x-fast.x)<.01,'same motion on slow and fast phones');
+    }
+});
+
+test('a short mobile wall press visibly compresses the field and releases without jitter',()=>{
+    const camera=overviewCamera(bounds,320,568),limits=fieldLimits(bounds,320,568,camera.zoom);
+    const pressure=fieldPressure({...camera,x:limits.maxX+40},limits);
+    assert.ok(pressure.squash>=.15&&pressure.squash<=.25);
+    assert.equal(fieldPressure({...camera,x:limits.maxX-1},limits).squash,0,'free movement never squeezes');
+    const state={...camera,x:limits.maxX,vx:-1100,vy:0,squash:pressure.squash,squashVelocity:0};
+    for(let i=0;i<12;i++)stepJuicyField(state,limits,1/60);
+    assert.ok(state.vx<0,'release still travels away from the pressed wall after 200ms');
+    assert.ok(state.x<limits.maxX-10,'release visibly moves off the wall');
 });
 test('normal landing keeps free panning and reduced motion suppresses bounce',()=>{
     assert.equal(fieldLimits(bounds,1440,900,1).fits,false);

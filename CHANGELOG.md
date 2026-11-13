@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-13 — Mobile lemon bounce
+
+Touch drags beginning on an artwork now continue through pointer capture instead of stopping after the first movement. Phone wall pressure is more expressive, throws are scaled to the available screen space, and releasing a held squeeze no longer jumps. Browser-toolbar height changes preserve the field position. Desktop tuning and the opening composition are preserved. [Release report and motion preview](docs/reports/2026-11-13-mobile-bounce.md).
+
 ## 2026-11-12 — Interaction and Website presentation polish
 
 Central Explore / Gallery / Menu navigation with no duplicate corner Menu; day/night moves to the far right. Slimmer squared mode bar with a spring indicator, stronger contained lemon throws, and animated paper/charcoal solo viewing. Desktop Gallery controls occupy opposite lower corners, with a discreet anchored collection picker. Website home uses the artist-selected framed Gentleman Nº1 study and vertical secondary navigation; Studio Notes and Practice imagery/year placement are refined. Satoshi and Deprivation print covers intentionally repeat their originals three times without duplicating the artwork roster. Embedded inscription notes are accessible inside Inscription details, loaded on demand as inert text. [Session and release report](docs/reports/2026-11-12-interaction-polish.md).

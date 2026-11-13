@@ -1,6 +1,6 @@
 # Immersive architecture
 
-Updated November 12, 2026; publication evidence is in [Verification](VERIFICATION.md). This is the current behavior guide. Earlier [feedback passes](README.md) preserve their original decisions and review status.
+Updated November 13, 2026; publication evidence is in [Verification](VERIFICATION.md). This is the current behavior guide. Earlier [feedback passes](README.md) preserve their original decisions and review status.
 
 ## Navigation contract
 
@@ -55,7 +55,11 @@ All 422 Manufactured records have local display derivatives up to 1600 pixels. A
 
 Desktop pointer dragging and wheel panning manipulate the field camera. Trackpad pinch and mobile two-touch gestures share zoom constraints. Explore disables native page pinch on its own surface; detail remains independent of the field scale. The mobile fit control alternates the overview with a safely framed Impossible Folds 01 below the header.
 
+Touch starts with implicit pointer capture on the selected artwork. Transferring capture to the field must ignore the child's bubbling `lostpointercapture`; only loss from the viewport itself ends the drag. Otherwise a mobile drag stops after its first movement, preventing sustained wall pressure and a useful throw.
+
 When the full field fits, `field-physics.js` contains it inside the available viewport. Pressure comes from the unbounded pointer target beyond a resting wall; holding it sustains squeeze. Collision uses stable bounds, while the deformed outline is constrained separately. Corner pressure blends continuously rather than flipping axes abruptly. Re-grabbing catches the visible camera, smoothed velocity moderates throws, and the spring settles after release. The whole field moves together. Close-up panning remains free; reduced motion suppresses bounce/deformation.
+
+On viewports narrower than 700px, the overview keeps its initial size but has 14px side margins for travel. A short wall press produces stronger compression. Release speed is capped per axis to allow at least 240ms to cross the available travel, with impact deformation normalized to that speed; this avoids rapid ricochets while keeping rebounds visible on small phones. The release retains the visible wall-contact offset until the initial compression relaxes, avoiding a half-squash-width jump when the finger lifts. Mobile damping and restitution settle the throw independently of the desktop tuning. Height-only browser-chrome changes preserve the camera position while the field still fits. Physics tests cover 320–430px widths at 30/120fps; the mobile browser regression exercises touch pressure, release, containment and height changes.
 
 ## Gallery input and collection chooser
 

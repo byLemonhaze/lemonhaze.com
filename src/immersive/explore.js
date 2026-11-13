@@ -19,7 +19,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     const layout=buildExploreLayout(works), placements=layout.placements;
     const overview=new Image();overview.className='explore-overview';overview.alt='';overview.decoding='async';overview.hidden=true;overview.onload=()=>document.querySelector('#mobile-explore-preview')?.remove();
     const b=layout.bounds;overview.style.cssText=`position:absolute;left:${b.left}px;top:${b.top}px;width:${b.right-b.left}px;height:${b.bottom-b.top}px;pointer-events:none`;world.prepend(overview);
-    let lastLoad={x:Infinity,y:Infinity,zoom:0}, squash=0,squashVelocity=0;
+    let lastLoad={x:Infinity,y:Infinity,zoom:0}, squash=0,squashVelocity=0,releaseContact=null;
     const fieldIds=new Set(works.map(work=>work.id));
     const previews=createPreviewQueue();
     function add(work, index) {
@@ -107,6 +107,14 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         for(const key of ['x','y','zoom'])camera[key]+=(target[key]-camera[key])*a;
         const limits=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,camera.zoom,squash);
         const rendered={x:camera.x+(b.left+b.right)/2*camera.zoom*(1-limits.sx),y:camera.y+(b.top+b.bottom)/2*camera.zoom*(1-limits.sy)};
+        if(!drag&&releaseContact){
+            // Ease out of a held squeeze from its visible contact position.
+            // Dropping the wall anchor immediately makes the lemon jump by
+            // half its compressed width on the first frame after release.
+            const {axis,side}=releaseContact,compression=1-(axis==='x'?limits.sx:limits.sy);
+            if(compression>0)rendered[axis]+=side*compression*(axis==='x'?b.right-b.left:b.bottom-b.top)*camera.zoom/2;
+            else releaseContact=null;
+        }
         if(limits.fits){
             containField(rendered,{x:0,y:0},limits,false);
             if(drag&&pressure.axis)rendered[pressure.axis]=limits[(pressure.side<0?'min':'max')+(pressure.axis==='x'?'X':'Y')];
@@ -127,7 +135,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     viewport.addEventListener('dragstart', event => event.preventDefault());
     viewport.addEventListener('pointerdown', event => {
         if (pinching || event.button !== 0 || !event.isPrimary) { drag = null; return; }
-        moved = false; vx = vy = 0;
+        moved = false; vx = vy = 0; releaseContact=null;
         // Catch the visible field, not the destination of its previous throw.
         target={...camera};
         drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY, at: performance.now(), sx: target.x, sy: target.y, desired:{x:target.x,y:target.y},samples:[{x:event.clientX,y:event.clientY,t:performance.now()}] };
@@ -146,6 +154,10 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         drag.desired={x:drag.sx+dx,y:drag.sy+dy};target.x=drag.desired.x;target.y=drag.desired.y;loop.wake();
     });
     function end(event) {
+        // Touch starts with implicit capture on the artwork button. Taking
+        // capture for the field emits a bubbling loss from that child; it is
+        // a handoff, not the end of the drag we just started.
+        if(event.type==='lostpointercapture'&&event.target!==viewport)return;
         if (!drag || drag.id !== event.pointerId) return;
         const resting=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,target.zoom);
         const pressure=moved?fieldPressure(drag.desired,resting):null;
@@ -156,6 +168,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
             target.x=camera.x;target.y=camera.y;
             const rebound=-pressure.side*Math.min(1100,Math.max(180,Math.abs(squash)*3500))/1000*16.67;
             if(pressure.axis==='x')vx=rebound;else vy=rebound;
+            if(resting.mobile)releaseContact={axis:pressure.axis,side:pressure.side};
         }
         drag = null; viewport.classList.remove('is-dragging'); loop.wake();
         // The synthetic click follows pointerup; retain the drag decision until then.
@@ -205,11 +218,16 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         if (!alive || !viewport.clientWidth) return;
         const width=viewport.clientWidth,height=viewport.clientHeight;
         if(width!==oldWidth||height!==oldHeight){
+            // Mobile browser chrome changes the height while a throw is in
+            // flight. Keep its position instead of resetting to the center.
+            const heightOnly=width===oldWidth&&width<700;
             const wasOverview=fieldLimits(bounds(),oldWidth,oldHeight,target.zoom).fits;
             const ratio=(width<700)===(oldWidth<700)?1:width<700?.66:1/.66;
-            target.x=width/2+(target.x-oldWidth/2)*ratio;
-            target.y=height/2+(target.y-oldHeight/2)*ratio;target.zoom*=ratio;
-            if(wasOverview)Object.assign(target,overviewCamera(bounds(),width,height));
+            if(!heightOnly){
+                target.x=width/2+(target.x-oldWidth/2)*ratio;
+                target.y=height/2+(target.y-oldHeight/2)*ratio;target.zoom*=ratio;
+            }
+            if(wasOverview&&(!heightOnly||!fieldLimits(bounds(),width,height,target.zoom).fits))Object.assign(target,overviewCamera(bounds(),width,height));
             Object.assign(camera,target);oldWidth=width;oldHeight=height;
         }
         bound();lastLoad.x=Infinity;loop.wake();
