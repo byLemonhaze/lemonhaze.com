@@ -54,3 +54,7 @@ No changes were made to catalogue.gallery, commerce gates, databases or purchase
 ### Refresh follow-up
 
 The mode bar now selects the current route before the asynchronous artwork viewer loads. Initial rendering suppresses the selection animation and follows the early URL/theme state, including Gallery and Menu query links served from the same root HTML. This prevents the momentary light-on-light Explore label during night-mode refreshes. Normal tab motion resumes after startup. A browser regression delays the application and viewer separately in all three modes and both themes.
+
+Refresh follow-up publication: source [54a5fef](https://github.com/byLemonhaze/lemonhaze.com/commit/54a5fef4e1f2d81d65782155997c885c56fac672), [immutable deployment d1310231](https://d1310231.lemonhaze.pages.dev), also served on lemonhaze.com. Full verification passed 255 tests and built 1,704 routes. The earlier publication above is retained as release history.
+
+Live delayed-viewer check: Explore remained selected and readable both before and after initialization; day text `rgb(247, 247, 240)`, night text `rgb(36, 36, 36)`. The search screenshot test now scrolls its lazy image into view and waits for actual decoded dimensions before taking its screenshot, avoiding an intermittent CI decode race.

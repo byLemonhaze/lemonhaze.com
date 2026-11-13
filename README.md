@@ -30,7 +30,7 @@ The engineering supports that presentation: bounded image loading, cancellable q
 
 </details>
 
-**Latest application release:** November 12, 2026, source [243103e](https://github.com/byLemonhaze/lemonhaze.com/commit/243103e249b90f6f040190e935536538ee939af0). [Integration PR #67](https://github.com/byLemonhaze/lemonhaze.com/pull/67) · [Immutable deployment](https://6a9e2562.lemonhaze.pages.dev) · [Release and live-check record](docs/reports/2026-11-12-interaction-polish.md) · [Changelog](CHANGELOG.md).
+**Latest application release:** November 12, 2026, source [54a5fef](https://github.com/byLemonhaze/lemonhaze.com/commit/54a5fef4e1f2d81d65782155997c885c56fac672). [Integration PR #67](https://github.com/byLemonhaze/lemonhaze.com/pull/67) · [Immutable deployment](https://d1310231.lemonhaze.pages.dev) · [Release and live-check record](docs/reports/2026-11-12-interaction-polish.md) · [Changelog](CHANGELOG.md).
 
 `main` is the integration branch. The [November 11 work report](docs/reports/2026-11-11.md) preserves the initial immersive release history; the changelog records later refinements and content additions.
 
@@ -78,7 +78,7 @@ npm run preview     # preview dist; does not emulate Pages Functions
 npm run verify      # production build and the complete test suite
 ```
 
-The November 12 application release checks passed **254 tests** and generated **1,704 routes**. [Verification](docs/immersive/VERIFICATION.md) records the exact release, live checks, earlier Chromium/WebKit evidence and testing limits. These are dated results, not a code-coverage percentage or permanent expected counts.
+The November 12 application release checks passed **255 tests** and generated **1,704 routes**. [Verification](docs/immersive/VERIFICATION.md) records the exact release, live checks, earlier Chromium/WebKit evidence and testing limits. These are dated results, not a code-coverage percentage or permanent expected counts.
 
 ## Routes
 
