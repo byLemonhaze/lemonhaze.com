@@ -26,6 +26,8 @@ Current publication status: [release verification](immersive/VERIFICATION.md). T
 
 ## Release history and review evidence
 
+- [November 13 mobile bounce report](reports/2026-11-13-mobile-bounce.md): touch capture, contained rebounds, release continuity and phone viewport checks.
+
 - [November 12 interaction and presentation report](reports/2026-11-12-interaction-polish.md): accepted local design study, content refinements, embedded notes and release checks.
 
 - [Changelog](../CHANGELOG.md): concise release-facing changes.

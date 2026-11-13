@@ -1,11 +1,12 @@
 // Contain the complete field only when it fits. Normal close-up panning is unchanged.
 export function fieldLimits(bounds, width, height, zoom, squash = 0) {
     let sx = 1 - squash, sy = 1 + squash;
-    const left = 24, right = width - 24, top = width < 700 ? 120 : 90, bottom = height - 80;
+    const mobile = width < 700;
+    const left = mobile ? 14 : 24, right = width - left, top = mobile ? 120 : 90, bottom = height - 80;
     const fits = (bounds.right-bounds.left)*zoom*1.025 <= right-left && (bounds.bottom-bounds.top)*zoom*1.025 <= bottom-top;
     // Expansion yields to the opposite walls: the entire deformed field stays visible.
     if(fits){sx=Math.min(sx,(right-left)/((bounds.right-bounds.left)*zoom));sy=Math.min(sy,(bottom-top)/((bounds.bottom-bounds.top)*zoom));}
-    return { fits, sx: fits?sx:1, sy: fits?sy:1,
+    return { fits, mobile, sx: fits?sx:1, sy: fits?sy:1,
         minX: fits ? left-bounds.left*zoom*sx : -bounds.right*zoom+width*.25,
         maxX: fits ? right-bounds.right*zoom*sx : -bounds.left*zoom+width*.75,
         minY: fits ? top-bounds.top*zoom*sy : -bounds.bottom*zoom+height*.25,
@@ -47,7 +48,7 @@ export function fieldPressure(desired,limits) {
     if(!distance)return {squash:0,axis:null,side:0};
     const total=Math.abs(x)+Math.abs(y);
     const balance=(Math.abs(x)-Math.abs(y))/total;
-    return {squash:balance*Math.min(.3,Math.abs(distance)*.0015),axis,side:Math.sign(distance)};
+    return {squash:balance*Math.min(.3,Math.abs(distance)*(limits.mobile?.0045:.0015)),axis,side:Math.sign(distance)};
 }
 
 // Juicy overview tuning, chosen in the local interaction lab. Positions use
@@ -61,16 +62,27 @@ export function fieldThrow(samples,now) {
     return {x:speed('x'),y:speed('y')};
 }
 export function stepJuicyField(state,limits,seconds) {
+    // A phone may have only 40px of sideways travel. Desktop throw speeds
+    // would ricochet across it several times per frame. Give each rebound
+    // time to read, and scale its deformation to the available travel.
+    const mobile=limits.mobile;
+    const speedX=mobile?Math.max(0,limits.maxX-limits.minX)/.24:Infinity;
+    const speedY=mobile?Math.max(0,limits.maxY-limits.minY)/.24:Infinity;
+    if(mobile){
+        state.vx=Math.max(-speedX,Math.min(speedX,state.vx));
+        state.vy=Math.max(-speedY,Math.min(speedY,state.vy));
+    }
     let remaining=seconds;
     while(remaining>1e-9){
         const dt=Math.min(1/240,remaining);remaining-=dt;
-        const damping=Math.exp(-JUICY_FIELD.drag*dt);
+        const damping=Math.exp(-(mobile?.55:JUICY_FIELD.drag)*dt);
         state.vx*=damping;state.vy*=damping;
         state.x+=state.vx*dt;state.y+=state.vy*dt;
         for(const [axis,velocity,min,max,sign] of [['x','vx',limits.minX,limits.maxX,1],['y','vy',limits.minY,limits.maxY,-1]]){
             if(state[axis]<min&&state[velocity]<0||state[axis]>max&&state[velocity]>0){
-                state.squashVelocity+=sign*Math.min(JUICY_FIELD.softness,Math.abs(state[velocity])/6500)*32;
-                state[velocity]*=-JUICY_FIELD.bounce;
+                const strength=mobile ? .2*Math.min(1,Math.abs(state[velocity])/Math.max(1,axis==='x'?speedX:speedY)) : Math.min(JUICY_FIELD.softness,Math.abs(state[velocity])/6500);
+                state.squashVelocity+=sign*strength*32;
+                state[velocity]*=-(mobile?.84:JUICY_FIELD.bounce);
                 state[axis]=state[axis]<min?min+(min-state[axis]):max-(state[axis]-max);
             }
             state[axis]=Math.max(min,Math.min(max,state[axis]));
