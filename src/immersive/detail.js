@@ -17,6 +17,7 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         <button class="detail-close" aria-label="Close artwork"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
 `;
     root.append(panel);
+    const soloLight=document.createElement('div');soloLight.className='detail-solo-light';soloLight.setAttribute('aria-hidden','true');panel.prepend(soloLight);
     const info=panel.querySelector('.detail-info'),facts=panel.querySelector('.detail-facts');
     const expanded=panel.querySelector('.detail-expanded'),fullMeta=panel.querySelector('.detail-full-meta');
     let releaseMetadata=null,metadataWork=null;
@@ -53,20 +54,37 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
     const close = panel.querySelector('.detail-close');
     const soloEnter=document.createElement('button');soloEnter.type='button';soloEnter.className='detail-solo-enter';
     media.append(soloEnter);
-    let solo=false;
+    let solo=false,soloAnimation=null;
+    const chromeState=new Map();
     function setSolo(active,focus=false){
+        if(active===solo)return;
+        const poster=[...media.querySelectorAll('.detail-poster')].at(-1);
+        const before=poster?.getBoundingClientRect();
+        soloAnimation?.cancel();soloAnimation=null;
         solo=active;root.classList.toggle('detail-solo',solo);
+        document.documentElement.toggleAttribute('data-artwork-solo',solo);
+        if(solo){
+            for(const node of document.querySelectorAll('#view-switch,#site-wordmark,#appearance-toggle,body>#menu-toggle')){chromeState.set(node,node.inert);node.inert=true;}
+        }else{for(const [node,inert] of chromeState)node.inert=inert;chromeState.clear();}
         close.setAttribute('aria-label',solo?'Return to artwork details':'Close artwork');
         for(const node of [rail,info,panel.querySelector('.detail-caption')])node.inert=solo;
+        if(poster?.naturalWidth)sizePoster(poster);
+        const after=poster?.getBoundingClientRect();
+        // Transform the complete media surface: still, live artwork and mat
+        // remain registered as one object, including interrupted transitions.
+        if(focus&&!reducedMotion()&&before?.width&&after?.width){
+            const x=before.x+before.width/2-after.x-after.width/2,y=before.y+before.height/2-after.y-after.height/2;
+            soloAnimation=media.animate([{transform:`translate(${x}px,${y}px) scale(${before.width/after.width})`},{transform:'none'}],{duration:760,easing:ease});
+        }
         if(focus)(solo?close:soloEnter).focus({preventScroll:true});
     }
-    soloEnter.onclick=()=>{if(innerWidth>700){stopAnimation();setSolo(true,true);}};
+    soloEnter.onclick=()=>{if(innerWidth>700){stopAnimation(true);setSolo(true,true);}};
     root.append(close);close.hidden=true;
     let selected = null, currentCollection = null, opener = null, animation = null, ghost = null, version = 0, live = null, hidden = false,liveTimeout=0,releaseLiveDocument=null,cancelPoster=null;
     const thumbs = new Map();
     const closeDetail=()=>{if(solo)setSolo(false,true);else onClose();};
     close.onclick = closeDetail;
-    function stopAnimation() { animation?.cancel(); animation=null; ghost?.remove(); ghost=null; }
+    function stopAnimation(preserveSolo=false) { animation?.cancel(); animation=null; ghost?.remove(); ghost=null;if(!preserveSolo){soloAnimation?.cancel();soloAnimation=null;} }
     function stopLive() { clearTimeout(liveTimeout);releaseLiveDocument?.();releaseLiveDocument=null;media.classList.remove('live-ready');if(live){ if(live.tagName==='VIDEO')live.pause();live.remove();live=null; } }
     function buildRail(work) {
         if(currentCollection===work.collection) return;
@@ -193,6 +211,7 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
     document.addEventListener('visibilitychange',visibility);
     const motionChanged=()=>{
         if(!reducedMotion())return;
+        soloAnimation?.cancel();soloAnimation=null;
         stopLive();stopAnimation();
         const posters=[...media.querySelectorAll('.detail-poster')];posters.slice(0,-1).forEach(p=>p.remove());if(posters.at(-1))posters.at(-1).style.opacity='1';
         if(hidden)panel.hidden=true;
@@ -203,8 +222,9 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         const fitted=fitArtwork(media.clientWidth,media.clientHeight,poster.naturalWidth/poster.naturalHeight);
         for(const [key,value] of Object.entries(fitted))media.style.setProperty(`--${key==='width'||key==='height'?'original-'+key:key==='frameWidth'?'frame-width':key==='frameHeight'?'frame-height':key}`,`${value}px`);
     }
+    const resized=()=>{soloAnimation?.cancel();soloAnimation=null;if(solo&&innerWidth<=700)setSolo(false);};window.addEventListener('resize',resized);
     const resize=new ResizeObserver(()=>{if(solo&&innerWidth<=700)setSolo(false);const poster=[...media.querySelectorAll('.detail-poster')].at(-1);if(poster?.naturalWidth)sizePoster(poster);});resize.observe(media);
     return {show,hide,element:panel,selected:()=>selected,
-        destroy(){++version;cancelPoster?.();releaseMetadata?.();releaseMetadata=null;stopLive();stopAnimation();resize.disconnect();window.removeEventListener('lemonhaze:motion-change',motionChanged);document.removeEventListener('keydown',keydown,true);document.removeEventListener('visibilitychange',visibility);panel.remove();close.remove();},
+        destroy(){++version;setSolo(false);soloAnimation?.cancel();cancelPoster?.();releaseMetadata?.();releaseMetadata=null;stopLive();stopAnimation();resize.disconnect();window.removeEventListener('resize',resized);window.removeEventListener('lemonhaze:motion-change',motionChanged);document.removeEventListener('keydown',keydown,true);document.removeEventListener('visibilitychange',visibility);panel.remove();close.remove();},
     };
 }

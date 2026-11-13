@@ -49,3 +49,35 @@ export function fieldPressure(desired,limits) {
     const balance=(Math.abs(x)-Math.abs(y))/total;
     return {squash:balance*Math.min(.3,Math.abs(distance)*.0015),axis,side:Math.sign(distance)};
 }
+
+// Juicy overview tuning, chosen in the local interaction lab. Positions use
+// resting bounds; the visual squash never feeds back into collision velocity.
+export const JUICY_FIELD = Object.freeze({gain:1.35,drag:.34,bounce:.89,softness:.22});
+export function fieldThrow(samples,now) {
+    const recent=samples.filter(sample=>now-sample.t<110),first=recent[0],last=recent.at(-1);
+    if(recent.length<2||now-last.t>90)return {x:0,y:0};
+    const seconds=Math.max(.012,(now-first.t)/1000);
+    const speed=axis=>Math.max(-4000,Math.min(4000,(last[axis]-first[axis])/seconds*JUICY_FIELD.gain));
+    return {x:speed('x'),y:speed('y')};
+}
+export function stepJuicyField(state,limits,seconds) {
+    let remaining=seconds;
+    while(remaining>1e-9){
+        const dt=Math.min(1/240,remaining);remaining-=dt;
+        const damping=Math.exp(-JUICY_FIELD.drag*dt);
+        state.vx*=damping;state.vy*=damping;
+        state.x+=state.vx*dt;state.y+=state.vy*dt;
+        for(const [axis,velocity,min,max,sign] of [['x','vx',limits.minX,limits.maxX,1],['y','vy',limits.minY,limits.maxY,-1]]){
+            if(state[axis]<min&&state[velocity]<0||state[axis]>max&&state[velocity]>0){
+                state.squashVelocity+=sign*Math.min(JUICY_FIELD.softness,Math.abs(state[velocity])/6500)*32;
+                state[velocity]*=-JUICY_FIELD.bounce;
+                state[axis]=state[axis]<min?min+(min-state[axis]):max-(state[axis]-max);
+            }
+            state[axis]=Math.max(min,Math.min(max,state[axis]));
+        }
+        state.squashVelocity+=(-360*state.squash-16*state.squashVelocity)*dt;
+        state.squash=Math.max(-.3,Math.min(.3,state.squash+state.squashVelocity*dt));
+    }
+    if(Math.hypot(state.vx,state.vy)<5)state.vx=state.vy=0;
+    return state;
+}

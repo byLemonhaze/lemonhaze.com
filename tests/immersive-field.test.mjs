@@ -1,10 +1,27 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fieldLimits, containField, overviewCamera, settleFieldSquash, fieldPressure } from '../src/immersive/field-physics.js';
+import { fieldLimits, containField, overviewCamera, settleFieldSquash, fieldPressure, fieldThrow, stepJuicyField } from '../src/immersive/field-physics.js';
 import { zoomCamera } from '../src/immersive/zoom.js';
 import { artworkMetadata } from '../src/immersive/metadata.js';
 
 const bounds={left:-7210,right:7400,top:-7000,bottom:7300};
+test('a juicy throw uses recent release velocity, with stale holds and extreme spikes bounded',()=>{
+    assert.deepEqual(fieldThrow([{x:0,y:0,t:0},{x:100,y:40,t:50},{x:200,y:80,t:100}],100),{x:2700,y:1080});
+    assert.deepEqual(fieldThrow([{x:0,y:0,t:0},{x:100,y:40,t:50}],200),{x:0,y:0});
+    assert.equal(fieldThrow([{x:0,y:0,t:0},{x:1000,y:0,t:10}],10).x,4000);
+});
+test('juicy travel retains momentum, stays contained and agrees at different frame rates',()=>{
+    const limits={minX:0,maxX:1000,minY:0,maxY:600};
+    const initial={x:500,y:300,vx:1800,vy:-600,squash:0,squashVelocity:0};
+    const simulate=rate=>{const state={...initial};for(let i=0;i<rate*3;i++){
+        stepJuicyField(state,limits,1/rate);
+        assert.ok(state.x>=0&&state.x<=1000&&state.y>=0&&state.y<=600);
+        assert.ok(Number.isFinite(state.squash)&&Math.abs(state.squash)<=.3);
+    }return state;};
+    const a=simulate(30),b=simulate(120);
+    assert.ok(Math.hypot(a.vx,a.vy)>200,'a throw should still travel after three seconds');
+    assert.ok(Math.hypot(a.x-b.x,a.y-b.y)<.01,'frame rate must not change the trajectory');
+});
 test('the overview remains fully contained at every edge, including soft deformation',()=>{
     for(const [width,height] of [[1440,900],[390,844],[844,390]]){
         const initial=overviewCamera(bounds,width,height);

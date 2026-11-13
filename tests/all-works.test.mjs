@@ -58,7 +58,11 @@ test('edition covers use distinct originals and collections follow newest-first 
     const trilogy=index.find(g=>g.name==='Trilogy (Prints)').covers;
     assert.equal(trilogy.length,3);assert.equal(new Set(trilogy.map(w=>w.id)).size,3);
     assert.deepEqual(new Set(trilogy.map(w=>w.name)),new Set(['Off-Kilter','Glass Breaker','Mending Out']));
-    assert.equal(index.find(g=>g.name==='Satoshi (Original & Editions)').covers.length,1);
+    for(const name of ['Satoshi (Original & Editions)','Deprivation (Prints)']){
+        const covers=index.find(g=>g.name===name).covers;
+        assert.equal(covers.length,3);
+        assert.equal(new Set(covers.map(work=>work.id)).size,1);
+    }
     assert.ok(index.find(g=>g.name==='1 of 1s (2025)').covers.every(w=>!trilogy.some(t=>t.id===w.id)));
     for(let i=1;i<index.length;i++)if(index[i].year===index[i-1].year)assert.ok((index[i-1].chronology||0)>=(index[i].chronology||0));
 });

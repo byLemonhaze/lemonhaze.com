@@ -1,6 +1,6 @@
 # Documentation index
 
-Current application reference: the November 12 release `f73ae62`. This index separates current operating guides from point-in-time implementation records.
+Current publication status: [release verification](immersive/VERIFICATION.md). This index separates current operating guides from point-in-time implementation records.
 
 [![The live Gallery presenting Gentleman Nº6](presentation/assets/gallery-desktop.jpg)](presentation/README.md)
 
@@ -25,6 +25,8 @@ Current application reference: the November 12 release `f73ae62`. This index sep
 | [Security](../SECURITY.md) | Reporting and implemented security boundaries |
 
 ## Release history and review evidence
+
+- [November 12 interaction and presentation report](reports/2026-11-12-interaction-polish.md): accepted local design study, content refinements, embedded notes and release checks.
 
 - [Changelog](../CHANGELOG.md): concise release-facing changes.
 - [November 11 work report](reports/2026-11-11.md): today’s scope, commit milestones, final release and limits.

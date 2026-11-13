@@ -2,6 +2,7 @@ import './modes.css';
 import { createExperienceCatalog, viewingMode, immersiveUrl, websiteDestination } from './model.js';
 import { collectionEntry } from './collections.js';
 import { isExploreWork } from './roster.js';
+import { reducedMotion } from './motion.js';
 
 export function createViewingModes({ appState, applyWebsite, destroyHome, closeModal, router, mountMetadata }) {
     const catalog=createExperienceCatalog(appState.artworks);
@@ -10,7 +11,23 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
     let websiteContext=null,websiteReturn={url:'/?view=website',scroll:0};
     document.querySelector('#view-switch')?.remove();
     const nav=document.createElement('nav');nav.id='view-switch';nav.setAttribute('aria-label','Viewing mode');
-    nav.innerHTML=['explore','gallery','website'].map(view=>`<a href="/?view=${view}" data-view="${view}">${view[0].toUpperCase()+view.slice(1)}</a>`).join('');
+    nav.innerHTML='<i class="view-saddle" aria-hidden="true"></i>'+['explore','gallery','website'].map(view=>`<a href="/?view=${view}" data-view="${view}"><span>${view[0].toUpperCase()+view.slice(1)}</span></a>`).join('');
+    for(const link of nav.querySelectorAll('a')){
+        const reset=()=>{link.style.setProperty('--magnet-x','0px');link.style.setProperty('--magnet-y','0px');};
+        link.addEventListener('pointermove',event=>{
+            if(event.pointerType!=='mouse'||reducedMotion())return;
+            const box=link.getBoundingClientRect();
+            link.style.setProperty('--magnet-x',`${(event.clientX-box.left-box.width/2)*.13}px`);
+            link.style.setProperty('--magnet-y',`${(event.clientY-box.top-box.height/2)*.17}px`);
+        });
+        link.addEventListener('pointerleave',reset);link.addEventListener('blur',reset);
+    }
+    nav.addEventListener('keydown',event=>{
+        const links=[...nav.querySelectorAll('a')],index=links.indexOf(document.activeElement);
+        if(index<0||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+        event.preventDefault();
+        links[event.key==='Home'?0:event.key==='End'?2:(index+(event.key==='ArrowRight'?1:2))%3].focus();
+    });
     document.querySelector('#site-wordmark')?.remove();
     const brand=document.createElement('a');brand.id='site-wordmark';brand.href='/?view=explore';brand.textContent='LEMONHAZE';brand.setAttribute('aria-label','Lemonhaze — Explore');
     document.body.append(nav,brand);
@@ -24,6 +41,7 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
         document.documentElement.dataset.view=next;
         document.querySelectorAll('body > aside, body > main:not(#immersive-experience)').forEach(node=>{node.inert=next!=='website';});
         for(const link of nav.querySelectorAll('a')) { if(link.dataset.view===next)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current'); }
+        nav.style.setProperty('--mode-index',['explore','gallery','website'].indexOf(next));
     }
     function context() {
         return selected || catalog.byId.get(appState.activeArtworkId)

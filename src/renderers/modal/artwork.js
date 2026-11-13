@@ -1,4 +1,5 @@
 import {coreWorkNote} from '../../data/artwork-notes.js';
+import {mountEmbeddedNotes} from '../../modules/embedded-notes.js';
 import { buildSandboxedArtworkHtml, ARTWORK_SANDBOX } from '../../ui/artwork-sandbox.js';
 import { createArtworkLoadingIndicator } from '../../ui/artwork-loading.js';
 import { createBestBeforePlayer } from '../../ui/best-before-player.js';
@@ -9,6 +10,7 @@ import {
     isStaticOnlyMedia,
     getLocalGridPreviewSrc,
     isVideoArtwork,
+    isHtmlArtwork,
 } from '../../modules/artwork-media.js';
 import {
     getBtcUsdSpot,
@@ -1204,13 +1206,16 @@ export function createArtworkModalController({
 
     function mountMetadata(item,container,{onSelect,onCollection}={}) {
         renderMetadataList(item,container,{onCollection});
+        const inscriptionDetails = [...container.querySelectorAll('.viewer-metadata-group')].find(section => section.querySelector('summary')?.textContent === 'Inscription details');
+        const releaseNotes = inscriptionDetails && isHtmlArtwork(item) && !isStaticOnlyMedia(item)
+            ? mountEmbeddedNotes(inscriptionDetails, item.id) : null;
         for(const link of container.querySelectorAll('a'))for(const node of link.childNodes){
             if(node.nodeType===Node.TEXT_NODE)node.textContent=node.textContent.replace(/\s*[↗→]\ufe0e?\s*$/u,'');
         }
         const token=metadataRenderToken;
         const click=event=>{const button=event.target.closest('[data-open-artwork]');if(button){event.preventDefault();onSelect?.(button.dataset.openArtwork);}};
         container.addEventListener('click',click);
-        return ()=>{if(token===metadataRenderToken)metadataRenderToken++;container.removeEventListener('click',click);container.replaceChildren();};
+        return ()=>{releaseNotes?.();if(token===metadataRenderToken)metadataRenderToken++;container.removeEventListener('click',click);container.replaceChildren();};
     }
     return { openMetacard, closeModal, mountMetadata };
 }

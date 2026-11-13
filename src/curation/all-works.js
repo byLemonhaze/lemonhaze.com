@@ -100,8 +100,14 @@ export function collectionIndex(artworks,toCollectionSlug) {
         let candidates=works;
         if(name==='Trilogy (Prints)'||name==='Satoshi (Original & Editions)')candidates=uniqueOriginals(works,byId);
         if(name==='1 of 1s (2025)')candidates=works.filter(work=>!['Off-Kilter','Glass Breaker','Mending Out'].includes(work.name));
-        const covers=COLLECTION_COVERS[name]?.map(id=>byId.get(id)).filter(Boolean)
+        let covers=COLLECTION_COVERS[name]?.map(id=>byId.get(id)).filter(Boolean)
             ||representativeWorks(candidates,COLLECTION_LEAD_ARTWORK_IDS[name]);
+        // Intentional edition presentation: three impressions of one original.
+        // This does not duplicate works in the catalogue or Explore roster.
+        if(['Satoshi (Original & Editions)','Deprivation (Prints)'].includes(name)){
+            const original=uniqueOriginals(works,byId)[0]||covers[0];
+            if(original)covers=Array(3).fill(original);
+        }
         const ethereum=works[0]?.chain==='Ethereum';
         return {name,works,year,chronology,covers,ethereum,href:ethereum?works[0].marketplace:'/'+toCollectionSlug(name),search:normalize(name)};
     }).sort((a,b)=>(a.year==='Undated')-(b.year==='Undated')||b.year.localeCompare(a.year)||(b.chronology||0)-(a.chronology||0)||a.name.localeCompare(b.name));

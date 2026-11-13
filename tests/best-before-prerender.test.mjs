@@ -127,7 +127,13 @@ test('Best Before hydrates the metadata split, preserves its artwork ratio and r
         await page.mouse.move(mildX+100,450,{steps:6});await page.waitForTimeout(300);
         const firmer=await shape();assert.ok(firmer.ratio<sustained.ratio-.05,'pushing farther must squeeze more');
         await page.screenshot({path:'output/playwright/feedback-7/02-held-squeeze.png'});
-        await page.mouse.up();await page.waitForTimeout(1200);
+        await page.mouse.up();
+        // Juicy throws can already strike the opposite wall at a fixed 1.2s.
+        // Observe recovery while moving away from this contact, not a later impact.
+        await page.waitForFunction(previousX=>{
+            const m=new DOMMatrixReadOnly(getComputedStyle(document.querySelector('.explore-world')).transform);
+            return Math.abs(m.a/m.d-1)<.03&&m.e<previousX-20;
+        },firmer.x,{timeout:5000});
         const released=await shape();
         assert.ok(Math.abs(released.ratio-1)<.03,'release must restore the undistorted field');
         assert.ok(released.x<firmer.x-20,'stored pressure must rebound away from the wall');

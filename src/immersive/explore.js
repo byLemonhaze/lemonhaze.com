@@ -6,7 +6,7 @@ import { buildExploreLayout, presentationSize } from './layout.js';
 import { bindPinchZoom, zoomCamera } from './zoom.js';
 import { isExploreWork } from './roster.js';
 import { createPreviewQueue } from './media.js';
-import { fieldLimits, containField, overviewCamera, settleFieldSquash, fieldPressure } from './field-physics.js';
+import { fieldLimits, containField, overviewCamera, settleFieldSquash, fieldPressure, fieldThrow, stepJuicyField } from './field-physics.js';
 
 export function createExplore({ container, works, onOpen, saved = {} }) {
     const viewport = document.createElement('div'); viewport.className = 'explore-viewport';
@@ -73,7 +73,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     function bound() {
         // Collide against stable walls. The animated outline must never feed
         // its changing bounds back into the next frame's velocity.
-        const limits=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,target.zoom,drag?squash:0);
+        const limits=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,target.zoom);
         if(drag){containField(target,{x:0,y:0},limits,false);return;}
         const velocity={x:vx,y:vy};
         const impact=containField(target,velocity,limits,!reducedMotion());
@@ -89,23 +89,29 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
             if(moved){target.x=drag.desired.x;target.y=drag.desired.y;}
             squash+=(pressure.squash-squash)*(1-Math.exp(-dt/45));squashVelocity=0;
             if(reduce)squash=0;
-        }else{
+        }else if(!restingLimits.fits){
             const spring=settleFieldSquash(squash,squashVelocity,dt/1000);squash=spring.value;squashVelocity=spring.velocity;
         }
-        const damping=restingLimits.fits?.925:.88;
-        if (!drag && !reduce) { target.x += vx * dt / 16.67; target.y += vy * dt / 16.67; vx *= Math.pow(damping, dt / 16.67); vy *= Math.pow(damping, dt / 16.67); }
-        bound();
-        if(drag&&pressure.axis){
-            const contact=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,target.zoom,squash);
-            target[pressure.axis]=contact[(pressure.side<0?'min':'max')+(pressure.axis==='x'?'X':'Y')];
+        const throwing=restingLimits.fits&&!drag&&!reduce;
+        if(throwing){
+            const step=stepJuicyField({x:target.x,y:target.y,vx:vx/16.67*1000,vy:vy/16.67*1000,squash,squashVelocity},restingLimits,dt/1000);
+            target.x=step.x;target.y=step.y;vx=step.vx/1000*16.67;vy=step.vy/1000*16.67;squash=step.squash;squashVelocity=step.squashVelocity;
+        }else{
+            if(!drag&&!reduce){target.x+=vx*dt/16.67;target.y+=vy*dt/16.67;vx*=Math.pow(.88,dt/16.67);vy*=Math.pow(.88,dt/16.67);}
+            bound();
         }
-        const a = reduce ? 1 : 1 - Math.exp(-dt / (drag ? 32 : 72));
-        for (const key of ['x', 'y', 'zoom']) camera[key] += (target[key] - camera[key]) * a;
+        // Follow the hand and the simulated throw directly. Camera easing is
+        // reserved for zoom/focus changes, not a second lagging physics body.
+        const movingField=restingLimits.fits&&Math.abs(target.zoom-camera.zoom)<.00001&&(moved&&drag||Math.hypot(vx,vy)>0);
+        const a=reduce||movingField?1:1-Math.exp(-dt/(drag?32:72));
+        for(const key of ['x','y','zoom'])camera[key]+=(target[key]-camera[key])*a;
         const limits=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,camera.zoom,squash);
+        const rendered={x:camera.x+(b.left+b.right)/2*camera.zoom*(1-limits.sx),y:camera.y+(b.top+b.bottom)/2*camera.zoom*(1-limits.sy)};
         if(limits.fits){
-            containField(camera,{x:0,y:0},limits,false);
+            containField(rendered,{x:0,y:0},limits,false);
+            if(drag&&pressure.axis)rendered[pressure.axis]=limits[(pressure.side<0?'min':'max')+(pressure.axis==='x'?'X':'Y')];
         }
-        world.style.transform = `translate3d(${camera.x}px,${camera.y}px,0) scale(${camera.zoom*limits.sx},${camera.zoom*limits.sy})`;
+        world.style.transform=`translate3d(${rendered.x}px,${rendered.y}px,0) scale(${camera.zoom*limits.sx},${camera.zoom*limits.sy})`;
         refreshImages();
         fit.setAttribute('aria-label',viewport.clientWidth<700&&target.zoom<.075?'Focus Impossible Folds 01':'Show all Explore works');
         const deformation=drag?Math.abs((reduce?0:pressure.squash)-squash)*100:Math.abs(vx)+Math.abs(vy)+Math.abs(squash)*100+Math.abs(squashVelocity)*10;
@@ -124,7 +130,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         moved = false; vx = vy = 0;
         // Catch the visible field, not the destination of its previous throw.
         target={...camera};
-        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY, at: performance.now(), sx: target.x, sy: target.y, desired:{x:target.x,y:target.y} };
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY, at: performance.now(), sx: target.x, sy: target.y, desired:{x:target.x,y:target.y},samples:[{x:event.clientX,y:event.clientY,t:performance.now()}] };
     });
     viewport.addEventListener('pointermove', event => {
         if (!drag || drag.id !== event.pointerId) return;
@@ -132,6 +138,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         if (!moved && Math.hypot(dx, dy) < 7) return;
         moved = true; viewport.setPointerCapture(event.pointerId); viewport.classList.add('is-dragging');
         const now = performance.now(), dt = Math.max(8, now - drag.at);
+        drag.samples.push({x:event.clientX,y:event.clientY,t:now});drag.samples=drag.samples.filter(sample=>now-sample.t<110);
         const blend=1-Math.exp(-dt/55);
         vx += (clamp((event.clientX-drag.lastX)/dt*16.67,-22,22)-vx)*blend;
         vy += (clamp((event.clientY-drag.lastY)/dt*16.67,-22,22)-vy)*blend;
@@ -140,19 +147,21 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     });
     function end(event) {
         if (!drag || drag.id !== event.pointerId) return;
-        const pressure=moved?fieldPressure(drag.desired,fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,target.zoom)):null;
-        if (event.type === 'pointercancel' || performance.now() - drag.at > 90) vx = vy = 0;
-        if(event.type!=='pointercancel'&&!reducedMotion()&&pressure?.axis){
+        const resting=fieldLimits(bounds(),viewport.clientWidth,viewport.clientHeight,target.zoom);
+        const pressure=moved?fieldPressure(drag.desired,resting):null;
+        if(resting.fits&&moved){const velocity=fieldThrow(drag.samples,performance.now());vx=velocity.x/1000*16.67;vy=velocity.y/1000*16.67;}
+        if (['pointercancel','lostpointercapture'].includes(event.type) || performance.now() - drag.at > 90) vx = vy = 0;
+        if(event.type==='pointerup'&&!reducedMotion()&&pressure?.axis){
             // Release from the visible contact point, never from the overshot grab target.
             target.x=camera.x;target.y=camera.y;
-            const rebound=-pressure.side*Math.max(3,Math.abs(squash)*45);
+            const rebound=-pressure.side*Math.min(1100,Math.max(180,Math.abs(squash)*3500))/1000*16.67;
             if(pressure.axis==='x')vx=rebound;else vy=rebound;
         }
         drag = null; viewport.classList.remove('is-dragging'); loop.wake();
         // The synthetic click follows pointerup; retain the drag decision until then.
         setTimeout(() => { moved = false; }, 0);
     }
-    viewport.addEventListener('pointerup', end); viewport.addEventListener('pointercancel', end);
+    viewport.addEventListener('pointerup', end); viewport.addEventListener('pointercancel', end);viewport.addEventListener('lostpointercapture',end);
     viewport.addEventListener('click', event => { if (moved) { event.preventDefault(); event.stopPropagation(); } }, true);
     viewport.addEventListener('wheel', event => {
         if (event.ctrlKey || event.metaKey) return; // Pinch is handled separately; Cmd zoom remains native.

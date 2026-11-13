@@ -45,3 +45,7 @@ The artist supplied two MP4 signing films on October 1, 2026. The visible titles
 The artist supplied the uncropped JPEGs `HWTcNATXkAAzVPP` (1185 × 1580) and `HWTcNA9XkAA3nos` (1332 × 1777), preserved as `miami-coral-print.jpeg` and `miami-coral-detail.jpeg` in `/editorial/archive/`. The November 4 post identifies the Coral palette, 26 × 74-inch format, and eighty-nine works heading to Miami. The hotel context was supplied directly by Lemonhaze; no hotel name or completed installation is asserted.
 
 [Original artist post](https://x.com/Ordinals10K/status/2118059985074803112). Post text/date retrieved through the public FxTwitter mirror after X was unavailable; both photographs were supplied directly by the artist.
+
+## Gentleman Nº1 Website presentation study
+
+`gentleman-01-framed.png` is the exact image selected and supplied by Lemonhaze on November 12, 2026 (`ChatGPT Image Nov 12, 2026, 09_00_55 PM.png`). It is an AI-generated floating-frame workbench presentation, not a documentary photograph or a replacement for the original artwork asset. The chosen PNG is retained without alteration. Rejected lighting/texture trials remain local and are excluded from the published site.

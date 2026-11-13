@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-12 — Interaction and Website presentation polish
+
+Slimmer squared mode bar with a spring indicator, stronger contained lemon throws, and animated paper/charcoal solo viewing. Desktop Gallery controls occupy opposite lower corners, with a discreet anchored collection picker. Website home uses the artist-selected framed Gentleman Nº1 study and vertical secondary navigation; Studio Notes and Practice imagery/year placement are refined. Satoshi and Deprivation print covers intentionally repeat their originals three times without duplicating the artwork roster. Embedded inscription notes are accessible inside Inscription details, loaded on demand as inert text. [Session and release report](docs/reports/2026-11-12-interaction-polish.md).
+
 ## 2026-11-12 — Artwork focus transitions and Gallery refinement
 
 Application changes: [`986055e`](https://github.com/byLemonhaze/lemonhaze.com/commit/986055e) and [`a23552a`](https://github.com/byLemonhaze/lemonhaze.com/commit/a23552a). Verification: 250 tests and 1,704 generated pages. [Review evidence](output/playwright/focus-brief/index.html). Deployment identity and live checks are recorded in the integration pull request.

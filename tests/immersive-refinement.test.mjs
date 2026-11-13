@@ -80,13 +80,18 @@ test('first paint, native pixels and mobile pinch-to-detail remain stable',async
   await page.getByRole('button',{name:'Open Khaosan',exact:true}).click();
   const enter=page.getByRole('button',{name:'View Khaosan in solo view',exact:true});await enter.waitFor();
   await page.waitForTimeout(750);const split=await page.locator('.detail-poster').boundingBox(),url=page.url();
-  await enter.click();await page.waitForTimeout(100);
+  await enter.click();await page.waitForTimeout(850);
   const solo=await page.locator('.detail-poster').boundingBox();
   assert.ok(solo.width>split.width&&Math.abs(solo.x+solo.width/2-720)<1,'solo artwork expands centrally without cropping');
   assert.equal(await page.locator('.detail-info').isVisible(),false);assert.equal(page.url(),url);
+  assert.equal(await page.locator('#view-switch').evaluate(e=>e.inert),true);
+  assert.equal(await page.locator('#view-switch').evaluate(e=>getComputedStyle(e).opacity),'0');
+  assert.equal(await page.locator('.detail-solo-light').evaluate(e=>getComputedStyle(e).opacity),'1');
   await page.screenshot({scale:'css',path:'output/playwright/feedback-18/pixel-art-solo.png'});
   await page.keyboard.press('Escape');await enter.waitFor();
+  await page.locator('.detail-info').waitFor({state:'visible'});
   assert.equal(await page.locator('.detail-info').isVisible(),true);assert.equal(page.url(),url);
+  assert.equal(await page.locator('#view-switch').evaluate(e=>e.inert),false);
   // ResizeObserver applies the restored frame after the solo class changes.
   await page.waitForFunction(width=>Math.abs(document.querySelector('.detail-poster').getBoundingClientRect().width-width)<1,split.width);
   const restored=await page.locator('.detail-poster').boundingBox();assert.ok(Math.abs(restored.width-split.width)<1);

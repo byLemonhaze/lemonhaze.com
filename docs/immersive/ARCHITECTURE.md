@@ -1,6 +1,6 @@
 # Immersive architecture
 
-Current application release: `041ea75` (November 11, 2026). This is the current behavior guide. Earlier [feedback passes](README.md) preserve their original decisions and review status.
+Updated November 12, 2026; publication evidence is in [Verification](VERIFICATION.md). This is the current behavior guide. Earlier [feedback passes](README.md) preserve their original decisions and review status.
 
 ## Navigation contract
 
@@ -74,3 +74,11 @@ Desktop solo hides the rail and metadata, preserves the existing media instance 
 First-paint HTML and the runtime agree on paper as the default and charcoal when saved/explicit. SVG appearance icons avoid emoji rendering. Shared chrome stays in place and mobile close/appearance controls do not overlap. Artwork pixels are never recolored.
 
 See [Verification](VERIFICATION.md) for the actual release checks, test files, deployment and remaining physical-device/live-chain limits. Public Catalogue embedding is configured on lemonhaze.com only; no catalogue.gallery files were changed.
+
+## November 12 interaction refinements
+
+The mode switch retains its squared silhouette at 40px desktop / 44px mobile height. Its spring indicator moves independently of the stable links; reduced motion bypasses animated movement. Overview release uses recent pointer samples, bounded velocity and 240Hz physics substeps; collision bounds remain independent of the visible squash. Close-up panning and Gallery scrolling retain their existing behavior.
+
+Solo transitions animate the complete media surface and mat together for 760ms. The room follows paper/charcoal presentation, shared controls retreat and become inert, and closing restores those controls. Desktop Gallery metadata and arrows sit in opposite lower corners; the 360px collection picker opens above the left control. Mobile retains its separate dialog layout.
+
+`src/modules/embedded-notes.js` mounts an Embedded notes disclosure inside the split view's existing Inscription details group. It retrieves HTML only on expansion, parses comment nodes without executing the document, and renders both notes and optional original source through textContent. Cleanup aborts retrieval and discards stale responses when selection changes. Unsupported/static-only works do not request chain source.
