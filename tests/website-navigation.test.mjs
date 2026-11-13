@@ -52,6 +52,8 @@ test('Central Menu and All Works remain accessible on desktop, mobile and artwor
             assert.equal(await page.locator('.catalogue-work-result img').count(),1);
             assert.equal(await page.locator('.catalogue-work-result').textContent(),'Lucky Belly');
             await mkdir('output/playwright/feedback-14',{recursive:true});
+            await page.locator('.catalogue-work-result img').scrollIntoViewIfNeeded();
+            await page.waitForFunction(()=>{const img=document.querySelector('.catalogue-work-result img');return img?.complete&&img.naturalWidth>0;});
             await page.locator('.catalogue-work-result img').evaluate(img=>img.decode());
             await finishAnimations();
             await page.screenshot({path:`output/playwright/feedback-14/search-${width}.png`});

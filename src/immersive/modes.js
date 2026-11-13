@@ -9,8 +9,7 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
     let experience=null, mode=null, selected=null, current=null, saved={}, generation=0;
     let websiteAnimation=null;
     let websiteContext=null,websiteReturn={url:'/?view=website',scroll:0};
-    document.querySelector('#view-switch')?.remove();
-    const nav=document.createElement('nav');nav.id='view-switch';nav.setAttribute('aria-label','Viewing mode');
+    const nav=document.querySelector('#view-switch')||document.createElement('nav');nav.id='view-switch';nav.setAttribute('aria-label','Viewing mode');
     nav.innerHTML='<i class="view-saddle" aria-hidden="true"></i>'+['explore','gallery','website'].map(view=>`<a href="/?view=${view}" data-view="${view}"><span>${view==='website'?'Menu':view[0].toUpperCase()+view.slice(1)}</span></a>`).join('');
     for(const link of nav.querySelectorAll('a')){
         const reset=()=>{link.style.setProperty('--magnet-x','0px');link.style.setProperty('--magnet-y','0px');};
@@ -30,6 +29,9 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
     });
     document.querySelector('#site-wordmark')?.remove();
     const brand=document.createElement('a');brand.id='site-wordmark';brand.href='/?view=explore';brand.textContent='LEMONHAZE';brand.setAttribute('aria-label','Lemonhaze — Explore');
+    // The experience module loads asynchronously. Select the initial tab before
+    // exposing the nav, so its label never shares the saddle's background color.
+    setModeUi(viewingMode(new URL(location.href)));
     document.body.append(nav,brand);
     brand.addEventListener('click',event=>{if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();save();selected=null;current=null;write('/?view=explore');applyLocation().catch(fallback);});
     function save() {

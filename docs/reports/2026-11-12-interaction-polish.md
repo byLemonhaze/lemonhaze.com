@@ -50,3 +50,7 @@ GitHub's moving `ubuntu-latest` runner selected Ubuntu 26.04, which the locked P
 The wall-release browser regression now observes the actual recovery away from the contact point. Its previous fixed 1.2-second sample could coincide with a new opposite-wall collision under the accepted stronger throw; the assertion still requires both restored proportions and rebound movement.
 
 No changes were made to catalogue.gallery, commerce gates, databases or purchase availability. Browser emulation does not replace hands-on device review.
+
+### Refresh follow-up
+
+The mode bar now selects the current route before the asynchronous artwork viewer loads. Initial rendering suppresses the selection animation and follows the early URL/theme state, including Gallery and Menu query links served from the same root HTML. This prevents the momentary light-on-light Explore label during night-mode refreshes. Normal tab motion resumes after startup. A browser regression delays the application and viewer separately in all three modes and both themes.

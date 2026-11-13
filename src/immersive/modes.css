@@ -21,6 +21,21 @@ html[data-presentation] #view-switch a{color:#252722!important}
 html[data-presentation] #view-switch a[aria-current=page]{color:#f7f7f0!important}
 html[data-presentation=black] #view-switch a{color:#e9e7e2!important}
 html[data-presentation=black] #view-switch a[aria-current=page]{color:#242424!important}
+/* Root HTML is shared by all three query-string modes. Match its initial
+   selection to the early route script before the application is available. */
+html:not([data-app-ready]) #view-switch a,
+html:not([data-app-ready]) #view-switch .view-saddle{transition:none}
+html:not([data-app-ready])[data-view=explore] #view-switch{--mode-index:0!important}
+html:not([data-app-ready])[data-view=gallery] #view-switch{--mode-index:1!important}
+html:not([data-app-ready])[data-view=website] #view-switch{--mode-index:2!important}
+html:not([data-app-ready]) #view-switch a{color:#252722!important}
+html:not([data-app-ready])[data-presentation=black] #view-switch a{color:#e9e7e2!important}
+html:not([data-app-ready])[data-view=explore] #view-switch a[data-view=explore],
+html:not([data-app-ready])[data-view=gallery] #view-switch a[data-view=gallery],
+html:not([data-app-ready])[data-view=website] #view-switch a[data-view=website]{color:#f7f7f0!important}
+html:not([data-app-ready])[data-presentation=black][data-view=explore] #view-switch a[data-view=explore],
+html:not([data-app-ready])[data-presentation=black][data-view=gallery] #view-switch a[data-view=gallery],
+html:not([data-app-ready])[data-presentation=black][data-view=website] #view-switch a[data-view=website]{color:#242424!important}
 @media(max-width:767px){
  html[data-view=website] #view-switch{left:50%;right:auto;transform:translateX(-50%)}
  html[data-view=website] #modal-overlay .artwork-viewer-bar{padding-top:calc(54px + env(safe-area-inset-top,0px));min-height:112px}

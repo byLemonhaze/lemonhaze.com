@@ -17,7 +17,7 @@ An artist portfolio where the archive is also an interface: a draggable field of
 
 [Latest interaction and Website presentation refinements](docs/reports/2026-11-12-interaction-polish.md) include the framed Gentleman Nº1 landing, animated mode switch, lemon throws and embedded inscription notes.
 
-The visual system keeps the artwork in charge: a restrained palette, consistent wordmark, generous framing and a shared Explore / Gallery / Website switch. Custom interaction work connects those views without losing the selected artwork or collection.
+The visual system keeps the artwork in charge: a restrained palette, consistent wordmark, generous framing and a shared Explore / Gallery / Menu switch. Custom interaction work connects those views without losing the selected artwork or collection.
 
 The engineering supports that presentation: bounded image loading, cancellable quality upgrades, stable live-canvas fitting, native pixel rendering, URL-backed navigation and reduced-motion paths. The [visual tour](docs/presentation/README.md) pairs desktop and mobile screenshots with implementation and regression-test references.
 
