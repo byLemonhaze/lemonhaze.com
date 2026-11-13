@@ -1,6 +1,6 @@
 # Deployment runbook
 
-Latest publication: source `54a5fef`, November 12, 2026, [immutable deployment d1310231](https://d1310231.lemonhaze.pages.dev). See the [interaction and presentation report](reports/2026-11-12-interaction-polish.md) for current evidence and [PR #67](https://github.com/byLemonhaze/lemonhaze.com/pull/67) for source integration.
+Latest publication: source `ee07810`, November 13, 2026, [immutable deployment d3b2e225](https://d3b2e225.lemonhaze.pages.dev). See the [mobile bounce report](reports/2026-11-13-mobile-bounce.md) for verification evidence and [PR #68](https://github.com/byLemonhaze/lemonhaze.com/pull/68) for source integration.
 
 Historical November 11 immersive release: `041ea75`, published November 11, 2026 to [lemonhaze.com](https://lemonhaze.com) and [immutable deployment 3d9290e8](https://3d9290e8.lemonhaze.pages.dev). See the [work report](reports/2026-11-11.md) for source history and evidence.
 

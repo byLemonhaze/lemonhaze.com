@@ -16,4 +16,11 @@ On phone-sized screens, wall pressure responds to a shorter movement, throws sca
 
 ## Publication
 
-Release verification and deployment identifiers will be recorded here after publishing.
+- Application source: [`ee07810`](https://github.com/byLemonhaze/lemonhaze.com/commit/ee07810b19d8d440afa7d1056f778c54bfdffe51).
+- Complete Node 22 `npm run verify`: **1,704 prerendered routes; 257 tests passed, zero failures**.
+- Production: [lemonhaze.com](https://lemonhaze.com/?view=explore).
+- Immutable Cloudflare deployment: [d3b2e225.lemonhaze.pages.dev](https://d3b2e225.lemonhaze.pages.dev).
+- Published experience bundle matched the verified local build byte for byte (SHA-256 `3751081e764fb5da3f4c372cb453caa3592929bd3ce0c12d61b744ed862a9cda`).
+- The mobile browser regression passed against production, including actual browser touch-event sequences, pressure/release containment and mode navigation.
+- [PR #68](https://github.com/byLemonhaze/lemonhaze.com/pull/68) records protected-main integration and required GitHub verification. Cloudflare's production branch label is separate from Git integration.
+
