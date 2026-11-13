@@ -8,7 +8,8 @@ See the [session report](../reports/2026-11-12-interaction-polish.md) for the ac
 - Desktop Gallery controls at opposite lower corners, with its collection picker anchored beside its control. Gallery scrolling physics are unchanged in this pass.
 - Exact artist-selected workbench image on Website home; secondary links below Exhibitions; Studio Notes signing image; Practice year alignment; intentional edition cover triptychs.
 - Embedded notes inside the existing Inscription details group: lazy text-only HTML retrieval, preserved comment wording, original-source disclosure, cancellation on work changes and retry after failures. Old Fashioned remains static-only.
-- Full verification on Node 22 passed: **1,704 prerendered routes, 253 tests, zero failures**. Earlier local checks passed 11 physics/zoom tests and 5 browser navigation/mobile/refinement checks.
+- Ethereum title results and direct links open on site, including reloads; Candidly Yours retains a stable drawing viewport through split/solo and browser resizing.
+- Production build and complete tests on Node 22 passed: **1,704 prerendered routes, 254 tests, zero failures**. Earlier local checks passed 11 physics/zoom tests and 5 browser navigation/mobile/refinement checks.
 
 ## Previous application release — November 12, 2026
 

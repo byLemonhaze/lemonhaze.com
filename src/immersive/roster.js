@@ -7,7 +7,7 @@ export const EDITION_COLLECTIONS = new Set([
 export const EXPLORE_EXCLUDED_IDS = new Set([
     'a19e210c94fe5716b2877ca3d5afee9ed248b6a8ed549ff2186dd3170f191961i0', // ORDINALLY collaboration punch card
 ]);
-export const isExploreWork = work => work.collection !== 'Colors' && !EXPLORE_EXCLUDED_IDS.has(work.id) && !/collabs?\s+punch\s+card/i.test(work.name || '');
+export const isExploreWork = work => work.chain !== 'Ethereum' && work.collection !== 'Colors' && !EXPLORE_EXCLUDED_IDS.has(work.id) && !/collabs?\s+punch\s+card/i.test(work.name || '');
 export function originalFor(work, byId) {
     if (!EDITION_COLLECTIONS.has(work.collection)) return work;
     if (work.collection === 'Satoshi (Original & Editions)' && work.name === 'Satoshi (Original)') return work;
@@ -20,7 +20,7 @@ export function uniqueOriginals(works, byId) {
 }
 export function artworkYear(work) {
     const explicit = Number(work.year);
-    if(explicit>=2023 && explicit<=2100)return explicit;
+    if(explicit>=2000 && explicit<=2100)return explicit;
     const date = Number(String(work.timestamp||'').slice(0,4));
-    return date>=2023 && date<=2100 ? date : 0;
+    return date>=2000 && date<=2100 ? date : 0;
 }

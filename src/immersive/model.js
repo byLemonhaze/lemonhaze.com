@@ -1,3 +1,4 @@
+import ethereumWorks from '../data/ethereum-works.json' with {type:'json'};
 import {pixelOriginalSource} from '../data/pixel-art.js';
 import { selectedWorks, printPreviews } from '../curation/selection.js';
 import { displayPreview } from '../curation/preview-images.js';
@@ -12,7 +13,7 @@ export function createExperienceCatalog(artworks) {
     const membership = new Map(Object.entries(COLLECTION_LEAD_ARTWORK_IDS).flatMap(([name,ids])=>ids.map(id=>[id,name])));
     // Collection parents live under Provenance in the legacy catalogue. In the
     // immersive rail they belong to the collection they introduce, even when selected.
-    const all = [...artworks, ...printPreviews].map(work=>membership.has(work.id)
+    const all = [...artworks, ...printPreviews, ...ethereumWorks.filter(work=>work.listed!==false)].map(work=>membership.has(work.id)
         ? {...work,collection:membership.get(work.id),sourceCollection:work.collection} : work);
     const byId = new Map(all.map(work => [work.id, work]));
     const selected = selectedWorks(artworks).map(work => byId.get(work.id));
@@ -51,9 +52,10 @@ export function createExperienceCatalog(artworks) {
 }
 export function websiteDestination(work = null) {
     if (!work) return '/?view=website';
+    if (work.chain==='Ethereum') return `/?view=website&work=${encodeURIComponent(work.id)}`;
     return work.href ? `${work.href}?view=website&work=${encodeURIComponent(work.id)}` : `/${work.id}?view=website`;
 }
-export const previewSource = work => pixelOriginalSource(work) || (work.id==='d6b1b35b58d873a81f6b8aea3e02cd5a7177e1d86de9ee66adfe006284897d6bi0'
+export const previewSource = work => work.preview || pixelOriginalSource(work) || (work.id==='d6b1b35b58d873a81f6b8aea3e02cd5a7177e1d86de9ee66adfe006284897d6bi0'
     ? `https://render.ord.net/v9/snapshots/${work.id}/512.webp`
     : displayPreview(getArtworkImageSrc(work)));
 export const thumbnailSource = work => pixelOriginalSource(work) || (previewManifest[work.id] ? `/previews/immersive/${work.id}.webp` : previewSource(work));

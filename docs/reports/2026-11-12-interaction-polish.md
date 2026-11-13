@@ -29,9 +29,17 @@ The final location is **Full details & sales → Inscription details → Embedde
 
 Ikigai was checked against its live inscription: About, Reflection and A Day in The Life were readable in the panel. External inscription availability remains a dependency; no guaranteed offline archive is implied.
 
+## Final media corrections
+
+Candidly Yours exposed an original p5 wrapper whose resize handler changes drawing coordinates without resizing its canvas buffer. HTML artwork now keeps a stable logical viewport while the outer viewer scales it to fit split, solo and resized windows. The original artwork code stays intact; its live surface and poster remain centered together.
+
+![La Carte centered after returning from solo view](../presentation/assets/la-carte-split.png)
+
+Boulogne, Rich Bean and Marilyn Monero open in the site's split viewer from All Works, including title-search results and direct links. Their public animations are mirrored locally (two GIFs and one animated WebP) and replace the static browsing previews after decoding. Token details retain contract, token ID, chain, edition and an optional OpenSea link. Rich Bean uses its public 176 × 208 GIF, not the collector-only video or soundtrack. [Media sources](../../public/images/ethereum/SOURCES.md) record exact origins. Bell Street Style and Murky are excluded from public listings while their historical source records are retained. Public artwork titles omit the former “by TOKΞNIZΞD” suffix at the artist’s request. The approved Explore composition is unchanged.
+
 ## Validation and publication
 
-`npm run verify` on Node 22 passed: **1,704 prerendered routes and 253 tests, zero failures**. Production publication awaits the required GitHub check and main integration; the release record will be completed after deployment.
+The production build and complete test suite on Node 22 passed: **1,704 prerendered routes and 254 tests, zero failures**. Production publication awaits the required GitHub check and main integration; the release record will be completed after deployment.
 
 Local visual review covered the exact chosen home image, desktop Practice year alignment, the notes nested under Inscription details, and mobile Website navigation. Regression coverage includes lazy source loading, preservation of multilingual text, script non-execution, reuse after closing/reopening, and stale-request cancellation.
 

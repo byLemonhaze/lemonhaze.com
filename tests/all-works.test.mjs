@@ -67,7 +67,7 @@ test('edition covers use distinct originals and collections follow newest-first 
     for(let i=1;i<index.length;i++)if(index[i].year===index[i-1].year)assert.ok((index[i-1].chronology||0)>=(index[i].chronology||0));
 });
 
-test('five verified Ethereum releases have local previews and direct token links',async()=>{
+test('three listed Ethereum releases retain local originals and open on site',async()=>{
     const works=JSON.parse(await readFile(new URL('../src/data/ethereum-works.json',import.meta.url)));
     assert.equal(works.length,5);
     for(const work of works){
@@ -76,6 +76,13 @@ test('five verified Ethereum releases have local previews and direct token links
         assert.equal(image.subarray(0,4).toString(),'RIFF');
     }
     const index=collectionIndex(works,()=> 'unused').filter(g=>g.ethereum);
-    assert.deepEqual(index.map(g=>g.name),['Marilyn Monero','Boulogne Editions','Rich Bean Editions',"Murky by John D'Oeufs",'Bell Street Style']);
+    assert.deepEqual(index.map(g=>g.name),['Marilyn Monero','Boulogne Editions','Rich Bean Editions']);
     assert.equal(searchCollections(index,'marilyn')[0].matches[0].id,'eth-marilyn');
+    for(const group of index){
+        assert.match(group.href,/^\/\?view=website&work=eth-/);
+        const bytes=await readFile(new URL('../public'+group.works[0].original,import.meta.url));
+        assert.ok(['GIF8','RIFF'].includes(bytes.subarray(0,4).toString()));
+    }
+    assert.equal(searchCollections(index,'murky').length,0);
+    assert.equal(searchCollections(index,'bell street').length,0);
 });

@@ -1205,6 +1205,14 @@ export function createArtworkModalController({
     }
 
     function mountMetadata(item,container,{onSelect,onCollection}={}) {
+        if(item.chain==='Ethereum'){
+            container.replaceChildren();
+            const section=document.createElement('details');section.className='viewer-metadata-group';
+            const summary=document.createElement('summary');summary.textContent='Token details';section.append(summary);
+            for(const [label,value] of [['Chain',item.chain],['Contract',item.contract],['Token ID',item.tokenId],['Edition',item.editions]])section.append(makeMetaRow(label,makeMetaText(String(value))));
+            container.append(section);
+            return ()=>container.replaceChildren();
+        }
         renderMetadataList(item,container,{onCollection});
         const inscriptionDetails = [...container.querySelectorAll('.viewer-metadata-group')].find(section => section.querySelector('summary')?.textContent === 'Inscription details');
         const releaseNotes = inscriptionDetails && isHtmlArtwork(item) && !isStaticOnlyMedia(item)

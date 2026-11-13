@@ -44,7 +44,7 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         const description=panel.querySelector('.detail-description');description.textContent=data.description;description.hidden=!data.description;
         facts.replaceChildren();
         for(const [label,value] of data.fields){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;facts.append(dt,dd);}
-        inscription.hidden=!data.original;if(data.original)inscription.href=data.original;
+        inscription.hidden=!data.original;if(data.original)inscription.href=data.original;inscription.textContent=work.chain==='Ethereum'?'View token on OpenSea':'View inscription';
         collectionLink.onclick=()=>onCollection(work.collection);collectionLink.hidden=!catalog.galleryCollections.has(work.collection);
         more.hidden=!work.href;
         info.scrollTop=0;
@@ -111,8 +111,20 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         }};
         const fail=()=>{if(node!==live)return;stopLive();};
         node.addEventListener('error',fail,{once:true});
-        media.append(node);live=node;
-        const url=isHtml||shouldUseDirectOnchainMedia(work)?`https://ordinals.com/content/${work.id}`:getCdnMediaSrc(work);
+        // Keep the original HTML viewport stable. Some older p5 works update
+        // windowWidth on resize but never resize their drawing buffer, cropping
+        // the image on solo entry and shrinking it on return.
+        if(isHtml){
+            const width=parseFloat(media.style.getPropertyValue('--original-width'));
+            const height=parseFloat(media.style.getPropertyValue('--original-height'));
+            const boost=Math.max(1,Math.min(2,(innerWidth>700?1200:800)/Math.max(width,height)));
+            node.dataset.viewportWidth=String(Math.round(width*boost));
+            node.dataset.viewportHeight=String(Math.round(height*boost));
+            node.style.width=node.dataset.viewportWidth+'px';node.style.height=node.dataset.viewportHeight+'px';
+            node.style.maxWidth='none';node.style.maxHeight='none';
+        }
+        media.append(node);live=node;fitLive();
+        const url=work.original || (isHtml||shouldUseDirectOnchainMedia(work)?`https://ordinals.com/content/${work.id}`:getCdnMediaSrc(work));
         if(isHtml)releaseLiveDocument=loadLiveDocument(node,url,work.id,{onReady:ready,onFailure:fail});
         else {node.addEventListener('loadeddata',ready,{once:true});node.src=url;}
         liveTimeout=setTimeout(fail,12000);
@@ -217,10 +229,18 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         if(hidden)panel.hidden=true;
     };
     window.addEventListener('lemonhaze:motion-change',motionChanged);
+    function fitLive(){
+        if(!live?.dataset.viewportWidth)return;
+        const width=parseFloat(media.style.getPropertyValue('--original-width'));
+        const height=parseFloat(media.style.getPropertyValue('--original-height'));
+        const scale=Math.min(width/Number(live.dataset.viewportWidth),height/Number(live.dataset.viewportHeight));
+        live.style.transform=`translate(-50%,-50%) scale(${scale})`;
+    }
     function sizePoster(poster) {
         if(!poster.naturalWidth||!poster.naturalHeight)return;
         const fitted=fitArtwork(media.clientWidth,media.clientHeight,poster.naturalWidth/poster.naturalHeight);
         for(const [key,value] of Object.entries(fitted))media.style.setProperty(`--${key==='width'||key==='height'?'original-'+key:key==='frameWidth'?'frame-width':key==='frameHeight'?'frame-height':key}`,`${value}px`);
+        fitLive();
     }
     const resized=()=>{soloAnimation?.cancel();soloAnimation=null;if(solo&&innerWidth<=700)setSolo(false);};window.addEventListener('resize',resized);
     const resize=new ResizeObserver(()=>{if(solo&&innerWidth<=700)setSolo(false);const poster=[...media.querySelectorAll('.detail-poster')].at(-1);if(poster?.naturalWidth)sizePoster(poster);});resize.observe(media);

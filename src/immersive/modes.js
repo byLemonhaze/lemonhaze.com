@@ -138,7 +138,7 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
         websiteAnimation?.cancel();websiteAnimation=null;
         saved={...saved,...history.state?.experience};
         if(next==='website') {
-            const route=router.getRouteStateFromUrl(),work=catalog.byId.get(route.artwork||url.searchParams.get('work'));
+            const route=router.getRouteStateFromUrl(),work=catalog.byId.get(route.artwork||url.searchParams.get('work')||decodeURIComponent(url.pathname.slice(1)));
             if(work){
                 destroyHome();closeModal({updateUrl:false});mode=next;selected=current=work;setModeUi(next);
                 if(!await ensureExperience(token))return true;
@@ -173,7 +173,7 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
         if(mode!=='website'||event.defaultPrevented||event.metaKey||event.ctrlKey||event.altKey||event.shiftKey)return;
         const anchor=event.target.closest('a[href]');if(!anchor||anchor.target==='_blank')return;
         const url=new URL(anchor.href,location.href);if(url.origin!==location.origin)return;
-        const id=decodeURIComponent(url.pathname.replace(/^\//,''));
+        const id=url.searchParams.get('work')||decodeURIComponent(url.pathname.replace(/^\//,''));
         if(catalog.byId.has(id)){event.preventDefault();event.stopImmediatePropagation();openWebsiteArtwork(id);}
     };
     document.addEventListener('click',artworkLinks,true);

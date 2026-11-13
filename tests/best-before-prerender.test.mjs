@@ -70,7 +70,7 @@ test('Best Before hydrates the metadata split, preserves its artwork ratio and r
         await page.locator('.detail-original.is-ready').waitFor();
         for(const size of [{width:1440,height:1000},{width:390,height:844}]) {
             await page.setViewportSize(size);
-            await page.waitForFunction(()=>{const p=document.querySelector('.detail-poster'),f=document.querySelector('.detail-original');return p&&f&&Math.abs(p.clientWidth-f.clientWidth)<1&&Math.abs(p.clientWidth/p.clientHeight-1)<.01;});
+            await page.waitForFunction(()=>{const p=document.querySelector('.detail-poster'),f=document.querySelector('.detail-original');if(!p||!f)return false;const a=p.getBoundingClientRect(),b=f.getBoundingClientRect();return Math.abs(a.width-b.width)<1&&Math.abs(a.x-b.x)<1&&Math.abs(a.y-b.y)<1&&Math.abs(a.width/a.height-1)<.01;});
             await page.frameLocator('.detail-original').locator('canvas').evaluate(async canvas=>{
                 await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
                 const r=canvas.getBoundingClientRect();
@@ -128,11 +128,12 @@ test('Best Before hydrates the metadata split, preserves its artwork ratio and r
         await page.mouse.up();
         // Juicy throws can already strike the opposite wall at a fixed 1.2s.
         // Observe recovery while moving away from this contact, not a later impact.
-        await page.waitForFunction(previousX=>{
+        const recovered=await page.waitForFunction(previousX=>{
             const m=new DOMMatrixReadOnly(getComputedStyle(document.querySelector('.explore-world')).transform);
-            return Math.abs(m.a/m.d-1)<.03&&m.e<previousX-20;
+            return Math.abs(m.a/m.d-1)<.03&&m.e<previousX-20 ? {ratio:m.a/m.d,x:m.e} : false;
         },firmer.x,{timeout:5000});
-        const released=await shape();
+        // Assert the observed recovery frame; a second read can catch the next collision.
+        const released=await recovered.jsonValue();await recovered.dispose();
         assert.ok(Math.abs(released.ratio-1)<.03,'release must restore the undistorted field');
         assert.ok(released.x<firmer.x-20,'stored pressure must rebound away from the wall');
         await page.screenshot({path:'output/playwright/feedback-7/03-released.png'});

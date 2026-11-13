@@ -42,7 +42,7 @@ The engineering supports that presentation: bounded image loading, cancellable q
 - **Artwork details:** one artwork beside metadata, a collection rail and expandable full details/sales. Desktop artwork clicks open a near-full-screen solo view; × or Escape restores the same split. Mobile detail fits the viewport independently of Explore zoom.
 - **Shared presentation:** one stable wordmark, mode switch and persistent Day/Night control. Artwork colors and aspect ratios are preserved. System reduced-motion preferences remain supported.
 
-All Works stays collection-first, with title search returning actual matching artworks and artist-selected covers. It includes five verified Ethereum releases. “Provenance” is not a public collection; parent inscriptions and lineage records remain available. Gentleman Nº1 is identified as the master parent of the on-chain tree.
+All Works stays collection-first, with title search returning actual matching artworks and artist-selected covers. It includes three public Ethereum releases with locally hosted animations and on-site detail views. “Provenance” is not a public collection; parent inscriptions and lineage records remain available. Gentleman Nº1 is identified as the master parent of the on-chain tree.
 
 ## Documentation
 
@@ -78,7 +78,7 @@ npm run preview     # preview dist; does not emulate Pages Functions
 npm run verify      # production build and the complete test suite
 ```
 
-The November 12 application release passed **250 tests** and generated **1,704 routes**. [Verification](docs/immersive/VERIFICATION.md) records the exact release, live checks, earlier Chromium/WebKit evidence and testing limits. These are dated results, not a code-coverage percentage or permanent expected counts.
+The latest November 12 local release checks passed **254 tests** and generated **1,704 routes**. [Verification](docs/immersive/VERIFICATION.md) records the exact release, live checks, earlier Chromium/WebKit evidence and testing limits. These are dated results, not a code-coverage percentage or permanent expected counts.
 
 ## Routes
 

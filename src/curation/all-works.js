@@ -87,7 +87,7 @@ export function representativeWorks(works,leadIds=[]) {
 export function collectionIndex(artworks,toCollectionSlug) {
     const groups=new Map(),byId=new Map(artworks.map(work=>[work.id,work]));
     for(const work of artworks){
-        if(!work.collection||work.collection==='Home'||work.collection==='Colors'||work.collection==='Provenance')continue;
+        if(work.listed===false||!work.collection||work.collection==='Home'||work.collection==='Colors'||work.collection==='Provenance')continue;
         if(!groups.has(work.collection))groups.set(work.collection,[]);
         groups.get(work.collection).push(work);
     }
@@ -109,7 +109,7 @@ export function collectionIndex(artworks,toCollectionSlug) {
             if(original)covers=Array(3).fill(original);
         }
         const ethereum=works[0]?.chain==='Ethereum';
-        return {name,works,year,chronology,covers,ethereum,href:ethereum?works[0].marketplace:'/'+toCollectionSlug(name),search:normalize(name)};
+        return {name,works,year,chronology,covers,ethereum,href:ethereum?'/?view=website&work='+encodeURIComponent(works[0].id):'/'+toCollectionSlug(name),search:normalize(name)};
     }).sort((a,b)=>(a.year==='Undated')-(b.year==='Undated')||b.year.localeCompare(a.year)||(b.chronology||0)-(a.chronology||0)||a.name.localeCompare(b.name));
 }
 export function searchCollections(index,query) {
@@ -134,7 +134,6 @@ export function createAllWorks(artworks,toCollectionSlug) {
             for(const group of found.filter(g=>g.year===year)){
                 const card=document.createElement('article');card.className='catalogue-collection';
                 const link=document.createElement('a');link.href=group.href;link.className='catalogue-collection-link';
-                if(group.ethereum){link.target='_blank';link.rel='noopener noreferrer';}
                 const label=document.createElement('span');label.className='catalogue-collection-name';label.textContent=group.name;
                 if(group.matches.length){
                     card.classList.add('has-work-results');link.append(label);card.append(link);
@@ -144,8 +143,7 @@ export function createAllWorks(artworks,toCollectionSlug) {
                     function showMore(){
                         const next=group.matches.slice(shown,shown+12);shown+=next.length;
                         for(const work of next){
-                            const result=document.createElement('a');result.href=work.marketplace||'/'+encodeURIComponent(work.id)+'?view=website';result.className='catalogue-work-result';
-                            if(group.ethereum){result.target='_blank';result.rel='noopener noreferrer';}
+                            const result=document.createElement('a');result.href=work.chain==='Ethereum'?'/?view=website&work='+encodeURIComponent(work.id):'/'+encodeURIComponent(work.id)+'?view=website';result.className='catalogue-work-result';
                             const frame=document.createElement('span');frame.className='catalogue-result-image';
                             const img=new Image();img.src=work.preview||browsingSource(work,1,240);img.alt='';img.loading='lazy';img.decoding='async';frame.append(img);
                             const title=document.createElement('span');title.textContent=work.name;result.append(frame,title);matches.append(result);

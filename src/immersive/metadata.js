@@ -6,8 +6,8 @@ export function artworkMetadata(work) {
     const description=work.reflection || work.description || work.about || (!/^1 (?:of|\/) ?1s/.test(work.collection) ? COL_DESCRIPTIONS[work.collection] : '') || '';
     return {
         description, coreNote:coreWorkNote(work),
-        fields:[['Year',workYear(work)],['Medium',collection.medium||work.artwork_type],['Dimensions',work.dimensions],['Tools',collection.tools]]
+        fields:[['Year',workYear(work)],['Medium',collection.medium||work.artwork_type],['Chain',work.chain],['Edition',work.editions],['Dimensions',work.dimensions],['Tools',collection.tools]]
             .filter(([,value])=>value && !['Custom','N/A'].includes(value)),
-        original:work.id.startsWith('shop-')?null:`https://ordinals.com/inscription/${work.id}`,
+        original:work.chain==='Ethereum'?work.marketplace:work.id.startsWith('shop-')?null:`https://ordinals.com/inscription/${work.id}`,
     };
 }
