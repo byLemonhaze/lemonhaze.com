@@ -405,11 +405,10 @@ html[data-presentation] #modal-overlay :is(button,select,a):focus-visible { text
 @media(max-width:600px) {
  .practice-year { grid-template-columns:46px minmax(0,1fr); gap:20px; padding-bottom:36px; }
  .practice-year::before { left:44px; }
- .practice-year::after { left:41px; }
+ .practice-year::after { left:41px; top:143px; }
  .practice-year-works::before { left:44px; }
  .practice-year-works { grid-template-columns:1fr; gap:36px; padding-top:18px; }
  .practice-page .practice-year-label{margin-top:137px}
- .practice-year::after{top:143px}
  .practice-year-works figure + figure { border-top:1px solid var(--line); padding-top:28px; }
  .practice-sequence-image { height:240px; }
  .practice-sequence-image img { width:auto; max-height:240px; }
