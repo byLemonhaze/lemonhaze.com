@@ -18,7 +18,7 @@ export function renderHomeView({galleryGrid,onNavigate}) {
         const link=event.target.closest('a[href]');
         if(!link||!onNavigate||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
         const url=new URL(link.href,location.href);
-        if(url.origin!==location.origin||link.target==='_blank'||link.hasAttribute('download'))return;
+        if(url.origin!==location.origin||url.pathname.endsWith('.html')||link.target==='_blank'||link.hasAttribute('download'))return;
         event.preventDefault();onNavigate(url.pathname+url.search+url.hash);
     };
     galleryGrid.addEventListener('click',navigate);

@@ -87,6 +87,11 @@ test('Central Menu and All Works remain accessible on desktop, mobile and artwor
             assert.deepEqual(await page.locator('#view-switch').boundingBox(),modes);
             await page.goBack();
             await page.locator('.website-index').waitFor();
+            await page.locator('.website-index-footer').getByRole('link',{name:'Privacy',exact:true}).click();
+            await page.getByRole('heading',{name:'Privacy policy',exact:true}).waitFor();
+            assert.equal(new URL(page.url()).pathname,'/privacy.html');
+            await page.goBack();
+            await page.locator('.website-index').waitFor();
         }
     }finally{await browser.close();await new Promise(done=>server.close(done));}
 });
