@@ -18,7 +18,8 @@ test('Ethereum originals open in local details and legacy canvas survives solo a
     const origin=process.env.IMMERSIVE_TEST_ORIGIN||`http://127.0.0.1:${server.address().port}`;
     const browser=await chromium.launch();
     try{
-        const page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+        const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:3,reducedMotion:'reduce'});
+        page.setDefaultTimeout(30000);
         await page.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.fulfill({status:503,body:''}));
         for(const work of ethereumWorks.filter(w=>w.listed!==false)){
             await page.goto(origin+'/all-works');
@@ -39,7 +40,7 @@ test('Ethereum originals open in local details and legacy canvas survives solo a
         // Fixture reproduces Candidly Yours: the canvas allocates once, while
         // its drawing code uses current viewport dimensions after any resize.
         const id='6601c667c0874889109645c27447bd3e61644fef75af86a02f6cf63c8b6a2ec5i0';
-        await page.route('https://ordinals.com/content/'+id,r=>r.fulfill({contentType:'text/html',body:`<html><head><style>body{margin:0}canvas{display:block}</style></head><body><canvas></canvas><script>const c=document.querySelector('canvas');c.width=innerWidth;c.height=innerHeight;window.resizeCount=0;function draw(){const x=c.getContext('2d');x.fillStyle='red';x.fillRect(0,0,innerWidth,innerHeight);x.fillStyle='blue';x.fillRect(innerWidth-20,innerHeight-20,20,20)}draw();addEventListener('resize',()=>{window.resizeCount++;draw()});</script></body></html>`}));
+        await page.route('https://ordinals.com/content/'+id,r=>r.fulfill({contentType:'text/html',body:`<html><head><style>body{margin:0}canvas{display:block}</style></head><body><canvas></canvas><script>const c=document.querySelector('canvas');c.width=innerWidth*devicePixelRatio;c.height=innerHeight*devicePixelRatio;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';c.getContext('2d').scale(devicePixelRatio,devicePixelRatio);window.resizeCount=0;function draw(){const x=c.getContext('2d');x.fillStyle='red';x.fillRect(0,0,innerWidth,innerHeight);x.fillStyle='blue';x.fillRect(innerWidth-20,innerHeight-20,20,20)}draw();addEventListener('resize',()=>{window.resizeCount++;draw()});</script></body></html>`}));
         // Use an available portrait poster without external network dependence.
         await page.route('**/*'+id+'*',async r=>{
             if(r.request().url()==='https://ordinals.com/content/'+id)return r.fallback();
@@ -62,5 +63,33 @@ test('Ethereum originals open in local details and legacy canvas survives solo a
             await page.locator('.detail-close').click();await page.waitForTimeout(850);
             assert.deepEqual(await dimensions(),before,'returning to split must retain drawing dimensions');
         }
+        await page.setViewportSize({width:390,height:650});
+        await page.reload();await page.locator('.detail-media.live-ready').waitFor();
+        const mobile=await page.locator('.detail-original').evaluate(node=>({
+            width:Number(node.dataset.viewportWidth),height:Number(node.dataset.viewportHeight),
+            displayedWidth:parseFloat(node.parentElement.style.getPropertyValue('--original-width')),
+            displayedHeight:parseFloat(node.parentElement.style.getPropertyValue('--original-height')),
+        }));
+        assert.ok(Math.abs(mobile.width-mobile.displayedWidth)<=.5&&Math.abs(mobile.height-mobile.displayedHeight)<=.5,
+            'mobile live viewport uses display size, avoiding an extra 2x enlargement before native DPR rendering');
+        const mobileFrame=await page.locator('.detail-original').elementHandle().then(h=>h.contentFrame());
+        assert.equal(await mobileFrame.evaluate(()=>document.querySelector('canvas').width),mobile.width*3,'native 3x pixel density is preserved');
+        assert.equal(await page.locator('.detail-poster').evaluate(img=>Boolean(img.dataset.quality)),true,'sharp static fallback is retained');
+        await page.locator('#view-switch [data-view=gallery]').click();
+        await page.locator('.experience-detail').waitFor({state:'hidden'});
+        await page.waitForFunction(()=>document.querySelector('.room-art[tabindex="0"]'));
+        await page.evaluate(()=>{
+            window.hiddenGalleryFrames=0;
+            window.roomObserver=new MutationObserver(records=>window.hiddenGalleryFrames+=records.length);
+            window.roomObserver.observe(document.querySelector('.room-camera'),{attributes:true,attributeFilter:['style']});
+            document.querySelector('.room-title').click();
+        });
+        await page.locator('.detail-media.live-ready').waitFor();
+        assert.equal(await page.evaluate(()=>window.hiddenGalleryFrames),0,'opening detail pauses the hidden gallery');
+        await page.locator('#view-switch [data-view=gallery]').click();
+        await page.locator('.experience-detail').waitFor({state:'hidden'});
+        await page.getByRole('button',{name:'Next artwork',exact:true}).click();
+        await page.waitForFunction(()=>window.hiddenGalleryFrames>0);
+        await page.evaluate(()=>window.roomObserver.disconnect());
     }finally{await browser.close();await new Promise(done=>server.close(done));}
 });

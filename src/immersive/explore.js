@@ -22,6 +22,11 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
     let lastLoad={x:Infinity,y:Infinity,zoom:0}, squash=0,squashVelocity=0,releaseContact=null;
     const fieldIds=new Set(works.map(work=>work.id));
     const previews=createPreviewQueue();
+    let active=true,detailOpen=false;
+    function syncActivity(){
+        if(active&&!detailOpen)loop.resume();
+        else {loop.pause();previews.clear();}
+    }
     function add(work, index) {
         if (buttons.has(work.id)) return;
         workIndex.set(work.id,work);
@@ -245,8 +250,8 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
         },
         snapshot: () => ({ ...target }),
         restore(state) { Object.assign(target,state);Object.assign(camera,state);vx=vy=0;loop.wake(); },
-        setDetailOpen(){},
-        setActive(active) { viewport.hidden = toolbar.hidden = !active;lastLoad.x=Infinity; drag = null; vx=vy=0;if(!active)previews.clear();active ? loop.resume() : loop.pause(); },
+        setDetailOpen(open){detailOpen=open;lastLoad.x=Infinity;syncActivity();},
+        setActive(value) { active=value;viewport.hidden = toolbar.hidden = !active;lastLoad.x=Infinity; drag = null; vx=vy=0;syncActivity(); },
         destroy() { alive = false;previews.clear(); loop.destroy(); unbindPinch();observer.disconnect(); viewport.remove(); toolbar.remove(); },
     };
 }

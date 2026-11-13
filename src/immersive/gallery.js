@@ -10,6 +10,11 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
     let pool=collections?.get(collection)||works,items=[...pool];
     const buttons = new Map(),positions={...saved.positions},rendered=new Set();
     const previews=createPreviewQueue();
+    let active=true,detailOpen=false;
+    function syncActivity(){
+        if(active&&!detailOpen)loop.resume();
+        else {loop.pause();previews.clear();}
+    }
     let velocity=0,wheeling=false,wheelAxis=null,wheelProgress=0,wheelOrigin=0;
     const viewport = document.createElement('div'); viewport.className = 'room-viewport';
     viewport.tabIndex = 0; viewport.setAttribute('role', 'region');
@@ -169,8 +174,8 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
             }else position=target=galleryIndex(state.position??positions[collection]??collectionEntry(collection,items),items.length);
             velocity=0;current=-1;updateCurrent(galleryIndex(Math.round(position),items.length));loop.wake();
         },
-        setDetailOpen(open){if(!open)loop.wake();},
-        setActive(active){viewport.hidden=footer.hidden=!active;clearTimeout(settle);wheeling=false;wheelAxis=null;drag=null;viewport.classList.remove('is-grabbing');velocity=0;target=Math.round(target);if(!active){collectionReveal?.cancel();picker.close();previews.clear();}active?loop.resume():loop.pause();},
+        setDetailOpen(open){detailOpen=open;if(open){clearTimeout(settle);wheeling=false;wheelAxis=null;collectionReveal?.cancel();}syncActivity();},
+        setActive(value){active=value;viewport.hidden=footer.hidden=!active;clearTimeout(settle);wheeling=false;wheelAxis=null;drag=null;viewport.classList.remove('is-grabbing');velocity=0;target=Math.round(target);if(!active){collectionReveal?.cancel();picker.close();}syncActivity();},
         destroy(){collectionReveal?.cancel();document.removeEventListener('keydown',keydown);previews.clear();picker.destroy();loop.destroy();clearTimeout(settle);observer.disconnect();viewport.remove();footer.remove();},
     };
 }
