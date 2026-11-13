@@ -25,7 +25,7 @@ export function prepareWebsiteMenu({sidebar,menuButton,closeMenu,isOpen}) {
     if(!sidebar||!menuButton)return;
     // Keep the control outside page headers, which can be hidden or inert while
     // the shared artwork detail is open. Its position stays constant everywhere.
-    document.body.append(menuButton);menuButton.textContent='Menu';
+    document.body.append(menuButton);menuButton.textContent='Menu';menuButton.hidden=true;
     sidebar.setAttribute('aria-label','Website navigation');sidebar.inert=true;
     document.addEventListener('keydown',event=>{
         if(!isOpen())return;

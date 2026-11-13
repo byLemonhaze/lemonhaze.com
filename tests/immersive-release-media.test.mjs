@@ -1,0 +1,66 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createServer} from 'node:http';
+import {readFile} from 'node:fs/promises';
+import {resolve,extname} from 'node:path';
+import {chromium} from 'playwright';
+import ethereumWorks from '../src/data/ethereum-works.json' with {type:'json'};
+
+test('Ethereum originals open in local details and legacy canvas survives solo and viewport changes',async()=>{
+    const dist=resolve('dist'),types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.gif':'image/gif'};
+    const server=createServer(async(req,res)=>{try{
+        const path=new URL(req.url,'http://localhost').pathname;
+        const file=resolve(dist,'.'+(path==='/'?'/index.html':extname(path)?path:path+'.html'));
+        if(!file.startsWith(dist+'/'))throw Error();
+        res.setHeader('Content-Type',types[extname(file)]||'application/octet-stream');res.end(await readFile(file));
+    }catch{res.writeHead(404);res.end();}});
+    await new Promise(done=>server.listen(0,'127.0.0.1',done));
+    const origin=process.env.IMMERSIVE_TEST_ORIGIN||`http://127.0.0.1:${server.address().port}`;
+    const browser=await chromium.launch();
+    try{
+        const page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+        await page.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.fulfill({status:503,body:''}));
+        for(const work of ethereumWorks.filter(w=>w.listed!==false)){
+            await page.goto(origin+'/all-works');
+            await page.waitForFunction(()=>document.documentElement.dataset.appReady==='true');
+            await page.locator('#all-works-search').fill(work.name.split(' by ')[0]);
+            await page.locator(`.catalogue-work-result[href*="work=${work.id}"]`).filter({hasText:work.name}).click();
+            await page.locator(`.detail-poster[data-quality="${work.id}"]`).waitFor();
+            assert.equal(new URL(page.url()).origin,origin);
+            assert.equal(new URL(page.url()).searchParams.get('work'),work.id);
+            assert.equal(await page.locator('.experience-detail h1').textContent(),work.name);
+            assert.equal(await page.locator('.detail-poster').evaluate(e=>new URL(e.src).pathname),work.original);
+            await page.getByText('Full details & sales',{exact:true}).click();
+            await page.getByText('Token details',{exact:true}).click();
+            assert.ok((await page.locator('.detail-expanded').textContent()).includes(work.contract));
+            await page.reload();
+            await page.locator(`.detail-poster[data-quality="${work.id}"]`).waitFor();
+        }
+        // Fixture reproduces Candidly Yours: the canvas allocates once, while
+        // its drawing code uses current viewport dimensions after any resize.
+        const id='6601c667c0874889109645c27447bd3e61644fef75af86a02f6cf63c8b6a2ec5i0';
+        await page.route('https://ordinals.com/content/'+id,r=>r.fulfill({contentType:'text/html',body:`<html><head><style>body{margin:0}canvas{display:block}</style></head><body><canvas></canvas><script>const c=document.querySelector('canvas');c.width=innerWidth;c.height=innerHeight;window.resizeCount=0;function draw(){const x=c.getContext('2d');x.fillStyle='red';x.fillRect(0,0,innerWidth,innerHeight);x.fillStyle='blue';x.fillRect(innerWidth-20,innerHeight-20,20,20)}draw();addEventListener('resize',()=>{window.resizeCount++;draw()});</script></body></html>`}));
+        // Use an available portrait poster without external network dependence.
+        await page.route('**/*'+id+'*',async r=>{
+            if(r.request().url()==='https://ordinals.com/content/'+id)return r.fallback();
+            if(r.request().resourceType()==='image')return r.fulfill({contentType:'image/webp',body:await readFile('public/images/ethereum/eth-boulogne.webp')});
+            return r.fallback();
+        });
+        await page.emulateMedia({reducedMotion:'no-preference'});
+        await page.goto(origin+'/?view=gallery&work='+id+'&series=Candidly%20Yours');
+        await page.locator('.detail-media.live-ready').waitFor();
+        const frame=await page.locator('.detail-original').elementHandle().then(h=>h.contentFrame());
+        const dimensions=()=>frame.evaluate(()=>({width:innerWidth,height:innerHeight,canvas:[document.querySelector('canvas').width,document.querySelector('canvas').height],resizes:window.resizeCount}));
+        const before=await dimensions();
+        for(const viewport of [{width:1440,height:900},{width:1200,height:780}]){
+            await page.setViewportSize(viewport);
+            await page.locator('.detail-solo-enter').click();await page.waitForTimeout(850);
+            assert.deepEqual(await dimensions(),before,'solo must not resize the artwork drawing viewport');
+            const poster=await page.locator('.detail-poster').boundingBox(),live=await page.locator('.detail-original').boundingBox();
+            assert.ok(Math.abs(poster.x-live.x)<1&&Math.abs(poster.y-live.y)<1,'live and still remain aligned');
+            assert.ok(live.x>=0&&live.y>=0&&live.x+live.width<=viewport.width&&live.y+live.height<=viewport.height);
+            await page.locator('.detail-close').click();await page.waitForTimeout(850);
+            assert.deepEqual(await dimensions(),before,'returning to split must retain drawing dimensions');
+        }
+    }finally{await browser.close();await new Promise(done=>server.close(done));}
+});

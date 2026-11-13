@@ -1,7 +1,7 @@
 [
   {
     "id": "eth-boulogne",
-    "name": "Boulogne by TOKΞNIZΞD",
+    "name": "Boulogne",
     "collection": "Boulogne Editions",
     "year": 2020,
     "editions": 80,
@@ -9,12 +9,14 @@
     "contract": "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
     "tokenId": "4382",
     "imageSource": "https://dweb.link/ipfs/QmacuQGeNJs6BuT6zSwvecvA81wHdSDjHVJv7cTy36dyky",
-    "description": "Photomorphis\n\nCREATION TIME: 4hrs\nYEAR: 2020\nBY: TOKΞNIZΞD",
+    "description": "Photomorphis\n\nCREATION TIME: 4hrs\nYEAR: 2020",
     "marketplace": "https://opensea.io/assets/ethereum/0xd07dc4262bcdbf85190c01c996b4c06a461d2430/4382",
     "metadataSource": "https://eth.blockscout.com/api/v2/tokens/0xd07dc4262bcdbf85190c01c996b4c06a461d2430/instances/4382",
     "timestamp": "2020-08-17T00:12:53.000000Z",
     "dateSource": "https://eth.blockscout.com/api/v2/tokens/0xd07dc4262bcdbf85190c01c996b4c06a461d2430/instances/4382/transfers",
-    "preview": "/images/ethereum/eth-boulogne.webp"
+    "preview": "/images/ethereum/eth-boulogne.webp",
+    "artwork_type": "GIF",
+    "original": "/images/ethereum/eth-boulogne-original.gif"
   },
   {
     "id": "eth-bell-street",
@@ -31,7 +33,8 @@
     "metadataSource": "https://eth.blockscout.com/api/v2/tokens/0x60f80121c31a0d46b5279700f9df786054aa5ee5/instances/7142",
     "timestamp": "2020-08-15T06:11:57.000000Z",
     "dateSource": "https://eth.blockscout.com/api/v2/tokens/0x60f80121c31a0d46b5279700f9df786054aa5ee5/instances/7142/transfers",
-    "preview": "/images/ethereum/eth-bell-street.webp"
+    "preview": "/images/ethereum/eth-bell-street.webp",
+    "listed": false
   },
   {
     "id": "eth-murky",
@@ -48,11 +51,12 @@
     "metadataSource": "https://eth.blockscout.com/api/v2/tokens/0x60f80121c31a0d46b5279700f9df786054aa5ee5/instances/7151",
     "timestamp": "2020-08-15T06:35:25.000000Z",
     "dateSource": "https://eth.blockscout.com/api/v2/tokens/0x60f80121c31a0d46b5279700f9df786054aa5ee5/instances/7151/transfers",
-    "preview": "/images/ethereum/eth-murky.webp"
+    "preview": "/images/ethereum/eth-murky.webp",
+    "listed": false
   },
   {
     "id": "eth-marilyn",
-    "name": "Marilyn Monero by TOKΞNIZΞD",
+    "name": "Marilyn Monero",
     "collection": "Marilyn Monero",
     "year": 2021,
     "editions": 1,
@@ -66,11 +70,13 @@
     "timestamp": "2021",
     "dateSource": "src/data.js ETH_SUPPLY_DATA (year only)",
     "preview": "/images/ethereum/eth-marilyn.webp",
-    "imageSourcePage": "https://opensea.io/assets/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/33496864716441061479722967924363635550936970653962706744602323594356455374849"
+    "imageSourcePage": "https://opensea.io/assets/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/33496864716441061479722967924363635550936970653962706744602323594356455374849",
+    "artwork_type": "GIF",
+    "original": "/images/ethereum/eth-marilyn-original.webp"
   },
   {
     "id": "eth-rich-bean",
-    "name": "Rich Bean by TOKΞNIZΞD",
+    "name": "Rich Bean",
     "collection": "Rich Bean Editions",
     "year": 2020,
     "editions": 8,
@@ -78,11 +84,13 @@
     "contract": "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
     "tokenId": "4307",
     "imageSource": "https://dweb.link/ipfs/QmSFCpmMcafLvnYxePykzYUhkPqFrLUzBSrykdC7Px1MFi",
-    "description": "Unlock includes the micro edition video/GIF & SOUNDTRACK of \"Rich Bean\" composed, sampled and produced by TOKΞNIZΞD\n\nUpon purchase of this collectible you will unlock a link + password allowing you to download the full original .mp4 content (0:59s).\n\nIt's every owner's duty to preserve the rarity of the locked content.\n\nCREATION TIME: 16hours\nYEAR: 2020\nBY: TOKΞNIZΞD",
+    "description": "Unlock includes the micro edition video/GIF & SOUNDTRACK of \"Rich Bean\" composed, sampled and produced by TOKΞNIZΞD\n\nUpon purchase of this collectible you will unlock a link + password allowing you to download the full original .mp4 content (0:59s).\n\nIt's every owner's duty to preserve the rarity of the locked content.\n\nCREATION TIME: 16hours\nYEAR: 2020",
     "marketplace": "https://opensea.io/assets/ethereum/0xd07dc4262bcdbf85190c01c996b4c06a461d2430/4307",
     "metadataSource": "https://eth.blockscout.com/api/v2/tokens/0xd07dc4262bcdbf85190c01c996b4c06a461d2430/instances/4307",
     "timestamp": "2020-08-16T09:17:11.000000Z",
     "dateSource": "https://eth.blockscout.com/api/v2/tokens/0xd07dc4262bcdbf85190c01c996b4c06a461d2430/instances/4307/transfers",
-    "preview": "/images/ethereum/eth-rich-bean.webp"
+    "preview": "/images/ethereum/eth-rich-bean.webp",
+    "artwork_type": "GIF",
+    "original": "/images/ethereum/eth-rich-bean-original.gif"
   }
 ]

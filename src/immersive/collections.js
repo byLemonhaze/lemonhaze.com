@@ -11,7 +11,14 @@ export function createCollectionPicker(collections,initial,onChange) {
     const trigger=root.querySelector('button'),name=root.querySelector('.collection-name'),search=menu.querySelector('input'),list=menu.querySelector('.collection-options'),empty=menu.querySelector('.collection-empty');
     const choices=new Map();let selected=initial;
     const viewport=window.visualViewport;
-    function fit(){menu.style.setProperty('--picker-height',`${viewport?.height||innerHeight}px`);menu.style.setProperty('--picker-top',`${viewport?.offsetTop||0}px`);}
+    function fit(){
+        const height=viewport?.height||innerHeight,top=viewport?.offsetTop||0;
+        menu.style.setProperty('--picker-height',`${height}px`);menu.style.setProperty('--picker-top',`${top}px`);
+        const anchor=trigger.getBoundingClientRect(),width=Math.min(360,innerWidth-32);
+        menu.style.setProperty('--picker-left',`${Math.max(16,Math.min(anchor.left,innerWidth-width-16))}px`);
+        menu.style.setProperty('--picker-bottom',`${Math.max(16,innerHeight-anchor.top+12)}px`);
+        menu.style.setProperty('--picker-available',`${Math.max(180,anchor.top-top-28)}px`);
+    }
     function close(focus=false){menu.close();trigger.setAttribute('aria-expanded','false');if(focus)trigger.focus({preventScroll:true});}
     function filter(){const query=search.value.trim().toLocaleLowerCase();let count=0;for(const [label,button] of choices){button.hidden=!label.toLocaleLowerCase().includes(query);if(!button.hidden)count++;}empty.hidden=count>0;}
     function set(value){selected=value;name.textContent=value;trigger.setAttribute('aria-label',`Collection: ${value}`);for(const [label,button] of choices)button.setAttribute('aria-pressed',String(label===value));}

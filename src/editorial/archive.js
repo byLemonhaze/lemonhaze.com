@@ -35,10 +35,10 @@ export function createArchivePage(artworks, toCollectionSlug) {
     onward.setAttribute('aria-label', 'Continue exploring');
     onward.innerHTML = '<a href="/selected">Selected Work →</a><a href="/practice">Practice →</a>';
     root.appendChild(onward);
-    const studio = archive.entries.find(entry => entry.slug === 'workspace');
+    const studio = archive.entries.find(entry => entry.slug === 'good-night-print');
     const opening = document.createElement('figure');
     opening.className = 'studio-opening-image';
-    opening.innerHTML = `<a href="/archive#workspace">${imageTag(studio.images[0])}</a><figcaption>${escape(studio.images[0].caption)}</figcaption>`;
+    opening.innerHTML = `<a href="/archive#good-night-print">${imageTag(studio.images[0])}</a><figcaption>${escape(studio.images[0].caption)}</figcaption>`;
     const intro = root.querySelector('.page-intro');
     const text = document.createElement('div');
     text.append(...intro.childNodes); intro.append(text, opening);

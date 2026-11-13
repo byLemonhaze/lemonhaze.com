@@ -15,7 +15,9 @@ An artist portfolio where the archive is also an interface: a draggable field of
 
 ## Portfolio presentation
 
-The visual system keeps the artwork in charge: a restrained palette, consistent wordmark, generous framing and a shared Explore / Gallery / Website switch. Custom interaction work connects those views without losing the selected artwork or collection.
+[Latest interaction and Website presentation refinements](docs/reports/2026-11-12-interaction-polish.md) include the framed Gentleman Nº1 landing, animated mode switch, lemon throws and embedded inscription notes.
+
+The visual system keeps the artwork in charge: a restrained palette, consistent wordmark, generous framing and a shared Explore / Gallery / Menu switch. Custom interaction work connects those views without losing the selected artwork or collection.
 
 The engineering supports that presentation: bounded image loading, cancellable quality upgrades, stable live-canvas fitting, native pixel rendering, URL-backed navigation and reduced-motion paths. The [visual tour](docs/presentation/README.md) pairs desktop and mobile screenshots with implementation and regression-test references.
 
@@ -28,7 +30,7 @@ The engineering supports that presentation: bounded image loading, cancellable q
 
 </details>
 
-**Latest application release:** November 12, 2026, merged as [f73ae62](https://github.com/byLemonhaze/lemonhaze.com/commit/f73ae62b7a65be97fd63c0b91625f3af7b04154a). [Release and live-check record](https://github.com/byLemonhaze/lemonhaze.com/pull/65) · [Immutable deployment](https://ff70bf7f.lemonhaze.pages.dev) · [Changelog](CHANGELOG.md).
+**Latest application release:** November 12, 2026, source [54a5fef](https://github.com/byLemonhaze/lemonhaze.com/commit/54a5fef4e1f2d81d65782155997c885c56fac672). [Integration PR #67](https://github.com/byLemonhaze/lemonhaze.com/pull/67) · [Immutable deployment](https://d1310231.lemonhaze.pages.dev) · [Release and live-check record](docs/reports/2026-11-12-interaction-polish.md) · [Changelog](CHANGELOG.md).
 
 `main` is the integration branch. The [November 11 work report](docs/reports/2026-11-11.md) preserves the initial immersive release history; the changelog records later refinements and content additions.
 
@@ -40,7 +42,7 @@ The engineering supports that presentation: bounded image loading, cancellable q
 - **Artwork details:** one artwork beside metadata, a collection rail and expandable full details/sales. Desktop artwork clicks open a near-full-screen solo view; × or Escape restores the same split. Mobile detail fits the viewport independently of Explore zoom.
 - **Shared presentation:** one stable wordmark, mode switch and persistent Day/Night control. Artwork colors and aspect ratios are preserved. System reduced-motion preferences remain supported.
 
-All Works stays collection-first, with title search returning actual matching artworks and artist-selected covers. It includes five verified Ethereum releases. “Provenance” is not a public collection; parent inscriptions and lineage records remain available. Gentleman Nº1 is identified as the master parent of the on-chain tree.
+All Works stays collection-first, with title search returning actual matching artworks and artist-selected covers. It includes three public Ethereum releases with locally hosted animations and on-site detail views. “Provenance” is not a public collection; parent inscriptions and lineage records remain available. Gentleman Nº1 is identified as the master parent of the on-chain tree.
 
 ## Documentation
 
@@ -76,7 +78,7 @@ npm run preview     # preview dist; does not emulate Pages Functions
 npm run verify      # production build and the complete test suite
 ```
 
-The November 12 application release passed **250 tests** and generated **1,704 routes**. [Verification](docs/immersive/VERIFICATION.md) records the exact release, live checks, earlier Chromium/WebKit evidence and testing limits. These are dated results, not a code-coverage percentage or permanent expected counts.
+The November 12 application release checks passed **255 tests** and generated **1,704 routes**. [Verification](docs/immersive/VERIFICATION.md) records the exact release, live checks, earlier Chromium/WebKit evidence and testing limits. These are dated results, not a code-coverage percentage or permanent expected counts.
 
 ## Routes
 

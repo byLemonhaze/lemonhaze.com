@@ -79,14 +79,10 @@ test('mobile overview limits decoded media, Gallery clears shared chrome, and co
   assert.equal(await page.locator('#appearance-toggle svg').count(),1);
   assert.equal(await page.locator('[data-presentation-choice]').count(),0);
   await page.locator('#view-switch a[data-view=website]').click();
-  await page.getByRole('button',{name:'Open navigation',exact:true}).click();
-  await page.locator('#all-works-nav > summary').click();
-  const before=await page.locator('#sidebar [data-section=archive]').boundingBox();
-  await page.locator('#sidebar [data-year-toggle]').first().click();
-  const after=await page.locator('#sidebar [data-section=archive]').boundingBox();
-  assert.ok(Math.abs(before.y-after.y)<1,'opening a year cannot push utility links down');
-  const lab=await page.locator('#sidebar [data-section=lab]').boundingBox(),footer=await page.locator('#sidebar > div:last-child').boundingBox();
-  assert.ok(lab.y+lab.height<=footer.y,'Lab remains above the fixed footer');
+  assert.equal(await page.locator('#menu-toggle').isVisible(),false);
+  await page.locator('.website-further').getByRole('link',{name:'All Works',exact:true}).click();
+  await page.getByLabel('Search works and collections').waitFor();
+  assert.equal(await page.getByRole('link',{name:'Visual chronology',exact:true}).isVisible(),true);
 
   await page.goto(origin+'/gentlemen?view=website');
   await page.waitForFunction(()=>document.querySelector('#current-view-title')?.textContent?.toLowerCase()==='gentlemen');

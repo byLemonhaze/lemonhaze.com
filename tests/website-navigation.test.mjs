@@ -5,7 +5,7 @@ import {readFile,mkdir} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
 import {chromium} from 'playwright';
 
-test('Website drawer and All Works remain accessible on desktop, mobile and artwork details',async()=>{
+test('Central Menu and All Works remain accessible on desktop, mobile and artwork details',async()=>{
     const dist=resolve('dist'),types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json'};
     const server=createServer(async(req,res)=>{try{
         const path=new URL(req.url,'http://localhost').pathname,file=resolve(dist,'.'+(path==='/'?'/index.html':extname(path)?path:path+'.html'));
@@ -27,18 +27,13 @@ test('Website drawer and All Works remain accessible on desktop, mobile and artw
             const wordmark=await page.locator('#site-wordmark').boundingBox(),modes=await page.locator('#view-switch').boundingBox();
             await page.locator('#sidebar').waitFor({state:'hidden'});
             assert.equal(await page.locator('.website-index-pages a').count(),4);
-            await page.getByRole('button',{name:'Open navigation',exact:true}).click();
-            await page.locator('#sidebar').waitFor({state:'visible'});
-            assert.equal(await page.locator('#sidebar a[data-section]').count(),8);
-            assert.equal(await page.locator('#sidebar').getAttribute('aria-modal'),'true');
-            await page.waitForFunction(()=>document.activeElement===document.querySelector('#top-nav-section a'));
-            await page.keyboard.press('Shift+Tab');
-            assert.equal(await page.locator('#menu-toggle').evaluate(e=>e===document.activeElement),true);
-            await page.keyboard.press('Shift+Tab');
-            assert.equal(await page.locator('#sidebar a[href="/terms.html"]').evaluate(e=>e===document.activeElement),true);
-            await page.keyboard.press('Escape');
-            await page.locator('#sidebar').waitFor({state:'hidden'});
-            assert.equal(await page.locator('#menu-toggle').evaluate(e=>e===document.activeElement),true);
+            assert.equal(await page.locator('#menu-toggle').isVisible(),false);
+            assert.equal(await page.locator('#view-switch').getByRole('link',{name:'Menu',exact:true}).count(),1);
+            assert.equal(await page.locator('.website-index-policies a').count(),2);
+            assert.equal(await page.locator('.website-index-footer a').count(),4);
+            assert.equal(await page.getByRole('link',{name:'Discord',exact:true}).getAttribute('href'),'https://discord.com/invite/4A8jaMqdxs');
+            const appearance=await page.locator('#appearance-toggle').boundingBox();
+            assert.ok(appearance.x+appearance.width>width-40,'appearance owns the far-right corner');
             await page.evaluate(()=>window.__websiteNavigationMarker='same-document');
             await page.getByRole('link',{name:'All Works',exact:true}).click();
             assert.equal(await page.evaluate(()=>window.__websiteNavigationMarker),'same-document');
@@ -46,6 +41,7 @@ test('Website drawer and All Works remain accessible on desktop, mobile and artw
             await page.waitForFunction(()=>document.documentElement.dataset.appReady==='true');
             assert.equal(await page.locator('.catalogue-year').first().locator('h2').textContent(),'2026');
             assert.ok(await page.locator('.catalogue-collection').count()>40);
+            assert.equal(await page.getByRole('link',{name:'Visual chronology',exact:true}).getAttribute('href'),'/visualizer/');
             const covers=await page.getByRole('link',{name:'1 of 1s (2026)',exact:true}).locator('img').evaluateAll(images=>images.map(img=>img.getAttribute('src')));
             assert.deepEqual(covers.map(src=>src.split('/').at(-1).replace('.webp','')),['8364ada14a420eff704c0eeca009c8460769879fdfd70270ff4a3b1c92cbe482i0','c8d790c42ce1a43c02acf15114d4053c1c9f086dc2856ebd3031ce268f5d58dbi0','f1f114aee3aabe9539a9d4aff7619b1690e9656f53544c938725fbd4f3db3144i0']);
             assert.deepEqual(await page.locator('#site-wordmark').boundingBox(),wordmark);
@@ -56,6 +52,8 @@ test('Website drawer and All Works remain accessible on desktop, mobile and artw
             assert.equal(await page.locator('.catalogue-work-result img').count(),1);
             assert.equal(await page.locator('.catalogue-work-result').textContent(),'Lucky Belly');
             await mkdir('output/playwright/feedback-14',{recursive:true});
+            await page.locator('.catalogue-work-result img').scrollIntoViewIfNeeded();
+            await page.waitForFunction(()=>{const img=document.querySelector('.catalogue-work-result img');return img?.complete&&img.naturalWidth>0;});
             await page.locator('.catalogue-work-result img').evaluate(img=>img.decode());
             await finishAnimations();
             await page.screenshot({path:`output/playwright/feedback-14/search-${width}.png`});
@@ -64,33 +62,11 @@ test('Website drawer and All Works remain accessible on desktop, mobile and artw
             await page.getByLabel('Search works and collections').fill('Lucky Belly');
             await page.getByRole('link',{name:'Lucky Belly',exact:true}).click();
             await page.getByRole('heading',{name:'Lucky Belly',exact:true}).waitFor();
-            await page.getByRole('button',{name:'Open navigation',exact:true}).click();
-            await page.locator('#sidebar').getByRole('link',{name:'Selected Work',exact:true}).click();
+            await page.locator('#view-switch').getByRole('link',{name:'Menu',exact:true}).click();
+            await page.locator('.website-index-pages').getByRole('link',{name:'Selected works',exact:true}).click();
             await page.getByRole('heading',{name:'A continuous practice.',exact:true}).waitFor();
             await page.locator('.experience-detail').waitFor({state:'hidden'});
-            await page.locator('#sidebar').waitFor({state:'hidden'});
-            await page.getByRole('button',{name:'Open navigation',exact:true}).click();
-            assert.equal(await page.locator('#sidebar a[data-section=selected]').getAttribute('aria-current'),'page');
-            await finishAnimations();
-            await page.screenshot({path:`output/playwright/feedback-12/menu-${width}.png`});
-            const allWorks=page.locator('#all-works-nav');
-            await allWorks.locator('summary').click();
-            assert.equal(await allWorks.evaluate(e=>e.open),true);
-            assert.deepEqual(await allWorks.locator('[data-year-toggle]').evaluateAll(nodes=>nodes.map(n=>n.dataset.yearToggle)),['2026','2025','2024','2023']);
-            const year=allWorks.locator('[data-year-toggle="2026"]');
-            if(await year.getAttribute('aria-expanded')==='false')await year.click();
-            await allWorks.getByRole('link',{name:'Into The Wild',exact:true}).waitFor();
-            assert.equal(await allWorks.locator(':scope > a:last-child').getAttribute('href'),'/visualizer/');
-            await finishAnimations();
-            await mkdir('output/playwright/feedback-13',{recursive:true});
-            await page.screenshot({path:`output/playwright/feedback-13/expanded-menu-${width}.png`});
-            await allWorks.locator('.chronology-link').scrollIntoViewIfNeeded();
-            assert.equal(await allWorks.locator('.chronology-link').isVisible(),true);
-            await page.screenshot({path:`output/playwright/feedback-13/menu-visualizer-${width}.png`});
-            await allWorks.getByRole('link',{name:'Into The Wild',exact:true}).click();
-            await page.locator('#sidebar').waitFor({state:'hidden'});
-            assert.ok(new URL(page.url()).pathname.includes('into-the-wild'));
-            await page.locator('#view-switch').getByRole('link',{name:'Website',exact:true}).click();
+            await page.locator('#view-switch').getByRole('link',{name:'Menu',exact:true}).click();
             await page.evaluate(()=>window.__websiteNavigationMarker='same-document');
             await page.getByRole('link',{name:'All Works',exact:true}).click();
             assert.equal(await page.evaluate(()=>window.__websiteNavigationMarker),'same-document');
@@ -100,7 +76,7 @@ test('Website drawer and All Works remain accessible on desktop, mobile and artw
             await finishAnimations();
             await page.locator('.catalogue-cover img').evaluateAll(images=>Promise.all(images.filter(img=>img.getBoundingClientRect().top<innerHeight).map(img=>img.decode().catch(()=>{}))));
             await page.screenshot({path:`output/playwright/feedback-14/all-works-${width}.png`});
-            await page.locator('#view-switch').getByRole('link',{name:'Website',exact:true}).click();
+            await page.locator('#view-switch').getByRole('link',{name:'Menu',exact:true}).click();
             await page.locator('.website-index').waitFor();
             await page.locator('.website-studio-image img').evaluate(img=>img.decode());
             await finishAnimations();
@@ -111,6 +87,11 @@ test('Website drawer and All Works remain accessible on desktop, mobile and artw
             assert.equal(await page.evaluate(()=>window.__websiteNavigationMarker),'selected-without-reload');
             assert.deepEqual(await page.locator('#site-wordmark').boundingBox(),wordmark);
             assert.deepEqual(await page.locator('#view-switch').boundingBox(),modes);
+            await page.goBack();
+            await page.locator('.website-index').waitFor();
+            await page.locator('.website-index-footer').getByRole('link',{name:'Privacy',exact:true}).click();
+            await page.getByRole('heading',{name:'Privacy policy',exact:true}).waitFor();
+            assert.equal(new URL(page.url()).pathname,'/privacy.html');
             await page.goBack();
             await page.locator('.website-index').waitFor();
         }

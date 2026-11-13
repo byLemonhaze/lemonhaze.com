@@ -74,3 +74,7 @@ The November 12 application release passed **250 tests** and generated **1,704 r
 - When the interface changes, recapture the affected view, inspect the resulting file, update this date and release reference, and keep captions and source/test links aligned. Preserve artwork proportions and avoid screenshots captured before media has loaded.
 
 Artwork, photographs and site presentation by Lemonhaze.
+
+## November 12 interaction and Website update
+
+The [session report](../reports/2026-11-12-interaction-polish.md) includes the chosen framed Gentleman Nº1 homepage, anchored Gallery picker and embedded inscription notes. Those captures document the later pass; the production tour above remains a dated record of the earlier release.

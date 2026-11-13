@@ -1,6 +1,17 @@
 # Release verification
 
-## Current application release — November 12, 2026
+## Interaction and presentation release — November 12, 2026
+
+See the [session report](../reports/2026-11-12-interaction-polish.md) for the accepted changes, visual evidence and publication record. Published source [54a5fef](https://github.com/byLemonhaze/lemonhaze.com/commit/54a5fef4e1f2d81d65782155997c885c56fac672) is available at [d1310231.lemonhaze.pages.dev](https://d1310231.lemonhaze.pages.dev) and lemonhaze.com. [PR #67](https://github.com/byLemonhaze/lemonhaze.com/pull/67) records verification and protected-main integration. The previous release remains recorded separately.
+
+- Central Explore / Gallery / Menu bar, no duplicate corner Menu, far-right appearance control. Original squarer mode bar, reduced height, spring indicator; stronger bounded lemon throws; theme-matched animated solo room.
+- Desktop Gallery controls at opposite lower corners, with its collection picker anchored beside its control. Gallery scrolling physics are unchanged in this pass.
+- Exact artist-selected workbench image on Website home; secondary links below Exhibitions; Studio Notes signing image; Practice year alignment; intentional edition cover triptychs.
+- Embedded notes inside the existing Inscription details group: lazy text-only HTML retrieval, preserved comment wording, original-source disclosure, cancellation on work changes and retry after failures. Old Fashioned remains static-only.
+- Ethereum title results and direct links open on site, including reloads; Candidly Yours retains a stable drawing viewport through split/solo and browser resizing.
+- Production build and complete tests on Node 22 passed: **1,704 prerendered routes, 255 tests, zero failures**. Earlier local checks passed 11 physics/zoom tests and 5 browser navigation/mobile/refinement checks.
+
+## Previous application release — November 12, 2026
 
 Merged to `main` as [f73ae62](https://github.com/byLemonhaze/lemonhaze.com/commit/f73ae62b7a65be97fd63c0b91625f3af7b04154a), with verification and publication recorded in [PR #65](https://github.com/byLemonhaze/lemonhaze.com/pull/65).
 

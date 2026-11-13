@@ -1,6 +1,6 @@
 # Immersive architecture
 
-Current application release: `041ea75` (November 11, 2026). This is the current behavior guide. Earlier [feedback passes](README.md) preserve their original decisions and review status.
+Updated November 12, 2026; publication evidence is in [Verification](VERIFICATION.md). This is the current behavior guide. Earlier [feedback passes](README.md) preserve their original decisions and review status.
 
 ## Navigation contract
 
@@ -13,12 +13,12 @@ Current application release: `041ea75` (November 11, 2026). This is the current 
 | Explore from Gallery | Focus the current Gallery work in the field, without opening detail |
 | Gallery from detail | Centre the selected artwork in its own collection |
 | Choose a new Gallery collection | Enter near its midpoint; later visits restore its position |
-| Website mode switch | Website home with no inherited artwork modal |
+| Menu mode switch | Website home with no inherited artwork modal |
 | Desktop artwork click inside detail | Near-full-screen solo view of the same work |
 | Close or Escape from solo | Same split view, selection and URL; live media stays mounted |
 | Close ordinary detail | Return to its background view; preserve relevant camera/selection state |
 
-`modes.js` owns mode intent and history; `experience.js` coordinates the two background views and detail. Explicit routes use `view`, `work`, `at` and Gallery’s `series`. Generation checks reject obsolete asynchronous mode completions, and inactive views release work. The stable wordmark, mode switch and appearance control are shared across modes. `/explore` remains an editorial redirect to `/practice`; use `/?view=explore` for the field.
+`modes.js` owns mode intent and history; `experience.js` coordinates the two background views and detail. Explicit routes use `view`, `work`, `at` and Gallery’s `series`. Generation checks reject obsolete asynchronous mode completions, and inactive views release work. The stable wordmark, Explore / Gallery / Menu switch and far-right appearance control are shared across modes. Menu opens the Website index; the duplicate corner menu trigger is retired. The index retains all section links and a bottom footer for policies, contact, X and Discord, while All Works provides year browsing and Visual chronology. URLs continue to use `view=website`. `/explore` remains an editorial redirect to `/practice`; use `/?view=explore` for the field.
 
 ## Roster and composition
 
@@ -43,7 +43,7 @@ Approved adjustments place Gentleman Nº1 above Impossible Folds 01 with breathi
 
 `media.js` limits upgrades to two concurrent decodes/reveals per active view, checks stale source/selection state, and cancels departed work. A blocked static chain image tries the artist CDN. A decoded still overlay resolves from a mild 1.2px blur and 94% contrast to full clarity in 360ms. It covers the opaque preview early in the animation, so the remaining movement is a focus pull rather than a prolonged dissolve. Fractional CSS dimensions avoid alignment seams; the temporary layer is removed after the original image element can paint the new source. Native pixel originals and reduced motion use a direct decoded swap. The effect applies only to still-to-still upgrades, including posters for live works; HTML/video playback is not blurred or animated by this mechanism. Thumbnails remain static; live frames belong to detail, not the rail.
 
-The live-document bridge scales the artwork's tight wrapper rather than its body or viewport. This avoids a resize feedback loop in works such as Griffintown, which measure their stage every animation frame. Original interactive transforms remain independent of the fitting scale.
+The live-document bridge scales the artwork's tight wrapper rather than its body or viewport. This avoids a resize feedback loop in works such as Griffintown, which measure their stage every animation frame. Original interactive transforms remain independent of the fitting scale. The outer detail iframe keeps a stable logical viewport (up to 1200px desktop / 800px mobile long side, at most twice its initial fitted size); split/solo and window resizing scale that viewport externally. This protects older p5 wrappers with broken resize callbacks from cropping or shrinking their drawing buffer.
 
 `preview-manifest.json` and `public/previews/immersive/` contain lightweight field thumbnails. The 2000 × 1990 overview uses about 636 KiB transfer and 15.9 MB decoded RGBA at the recorded release; it avoids decoding hundreds of individual images at mobile startup. Its geometry fingerprint requires regeneration after relevant layout/preview changes using `node scripts/build_explore_overview.mjs`.
 
@@ -74,3 +74,15 @@ Desktop solo hides the rail and metadata, preserves the existing media instance 
 First-paint HTML and the runtime agree on paper as the default and charcoal when saved/explicit. SVG appearance icons avoid emoji rendering. Shared chrome stays in place and mobile close/appearance controls do not overlap. Artwork pixels are never recolored.
 
 See [Verification](VERIFICATION.md) for the actual release checks, test files, deployment and remaining physical-device/live-chain limits. Public Catalogue embedding is configured on lemonhaze.com only; no catalogue.gallery files were changed.
+
+## November 12 interaction refinements
+
+The mode switch retains its squared silhouette at 40px desktop / 44px mobile height. Its spring indicator moves independently of the stable links; reduced motion bypasses animated movement. Overview release uses recent pointer samples, bounded velocity and 240Hz physics substeps; collision bounds remain independent of the visible squash. Close-up panning and Gallery scrolling retain their existing behavior.
+
+Solo transitions animate the complete media surface and mat together for 760ms. The room follows paper/charcoal presentation, shared controls retreat and become inert, and closing restores those controls. Desktop Gallery metadata and arrows sit in opposite lower corners; the 360px collection picker opens above the left control. Mobile retains its separate dialog layout.
+
+`src/modules/embedded-notes.js` mounts an Embedded notes disclosure inside the split view's existing Inscription details group. It retrieves HTML only on expansion, parses comment nodes without executing the document, and renders both notes and optional original source through textContent. Cleanup aborts retrieval and discards stale responses when selection changes. Unsupported/static-only works do not request chain source.
+
+## Ethereum releases
+
+`src/data/ethereum-works.json` supplies three listed releases to All Works and the immersive catalogue. Local GIF/animated WebP originals upgrade static thumbnails in detail; token facts and optional OpenSea links replace Bitcoin inscription metadata. Public routes use `/?view=website&work=eth-…` and survive reload. Bell Street Style and Murky retain historical data with `listed:false`. Ethereum additions do not alter Explore composition. Media sources are recorded in `public/images/ethereum/SOURCES.md`.

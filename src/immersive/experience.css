@@ -48,7 +48,7 @@
 .experience-detail{position:absolute;inset:0 auto 0 0;width:var(--detail-width);z-index:10;background:var(--paper);border-right:1px solid var(--line);transform:translateX(-102%);transition:transform .68s cubic-bezier(.22,1,.36,1);}
 .detail-open .experience-detail{transform:translateX(0)}
 .detail-stage{position:absolute;left:120px;right:58px;top:100px;bottom:116px;display:grid;place-items:center}
-.detail-media{position:relative;width:100%;height:100%;display:grid;place-items:center}
+.detail-media{position:relative;width:100%;height:100%;display:grid;place-items:center;transform-origin:50% 50%}
 .detail-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;}
 .detail-original{position:absolute;width:var(--original-width,100%);height:var(--original-height,100%);max-width:100%;max-height:100%;border:0;opacity:0;left:50%;top:50%;transform:translate(-50%,-50%);transition:none;background:transparent;color-scheme:normal}
 .detail-original.is-ready{opacity:1}
@@ -104,7 +104,7 @@ html[data-motion=reduced] .immersive-experience *,html[data-motion=reduced] .art
 /* A narrow mount follows the actual image edge, never the containing card. */
 .experience-art{display:flex;align-items:center;justify-content:center}
 .experience-art img{width:auto;height:auto;max-width:100%;max-height:100%;outline:1px solid #45483e75;box-shadow:0 0 0 3px var(--paper),0 0 0 4px #45483e45}
-.detail-media:after{content:'';position:absolute;width:var(--original-width,0px);height:var(--original-height,0px);outline:1px solid #45483e75;box-shadow:0 0 0 3px var(--paper),0 0 0 4px #45483e45;pointer-events:none;z-index:2}
+.detail-media:after{content:'';position:absolute;width:var(--original-width,0px);height:var(--original-height,0px);outline:1px solid #45483e75;box-shadow:0 0 0 3px var(--paper),0 0 0 4px #45483e45;pointer-events:none;z-index:2;transition:box-shadow 700ms,outline-color 700ms}
 .detail-open .experience-scene{visibility:hidden}
 /* Opt-in comparison only: /?surface=paper. The default remains the flat ground. */
 .immersive-experience[data-mode=explore][data-surface=paper]:before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23000' filter='url(%23n)' opacity='.7' d='M0 0h180v180H0z'/%3E%3C/svg%3E");background-size:180px 180px}
@@ -267,6 +267,10 @@ dialog.collection-menu .collection-option>span:last-child{font-size:11px}
 dialog.collection-menu header{background:transparent!important;padding:0!important;border:0!important;height:auto!important;min-height:44px}
 /* Give Safari a definite flex height; an auto-height dialog can collapse the list. */
 dialog.collection-menu{height:min(640px,calc(var(--picker-height,100dvh) - 40px))}
+@media(min-width:701px){
+ dialog.collection-menu{left:var(--picker-left,28px);top:auto;bottom:var(--picker-bottom,140px);transform:none;width:360px;height:min(460px,var(--picker-available,460px));max-height:var(--picker-available,460px);padding:18px;border-radius:3px;box-shadow:0 12px 40px #0002}
+ dialog.collection-menu::backdrop{background:#10101012;backdrop-filter:none}
+}
 dialog.collection-menu>label{flex:none}
 
 .pixel-art img,img.pixel-art{image-rendering:pixelated!important}
@@ -277,8 +281,48 @@ dialog.collection-menu>label{flex:none}
 @media(min-width:701px){
  .detail-solo-enter{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--original-width,100%);height:var(--original-height,100%);z-index:4;border:0;background:transparent;cursor:zoom-in}
  .detail-solo-enter:focus-visible{outline:2px solid var(--ink);outline-offset:8px}
- .detail-solo .detail-solo-enter,.detail-solo :is(.detail-rail,.detail-info,.detail-caption){display:none}
- .detail-solo .detail-stage{left:48px;right:48px;top:90px;bottom:30px}
- .detail-solo>.detail-close{left:auto;right:22px;top:84px;transform:none;width:36px;height:36px;border:0!important;background:transparent!important}
+ .detail-solo .detail-solo-enter{display:none}
+ .detail-solo :is(.detail-rail,.detail-info,.detail-caption){opacity:0;visibility:hidden;translate:16px 0;pointer-events:none}
+ .detail-solo .detail-stage{left:48px;right:48px;top:30px;bottom:40px}
+ .detail-solo>.detail-close{left:auto;right:22px;top:22px;transform:none;width:36px;height:36px;border:0!important;background:transparent!important}
  .detail-solo>.detail-close svg{width:18px;height:18px}
 }
+
+/* Immersion follows the saved theme: warm paper by day, neutral charcoal
+   by night. The media transform is driven by measured FLIP. */
+.detail-solo-light{position:absolute;inset:0;background:#f5f3ec;opacity:0;pointer-events:none;transition:opacity 850ms cubic-bezier(.22,1,.36,1)}
+.detail-solo-light:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,#ffffff90,transparent 70%);opacity:0;transition:opacity 1100ms}
+.detail-solo .detail-solo-light,.detail-solo .detail-solo-light:after{opacity:1}
+.detail-solo .detail-media:after{outline-color:#45483e30;box-shadow:0 0 0 3px #f5f3ec,0 0 0 4px #45483e18}
+.detail-rail,.detail-info,.detail-caption{transition:opacity 280ms,translate 500ms cubic-bezier(.22,1,.36,1),visibility 280ms}
+.detail-solo>.detail-close{color:#44443d!important;opacity:.65;transition:opacity 250ms,color 650ms}
+.detail-solo>.detail-close:hover,.detail-solo>.detail-close:focus-visible{opacity:1}
+
+html[data-presentation=black] .detail-solo-light{background:#1b1b1a}
+html[data-presentation=black] .detail-solo-light:after{background:radial-gradient(ellipse at 50% 40%,#ffffff09,transparent 70%)}
+html[data-presentation=black] .detail-solo .detail-media:after{outline-color:#ffffff20;box-shadow:0 0 0 3px #1b1b1a,0 0 0 4px #ffffff0c}
+html[data-presentation=black] .detail-solo>.detail-close{color:#e9e7e2!important}
+
+/* Desktop gallery controls anchor the room's corners, leaving its centre open. */
+@media(min-width:701px){
+ .room-footer{left:clamp(28px,3vw,48px);right:clamp(28px,3vw,48px);bottom:max(30px,env(safe-area-inset-bottom));width:auto;transform:none;gap:48px;pointer-events:none}
+ .room-footer .room-caption{max-width:min(560px,65%);pointer-events:auto}
+ .room-footer .room-title{line-height:1.4;overflow-wrap:anywhere}
+ .room-footer .room-navigation{pointer-events:auto;flex:none;align-self:flex-end}
+}
+/* Keep gallery focus functional without the rectangular focus boxes. */
+html[data-presentation] .room-footer button:focus-visible,
+html[data-presentation] .room-viewport:focus-visible,
+html[data-presentation] .room-viewport button:focus-visible,
+html[data-presentation] dialog.collection-menu button:focus-visible{outline-color:transparent}
+.room-footer .room-title:focus-visible{text-decoration:underline;text-underline-offset:5px;text-decoration-color:var(--line)}
+
+/* The artist's inscribed words stay quietly nested in Inscription details. */
+.detail-full-meta .embedded-notes{margin-top:12px}
+.detail-full-meta .embedded-notes summary{cursor:pointer;font-size:10px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.detail-full-meta .embedded-notes summary::-webkit-details-marker{display:none}
+.detail-full-meta .embedded-notes summary:after{content:'+'}
+.detail-full-meta .embedded-notes details[open]>summary:after,.detail-full-meta .embedded-notes[open]>summary:after{content:'−'}
+.detail-full-meta .embedded-notes-status{font-size:10px;opacity:.65;margin:16px 0;line-height:1.6}
+.detail-full-meta .embedded-notes pre{white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.8 Arial,sans-serif;max-height:420px;overflow:auto;margin:16px 0;user-select:text}
+.detail-full-meta .embedded-notes-source{margin-top:20px}
