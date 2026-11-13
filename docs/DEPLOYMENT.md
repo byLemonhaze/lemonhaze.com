@@ -1,6 +1,8 @@
 # Deployment runbook
 
-Latest publication: source `ee07810`, November 13, 2026, [immutable deployment d3b2e225](https://d3b2e225.lemonhaze.pages.dev). See the [mobile bounce report](reports/2026-11-13-mobile-bounce.md) for verification evidence and [PR #68](https://github.com/byLemonhaze/lemonhaze.com/pull/68) for source integration.
+Latest publication: source `bc3773f`, November 13, 2026, [immutable deployment d2bc7f94](https://d2bc7f94.lemonhaze.pages.dev). See the [mobile detail performance report](reports/2026-11-13-mobile-detail-performance.md) for verification evidence and [PR #69](https://github.com/byLemonhaze/lemonhaze.com/pull/69) for source integration.
+
+The preceding [mobile bounce release](reports/2026-11-13-mobile-bounce.md) is included in this build and merged through [PR #68](https://github.com/byLemonhaze/lemonhaze.com/pull/68).
 
 Historical November 11 immersive release: `041ea75`, published November 11, 2026 to [lemonhaze.com](https://lemonhaze.com) and [immutable deployment 3d9290e8](https://3d9290e8.lemonhaze.pages.dev). See the [work report](reports/2026-11-11.md) for source history and evidence.
 

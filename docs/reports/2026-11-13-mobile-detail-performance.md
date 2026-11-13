@@ -14,4 +14,11 @@ Live HTML artworks on phone-sized screens now receive their fitted viewport dime
 - The WebKit mobile layout/navigation regression passed against the local preview.
 - These are emulated browser checks. A physical iPhone check remains useful, particularly for complex third-party live artworks whose own animation costs vary.
 
-Publication evidence is added after release verification.
+## Publication
+
+- Application source: [`bc3773f`](https://github.com/byLemonhaze/lemonhaze.com/commit/bc3773f003609182b30b477a38240a0804b50759).
+- Production: [lemonhaze.com](https://lemonhaze.com).
+- Immutable Cloudflare deployment: [d2bc7f94.lemonhaze.pages.dev](https://d2bc7f94.lemonhaze.pages.dev).
+- The published experience bundle matched the verified build byte for byte (SHA-256 `03e5bd82a9acd203825656d6ef1683bce364a5ac25645650c0acfbe3d41c0928`).
+- Both affected Chromium browser regressions passed against production: mobile navigation/background suspension and media detail/solo rendering. The live HTML test uses a controlled canvas fixture; it does not benchmark every external artwork.
+- [PR #69](https://github.com/byLemonhaze/lemonhaze.com/pull/69) records the required GitHub verification and protected-main integration. Cloudflare's production branch label is separate from Git integration.
