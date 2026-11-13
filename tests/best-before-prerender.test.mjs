@@ -83,26 +83,24 @@ test('Best Before hydrates the metadata split, preserves its artwork ratio and r
         await mkdir('output/playwright/feedback-5',{recursive:true});
         await page.screenshot({path:'/tmp/lemonhaze-mobile-mat-fixture.png'});
         // The persistent wordmark and mode bar never move during mode changes;
-        // on phones the menu owns a separate area and opens below both.
+        // on phones appearance owns a separate area below the mode bar.
         for(const size of [{width:1440,height:1000},{width:390,height:844}]) {
             await page.setViewportSize(size);
             const positions=[];
-            for(const mode of ['Explore','Gallery','Website']) {
+            for(const mode of ['Explore','Gallery','Menu']) {
                 await page.locator('#view-switch').getByRole('link',{name:mode,exact:true}).click();
-                await page.waitForFunction(view=>document.documentElement.dataset.view===view,mode.toLowerCase());
+                await page.waitForFunction(view=>document.documentElement.dataset.view===view,mode==='Menu'?'website':mode.toLowerCase());
                 positions.push(await page.locator('#site-wordmark').boundingBox());
             }
             assert.deepEqual(positions[0],positions[1]);assert.deepEqual(positions[1],positions[2]);
             if(size.width<768) {
-                const logo=positions[2],menu=await page.locator('#menu-toggle').boundingBox();
+                const logo=positions[2],menu=await page.locator('#appearance-toggle').boundingBox();
                 assert.ok(menu.x>=logo.x+logo.width+24);
                 await page.waitForFunction(()=>[...document.querySelectorAll('.website-selected img')].filter(img=>img.getBoundingClientRect().top<innerHeight).every(img=>img.complete&&img.naturalWidth>0));
                 await page.waitForTimeout(250); // Capture after the mode-control colour transition.
                 await page.screenshot({path:'output/playwright/feedback-5/10-mobile-website.png'});
-                await page.locator('#menu-toggle').click();
-                await page.waitForFunction(()=>{const sidebar=document.querySelector('#sidebar').getBoundingClientRect();return sidebar.x>=-.1&&sidebar.y>=120;});
-                await page.screenshot({path:'output/playwright/feedback-5/11-mobile-menu.png'});
-                await page.locator('#sidebar').getByRole('link',{name:'Practice',exact:true}).click();
+                assert.equal(await page.locator('#menu-toggle').isVisible(),false);
+                await page.locator('.website-index-pages').getByRole('link',{name:'Practice',exact:true}).click();
                 await page.getByRole('heading',{name:'Image. Texture. Time.'}).waitFor();
             }
         }

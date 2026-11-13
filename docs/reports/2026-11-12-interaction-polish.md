@@ -12,6 +12,7 @@ The Good Night signing photograph replaces the workstation image introducing Stu
 
 ## Interaction decisions
 
+- **Navigation:** the center bar now reads Explore / Gallery / Menu. Menu returns to the Website index from any view or page; the duplicate top-right trigger is retired, and day/night occupies that far-right position. All Works retains year navigation and Visual chronology; Privacy and Terms & contact remain reachable from the index. Existing URLs still use `view=website`.
 - **Mode switch:** original squared silhouette, 40px desktop / 44px mobile height, spring indicator and restrained mouse attraction on lettering. Links remain stationary; keyboard and reduced-motion behavior are retained.
 - **Explore overview:** the whole field can be thrown with recent pointer velocity. Stronger rebound and lower resistance use substepped simulation, with stable collision bounds independent of visible deformation. Close-up composition and panning are unchanged.
 - **Solo view:** the artwork, live surface and mat move together over 760ms. The room opens in paper by day or charcoal by night. Shared controls retreat and become inert, then return on close. Interrupted transitions and reduced motion are handled.

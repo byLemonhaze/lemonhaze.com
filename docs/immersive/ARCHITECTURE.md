@@ -13,12 +13,12 @@ Updated November 12, 2026; publication evidence is in [Verification](VERIFICATIO
 | Explore from Gallery | Focus the current Gallery work in the field, without opening detail |
 | Gallery from detail | Centre the selected artwork in its own collection |
 | Choose a new Gallery collection | Enter near its midpoint; later visits restore its position |
-| Website mode switch | Website home with no inherited artwork modal |
+| Menu mode switch | Website home with no inherited artwork modal |
 | Desktop artwork click inside detail | Near-full-screen solo view of the same work |
 | Close or Escape from solo | Same split view, selection and URL; live media stays mounted |
 | Close ordinary detail | Return to its background view; preserve relevant camera/selection state |
 
-`modes.js` owns mode intent and history; `experience.js` coordinates the two background views and detail. Explicit routes use `view`, `work`, `at` and Gallery’s `series`. Generation checks reject obsolete asynchronous mode completions, and inactive views release work. The stable wordmark, mode switch and appearance control are shared across modes. `/explore` remains an editorial redirect to `/practice`; use `/?view=explore` for the field.
+`modes.js` owns mode intent and history; `experience.js` coordinates the two background views and detail. Explicit routes use `view`, `work`, `at` and Gallery’s `series`. Generation checks reject obsolete asynchronous mode completions, and inactive views release work. The stable wordmark, Explore / Gallery / Menu switch and far-right appearance control are shared across modes. Menu opens the Website index; the duplicate corner menu trigger is retired. The index retains all section and policy links, while All Works provides year browsing and Visual chronology. URLs continue to use `view=website`. `/explore` remains an editorial redirect to `/practice`; use `/?view=explore` for the field.
 
 ## Roster and composition
 

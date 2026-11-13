@@ -11,7 +11,7 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
     let websiteContext=null,websiteReturn={url:'/?view=website',scroll:0};
     document.querySelector('#view-switch')?.remove();
     const nav=document.createElement('nav');nav.id='view-switch';nav.setAttribute('aria-label','Viewing mode');
-    nav.innerHTML='<i class="view-saddle" aria-hidden="true"></i>'+['explore','gallery','website'].map(view=>`<a href="/?view=${view}" data-view="${view}"><span>${view[0].toUpperCase()+view.slice(1)}</span></a>`).join('');
+    nav.innerHTML='<i class="view-saddle" aria-hidden="true"></i>'+['explore','gallery','website'].map(view=>`<a href="/?view=${view}" data-view="${view}"><span>${view==='website'?'Menu':view[0].toUpperCase()+view.slice(1)}</span></a>`).join('');
     for(const link of nav.querySelectorAll('a')){
         const reset=()=>{link.style.setProperty('--magnet-x','0px');link.style.setProperty('--magnet-y','0px');};
         link.addEventListener('pointermove',event=>{
@@ -97,7 +97,7 @@ export function createViewingModes({ appState, applyWebsite, destroyHome, closeM
         }
     }
     async function switchMode(next) {
-        // The Website tab always means its home, even when a detail is already open there.
+        // The Menu tab always means the website home, even when a detail is already open there.
         if(next==='website'){await toWebsite();return;}
         if(next===mode&&next===viewingMode(new URL(location.href))&&!selected)return;
         save();

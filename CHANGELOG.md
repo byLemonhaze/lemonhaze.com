@@ -2,7 +2,7 @@
 
 ## 2026-11-12 — Interaction and Website presentation polish
 
-Slimmer squared mode bar with a spring indicator, stronger contained lemon throws, and animated paper/charcoal solo viewing. Desktop Gallery controls occupy opposite lower corners, with a discreet anchored collection picker. Website home uses the artist-selected framed Gentleman Nº1 study and vertical secondary navigation; Studio Notes and Practice imagery/year placement are refined. Satoshi and Deprivation print covers intentionally repeat their originals three times without duplicating the artwork roster. Embedded inscription notes are accessible inside Inscription details, loaded on demand as inert text. [Session and release report](docs/reports/2026-11-12-interaction-polish.md).
+Central Explore / Gallery / Menu navigation with no duplicate corner Menu; day/night moves to the far right. Slimmer squared mode bar with a spring indicator, stronger contained lemon throws, and animated paper/charcoal solo viewing. Desktop Gallery controls occupy opposite lower corners, with a discreet anchored collection picker. Website home uses the artist-selected framed Gentleman Nº1 study and vertical secondary navigation; Studio Notes and Practice imagery/year placement are refined. Satoshi and Deprivation print covers intentionally repeat their originals three times without duplicating the artwork roster. Embedded inscription notes are accessible inside Inscription details, loaded on demand as inert text. [Session and release report](docs/reports/2026-11-12-interaction-polish.md).
 
 ## 2026-11-12 — Artwork focus transitions and Gallery refinement
 

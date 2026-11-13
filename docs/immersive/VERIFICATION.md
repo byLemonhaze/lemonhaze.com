@@ -4,7 +4,7 @@
 
 See the [session report](../reports/2026-11-12-interaction-polish.md) for the accepted changes, visual evidence and publication record. Local verification passed; production publication is pending GitHub verification and integration; the previous release remains recorded separately.
 
-- Original squarer mode bar, reduced height, spring indicator; stronger bounded lemon throws; theme-matched animated solo room.
+- Central Explore / Gallery / Menu bar, no duplicate corner Menu, far-right appearance control. Original squarer mode bar, reduced height, spring indicator; stronger bounded lemon throws; theme-matched animated solo room.
 - Desktop Gallery controls at opposite lower corners, with its collection picker anchored beside its control. Gallery scrolling physics are unchanged in this pass.
 - Exact artist-selected workbench image on Website home; secondary links below Exhibitions; Studio Notes signing image; Practice year alignment; intentional edition cover triptychs.
 - Embedded notes inside the existing Inscription details group: lazy text-only HTML retrieval, preserved comment wording, original-source disclosure, cancellation on work changes and retry after failures. Old Fashioned remains static-only.

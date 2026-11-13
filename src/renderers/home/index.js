@@ -11,6 +11,9 @@ export function renderHomeView({galleryGrid,onNavigate}) {
     const further=document.createElement('nav');further.className='website-further';further.setAttribute('aria-label','Further into the studio');
     further.innerHTML='<a href="/all-works">All Works</a><a href="/archive">Studio notes</a><a href="/collecting">Collecting</a><a href="/shop">Print shop</a><a href="/lab">Lab</a>';
     entry.querySelector('.website-index-navigation').append(further);
+    const policies=document.createElement('nav');policies.className='website-index-policies';policies.setAttribute('aria-label','Policies');
+    policies.innerHTML='<a href="/privacy.html">Privacy</a><a href="/terms.html">Terms &amp; contact</a>';
+    entry.querySelector('.website-index-navigation').append(policies);
     galleryGrid.append(entry);
     const navigate=event=>{
         const link=event.target.closest('a[href]');
