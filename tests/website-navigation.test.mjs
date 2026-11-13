@@ -30,6 +30,8 @@ test('Central Menu and All Works remain accessible on desktop, mobile and artwor
             assert.equal(await page.locator('#menu-toggle').isVisible(),false);
             assert.equal(await page.locator('#view-switch').getByRole('link',{name:'Menu',exact:true}).count(),1);
             assert.equal(await page.locator('.website-index-policies a').count(),2);
+            assert.equal(await page.locator('.website-index-footer a').count(),4);
+            assert.equal(await page.getByRole('link',{name:'Discord',exact:true}).getAttribute('href'),'https://discord.com/invite/4A8jaMqdxs');
             const appearance=await page.locator('#appearance-toggle').boundingBox();
             assert.ok(appearance.x+appearance.width>width-40,'appearance owns the far-right corner');
             await page.evaluate(()=>window.__websiteNavigationMarker='same-document');
