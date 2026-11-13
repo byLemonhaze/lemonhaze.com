@@ -1,6 +1,8 @@
 # Deployment runbook
 
-November 11 immersive release: `041ea75`, published November 11, 2026 to [lemonhaze.com](https://lemonhaze.com) and [immutable deployment 3d9290e8](https://3d9290e8.lemonhaze.pages.dev). See the [work report](reports/2026-11-11.md) for source history and evidence.
+Latest publication: source `243103e`, November 12, 2026, [immutable deployment 6a9e2562](https://6a9e2562.lemonhaze.pages.dev). See the [interaction and presentation report](reports/2026-11-12-interaction-polish.md) for current evidence and [PR #67](https://github.com/byLemonhaze/lemonhaze.com/pull/67) for source integration.
+
+Historical November 11 immersive release: `041ea75`, published November 11, 2026 to [lemonhaze.com](https://lemonhaze.com) and [immutable deployment 3d9290e8](https://3d9290e8.lemonhaze.pages.dev). See the [work report](reports/2026-11-11.md) for source history and evidence.
 
 ## Targets and local setup
 

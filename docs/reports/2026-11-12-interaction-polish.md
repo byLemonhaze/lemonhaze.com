@@ -39,7 +39,9 @@ Boulogne, Rich Bean and Marilyn Monero open in the site's split viewer from All 
 
 ## Validation and publication
 
-The production build and complete test suite on Node 22 passed: **1,704 prerendered routes and 254 tests, zero failures**. Production publication awaits the required GitHub check and main integration; the release record will be completed after deployment.
+The production build and complete test suite on Node 22 passed: **1,704 prerendered routes and 254 tests, zero failures**. Published to [lemonhaze.com](https://lemonhaze.com) from source [243103e](https://github.com/byLemonhaze/lemonhaze.com/commit/243103e249b90f6f040190e935536538ee939af0). Immutable deployment: [6a9e2562.lemonhaze.pages.dev](https://6a9e2562.lemonhaze.pages.dev). [PR #67](https://github.com/byLemonhaze/lemonhaze.com/pull/67) records required GitHub verification and protected-main integration. Cloudflare’s `main` deployment label is distinct from that source integration.
+
+Live checks confirmed all three Ethereum originals animate in the on-site viewer, with the cleaned titles. La Carte retained its 675 × 1200 logical viewport and 1350 × 2400 drawing buffer through split → solo → split; the returned live and poster bounds matched exactly (353.25 × 628 CSS px). The homepage asset SHA-256 matches the supplied file (`12afbae7840699cdc40217edd6e4bbd6c880a5092a11df1b529ce6a8f37582ce`); published `main-BG8nAgIs.js` and `experience-C9YnJ7nE.js` references match the verified build.
 
 Local visual review covered the exact chosen home image, desktop Practice year alignment, the notes nested under Inscription details, and mobile Website navigation. Regression coverage includes lazy source loading, preservation of multilingual text, script non-execution, reuse after closing/reopening, and stale-request cancellation.
 

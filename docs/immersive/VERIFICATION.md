@@ -2,7 +2,7 @@
 
 ## Interaction and presentation release — November 12, 2026
 
-See the [session report](../reports/2026-11-12-interaction-polish.md) for the accepted changes, visual evidence and publication record. Local verification passed; production publication is pending GitHub verification and integration; the previous release remains recorded separately.
+See the [session report](../reports/2026-11-12-interaction-polish.md) for the accepted changes, visual evidence and publication record. Published source [243103e](https://github.com/byLemonhaze/lemonhaze.com/commit/243103e249b90f6f040190e935536538ee939af0) is available at [6a9e2562.lemonhaze.pages.dev](https://6a9e2562.lemonhaze.pages.dev) and lemonhaze.com. [PR #67](https://github.com/byLemonhaze/lemonhaze.com/pull/67) records verification and protected-main integration. The previous release remains recorded separately.
 
 - Central Explore / Gallery / Menu bar, no duplicate corner Menu, far-right appearance control. Original squarer mode bar, reduced height, spring indicator; stronger bounded lemon throws; theme-matched animated solo room.
 - Desktop Gallery controls at opposite lower corners, with its collection picker anchored beside its control. Gallery scrolling physics are unchanged in this pass.
