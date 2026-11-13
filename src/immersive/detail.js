@@ -117,7 +117,10 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         if(isHtml){
             const width=parseFloat(media.style.getPropertyValue('--original-width'));
             const height=parseFloat(media.style.getPropertyValue('--original-height'));
-            const boost=Math.max(1,Math.min(2,(innerWidth>700?1200:800)/Math.max(width,height)));
+            // Phones already render at their native device pixel ratio. An
+            // extra 2x HTML viewport quadruples canvas fill/memory cost before
+            // shrinking the result back to the same small display surface.
+            const boost=innerWidth>700?Math.max(1,Math.min(2,1200/Math.max(width,height))):1;
             node.dataset.viewportWidth=String(Math.round(width*boost));
             node.dataset.viewportHeight=String(Math.round(height*boost));
             node.style.width=node.dataset.viewportWidth+'px';node.style.height=node.dataset.viewportHeight+'px';

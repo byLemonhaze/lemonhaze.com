@@ -72,10 +72,26 @@ test('mobile overview limits decoded media, Gallery clears shared chrome, and co
   await page.waitForFunction(()=>{const b=document.querySelector('.explore-world [data-work="shop-print6"]')?.getBoundingClientRect();return b&&b.top>=135&&Math.abs(b.x+b.width/2-innerWidth/2)<1&&b.bottom<=innerHeight-79;});
   await page.getByRole('button',{name:'Show all Explore works',exact:true}).click();
   await page.locator('.explore-viewport.is-overview').waitFor();
-  await page.getByRole('button',{name:'Open Gentleman Nº1',exact:true}).click();
+  // Open while a camera transition is pending: hidden Explore must not keep
+  // animating or scheduling sharp previews behind the artwork detail.
+  await page.evaluate(()=>{
+   window.hiddenExploreFrames=0;
+   window.detailBackgroundObserver=new MutationObserver(records=>window.hiddenExploreFrames+=records.length);
+   window.detailBackgroundObserver.observe(document.querySelector('.explore-world'),{attributes:true,attributeFilter:['style']});
+   document.querySelector('[aria-label="Focus Impossible Folds 01"]').click();
+   document.querySelector('[aria-label="Open Gentleman Nº1"]').click();
+  });
   await page.waitForFunction(()=>document.querySelector('.detail-info h1')?.textContent==='Gentleman Nº1');
+  await page.waitForTimeout(800);
+  assert.equal(await page.evaluate(()=>window.hiddenExploreFrames),0,'detail opening pauses hidden Explore animation');
+  // A browser visibility notification must not restart an obscured scene.
+  await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
+  await page.waitForTimeout(100);
+  assert.equal(await page.evaluate(()=>window.hiddenExploreFrames),0);
   await page.locator('#view-switch a[data-view=explore]').click();
   await page.locator('.experience-detail').waitFor({state:'hidden'});
+  await page.waitForFunction(()=>window.hiddenExploreFrames>0);
+  await page.evaluate(()=>window.detailBackgroundObserver.disconnect());
   await page.getByRole('button',{name:'Show all Explore works',exact:true}).click();
   await page.locator('.explore-viewport.is-overview').waitFor();
   await page.getByRole('button',{name:'Switch to night mode'}).click();

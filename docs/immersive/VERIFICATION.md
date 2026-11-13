@@ -1,5 +1,9 @@
 # Release verification
 
+## Mobile artwork detail performance — November 13, 2026
+
+Source `bc3773f` is published at [lemonhaze.com](https://lemonhaze.com) and [d2bc7f94.lemonhaze.pages.dev](https://d2bc7f94.lemonhaze.pages.dev). Node 22 verification built **1,704 routes and passed all 257 tests**. WebKit mobile navigation passed locally; both affected Chromium browser regressions passed against production, whose experience bundle matched the verified build. See the [release report](../reports/2026-11-13-mobile-detail-performance.md) for measurements and limitations, and [PR #69](https://github.com/byLemonhaze/lemonhaze.com/pull/69) for GitHub verification.
+
 ## Mobile lemon bounce — November 13, 2026
 
 Source [`ee07810`](https://github.com/byLemonhaze/lemonhaze.com/commit/ee07810b19d8d440afa7d1056f778c54bfdffe51) is published at [lemonhaze.com](https://lemonhaze.com) and [d3b2e225.lemonhaze.pages.dev](https://d3b2e225.lemonhaze.pages.dev). The full Node 22 verification built **1,704 routes and passed 257 tests**. Production served the identical experience bundle, and its mobile touch/navigation regression passed. [Release report](../reports/2026-11-13-mobile-bounce.md) includes the motion preview, coverage and physical-device limitation; [PR #68](https://github.com/byLemonhaze/lemonhaze.com/pull/68) records GitHub checks and source integration.

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-13 — Mobile artwork detail performance
+
+Opening artwork details pauses hidden Explore/Gallery movement and sharp-preview queues; returning resumes the active scene. Mobile HTML artworks render at their fitted viewport size instead of adding another 2x enlargement before native device-pixel-ratio rendering. Sharp stills, original proportions and desktop solo sizing are retained.
+
 ## 2026-11-13 — Mobile lemon bounce
 
 Touch drags beginning on an artwork now continue through pointer capture instead of stopping after the first movement. Phone wall pressure is more expressive, throws are scaled to the available screen space, and releasing a held squeeze no longer jumps. Browser-toolbar height changes preserve the field position. Desktop tuning and the opening composition are preserved. [Release report and motion preview](docs/reports/2026-11-13-mobile-bounce.md).
