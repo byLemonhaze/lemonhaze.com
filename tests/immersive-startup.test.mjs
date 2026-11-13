@@ -14,7 +14,7 @@ test('the first-paint mode matches routing before the catalogue loads',async()=>
     }
 });
 
-test('refresh keeps the selected label readable before and during delayed viewer loading',async()=>{
+test('refresh keeps the selected label readable before and during delayed viewer loading',{timeout:60000},async()=>{
     const {createServer}=await import('node:http');
     const {resolve,extname}=await import('node:path');
     const {chromium}=await import('playwright');
@@ -30,13 +30,14 @@ test('refresh keeps the selected label readable before and during delayed viewer
         for(const theme of ['paper','black'])for(const mode of ['explore','gallery','website']){
             const page=await browser.newPage();
             await page.addInitScript(theme=>localStorage.setItem('lh-presentation',theme),theme);
-            let releaseMain,releaseViewer;
+            let releaseMain,releaseViewer,viewerRequested;
             const mainGate=new Promise(r=>releaseMain=r),viewerGate=new Promise(r=>releaseViewer=r);
+            const viewerStarted=new Promise(r=>viewerRequested=r);
             await page.route('**/*',async route=>{
                 const url=new URL(route.request().url());
                 if(url.origin!==origin)return route.fulfill({status:503,body:''});
                 if(/\/main-[^/]+\.js$/.test(url.pathname))await mainGate;
-                if(/\/experience-[^/]+\.js$/.test(url.pathname))await viewerGate;
+                if(/\/experience-[^/]+\.js$/.test(url.pathname)){viewerRequested();await viewerGate;}
                 return route.continue();
             });
             try{
@@ -47,15 +48,17 @@ test('refresh keeps the selected label readable before and during delayed viewer
                 // cache. Wait for styles, while keeping application JS blocked.
                 await page.waitForFunction(()=>{const links=[...document.querySelectorAll('link[rel=stylesheet]')];return links.length>0&&links.every(link=>link.sheet);});
                 const check=async()=>{
-                    const actual=await selected.evaluate(a=>({color:getComputedStyle(a).color,index:getComputedStyle(a.closest('nav')).getPropertyValue('--mode-index').trim(),transition:getComputedStyle(a).transitionDuration}));
+                    // Resolve the anchor and its nav in one browser task: hydration
+                    // can replace the prerendered anchor between locator commands.
+                    const actual=await page.evaluate(mode=>{const a=document.querySelector(`#view-switch a[data-view=${mode}]`);return {color:getComputedStyle(a).color,index:getComputedStyle(a.closest('nav')).getPropertyValue('--mode-index').trim(),transition:getComputedStyle(a).transitionDuration};},mode);
                     assert.equal(actual.color,theme==='black'?'rgb(36, 36, 36)':'rgb(247, 247, 240)',`${theme} ${mode} label`);
                     assert.equal(actual.index,String(['explore','gallery','website'].indexOf(mode)));
                     assert.equal(actual.transition,'0s');
                 };
                 await check();releaseMain();
                 if(mode!=='website'){
+                    await viewerStarted;
                     await page.waitForFunction(mode=>document.querySelector('#view-switch [aria-current]')?.dataset.view===mode,mode);
-                    await page.waitForTimeout(300);
                     await check();
                 }
                 releaseViewer();await page.waitForFunction(()=>document.documentElement.dataset.appReady==='true');
