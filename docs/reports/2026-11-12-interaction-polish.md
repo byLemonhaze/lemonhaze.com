@@ -34,6 +34,8 @@ Ikigai was checked against its live inscription: About, Reflection and A Day in 
 
 Local visual review covered the exact chosen home image, desktop Practice year alignment, the notes nested under Inscription details, and mobile Website navigation. Regression coverage includes lazy source loading, preservation of multilingual text, script non-execution, reuse after closing/reopening, and stale-request cancellation.
 
+GitHub's moving `ubuntu-latest` runner selected Ubuntu 26.04, which the locked Playwright 1.58.2 dependency cannot install on. CI is pinned to supported Ubuntu 24.04 so the same browser checks run reproducibly; no checks were removed or bypassed.
+
 The wall-release browser regression now observes the actual recovery away from the contact point. Its previous fixed 1.2-second sample could coincide with a new opposite-wall collision under the accepted stronger throw; the assertion still requires both restored proportions and rebound movement.
 
 No changes were made to catalogue.gallery, commerce gates, databases or purchase availability. Browser emulation does not replace hands-on device review.
