@@ -43,6 +43,9 @@ test('refresh keeps the selected label readable before and during delayed viewer
                 await page.goto(origin+'/?view='+mode,{waitUntil:'commit'});
                 const selected=page.locator(`#view-switch a[data-view=${mode}]`);
                 await selected.waitFor();
+                // Navigation commit precedes render-blocking CSS on a cold CI
+                // cache. Wait for styles, while keeping application JS blocked.
+                await page.waitForFunction(()=>{const links=[...document.querySelectorAll('link[rel=stylesheet]')];return links.length>0&&links.every(link=>link.sheet);});
                 const check=async()=>{
                     const actual=await selected.evaluate(a=>({color:getComputedStyle(a).color,index:getComputedStyle(a.closest('nav')).getPropertyValue('--mode-index').trim(),transition:getComputedStyle(a).transitionDuration}));
                     assert.equal(actual.color,theme==='black'?'rgb(36, 36, 36)':'rgb(247, 247, 240)',`${theme} ${mode} label`);
