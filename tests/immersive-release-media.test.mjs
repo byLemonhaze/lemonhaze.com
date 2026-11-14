@@ -48,6 +48,35 @@ test('Ethereum originals open in local details and legacy canvas survives solo a
             return r.fallback();
         });
         await page.emulateMedia({reducedMotion:'no-preference'});
+        // Paint Engines must never replace the collection still with chain HTML,
+        // including after visibility changes or entering desktop solo view.
+        const engineIds=['c8d790c42ce1a43c02acf15114d4053c1c9f086dc2856ebd3031ce268f5d58dbi0',
+            '7a6d380af9adc2b7b70ac0cea5d054ab8c69a0d7d0f612e66870213276dd4349i0',
+            '773bcd4be1b8a4a9f3e9c427fb4264066e2043b56a9ecb22c8ebcf2192fda561i0'];
+        for(const engineId of engineIds){
+            let chainRequests=0;
+            await page.route('https://ordinals.com/content/'+engineId,r=>{
+                chainRequests++;return r.fulfill({contentType:'text/html',body:'Unexpected live engine'});
+            });
+            const encrypted=engineId===engineIds[2];
+            const still=encrypted?`/previews/immersive/${engineId}.webp`:`https://cdn.lemonhaze.com/assets/assets/${engineId}.png`;
+            if(!encrypted)await page.route(still,async r=>r.fulfill({contentType:'image/webp',
+                body:await readFile(`public/previews/immersive/${engineId}.webp`)}));
+            for(const viewport of [{width:1440,height:900},{width:390,height:650}]){
+                await page.setViewportSize(viewport);
+                await page.goto(origin+'/?view=explore&work='+engineId);
+                await page.locator(`.detail-poster[data-quality="${engineId}"]`).waitFor();
+                await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
+                if(viewport.width>1000)await page.locator('.detail-solo-enter').click();
+                await page.waitForTimeout(850);
+                assert.equal(await page.locator('.detail-poster').evaluate(img=>img.src),new URL(still,origin).href);
+                assert.equal(await page.locator('.detail-original').count(),0);
+                assert.equal(chainRequests,0,'no automatic chain request for a static engine');
+                const rect=await page.locator('.detail-poster').boundingBox();
+                assert.ok(rect.width>0&&rect.height>0&&rect.x>=0&&rect.x+rect.width<=viewport.width+1);
+            }
+        }
+        await page.setViewportSize({width:1440,height:900});
         await page.goto(origin+'/?view=gallery&work='+id+'&series=Candidly%20Yours');
         await page.locator('.detail-media.live-ready').waitFor();
         const frame=await page.locator('.detail-original').elementHandle().then(h=>h.contentFrame());

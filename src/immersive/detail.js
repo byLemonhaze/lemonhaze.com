@@ -3,7 +3,7 @@ import { thumbnailSource, workYear } from './model.js';
 import { isHtmlArtwork, isVideoArtwork, shouldUseDirectOnchainMedia, getCdnMediaSrc } from '../modules/artwork-media.js';
 import { ease, reducedMotion } from './motion.js';
 import { artworkMetadata } from './metadata.js';
-import { upgradePoster } from './media.js';
+import { upgradePoster, isLiveWork } from './media.js';
 import { loadLiveDocument } from './live-document.js';
 import { fitArtwork } from './presentation.js';
 
@@ -99,7 +99,7 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         rail.hidden=thumbs.size<2;
     }
     function startLive(work, token) {
-        if(hidden||token!==version||!selected||work.id!==selected.id||document.hidden) return;
+        if(hidden||token!==version||!selected||work.id!==selected.id||document.hidden||!isLiveWork(work)) return;
         stopLive();
         const isHtml=isHtmlArtwork(work), isVideo=isVideoArtwork(work);
         if(!isHtml&&!isVideo) return;
@@ -165,7 +165,7 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         poster.onload=()=>{if(token===version&&poster.naturalWidth&&poster.dataset.presented)sizePoster(poster);};
         poster.onerror=()=>{poster.alt=`Preview unavailable for ${work.name}. Full artwork details remain available.`;};
         poster.style.opacity='0';media.append(poster);
-        const animated=isHtmlArtwork(work)||isVideoArtwork(work);
+        const animated=isLiveWork(work);
         if(opening)close.focus({preventScroll:true});
         requestAnimationFrame(()=>token===version&&thumbs.get(work.id)?.scrollIntoView({block:'nearest',inline:'nearest',behavior:reducedMotion()?'instant':'smooth'}));
         await poster.decode().catch(()=>{});

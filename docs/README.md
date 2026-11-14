@@ -26,6 +26,8 @@ Current publication status: [release verification](immersive/VERIFICATION.md). T
 
 ## Release history and review evidence
 
+- [November 14 static artwork preview fix](reports/2026-11-14-static-artwork-previews.md): historical Paint Engine stills in split/solo view, retaining live motion exceptions.
+
 - [November 13 mobile detail performance report](reports/2026-11-13-mobile-detail-performance.md): hidden-scene suspension and native-density live artwork rendering.
 - [November 13 mobile bounce report](reports/2026-11-13-mobile-bounce.md): touch capture, contained rebounds, release continuity and phone viewport checks.
 
