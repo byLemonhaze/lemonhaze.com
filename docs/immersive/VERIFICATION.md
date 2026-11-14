@@ -1,5 +1,9 @@
 # Release verification
 
+## Static artwork previews — November 14, 2026
+
+Source `f78e46e` is published at [lemonhaze.com](https://lemonhaze.com) and [d98596f4.lemonhaze.pages.dev](https://d98596f4.lemonhaze.pages.dev). Node 22 verification built **1,704 routes and passed all 259 tests**. The affected desktop/mobile browser regression passed against production, and the live experience bundle matches the verified build. Paint Engines and five related works retain historical stills while motion/3D/evolving works retain live playback. See the [release report](../reports/2026-11-14-static-artwork-previews.md) for scope, the encrypted Bam fallback, image resolutions and testing limits.
+
 ## Mobile artwork detail performance — November 13, 2026
 
 Source `bc3773f` is published at [lemonhaze.com](https://lemonhaze.com) and [d2bc7f94.lemonhaze.pages.dev](https://d2bc7f94.lemonhaze.pages.dev). Node 22 verification built **1,704 routes and passed all 257 tests**. WebKit mobile navigation passed locally; both affected Chromium browser regressions passed against production, whose experience bundle matched the verified build. See the [release report](../reports/2026-11-13-mobile-detail-performance.md) for measurements and limitations, and [PR #69](https://github.com/byLemonhaze/lemonhaze.com/pull/69) for GitHub verification.

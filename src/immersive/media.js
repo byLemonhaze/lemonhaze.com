@@ -1,12 +1,15 @@
+import {prefersStaticArtworkPreview, staticArtworkPreviewOverride} from '../data/artwork-presentation.js';
+import {getArtworkImageSrc} from '../renderers/gallery.js';
 import {pixelOriginalSource} from '../data/pixel-art.js';
 import { isStaticOnlyMedia, getLocalGridPreviewSrc, isHtmlArtwork, isVideoArtwork, getCdnMediaSrc, shouldUseDirectOnchainMedia } from '../modules/artwork-media.js';
 import { previewSource } from './model.js';
 import { revealInFocus } from './focus.js';
 import { reducedMotion } from './motion.js';
 
-export const isLiveWork = work => isHtmlArtwork(work) || isVideoArtwork(work);
-const staticPreviewSource=work=>isVideoArtwork(work)?getCdnMediaSrc(work,'png'):previewSource(work);
+export const isLiveWork = work => !prefersStaticArtworkPreview(work) && (isHtmlArtwork(work) || isVideoArtwork(work));
+const staticPreviewSource=work=>staticArtworkPreviewOverride(work)||(isVideoArtwork(work)?getCdnMediaSrc(work,'png'):previewSource(work));
 export function originalSource(work) {
+    if(prefersStaticArtworkPreview(work))return staticArtworkPreviewOverride(work)||getArtworkImageSrc(work);
     if(pixelOriginalSource(work))return pixelOriginalSource(work);
     if(isStaticOnlyMedia(work))return getLocalGridPreviewSrc(work);
     return work.original || (isHtmlArtwork(work)||shouldUseDirectOnchainMedia(work) ? `https://ordinals.com/content/${work.id}` : getCdnMediaSrc(work));

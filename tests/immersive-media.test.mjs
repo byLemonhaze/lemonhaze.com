@@ -1,7 +1,40 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildLiveDocument } from '../src/immersive/live-document.js';
-import { upgradePoster, createPreviewQueue } from '../src/immersive/media.js';
+import { upgradePoster, createPreviewQueue, isLiveWork, originalSource } from '../src/immersive/media.js';
+import { isHtmlArtwork } from '../src/modules/artwork-media.js';
+import { getArtworkImageSrc } from '../src/renderers/gallery.js';
+import provenance from '../public/data/provenance.json' with {type:'json'};
+import {existsSync} from 'node:fs';
+
+test('Paint Engines use historical collection stills without losing HTML metadata',()=>{
+    const engines=provenance.filter(work=>work.name.startsWith('Paint Engine'));
+    assert.equal(engines.length,13);
+    for(const work of engines){
+        assert.equal(isLiveWork(work),false,work.name);
+        assert.equal(isHtmlArtwork(work),true,'embedded notes still recognize the HTML inscription');
+        if(work.name==='Paint Engine v1.08 [Bam]'){
+            assert.equal(originalSource(work),`/previews/immersive/${work.id}.webp`);
+            assert.ok(existsSync(new URL('../public'+originalSource(work),import.meta.url)));
+        }else{
+            assert.equal(originalSource(work),getArtworkImageSrc(work),work.name);
+            assert.equal(originalSource(work),`https://cdn.lemonhaze.com/assets/assets/${work.id}.png`);
+        }
+    }
+    for(const name of ['On Paper','Mostly Art','Smooth Sailor','Debt Sentence','Smoke Break']){
+        const work=provenance.find(work=>work.name===name);
+        assert.equal(isLiveWork(work),false,name);
+        assert.equal(originalSource(work),getArtworkImageSrc(work));
+    }
+});
+
+test('motion, 3D and evolving artworks keep their live presentation',()=>{
+    for(const name of ['Dark Horse','Off-Kilter','Glass Breaker','Mending Out','Lotus Tigré','BEST BEFORE Nº1']){
+        const work=provenance.find(work=>work.name===name);
+        assert.ok(work,name);
+        assert.equal(isLiveWork(work),true,name);
+    }
+});
 
 test('live documents retain chain URLs and wait for actual artwork paint',()=>{
     const html=buildLiveDocument('<html><head></head><body><canvas></canvas></body></html>','https://ordinals.com/content/example','test-token','example');
