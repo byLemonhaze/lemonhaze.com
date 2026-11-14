@@ -6,6 +6,7 @@ import { artworkMetadata } from './metadata.js';
 import { upgradePoster, isLiveWork } from './media.js';
 import { loadLiveDocument } from './live-document.js';
 import { fitArtwork } from './presentation.js';
+import {downloadArtworkImage} from './download.js';
 
 export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCollection, mountMetadata }) {
     const panel = document.createElement('section'); panel.className = 'experience-detail'; panel.hidden = true;
@@ -13,7 +14,7 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
     panel.innerHTML = `<div class="detail-rail" role="group" aria-label="Collection artworks"></div>
         <div class="detail-stage"><div class="detail-media"></div></div>
         <div class="detail-caption"><p></p></div>
-        <aside class="detail-info"><div class="detail-info-content"><p class="detail-eyebrow"></p><h1></h1><p class="detail-description"></p><dl class="detail-facts"></dl><details class="detail-expanded"><summary>Full details &amp; sales</summary><div class="detail-full-meta"></div></details><div class="detail-links"><button class="detail-collection-link">View collection in Gallery</button><a class="detail-inscription" target="_blank" rel="noopener">View inscription</a><a class="detail-more" href="/shop">Print details</a></div></div></aside>
+        <aside class="detail-info"><div class="detail-info-content"><p class="detail-eyebrow"></p><h1></h1><p class="detail-description"></p><dl class="detail-facts"></dl><details class="detail-expanded"><summary>Full details &amp; sales</summary><div class="detail-full-meta"></div></details><div class="detail-links"><button class="detail-collection-link">View collection in Gallery</button><a class="detail-inscription" target="_blank" rel="noopener">View inscription</a><a class="detail-more" href="/shop">Print details</a><div class="detail-download-row"><button type="button" class="detail-download">Download image</button><span class="detail-download-status" role="status"></span></div></div></div></aside>
         <button class="detail-close" aria-label="Close artwork"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
 `;
     root.append(panel);
@@ -32,7 +33,22 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         event.preventDefault();event.stopPropagation();onWebsite(url.pathname+url.search+url.hash);
     },true);
     const collectionLink=panel.querySelector('.detail-collection-link'),inscription=panel.querySelector('.detail-inscription');
+    const download=panel.querySelector('.detail-download'),downloadStatus=panel.querySelector('.detail-download-status');
+    let downloadController=null;
+    function resetDownload(){
+        downloadController?.abort();downloadController=null;
+        download.disabled=false;download.textContent='Download image';downloadStatus.textContent='';
+    }
+    download.onclick=async()=>{
+        if(!selected||downloadController)return;
+        const controller=new AbortController();downloadController=controller;
+        download.disabled=true;download.textContent='Downloading…';downloadStatus.textContent='';
+        try{await downloadArtworkImage(selected,{signal:controller.signal});}
+        catch(error){if(!controller.signal.aborted)downloadStatus.textContent='Couldn’t download. Please try again.';}
+        finally{if(downloadController===controller){downloadController=null;download.disabled=false;download.textContent='Download image';}}
+    };
     function showInfo(work) {
+        resetDownload();
         releaseMetadata?.();releaseMetadata=null;metadataWork=work;
         expanded.hidden=Boolean(work.href);if(work.href)expanded.open=false;
         loadMetadata();
@@ -189,6 +205,7 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
         }});
     }
     function hide(destination, immediate=false) {
+        resetDownload();
         const token=++version;cancelPoster?.();cancelPoster=null;stopLive();stopAnimation();hidden=true;releaseMetadata?.();releaseMetadata=null;metadataWork=null;
         const poster=[...media.querySelectorAll('.detail-poster')].at(-1), source=destination?.querySelector('img');
         setSolo(false);root.classList.remove('detail-open');close.hidden=true;
@@ -248,6 +265,6 @@ export function createDetail({ root, catalog, onSelect, onClose, onWebsite, onCo
     const resized=()=>{soloAnimation?.cancel();soloAnimation=null;if(solo&&innerWidth<=700)setSolo(false);};window.addEventListener('resize',resized);
     const resize=new ResizeObserver(()=>{if(solo&&innerWidth<=700)setSolo(false);const poster=[...media.querySelectorAll('.detail-poster')].at(-1);if(poster?.naturalWidth)sizePoster(poster);});resize.observe(media);
     return {show,hide,element:panel,selected:()=>selected,
-        destroy(){++version;setSolo(false);soloAnimation?.cancel();cancelPoster?.();releaseMetadata?.();releaseMetadata=null;stopLive();stopAnimation();resize.disconnect();window.removeEventListener('resize',resized);window.removeEventListener('lemonhaze:motion-change',motionChanged);document.removeEventListener('keydown',keydown,true);document.removeEventListener('visibilitychange',visibility);panel.remove();close.remove();},
+        destroy(){++version;resetDownload();setSolo(false);soloAnimation?.cancel();cancelPoster?.();releaseMetadata?.();releaseMetadata=null;stopLive();stopAnimation();resize.disconnect();window.removeEventListener('resize',resized);window.removeEventListener('lemonhaze:motion-change',motionChanged);document.removeEventListener('keydown',keydown,true);document.removeEventListener('visibilitychange',visibility);panel.remove();close.remove();},
     };
 }

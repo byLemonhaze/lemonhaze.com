@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-14 — Gallery movement and image downloads
+
+Calmer movement between Gallery artworks with less turning and depth change. A small, muted Download image control returns beneath the split-view information links and saves images without navigating away. [Release report](docs/reports/2026-11-14-gallery-motion-download.md).
+
 ## 2026-11-14 — Static Paint Engine previews
 
 Paint Engine and five related 2D works keep their historical collection stills in split/mobile detail and desktop solo, avoiding cropped live engine layouts. Motion, 3D and evolving works retain playback; embedded notes and inscription links remain available. Encrypted Bam uses its saved local preview. [Release report](docs/reports/2026-11-14-static-artwork-previews.md).

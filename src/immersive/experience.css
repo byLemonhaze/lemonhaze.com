@@ -124,6 +124,11 @@ html[data-motion=reduced] .immersive-experience *,html[data-motion=reduced] .art
 .detail-facts dt{opacity:.5}.detail-facts dd{margin:0}
 .detail-links{display:flex;align-items:flex-start;flex-direction:column;gap:18px}
 .detail-links a,.detail-links button{font-size:11px;line-height:1.5;text-align:left;text-decoration:none;border:0;border-bottom:1px solid var(--line);padding-bottom:4px;white-space:normal}
+.detail-download-row{font-size:11px;line-height:1.5;color:color-mix(in srgb,var(--ink) 65%,var(--paper))}
+.detail-download-row .detail-download{min-height:32px;padding:6px 0;border-bottom-color:transparent}
+.detail-download:hover{color:var(--ink);border-bottom-color:var(--line)}
+.detail-download:disabled{cursor:wait;opacity:.6}
+.detail-download-status{display:block;font-size:11px}
 .detail-close{right:auto;left:calc(60% - 23px)}
 .detail-live-controls{right:calc(40% + 40px)}
 .explore-tools button,.room-navigation button{border:0;border-radius:0;background:transparent}

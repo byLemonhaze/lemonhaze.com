@@ -8,6 +8,9 @@ import { reducedMotion } from './motion.js';
 
 export const isLiveWork = work => !prefersStaticArtworkPreview(work) && (isHtmlArtwork(work) || isVideoArtwork(work));
 const staticPreviewSource=work=>staticArtworkPreviewOverride(work)||(isVideoArtwork(work)?getCdnMediaSrc(work,'png'):previewSource(work));
+// Downloads use the collection's full image source, not a lightweight field thumbnail.
+export const downloadImageSource=work=>staticArtworkPreviewOverride(work)||(isLiveWork(work)
+    ? (isVideoArtwork(work)?getCdnMediaSrc(work,'png'):getArtworkImageSrc(work)) : originalSource(work));
 export function originalSource(work) {
     if(prefersStaticArtworkPreview(work))return staticArtworkPreviewOverride(work)||getArtworkImageSrc(work);
     if(pixelOriginalSource(work))return pixelOriginalSource(work);

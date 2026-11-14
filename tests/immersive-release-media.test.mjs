@@ -74,6 +74,12 @@ test('Ethereum originals open in local details and legacy canvas survives solo a
                 assert.equal(chainRequests,0,'no automatic chain request for a static engine');
                 const rect=await page.locator('.detail-poster').boundingBox();
                 assert.ok(rect.width>0&&rect.height>0&&rect.x>=0&&rect.x+rect.width<=viewport.width+1);
+                if(viewport.width>1000)await page.locator('.detail-close').click();
+                const urlBeforeDownload=page.url();
+                const [download]=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Download image',exact:true}).click()]);
+                assert.equal(await download.failure(),null);
+                assert.equal(download.suggestedFilename(),`${await page.locator('.detail-info h1').textContent()}.webp`);
+                assert.equal(page.url(),urlBeforeDownload,'image downloads keep the visitor in split view');
             }
         }
         await page.setViewportSize({width:1440,height:900});

@@ -73,8 +73,10 @@ export function createGallery({ container, works, onOpen, onCurrent, collections
             const work=items[index];rendered.add(index);
             const button = buttons.get(work.id), mount = button.parentElement, distance = slot - position;
             mount.hidden=false;const img=button.querySelector('img');if(!img.hasAttribute('src'))img.src=browsingSource(work);
-            const depth = -Math.min(330,Math.abs(distance)*180);
-            mount.style.transform = `translate3d(${slot*step}px,0,${depth}px) rotateY(${clamp(-distance*16,-32,32)}deg)`;
+            // Keep the work nearly face-on. Smooth depth has no cusp at the
+            // centre, so the image no longer swells then abruptly shrinks there.
+            const depth = -90*(1-Math.exp(-distance*distance*.65));
+            mount.style.transform = `translate3d(${slot*step}px,0,${depth}px) rotateY(${-10*Math.tanh(distance*.7)}deg)`;
             mount.style.setProperty('--art-presence',String(Math.exp(-distance*distance*2)));
             mount.style.visibility = Math.abs(distance) > 2.4 ? 'hidden' : 'visible';
             button.tabIndex = Math.abs(distance) < .5 ? 0 : -1;
