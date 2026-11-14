@@ -1,5 +1,9 @@
 # Release verification
 
+## Gallery movement and image downloads — November 14, 2026
+
+Source `a04d079` is published at [lemonhaze.com](https://lemonhaze.com) and [8eb3e51c.lemonhaze.pages.dev](https://8eb3e51c.lemonhaze.pages.dev). Node 22 verification built **1,704 routes and passed all 264 tests**. The live experience bundle matches the verified build. See the [release report](../reports/2026-11-14-gallery-motion-download.md) for Gallery movement, image download behavior, production checks and limits.
+
 ## Static artwork previews — November 14, 2026
 
 Source `f78e46e` is published at [lemonhaze.com](https://lemonhaze.com) and [d98596f4.lemonhaze.pages.dev](https://d98596f4.lemonhaze.pages.dev). Node 22 verification built **1,704 routes and passed all 259 tests**. The affected desktop/mobile browser regression passed against production, and the live experience bundle matches the verified build. Paint Engines and five related works retain historical stills while motion/3D/evolving works retain live playback. See the [release report](../reports/2026-11-14-static-artwork-previews.md) for scope, the encrypted Bam fallback, image resolutions and testing limits.
