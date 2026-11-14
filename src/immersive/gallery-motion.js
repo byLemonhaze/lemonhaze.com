@@ -1,5 +1,5 @@
 // Critically damped motion preserves velocity between inputs without oscillating.
-export const GALLERY_SETTLE_RATE=15;
+export const GALLERY_SETTLE_RATE=11.5;
 export function settleGallery(position,velocity,target,seconds,rate=GALLERY_SETTLE_RATE) {
     const distance=position-target,impulse=velocity+rate*distance,decay=Math.exp(-rate*seconds);
     return {position:target+(distance+impulse*seconds)*decay,velocity:(velocity-rate*impulse*seconds)*decay};
