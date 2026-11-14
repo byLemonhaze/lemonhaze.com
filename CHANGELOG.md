@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-14 — Static Paint Engine previews
+
+Paint Engine and five related 2D works keep their historical collection stills in split/mobile detail and desktop solo, avoiding cropped live engine layouts. Motion, 3D and evolving works retain playback; embedded notes and inscription links remain available. Encrypted Bam uses its saved local preview. [Release report](docs/reports/2026-11-14-static-artwork-previews.md).
+
 ## 2026-11-13 — Mobile artwork detail performance
 
 Opening artwork details pauses hidden Explore/Gallery movement and sharp-preview queues; returning resumes the active scene. Mobile HTML artworks render at their fitted viewport size instead of adding another 2x enlargement before native device-pixel-ratio rendering. Sharp stills, original proportions and desktop solo sizing are retained.

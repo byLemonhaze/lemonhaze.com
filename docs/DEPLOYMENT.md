@@ -1,6 +1,8 @@
 # Deployment runbook
 
-Latest publication: source `bc3773f`, November 13, 2026, [immutable deployment d2bc7f94](https://d2bc7f94.lemonhaze.pages.dev). See the [mobile detail performance report](reports/2026-11-13-mobile-detail-performance.md) for verification evidence and [PR #69](https://github.com/byLemonhaze/lemonhaze.com/pull/69) for source integration.
+Latest publication: source `f78e46e`, November 14, 2026, [immutable deployment d98596f4](https://d98596f4.lemonhaze.pages.dev). See the [static artwork preview report](reports/2026-11-14-static-artwork-previews.md) for source and production verification evidence.
+
+Previous publication: source `bc3773f`, November 13, 2026, [immutable deployment d2bc7f94](https://d2bc7f94.lemonhaze.pages.dev). See the [mobile detail performance report](reports/2026-11-13-mobile-detail-performance.md) and [PR #69](https://github.com/byLemonhaze/lemonhaze.com/pull/69).
 
 The preceding [mobile bounce release](reports/2026-11-13-mobile-bounce.md) is included in this build and merged through [PR #68](https://github.com/byLemonhaze/lemonhaze.com/pull/68).
 

@@ -19,4 +19,10 @@ HTML metadata, embedded notes and the explicit View inscription link remain inta
 
 ## Publication
 
-Local change based on `64507ecf1b8890a629f4ea66e62a1ff765104a48`. This report does not claim a production deployment. Physical-device testing and a complete audit of every other HTML inscription remain outside this fix.
+- Application source: [`f78e46e`](https://github.com/byLemonhaze/lemonhaze.com/commit/f78e46e6c981ec539c950a559ff515aaadd6ca79), based on `64507ecf1b8890a629f4ea66e62a1ff765104a48`.
+- Production: [lemonhaze.com](https://lemonhaze.com); immutable deployment: [d98596f4.lemonhaze.pages.dev](https://d98596f4.lemonhaze.pages.dev).
+- Published November 14, 2026 to Cloudflare Pages project `lemonhaze`, production branch label `main`. This hosting label is separate from GitHub source integration.
+- Production's `experience-CTVeH2Yb.js` matches the verified build byte for byte: SHA-256 `6859ec62140cfba606765df01a14c25ca6361046952676ed943f385c69a1c4e6`.
+- The affected browser regression passed against production, covering the three still-preview cases on desktop/mobile plus the existing live-canvas checks. Unmocked production inspection confirmed the 1200 × 1800 Passe-Partout CDN image and zero live detail iframes. The artwork route returned HTTP 200 with `cache-control: no-cache`.
+
+Physical-device testing and a complete audit of every other HTML inscription remain outside this fix.
