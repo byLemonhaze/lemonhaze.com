@@ -23,7 +23,15 @@ export function artworkButton(work, imageSource, onOpen) {
     button.setAttribute('aria-label', `Open ${work.name}`);
     const img = new Image(); img.alt = work.name; img.draggable = false; img.decoding = 'async';
     if(imageSource)img.src = imageSource; button.append(img);
-    img.addEventListener('load',()=>{button.classList.remove('media-unavailable','art-pending');button.style.setProperty('--image-ratio',img.naturalWidth/img.naturalHeight);});
+    img.addEventListener('load',async()=>{
+        const source=img.getAttribute('src');
+        // A cached image can paint before its load handler runs. Keep the
+        // initial Explore mount hidden until both its ratio and pixels exist.
+        button.style.setProperty('--image-ratio',img.naturalWidth/img.naturalHeight);
+        try { await img.decode(); } catch { return; }
+        if(img.getAttribute('src')!==source)return;
+        button.classList.remove('media-unavailable','art-pending');
+    });
     img.onerror = () => {
         const fallback=!isStaticOnlyMedia(work)&&/^[a-f0-9]{64}i\d+$/.test(work.id)?`https://render.ord.net/v9/snapshots/${work.id}/512.webp`:null;
         if(fallback&&img.getAttribute('src')!==fallback){img.src=fallback;return;}

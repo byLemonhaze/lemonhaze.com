@@ -30,7 +30,7 @@ export function upgradePoster(work,img,{source,onSettled=()=>{}}={}) {
         const commit=()=>{
             if(cancelled||!img.isConnected||img.getAttribute('src')!==before){cleanFocus();finish();return;}
             img.dataset.quality=work.id;
-            img.src=high.src;
+            if(img.src!==high.src)img.src=high.src;
             if(!layer){finish();return;}
             // Keep the decoded overlay until the underlying element can paint.
             Promise.resolve(img.decode?.()).catch(()=>{}).then(()=>{cleanFocus();finish();});
