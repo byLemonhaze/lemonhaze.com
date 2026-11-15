@@ -26,6 +26,7 @@ Current publication status: [release verification](immersive/VERIFICATION.md). T
 
 ## Release history and review evidence
 
+- [November 14 Explore loading stability report](reports/2026-11-14-explore-loading-stability.md): decoded artwork reveal without the brief frame flash on refresh.
 - [November 14 Gallery movement and download report](reports/2026-11-14-gallery-motion-download.md): calmer artwork transitions and discreet image downloads.
 
 - [November 14 static artwork preview fix](reports/2026-11-14-static-artwork-previews.md): historical Paint Engine stills in split/solo view, retaining live motion exceptions.

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-14 — Explore loading stability
+
+Impossible Folds 01 and other Explore works reveal their decoded image and fitted frame together, avoiding the brief wide-frame flash on refresh. Already-loaded sharp preview URLs are no longer reassigned. [Release report](docs/reports/2026-11-14-explore-loading-stability.md).
+
 ## 2026-11-14 — Gallery movement and image downloads
 
 Calmer movement between Gallery artworks with less turning and depth change. A small, muted Download image control returns beneath the split-view information links and saves images without navigating away. [Release report](docs/reports/2026-11-14-gallery-motion-download.md).

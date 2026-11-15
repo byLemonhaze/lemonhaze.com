@@ -111,6 +111,8 @@ html[data-motion=reduced] .immersive-experience *,html[data-motion=reduced] .art
 /* Unloaded overview marks retain each work's placement without fetching the archive at once. */
 .experience-art.art-pending:before{content:'';position:absolute;inset:0;border:1px solid var(--line);background:color-mix(in srgb,var(--ink) 3%,transparent);pointer-events:none}
 .experience-art.art-pending img:not([src]){visibility:hidden}
+/* Show the artwork and its fitted frame together, after the first decode. */
+.explore-viewport:not(.is-overview) .experience-art.art-pending{visibility:hidden}
 /* The split is one artwork and its information, shared by both viewing modes. */
 .experience-detail{width:100%;border:0}
 .detail-stage{right:calc(40% + 58px)}

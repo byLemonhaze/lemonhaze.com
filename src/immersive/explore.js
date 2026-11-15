@@ -69,7 +69,7 @@ export function createExplore({ container, works, onOpen, saved = {} }) {
             const source=browsingSource(workIndex.get(id),camera.zoom,Math.max(p[2],p[3]));
             if(!loaded.has(id)||sources.get(id)!==source||(img.dataset.quality&&camera.zoom*Math.max(p[2],p[3])<=180)){
                 delete img.dataset.quality;
-                button.classList.remove('media-unavailable');img.onload=()=>button.classList.remove('art-pending','media-unavailable');
+                button.classList.remove('media-unavailable');
                 img.src=source;sources.set(id,source);loaded.add(id);
             }
         }
