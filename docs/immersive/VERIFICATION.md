@@ -1,10 +1,10 @@
 # Release verification
 
-## Explore loading stability — November 14, 2026 (local, unreleased)
+## Explore loading stability — November 14, 2026
 
 Repeated production refresh recordings exposed Impossible Folds 01 briefly using a 390 × 510 frame before its natural image ratio fitted it to 286.875 × 510 at a 1512 × 982 viewport. Explore now reveals the mount after its natural ratio is applied and decoding completes; identical sharp-preview URLs are not reassigned. The overview retains its transparent artwork interaction targets.
 
-Seven local refresh recordings retained the final dimensions on every visible frame. A browser regression covers seven cold/cached loads with deliberately delayed decoding, plus an unavailable-image case. Full Node 22 `npm run verify` built **1,704 routes and passed all 265 tests**, including mobile navigation and Gallery/detail coverage. This fix has not been deployed; recordings used desktop Chromium at DPR 2, not a physical-device browser.
+Seven local refresh recordings retained the final dimensions on every visible frame. A browser regression covers seven cold/cached loads with deliberately delayed decoding, plus an unavailable-image case. Full Node 22 `npm run verify` built **1,704 routes and passed all 265 tests**, including mobile navigation and Gallery/detail coverage. Source `d4bbbc9` is published at [lemonhaze.com](https://lemonhaze.com) and [4e57e232.lemonhaze.pages.dev](https://4e57e232.lemonhaze.pages.dev). Seven production refresh recordings also retained stable dimensions on every visible frame, and the live bundle matches the verified build. Recordings used desktop Chromium at DPR 2, not a physical-device browser. See the [release report](../reports/2026-11-14-explore-loading-stability.md) for publication evidence.
 
 ## Gallery movement and image downloads — November 14, 2026
 

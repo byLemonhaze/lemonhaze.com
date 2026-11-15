@@ -1,6 +1,8 @@
 # Deployment runbook
 
-Latest publication: source `a04d079`, November 14, 2026, [immutable deployment 8eb3e51c](https://8eb3e51c.lemonhaze.pages.dev). See the [Gallery movement and download report](reports/2026-11-14-gallery-motion-download.md) for verification evidence.
+Latest publication: source `d4bbbc9`, November 14, 2026, [immutable deployment 4e57e232](https://4e57e232.lemonhaze.pages.dev). See the [Explore loading stability report](reports/2026-11-14-explore-loading-stability.md) for verification evidence.
+
+Previous publication: source `a04d079`, November 14, 2026, [immutable deployment 8eb3e51c](https://8eb3e51c.lemonhaze.pages.dev). See the [Gallery movement and download report](reports/2026-11-14-gallery-motion-download.md) for verification evidence.
 
 Previous publication: source `f78e46e`, November 14, 2026, [immutable deployment d98596f4](https://d98596f4.lemonhaze.pages.dev). See the [static artwork preview report](reports/2026-11-14-static-artwork-previews.md) for source and production verification evidence.
 
