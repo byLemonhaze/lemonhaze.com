@@ -54,7 +54,7 @@ Known clean routes are prerendered HTML. `functions/[[path]].ts` handles selecte
 
 `public/_headers` makes HTML and the root `no-cache`; built `/assets/*` revalidate before reuse. Versioned preview assets use immutable caching. Do not serve fallback HTML as cached JavaScript.
 
-Public HTML allows same-origin, `https://catalogue.gallery` and `https://www.catalogue.gallery` parents. Direct shop/privacy/terms responses deny framing. Lab, visualizer and third-party exceptions are separate. See `server/security-headers.js` and [Security](../SECURITY.md); some resource restrictions remain report-only.
+Public HTML allows same-origin, `https://catalogue.gallery`, `https://www.catalogue.gallery`, `https://dax27.xyz` and `https://www.dax27.xyz` parents. Direct shop/privacy/terms responses deny framing. Lab, visualizer and third-party exceptions are separate. See `server/security-headers.js` and [Security](../SECURITY.md); some resource restrictions remain report-only.
 
 ## Service configuration
 

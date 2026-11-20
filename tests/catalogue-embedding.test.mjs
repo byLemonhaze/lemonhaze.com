@@ -3,14 +3,17 @@ import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { secureResponse } from '../server/security-headers.js';
 
-test('the browser permits Catalogue embedding and blocks unrelated parents and direct shop framing',async()=>{
+test('the browser permits Catalogue and DAX27 embedding and blocks unrelated parents and direct shop framing',async()=>{
     const browser=await chromium.launch({headless:true});
     try{
         for(const [parent,path,allowed] of [
             ['https://catalogue.gallery','/',true],
             ['https://www.catalogue.gallery','/about',true],
+            ['https://dax27.xyz','/',true],
+            ['https://www.dax27.xyz','/about',true],
             ['https://unrelated.example','/',false],
             ['https://catalogue.gallery','/shop',false],
+            ['https://dax27.xyz','/shop',false],
         ]){
             const page=await browser.newPage(),errors=[];
             page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});
