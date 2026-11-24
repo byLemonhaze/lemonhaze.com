@@ -17,6 +17,18 @@ test('All Works keeps unlisted collections discoverable and searches titles, acc
     assert.equal(new Set(index.flatMap(g=>g.works.map(w=>w.id))).size,works.length);
 });
 
+test('All Works keeps authored collection years when inscriptions begin before New Year',()=>{
+    const works=[
+        {id:'2024-work',name:'Early 2024 work',collection:'1 of 1s (2024)',timestamp:'2023-12-08T00:22:37Z'},
+        {id:'2025-work',name:'Early 2025 work',collection:'1 of 1s (2025)',timestamp:'2024-12-31T17:29:02Z'},
+    ];
+    const original=structuredClone(works);
+    const index=collectionIndex(works,()=> 'collection');
+    assert.equal(index.find(group=>group.name==='1 of 1s (2024)').year,'2024');
+    assert.equal(index.find(group=>group.name==='1 of 1s (2025)').year,'2025');
+    assert.deepEqual(works,original);
+});
+
 test('collection covers sample actual works instead of the parent and collection lead',()=>{
     const works=[{id:'parent',role:'parent'},{id:'lead'},...Array.from({length:7},(_,i)=>({id:String(i)}))];
     assert.deepEqual(representativeWorks(works,['lead']).map(w=>w.id),['0','3','6']);

@@ -96,7 +96,7 @@ export function collectionIndex(artworks,toCollectionSlug) {
         const authoredYear=Object.entries(CHRONOLOGY_BY_YEAR).find(([,names])=>names.includes(name))?.[0];
         const years=works.map(w=>String(w.year||w.timestamp||'').slice(0,4)).filter(y=>/^\d{4}$/.test(y));
         const chronology=collectionChronology(name,artworks);
-        const year=chronology?String(new Date(chronology).getUTCFullYear()):authoredYear||years.sort().at(-1)||'Undated';
+        const year=authoredYear||(chronology?String(new Date(chronology).getUTCFullYear()):years.sort().at(-1)||'Undated');
         let candidates=works;
         if(name==='Trilogy (Prints)'||name==='Satoshi (Original & Editions)')candidates=uniqueOriginals(works,byId);
         if(name==='1 of 1s (2025)')candidates=works.filter(work=>!['Off-Kilter','Glass Breaker','Mending Out'].includes(work.name));

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-24 — All Works year grouping
+
+The 2024 and 2025 one-of-one collections now appear in their named year sections on All Works. Curated collection years take precedence over pre-New-Year inscription timestamps, while those original dates remain unchanged and continue to order collections within each year.
+
 ## 2026-11-14 — Explore loading stability
 
 Impossible Folds 01 and other Explore works reveal their decoded image and fitted frame together, avoiding the brief wide-frame flash on refresh. Already-loaded sharp preview URLs are no longer reassigned. [Release report](docs/reports/2026-11-14-explore-loading-stability.md).
